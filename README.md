@@ -30,5 +30,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Current additional modules
 
 Materializecss for Angular2
+
 Angular Animations
+
 MDI Icons
