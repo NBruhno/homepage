@@ -1,0 +1,26 @@
+.logo {
+    display: inline-block;
+    height: 100%;
+}
+
+.logo img {
+    margin: -5px 0 0 10vh;
+    vertical-align: middle;
+}
+
+.logo:hover {
+    background: transparent;
+}
+
+.left-nav {
+    margin-left: 16vh;
+}
+
+/*.right-nav {*/
+    /*margin: 0 10vh 0 0;*/
+/*}*/
+
+.menuBtn {
+    position: absolute;
+    margin-left: 3vh;
+}
