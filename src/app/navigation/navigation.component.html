@@ -1,0 +1,33 @@
+<mz-navbar navbarClass="grey lighten-4">
+    <div class="menuBtn hide-on-large-only"><a href="#menu" [id]="'mobileMenuBtn'"><i mz-icon-mdi [align]="'left'" [icon]="'menu'" class="grey-text text-darken-2"></i></a></div>
+    <mz-navbar-item-container>
+        <div class="row">
+            <div class="col l8 offset-l1">
+                <a href="/" class="brand-logo logo"><img src="../assets/images/BlackHeaderTiny.png" alt="Logo Header" class="responsive-img"></a>
+                <ul class="hide-on-med-and-down left-nav">
+                    <mz-navbar-item><li mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a href="#" class="grey-text text-darken-2 waves-effect">Gallery</a></li></mz-navbar-item>
+                    <mz-navbar-item><li mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a href="#" class="grey-text text-darken-2 waves-effect">Projects</a></li></mz-navbar-item>
+                    <mz-navbar-item><li><a (click)="scrollToAbout()" class="grey-text text-darken-2 waves-effect">About</a></li></mz-navbar-item>
+                    <mz-navbar-item><li><a (click)="scrollToContact()" class="grey-text text-darken-2 waves-effect">Contact</a></li></mz-navbar-item>
+                </ul>
+            </div>
+            <div class="col l2">
+                <ul class="right hide-on-med-and-down right-nav">
+                    <mz-navbar-item><li mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a href="#" class="grey-text text-darken-2 light waves-effect">Sign-In</a></li></mz-navbar-item>
+                </ul>
+            </div>
+        </div>
+    </mz-navbar-item-container>
+</mz-navbar>
+
+
+<mz-sidenav [id]="'mobileMenu'" [collapseButtonId]="'mobileMenuBtn'">
+    <mz-sidenav-subheader>Navigation</mz-sidenav-subheader>
+    <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'image-multiple'" class="grey-text text-darken-2"></i>Gallery</a></mz-sidenav-link>
+    <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'book-open-page-variant'" class="grey-text text-darken-2"></i>Projects</a></mz-sidenav-link>
+    <mz-sidenav-link><a (click)="scrollToAbout()"><i mz-icon-mdi [align]="'left'" [icon]="'account-circle'" class="grey-text text-darken-2"></i>About</a></mz-sidenav-link>
+    <mz-sidenav-link><a (click)="scrollToContact()"><i mz-icon-mdi [align]="'left'" [icon]="'contact-mail'" class="grey-text text-darken-2"></i>Contact</a></mz-sidenav-link>
+    <mz-sidenav-divider></mz-sidenav-divider>
+    <mz-sidenav-subheader>Login</mz-sidenav-subheader>
+    <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'login'" class="grey-text text-darken-2"></i>Sign-In</a></mz-sidenav-link>
+</mz-sidenav>
