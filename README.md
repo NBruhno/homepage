@@ -34,3 +34,5 @@ Materializecss for Angular2
 Angular Animations
 
 MDI Icons
+
+Firebase
