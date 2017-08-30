@@ -19,7 +19,9 @@
     "baseUrl": "",
     "types": [
       "jquery",
-      "materialize-css"
+      "materialize-css",
+      "firebase",
+      "node"
     ]
   },
   "exclude": [
