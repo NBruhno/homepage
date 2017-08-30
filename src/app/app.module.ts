@@ -12,6 +12,11 @@ import { HeaderComponent } from './header/header.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AboutComponent } from './about/about.component';
 import { FooterComponent } from './footer/footer.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
+import { LoginComponent } from './authentication/login/login.component';
+import { EmailComponent } from './authentication/email/email.component';
+import { SignupComponent } from './authentication/signup/signup.component';
+import { MembersComponent } from './authentication/members/members.component';
 
 export const firebaseConfig = {
     apiKey: 'AIzaSyD3aCWQkYyrF5Z3RU7kujpo2kE68NEOVjA',
@@ -27,7 +32,12 @@ export const firebaseConfig = {
         HeaderComponent,
         NavigationComponent,
         AboutComponent,
-        FooterComponent
+        FooterComponent,
+        AuthenticationComponent,
+        LoginComponent,
+        EmailComponent,
+        SignupComponent,
+        MembersComponent
     ],
     imports: [
         BrowserModule,
