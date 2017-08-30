@@ -13,7 +13,7 @@
             </div>
             <div class="col l2">
                 <ul class="right hide-on-med-and-down right-nav">
-                    <mz-navbar-item><li mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'" (click)="authenticationModal.open()"><a href="#" class="grey-text text-darken-2 light waves-effect">Sign-In</a></li></mz-navbar-item>
+                    <mz-navbar-item><li mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a href="#" class="grey-text text-darken-2 light waves-effect">Sign-In</a></li></mz-navbar-item>
                 </ul>
             </div>
         </div>
@@ -32,6 +32,8 @@
     <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'login'" class="grey-text text-darken-2"></i>Sign-In</a></mz-sidenav-link>
 </mz-sidenav>
 
+
+<!--(click)="authenticationModal.open()"-->
 <mz-modal #authenticationModal [options]="modalOptions">
     <mz-modal-header>
         Sign-In
