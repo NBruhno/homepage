@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
-
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
@@ -25,7 +23,7 @@ export class AuthService {
             });
     }
 
-    login(email: string, password: string) {
+    loginWithMail(email: string, password: string) {
         this.firebaseAuth
             .auth
             .signInWithEmailAndPassword(email, password)
@@ -35,6 +33,22 @@ export class AuthService {
             .catch(err => {
                 console.log('Something went wrong:', err.message);
             });
+    }
+
+    loginWithGoogle() {
+        this.firebaseAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
+    }
+
+    loginWithFacebook() {
+        this.firebaseAuth.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider());
+    }
+
+    loginWithTwitter() {
+        this.firebaseAuth.auth.signInWithPopup(new firebase.auth.TwitterAuthProvider());
+    }
+
+    loginWithGitHub() {
+        this.firebaseAuth.auth.signInWithPopup(new firebase.auth.GithubAuthProvider());
     }
 
     logout() {
