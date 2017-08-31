@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<md-card (click)="loginWithGoogle();" class="login-option">
+    <div class="valign-wrapper">
+        <i mz-icon-mdi
+           [align]="'center'"
+           [icon]="'google'"
+           [size]="'24px'">
+        </i>
+        &nbsp;	&nbsp;Login with Google
+    </div>
+</md-card>
+
+<md-card (click)="loginWithFacebook();" class="login-option">
+    <div class="valign-wrapper">
+        <i mz-icon-mdi
+           class="blue-text text-darken-3"
+           [align]="'center'"
+           [icon]="'facebook'"
+           [size]="'24px'">
+        </i>
+        &nbsp;	&nbsp;Login with Facebook
+    </div>
+</md-card>
+
+<md-card (click)="loginWithTwitter();" class="login-option">
+    <div class="valign-wrapper">
+        <i mz-icon-mdi
+           class="blue-text text-lighten-2"
+           [align]="'center'"
+           [icon]="'twitter'"
+           [size]="'24px'">
+        </i>
+        &nbsp;	&nbsp;Login with Twitter
+    </div>
+</md-card>
+
+<md-card (click)="loginWithGitHub();" class="login-option">
+    <div class="valign-wrapper">
+        <i mz-icon-mdi
+           [align]="'center'"
+           [icon]="'github-circle'"
+           [size]="'24px'">
+        </i>
+        &nbsp;	&nbsp;Login with GitHub
+    </div>
+</md-card>

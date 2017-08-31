@@ -8,6 +8,39 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthService } from './auth.service';
 import { environment } from '../environments/environment';
+import {
+    MdAutocompleteModule,
+    MdButtonModule,
+    MdButtonToggleModule,
+    MdCardModule,
+    MdCheckboxModule,
+    MdChipsModule,
+    MdCoreModule,
+    MdDatepickerModule,
+    MdDialogModule,
+    MdExpansionModule,
+    MdGridListModule,
+    MdIconModule,
+    MdInputModule,
+    MdListModule,
+    MdMenuModule,
+    MdNativeDateModule,
+    MdPaginatorModule,
+    MdProgressBarModule,
+    MdProgressSpinnerModule,
+    MdRadioModule,
+    MdRippleModule,
+    MdSelectModule,
+    MdSidenavModule,
+    MdSliderModule,
+    MdSlideToggleModule,
+    MdSnackBarModule,
+    MdSortModule,
+    MdTableModule,
+    MdTabsModule,
+    MdToolbarModule,
+    MdTooltipModule,
+} from '@angular/material';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -40,10 +73,50 @@ import { MembersComponent } from './authentication/members/members.component';
         MaterializeModule.forRoot(),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
-        AngularFireAuthModule
+        AngularFireAuthModule,
+        MdDialogModule,
+        MdNativeDateModule,
+        MdAutocompleteModule,
+        MdButtonModule,
+        MdButtonToggleModule,
+        MdCardModule,
+        MdCheckboxModule,
+        MdChipsModule,
+        MdCoreModule,
+        MdDatepickerModule,
+        MdDialogModule,
+        MdExpansionModule,
+        MdGridListModule,
+        MdIconModule,
+        MdInputModule,
+        MdListModule,
+        MdMenuModule,
+        MdNativeDateModule,
+        MdPaginatorModule,
+        MdProgressBarModule,
+        MdProgressSpinnerModule,
+        MdRadioModule,
+        MdRippleModule,
+        MdSelectModule,
+        MdSidenavModule,
+        MdSliderModule,
+        MdSlideToggleModule,
+        MdSnackBarModule,
+        MdSortModule,
+        MdTableModule,
+        MdTabsModule,
+        MdToolbarModule,
+        MdTooltipModule
     ],
-    providers: [AuthService],
-    bootstrap: [AppComponent]
+    entryComponents: [
+        AuthenticationComponent
+    ],
+    providers: [
+        AuthService
+    ],
+    bootstrap: [
+        AppComponent
+    ]
 })
 
 export class AppModule {}
