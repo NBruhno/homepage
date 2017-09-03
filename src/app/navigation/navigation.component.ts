@@ -1,4 +1,6 @@
-import {Component, OnInit, Inject, Input} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
     selector: 'app-navigation',
@@ -7,19 +9,13 @@ import {Component, OnInit, Inject, Input} from '@angular/core';
 })
 
 export class NavigationComponent implements OnInit {
-    @Input() modalOptions;
 
-    scrollToContact() {
-        const el = document.getElementById('contactTarget');
-        el.scrollIntoView({behavior: 'smooth'});
+    constructor(public router: Router, public auth: AuthService) {
     }
 
-    scrollToAbout() {
-        const el = document.getElementById('aboutTarget');
-        el.scrollIntoView({behavior: 'smooth'});
+    signOut() {
+        this.auth.signOut();
     }
-
-    constructor() {}
 
     ngOnInit() {
     }

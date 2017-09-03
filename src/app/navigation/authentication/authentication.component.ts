@@ -1,4 +1,7 @@
-import {Component, OnInit, Output} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { MzModalService, MzBaseModal } from 'ng2-materialize';
+import {AuthService} from '../../auth.service';
 
 @Component({
     selector: 'app-authentication',
@@ -8,8 +11,9 @@ import {Component, OnInit, Output} from '@angular/core';
 
 
 
-export class AuthenticationComponent implements OnInit {
-    @Output() modalOptions: Materialize.ModalOptions = {
+export class AuthenticationComponent extends MzBaseModal implements OnInit {
+
+    public modalOptions: Materialize.ModalOptions = {
         dismissible: true, // Modal can be dismissed by clicking outside of the modal
         opacity: .5, // Opacity of modal background
         inDuration: 300, // Transition in duration
@@ -19,12 +23,13 @@ export class AuthenticationComponent implements OnInit {
         ready: (modal, trigger) => { // Callback for Modal open. Modal and trigger parameters available.
             console.log(modal, trigger);
         },
-        complete: () => { } // Callback for Modal close
+        complete: () => { this.router.navigate(['']); } // Callback for Modal close
     };
 
-    constructor() {}
+    constructor(private router: Router, private modalService: MzModalService, private auth: AuthService) {
+        super();
+    }
 
     ngOnInit() {
     }
-
 }
