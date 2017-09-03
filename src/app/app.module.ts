@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterializeModule } from 'ng2-materialize';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthService } from './auth.service';
+import { AuthGuard } from './auth.guard';
 import { environment } from '../environments/environment';
 import {
     MdAutocompleteModule,
@@ -43,15 +45,30 @@ import {
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './front/header/header.component';
 import { NavigationComponent } from './navigation/navigation.component';
-import { AboutComponent } from './about/about.component';
+import { AboutComponent } from './front/about/about.component';
 import { FooterComponent } from './footer/footer.component';
-import { AuthenticationComponent } from './authentication/authentication.component';
-import { LoginComponent } from './authentication/login/login.component';
-import { EmailComponent } from './authentication/email/email.component';
-import { SignupComponent } from './authentication/signup/signup.component';
-import { MembersComponent } from './authentication/members/members.component';
+import { AuthenticationComponent } from './navigation/authentication/authentication.component';
+import { LoginComponent } from './navigation/authentication/login/login.component';
+import { EmailComponent } from './navigation/authentication/email/email.component';
+import { SignupComponent } from './navigation/authentication/signup/signup.component';
+import { MembersComponent } from './navigation/authentication/members/members.component';
+import { GalleryComponent } from './gallery/gallery.component';
+import { ImageComponent } from './gallery/image/image.component';
+import { FrontComponent } from './front/front.component';
+import { ErrorComponent } from './error/error.component';
+import { NotFoundComponent } from './error/not-found/not-found.component';
+
+export const routes: Routes = [
+    { path: '', component: FrontComponent },
+    { path: 'about', component: FrontComponent },
+    { path: 'contact', component: FrontComponent },
+    { path: 'login', component: FrontComponent },
+    { path: 'gallery', component: GalleryComponent, canActivate: [AuthGuard] },
+    { path: '404', component: NotFoundComponent },
+    { path: '**', redirectTo: '/404' }
+];
 
 @NgModule({
     declarations: [
@@ -64,13 +81,19 @@ import { MembersComponent } from './authentication/members/members.component';
         LoginComponent,
         EmailComponent,
         SignupComponent,
-        MembersComponent
+        MembersComponent,
+        GalleryComponent,
+        ImageComponent,
+        FrontComponent,
+        ErrorComponent,
+        NotFoundComponent,
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
         MaterializeModule.forRoot(),
+        RouterModule.forRoot(routes),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
@@ -112,7 +135,8 @@ import { MembersComponent } from './authentication/members/members.component';
         AuthenticationComponent
     ],
     providers: [
-        AuthService
+        AuthService,
+        AuthGuard
     ],
     bootstrap: [
         AppComponent

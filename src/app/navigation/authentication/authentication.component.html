@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<mz-modal [options]="modalOptions">
+    <mz-modal-content>
+        <div class="row" *ngIf="!auth.currentUser">
+            <div class="col s12 m6 l6">
+                <h5 class="light">Login using one of these options</h5>
+                <app-login></app-login>
+            </div>
+            <div class="col s12 m6 l6">
+                <h5 class="light">Or login with an email</h5>
+                <br>
+                <app-email></app-email>
+            </div>
+        </div>
+        <div class="row" *ngIf="auth.currentUser">
+            <div class="col s12">
+                <h5 class="light">You have been successfully logged in!</h5>
+
+            </div>
+        </div>
+    </mz-modal-content>
+</mz-modal>
