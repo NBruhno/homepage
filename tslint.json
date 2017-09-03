@@ -17,10 +17,13 @@
       true,
       "rxjs"
     ],
+    "translate_tabs_to_spaces": true,
     "import-spacing": true,
     "indent": [
       true,
-      "spaces",
+      "spaces"
+    ],
+    "indent-size": [
       4
     ],
     "interface-over-type-literal": true,

@@ -1,39 +1,36 @@
-<mz-navbar navbarClass="grey lighten-4">
-    <div class="menuBtn hide-on-large-only"><a href="#menu" [id]="'mobileMenuBtn'"><i mz-icon-mdi [align]="'left'" [icon]="'menu'" class="grey-text text-darken-2"></i></a></div>
-    <mz-navbar-item-container>
-        <div class="row">
-            <div class="col l8 offset-l1">
-                <a href="/" class="brand-logo logo"><img src="../assets/images/BlackHeaderTiny.png" alt="Logo Header" class="responsive-img"></a>
-                <ul class="hide-on-med-and-down left-nav">
-                    <mz-navbar-item><li mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a href="#" class="grey-text text-darken-2 waves-effect">Gallery</a></li></mz-navbar-item>
-                    <mz-navbar-item><li mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a href="#" class="grey-text text-darken-2 waves-effect">Projects</a></li></mz-navbar-item>
-                    <mz-navbar-item><li><a (click)="scrollToAbout()" class="grey-text text-darken-2 waves-effect">About</a></li></mz-navbar-item>
-                    <mz-navbar-item><li><a (click)="scrollToContact()" class="grey-text text-darken-2 waves-effect">Contact</a></li></mz-navbar-item>
-                </ul>
+<div class="navbar-fixed">
+    <mz-navbar navbarClass="grey lighten-4">
+        <div class="menuBtn hide-on-large-only"><a [id]="'mobileMenuBtn'"><i mz-icon-mdi [align]="'left'" [icon]="'menu'" class="grey-text text-darken-2"></i></a></div>
+        <mz-navbar-item-container>
+            <div class="row hide-on-med-and-down">
+                <div class="col l8 push-l1">
+                    <a routerLink="/" class="brand-logo logo"><img src="../../assets/images/BlackHeaderTiny.png" alt="Logo Header" class="responsive-img"></a>
+                    <ul class="left left-nav">
+                        <mz-navbar-item><li routerLinkActive="active" mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a routerLink="/gallery" class="grey-text text-darken-2 waves-effect">Gallery</a></li></mz-navbar-item>
+                        <mz-navbar-item><li routerLinkActive="active" mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a routerLink="/projects" class="grey-text text-darken-2 waves-effect">Projects</a></li></mz-navbar-item>
+                        <mz-navbar-item><li routerLinkActive="active"><a routerLink="/about" class="grey-text text-darken-2 waves-effect">About</a></li></mz-navbar-item>
+                        <mz-navbar-item><li routerLinkActive="active"><a routerLink="/contact" class="grey-text text-darken-2 waves-effect">Contact</a></li></mz-navbar-item>
+                    </ul>
+                </div>
+                <div class="col l4 pull-l1">
+                    <ul class="right right-nav">
+                        <mz-navbar-item *ngIf="!auth.currentUser"><li routerLink="/login"><a class="grey-text text-darken-2 light waves-effect">Sign-In</a></li></mz-navbar-item>
+                        <mz-navbar-item *ngIf="auth.currentUser"><li (click)="signOut();"><a class="grey-text text-darken-2 light waves-effect">Logout</a></li></mz-navbar-item>
+                        <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/login"><a class="grey-text text-darken-2 light waves-effect">Profile</a></li></mz-navbar-item>
+                    </ul>
+                </div>
             </div>
-            <div class="col l2">
-                <ul class="right hide-on-med-and-down right-nav">
-                    <mz-navbar-item><li (click)="authenticationModal.open();"><a href="#" class="grey-text text-darken-2 light waves-effect">Sign-In</a></li></mz-navbar-item>
-                </ul>
-            </div>
-        </div>
-    </mz-navbar-item-container>
-</mz-navbar>
-
+        </mz-navbar-item-container>
+    </mz-navbar>
+</div>
 
 <mz-sidenav [id]="'mobileMenu'" [collapseButtonId]="'mobileMenuBtn'">
-    <mz-sidenav-subheader>Navigation</mz-sidenav-subheader>
-    <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'image-multiple'" class="grey-text text-darken-2"></i>Gallery</a></mz-sidenav-link>
-    <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'book-open-page-variant'" class="grey-text text-darken-2"></i>Projects</a></mz-sidenav-link>
-    <mz-sidenav-link><a (click)="scrollToAbout()"><i mz-icon-mdi [align]="'left'" [icon]="'account-circle'" class="grey-text text-darken-2"></i>About</a></mz-sidenav-link>
-    <mz-sidenav-link><a (click)="scrollToContact()"><i mz-icon-mdi [align]="'left'" [icon]="'contact-mail'" class="grey-text text-darken-2"></i>Contact</a></mz-sidenav-link>
+    <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a routerLink="/gallery"><i mz-icon-mdi [align]="'left'" [icon]="'image-multiple'" class="grey-text text-darken-2"></i>Gallery</a></mz-sidenav-link>
+    <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a routerLink="/projects"><i mz-icon-mdi [align]="'left'" [icon]="'book-open-page-variant'" class="grey-text text-darken-2"></i>Projects</a></mz-sidenav-link>
+    <mz-sidenav-link><a routerLink="/about"><i mz-icon-mdi [align]="'left'" [icon]="'account-circle'" class="grey-text text-darken-2"></i>About</a></mz-sidenav-link>
+    <mz-sidenav-link><a routerLink="/contact"><i mz-icon-mdi [align]="'left'" [icon]="'contact-mail'" class="grey-text text-darken-2"></i>Contact</a></mz-sidenav-link>
     <mz-sidenav-divider></mz-sidenav-divider>
-    <mz-sidenav-subheader>Login</mz-sidenav-subheader>
-    <mz-sidenav-link (click)="authenticationModal.open();"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'login'" class="grey-text text-darken-2"></i>Sign-In</a></mz-sidenav-link>
+    <mz-sidenav-link *ngIf="!auth.currentUser" routerLink="/login"><a><i mz-icon-mdi [align]="'left'" [icon]="'login'" class="grey-text text-darken-2"></i>Sign-In</a></mz-sidenav-link>
+    <mz-sidenav-link *ngIf="auth.currentUser" (click)="signOut();"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'logout'" class="grey-text text-darken-2"></i>Logout</a></mz-sidenav-link>
+    <mz-sidenav-link *ngIf="auth.currentUser"  routerLink="/login"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'account'" class="grey-text text-darken-2"></i>Profile</a></mz-sidenav-link>
 </mz-sidenav>
-
-<mz-modal class="modalLogin" #authenticationModal [options]="modalOptions">
-    <mz-modal-content>
-        <app-authentication></app-authentication>
-    </mz-modal-content>
-</mz-modal>
