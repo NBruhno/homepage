@@ -7,8 +7,8 @@ import { Observable } from 'rxjs/Observable';
 import { MzToastService } from 'ng2-materialize';
 
 @Injectable()
-export class AuthService {
 
+export class AuthService {
     authState = null;
 
     constructor(private afAuth: AngularFireAuth,
@@ -95,7 +95,6 @@ export class AuthService {
 
     resetPassword(email: string) {
         const auth = firebase.auth();
-
         return auth.sendPasswordResetEmail(email)
             .then(() => this.toastService.show('A mail with a password reset link has been sent your way', 4000, 'green'))
             .catch((error) => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));

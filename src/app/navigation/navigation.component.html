@@ -16,7 +16,7 @@
                     <ul class="right right-nav">
                         <mz-navbar-item *ngIf="!auth.currentUser"><li routerLink="/login"><a class="grey-text text-darken-2 light waves-effect">Sign-In</a></li></mz-navbar-item>
                         <mz-navbar-item *ngIf="auth.currentUser"><li (click)="signOut();"><a class="grey-text text-darken-2 light waves-effect">Logout</a></li></mz-navbar-item>
-                        <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/login"><a class="grey-text text-darken-2 light waves-effect">Profile</a></li></mz-navbar-item>
+                        <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/upload"><a class="grey-text text-darken-2 light waves-effect">Upload</a></li></mz-navbar-item>
                     </ul>
                 </div>
             </div>

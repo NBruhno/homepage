@@ -1,0 +1,27 @@
+<br>
+<div class="row">
+    <div class="col s12">
+        <div class="example-container mat-elevation-z1">
+            <md-table #table [dataSource]="dataSource" mdSort>
+
+                <ng-container mdColumnDef="itemId">
+                    <md-header-cell *mdHeaderCellDef md-sort-header> ID </md-header-cell>
+                    <md-cell *mdCellDef="let row"> {{row.id}} </md-cell>
+                </ng-container>
+
+                <ng-container mdColumnDef="itemName">
+                    <md-header-cell *mdHeaderCellDef md-sort-header> Name </md-header-cell>
+                    <md-cell *mdCellDef="let row"> {{row.name}}% </md-cell>
+                </ng-container>
+
+                <ng-container mdColumnDef="itemLink">
+                    <md-header-cell *mdHeaderCellDef md-sort-header> URL </md-header-cell>
+                    <md-cell *mdCellDef="let row"> {{row.link}} </md-cell>
+                </ng-container>
+
+                <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+                <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
+            </md-table>
+        </div>
+    </div>
+</div>
