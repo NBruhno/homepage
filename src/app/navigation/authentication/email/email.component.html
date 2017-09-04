@@ -1,24 +1,62 @@
 <!DOCTYPE html>
 
-<div class="row">
-    <div class="col s12">
-        <mz-input-container>
-            <input mz-input [label]="'Email'" [validate]="'true'" [dataError]="'Email is invalid'" [dataSuccess]="'Email is valid'" [(ngModel)]="email" id="email-email" type="email">
+<form [formGroup]="userForm" *ngIf="newUser" (ngSubmit)="signup()">
+    <div class="row">
+        <mz-input-container class="col s12">
+            <i mz-icon-mdi mz-input-prefix [icon]="'email'" class="grey-text text-darken-2"></i>
+            <input mz-input mz-validation [label]="'Email'" [validate]="true" [errorMessageResource]="errorMessages.email" id="email-signup" type="email" formControlName="email">
+            <p>{{errorMessages.email}}</p>
         </mz-input-container>
     </div>
-</div>
-
-<div class="row">
-    <div class="col s12">
-        <mz-input-container>
-            <input mz-input [label]="'Password'" [validate]="'true'" [dataError]="'Password is invalid'" [dataSuccess]="'Password is valid'" [(ngModel)]="password" id="email-password" type="password">
+    <div class="row">
+        <mz-input-container class="col s12">
+            <i mz-icon-mdi mz-input-prefix [icon]="'lock'" class="grey-text text-darken-2"></i>
+            <input mz-input mz-validation [label]="'Password'" [validate]="true" [errorMessageResource]="errorMessages.password" id="password-signup" type="password" formControlName="password">
         </mz-input-container>
     </div>
-</div>
-
-<div class="row">
-    <div class="col s12">
-        <button mz-button (click)="login()" [disabled]="!email || !password">Login</button>
-        <button mz-button flat="true" (click)="signup()" [disabled]="!email || !password">Register</button>
+    <div class="row">
+        <div class="col s12">
+            <!--<div *ngIf="userForm.valid" class="notification is-success">Form is valid</div>-->
+            <button type="submit" class="btn btn-sm btn-secondary" [disabled]="!userForm.valid">Submit</button>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="col s12">
+            <p class="btn btn-sm btn-secondary" (click)="toggleForm()">Already registered?</p>
+        </div>
+    </div>
+</form>
+
+<form [formGroup]="userForm" *ngIf="!newUser" (ngSubmit)="login()" #loginForm="ngForm">
+    <div class="row">
+        <mz-input-container class="col s12">
+            <i mz-icon-mdi mz-input-prefix [icon]="'email'" class="grey-text text-darken-2"></i>
+            <input mz-input mz-validation [label]="'Email'" [validate]="true" [errorMessageResource]="errorMessages.email" #emailLogin id="email-login" type="email" formControlName="email">
+        </mz-input-container>
+    </div>
+    <div class="row">
+        <mz-input-container class="col s12">
+            <i mz-icon-mdi mz-input-prefix [icon]="'lock'" class="grey-text text-darken-2"></i>
+            <input mz-input mz-validation [label]="'Password'" [validate]="true" [errorMessageResource]="errorMessages.password" id="password-login" type="password" formControlName="password">
+        </mz-input-container>
+    </div>
+    <div class="row">
+        <div class="col s5">
+            <!--<div *ngIf="userForm.valid" class="notification is-success">Form is valid</div>-->
+            <button mz-button type="submit" [disabled]="!userForm.valid">Login</button>
+        </div>
+        <div class="col s7">
+            <button mz-button (click)="toggleForm()">New user?</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s6">
+            <span *ngIf="userForm.valid" class="help is-success">Form Looks Valid</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <a *ngIf="userForm.value.email.length >= 1" class="help is-info" (click)="resetPassword()">Reset password for {{userForm.value.email}}?</a>
+        </div>
+    </div>
+</form>

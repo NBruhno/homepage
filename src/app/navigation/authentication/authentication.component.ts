@@ -26,7 +26,7 @@ export class AuthenticationComponent extends MzBaseModal implements OnInit {
         complete: () => { this.router.navigate(['']); } // Callback for Modal close
     };
 
-    constructor(private router: Router, private modalService: MzModalService, private auth: AuthService) {
+    constructor(private router: Router, private modalService: MzModalService, public auth: AuthService) {
         super();
     }
 

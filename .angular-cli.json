@@ -21,8 +21,7 @@
       "prefix": "app",
       "serviceWorker": true,
       "styles": [
-        "styles.css",
-        "../node_modules/materialize-css/dist/css/materialize.min.css",
+        "styles.scss",
         "../node_modules/mdi/css/materialdesignicons.min.css"
       ],
       "scripts": [
