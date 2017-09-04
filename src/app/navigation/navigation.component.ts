@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
 
 export class NavigationComponent implements OnInit {
 
-    constructor(public router: Router, public auth: AuthService) {
+    constructor(private router: Router, public auth: AuthService) {
     }
 
     signOut() {

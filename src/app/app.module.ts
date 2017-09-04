@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterializeModule } from 'ng2-materialize';
@@ -9,6 +9,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
+import { UploadService } from './upload.service';
+import { FileDropDirective } from './file-drop.directive';
 import { environment } from '../environments/environment';
 import {
     MdAutocompleteModule,
@@ -59,6 +61,9 @@ import { ImageComponent } from './gallery/image/image.component';
 import { FrontComponent } from './front/front.component';
 import { ErrorComponent } from './error/error.component';
 import { NotFoundComponent } from './error/not-found/not-found.component';
+import { UploadComponent } from './upload/upload.component';
+import { UploadFormComponent } from './upload/upload-form/upload-form.component';
+import { UploadListComponent } from './upload/upload-list/upload-list.component';
 
 export const routes: Routes = [
     { path: '', component: FrontComponent },
@@ -66,6 +71,7 @@ export const routes: Routes = [
     { path: 'contact', component: FrontComponent },
     { path: 'login', component: FrontComponent },
     { path: 'gallery', component: GalleryComponent, canActivate: [AuthGuard] },
+    { path: 'upload', component: UploadComponent, canActivate: [AuthGuard] },
     { path: '404', component: NotFoundComponent },
     { path: '**', redirectTo: '/404' }
 ];
@@ -87,11 +93,16 @@ export const routes: Routes = [
         FrontComponent,
         ErrorComponent,
         NotFoundComponent,
+        UploadComponent,
+        FileDropDirective,
+        UploadFormComponent,
+        UploadListComponent,
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
+        ReactiveFormsModule,
         MaterializeModule.forRoot(),
         RouterModule.forRoot(routes),
         AngularFireModule.initializeApp(environment.firebase),
@@ -136,7 +147,9 @@ export const routes: Routes = [
     ],
     providers: [
         AuthService,
-        AuthGuard
+        AuthGuard,
+        UploadService,
+        FileDropDirective
     ],
     bootstrap: [
         AppComponent
