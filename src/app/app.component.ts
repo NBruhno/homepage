@@ -15,5 +15,4 @@ export class AppComponent {
     constructor(db: AngularFireDatabase, private router: Router, private modalService: MzModalService) {
         this.items = db.list('/items');
     }
-
 }

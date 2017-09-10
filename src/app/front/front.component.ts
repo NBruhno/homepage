@@ -29,21 +29,6 @@ export class FrontComponent implements AfterViewInit {
         //     }
         // }
 
-        if (currentPath === '/about') {
-            const el = document.getElementById('aboutTarget');
-            el.scrollIntoView({ behavior: 'smooth' });
-            const navHeight = 50;
-            const scrolledY = window.scrollY;
-            if (scrolledY) {
-                window.scroll(0, scrolledY - navHeight);
-            }
-        }
-
-        if (currentPath === '/contact') {
-            const el = document.getElementById('contactTarget');
-            el.scrollIntoView({ behavior: 'smooth' });
-        }
-
         if (currentPath === '/login') {
             scheduleMicrotask.then(() => {
                 this.modalService.open(AuthenticationComponent);
