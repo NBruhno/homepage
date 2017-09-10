@@ -4,17 +4,17 @@
         <div class="example-container mat-elevation-z1">
             <md-table #table [dataSource]="dataSource" mdSort>
 
-                <ng-container mdColumnDef="itemId">
+                <ng-container mdColumnDef="itemId" *ngFor="let upload of uploads | async">
                     <md-header-cell *mdHeaderCellDef md-sort-header> ID </md-header-cell>
                     <md-cell *mdCellDef="let row"> {{row.id}} </md-cell>
                 </ng-container>
 
-                <ng-container mdColumnDef="itemName">
+                <ng-container mdColumnDef="itemName" *ngFor="let upload of uploads | async">
                     <md-header-cell *mdHeaderCellDef md-sort-header> Name </md-header-cell>
-                    <md-cell *mdCellDef="let row"> {{row.name}}% </md-cell>
+                    <md-cell *mdCellDef="let upload"> {{upload.name}} </md-cell>
                 </ng-container>
 
-                <ng-container mdColumnDef="itemLink">
+                <ng-container mdColumnDef="itemLink" *ngFor="let upload of uploads | async">
                     <md-header-cell *mdHeaderCellDef md-sort-header> URL </md-header-cell>
                     <md-cell *mdCellDef="let row"> {{row.link}} </md-cell>
                 </ng-container>
@@ -24,4 +24,9 @@
             </md-table>
         </div>
     </div>
+</div>
+
+<div *ngFor="let upload of uploads | async">
+    <strong>{{upload.name}}</strong>
+    <button (click)='deleteUpload(upload)' class="button is-danger is-small">Delete</button><br>>
 </div>

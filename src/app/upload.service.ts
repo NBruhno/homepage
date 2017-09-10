@@ -1,7 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Upload } from './upload/upload';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import * as firebase from 'firebase';
+
+// Data Table imports.
+import { MdPaginator } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/observable/combineLatest';
+import 'rxjs/add/operator/map';
+import {DataSource} from '@angular/cdk/collections';
 
 
 @Injectable()

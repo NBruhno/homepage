@@ -3,9 +3,12 @@ import {DataSource} from '@angular/cdk/collections';
 import {MdSort} from '@angular/material';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
+import { FirebaseListObservable } from 'angularfire2/database';
+import {Upload} from '../upload';
 import 'rxjs/add/operator/startWith';
 import 'rxjs/add/observable/merge';
 import 'rxjs/add/operator/map';
+import { UploadService } from '../../upload.service';
 
 @Component({
   selector: 'app-upload-list',
@@ -18,7 +21,12 @@ export class UploadListComponent implements OnInit {
     exampleDatabase = new ExampleDatabase();
     dataSource: ExampleDataSource | null;
 
+    uploads: FirebaseListObservable<Upload[]>;
+    showSpinner = true;
+
     @ViewChild(MdSort) sort: MdSort;
+
+    constructor(private upSvc: UploadService) { }
 
     ngOnInit() {
         this.dataSource = new ExampleDataSource(this.exampleDatabase, this.sort);
@@ -81,6 +89,7 @@ export class ExampleDataSource extends DataSource<any> {
     }
 
     /** Connect function called by the table to retrieve one stream containing the data to render. */
+
     connect(): Observable<UserData[]> {
         const displayDataChanges = [
             this._exampleDatabase.dataChange,
