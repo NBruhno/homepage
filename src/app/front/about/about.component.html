@@ -6,7 +6,7 @@
     <br>
     <div class="container">
         <div class="row">
-            <div class="col s12 m8 l5 offset-m2">
+            <div [@elementState]="scrollimateOptions.section1.currentState" [scrollimate]="scrollimateOptions.section1" class="col s12 m8 l5 offset-m2">
                 <h4>Who am I?</h4>
                 <p style="text-align: justify;">My name is <span class="red-text text-accent-3">Nicolai Bruhn Lauritsen</span> or more commonly known as <span class="red-text text-accent-3">Bruhno</span> and I am a 22
                     year old dude from Denmark, currently living in Nørresundby but I am originally from Sakskøbing on Lolland. I am currently a student at Aalborg University,
@@ -16,7 +16,7 @@
                     that I wish to learn.
                 </p>
             </div>
-            <div class="col m6 l5 offset-l2 hide-on-med-and-down">
+            <div [@elementState]="scrollimateOptions.section1.currentState" [scrollimate]="scrollimateOptions.section1" class="col m6 l5 offset-l2 hide-on-med-and-down">
                 <br>
                 <br>
                 <br>
@@ -35,7 +35,7 @@
     <br>
     <div class="container">
         <div class="row">
-            <div class="col m6 l5 hide-on-med-and-down">
+            <div [@elementState]="scrollimateOptions.section2.currentState" [scrollimate]="scrollimateOptions.section2" class="col m6 l5 hide-on-med-and-down">
                 <br>
                 <br>
                 <br>
@@ -44,7 +44,7 @@
                     <a mz-button [flat]="true" mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'" class="flatButton" href="#">Learn more</a>
                 </div>
             </div>
-            <div class="col s12 m8 l5 offset-m2 offset-l2">
+            <div [@elementState]="scrollimateOptions.section2.currentState" [scrollimate]="scrollimateOptions.section2" class="col s12 m8 l5 offset-m2 offset-l2">
                 <h4>What do I do?</h4>
                 <p style="text-align: justify;">
                     I currently study for my master in Medialogy at Aalborg University as mentioned.
@@ -60,7 +60,7 @@
 
 <div class="grey lighten-5">
     <br>
-    <div class="container">
+    <div [@elementState]="scrollimateOptions.section3.currentState" [scrollimate]="scrollimateOptions.section3" class="container">
         <div class="row">
             <div class="col s12">
                 <h4>What is my experience?</h4>

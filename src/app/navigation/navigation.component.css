@@ -4,7 +4,6 @@
 }
 
 .logo img {
-    margin: -5px 0 0 10vh;
     vertical-align: middle;
 }
 
@@ -12,8 +11,16 @@
     background: transparent;
 }
 
-.left-nav {
-    margin-left: 16vh;
+.centerText {
+    align-items: center;
+}
+
+.left {
+    margin-left: 15%;
+}
+
+.right {
+    margin-right: 15%;
 }
 
 /*.right-nav {*/

@@ -11,8 +11,12 @@ body {
     animation: gradientBackground 8s ease-in-out infinite;
 }
 
+.container {
+    min-height: calc(100vh - 63px);
+}
+
 .logo {
-    margin: 5vh auto 2vh auto;
+    margin: 14vh auto auto auto;
 }
 
 @-webkit-keyframes gradientBackground {
