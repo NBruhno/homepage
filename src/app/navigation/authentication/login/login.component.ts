@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../auth.service';
 import { Router } from '@angular/router';
+import { MzToastService } from 'ng2-materialize';
 
 @Component({
     selector: 'app-login',
@@ -9,30 +10,22 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-    constructor(public auth: AuthService, private router: Router) {}
-
-    private afterSignIn(): void {
-        console.log('Signed in');
-    }
+    constructor(public auth: AuthService, private router: Router, private toastService: MzToastService) {}
 
     signInWithGoogle(): void {
-        this.auth.googleLogin()
-            .then(() => this.afterSignIn());
+        this.auth.googleLogin();
     }
 
     signInWithFacebook(): void {
-        this.auth.facebookLogin()
-            .then(() => this.afterSignIn());
+        this.auth.facebookLogin();
     }
 
     signInWithTwitter(): void {
-        this.auth.twitterLogin()
-            .then(() => this.afterSignIn());
+        this.auth.twitterLogin();
     }
 
     signInWithGithub(): void {
-        this.auth.githubLogin()
-            .then(() => this.afterSignIn());
+        this.auth.githubLogin();
     }
 
     logout() {

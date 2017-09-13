@@ -3,8 +3,8 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 $roboto-font-path: "~materialize-css/dist/fonts/roboto/";
 
-$primary-color: color("green", "lighten-2");
-$secondary-color: color("indigo", "lighten-1") !default;
+$primary-color: color("indigo", "accent-2");
+$secondary-color: color("red", "accent-3") !default;
 $success-color: color("green", "base") !default;
 $input-success-color: color("green", "base") !default;
 $link-color: color("light-blue", "darken-1") !default;
@@ -80,4 +80,20 @@ label {
     transition: box-shadow .25s, -webkit-box-shadow .25s;
     -webkit-box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+nav {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+body, html {
+    background-color: #fafafa !important
+}
+
+.card {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
 }

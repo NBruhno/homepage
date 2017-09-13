@@ -2,3 +2,8 @@
     border: 1px solid grey;
     border-radius: 0;
 }
+
+.cornerImg {
+    margin: -20px 0 0 -837px;
+    position: absolute;
+}

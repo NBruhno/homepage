@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <body>
 <div class="container">
+    <div class="row hide-on-med-and-down">
+        <div class="col l4 offset-l4">
+            <img src="../../../assets/images/BBLinesWhite.svg" alt="Logo White" class="responsive-img logo1" id="logo1" [@loadState]="loaded1" >
+        </div>
+    </div>
     <div class="row">
-        <div class="col s6 m12 l12 offset-s3 center">
-            <img src="../../../assets/images/bnewSmaller.png" alt="Logo White" class="responsive-img logo">
+        <div class="col m4 offset-m4 hide-on-small-only hide-on-large-only">
+            <img src="../../../assets/images/BBLinesWhite.svg" alt="Logo White" class="responsive-img logo2" id="logo2" [@loadState]="loaded1" >
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s6 offset-s3 hide-on-med-and-up">
+            <img src="../../../assets/images/BBLinesWhite.svg" alt="Logo White" class="responsive-img logo3" id="logo3" [@loadState]="loaded1" >
+        </div>
+    </div>
+    <div class="row">
+        <div class="col l4 m6 s10 offset-l4 offset-m3 offset-s1 center">
+            <h5 class="light white-text" [@loadState]="loaded2">Bruhno.com</h5>
+            <p class="light white-text" [@loadState]="loaded3">My name is Nicolai Bruhn Lauritsen and this is my personal portfolio and playground</p>
         </div>
     </div>
 </div>

@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-
-<div class="white">
+<!--<div class="right">-->
+    <!--<img src="../../../assets/images/Corner.png" alt="corner" class="responsive-img cornerImg">-->
+<!--</div>-->
+<div class="grey lighten-5">
     <br>
     <div class="container">
         <div class="row">
             <div class="col s12 m8 l5 offset-m2">
-                <h4>Who am I?</h4>
-                <p style="text-align: justify;">My name is <span class="red-text text-accent-3">Nicolai Bruhn Lauritsen</span> or more commonly known as <span class="red-text text-accent-3">Bruhno</span> and I am a 22
+                <h4 [@elementState]="scrollimateOptions.section1.currentState" [scrollimate]="scrollimateOptions.section1">Who am I?</h4>
+                <p style="text-align: justify;" [@elementState]="scrollimateOptions.section2.currentState" [scrollimate]="scrollimateOptions.section2">My name is <span class="red-text text-accent-3">Nicolai Bruhn Lauritsen</span> or more commonly known as <span class="red-text text-accent-3">Bruhno</span> and I am a 22
                     year old dude from Denmark, currently living in Nørresundby but I am originally from Sakskøbing on Lolland. I am currently a student at Aalborg University,
                     I have a bachelor in Medialogy and are studying for my master in Medialogy, specialising in Computer Graphics. My study ends in the Summer 2019.
                     I have great interest in design, coding and general development. I cannot deny my interest in computer games as well and I share that interest with a lot of my friends in my spare time.
                     I am a cool, calm and collected person with a decent but quite dark humor at times (that is what I am told.) Also important to note, this website is my playground. I implement features
-                    that I wish to learn
+                    that I wish to learn.
                 </p>
             </div>
             <div class="col m6 l5 offset-l2 hide-on-med-and-down">
@@ -19,8 +21,9 @@
                 <br>
                 <br>
                 <br>
-                <h5 class="center-align light">What is Medialogy?</h5>
-                <div class="center">
+                <br>
+                <h5 class="center-align light" [@elementState]="scrollimateOptions.section3.currentState" [scrollimate]="scrollimateOptions.section3">What is Medialogy?</h5>
+                <div class="center" [@elementState]="scrollimateOptions.section4.currentState" [scrollimate]="scrollimateOptions.section4">
                     <a mz-button [flat]="true" class="flatButton" href="https://goo.gl/pH4Axd">Learn more</a>
                 </div>
             </div>
@@ -29,7 +32,7 @@
     <br>
 </div>
 
-<div class="indigo lighten-5">
+<div class="grey lighten-3">
     <br>
     <div class="container">
         <div class="row">
@@ -37,14 +40,15 @@
                 <br>
                 <br>
                 <br>
-                <h5 class="center-align light">What have I made?</h5>
-                <div class="center">
-                    <a mz-button [flat]="true" mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'" class="flatButton" href="#">Learn more</a>
+                <br>
+                <h5 class="center-align light" [@elementState]="scrollimateOptions.section5.currentState" [scrollimate]="scrollimateOptions.section5">What have I made?</h5>
+                <div class="center" [@elementState]="scrollimateOptions.section6.currentState" [scrollimate]="scrollimateOptions.section6">
+                    <a mz-button [flat]="true" mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'" class="flatButton" href="#">Have a look</a>
                 </div>
             </div>
             <div class="col s12 m8 l5 offset-m2 offset-l2">
-                <h4>What do I do?</h4>
-                <p style="text-align: justify;">
+                <h4 [@elementState]="scrollimateOptions.section7.currentState" [scrollimate]="scrollimateOptions.section7">What do I do?</h4>
+                <p style="text-align: justify;" [@elementState]="scrollimateOptions.section8.currentState" [scrollimate]="scrollimateOptions.section8">
                     I currently study for my master in Medialogy at Aalborg University as mentioned.
                     If I am not currently busy assigned to a job I am always working on my own projects. That can be designing elements from icons to elements for a
                     game or a website, continue development on my own website or similar projects. To give an example, I am currently hired to help reconstruct and redesign a website
@@ -56,31 +60,33 @@
     <br>
 </div>
 
-<div class="white">
+<div class="grey lighten-5">
     <br>
     <div class="container">
         <div class="row">
-            <h4>What is my experience?</h4>
-            <p style="text-align: justify;">So which tools am I currently familiar working with, which platforms can I develop in, and what languages can I code in?</p>
+            <div class="col s12">
+                <h4 [@elementState]="scrollimateOptions.section9.currentState" [scrollimate]="scrollimateOptions.section9">What is my experience?</h4>
+                <p style="text-align: justify;" [@elementState]="scrollimateOptions.section10.currentState" [scrollimate]="scrollimateOptions.section10">Which tools am I currently familiar working with, which platforms can I develop in, and what languages can I code in?</p>
+            </div>
         </div>
         <div class="row">
-            <div class="col s12 m8 l4 offset-m2">
+            <div class="col s12 m8 l4 offset-m2" [@elementState]="scrollimateOptions.section11.currentState" [scrollimate]="scrollimateOptions.section11">
                 <h5>Content Creation</h5>
                 <mz-collection>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/PhotoshopAvatar.png" alt="">
                         <div class="title">Adobe Photoshop</div>
-                        <div>About 8 years of experience</div>
+                        <div>About {{photoshopYears}} years of experience</div>
                     </mz-collection-item>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/InDesignAvatar.png" alt="">
                         <div class="title">Adobe InDesign</div>
-                        <div>About 3 years of experience</div>
+                        <div>About {{indesignYears}} years of experience</div>
                     </mz-collection-item>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/IllustratorAvatar.png" alt="">
                         <div class="title">Adobe Illustrator</div>
-                        <div>About 4 years of experience</div>
+                        <div>About {{illustratorYears}} years of experience</div>
                     </mz-collection-item>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/PremiereAvatar.png" alt="">
@@ -99,13 +105,13 @@
                     </mz-collection-item>
                 </mz-collection>
             </div>
-            <div class="col s12 m8 l4 offset-m2">
+            <div class="col s12 m8 l4 offset-m2" [@elementState]="scrollimateOptions.section12.currentState" [scrollimate]="scrollimateOptions.section12">
                 <h5>Development</h5>
                 <mz-collection>
                     <mz-collection-item [avatar]="true">
-                        <img mz-avatar src="../../../assets/images/PhpStormAvatar.png" alt="">
-                        <div class="title">PhpStorm</div>
-                        <div>About 1 year of experience</div>
+                        <img mz-avatar src="../../../assets/images/IntelliJAvatar.png" alt="">
+                        <div class="title">IntelliJ</div>
+                        <div>About {{intellijYears}} year of experience</div>
                     </mz-collection-item>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/DreamweaverAvatar.png" alt="">
@@ -134,13 +140,13 @@
                     </mz-collection-item>
                 </mz-collection>
             </div>
-            <div class="col s12 m8 l4 offset-m2">
+            <div class="col s12 m8 l4 offset-m2" [@elementState]="scrollimateOptions.section13.currentState" [scrollimate]="scrollimateOptions.section13">
                 <h5>Languages and Frameworks</h5>
                 <mz-collection>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/CAvatar.png" alt="">
                         <div class="title">C, C# or C++</div>
-                        <div>About 3 years of experience</div>
+                        <div>About {{cYears}} years of experience</div>
                     </mz-collection-item>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/JavaAvatar.png" alt="">
@@ -150,22 +156,22 @@
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/JavaScriptAvatar.png" alt="">
                         <div class="title">JavaScript</div>
-                        <div>About 5 years of experience</div>
+                        <div>About {{jsYears}} years of experience</div>
                     </mz-collection-item>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/TypeScriptAvatar.png" alt="">
                         <div class="title">TypeScript</div>
-                        <div>About 1 year of experience</div>
+                        <div>About {{tsYears}} year of experience</div>
                     </mz-collection-item>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/HTMLandCSSAvatar.png" alt="">
                         <div class="title">HTML and CSS</div>
-                        <div>About 7 years of experience</div>
+                        <div>About {{htmlYears}} years of experience</div>
                     </mz-collection-item>
                     <mz-collection-item [avatar]="true">
                         <img mz-avatar src="../../../assets/images/AngularAvatar.png" alt="">
                         <div class="title">Angular</div>
-                        <div>About 1 year of experience</div>
+                        <div>About {{angularYears}} year of experience</div>
                     </mz-collection-item>
                 </mz-collection>
             </div>
