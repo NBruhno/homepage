@@ -15,8 +15,16 @@ body {
     min-height: calc(100vh - 63px);
 }
 
-.logo {
-    margin: 14vh auto auto auto;
+.logo1 {
+    margin: 10vh auto auto auto;
+}
+
+.logo2 {
+    margin: 13vh auto auto auto;
+}
+
+.logo3 {
+    margin: 15vh auto auto auto;
 }
 
 @-webkit-keyframes gradientBackground {

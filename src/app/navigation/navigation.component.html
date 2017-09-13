@@ -13,6 +13,7 @@
                 <mz-navbar-item *ngIf="!auth.currentUser"><li routerLink="/login"><a class="grey-text text-lighten-4 light waves-effect">Sign-In</a></li></mz-navbar-item>
                 <mz-navbar-item *ngIf="auth.currentUser"><li (click)="signOut();"><a class="grey-text text-lighten-4 light waves-effect">Sign-Out</a></li></mz-navbar-item>
                 <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/upload"><a class="grey-text text-lighten-4 light waves-effect">Upload</a></li></mz-navbar-item>
+                <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/profile"><a class="grey-text text-lighten-4 light waves-effect">Profile</a></li></mz-navbar-item>
             </ul>
         </mz-navbar-item-container>
     </mz-navbar>
@@ -24,5 +25,6 @@
     <mz-sidenav-divider></mz-sidenav-divider>
     <mz-sidenav-link *ngIf="!auth.currentUser" routerLink="/login"><a><i mz-icon-mdi [align]="'left'" [icon]="'login'" class="grey-text text-darken-2"></i>Sign-In</a></mz-sidenav-link>
     <mz-sidenav-link *ngIf="auth.currentUser" (click)="signOut();"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'logout'" class="grey-text text-darken-2"></i>Logout</a></mz-sidenav-link>
-    <mz-sidenav-link *ngIf="auth.currentUser"  routerLink="/login"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'account'" class="grey-text text-darken-2"></i>Profile</a></mz-sidenav-link>
+    <mz-sidenav-link *ngIf="auth.currentUser" routerLink="/upload"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'upload'" class="grey-text text-darken-2"></i>Upload</a></mz-sidenav-link>
+    <mz-sidenav-link *ngIf="auth.currentUser" routerLink="/profile"><a href="#"><i mz-icon-mdi [align]="'left'" [icon]="'account'" class="grey-text text-darken-2"></i>Profile</a></mz-sidenav-link>
 </mz-sidenav>

@@ -9,6 +9,8 @@ import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
+import { PermService } from './perm.service';
+import { PermGuard } from './perm.guard';
 import { UploadService } from './upload.service';
 import { FileDropDirective } from './file-drop.directive';
 import { environment } from '../environments/environment';
@@ -68,9 +70,9 @@ import { UploadListComponent } from './upload/upload-list/upload-list.component'
 
 export const routes: Routes = [
     { path: '', component: FrontComponent },
-    { path: 'login', component: FrontComponent },
-    { path: 'gallery', component: GalleryComponent, canActivate: [AuthGuard] },
-    { path: 'upload', component: UploadComponent, canActivate: [AuthGuard] },
+    { path: 'login', component: AuthenticationComponent },
+    { path: 'gallery', component: NotFoundComponent, canActivate: [AuthGuard] },
+    { path: 'upload', component: UploadComponent, canActivate: [PermGuard] },
     { path: '404', component: NotFoundComponent },
     { path: '**', redirectTo: '/404' }
 ];
@@ -149,7 +151,9 @@ export const routes: Routes = [
         AuthService,
         AuthGuard,
         UploadService,
-        FileDropDirective
+        FileDropDirective,
+        PermService,
+        PermGuard
     ],
     bootstrap: [
         AppComponent
