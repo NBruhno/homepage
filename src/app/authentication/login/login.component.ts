@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../auth.service';
+import { AuthService } from '../../auth.service';
 import { Router } from '@angular/router';
 import { MzToastService } from 'ng2-materialize';
 

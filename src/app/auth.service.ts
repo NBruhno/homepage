@@ -3,15 +3,33 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, FirebaseListObservable, AngularFireDatabaseModule } from 'angularfire2/database';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
-import { User } from './user';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import { MzToastService } from 'ng2-materialize';
 
-@Injectable()
+export interface Roles {
+    reader: boolean;
+    author?: boolean;
+    admin?:  boolean;
+}
 
+export class User {
+    uid: string;
+    email: string;
+    photoURL: string;
+    roles: Roles;
+
+    constructor(auth) {
+        this.uid = auth.uid;
+        this.email = auth.email;
+        this.photoURL = auth.photoURL;
+        this.roles = { reader: true };
+    }
+}
+
+@Injectable()
 export class AuthService {
     user: BehaviorSubject<User> = new BehaviorSubject(null);
     authState = null;
@@ -24,7 +42,6 @@ export class AuthService {
         this.afAuth.authState
             .switchMap(auth => {
                 if (auth) {
-                    /// signed in
                     return this.db.object('users/' + auth.uid);
                 } else {
                     /// not signed in
@@ -132,34 +149,18 @@ export class AuthService {
         this.toastService.show('You have been signed out', 4000);
     }
 
-    private updateUserData(authData): void {
-        const userData = new User(authData);
-        const ref = this.db.object('users/' + authData.uid);
-        const path = `users/${this.currentUserId}`; // Endpoint on firebase
-        const data = {
-            email: this.authState.email,
-            name: this.authState.displayName
-        };
+    private updateUserData(auth): void {
+        const userData = new User(auth);
+        const ref = this.db.object('users/' + auth.uid);
 
         ref.take(1)
             .subscribe(user => {
-                if (!user.role) {
+                if (!user.roles) {
+                    ref.update(userData);
+                }
+                if (!user.name) {
                     ref.update(userData);
                 }
             });
-
-        this.db.object(path).update(data)
-            .catch(error => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
-
-    }
-
-    private updateUser(authData) {
-        const userData = new User(authData);
-        const ref = this.db.object('users/' + authData.uid);
-        ref.take(1).subscribe(user => {
-            if (!user.role) {
-                ref.update(userData);
-            }
-        });
     }
 }

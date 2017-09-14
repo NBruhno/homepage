@@ -7,11 +7,6 @@
         <br>
         <br>
     </div>
-    <div class="hide-on-med-and-up">
-        <br>
-        <br>
-        <br>
-    </div>
     <div class="row" [@loadState]="loaded1">
         <div class="col s12 m6 l4 offset-m3 offset-l4">
             <mz-card
@@ -23,8 +18,17 @@
                         <div class="col s12">
                             <app-login></app-login>
                         </div>
+                    </div>
+                    <div class="row" *ngIf="!auth.currentUser">
                         <div class="col s12">
                             <app-email></app-email>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="auth.currentUser">
+                        <div class="col s12 center">
+                            <h5 class="light">You are already logged in</h5>
+                            <br>
+                            <button mz-button routerLink="/">Return to home</button>
                         </div>
                     </div>
                 </mz-card-content>

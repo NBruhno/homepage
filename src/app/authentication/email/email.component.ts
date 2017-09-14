@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../../auth.service';
+import { AuthService } from '../../auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -10,8 +10,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class EmailComponent implements OnInit {
     userForm: FormGroup;
-    newUser = true; // to toggle login or signup form
-    passReset = false; // set to true when password reset is triggered
+    newUser = true;
 
     errorMessages = {
         'email': {
@@ -53,14 +52,12 @@ export class EmailComponent implements OnInit {
             'email': ['', [
                 Validators.required,
                 Validators.email
-            ]
-            ],
+            ]],
             'password': ['', [
                 Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
                 Validators.minLength(8),
                 Validators.maxLength(25)
-            ]
-            ],
+            ]],
         });
     }
 }

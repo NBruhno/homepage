@@ -54,11 +54,9 @@ import { HeaderComponent } from './front/header/header.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AboutComponent } from './front/about/about.component';
 import { FooterComponent } from './footer/footer.component';
-import { AuthenticationComponent } from './navigation/authentication/authentication.component';
-import { LoginComponent } from './navigation/authentication/login/login.component';
-import { EmailComponent } from './navigation/authentication/email/email.component';
-import { SignupComponent } from './navigation/authentication/signup/signup.component';
-import { MembersComponent } from './navigation/authentication/members/members.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
+import { LoginComponent } from './authentication/login/login.component';
+import { EmailComponent } from './authentication/email/email.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { ImageComponent } from './gallery/image/image.component';
 import { FrontComponent } from './front/front.component';
@@ -67,11 +65,14 @@ import { NotFoundComponent } from './error/not-found/not-found.component';
 import { UploadComponent } from './upload/upload.component';
 import { UploadFormComponent } from './upload/upload-form/upload-form.component';
 import { UploadListComponent } from './upload/upload-list/upload-list.component';
+import { UploadDetailComponent } from './upload/upload-detail/upload-detail.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
     { path: '', component: FrontComponent },
-    { path: 'login', component: AuthenticationComponent },
-    { path: 'gallery', component: NotFoundComponent, canActivate: [AuthGuard] },
+    { path: 'login', component: AuthenticationComponent, data: {title: 'Login'} },
+    { path: 'gallery', component: NotFoundComponent },
+    { path: 'projects', component: NotFoundComponent },
     { path: 'upload', component: UploadComponent, canActivate: [PermGuard] },
     { path: '404', component: NotFoundComponent },
     { path: '**', redirectTo: '/404' }
@@ -87,8 +88,6 @@ export const routes: Routes = [
         AuthenticationComponent,
         LoginComponent,
         EmailComponent,
-        SignupComponent,
-        MembersComponent,
         GalleryComponent,
         ImageComponent,
         FrontComponent,
@@ -98,6 +97,8 @@ export const routes: Routes = [
         FileDropDirective,
         UploadFormComponent,
         UploadListComponent,
+        UploadDetailComponent,
+        ProfileComponent,
     ],
     imports: [
         BrowserModule,
