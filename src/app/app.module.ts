@@ -54,11 +54,9 @@ import { HeaderComponent } from './front/header/header.component';
 import { NavigationComponent } from './navigation/navigation.component';
 import { AboutComponent } from './front/about/about.component';
 import { FooterComponent } from './footer/footer.component';
-import { AuthenticationComponent } from './navigation/authentication/authentication.component';
-import { LoginComponent } from './navigation/authentication/login/login.component';
-import { EmailComponent } from './navigation/authentication/email/email.component';
-import { SignupComponent } from './navigation/authentication/signup/signup.component';
-import { MembersComponent } from './navigation/authentication/members/members.component';
+import { AuthenticationComponent } from './authentication/authentication.component';
+import { LoginComponent } from './authentication/login/login.component';
+import { EmailComponent } from './authentication/email/email.component';
 import { GalleryComponent } from './gallery/gallery.component';
 import { ImageComponent } from './gallery/image/image.component';
 import { FrontComponent } from './front/front.component';
@@ -88,8 +86,6 @@ export const routes: Routes = [
         AuthenticationComponent,
         LoginComponent,
         EmailComponent,
-        SignupComponent,
-        MembersComponent,
         GalleryComponent,
         ImageComponent,
         FrontComponent,
