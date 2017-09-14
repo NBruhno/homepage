@@ -19,6 +19,7 @@ export class FileDropDirective {
         const transfer = $event.dataTransfer;
         this.filesDropped.emit(transfer.files);
         this.filesHovered.emit(false);
+        this.model.backgroundClass = 'white';
     }
 
     @HostListener('dragover', ['$event'])

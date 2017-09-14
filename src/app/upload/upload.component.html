@@ -1,10 +1,12 @@
 <div class="container">
-    <div class="row">
-        <div class="col s12 m6 l6">
+    <div class="row" [@loadState]="loaded1">
+        <div class="col s12 m8 l6 offset-m2 offset-l3">
             <app-upload-form></app-upload-form>
         </div>
-        <!--<div class="col s12 m6 l6">-->
-            <!--<app-upload-list></app-upload-list>-->
-        <!--</div>-->
+    </div>
+    <div class="row" [@loadState]="loaded2">
+        <div class="col s12 m8 l6 offset-m2 offset-l3">
+            <app-upload-list></app-upload-list>
+        </div>
     </div>
 </div>

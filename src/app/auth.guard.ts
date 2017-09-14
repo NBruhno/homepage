@@ -21,9 +21,9 @@ export class AuthGuard implements CanActivate {
             .map(user => !!user)
             .do(loggedIn => {
                 if (!loggedIn) {
-                    console.log('Access Denied!');
+                    console.log('Access Denied! (Not logged in)');
                     this.toastService.show('You are not logged in. Please log in to access this page', 4000, 'red');
-                    // this.router.navigate(['login']);
+                    this.router.navigate(['/login']);
                 }
             });
     }
