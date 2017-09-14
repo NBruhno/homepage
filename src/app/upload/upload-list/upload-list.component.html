@@ -1,32 +1,9 @@
-<br>
-<div class="row">
-    <div class="col s12">
-        <div class="example-container mat-elevation-z1">
-            <md-table #table [dataSource]="dataSource" mdSort>
-
-                <ng-container mdColumnDef="itemId" *ngFor="let upload of uploads | async">
-                    <md-header-cell *mdHeaderCellDef md-sort-header> ID </md-header-cell>
-                    <md-cell *mdCellDef="let row"> {{row.id}} </md-cell>
-                </ng-container>
-
-                <ng-container mdColumnDef="itemName" *ngFor="let upload of uploads | async">
-                    <md-header-cell *mdHeaderCellDef md-sort-header> Name </md-header-cell>
-                    <md-cell *mdCellDef="let upload"> {{upload.name}} </md-cell>
-                </ng-container>
-
-                <ng-container mdColumnDef="itemLink" *ngFor="let upload of uploads | async">
-                    <md-header-cell *mdHeaderCellDef md-sort-header> URL </md-header-cell>
-                    <md-cell *mdCellDef="let row"> {{row.link}} </md-cell>
-                </ng-container>
-
-                <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
-                <md-row *mdRowDef="let row; columns: displayedColumns;"></md-row>
-            </md-table>
-        </div>
+<mz-collection>
+    <mz-collection-header><h5 class="light">Uploads</h5></mz-collection-header>
+    <mz-collection-item *ngFor="let upload of uploads | async">
+        <app-upload-detail [upload]='upload'></app-upload-detail>
+    </mz-collection-item>
+    <div class="center">
+        <mz-spinner [color]="'red'" [size]="'big'" *ngIf="showSpinner"></mz-spinner>
     </div>
-</div>
-
-<div *ngFor="let upload of uploads | async">
-    <strong>{{upload.name}}</strong>
-    <button (click)='deleteUpload(upload)' class="button is-danger is-small">Delete</button><br>>
-</div>
+</mz-collection>

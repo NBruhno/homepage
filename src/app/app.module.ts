@@ -65,6 +65,8 @@ import { NotFoundComponent } from './error/not-found/not-found.component';
 import { UploadComponent } from './upload/upload.component';
 import { UploadFormComponent } from './upload/upload-form/upload-form.component';
 import { UploadListComponent } from './upload/upload-list/upload-list.component';
+import { UploadDetailComponent } from './upload/upload-detail/upload-detail.component';
+import { ProfileComponent } from './profile/profile.component';
 
 export const routes: Routes = [
     { path: '', component: FrontComponent },
@@ -95,6 +97,8 @@ export const routes: Routes = [
         FileDropDirective,
         UploadFormComponent,
         UploadListComponent,
+        UploadDetailComponent,
+        ProfileComponent,
     ],
     imports: [
         BrowserModule,
