@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Upload} from './upload/upload';
 import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import {MzToastService} from 'ng2-materialize';
 import * as firebase from 'firebase';
 
 @Injectable()
 export class UploadService {
 
-    constructor(private db: AngularFireDatabase) { }
+    constructor(private db: AngularFireDatabase, private toastService: MzToastService) { }
 
     private basePath = '/uploads';
     uploads: FirebaseListObservable<Upload[]>;
@@ -23,8 +24,9 @@ export class UploadService {
         this.deleteFileData(upload.$key)
             .then( () => {
                 this.deleteFileStorage(upload.name);
+                this.toastService.show(upload.name + ' has been deleted', 4000);
             })
-            .catch(error => console.log(error));
+            .catch(error => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
     }
 
     pushUpload(upload: Upload) {
@@ -37,6 +39,7 @@ export class UploadService {
                 upload.progress = (snap.bytesTransferred / snap.totalBytes) * 100;
             },
             (error) => {
+                this.toastService.show('An error has occurred', 4000, 'red');
                 console.log(error);
             },
             () => {
@@ -44,6 +47,7 @@ export class UploadService {
                 upload.name = upload.file.name;
                 upload.createdAt = (upload.day + '/' + upload.month + '/' + upload.year);
                 this.saveFileData(upload);
+                this.toastService.show(upload.name + ' has been uploaded successfully', 4000);
                 return undefined;
             }
         );
