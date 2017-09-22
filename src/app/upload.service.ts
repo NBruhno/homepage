@@ -46,6 +46,7 @@ export class UploadService {
                 upload.url = uploadTask.snapshot.downloadURL;
                 upload.name = upload.file.name;
                 upload.createdAt = (upload.day + '/' + upload.month + '/' + upload.year);
+                upload.displayName = upload.name;
                 this.saveFileData(upload);
                 this.toastService.show(upload.name + ' has been uploaded successfully', 4000);
                 return undefined;
