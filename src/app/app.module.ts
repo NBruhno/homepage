@@ -73,6 +73,7 @@ export const routes: Routes = [
     { path: 'login', component: AuthenticationComponent, data: {title: 'Login'} },
     { path: 'gallery', component: NotFoundComponent },
     { path: 'projects', component: NotFoundComponent },
+    { path: 'profile', component: ProfileComponent },
     { path: 'upload', component: UploadComponent, canActivate: [PermGuard] },
     { path: '404', component: NotFoundComponent },
     { path: '**', redirectTo: '/404' }
