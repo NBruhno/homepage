@@ -67,6 +67,7 @@ import { UploadFormComponent } from './upload/upload-form/upload-form.component'
 import { UploadListComponent } from './upload/upload-list/upload-list.component';
 import { UploadDetailComponent } from './upload/upload-detail/upload-detail.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UsernameComponent } from './front/username/username.component';
 
 export const routes: Routes = [
     { path: '', component: FrontComponent },
@@ -100,6 +101,7 @@ export const routes: Routes = [
         UploadListComponent,
         UploadDetailComponent,
         ProfileComponent,
+        UsernameComponent,
     ],
     imports: [
         BrowserModule,
@@ -147,7 +149,8 @@ export const routes: Routes = [
         MdTooltipModule
     ],
     entryComponents: [
-        AuthenticationComponent
+        AuthenticationComponent,
+        UsernameComponent
     ],
     providers: [
         AuthService,

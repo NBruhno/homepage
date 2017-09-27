@@ -3,6 +3,10 @@
 <a mz-secondary-content href="{{upload.url}}"><i mz-icon-mdi [icon]="'download'"></i></a>
 <mz-badge
     [caption]="upload.createdAt"
-    [badgeClass]="'blue'"
+    [new]="false">
+</mz-badge>
+<mz-badge
+    [caption]="upload.uploaderName"
+    [badgeClass]="'indigo'"
     [new]="false">
 </mz-badge>
