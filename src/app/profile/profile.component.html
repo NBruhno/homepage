@@ -1,3 +1,22 @@
-<p>
-  profile works!
-</p>
+<div class="container">
+    <div class="row">
+        <div class="col s12">
+            <mz-card
+                [backgroundClass]="'blue-grey darken-1'"
+                [textClass]="'white-text'"
+                [hoverable]="true">
+                <mz-card-title>{{ auth.currentUserDisplayName }}</mz-card-title>
+                <mz-card-content>
+                    <img class="card-img-top" [src]="auth.currentUser.photoURL || 'https://api.adorable.io/avatars/109/fire.png'" width=156px>
+                    <p>UID: {{ auth.currentUserId }}</p>
+                    <p>Email: {{ auth.currentUserEmail }}</p>
+                    <p>Username: {{ auth.currentUsername }}</p>
+                </mz-card-content>
+                <mz-card-action>
+                    <a href="#">This is a link</a>
+                    <a href="#">This is a link</a>
+                </mz-card-action>
+            </mz-card>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, FirebaseListObservable, AngularFireDatabaseModule } from 'angularfire2/database';
+import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -17,7 +17,9 @@ export interface Roles {
 
 export class User {
     uid: string;
+    username: string;
     email: string;
+    name: string;
     photoURL: string;
     roles: Roles;
 
@@ -32,6 +34,7 @@ export class User {
 @Injectable()
 export class AuthService {
     user: BehaviorSubject<User> = new BehaviorSubject(null);
+    userData: FirebaseObjectObservable<User>;
     authState = null;
 
     constructor(private afAuth: AngularFireAuth,
@@ -39,20 +42,15 @@ export class AuthService {
                 private router: Router,
                 private toastService: MzToastService) {
 
-        this.afAuth.authState
-            .switchMap(auth => {
-                if (auth) {
-                    return this.db.object('users/' + auth.uid);
-                } else {
-                    /// not signed in
-                    return Observable.of(null);
-                }
-            })
-            .subscribe(user => {
-                this.user.next(user);
-            });
+        this.afAuth.authState.switchMap(auth => {
+            if (auth) {
+                return this.db.object(`/users/${auth.uid}`);
+            } else { return Observable.of(null); }
+        }).subscribe(user => {
+            this.user.next(user);
+        });
 
-        this.afAuth.authState.subscribe((auth) => {
+        this.afAuth.authState.subscribe(auth => {
             this.authState = auth;
         });
     }
@@ -73,18 +71,36 @@ export class AuthService {
         return this.authenticated ? this.authState.uid : '';
     }
 
+    get currentUserEmail(): string {
+        return this.authenticated ? this.authState.email : '';
+    }
+
     get currentUserDisplayName(): string {
-        if (!this.authState) {
-            return 'Guest';
-        } else {
-            return this.authState['displayName'] || 'User without a Name';
-        }
+        return this.authState['displayName'] || 'You have no name!';
+    }
+
+    get currentUsername(): string {
+        let username = '';
+        this.getUserData().subscribe(user => username = user.username);
+        return username;
+    }
+
+    getUserData(): BehaviorSubject<User> {
+        if (!this.currentUserId) { return; }
+        this.userData = this.db.object(`/users/${this.currentUserId}`);
+        return this.user;
+    }
+
+    get hasUsername(): boolean {
+        return !!this.authState.username;
     }
 
     afterSignIn(): void {
-        console.log('Signed in');
+        let username = '';
         this.router.navigate(['/']);
-        this.toastService.show('Welcome back ' + this.currentUserDisplayName, 4000);
+        this.getUserData().subscribe(user => { username = user.username; });
+        console.log('Signed in as ' + username);
+        this.toastService.show('Welcome back ' + username, 4000);
     }
 
     googleLogin() {
@@ -112,8 +128,10 @@ export class AuthService {
             .then((credential) =>  {
                 this.authState = credential.user;
                 this.updateUserData(credential.user);
-            })
-            .catch(error => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
+            }).catch(error => {
+                this.toastService.show(error.message, 4000, 'red');
+                console.error(error);
+            });
     }
 
     emailSignUp(email: string, password: string) {
@@ -121,8 +139,10 @@ export class AuthService {
             .then((user) => {
                 this.authState = user;
                 this.updateUserData(user);
-            })
-            .catch(error => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
+            }).catch(error => {
+                this.toastService.show(error.message, 4000, 'red');
+                console.error(error);
+            });
     }
 
     emailLogin(email: string, password: string) {
@@ -132,15 +152,22 @@ export class AuthService {
                 this.updateUserData(user);
                 this.router.navigate(['/']);
                 this.toastService.show('You are now logged in', 4000);
-            })
-            .catch(error => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
+            }).catch(error => {
+                this.toastService.show(error.message, 4000, 'red');
+                console.error(error);
+            });
     }
 
     resetPassword(email: string) {
         const auth = firebase.auth();
         return auth.sendPasswordResetEmail(email)
-            .then(() => this.toastService.show('A mail with a password reset link has been sent your way', 4000))
-            .catch((error) => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
+            .then(() => {
+                this.toastService.show('A mail with a password reset link has been sent your way', 4000);
+            })
+            .catch(error => {
+                this.toastService.show(error.message, 4000, 'red');
+                console.error(error);
+            });
     }
 
     signOut(): void {
@@ -149,16 +176,27 @@ export class AuthService {
         this.toastService.show('You have been signed out', 4000);
     }
 
+    checkUsername(username: string) {
+        username = username.toLowerCase();
+        return this.db.object(`usernames/${username}`);
+    }
+
+    updateUsername(username: string) {
+        const data = {};
+        data[username] = this.currentUserId;
+        this.db.object(`/users/${this.currentUserId}`).update({'username': username});
+        this.db.object(`/usernames`).update(data);
+    }
+
     private updateUserData(auth): void {
         const userData = new User(auth);
         const ref = this.db.object('users/' + auth.uid);
-
         ref.take(1)
             .subscribe(user => {
                 if (!user.roles) {
                     ref.update(userData);
                 }
-                if (!user.name) {
+                if (!user.username) {
                     ref.update(userData);
                 }
             });

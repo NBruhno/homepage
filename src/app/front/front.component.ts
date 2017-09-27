@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { MzModalService } from 'ng2-materialize';
+import { AuthService } from '../auth.service';
+import { UsernameComponent } from './username/username.component';
+
 @Component({
     selector: 'app-front',
     templateUrl: './front.component.html',
@@ -7,5 +11,16 @@ import { Component } from '@angular/core';
 
 export class FrontComponent {
 
-    constructor() { }
+    constructor(private modalService: MzModalService, private auth: AuthService) {
+        if (this.auth.currentUser) {
+            if (this.auth.hasUsername) {
+                this.openServiceModal();
+            }
+        }
+    }
+
+    public openServiceModal() {
+        this.modalService.open(UsernameComponent);
+    }
+
 }

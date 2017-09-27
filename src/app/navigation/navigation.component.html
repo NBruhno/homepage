@@ -12,7 +12,7 @@
             <ul>
                 <mz-navbar-item *ngIf="!auth.currentUser"><li routerLink="/login"><a class="grey-text text-lighten-4 light waves-effect">Sign-In</a></li></mz-navbar-item>
                 <mz-navbar-item *ngIf="auth.currentUser"><li (click)="signOut();"><a class="grey-text text-lighten-4 light waves-effect">Sign-Out</a></li></mz-navbar-item>
-                <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/upload"><a class="grey-text text-lighten-4 light waves-effect">Upload</a></li></mz-navbar-item>
+                <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/upload" (click)="log()"><a class="grey-text text-lighten-4 light waves-effect">Upload</a></li></mz-navbar-item>
                 <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/profile"><a class="grey-text text-lighten-4 light waves-effect">Profile</a></li></mz-navbar-item>
             </ul>
         </mz-navbar-item-container>
