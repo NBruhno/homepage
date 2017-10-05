@@ -1,146 +1,170 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, FirebaseListObservable, AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import { MzToastService } from 'ng2-materialize';
 
-export interface Roles {
+interface Roles {
     reader: boolean;
     author?: boolean;
     admin?:  boolean;
 }
 
-export class User {
-    uid: string;
+interface User {
+    displayName: string;
     email: string;
+    emailVerified: boolean;
+    isAnonymous: boolean;
+    phoneNumber: string;
     photoURL: string;
-    roles: Roles;
-
-    constructor(auth) {
-        this.uid = auth.uid;
-        this.email = auth.email;
-        this.photoURL = auth.photoURL;
-        this.roles = { reader: true };
-    }
+    providerId: string;
+    refreshToken: string;
+    uid: string;
+    username: string;
+    name: string;
+    admin: false;
+    author: false;
+    reader: true;
 }
 
 @Injectable()
 export class AuthService {
-    user: BehaviorSubject<User> = new BehaviorSubject(null);
-    authState = null;
+
+    private userDoc: AngularFirestoreDocument<User>;
+    user: Observable<User>;
+    userState: any = null;
 
     constructor(private afAuth: AngularFireAuth,
-                private db: AngularFireDatabase,
+                private db: AngularFirestore,
                 private router: Router,
                 private toastService: MzToastService) {
 
-        this.afAuth.authState
-            .switchMap(auth => {
-                if (auth) {
-                    return this.db.object('users/' + auth.uid);
-                } else {
-                    /// not signed in
-                    return Observable.of(null);
-                }
-            })
-            .subscribe(user => {
-                this.user.next(user);
-            });
-
         this.afAuth.authState.subscribe((auth) => {
-            this.authState = auth;
+            this.userState = auth;
+            if (auth !== null) {
+                this.userDoc = db.doc<User>(`/users/${auth.uid}`);
+                this.user = this.userDoc.valueChanges();
+            } else { return null; }
         });
     }
 
     get authenticated(): boolean {
-        return this.authState !== null;
+        return this.userState !== null;
     }
 
     get currentUser(): any {
-        return this.authenticated ? this.authState : null;
+        return this.authenticated ? this.userState : null;
     }
 
     get currentUserObservable(): any {
-        return this.afAuth.authState;
+        return this.user;
     }
 
     get currentUserId(): string {
-        return this.authenticated ? this.authState.uid : '';
+        let uid = '';
+        this.user.subscribe(user => {
+            uid = user.uid;
+        });
+        return uid;
+    }
+
+    get currentUserEmail(): string {
+        let email = '';
+        this.user.subscribe(user => {
+            email = user.email;
+        });
+        return email;
     }
 
     get currentUserDisplayName(): string {
-        if (!this.authState) {
-            return 'Guest';
-        } else {
-            return this.authState['displayName'] || 'User without a Name';
-        }
+        let displayName = '';
+        this.user.subscribe(user => {
+            displayName = user.displayName;
+        });
+        return displayName;
     }
 
-    afterSignIn(): void {
-        console.log('Signed in');
-        this.router.navigate(['/']);
-        this.toastService.show('Welcome back ' + this.currentUserDisplayName, 4000);
+    get currentUsername(): string {
+        let username = '';
+        this.user.subscribe(user => {
+            username = user.username;
+        });
+        return username;
     }
+
+    // get hasUsername(): boolean {
+    //     console.log('Current username: ' + this.userData.subscribe(user => user.username));
+    //     console.log(!!this.userData.subscribe(user => user.username));
+    //     return !!this.userData.subscribe(user => user.username);
+    // }
 
     googleLogin() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        return this.socialSignIn(provider).then(() => this.afterSignIn());
+        return this.socialSignIn(provider);
     }
 
     facebookLogin() {
         const provider = new firebase.auth.FacebookAuthProvider();
-        return this.socialSignIn(provider).then(() => this.afterSignIn());
+        return this.socialSignIn(provider);
     }
 
     twitterLogin() {
         const provider = new firebase.auth.TwitterAuthProvider();
-        return this.socialSignIn(provider).then(() => this.afterSignIn());
+        return this.socialSignIn(provider);
     }
 
     githubLogin() {
         const provider = new firebase.auth.GithubAuthProvider();
-        return this.socialSignIn(provider).then(() => this.afterSignIn());
+        return this.socialSignIn(provider);
     }
 
     private socialSignIn(provider) {
         return this.afAuth.auth.signInWithPopup(provider)
             .then((credential) =>  {
-                this.authState = credential.user;
+                this.userState = credential.user;
                 this.updateUserData(credential.user);
-            })
-            .catch(error => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
+            }).catch(error => {
+                this.toastService.show(error.message, 4000, 'red');
+                console.error(error);
+            });
     }
 
     emailSignUp(email: string, password: string) {
         return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
             .then((user) => {
-                this.authState = user;
                 this.updateUserData(user);
-            })
-            .catch(error => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
+                this.userState = user;
+            }).catch(error => {
+                this.toastService.show(error.message, 4000, 'red');
+                console.error(error);
+            });
     }
 
     emailLogin(email: string, password: string) {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password)
             .then((user) => {
-                this.authState = user;
+                this.userState = user;
                 this.updateUserData(user);
-                this.router.navigate(['/']);
-                this.toastService.show('You are now logged in', 4000);
-            })
-            .catch(error => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
+            }).catch(error => {
+                this.toastService.show(error.message, 4000, 'red');
+                console.error(error);
+            });
     }
 
     resetPassword(email: string) {
         const auth = firebase.auth();
         return auth.sendPasswordResetEmail(email)
-            .then(() => this.toastService.show('A mail with a password reset link has been sent your way', 4000))
-            .catch((error) => this.toastService.show('An error has occurred', 4000, 'red') && console.log(error));
+            .then(() => {
+                this.toastService.show('A mail with a password reset link has been sent your way', 4000);
+            })
+            .catch(error => {
+                this.toastService.show(error.message, 4000, 'red');
+                console.error(error);
+            });
     }
 
     signOut(): void {
@@ -149,18 +173,53 @@ export class AuthService {
         this.toastService.show('You have been signed out', 4000);
     }
 
-    private updateUserData(auth): void {
-        const userData = new User(auth);
-        const ref = this.db.object('users/' + auth.uid);
+    checkUsername(username: string) {
+        // username = username.toLowerCase();
+        // return this.db.object(`usernames/${username}`);
+    }
 
-        ref.take(1)
-            .subscribe(user => {
-                if (!user.roles) {
-                    ref.update(userData);
-                }
-                if (!user.name) {
-                    ref.update(userData);
-                }
-            });
+    updateUsername(username: string) {
+        // const data = {};
+        // data[username] = this.userState.uid;
+        // this.db.object(`/users/${this.currentUserId}`).update({'username': username});
+        // this.db.object(`/usernames`).update(data);
+    }
+
+    updateUserData(auth) {
+        this.userDoc = this.db.doc<User>(`/users/${auth.uid}`);
+        this.user = this.userDoc.valueChanges();
+        this.user.subscribe(user => {
+            if (user === null) {
+                console.log('User does not exist, creating a document for ' + this.userState.uid);
+                this.userDoc.set({
+                    displayName: this.userState.displayName,
+                    email: this.userState.email,
+                    emailVerified: this.userState.emailVerified,
+                    isAnonymous: this.userState.isAnonymous,
+                    phoneNumber: this.userState.phoneNumber,
+                    photoURL: this.userState.photoURL,
+                    providerId: this.userState.providerId,
+                    refreshToken: this.userState.refreshToken,
+                    uid: this.userState.uid,
+                    username: '',
+                    name: '',
+                    admin: false,
+                    author: false,
+                    reader: true
+                });
+                this.afterSignIn();
+            } else {
+                console.log('User exist under document ' + user.uid);
+                this.afterSignIn();
+            }
+        });
+    }
+
+    afterSignIn(): void {
+        this.router.navigate(['/']);
+        this.user.subscribe(user => {
+            console.log('Signed in as ' + user.uid);
+            this.toastService.show('Welcome back' + user.username, 4000);
+        });
     }
 }

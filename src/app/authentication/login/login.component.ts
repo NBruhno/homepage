@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
-import { Router } from '@angular/router';
-import { MzToastService } from 'ng2-materialize';
+import { UsernameComponent } from '../username/username.component';
+import { MzModalService } from 'ng2-materialize';
 
 @Component({
     selector: 'app-login',
@@ -10,7 +10,7 @@ import { MzToastService } from 'ng2-materialize';
 })
 export class LoginComponent implements OnInit {
 
-    constructor(public auth: AuthService, private router: Router, private toastService: MzToastService) {}
+    constructor(public auth: AuthService, private modalService: MzModalService) {}
 
     signInWithGoogle(): void {
         this.auth.googleLogin();
@@ -31,6 +31,14 @@ export class LoginComponent implements OnInit {
     logout() {
         this.auth.signOut();
     }
+
+    // checkUsername() {
+    //     if (this.auth.currentUser) {
+    //         if (!this.auth.hasUsername) {
+    //             this.modalService.open(UsernameComponent);
+    //         }
+    //     }
+    // }
 
     ngOnInit() { }
 

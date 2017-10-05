@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 @Component({
     selector: 'app-front',
     templateUrl: './front.component.html',
@@ -8,4 +9,5 @@ import { Component } from '@angular/core';
 export class FrontComponent {
 
     constructor() { }
+
 }

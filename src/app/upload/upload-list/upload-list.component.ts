@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {FirebaseListObservable} from 'angularfire2/database';
 import {Upload} from '../upload';
 import {UploadService} from '../../upload.service';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'app-upload-list',
@@ -10,13 +10,13 @@ import {UploadService} from '../../upload.service';
 })
 
 export class UploadListComponent implements OnInit {
-    uploads: FirebaseListObservable<Upload[]>;
+    uploads: Observable<Upload[]>;
     showSpinner = true;
 
     constructor(private up: UploadService) { }
 
     ngOnInit() {
-        this.uploads = this.up.getUploads();
+        // this.uploads = this.up.getUploads();
         this.uploads.subscribe(() => this.showSpinner = false);
     }
 }

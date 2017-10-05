@@ -16,7 +16,8 @@ body {
 }
 
 .logo1 {
-    margin: 10vh auto auto auto;
+    display: block;
+    margin: 15vh auto auto auto;
 }
 
 .logo2 {

@@ -7,6 +7,7 @@ import { MaterializeModule } from 'ng2-materialize';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { PermService } from './perm.service';
@@ -22,7 +23,6 @@ import {
     MdCardModule,
     MdCheckboxModule,
     MdChipsModule,
-    MdCoreModule,
     MdDatepickerModule,
     MdDialogModule,
     MdExpansionModule,
@@ -67,12 +67,14 @@ import { UploadFormComponent } from './upload/upload-form/upload-form.component'
 import { UploadListComponent } from './upload/upload-list/upload-list.component';
 import { UploadDetailComponent } from './upload/upload-detail/upload-detail.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UsernameComponent } from './authentication/username/username.component';
 
 export const routes: Routes = [
     { path: '', component: FrontComponent },
     { path: 'login', component: AuthenticationComponent, data: {title: 'Login'} },
     { path: 'gallery', component: NotFoundComponent },
     { path: 'projects', component: NotFoundComponent },
+    { path: 'profile', component: ProfileComponent },
     { path: 'upload', component: UploadComponent, canActivate: [PermGuard] },
     { path: '404', component: NotFoundComponent },
     { path: '**', redirectTo: '/404' }
@@ -99,6 +101,7 @@ export const routes: Routes = [
         UploadListComponent,
         UploadDetailComponent,
         ProfileComponent,
+        UsernameComponent,
     ],
     imports: [
         BrowserModule,
@@ -110,6 +113,7 @@ export const routes: Routes = [
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
+        AngularFirestoreModule,
         Ng2ScrollimateModule,
         MdDialogModule,
         MdNativeDateModule,
@@ -119,7 +123,6 @@ export const routes: Routes = [
         MdCardModule,
         MdCheckboxModule,
         MdChipsModule,
-        MdCoreModule,
         MdDatepickerModule,
         MdDialogModule,
         MdExpansionModule,
@@ -146,7 +149,8 @@ export const routes: Routes = [
         MdTooltipModule
     ],
     entryComponents: [
-        AuthenticationComponent
+        AuthenticationComponent,
+        UsernameComponent
     ],
     providers: [
         AuthService,
