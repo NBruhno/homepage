@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Upload} from './upload/upload';
-import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
+import { AngularFireDatabase } from 'angularfire2/database';
 import {MzToastService} from 'ng2-materialize';
 import * as firebase from 'firebase';
 import {AuthService} from './auth.service';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class UploadService {
@@ -11,15 +12,15 @@ export class UploadService {
     constructor(private db: AngularFireDatabase, private toastService: MzToastService, private auth: AuthService) { }
 
     private basePath = '/uploads';
-    uploads: FirebaseListObservable<Upload[]>;
+    uploads: Observable<Upload[]>;
 
 
-    getUploads(query = { }) {
-        this.uploads = this.db.list(this.basePath, {
-            query: query
-        });
-        return this.uploads;
-    }
+    // getUploads(query = { }) {
+    //     this.uploads = this.db.list(this.basePath, {
+    //         query: query
+    //     });
+    //     return this.uploads;
+    // }
 
     deleteUpload(upload: Upload) {
         this.deleteFileData(upload.$key)

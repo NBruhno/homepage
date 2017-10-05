@@ -1,0 +1,21 @@
+<mz-modal>
+    <mz-modal-header>
+        Choose an username
+    </mz-modal-header>
+    <mz-modal-content>
+        <input type="text" class="input" placeholder="choose a username"
+               [(ngModel)]="usernameText"
+               (keyup)="checkUsername()">
+        <p class="help is-success" *ngIf="usernameAvailable && usernameText">
+            @{{usernameText}} is available
+        </p>
+        <p class="help is-danger" *ngIf="!usernameAvailable && usernameText">
+            @{{usernameText}} has already been taken
+        </p>
+        <button class="button is-primary"
+                [disabled]="!usernameAvailable || !usernameText"
+                (click)="updateUsername()">
+            Select Username
+        </button>
+    </mz-modal-content>
+</mz-modal>

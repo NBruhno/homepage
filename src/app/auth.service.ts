@@ -1,132 +1,131 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import {AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable} from 'angularfire2/database';
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import { MzToastService } from 'ng2-materialize';
 
-export interface Roles {
+interface Roles {
     reader: boolean;
     author?: boolean;
     admin?:  boolean;
 }
 
-export class User {
+interface User {
+    displayName: string;
+    email: string;
+    emailVerified: boolean;
+    isAnonymous: boolean;
+    phoneNumber: string;
+    photoURL: string;
+    providerId: string;
+    refreshToken: string;
     uid: string;
     username: string;
-    email: string;
     name: string;
-    photoURL: string;
-    roles: Roles;
-
-    constructor(auth) {
-        this.uid = auth.uid;
-        this.email = auth.email;
-        this.photoURL = auth.photoURL;
-        this.roles = { reader: true };
-    }
+    admin: false;
+    author: false;
+    reader: true;
 }
 
 @Injectable()
 export class AuthService {
-    user: BehaviorSubject<User> = new BehaviorSubject(null);
-    userData: FirebaseObjectObservable<User>;
-    authState = null;
+
+    private userDoc: AngularFirestoreDocument<User>;
+    user: Observable<User>;
+    userState: any = null;
 
     constructor(private afAuth: AngularFireAuth,
-                private db: AngularFireDatabase,
+                private db: AngularFirestore,
                 private router: Router,
                 private toastService: MzToastService) {
 
-        this.afAuth.authState.switchMap(auth => {
-            if (auth) {
-                return this.db.object(`/users/${auth.uid}`);
-            } else { return Observable.of(null); }
-        }).subscribe(user => {
-            this.user.next(user);
-        });
-
-        this.afAuth.authState.subscribe(auth => {
-            this.authState = auth;
+        this.afAuth.authState.subscribe((auth) => {
+            this.userState = auth;
+            if (auth !== null) {
+                this.userDoc = db.doc<User>(`/users/${auth.uid}`);
+                this.user = this.userDoc.valueChanges();
+            } else { return null; }
         });
     }
 
     get authenticated(): boolean {
-        return this.authState !== null;
+        return this.userState !== null;
     }
 
     get currentUser(): any {
-        return this.authenticated ? this.authState : null;
+        return this.authenticated ? this.userState : null;
     }
 
     get currentUserObservable(): any {
-        return this.afAuth.authState;
+        return this.user;
     }
 
     get currentUserId(): string {
-        return this.authenticated ? this.authState.uid : '';
+        let uid = '';
+        this.user.subscribe(user => {
+            uid = user.uid;
+        });
+        return uid;
     }
 
     get currentUserEmail(): string {
-        return this.authenticated ? this.authState.email : '';
+        let email = '';
+        this.user.subscribe(user => {
+            email = user.email;
+        });
+        return email;
     }
 
     get currentUserDisplayName(): string {
-        return this.authState['displayName'] || 'You have no name!';
+        let displayName = '';
+        this.user.subscribe(user => {
+            displayName = user.displayName;
+        });
+        return displayName;
     }
 
     get currentUsername(): string {
         let username = '';
-        this.getUserData().subscribe(user => username = user.username);
+        this.user.subscribe(user => {
+            username = user.username;
+        });
         return username;
     }
 
-    getUserData(): BehaviorSubject<User> {
-        if (!this.currentUserId) { return; }
-        this.userData = this.db.object(`/users/${this.currentUserId}`);
-        return this.user;
-    }
-
-    get hasUsername(): boolean {
-        return !!this.authState.username;
-    }
-
-    afterSignIn(): void {
-        let username = '';
-        this.router.navigate(['/']);
-        this.getUserData().subscribe(user => { username = user.username; });
-        console.log('Signed in as ' + username);
-        this.toastService.show('Welcome back ' + username, 4000);
-    }
+    // get hasUsername(): boolean {
+    //     console.log('Current username: ' + this.userData.subscribe(user => user.username));
+    //     console.log(!!this.userData.subscribe(user => user.username));
+    //     return !!this.userData.subscribe(user => user.username);
+    // }
 
     googleLogin() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        return this.socialSignIn(provider).then(() => this.afterSignIn());
+        return this.socialSignIn(provider);
     }
 
     facebookLogin() {
         const provider = new firebase.auth.FacebookAuthProvider();
-        return this.socialSignIn(provider).then(() => this.afterSignIn());
+        return this.socialSignIn(provider);
     }
 
     twitterLogin() {
         const provider = new firebase.auth.TwitterAuthProvider();
-        return this.socialSignIn(provider).then(() => this.afterSignIn());
+        return this.socialSignIn(provider);
     }
 
     githubLogin() {
         const provider = new firebase.auth.GithubAuthProvider();
-        return this.socialSignIn(provider).then(() => this.afterSignIn());
+        return this.socialSignIn(provider);
     }
 
     private socialSignIn(provider) {
         return this.afAuth.auth.signInWithPopup(provider)
             .then((credential) =>  {
-                this.authState = credential.user;
+                this.userState = credential.user;
                 this.updateUserData(credential.user);
             }).catch(error => {
                 this.toastService.show(error.message, 4000, 'red');
@@ -137,8 +136,8 @@ export class AuthService {
     emailSignUp(email: string, password: string) {
         return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
             .then((user) => {
-                this.authState = user;
                 this.updateUserData(user);
+                this.userState = user;
             }).catch(error => {
                 this.toastService.show(error.message, 4000, 'red');
                 console.error(error);
@@ -148,10 +147,8 @@ export class AuthService {
     emailLogin(email: string, password: string) {
         return this.afAuth.auth.signInWithEmailAndPassword(email, password)
             .then((user) => {
-                this.authState = user;
+                this.userState = user;
                 this.updateUserData(user);
-                this.router.navigate(['/']);
-                this.toastService.show('You are now logged in', 4000);
             }).catch(error => {
                 this.toastService.show(error.message, 4000, 'red');
                 console.error(error);
@@ -177,28 +174,52 @@ export class AuthService {
     }
 
     checkUsername(username: string) {
-        username = username.toLowerCase();
-        return this.db.object(`usernames/${username}`);
+        // username = username.toLowerCase();
+        // return this.db.object(`usernames/${username}`);
     }
 
     updateUsername(username: string) {
-        const data = {};
-        data[username] = this.currentUserId;
-        this.db.object(`/users/${this.currentUserId}`).update({'username': username});
-        this.db.object(`/usernames`).update(data);
+        // const data = {};
+        // data[username] = this.userState.uid;
+        // this.db.object(`/users/${this.currentUserId}`).update({'username': username});
+        // this.db.object(`/usernames`).update(data);
     }
 
-    private updateUserData(auth): void {
-        const userData = new User(auth);
-        const ref = this.db.object('users/' + auth.uid);
-        ref.take(1)
-            .subscribe(user => {
-                if (!user.roles) {
-                    ref.update(userData);
-                }
-                if (!user.username) {
-                    ref.update(userData);
-                }
-            });
+    updateUserData(auth) {
+        this.userDoc = this.db.doc<User>(`/users/${auth.uid}`);
+        this.user = this.userDoc.valueChanges();
+        this.user.subscribe(user => {
+            if (user === null) {
+                console.log('User does not exist, creating a document for ' + this.userState.uid);
+                this.userDoc.set({
+                    displayName: this.userState.displayName,
+                    email: this.userState.email,
+                    emailVerified: this.userState.emailVerified,
+                    isAnonymous: this.userState.isAnonymous,
+                    phoneNumber: this.userState.phoneNumber,
+                    photoURL: this.userState.photoURL,
+                    providerId: this.userState.providerId,
+                    refreshToken: this.userState.refreshToken,
+                    uid: this.userState.uid,
+                    username: '',
+                    name: '',
+                    admin: false,
+                    author: false,
+                    reader: true
+                });
+                this.afterSignIn();
+            } else {
+                console.log('User exist under document ' + user.uid);
+                this.afterSignIn();
+            }
+        });
+    }
+
+    afterSignIn(): void {
+        this.router.navigate(['/']);
+        this.user.subscribe(user => {
+            console.log('Signed in as ' + user.uid);
+            this.toastService.show('Welcome back' + user.username, 4000);
+        });
     }
 }
