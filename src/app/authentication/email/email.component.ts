@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UsernameComponent } from '../username/username.component';
+import { MzModalService } from 'ng2-materialize';
 
 @Component({
     selector: 'app-email',
@@ -25,7 +27,7 @@ export class EmailComponent implements OnInit {
         }
     };
 
-    constructor(private fb: FormBuilder, private auth: AuthService) { }
+    constructor(private fb: FormBuilder, private auth: AuthService, private modalService: MzModalService) { }
 
     ngOnInit(): void {
         this.buildForm();
@@ -60,4 +62,10 @@ export class EmailComponent implements OnInit {
             ]],
         });
     }
+
+    // checkUsername() {
+    //     if (this.auth.hasUsername === false) {
+    //         this.modalService.open(UsernameComponent);
+    //     }
+    // }
 }
