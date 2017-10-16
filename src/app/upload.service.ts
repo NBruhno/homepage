@@ -1,31 +1,38 @@
 import {Injectable} from '@angular/core';
-import {Upload} from './upload/upload';
-import { AngularFireDatabase } from 'angularfire2/database';
 import {MzToastService} from 'ng2-materialize';
 import * as firebase from 'firebase';
 import {AuthService} from './auth.service';
 import {Observable} from 'rxjs/Observable';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "angularfire2/firestore";
+import {UpTemp} from "./upload/upload";
+
+export class Upload {
+    id: string;
+    name: string;
+    url: string;
+    createdAt: string;
+    uploaderUID: string;
+}
 
 @Injectable()
 export class UploadService {
 
-    constructor(private db: AngularFireDatabase, private toastService: MzToastService, private auth: AuthService) { }
-
-    private basePath = '/uploads';
+    private uploadsCollection: AngularFirestoreCollection<Upload>;
+    private uploadDoc: AngularFirestoreDocument<Upload>;
     uploads: Observable<Upload[]>;
+    upload: Observable<Upload>;
+    private basePath = 'uploads';
 
-
-    // getUploads(query = { }) {
-    //     this.uploads = this.db.list(this.basePath, {
-    //         query: query
-    //     });
-    //     return this.uploads;
-    // }
+    constructor(private db: AngularFirestore, private auth: AuthService, private toastService: MzToastService) {
+        this.uploadsCollection = this.db.collection('uploads');
+        this.uploads = this.uploadsCollection.valueChanges();
+    }
 
     deleteUpload(upload: Upload) {
-        this.deleteFileData(upload.$key)
+        const storageRef = firebase.storage().ref();
+        this.uploadsCollection.doc(`${upload.id}`).delete()
             .then( () => {
-                this.deleteFileStorage(upload.name);
+                storageRef.child(`${this.basePath}/${upload.name}`).delete();
                 this.toastService.show(upload.name + ' has been deleted', 4000);
             }).catch(error => {
             this.toastService.show(error.message, 4000, 'red');
@@ -33,9 +40,9 @@ export class UploadService {
         });
     }
 
-    pushUpload(upload: Upload) {
+    pushUpload(upTemp: UpTemp) {
         const storageRef = firebase.storage().ref();
-        const uploadTask = storageRef.child(`${this.basePath}/${upload.file.name}`).put(upload.file);
+        const uploadTask = storageRef.child(`${this.basePath}/${upTemp.file.name}`).put(upTemp.file);
         const day: string = new Date().getDate().toString();
         const month: string = new Date().getMonth().toString();
         const year: string = new Date().getFullYear().toString();
@@ -43,35 +50,23 @@ export class UploadService {
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
             (snapshot) =>  {
                 const snap = snapshot as firebase.storage.UploadTaskSnapshot;
-                upload.progress = (snap.bytesTransferred / snap.totalBytes) * 100;
+                upTemp.progress = (snap.bytesTransferred / snap.totalBytes) * 100;
             },
             (error) => {
                 this.toastService.show('An error has occurred', 4000, 'red');
                 console.log(error);
             },
             () => {
-                upload.url = uploadTask.snapshot.downloadURL;
-                upload.name = upload.file.name;
-                upload.createdAt = (day + '/' + month + '/' + year);
-                upload.uploaderUID = this.auth.currentUserId;
-                upload.uploaderName = this.auth.currentUserDisplayName;
-                this.saveFileData(upload);
+                const id = this.db.createId();
+                const name = upTemp.file.name;
+                const url = uploadTask.snapshot.downloadURL;
+                const createdAt = (day + '/' + month + '/' + year);
+                const uploaderUID = this.auth.userState.uid;
+                const upload: Upload = { id, name, url, createdAt, uploaderUID };
+                this.uploadsCollection.doc(upload.id).set(upload);
                 this.toastService.show(upload.name + ' has been uploaded successfully', 4000);
                 return undefined;
             }
         );
-    }
-
-    private saveFileData(upload: Upload) {
-        this.db.list(`${this.basePath}/`).push(upload);
-    }
-
-    private deleteFileData(key: string) {
-        return this.db.list(`${this.basePath}/`).remove(key);
-    }
-
-    private deleteFileStorage(name: string) {
-        const storageRef = firebase.storage().ref();
-        storageRef.child(`${this.basePath}/${name}`).delete();
     }
 }

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { Upload } from '../upload';
-import { UploadService } from '../../upload.service';
+import { UpTemp } from '../upload';
+import { UploadService} from '../../upload.service';
+import { AuthService } from "../../auth.service";
 import * as _ from 'lodash';
 
 @Component({
@@ -11,10 +12,10 @@ import * as _ from 'lodash';
 
 export class UploadFormComponent {
 
-    currentUpload: Upload;
+    currentUpload: UpTemp;
     dropzoneActive = false;
 
-    constructor(private upSvc: UploadService) { }
+    constructor(private up: UploadService, public auth: AuthService) { }
     dropzoneState($event: boolean) {
         this.dropzoneActive = $event;
     }
@@ -22,8 +23,8 @@ export class UploadFormComponent {
     handleDrop(fileList: FileList) {
         const filesIndex = _.range(fileList.length);
         _.each(filesIndex, (idx) => {
-            this.currentUpload = new Upload(fileList[idx]);
-            this.upSvc.pushUpload(this.currentUpload);
+            this.currentUpload = new UpTemp(fileList[idx]);
+            this.up.pushUpload(this.currentUpload);
         });
     }
 }

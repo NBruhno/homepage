@@ -1,12 +1,12 @@
 {{upload.name}}
-<a mz-secondary-content style="cursor: pointer" (click)='deleteUpload(upload)'><i mz-icon-mdi [icon]="'delete'" class="grey-text"></i></a>
+<a *ngIf="(auth.user | async)?.admin" mz-secondary-content style="cursor: pointer" (click)='deleteUpload(upload)'><i mz-icon-mdi [icon]="'delete'" class="grey-text"></i></a>
 <a mz-secondary-content href="{{upload.url}}"><i mz-icon-mdi [icon]="'download'"></i></a>
 <mz-badge
     [caption]="upload.createdAt"
     [new]="false">
 </mz-badge>
-<mz-badge
-    [caption]="upload.uploaderName"
-    [badgeClass]="'indigo'"
-    [new]="false">
-</mz-badge>
+<!--<mz-badge-->
+    <!--[caption]="uploaderUsername()"-->
+    <!--[badgeClass]="'indigo'"-->
+    <!--[new]="false">-->
+<!--</mz-badge>-->

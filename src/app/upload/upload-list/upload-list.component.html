@@ -1,6 +1,6 @@
 <mz-collection>
     <mz-collection-header><h5 class="light">Uploads</h5></mz-collection-header>
-    <mz-collection-item *ngFor="let upload of uploads | async">
+    <mz-collection-item *ngFor="let upload of uploadList | async">
         <app-upload-detail [upload]='upload'></app-upload-detail>
     </mz-collection-item>
     <div class="center">

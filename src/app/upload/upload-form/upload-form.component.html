@@ -1,5 +1,5 @@
 <br>
-<div class="row">
+<div class="row" *ngIf="(auth.user | async)?.admin">
     <div class="col s12 center">
         <mz-card appFileDrop
                  (filesDropped)="handleDrop($event)"

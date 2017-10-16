@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Upload} from '../upload';
-import {UploadService} from '../../upload.service';
-import {Observable} from 'rxjs/Observable';
+import { Upload, UploadService } from '../../upload.service';
+import {Observable} from "rxjs/Observable";
+import {AngularFirestore} from "angularfire2/firestore";
 
 @Component({
   selector: 'app-upload-list',
@@ -10,13 +10,15 @@ import {Observable} from 'rxjs/Observable';
 })
 
 export class UploadListComponent implements OnInit {
-    uploads: Observable<Upload[]>;
     showSpinner = true;
+    uploadList: Observable<Upload[]>;
+    uploads: Upload[];
 
-    constructor(private up: UploadService) { }
+    constructor(public up: UploadService, private db: AngularFirestore) { }
 
     ngOnInit() {
-        // this.uploads = this.up.getUploads();
-        this.uploads.subscribe(() => this.showSpinner = false);
+        this.up.uploads.subscribe(uploads => { this.uploads = uploads; });
+        this.up.uploads.subscribe(() => this.showSpinner = false);
+        this.uploadList = this.db.collection('uploads', ref => ref.orderBy('name')).valueChanges();
     }
 }
