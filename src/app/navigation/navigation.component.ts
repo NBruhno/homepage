@@ -14,10 +14,6 @@ export class NavigationComponent implements OnInit {
     constructor(private router: Router, public auth: AuthService) {
     }
 
-    log() {
-        console.log(_.has(_.get(this.auth.user, 'roles'), 'admin'));
-    }
-
     signOut() {
         this.auth.signOut();
     }

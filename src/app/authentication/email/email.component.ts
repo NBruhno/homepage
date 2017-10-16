@@ -38,11 +38,11 @@ export class EmailComponent implements OnInit {
     }
 
     signup(): void {
-        this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']);
+        this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']).then(() => this.checkUsername());
     }
 
     login(): void {
-        this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']);
+        this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']).then(() => this.checkUsername());
     }
 
     resetPassword() {
@@ -63,9 +63,12 @@ export class EmailComponent implements OnInit {
         });
     }
 
-    // checkUsername() {
-    //     if (this.auth.hasUsername === false) {
-    //         this.modalService.open(UsernameComponent);
-    //     }
-    // }
+    checkUsername() {
+        this.auth.user.subscribe(user => {
+            if (!!user.username === false) {
+                console.log('User has no username');
+                this.modalService.open(UsernameComponent);
+            }
+        });
+    }
 }

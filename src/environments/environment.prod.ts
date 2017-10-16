@@ -1,3 +1,11 @@
+import {Routes} from "@angular/router";
+import {FrontComponent} from "../app/front/front.component";
+import {AuthenticationComponent} from "../app/authentication/authentication.component";
+import {NotFoundComponent} from "../app/error/not-found/not-found.component";
+import {ProfileComponent} from "../app/profile/profile.component";
+import {UploadComponent} from "../app/upload/upload.component";
+import {PermGuard} from "../app/perm.guard";
+
 export const environment = {
     production: true,
     firebase: {
@@ -7,5 +15,15 @@ export const environment = {
         projectId: 'bruhno-afb29',
         storageBucket: 'bruhno-afb29.appspot.com',
         messagingSenderId: '809415579811'
-    }
+    },
+    routes: [
+        { path: '', component: FrontComponent },
+        { path: 'login', component: AuthenticationComponent, data: {title: 'Login'} },
+        { path: 'gallery', component: NotFoundComponent },
+        { path: 'projects', component: NotFoundComponent },
+        { path: 'profile', component: ProfileComponent },
+        { path: 'upload', component: UploadComponent, canActivate: [PermGuard] },
+        { path: '404', component: NotFoundComponent },
+        { path: '**', redirectTo: '/404' }
+    ]
 };

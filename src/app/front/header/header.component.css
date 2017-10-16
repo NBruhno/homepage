@@ -3,7 +3,7 @@ body {
     background: -moz-linear-gradient(225deg, #f62d51, #2a7cb6);
     background: -o-linear-gradient(225deg, #f62d51, #2a7cb6);
     background: linear-gradient(225deg, #f62d51, #2a7cb6);
-    background-size: 150% 150%;
+    background-size: 175% 175%;
 
     -webkit-animation: gradientBackground 8s ease-in-out infinite;
     -moz-animation: gradientBackground 8s ease-in-out infinite;
@@ -12,7 +12,7 @@ body {
 }
 
 .container {
-    min-height: calc(100vh - 63px);
+    min-height: calc(100vh - 55px);
 }
 
 .logo1 {

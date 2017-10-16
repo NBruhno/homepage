@@ -69,17 +69,6 @@ import { UploadDetailComponent } from './upload/upload-detail/upload-detail.comp
 import { ProfileComponent } from './profile/profile.component';
 import { UsernameComponent } from './authentication/username/username.component';
 
-export const routes: Routes = [
-    { path: '', component: FrontComponent },
-    { path: 'login', component: AuthenticationComponent, data: {title: 'Login'} },
-    { path: 'gallery', component: NotFoundComponent },
-    { path: 'projects', component: NotFoundComponent },
-    { path: 'profile', component: ProfileComponent },
-    { path: 'upload', component: UploadComponent, canActivate: [PermGuard] },
-    { path: '404', component: NotFoundComponent },
-    { path: '**', redirectTo: '/404' }
-];
-
 @NgModule({
     declarations: [
         AppComponent,
@@ -109,11 +98,11 @@ export const routes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         MaterializeModule.forRoot(),
-        RouterModule.forRoot(routes),
+        RouterModule.forRoot(environment.routes),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
-        AngularFirestoreModule,
+        AngularFirestoreModule.enablePersistence(),
         Ng2ScrollimateModule,
         MdDialogModule,
         MdNativeDateModule,
