@@ -23,6 +23,7 @@
             "prefix": "app",
             "serviceWorker": true,
             "styles": [
+                "maintheme.scss",
                 "styles.scss",
                 "../node_modules/mdi/css/materialdesignicons.min.css"
             ],

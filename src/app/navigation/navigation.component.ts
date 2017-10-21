@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import * as _ from 'lodash';
 
 @Component({
     selector: 'app-navigation',
@@ -11,8 +10,7 @@ import * as _ from 'lodash';
 
 export class NavigationComponent implements OnInit {
 
-    constructor(private router: Router, public auth: AuthService) {
-    }
+    constructor(private router: Router, public auth: AuthService) {}
 
     signOut() {
         this.auth.signOut();

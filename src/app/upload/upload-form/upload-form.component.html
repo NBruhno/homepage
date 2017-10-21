@@ -1,20 +1,16 @@
 <br>
 <div class="row" *ngIf="(auth.user | async)?.admin">
     <div class="col s12 center">
-        <mz-card appFileDrop
-                 (filesDropped)="handleDrop($event)"
-                 (filesHovered)="dropzoneState($event)"
-                 [ngClass]="{'active': dropzoneActive}">
-            <mz-card-title>Drop your files here to upload</mz-card-title>
-            <mz-card-content>
+        <mat-card appFileDrop
+                  (filesDropped)="handleDrop($event)"
+                  (filesHovered)="dropzoneState($event)"
+                  [ngClass]="{'active': dropzoneActive}">
+            <mat-card-title>Drop your files here to upload</mat-card-title>
+            <mat-card-content>
                 <div class="row">
                     <div class="col s12">
                         <div *ngIf="currentUpload">
-                            <mz-progress *ngIf="currentUpload?.progress !== 100"
-                                         [backgroundClass]="'red, accent-3'"
-                                         [percentage]="currentUpload?.progress"
-                                         [progressClass]="'red, accent-3'">
-                            </mz-progress>
+                            <mat-progress-bar *ngIf="currentUpload?.progress !== 100" [value]="currentUpload?.progress"></mat-progress-bar>
                         </div>
                     </div>
                 </div>
@@ -23,7 +19,7 @@
                         <i mz-icon-mdi [align]="'center'" [icon]="'upload'" [size]="'48px'" class="grey-text text-darken-2"></i>
                     </div>
                 </div>
-            </mz-card-content>
-        </mz-card>
+            </mat-card-content>
+        </mat-card>
     </div>
 </div>

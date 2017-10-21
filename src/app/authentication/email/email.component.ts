@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { UsernameComponent } from '../username/username.component';
-import { MzModalService } from 'ng2-materialize';
+import { AuthenticationComponent } from "../authentication.component";
+import { DialogService } from "../../dialog.service";
 
 @Component({
     selector: 'app-email',
@@ -14,20 +15,10 @@ export class EmailComponent implements OnInit {
     userForm: FormGroup;
     newUser = true;
 
-    errorMessages = {
-        'email': {
-            'required': 'Email is required.',
-            'email': 'Email must be a valid email'
-        },
-        'password': {
-            'required': 'Password is required.',
-            'pattern': 'Password must include at least one letter and one number.',
-            'minlength': 'Password must be at least 8 characters long.',
-            'maxlength': 'Password cannot be more than 25 characters long.',
-        }
-    };
-
-    constructor(private fb: FormBuilder, private auth: AuthService, private modalService: MzModalService) { }
+    constructor(private fb: FormBuilder,
+                private auth: AuthService,
+                private authSpin: AuthenticationComponent,
+                private dialog: DialogService) { }
 
     ngOnInit(): void {
         this.buildForm();
@@ -38,10 +29,12 @@ export class EmailComponent implements OnInit {
     }
 
     signup(): void {
+        this.authSpin.toggleSpinner();
         this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']).then(() => this.checkUsername());
     }
 
     login(): void {
+        this.authSpin.toggleSpinner();
         this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']).then(() => this.checkUsername());
     }
 
@@ -61,13 +54,48 @@ export class EmailComponent implements OnInit {
                 Validators.maxLength(25)
             ]],
         });
+        this.userForm.valueChanges.subscribe(data => this.onValueChanged(data));
+        this.onValueChanged();
     }
 
+    onValueChanged(data?: any) {
+        if (!this.userForm) { return; }
+        const form = this.userForm;
+        for (const field in this.formErrors) {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+        }
+    }
+
+    formErrors = {
+        'email': '',
+        'password': ''
+    };
+    validationMessages = {
+        'email': {
+            'required':      'Email is required.',
+            'email':         'Email must be valid'
+        },
+        'password': {
+            'required':      'Password is required.',
+            'pattern':       'Password must be include at one letter and one number.',
+            'minlength':     'Password must be at least 4 characters long.',
+            'maxlength':     'Password cannot be more than 40 characters long.',
+        }
+    };
+
     checkUsername() {
+        this.authSpin.toggleSpinner();
         this.auth.user.subscribe(user => {
             if (!!user.username === false) {
                 console.log('User has no username');
-                this.modalService.open(UsernameComponent);
+                this.dialog.openDialog('Missing username', 'username');
             }
         });
     }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {MzToastService} from 'ng2-materialize';
+import {MatSnackBar} from '@angular/material'
 import * as firebase from 'firebase';
 import {AuthService} from './auth.service';
 import {Observable} from 'rxjs/Observable';
@@ -12,6 +12,7 @@ export class Upload {
     url: string;
     createdAt: string;
     uploaderUID: string;
+    filetype: string;
 }
 
 @Injectable()
@@ -23,7 +24,7 @@ export class UploadService {
     upload: Observable<Upload>;
     private basePath = 'uploads';
 
-    constructor(private db: AngularFirestore, private auth: AuthService, private toastService: MzToastService) {
+    constructor(private db: AngularFirestore, private auth: AuthService, private snack: MatSnackBar) {
         this.uploadsCollection = this.db.collection('uploads');
         this.uploads = this.uploadsCollection.valueChanges();
     }
@@ -33,9 +34,9 @@ export class UploadService {
         this.uploadsCollection.doc(`${upload.id}`).delete()
             .then( () => {
                 storageRef.child(`${this.basePath}/${upload.name}`).delete();
-                this.toastService.show(upload.name + ' has been deleted', 4000);
+                this.snack.open(upload.name + ' has been deleted', '', { duration: 4000 });
             }).catch(error => {
-            this.toastService.show(error.message, 4000, 'red');
+            this.snack.open(error.message, '', { duration: 4000 });
             console.error(error);
         });
     }
@@ -53,7 +54,7 @@ export class UploadService {
                 upTemp.progress = (snap.bytesTransferred / snap.totalBytes) * 100;
             },
             (error) => {
-                this.toastService.show('An error has occurred', 4000, 'red');
+                this.snack.open(error.message, '', { duration: 4000 });
                 console.log(error);
             },
             () => {
@@ -62,9 +63,10 @@ export class UploadService {
                 const url = uploadTask.snapshot.downloadURL;
                 const createdAt = (day + '/' + month + '/' + year);
                 const uploaderUID = this.auth.userState.uid;
-                const upload: Upload = { id, name, url, createdAt, uploaderUID };
+                const filetype = upTemp.file.name.split(".").pop();
+                const upload: Upload = { id, name, url, createdAt, uploaderUID, filetype };
                 this.uploadsCollection.doc(upload.id).set(upload);
-                this.toastService.show(upload.name + ' has been uploaded successfully', 4000);
+                this.snack.open(upload.name + ' has been uploaded successfully', '', { duration: 4000 });
                 return undefined;
             }
         );

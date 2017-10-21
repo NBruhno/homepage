@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { MzToastService } from 'ng2-materialize';
+import { MatSnackBar } from '@angular/material';
+import { AngularFireAuth } from 'angularfire2/auth';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
-import {AngularFireAuth} from "angularfire2/auth";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-    constructor(private afAuth: AngularFireAuth, private router: Router, private toastService: MzToastService) {}
+    constructor(private afAuth: AngularFireAuth, private router: Router, private snack: MatSnackBar) {}
 
     canActivate(
         next: ActivatedRouteSnapshot,
@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
             .do(loggedIn => {
                 if (!loggedIn) {
                     console.log('Access Denied! (Not logged in)');
-                    this.toastService.show('Please log in to access this page', 4000, 'red');
+                    this.snack.open('Please log in to access this page', '', { duration: 4000 });
                     this.router.navigate(['/login']);
                 }
             });

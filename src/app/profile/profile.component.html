@@ -1,13 +1,13 @@
 <div class="row profileHeader">
 </div>
-<div class="container">
+<div class="container mat-typography">
     <div class="row profileAvatar">
         <div class="col s4 m3 l2">
             <a><img class="circle responsive-img" [src]="(auth.user | async)?.photoURL || 'https://firebasestorage.googleapis.com/v0/b/bruhno-afb29.appspot.com/o/uploads%2Fthinking.png?alt=media&token=0de0882e-98b5-4843-a9fc-2c7674956428'" width=156px></a>
         </div>
         <div class="col s8 m9 l10">
-            <p class="username grey-text text-lighten-4">{{ (auth.user | async )?.username || 'No username' }} </p>
-            <p class="light email grey-text text-lighten-4">{{ (auth.user | async)?.email || 'No email'}}</p>
+            <p class="username white-text">{{ (auth.user | async )?.username || 'No username' }} </p>
+            <p class="white-text email">{{ (auth.user | async)?.email || 'No email'}}</p>
         </div>
     </div>
 </div>

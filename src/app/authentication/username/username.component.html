@@ -1,21 +1,8 @@
-<mz-modal>
-    <mz-modal-header>
-        Choose an username
-    </mz-modal-header>
-    <mz-modal-content>
-        <input type="text" class="input" placeholder="choose a username"
-               [(ngModel)]="usernameText"
-               (keyup)="checkUsername()">
-        <p class="help is-success" *ngIf="usernameAvailable && usernameText">
-            @{{usernameText}} is available
-        </p>
-        <p class="help is-danger" *ngIf="!usernameAvailable && usernameText">
-            @{{usernameText}} has already been taken
-        </p>
-        <button class="button is-primary"
-                [disabled]="!usernameAvailable || !usernameText"
-                (click)="updateUsername()">
-            Select Username
-        </button>
-    </mz-modal-content>
-</mz-modal>
+<span mat-dialog-title>Choose an username</span>
+<mat-dialog-content>
+    <mat-form-field class="col s12">
+        <input matInput id="username" type="text" placeholder="Username" [(ngModel)]="usernameText" (keyup)="checkUsername()">
+        <mat-error *ngIf="!usernameAvailable">{{usernameText}} has already been taken</mat-error>
+    </mat-form-field>
+    <button mat-button [disabled]="!usernameAvailable || !usernameText" (click)="updateUsername()">Select Username</button>
+</mat-dialog-content>

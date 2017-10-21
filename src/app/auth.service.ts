@@ -6,8 +6,9 @@ import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
-import { MzToastService } from 'ng2-materialize';
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { MatSnackBar } from "@angular/material";
+import { DialogService } from "./dialog.service";
 
 interface Roles {
     reader: boolean;
@@ -41,7 +42,8 @@ export class AuthService {
     constructor(private afAuth: AngularFireAuth,
                 private db: AngularFirestore,
                 private router: Router,
-                private toastService: MzToastService) {
+                private snack: MatSnackBar,
+                private dialog: DialogService) {
 
         this.afAuth.authState.switchMap(auth => {
             this.userState = auth;
@@ -92,7 +94,8 @@ export class AuthService {
                 this.userState = credential.user;
                 this.updateUserData(credential.user);
             }).catch(error => {
-                this.toastService.show(error.message, 4000, 'red');
+                this.snack.open(error.message, '', { duration: 4000 });
+                // this.toastService.show(error.message, 4000, 'red');
                 console.error(error);
             });
     }
@@ -103,7 +106,7 @@ export class AuthService {
                 this.updateUserData(user);
                 this.userState = user;
             }).catch(error => {
-                this.toastService.show(error.message, 4000, 'red');
+                this.dialog.openDialog(error.message, 'error');
                 console.error(error);
             });
     }
@@ -114,7 +117,9 @@ export class AuthService {
                 this.userState = user;
                 this.updateUserData(user);
             }).catch(error => {
-                this.toastService.show(error.message, 4000, 'red');
+                this.dialog.openDialog(error.message, 'error');
+                this.snack.open(error.message, '', { duration: 4000 });
+                // this.toastService.show(error.message, 4000, 'red');
                 console.error(error);
             });
     }
@@ -123,10 +128,12 @@ export class AuthService {
         const auth = firebase.auth();
         return auth.sendPasswordResetEmail(email)
             .then(() => {
-                this.toastService.show('A mail with a password reset link has been sent your way', 4000);
+                this.snack.open('A mail with a password reset link has been sent your way', '', { duration: 4000 });
+                // this.toastService.show('A mail with a password reset link has been sent your way', 4000);
             })
             .catch(error => {
-                this.toastService.show(error.message, 4000, 'red');
+                this.snack.open(error.message, '', { duration: 4000 });
+                // this.toastService.show(error.message, 4000, 'red');
                 console.error(error);
             });
     }
@@ -134,7 +141,8 @@ export class AuthService {
     signOut(): void {
         this.afAuth.auth.signOut();
         this.router.navigate(['/']);
-        this.toastService.show('You have been signed out', 4000);
+        this.snack.open('You have been signed out', '', { duration: 4000 });
+        // this.toastService.show('You have been signed out', 4000);
     }
 
     checkUsername(username: string) {
@@ -185,7 +193,8 @@ export class AuthService {
         this.router.navigate(['/']);
         this.user.subscribe(user => {
             console.log('Signed in as ' + user.uid);
-            this.toastService.show('Welcome back ' + user.username, 4000);
+            this.snack.open('Welcome back ' + user.username, '', { duration: 4000 });
+            // this.toastService.show('Welcome back ' + user.username, 4000);
         });
     }
 
