@@ -1,12 +1,9 @@
-{{upload.name}}
-<a *ngIf="(auth.user | async)?.admin" mz-secondary-content style="cursor: pointer" (click)='deleteUpload(upload)'><i mz-icon-mdi [icon]="'delete'" class="grey-text"></i></a>
-<a mz-secondary-content href="{{upload.url}}"><i mz-icon-mdi [icon]="'download'"></i></a>
-<mz-badge
-    [caption]="upload.createdAt"
-    [new]="false">
-</mz-badge>
-<!--<mz-badge-->
-    <!--[caption]="uploaderUsername()"-->
-    <!--[badgeClass]="'indigo'"-->
-    <!--[new]="false">-->
-<!--</mz-badge>-->
+<mat-list-item>
+    <h4 mat-line>{{upload.name}}</h4>
+    <mat-icon mat-list-icon svgIcon="image"></mat-icon>
+    <div mat-line>
+        <a *ngIf="(auth.user | async)?.admin" style="cursor: pointer" (click)='deleteUpload(upload)'><mat-icon svgIcon="delete"></mat-icon></a>
+        <a href="{{upload.url}}" download><mat-icon svgIcon="download"></mat-icon></a>
+    </div>
+    <mat-basic-chip>{{upload.createdAt}}</mat-basic-chip>
+</mat-list-item>

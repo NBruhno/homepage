@@ -29,7 +29,15 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 export class AuthenticationComponent implements OnInit {
     loaded1 = 'moveIn1';
 
+    showSpinner = false;
+
     constructor(public auth: AuthService) {
+    }
+
+    toggleSpinner() {
+        if (this.showSpinner === false) {
+            this.showSpinner = true;
+        } else { this.showSpinner = false; }
     }
 
     ngOnInit() {

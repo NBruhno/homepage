@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
-import { UsernameComponent } from '../username/username.component';
-import { MzModalService } from 'ng2-materialize';
+import { AuthenticationComponent } from "../authentication.component";
+import { DialogService } from "../../dialog.service";
 
 @Component({
     selector: 'app-login',
@@ -10,33 +10,34 @@ import { MzModalService } from 'ng2-materialize';
 })
 export class LoginComponent implements OnInit {
 
-    constructor(public auth: AuthService, private modalService: MzModalService) {}
+    constructor(public auth: AuthService, private authSpin: AuthenticationComponent, private dialog: DialogService) {}
 
     signInWithGoogle(): void {
+        this.authSpin.toggleSpinner();
         this.auth.googleLogin().then(() => this.checkUsername());
     }
 
     signInWithFacebook(): void {
+        this.authSpin.toggleSpinner();
         this.auth.facebookLogin().then(() => this.checkUsername());
     }
 
     signInWithTwitter(): void {
+        this.authSpin.toggleSpinner();
         this.auth.twitterLogin().then(() => this.checkUsername());
     }
 
     signInWithGithub(): void {
+        this.authSpin.toggleSpinner();
         this.auth.githubLogin().then(() => this.checkUsername());
     }
 
-    logout() {
-        this.auth.signOut();
-    }
-
     checkUsername() {
+        this.authSpin.toggleSpinner();
         this.auth.user.subscribe(user => {
             if (!!user.username === false) {
                 console.log('User has no username');
-                this.modalService.open(UsernameComponent);
+                this.dialog.openDialog('Missing username', 'username');
             }
         });
     }

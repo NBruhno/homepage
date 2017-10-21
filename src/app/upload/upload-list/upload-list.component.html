@@ -1,9 +1,11 @@
-<mz-collection>
-    <mz-collection-header><h5 class="light">Uploads</h5></mz-collection-header>
-    <mz-collection-item *ngFor="let upload of uploadList | async">
-        <app-upload-detail [upload]='upload'></app-upload-detail>
-    </mz-collection-item>
-    <div class="center">
-        <mz-spinner [color]="'red'" [size]="'big'" *ngIf="showSpinner"></mz-spinner>
-    </div>
-</mz-collection>
+<mat-card>
+    <mat-list>
+        <h3 mat-subheader class="light">Uploads</h3>
+        <div class="" *ngFor="let upload of uploadList | async">
+            <app-upload-detail [upload]='upload'></app-upload-detail>
+        </div>
+        <div class="center">
+            <mat-spinner style="margin:0 auto;" *ngIf="showSpinner"></mat-spinner>
+        </div>
+    </mat-list>
+</mat-card>
