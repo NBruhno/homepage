@@ -17,7 +17,6 @@ interface Roles {
 }
 
 interface User {
-    displayName?: string;
     email: string;
     emailVerified: boolean;
     photoURL?: string;
@@ -112,8 +111,8 @@ export class AuthService {
     emailSignUp(email: string, password: string) {
         return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
             .then((user) => {
-                this.updateUserData(user);
                 this.userState = user;
+                this.updateUserData(user);
             }).catch(error => {
                 this.dialog.openDialog(error.message, 'error');
                 console.error(error);
@@ -162,7 +161,6 @@ export class AuthService {
         const userRef: AngularFirestoreDocument<any> = this.db.doc(`users/${user.uid}`);
 
         const data: User = {
-            displayName: this.userState.displayName,
             email: this.userState.email,
             emailVerified: this.userState.emailVerified,
             photoURL: this.userState.photoURL,
@@ -176,10 +174,16 @@ export class AuthService {
 
         this.user.subscribe(user => {
             if (user === null) {
-                userRef.set(data);
-                this.afterSignIn();
+                console.log('No data for ' + user.uid + ', creating user data');
+                userRef.set(data).then(() => { console.log('User data created for ' + user.uid) });
             } else {
-                this.afterSignIn();
+                console.log(user.uid + ' exists.');
+                if (user.username !== null) {
+                    this.snack.open('Welcome back ' + user.username, '', { duration: 4000 });
+                } else {
+                    console.log('User has no username');
+                    this.dialog.openDialog('Missing username', 'username');
+                }
             }
         });
 
@@ -209,8 +213,10 @@ export class AuthService {
         this.user.subscribe(user => {
             if (user.username !== null) {
                 this.snack.open('Welcome back ' + user.username, '', { duration: 4000 });
+            } else {
+                console.log('User has no username');
+                this.dialog.openDialog('Missing username', 'username');
             }
-            // this.toastService.show('Welcome back ' + user.username, 4000);
         });
     }
 

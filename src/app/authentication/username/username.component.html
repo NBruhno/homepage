@@ -2,7 +2,7 @@
 <mat-dialog-content>
     <mat-form-field class="col s12">
         <input matInput id="username" type="text" placeholder="Username" [(ngModel)]="usernameText" (keyup)="checkUsername()">
-        <mat-error class="mat-caption mat-warn" *ngIf="!usernameAvailable && usernameText">{{usernameText}} has already been taken</mat-error>
+        <mat-error class="mat-caption mat-warn" *ngIf="!usernameAvailable && !!usernameText">{{usernameText}} has already been taken</mat-error>
     </mat-form-field>
     <button mat-button [disabled]="!usernameAvailable || !usernameText" (click)="updateUsername()">Select Username</button>
 </mat-dialog-content>
