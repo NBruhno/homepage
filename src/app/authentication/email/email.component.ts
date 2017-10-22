@@ -30,12 +30,12 @@ export class EmailComponent implements OnInit {
 
     signup(): void {
         this.authSpin.toggleSpinner();
-        this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']).then(() => this.checkUsername());
+        this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']).then(() => this.authSpin.toggleSpinner());
     }
 
     login(): void {
         this.authSpin.toggleSpinner();
-        this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']).then(() => this.checkUsername());
+        this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']).then(() => this.authSpin.toggleSpinner());
     }
 
     resetPassword() {
@@ -89,14 +89,4 @@ export class EmailComponent implements OnInit {
             'maxlength':     'Password cannot be more than 40 characters long.',
         }
     };
-
-    checkUsername() {
-        this.authSpin.toggleSpinner();
-        this.auth.user.subscribe(user => {
-            if (user.username === null) {
-                console.log('User has no username');
-                this.dialog.openDialog('Missing username', 'username');
-            }
-        });
-    }
 }

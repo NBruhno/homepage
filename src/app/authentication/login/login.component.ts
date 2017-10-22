@@ -14,32 +14,22 @@ export class LoginComponent implements OnInit {
 
     signInWithGoogle(): void {
         this.authSpin.toggleSpinner();
-        this.auth.googleLogin().then(() => this.checkUsername());
+        this.auth.googleLogin().then(() => this.authSpin.toggleSpinner());
     }
 
     signInWithFacebook(): void {
         this.authSpin.toggleSpinner();
-        this.auth.facebookLogin().then(() => this.checkUsername());
+        this.auth.facebookLogin().then(() => this.authSpin.toggleSpinner());
     }
 
     signInWithTwitter(): void {
         this.authSpin.toggleSpinner();
-        this.auth.twitterLogin().then(() => this.checkUsername());
+        this.auth.twitterLogin().then(() => this.authSpin.toggleSpinner());
     }
 
     signInWithGithub(): void {
         this.authSpin.toggleSpinner();
-        this.auth.githubLogin().then(() => this.checkUsername());
-    }
-
-    checkUsername() {
-        this.authSpin.toggleSpinner();
-        this.auth.user.subscribe(user => {
-            if (user.username === null) {
-                console.log('User has no username');
-                this.dialog.openDialog('Missing username', 'username');
-            }
-        });
+        this.auth.githubLogin().then(() => this.authSpin.toggleSpinner());
     }
 
     ngOnInit() { }
