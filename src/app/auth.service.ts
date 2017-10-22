@@ -174,14 +174,12 @@ export class AuthService {
 
         this.user.subscribe(user => {
             if (user === null) {
-                console.log('No data for ' + user.uid + ', creating user data');
-                userRef.set(data).then(() => { console.log('User data created for ' + user.uid) });
+                userRef.set(data);
             } else {
-                console.log(user.uid + ' exists.');
                 if (user.username !== null) {
                     this.snack.open('Welcome back ' + user.username, '', { duration: 4000 });
                 } else {
-                    console.log('User has no username');
+                    this.router.navigate(['/']);
                     this.dialog.openDialog('Missing username', 'username');
                 }
             }
