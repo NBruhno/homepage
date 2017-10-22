@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AngularFirestore, AngularFirestoreDocument } from "angularfire2/firestore";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
-import {AngularFireAuth} from "angularfire2/auth";
+import { AngularFireAuth } from "angularfire2/auth";
 
 interface User {
     displayName: string;
@@ -28,8 +28,6 @@ export class UsernameComponent {
     usernameAvailable: boolean;
     private userDoc: AngularFirestoreDocument<User>;
     user: Observable<User>;
-    userBehave: BehaviorSubject<User> = new BehaviorSubject(null);
-    userState: any = null;
 
     constructor(
         public dialogRef: MatDialogRef<UsernameComponent>,
@@ -37,26 +35,21 @@ export class UsernameComponent {
         private afAuth: AngularFireAuth,
         private db: AngularFirestore) {
 
-        this.afAuth.authState.switchMap(auth => {
-            this.userState = auth;
-            if (auth) {
-                this.userDoc = db.doc<User>(`/users/${auth.uid}`);
-                return this.user = this.userDoc.valueChanges();
+        this.user = this.afAuth.authState.switchMap(user => {
+            if (user) {
+                this.userDoc = db.doc<User>(`/users/${user.uid}`);
+                return this.db.doc<User>(`users/${user.uid}`).valueChanges();
             } else {
                 return Observable.of(null);
             }
-        }).subscribe(user => {
-            this.userBehave.next(user);
         });
     }
 
     checkUsername() {
         let username = this.usernameText;
-        console.log(username);
         this.usernameAvailable = true;
         this.getUsernames(username).subscribe(content => {
-            if (content !== null) {
-                console.log(content + ' is not available.');
+            if (content.toString() === '[object Object]') {
                 this.usernameAvailable = false;
             }
         });

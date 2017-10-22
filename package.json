@@ -1,6 +1,6 @@
 {
-  "name": "Bruhno.com",
-  "version": "0.2.0",
+  "name": "hp-v0.2",
+  "version": "0.0.0",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
