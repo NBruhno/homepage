@@ -1,5 +1,5 @@
 <br>
-<div class="row" *ngIf="(auth.user | async)?.admin">
+<div class="row" *ngIf="(auth.user | async) && (auth.user | async)?.admin">
     <div class="col s12 center">
         <mat-card appFileDrop
                   (filesDropped)="handleDrop($event)"

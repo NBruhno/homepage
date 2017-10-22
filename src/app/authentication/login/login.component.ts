@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
     checkUsername() {
         this.authSpin.toggleSpinner();
         this.auth.user.subscribe(user => {
-            if (!!user.username === false) {
+            if (user.username === null) {
                 console.log('User has no username');
                 this.dialog.openDialog('Missing username', 'username');
             }

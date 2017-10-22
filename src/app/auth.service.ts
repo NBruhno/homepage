@@ -17,10 +17,10 @@ interface Roles {
 }
 
 interface User {
-    displayName: string;
+    displayName?: string;
     email: string;
     emailVerified: boolean;
-    photoURL: string;
+    photoURL?: string;
     uid: string;
     username: string;
     name: string;
@@ -45,19 +45,28 @@ export class AuthService {
                 private snack: MatSnackBar,
                 private dialog: DialogService) {
 
-        this.afAuth.authState.switchMap(auth => {
-            this.userState = auth;
-            this.usersCollection = db.collection<User>('users');
-            this.users = this.usersCollection.valueChanges();
-            if (auth) {
-                this.userDoc = db.doc<User>(`/users/${auth.uid}`);
-                return this.user = this.userDoc.valueChanges();
+        this.user = this.afAuth.authState.switchMap(user => {
+            this.userState = user;
+            if (user) {
+                return this.db.doc<User>(`users/${user.uid}`).valueChanges();
             } else {
                 return Observable.of(null);
             }
-        }).subscribe(user => {
-            this.userBehave.next(user);
         });
+
+        // this.afAuth.authState.switchMap(auth => {
+        //     this.userState = auth;
+        //     this.usersCollection = db.collection<User>('users');
+        //     this.users = this.usersCollection.valueChanges();
+        //     if (auth) {
+        //         this.userDoc = db.doc<User>(`/users/${auth.uid}`);
+        //         return this.user = this.userDoc.valueChanges();
+        //     } else {
+        //         return Observable.of(null);
+        //     }
+        // }).subscribe(user => {
+        //     this.userBehave.next(user);
+        // });
     }
 
     get authenticated(): boolean {
@@ -139,61 +148,68 @@ export class AuthService {
     }
 
     signOut(): void {
-        this.afAuth.auth.signOut();
-        this.router.navigate(['/']);
-        this.snack.open('You have been signed out', '', { duration: 4000 });
+        this.afAuth.auth.signOut().then(() => {
+            this.router.navigate(['/']);
+            this.snack.open('You have been signed out', '', { duration: 4000 });
+        });
         // this.toastService.show('You have been signed out', 4000);
     }
 
-    checkUsername(username: string) {
-        username = username.toLowerCase();
-        console.log(username);
-        this.db.collection('users', ref => ref.where('username', '==', username)).valueChanges().subscribe( username => {
-            if (username !== null) {
-                console.log(username);
-            } else { console.log(username); }
-            return username;
-        });
-    }
+    updateUserData(user) {
+        // this.userDoc = this.db.doc<User>(`/users/${auth.uid}`);
+        // this.user = this.userDoc.valueChanges();
 
-    updateUsername(username: string) {
-        this.user.subscribe(user => {
-            user.username = username;
-            this.updateDoc(user);
-        });
-    }
+        const userRef: AngularFirestoreDocument<any> = this.db.doc(`users/${user.uid}`);
 
-    updateUserData(auth) {
-        this.userDoc = this.db.doc<User>(`/users/${auth.uid}`);
-        this.user = this.userDoc.valueChanges();
+        const data: User = {
+            displayName: this.userState.displayName,
+            email: this.userState.email,
+            emailVerified: this.userState.emailVerified,
+            photoURL: this.userState.photoURL,
+            uid: this.userState.uid,
+            username: null,
+            name: null,
+            admin: false,
+            author: false,
+            reader: true
+        };
+
         this.user.subscribe(user => {
             if (user === null) {
-                console.log('User does not exist, creating a document for ' + this.userState.uid);
-                this.userDoc.set({
-                    displayName: this.userState.displayName,
-                    email: this.userState.email,
-                    emailVerified: this.userState.emailVerified,
-                    photoURL: this.userState.photoURL,
-                    uid: this.userState.uid,
-                    username: '',
-                    name: '',
-                    admin: false,
-                    author: false,
-                    reader: true
-                });
+                userRef.set(data);
                 this.afterSignIn();
             } else {
-                console.log('User exist under document ' + user.uid);
                 this.afterSignIn();
             }
         });
+
+        // this.user.subscribe(user => {
+        //     if (user === null) {
+        //         this.userDoc.set({
+        //             displayName: this.userState.displayName,
+        //             email: this.userState.email,
+        //             emailVerified: this.userState.emailVerified,
+        //             photoURL: this.userState.photoURL,
+        //             uid: this.userState.uid,
+        //             username: '',
+        //             name: '',
+        //             admin: false,
+        //             author: false,
+        //             reader: true
+        //         });
+        //         this.afterSignIn();
+        //     } else {
+        //         this.afterSignIn();
+        //     }
+        // });
     }
 
     afterSignIn(): void {
         this.router.navigate(['/']);
         this.user.subscribe(user => {
-            console.log('Signed in as ' + user.uid);
-            this.snack.open('Welcome back ' + user.username, '', { duration: 4000 });
+            if (user.username !== null) {
+                this.snack.open('Welcome back ' + user.username, '', { duration: 4000 });
+            }
             // this.toastService.show('Welcome back ' + user.username, 4000);
         });
     }
