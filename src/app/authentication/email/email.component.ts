@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsernameComponent } from '../username/username.component';
+import { UsernameComponent } from '../../profile/username/username.component';
 import { AuthenticationComponent } from "../authentication.component";
 import { DialogService } from "../../dialog.service";
 

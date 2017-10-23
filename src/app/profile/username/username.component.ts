@@ -1,9 +1,8 @@
-import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { AngularFirestore, AngularFirestoreDocument } from "angularfire2/firestore";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
-import { Observable } from "rxjs/Observable";
-import { AngularFireAuth } from "angularfire2/auth";
+import {Component, Inject, OnInit} from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 interface User {
     displayName: string;
@@ -23,17 +22,19 @@ interface User {
   templateUrl: './username.component.html',
   styleUrls: ['./username.component.css']
 })
-export class UsernameComponent {
+export class UsernameComponent implements OnInit {
     usernameText: string;
     usernameAvailable: boolean;
     private userDoc: AngularFirestoreDocument<User>;
     user: Observable<User>;
+    userTemp: User;
 
     constructor(
         public dialogRef: MatDialogRef<UsernameComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         private afAuth: AngularFireAuth,
-        private db: AngularFirestore) {
+        private db: AngularFirestore,
+        private snack: MatSnackBar) {
 
         this.user = this.afAuth.authState.switchMap(user => {
             if (user) {
@@ -45,8 +46,12 @@ export class UsernameComponent {
         });
     }
 
+    ngOnInit() {
+        this.user.subscribe(user => this.userTemp = user);
+    }
+
     checkUsername() {
-        let username = this.usernameText;
+        const username = this.usernameText;
         this.usernameAvailable = true;
         this.getUsernames(username).subscribe(content => {
             if (content.toString() === '[object Object]') {
@@ -61,14 +66,10 @@ export class UsernameComponent {
     }
 
     updateUsername() {
-        this.user.subscribe(user => {
-            user.username = this.usernameText;
-            this.updateDoc(user);
+        this.userTemp.username = this.usernameText;
+        this.userDoc.update(this.userTemp).catch(error => console.log(error)).then(() => {
+            this.snack.open('Your username has been updated sucessfully', 'OK', { duration: 4000 });
+            this.dialogRef.close();
         });
-        this.dialogRef.close();
-    }
-
-    updateDoc(user: User) {
-        this.userDoc.update(user).catch(error => console.log(error));
     }
 }

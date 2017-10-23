@@ -1,6 +1,7 @@
 import { Component, Injectable, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { UsernameComponent } from "./authentication/username/username.component";
+import { UsernameComponent } from "./profile/username/username.component";
+import { AvatarComponent } from "./profile/avatar/avatar.component";
 
 @Injectable()
 export class DialogService {
@@ -8,8 +9,8 @@ export class DialogService {
     constructor(public dialog: MatDialog) {}
 
     openDialog(message: string, type: string): void {
-        if (type === 'error') {
-            let dialogRef = this.dialog.open(AlertDialog, {
+        if (type === 'avatar') {
+            let dialogRef = this.dialog.open(AvatarComponent, {
                 data: { message: message }
             });
 
@@ -23,6 +24,7 @@ export class DialogService {
             });
 
             dialogRef.afterClosed().subscribe(result => {
+
             });
         }
     }

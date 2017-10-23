@@ -10,11 +10,21 @@
 <ng-template #authenticated>
     <div *ngIf="auth.user | async as user" class="container mat-typography">
         <div class="row profileAvatar">
-            <div class="col s5 m3 l2">
-                <a><img class="circle responsive-img" [src]="user.photoURL || 'https://firebasestorage.googleapis.com/v0/b/bruhno-afb29.appspot.com/o/uploads%2Fthinking.png?alt=media&token=0de0882e-98b5-4843-a9fc-2c7674956428'" width=156px></a>
+            <div class="col s5 m4 l2">
+                <a class="changeAvatar">
+                    <img class="circle responsive-img" [src]="user.photoURL || '../../assets/images/ProfileTemp.png'" width=156px>
+                </a>
+                <div class="cn circle" (click)="changeAvatar()">
+                    <div class="inner">
+                        <a><mat-icon svgIcon="camera" class="avatarIcon"></mat-icon></a>
+                    </div>
+                </div>
             </div>
-            <div class="col s7 m9 l10">
-                <p class="username white-text">{{ user.username || 'No username' }} </p>
+            <div class="col s7 m8 l10">
+                <a>
+                    <p class="username white-text changeUsername" (click)="changeUsername()">{{ user.username || 'No username' }}<mat-icon svgIcon="pencil" class="usernameIcon"></mat-icon></p>
+
+                </a>
                 <p class="white-text email">{{ user.email || 'No email'}}</p>
             </div>
         </div>
