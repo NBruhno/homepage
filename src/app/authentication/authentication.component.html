@@ -5,12 +5,12 @@
         <div class="col s12 m6 l4 offset-m3 offset-l4">
             <mat-card>
                 <mat-card-content>
-                    <div class="row" *ngIf="!auth.currentUser && !showSpinner">
+                    <div class="row" *ngIf="!(auth.user | async) && !showSpinner">
                         <div class="col s12">
                             <app-login></app-login>
                         </div>
                     </div>
-                    <div class="row" *ngIf="!auth.currentUser && !showSpinner">
+                    <div class="row" *ngIf="!(auth.user | async) && !showSpinner">
                         <div class="col s12">
                             <app-email></app-email>
                         </div>

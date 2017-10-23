@@ -11,7 +11,7 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
-import { AlertDialog, DialogService } from "./dialog.service";
+import { AlertDialog, DialogService } from './dialog.service';
 import { PermService } from './perm.service';
 import { PermGuard } from './perm.guard';
 import { UploadService } from './upload.service';
@@ -70,7 +70,8 @@ import { UploadFormComponent } from './upload/upload-form/upload-form.component'
 import { UploadListComponent } from './upload/upload-list/upload-list.component';
 import { UploadDetailComponent } from './upload/upload-detail/upload-detail.component';
 import { ProfileComponent } from './profile/profile.component';
-import { UsernameComponent } from './authentication/username/username.component';
+import { UsernameComponent } from './profile/username/username.component';
+import { AvatarComponent } from './profile/avatar/avatar.component';
 
 @NgModule({
     declarations: [
@@ -94,7 +95,8 @@ import { UsernameComponent } from './authentication/username/username.component'
         UploadDetailComponent,
         ProfileComponent,
         UsernameComponent,
-        AlertDialog
+        AlertDialog,
+        AvatarComponent
     ],
     imports: [
         BrowserModule,
@@ -143,6 +145,7 @@ import { UsernameComponent } from './authentication/username/username.component'
     entryComponents: [
         UsernameComponent,
         AlertDialog,
+        AvatarComponent
     ],
     providers: [
         AuthService,

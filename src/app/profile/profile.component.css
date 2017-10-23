@@ -1,37 +1,7 @@
 .profileHeader {
     margin-top: -10px;
     height: 40vh;
-    background: -webkit-linear-gradient(225deg, #FF8A65, #FF3D00);
-    background: -moz-linear-gradient(225deg, #FF8A65, #FF3D00);
-    background: -o-linear-gradient(225deg, #FF8A65, #FF3D00);
-    background: linear-gradient(225deg, #FF8A65, #FF3D00);
-    background-size: 175% 175%;
-
-    -webkit-animation: gradientBackground 8s ease-in-out infinite;
-    -moz-animation: gradientBackground 8s ease-in-out infinite;
-    -o-animation: gradientBackground 8s ease-in-out infinite;
-    animation: gradientBackground 8s ease-in-out infinite;
-}
-
-@-webkit-keyframes gradientBackground {
-    0%{background-position:100% 0%}
-    50%{background-position:0% 0%}
-    100%{background-position:0% 100%}
-}
-@-moz-keyframes gradientBackground {
-    0%{background-position:100% 0%}
-    50%{background-position:0% 0%}
-    100%{background-position:0% 100%}
-}
-@-o-keyframes gradientBackground {
-    0%{background-position:100% 0%}
-    50%{background-position:0% 0%}
-    100%{background-position:0% 100%}
-}
-@keyframes gradientBackground {
-    0%{background-position:100% 0%}
-    50%{background-position:0% 0%}
-    100%{background-position:100% 0%}
+    background: #FF7043;
 }
 
 .profileAvatar {
@@ -39,12 +9,57 @@
 }
 
 .username {
+    cursor: pointer;
     margin-top: 30px;
     font-size: 23px;
 }
 
 .email {
     font-size: 15px;
-    margin-top: -13px;
+    margin-top: -11px;
     font-weight: 200;
+}
+
+.changeAvatar {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    z-index: 100;
+    width: 156px;
+    height: 156px;
+}
+
+.cn {
+    cursor: pointer;
+    position: relative;
+    display: table;
+    z-index: 200;
+    opacity: 0;
+    width: 156px;
+    height: 156px;
+    vertical-align: middle;
+    text-align: center;
+    margin: -156px 0 0 0;
+}
+
+.cn:hover {
+    opacity:1;
+    background:rgba(0,0,0,0.5) center no-repeat;
+}
+
+div.inner {
+    display: table-cell;
+    vertical-align:middle;
+}
+
+.avatarIcon {
+    color: white;
+}
+
+.usernameIcon {
+    opacity: 0;
+}
+
+.username:hover > .usernameIcon {
+    opacity: 0.7;
 }
