@@ -177,6 +177,7 @@ export class AuthService {
                 userRef.set(data);
             } else {
                 if (user.username !== null) {
+                    this.router.navigate(['/']);
                     this.snack.open('Welcome back ' + user.username, '', { duration: 4000 });
                 } else {
                     this.router.navigate(['/']);

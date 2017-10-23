@@ -49,8 +49,7 @@ import {
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
-    MatTooltipModule,
-    NoConflictStyleCompatibilityMode,
+    MatTooltipModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -98,7 +97,6 @@ import { UsernameComponent } from './authentication/username/username.component'
         AlertDialog
     ],
     imports: [
-        NoConflictStyleCompatibilityMode,
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
