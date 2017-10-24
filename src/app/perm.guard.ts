@@ -16,7 +16,7 @@ export class PermGuard implements CanActivate {
     canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean> | boolean {
-        return this.auth.userBehave
+        return this.auth.user
             .take(1)
             .map(user => _.get(user, 'admin') === true)
             .do(admin => {

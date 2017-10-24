@@ -2,10 +2,22 @@
     min-height: calc(100vh);
 }
 
-.logo {
-    margin: 20vh auto auto auto;
-    max-width: 100%;
-    max-height: calc(35vh);
+
+
+@media only screen and (min-width: 601px) {
+    .logo {
+        margin: 20vh auto auto auto;
+        max-width: 100%;
+        max-height: calc(35vh - 64px);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .logo {
+        margin: 20vh auto auto auto;
+        max-width: 100%;
+        max-height: calc(35vh - 112px);
+    }
 }
 
 .logo path {

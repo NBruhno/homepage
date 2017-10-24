@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
@@ -31,6 +31,8 @@ export class AvatarComponent implements OnInit {
     userTemp: User;
     currentUpload: UpTemp;
     dropzoneActive = false;
+
+    @ViewChild('fileUpload') fileInput: ElementRef;
 
     constructor(
         public dialogRef: MatDialogRef<AvatarComponent>,
@@ -65,6 +67,15 @@ export class AvatarComponent implements OnInit {
         });
     }
 
+    fileEvent(fileList: FileList) {
+        console.log('Something');
+        const filesIndex = _.range(fileList.length);
+        _.each(filesIndex, (idx) => {
+            this.currentUpload = new UpTemp(fileList[idx]);
+            this.pushUpload(this.currentUpload);
+        });
+    }
+
     pushUpload(upTemp: UpTemp) {
         const storageRef = firebase.storage().ref();
         const uploadTask = storageRef.child(`users/${this.userTemp.uid}/avatar`).put(upTemp.file);
@@ -78,7 +89,6 @@ export class AvatarComponent implements OnInit {
                 console.log(error);
             },
             () => {
-                console.log('Avatar has been deleted for replacement');
                 this.userTemp.photoURL = uploadTask.snapshot.downloadURL;
                 this.userDoc.update(this.userTemp).catch(error => console.log(error)).then(() => {
                     this.snack.open('Your avatar has been updated sucessfully', 'OK', { duration: 4000 });
