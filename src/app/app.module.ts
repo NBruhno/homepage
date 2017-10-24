@@ -72,6 +72,7 @@ import { UploadDetailComponent } from './upload/upload-detail/upload-detail.comp
 import { ProfileComponent } from './profile/profile.component';
 import { UsernameComponent } from './profile/username/username.component';
 import { AvatarComponent } from './profile/avatar/avatar.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
     declarations: [
@@ -96,7 +97,8 @@ import { AvatarComponent } from './profile/avatar/avatar.component';
         ProfileComponent,
         UsernameComponent,
         AlertDialog,
-        AvatarComponent
+        AvatarComponent,
+        DashboardComponent
     ],
     imports: [
         BrowserModule,

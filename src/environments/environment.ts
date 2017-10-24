@@ -10,6 +10,7 @@ import {ProfileComponent} from "../app/profile/profile.component";
 import {UploadComponent} from "../app/upload/upload.component";
 import {PermGuard} from "../app/perm.guard";
 import {AuthGuard} from "../app/auth.guard";
+import {DashboardComponent} from "../app/dashboard/dashboard.component";
 
 export const environment = {
     production: false,
@@ -23,6 +24,7 @@ export const environment = {
     },
     routes: [
         { path: '', component: FrontComponent },
+        { path: 'dashboard', component: DashboardComponent, canActivate: [PermGuard] },
         { path: 'login', component: AuthenticationComponent, data: {title: 'Login'} },
         { path: 'gallery', component: NotFoundComponent },
         { path: 'projects', component: NotFoundComponent },

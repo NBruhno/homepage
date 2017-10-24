@@ -10,7 +10,7 @@ export class DialogService {
 
     openDialog(message: string, type: string): void {
         if (type === 'avatar') {
-            let dialogRef = this.dialog.open(AvatarComponent, {
+            const dialogRef = this.dialog.open(AvatarComponent, {
                 data: { message: message }
             });
 
@@ -19,7 +19,7 @@ export class DialogService {
         }
 
         if (type === 'username') {
-            let dialogRef = this.dialog.open(UsernameComponent, {
+            const dialogRef = this.dialog.open(UsernameComponent, {
                 data: { message: message }
             });
 

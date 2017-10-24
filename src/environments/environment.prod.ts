@@ -1,4 +1,3 @@
-import {Routes} from "@angular/router";
 import {FrontComponent} from "../app/front/front.component";
 import {AuthenticationComponent} from "../app/authentication/authentication.component";
 import {NotFoundComponent} from "../app/error/not-found/not-found.component";
@@ -6,6 +5,7 @@ import {ProfileComponent} from "../app/profile/profile.component";
 import {UploadComponent} from "../app/upload/upload.component";
 import {PermGuard} from "../app/perm.guard";
 import {AuthGuard} from "../app/auth.guard";
+import {DashboardComponent} from "../app/dashboard/dashboard.component";
 
 export const environment = {
     production: true,
@@ -19,6 +19,7 @@ export const environment = {
     },
     routes: [
         { path: '', component: FrontComponent },
+        { path: 'dashboard', component: DashboardComponent, canActivate: [PermGuard] },
         { path: 'login', component: AuthenticationComponent, data: {title: 'Login'} },
         { path: 'gallery', component: NotFoundComponent },
         { path: 'projects', component: NotFoundComponent },

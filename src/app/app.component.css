@@ -15,3 +15,15 @@ html {
 footer {
     background: #fdfdfd;
 }
+
+@media only screen and (min-width: 601px) {
+    header {
+        height: 64px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    header {
+        height: 112px;
+    }
+}
