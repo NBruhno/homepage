@@ -2,26 +2,44 @@
     min-height: calc(100vh);
 }
 
-
-
 @media only screen and (min-width: 601px) {
     .logo {
-        margin: 20vh auto auto auto;
+        margin: 15vh auto auto auto;
         max-width: 100%;
-        max-height: calc(35vh - 64px);
+        max-height: calc(35vh);
+    }
+
+    .container {
+        min-height: calc(100vh - 64px);
+    }
+
+    .title {
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        font-weight: 100;
+        font-size: 50px;
     }
 }
 
 @media only screen and (max-width: 600px) {
     .logo {
-        margin: 20vh auto auto auto;
+        margin: 10vh auto auto auto;
         max-width: 100%;
-        max-height: calc(35vh - 112px);
+        max-height: calc(35vh);
+    }
+
+    .title {
+        font-family: Roboto, "Helvetica Neue", sans-serif;
+        font-weight: 100;
+        font-size: 40px;
+    }
+
+    .container {
+        min-height: calc(100vh - 112px);
     }
 }
 
-.logo path {
-    fill: orange;
+.mat-typography {
+    margin-top: -20px;
 }
 
 .header {

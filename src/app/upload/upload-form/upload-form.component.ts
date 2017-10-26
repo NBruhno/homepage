@@ -27,4 +27,12 @@ export class UploadFormComponent {
             this.up.pushUpload(this.currentUpload);
         });
     }
+
+    fileEvent(fileList: FileList) {
+        const filesIndex = _.range(fileList.length);
+        _.each(filesIndex, (idx) => {
+            this.currentUpload = new UpTemp(fileList[idx]);
+            this.up.pushUpload(this.currentUpload);
+        });
+    }
 }

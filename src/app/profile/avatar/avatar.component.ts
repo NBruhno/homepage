@@ -68,7 +68,6 @@ export class AvatarComponent implements OnInit {
     }
 
     fileEvent(fileList: FileList) {
-        console.log('Something');
         const filesIndex = _.range(fileList.length);
         _.each(filesIndex, (idx) => {
             this.currentUpload = new UpTemp(fileList[idx]);

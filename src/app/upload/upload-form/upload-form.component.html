@@ -4,8 +4,10 @@
         <mat-card appFileDrop
                   (filesDropped)="handleDrop($event)"
                   (filesHovered)="dropzoneState($event)"
-                  [ngClass]="{'active': dropzoneActive}">
-            <mat-card-title>Drop your files here to upload</mat-card-title>
+                  [ngClass]="{'active': dropzoneActive}"
+                  (click)="fileUpload.click();">
+            <mat-card-title>Drop your image files or click this box to select the files</mat-card-title>
+            <input type="file" #fileUpload id="fileUpload" accept="image/*" style="display: none;" (change)="fileEvent(fileUpload.files)">
             <mat-card-content>
                 <div class="row">
                     <div class="col s12">
