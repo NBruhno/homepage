@@ -5,7 +5,7 @@
      class="mat-typography"
      (click)="fileUpload.click();">
     <span mat-dialog-title>Drop your image here or click this box to upload your new avatar</span>
-    <input type="file" #fileUpload id="fileUpload" accept="image/*" style="display: none;" (change)="fileEvent($event)">
+    <input type="file" #fileUpload id="fileUpload" accept="image/*" style="display: none;" (change)="fileEvent(fileUpload.files)">
     <mat-dialog-content>
         <div class="row">
             <div class="col s12">

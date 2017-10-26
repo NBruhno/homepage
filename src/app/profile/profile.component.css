@@ -8,6 +8,12 @@
     margin-top: -100px;
 }
 
+.profileAvatar img {
+    width: 156px;
+    height: 156px;
+    object-fit: cover;
+}
+
 .username {
     cursor: pointer;
     margin-top: 30px;

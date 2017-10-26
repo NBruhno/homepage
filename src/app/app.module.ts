@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
-import { MaterializeModule } from 'ng2-materialize';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -106,7 +105,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         FormsModule,
         ReactiveFormsModule,
         HttpModule,
-        MaterializeModule.forRoot(),
         RouterModule.forRoot(environment.routes),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
