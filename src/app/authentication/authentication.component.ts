@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 
@@ -35,9 +34,7 @@ export class AuthenticationComponent implements OnInit {
     }
 
     toggleSpinner() {
-        if (this.showSpinner === false) {
-            this.showSpinner = true;
-        } else { this.showSpinner = false; }
+        this.showSpinner = !this.showSpinner;
     }
 
     ngOnInit() {

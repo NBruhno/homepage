@@ -10,12 +10,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MatSnackBar } from '@angular/material';
 import { DialogService } from './dialog.service';
 
-interface Roles {
-    reader: boolean;
-    author?: boolean;
-    admin?:  boolean;
-}
-
 interface User {
     email: string;
     emailVerified: boolean;
@@ -31,12 +25,11 @@ interface User {
 @Injectable()
 export class AuthService {
 
-    private usersCollection: AngularFirestoreCollection<User>;
     private userDoc: AngularFirestoreDocument<User>;
     users: Observable<User[]>;
     user: Observable<User>;
-    userBehave: BehaviorSubject<User> = new BehaviorSubject(null);
     userState: any = null;
+    userVerified = false;
 
     constructor(private afAuth: AngularFireAuth,
                 private db: AngularFirestore,
@@ -144,6 +137,7 @@ export class AuthService {
 
     signOut(): void {
         this.afAuth.auth.signOut().then(() => {
+            this.userVerified = false;
             this.router.navigate(['/']);
             this.snack.open('You have been signed out', 'OK', { duration: 4000 });
         });
@@ -167,14 +161,16 @@ export class AuthService {
             reader: true
         };
 
-        this.user.subscribe(user => {
-            if (user === null) {
+        this.user.subscribe(userData => {
+            if (userData === null) {
                 userRef.set(data);
             } else {
-                if (user.username !== null) {
+                if (userData.username !== null) {
+                    this.userVerified = true;
                     this.router.navigate(['/']);
-                    this.snack.open('Welcome back ' + user.username, 'Thank you', { duration: 4000 });
+                    this.snack.open('Welcome back ' + userData.username, 'Thank you', { duration: 4000 });
                 } else {
+                    this.userVerified = true;
                     this.router.navigate(['/']);
                     this.dialog.openDialog('Missing username', 'username');
                 }

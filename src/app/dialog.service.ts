@@ -1,7 +1,7 @@
 import { Component, Injectable, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { UsernameComponent } from "./profile/username/username.component";
-import { AvatarComponent } from "./profile/avatar/avatar.component";
+import { UsernameComponent } from './profile/username/username.component';
+import { AvatarComponent } from './profile/avatar/avatar.component';
 
 @Injectable()
 export class DialogService {

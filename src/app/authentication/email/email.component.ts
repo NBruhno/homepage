@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsernameComponent } from '../../profile/username/username.component';
-import { AuthenticationComponent } from "../authentication.component";
-import { DialogService } from "../../dialog.service";
+import { AuthenticationComponent } from '../authentication.component';
 
 @Component({
     selector: 'app-email',
@@ -15,10 +13,26 @@ export class EmailComponent implements OnInit {
     userForm: FormGroup;
     newUser = true;
 
+    formErrors = {
+        'email': '',
+        'password': ''
+    };
+    validationMessages = {
+        'email': {
+            'required':      'Email is required.',
+            'email':         'Email must be valid'
+        },
+        'password': {
+            'required':      'Password is required.',
+            'pattern':       'Password must be include at one letter and one number.',
+            'minlength':     'Password must be at least 4 characters long.',
+            'maxlength':     'Password cannot be more than 40 characters long.',
+        }
+    };
+
     constructor(private fb: FormBuilder,
                 private auth: AuthService,
-                private authSpin: AuthenticationComponent,
-                private dialog: DialogService) { }
+                private authSpin: AuthenticationComponent) { }
 
     ngOnInit(): void {
         this.buildForm();
@@ -30,12 +44,16 @@ export class EmailComponent implements OnInit {
 
     signup(): void {
         this.authSpin.toggleSpinner();
-        this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']).then(() => this.authSpin.toggleSpinner());
+        this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']).then(() => {
+            if (this.auth.userVerified) { this.authSpin.toggleSpinner(); }
+        });
     }
 
     login(): void {
         this.authSpin.toggleSpinner();
-        this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']).then(() => this.authSpin.toggleSpinner());
+        this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']).then(() => {
+            if (this.auth.userVerified) { this.authSpin.toggleSpinner(); }
+        });
     }
 
     resetPassword() {
@@ -72,21 +90,4 @@ export class EmailComponent implements OnInit {
             }
         }
     }
-
-    formErrors = {
-        'email': '',
-        'password': ''
-    };
-    validationMessages = {
-        'email': {
-            'required':      'Email is required.',
-            'email':         'Email must be valid'
-        },
-        'password': {
-            'required':      'Password is required.',
-            'pattern':       'Password must be include at one letter and one number.',
-            'minlength':     'Password must be at least 4 characters long.',
-            'maxlength':     'Password cannot be more than 40 characters long.',
-        }
-    };
 }

@@ -5,7 +5,7 @@
             <app-upload-detail [upload]='upload'></app-upload-detail>
         </div>
         <div class="center">
-            <mat-spinner style="margin:0 auto;" *ngIf="showSpinner"></mat-spinner>
+            <mat-spinner style="margin:0 auto;" *ngIf="!this.uploads"></mat-spinner>
         </div>
     </mat-list>
 </mat-card>
