@@ -79,9 +79,11 @@ export class EmailComponent implements OnInit {
     onValueChanged(data?: any) {
         if (!this.userForm) { return; }
         const form = this.userForm;
+
         for (const field in this.formErrors) {
             this.formErrors[field] = '';
             const control = form.get(field);
+
             if (control && control.dirty && !control.valid) {
                 const messages = this.validationMessages[field];
                 for (const key in control.errors) {
