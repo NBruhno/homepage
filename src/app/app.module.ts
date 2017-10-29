@@ -72,6 +72,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { UsernameComponent } from './profile/username/username.component';
 import { AvatarComponent } from './profile/avatar/avatar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { UsersListComponent } from './dashboard/users-list/users-list.component';
 
 @NgModule({
     declarations: [
@@ -97,7 +98,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
         UsernameComponent,
         AlertDialog,
         AvatarComponent,
-        DashboardComponent
+        DashboardComponent,
+        UsersListComponent
     ],
     imports: [
         BrowserModule,

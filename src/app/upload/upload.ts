@@ -3,7 +3,7 @@ export class UpTemp {
     name: string;
     progress: number;
 
-    constructor(file:File) {
+    constructor(file: File) {
         this.file = file;
     }
 }

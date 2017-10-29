@@ -45,14 +45,14 @@ export class EmailComponent implements OnInit {
     signup(): void {
         this.authSpin.toggleSpinner();
         this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']).then(() => {
-            if (this.auth.userVerified) { this.authSpin.toggleSpinner(); }
+            this.authSpin.toggleSpinner();
         });
     }
 
     login(): void {
         this.authSpin.toggleSpinner();
         this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']).then(() => {
-            if (this.auth.userVerified) { this.authSpin.toggleSpinner(); }
+            this.authSpin.toggleSpinner();
         });
     }
 
