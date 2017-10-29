@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Upload, UploadService } from '../../upload.service';
-import { AuthService } from "../../auth.service";
-import { AngularFirestore } from "angularfire2/firestore";
+import { AuthService } from '../../auth.service';
+import { AngularFirestore } from 'angularfire2/firestore';
 
 @Component({
   selector: 'app-upload-detail',
