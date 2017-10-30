@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { MatSnackBar } from '@angular/material';
 import { DialogService } from './dialog.service';
 
-interface User {
+export interface User {
     email: string;
     emailVerified: boolean;
     photoURL?: string;
@@ -26,6 +26,7 @@ interface User {
 export class AuthService {
 
     private userDoc: AngularFirestoreDocument<User>;
+    private usersCollection: AngularFirestoreCollection<User>;
     users: Observable<User[]>;
     user: Observable<User>;
     userState: any = null;
@@ -38,6 +39,8 @@ export class AuthService {
                 private dialog: DialogService) {
 
         this.user = this.afAuth.authState.switchMap(user => {
+            this.usersCollection = this.db.collection('users');
+            this.users = this.usersCollection.valueChanges();
             this.userState = user;
             if (user) {
                 return this.db.doc<User>(`users/${user.uid}`).valueChanges();

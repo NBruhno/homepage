@@ -12,8 +12,13 @@ html {
     flex: 1;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 footer {
-    background: #fdfdfd;
+    z-index: 1000;
 }
 
 @media only screen and (min-width: 601px) {

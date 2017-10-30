@@ -1,4 +1,17 @@
 a {
-    color: black;
-    text-decoration: none; /* no underline */
+    color: #443019;
+    text-decoration: none;
+}
+
+.footerLogo {
+    max-width: 33px;
+}
+
+p {
+    color: #443019;
+}
+
+h2 {
+    font-weight: 400;
+    color: #443019;
 }

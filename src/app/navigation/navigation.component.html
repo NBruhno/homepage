@@ -1,27 +1,27 @@
-<mat-toolbar color="" class="hide-on-small-only">
-    <a routerLink="/" mat-icon-button><img src="../../assets/images/B%20Light.svg" alt="Logo Header" style="height: 100%;">Bruhno</a>
-    <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-    <a routerLink="/gallery" mat-button matTooltip="This will be avaible soon™">Gallery</a>
-    <a routerLink="/projects" mat-button matTooltip="This will be avaible soon™">Projects</a>
-    <span class="spacer"></span>
-    <a *ngIf="(auth.user | async) && (auth.user | async)?.admin" routerLink="/dashboard" mat-button><mat-icon svgIcon="view-dashboard"></mat-icon>  Dashboard</a>
-    <a *ngIf="(auth.user | async)" routerLink="/profile" mat-button><mat-icon svgIcon="account"></mat-icon>  Profile</a>
-    <a *ngIf="(auth.user | async)" (click)="signOut();" mat-button><mat-icon svgIcon="logout"></mat-icon>  Sign-Out</a>
-    <a *ngIf="!(auth.user | async)" routerLink="/login" mat-button><mat-icon svgIcon="login"></mat-icon>  Login</a>
-    <a routerLink="/upload" mat-button><mat-icon svgIcon="cloud-upload"></mat-icon>  Upload</a>
-</mat-toolbar>
-
-<mat-toolbar color="" class="hide-on-med-and-up">
-    <a routerLink="/" mat-icon-button><img src="../../assets/images/B%20Light.svg" alt="Logo Header" style="height: 100%;">Bruhno</a>
+<mat-toolbar color="primary" class="hide-on-small-only mat-typography">
+    <a routerLink="/" mat-icon-button><img src="../../assets/images/B%20Light.svg" alt="Logo Header" style="height: 100%; margin-top: -5px;"></a>
+    <a routerLink="/gallery" mat-button matTooltip="This will be avaible soon™">GALLERY</a>
+    <a routerLink="/projects" mat-button matTooltip="This will be avaible soon™">PROJECTS</a>
+    <a routerLink="/upload" mat-button>UPLOAD</a>
     <span class="spacer"></span>
     <a *ngIf="(auth.user | async) && (auth.user | async)?.admin" routerLink="/dashboard" mat-icon-button><mat-icon svgIcon="view-dashboard"></mat-icon></a>
-    <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button><mat-icon svgIcon="account"></mat-icon></a>
+    <!--<a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button><mat-icon svgIcon="account"></mat-icon></a>-->
+    <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button><img [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="Profile img" style="height: 60%;" class="circle"></a>
     <a *ngIf="(auth.user | async)" (click)="signOut();" mat-icon-button><mat-icon svgIcon="logout"></mat-icon></a>
     <a *ngIf="!(auth.user | async)" routerLink="/login" mat-icon-button><mat-icon svgIcon="login"></mat-icon></a>
-    <a routerLink="/upload" mat-icon-button><mat-icon svgIcon="cloud-upload"></mat-icon></a>
+</mat-toolbar>
+
+<mat-toolbar color="primary" class="hide-on-med-and-up">
+    <a routerLink="/" mat-icon-button><img src="../../assets/images/B%20Light.svg" alt="Logo Header" style="height: 100%;"></a>
+    <span class="spacer"></span>
+    <a *ngIf="(auth.user | async) && (auth.user | async)?.admin" routerLink="/dashboard" mat-icon-button><mat-icon svgIcon="view-dashboard"></mat-icon></a>
+    <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button><img [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="Profile img" style="height: 60%;" class="circle"></a>
+    <a *ngIf="(auth.user | async)" (click)="signOut();" mat-icon-button><mat-icon svgIcon="logout"></mat-icon></a>
+    <a *ngIf="!(auth.user | async)" routerLink="/login" mat-icon-button><mat-icon svgIcon="login"></mat-icon></a>
 
     <mat-toolbar-row>
         <a routerLink="/gallery" mat-button matTooltip="This will be avaible soon™">Gallery</a>
         <a routerLink="/projects" mat-button matTooltip="This will be avaible soon™">Projects</a>
+        <a routerLink="/upload" mat-button>Upload</a>
     </mat-toolbar-row>
 </mat-toolbar>
