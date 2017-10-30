@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col s12">
                 <button mat-button color="primary" type="submit" [disabled]="!userForm.valid">Sign-In</button>
-                <button mat-button color="secondary" (click)="toggleForm();">New user?</button>
+                <button mat-button (click)="toggleForm();">New user?</button>
             </div>
         </div>
         <div class="row" *ngIf="userForm.value.email.length >= 1">
@@ -47,7 +47,7 @@
         <div class="row">
             <div class="col s12">
                 <button mat-button color="primary" type="submit" [disabled]="!userForm.valid">Sign-Up</button>
-                <button mat-button color="secondary" (click)="toggleForm();">Already registered?</button>
+                <button mat-button (click)="toggleForm();">Already registered?</button>
             </div>
         </div>
     </form>
