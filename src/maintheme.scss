@@ -2,8 +2,11 @@
 
 @include mat-core();
 
+//$main-theme-primary: mat-palette($mat-deep-orange);
+//$main-theme-accent: mat-palette($mat-blue-grey);
+
 $main-theme-primary: mat-palette($mat-deep-orange);
-$main-theme-accent: mat-palette($mat-blue-grey);
+$main-theme-accent: mat-palette($mat-cyan);
 $main-theme-warn: mat-palette($mat-red);
 
 $main-theme: mat-light-theme($main-theme-primary, $main-theme-accent, $main-theme-warn);
