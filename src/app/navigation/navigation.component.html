@@ -12,7 +12,7 @@
 </mat-toolbar>
 
 <mat-toolbar color="primary" class="hide-on-med-and-up">
-    <a routerLink="/" mat-icon-button><img src="../../assets/images/B%20Light.svg" alt="Logo Header" style="height: 100%;">RUHNO</a>
+    <a routerLink="/" mat-icon-button><img src="../../assets/images/B%20Light.svg" alt="Logo Header" style="height: 100%;"></a>
     <span class="spacer"></span>
     <a *ngIf="(auth.user | async) && (auth.user | async)?.admin" routerLink="/dashboard" mat-icon-button><mat-icon svgIcon="view-dashboard"></mat-icon></a>
     <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button><img [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="Profile img" style="height: 60%;" class="circle"></a>

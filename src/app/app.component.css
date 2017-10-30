@@ -12,6 +12,11 @@ html {
     flex: 1;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+}
+
 footer {
     z-index: 1000;
 }
