@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationComponent } from '../authentication.component';
+import { ErrorService } from '../../error.service';
 
 @Component({
     selector: 'app-email',
@@ -10,6 +11,8 @@ import { AuthenticationComponent } from '../authentication.component';
 })
 
 export class EmailComponent implements OnInit {
+    loaded = true;
+    finished = true;
     userForm: FormGroup;
     newUser = true;
 
@@ -30,12 +33,19 @@ export class EmailComponent implements OnInit {
         }
     };
 
-    constructor(private fb: FormBuilder,
-                private auth: AuthService,
-                private authSpin: AuthenticationComponent) { }
+    constructor(private fb: FormBuilder, public auth: AuthService, private error: ErrorService) { }
 
     ngOnInit(): void {
         this.buildForm();
+        this.auth.user.subscribe((user) => {
+            if (user) {
+                if (user.uid !== '') {
+                    this.finished = true;
+                } else {
+                    this.finished = false;
+                }
+            }
+        });
     }
 
     toggleForm() {
@@ -43,16 +53,26 @@ export class EmailComponent implements OnInit {
     }
 
     signup(): void {
-        this.authSpin.toggleSpinner();
+        this.loaded = false;
         this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']).then(() => {
-            this.authSpin.toggleSpinner();
+            this.loaded = true;
+            this.finished = false;
+        }).catch((error) => {
+            this.error.log(error);
+            this.loaded = true;
+            this.finished = true;
         });
     }
 
     login(): void {
-        this.authSpin.toggleSpinner();
+        this.loaded = false;
         this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']).then(() => {
-            this.authSpin.toggleSpinner();
+            this.loaded = true;
+            this.finished = false;
+        }).catch((error) => {
+            this.error.log(error);
+            this.loaded = true;
+            this.finished = true;
         });
     }
 
@@ -67,6 +87,7 @@ export class EmailComponent implements OnInit {
                 Validators.email
             ]],
             'password': ['', [
+                Validators.required,
                 Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
                 Validators.minLength(8),
                 Validators.maxLength(25)

@@ -80,18 +80,18 @@ mat-list p {
 
 @media only screen and (min-width: 993px) {
     .header2 {
-        min-height: 80ch;
+        min-height: 80vh;
     }
 }
 
 @media only screen and (min-width: 600px) and (max-width: 992px) {
     .header2 {
-        min-height: 210ch;
+        min-height: 210vh;
     }
 }
 
 @media only screen and (max-width: 600px) {
     .header2 {
-        min-height: 210ch;
+        min-height: 210vh;
     }
 }

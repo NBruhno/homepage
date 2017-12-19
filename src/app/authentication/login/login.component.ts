@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { AuthenticationComponent } from '../authentication.component';
 import { DialogService } from '../../dialog.service';
+import { ErrorService } from '../../error.service';
 
 @Component({
     selector: 'app-login',
@@ -9,30 +10,69 @@ import { DialogService } from '../../dialog.service';
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+    loaded = true;
+    finished = true;
 
-    constructor(public auth: AuthService, private authSpin: AuthenticationComponent) {}
+    constructor(public auth: AuthService, private error: ErrorService) {}
 
     signInWithGoogle(): void {
-        this.authSpin.toggleSpinner();
-        this.auth.googleLogin().then(() => { if (this.auth.userVerified) { this.authSpin.toggleSpinner(); }});
+        this.loaded = false;
+        this.auth.googleLogin().then(() => {
+            this.loaded = true;
+            this.finished = false;
+        }).catch((error) => {
+            this.error.log(error);
+            this.loaded = true;
+            this.finished = true;
+        });
     }
 
     signInWithFacebook(): void {
-        this.authSpin.toggleSpinner();
-        this.auth.facebookLogin().then(() => { if (this.auth.userVerified) { this.authSpin.toggleSpinner(); }});
+        this.loaded = false;
+        this.auth.facebookLogin().then(() => {
+            this.loaded = true;
+            this.finished = false;
+        }).catch((error) => {
+            this.error.log(error);
+            this.loaded = true;
+            this.finished = true;
+        });
     }
 
     signInWithTwitter(): void {
-        this.authSpin.toggleSpinner();
-        this.auth.twitterLogin().then(() => { if (this.auth.userVerified) { this.authSpin.toggleSpinner(); }});
+        this.loaded = false;
+        this.auth.twitterLogin().then(() => {
+            this.loaded = true;
+            this.finished = false;
+        }).catch((error) => {
+            this.error.log(error);
+            this.loaded = true;
+            this.finished = true;
+        });
     }
 
     signInWithGithub(): void {
-        this.authSpin.toggleSpinner();
-        this.auth.githubLogin().then(() => { if (this.auth.userVerified) { this.authSpin.toggleSpinner(); }});
+        this.loaded = false;
+        this.auth.githubLogin().then(() => {
+            this.loaded = true;
+            this.finished = false;
+        }).catch((error) => {
+            this.error.log(error);
+            this.loaded = true;
+            this.finished = true;
+        });
     }
 
-    ngOnInit() { }
-
+    ngOnInit() {
+        this.auth.user.subscribe((user) => {
+            if (user) {
+                if (user.uid !== '') {
+                    this.finished = true;
+                } else {
+                    this.finished = false;
+                }
+            }
+        });
+    }
 }
 

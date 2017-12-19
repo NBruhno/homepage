@@ -1,0 +1,20 @@
+<form [formGroup]="detailForm" (ngSubmit)="setCompleteProfile(user)" #loginForm="ngForm" *ngIf="(auth.user | async) || {} as user">
+    <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px">
+        <div fxFlex="100%" fxFlex.xs="100%">
+            <h4>Contact and general information</h4>
+        </div>
+    </div>
+    <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px">
+        <mat-form-field fxFlex="50%" fxFlex.xs="100%">
+            <input matInput id="first-name" type="text" formControlName="name" placeholder="Full name" [value]="auth.userState.displayName" required>
+            <mat-error *ngIf="formErrors.name">{{formErrors.name}}</mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex="50%" fxFlex.xs="100%">
+            <input matInput id="last-name" type="text" formControlName="country" placeholder="Country" required>
+            <mat-error *ngIf="formErrors.country">{{formErrors.country}}</mat-error>
+        </mat-form-field>
+    </div>
+    <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px">
+        <button mat-button color="primary" type="submit" [disabled]="!detailForm.valid">Submit</button>
+    </div>
+</form>
