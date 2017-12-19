@@ -21,7 +21,6 @@ import { UploadService } from './upload.service';
 import { SeoService } from './seo.service';
 import { FileDropDirective } from './file-drop.directive';
 import { environment } from '../environments/environment';
-import { Ng2ScrollimateModule } from 'ng2-scrollimate';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -122,7 +121,6 @@ import { DetailsComponent } from './authentication/details/details.component';
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         AngularFirestoreModule.enablePersistence(),
-        Ng2ScrollimateModule,
         MatAutocompleteModule,
         MatButtonModule,
         MatButtonToggleModule,
