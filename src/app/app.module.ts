@@ -120,7 +120,7 @@ import { DetailsComponent } from './authentication/details/details.component';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
-        AngularFirestoreModule.enablePersistence(),
+        AngularFirestoreModule,
         MatAutocompleteModule,
         MatButtonModule,
         MatButtonToggleModule,
