@@ -38,7 +38,7 @@ export class UploadComponent implements OnInit {
     currentUpload: UpTemp;
     dropzoneActive = false;
 
-    constructor(private up: UploadService, public auth: AuthService) {}
+    constructor(public up: UploadService, public auth: AuthService) {}
     dropzoneState($event: boolean) {
         this.dropzoneActive = $event;
     }

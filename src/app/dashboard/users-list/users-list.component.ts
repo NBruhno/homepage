@@ -13,7 +13,7 @@ export class UsersListComponent implements OnInit {
     usersList: Observable<User[]>;
     users: User[];
 
-    constructor(private auth: AuthService, private db: AngularFirestore) {
+    constructor(public auth: AuthService, private db: AngularFirestore) {
         this.auth.users.subscribe(users => {
             console.log(users);
             this.users = users;
