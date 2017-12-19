@@ -1,33 +1,49 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Component, Inject, OnInit} from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../auth.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+interface User {
+    displayName: string;
+    email: string;
+    emailVerified: boolean;
+    photoURL: string;
+    uid: string;
+    username: string;
+    name: string;
+    admin?: boolean;
+    author?: boolean;
+    reader: boolean;
+}
 
 @Component({
-    selector: 'app-details',
-    templateUrl: './details.component.html',
-    styleUrls: ['./details.component.css']
+  selector: 'app-name',
+  templateUrl: './name.component.html',
+  styleUrls: ['./name.component.css']
 })
+export class NameComponent implements OnInit {
+    user: Observable<User>;
 
-export class DetailsComponent implements OnInit {
+    constructor(
+        public dialogRef: MatDialogRef<NameComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        public auth: AuthService,
+        private fb: FormBuilder) {
+    }
+
     detailForm: FormGroup;
 
     formErrors = {
         'name': '',
-        'country': '',
     };
 
     validationMessages = {
         'name': {
             'required': 'Your full name is required.',
             'pattern': 'Your name can only exist of letters.',
-        },
-        'country': {
-            'required': 'Last country is required.',
-            'pattern': 'Your country can only exist of letters.',
-        },
+        }
     };
-
-    constructor(private fb: FormBuilder, public auth: AuthService) { }
 
     ngOnInit() {
         this.buildForm();
@@ -38,11 +54,7 @@ export class DetailsComponent implements OnInit {
             'name': ['', [
                 Validators.required,
                 Validators.pattern('^[a-zA-Z æøåÆØÅ]*$'),
-            ]],
-            'country': ['', [
-                Validators.required,
-                Validators.pattern('^[a-zA-Z æøåÆØÅ]*$'),
-            ]],
+            ]]
         });
         this.detailForm.valueChanges.subscribe(data => this.onValueChanged(data));
         this.onValueChanged();
@@ -65,11 +77,9 @@ export class DetailsComponent implements OnInit {
         }
     }
 
-    setCompleteProfile(user) {
-        return this.auth.updateCompleteProfile(user, {
-            name: this.detailForm.get('name').value,
-            country: this.detailForm.get('country').value,
-            completeProfile: true
-        });
+    updateName(user) {
+        return this.auth.updateName(user, {
+            name: this.detailForm.get('name').value
+        }).then(() => this.dialogRef.close());
     }
 }

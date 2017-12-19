@@ -98,6 +98,7 @@ export class AboutComponent implements OnInit {
     indesignYears = this.convertMillisecondsToYears(this.time - new Date('2014-09-01T12:00:00.0').valueOf());
     illustratorYears = this.convertMillisecondsToYears(this.time - new Date('2013-09-01T12:00:00.0').valueOf());
     intellijYears = this.convertMillisecondsToYears(this.time - new Date('2016-09-01T12:00:00.0').valueOf());
+    githubYears = this.convertMillisecondsToYears(this.time - new Date('2014-09-01T12:00:00.0').valueOf());
     cYears = this.convertMillisecondsToYears(this.time - new Date('2014-09-01T12:00:00.0').valueOf());
     jsYears = this.convertMillisecondsToYears(this.time - new Date('2012-09-01T12:00:00.0').valueOf());
     tsYears = this.convertMillisecondsToYears(this.time - new Date('2016-09-01T12:00:00.0').valueOf());

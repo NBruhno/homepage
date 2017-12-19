@@ -74,7 +74,7 @@ import { UploadFormComponent } from './upload/upload-form/upload-form.component'
 import { UploadListComponent } from './upload/upload-list/upload-list.component';
 import { UploadDetailComponent } from './upload/upload-detail/upload-detail.component';
 import { ProfileComponent } from './profile/profile.component';
-import { UsernameComponent } from './profile/username/username.component';
+import { NameComponent } from './profile/name/name.component';
 import { AvatarComponent } from './profile/avatar/avatar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UsersListComponent } from './dashboard/users-list/users-list.component';
@@ -101,7 +101,7 @@ import { DetailsComponent } from './authentication/details/details.component';
         UploadListComponent,
         UploadDetailComponent,
         ProfileComponent,
-        UsernameComponent,
+        NameComponent,
         AlertDialog,
         AvatarComponent,
         DashboardComponent,
@@ -155,7 +155,7 @@ import { DetailsComponent } from './authentication/details/details.component';
         MatTooltipModule,
     ],
     entryComponents: [
-        UsernameComponent,
+        NameComponent,
         AlertDialog,
         AvatarComponent
     ],

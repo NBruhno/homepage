@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { UpTemp } from '../upload';
 import { UploadService} from '../../upload.service';
-import { AuthService } from "../../auth.service";
+import { AuthService } from '../../auth.service';
 import * as _ from 'lodash';
 
 @Component({

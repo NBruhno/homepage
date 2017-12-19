@@ -2,6 +2,7 @@
 <div fxShow="false" fxShow.gt-xs><br></div>
 <div fxLayout="row" fxLayoutAlign="center">
     <div fxFlex="35%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="60%" fxFlex.xs="100%">
+        <div fxShow fxHide.xs="false" fxHide="true"><br><br><br></div>
         <mat-card class="mat-typography" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;">
             <div *ngIf="!(auth.user | async)">
                 <h3>You can sign in with either of these options</h3>
@@ -15,7 +16,7 @@
 
             <div *ngIf="auth.user | async as user">
                 <div *ngIf="!user.completeProfile">
-                    <h3>We need some more information to complete your profile</h3>
+                    <h3>I need some more information to complete your profile</h3>
                     <app-details></app-details>
                 </div>
 

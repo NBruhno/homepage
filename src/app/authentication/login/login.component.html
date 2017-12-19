@@ -1,3 +1,12 @@
+<div fxLayout="row" fxLayoutAlign="center center" class="securityInfo">
+    <div fxFlex="2%"></div>
+    <mat-icon fxFlex="8%" style="margin-top: -12px" svgIcon="lock"></mat-icon>
+    <p fxFlex="90%" style="font-size: 12px;">Your information is handled securely and privately by Googles Firebase, I do not have access to your password. If you want to read more about what Firebase is, <a href="https://firebase.google.com/">click here</a>.</p>
+</div>
+
+<div class="spacerLogin" fxShow="false" fxShow.gt-xs></div>
+<div style="height: 5px;" fxShow="false" fxShow.xs></div>
+
 <div *ngIf="!loaded">
     <p style="text-align: center">Please follow the instructions in the pop-up to login</p>
     <mat-spinner style="margin:0 auto;"></mat-spinner>
@@ -18,7 +27,7 @@
         </div>
     </div>
 
-    <div class="spacer" fxShow="false" fxShow.gt-xs></div>
+    <div class="spacerLogin" fxShow="false" fxShow.gt-xs></div>
     <div style="height: 5px;" fxShow="false" fxShow.xs></div>
 
     <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="5px">

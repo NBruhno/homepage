@@ -1,4 +1,4 @@
-<div class="row profileHeader">
+<div class="profileHeader">
 </div>
 
 <div *ngIf="auth.user | async; then authenticated else guest"></div>
@@ -9,8 +9,8 @@
 
 <ng-template #authenticated>
     <div *ngIf="auth.user | async as user" class="container mat-typography">
-        <div class="row profileAvatar">
-            <div class="col s5 m4 l2">
+        <div fxLayout fxLayoutAlign="center start" fxLayoutGap="20px" fxLayoutGap.xs="6px" class="profileAvatar">
+            <div fxFlex="none">
                 <a class="changeAvatar">
                     <img class="circle responsive-img" [src]="user.photoURL || '../../assets/images/ProfileTemp.png'" width=156px>
                 </a>
@@ -20,11 +20,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col s7 m8 l10">
-                <a>
-                    <p class="username white-text changeUsername" (click)="changeUsername()">{{ user.name || 'No name' }}<mat-icon svgIcon="pencil" class="usernameIcon"></mat-icon></p>
-
-                </a>
+            <div fxFlex="50%" fxFlex.xs="65%">
+                <a><p class="username white-text changeUsername" (click)="changeUsername()">{{ user.name || 'No name' }}<mat-icon svgIcon="pencil" class="usernameIcon"></mat-icon></p></a>
                 <p class="white-text email">{{ user.email || 'No email'}}</p>
             </div>
         </div>

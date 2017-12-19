@@ -138,4 +138,10 @@ export class AuthService {
             this.snack.open('Welcome ' + data.name, 'Thank you', { duration: 4000 });
         });
     }
+
+    updateName(user: User, data: any) {
+        return this.db.doc(`users/${user.uid}`).update(data).catch(error => this.error.log(error)).then(() => {
+            this.snack.open('Your name has been changed to  ' + data.name, 'Thank you', { duration: 4000 });
+        });
+    }
 }
