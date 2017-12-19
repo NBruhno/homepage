@@ -1,9 +1,10 @@
 <form [formGroup]="detailForm" (ngSubmit)="setCompleteProfile(user)" #loginForm="ngForm" *ngIf="(auth.user | async) || {} as user">
     <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px">
         <div fxFlex="100%" fxFlex.xs="100%">
-            <h4>Contact and general information</h4>
+            <p style="text-align: justify">I only use this information to have a general idea of who my users are and so I can display your name and country where applicable. If you did not sign-up using your email, your name should be transfered to the form below. But I would like to inform you that your name, email and your profile image is the only extra information I get from these platforms.</p>
         </div>
     </div>
+    <br>
     <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px">
         <mat-form-field fxFlex="50%" fxFlex.xs="100%">
             <input matInput id="first-name" type="text" formControlName="name" placeholder="Full name" [value]="auth.userState.displayName" required>
@@ -14,6 +15,7 @@
             <mat-error *ngIf="formErrors.country">{{formErrors.country}}</mat-error>
         </mat-form-field>
     </div>
+    <div fxShow fxHide.xs="true" fxHide="false"><br><br></div>
     <div fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px">
         <button mat-button color="primary" type="submit" [disabled]="!detailForm.valid">Submit</button>
     </div>

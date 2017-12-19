@@ -1,12 +1,24 @@
-<div class="container">
-    <div class="row" [@loadState]="loaded1">
-        <div class="col s12 m8 l6 offset-m2 offset-l3">
-            <app-upload-form></app-upload-form>
-        </div>
-    </div>
-    <div class="row" [@loadState]="loaded2">
-        <div class="col s12 m8 l6 offset-m2 offset-l3">
-            <app-upload-list></app-upload-list>
-        </div>
+<div fxShow="false" fxShow.gt-xs><br></div>
+<div fxLayout="row" fxLayoutAlign="center" class="mat-typography">
+    <div fxFlex="50%" fxFlex.xs="100%" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;" class="testSelectionCard mat-elevation-z1" [@loadState]="loaded1">
+        <mat-list class="testSelection">
+            <a class="center" *ngIf="(auth.user | async) && (auth.user | async)?.admin === true" appFileDrop
+               (filesDropped)="handleDrop($event)" (filesHovered)="dropzoneState($event)"
+               [ngClass]="{'active': dropzoneActive}" (click)="fileUpload.click();">
+                <mat-list-item class="testSelectionItem uploadZone">
+                    <h4 mat-line>Drop your files or click this box to select the files to upload them</h4>
+                    <input type="file" #fileUpload id="fileUpload" style="display: none;" (change)="fileEvent(fileUpload.files)" multiple>
+                    <mat-icon mat-list-icon svgIcon="upload"></mat-icon>
+                </mat-list-item>
+                <div *ngIf="currentUpload">
+                    <mat-progress-bar *ngIf="currentUpload?.progress !== 100" [value]="currentUpload?.progress"></mat-progress-bar>
+                </div>
+            </a>
+            <div *ngIf="!ready">
+                <mat-spinner style="margin:0 auto;"></mat-spinner>
+                <br>
+            </div>
+            <div *ngFor="let upload of up.uploads | async"><app-upload-detail [upload]="upload"></app-upload-detail></div>
+        </mat-list>
     </div>
 </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Upload, UploadService } from '../../upload.service';
 import { Observable } from 'rxjs/Observable';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import 'rxjs/add/observable/of';
 
 @Component({
@@ -11,6 +11,7 @@ import 'rxjs/add/observable/of';
 })
 
 export class UploadListComponent implements OnInit {
+    uploadColletion: AngularFirestoreCollection<Upload>;
     uploadList: Observable<Upload[]>;
     uploads: Upload[];
 
@@ -19,7 +20,9 @@ export class UploadListComponent implements OnInit {
             this.uploads = uploads;
         });
 
-        this.uploadList = this.db.collection('uploads', ref => ref.orderBy('name')).valueChanges();
+        this.uploadColletion = this.db.collection('uploads', ref => ref.orderBy('name'));
+
+        this.uploadList = this.uploadColletion.valueChanges();
     }
 
     ngOnInit() {

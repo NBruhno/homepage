@@ -29,6 +29,8 @@
             <button mat-button (click)="toggleForm();">New user?</button>
         </div>
 
+        <br>
+
         <div *ngIf="userForm.value.email.length >= 1" fxFlex="100%">
             <a class="mat-caption" (click)="resetPassword()">Send password reset for {{userForm.value.email}}?</a>
         </div>

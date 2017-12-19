@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { DialogService } from "../dialog.service";
+import { DialogService } from '../dialog.service';
 
 @Component({
     selector: 'app-profile',

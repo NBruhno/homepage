@@ -1,5 +1,5 @@
 <div fxLayout fxLayout.xs="column" fxLayoutAlign="center center">
-    <div fxFlex="30%" fxFlex.xs="100%" fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex="30%" fxFlex.sm="44%" fxFlex.xs="100%" fxLayout="row" fxLayoutAlign="center center">
         <div fxFlex="100%" fxFlex.xs="90%">
             <h2 [@elementState]="scrollimateOptions.section1.currentState" [scrollimate]="scrollimateOptions.section1" class="primary-text-500">WHO AM I?</h2>
             <p style="text-align: justify;" [@elementState]="scrollimateOptions.section2.currentState" [scrollimate]="scrollimateOptions.section2">My name is <span class="secondary-text-a700">Nicolai Bruhn Lauritsen</span> or more commonly known as <span class="secondary-text-a700">Bruhno</span> and I am a 22
@@ -12,9 +12,9 @@
             </p>
         </div>
     </div>
-    <div fxFlex="10%" fxFlex.xs="100%"></div>
+    <div fxFlex="10%" fxFlex.sm="2%" fxFlex.xs="100%"></div>
     <div fxShow fxHide.xs="false" fxHide="true"><br></div>
-    <div fxFlex="30%" fxFlex.xs="75%">
+    <div fxFlex="30%" fxFlex.sm="44%" fxFlex.xs="75%">
         <h2 class="center-align primary-text-500" [@elementState]="scrollimateOptions.section3.currentState" [scrollimate]="scrollimateOptions.section3">WHAT IS MEDIALOGY?</h2>
         <div class="center" [@elementState]="scrollimateOptions.section4.currentState" [scrollimate]="scrollimateOptions.section4">
             <a mat-button color="accent" href="https://goo.gl/mvAoSK">Learn more</a>
@@ -26,14 +26,14 @@
 <br>
 
 <div fxLayout fxLayout.xs="column" fxLayoutAlign="center center">
-    <div fxFlex="30%" fxShow fxHide.xs="true" fxHide="false">
+    <div fxFlex="30%" fxFlex.sm="44%" fxShow fxHide.xs="true" fxHide="false">
         <h2 class="center-align primary-text-500" [@elementState]="scrollimateOptions.section5.currentState" [scrollimate]="scrollimateOptions.section5">WHAT HAVE I MADE?</h2>
         <div class="center" [@elementState]="scrollimateOptions.section6.currentState" [scrollimate]="scrollimateOptions.section6">
             <a mat-button color="accent" matTooltip="This will be avaible soon™" href="#">Have a look</a>
         </div>
     </div>
-    <div fxFlex="10%" fxShow fxHide.xs="true" fxHide="false"></div>
-    <div fxFlex="30%" fxFlex.xs="100%" fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex="10%" fxFlex.sm="2%" fxShow fxHide.xs="true" fxHide="false"></div>
+    <div fxFlex="30%" fxFlex.sm="44%" fxFlex.xs="100%" fxLayout="row" fxLayoutAlign="center center">
         <div fxFlex="100%" fxFlex.xs="90%">
             <h2 [@elementState]="scrollimateOptions.section7.currentState" [scrollimate]="scrollimateOptions.section7" class="primary-text-500">WHAT DO I DO?</h2>
             <p style="text-align: justify;" [@elementState]="scrollimateOptions.section8.currentState" [scrollimate]="scrollimateOptions.section8">
@@ -64,125 +64,124 @@
 <br>
 <br>
 <div class="header"></div>
-<div class="header2"></div>
-<div fxShow fxHide.xs="false" fxHide="true"><br></div>
-<div fxShow fxHide.xs="false" fxHide="true"><br></div>
-<div fxLayout="row" fxLayoutAlign="center ">
-    <div fxFlex="70%">
-        <h2 [@elementState]="scrollimateOptions.section9.currentState" [scrollimate]="scrollimateOptions.section9" class="white-text">WHAT IS MY EXPERIENCE?</h2>
-        <p style="text-align: justify;" [@elementState]="scrollimateOptions.section10.currentState" [scrollimate]="scrollimateOptions.section10" class="white-text">Which tools am I currently familiar working with, which platforms can I develop in, and what languages can I code in?</p>
+<div class="header2">
+    <div fxLayout="row" fxLayoutAlign="center ">
+        <div fxFlex="70%" fxFlex.sm="90%" fxFlex.xs="100%">
+            <h2 [@elementState]="scrollimateOptions.section9.currentState" [scrollimate]="scrollimateOptions.section9" class="white-text">WHAT IS MY EXPERIENCE?</h2>
+            <p style="text-align: justify;" [@elementState]="scrollimateOptions.section10.currentState" [scrollimate]="scrollimateOptions.section10" class="white-text">Which tools am I currently familiar working with, which platforms can I develop in, and what languages can I code in?</p>
+        </div>
     </div>
+    <div fxLayout fxLayout.xs="column" fxLayoutAlign="center center">
+        <div fxFlex="20%" fxFlex.sm="33%" fxFlex.xs="100%" [@elementState]="scrollimateOptions.section11.currentState" [scrollimate]="scrollimateOptions.section11">
+            <mat-list>
+                <h5 mat-subheader>Content Creation</h5>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/PhotoshopAvatar.png" alt="">
+                    <h4 mat-line>Adobe Photoshop</h4>
+                    <p mat-line>About {{photoshopYears}} years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/InDesignAvatar.png" alt="">
+                    <h4 mat-line>Adobe InDesign</h4>
+                    <p mat-line>About {{indesignYears}} years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/IllustratorAvatar.png" alt="">
+                    <h4 mat-line>Adobe Illustrator</h4>
+                    <p mat-line>About {{illustratorYears}} years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/PremiereAvatar.png" alt="">
+                    <h4 mat-line>Adobe Premiere</h4>
+                    <p mat-line>About 2 years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/SonyVegasProAvatar.png" alt="">
+                    <h4 mat-line>Sony Vegas Pro</h4>
+                    <p mat-line>About 5 years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/3DsMaxAvatar.png" alt="">
+                    <h4 mat-line>3Ds Max</h4>
+                    <p mat-line>About 3 years of experience</p>
+                </mat-list-item>
+            </mat-list>
+            <div fxShow fxHide.xs="false" fxHide="true"><mat-divider></mat-divider></div>
+        </div>
+        <div fxFlex="3.33%" fxFlex.sm="0%" fxFlex.xs="0%"></div>
+        <div fxFlex="20%" fxFlex.sm="33%" fxFlex.xs="100%" [@elementState]="scrollimateOptions.section12.currentState" [scrollimate]="scrollimateOptions.section12">
+            <mat-list>
+                <h5 mat-subheader>Development</h5>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/IntelliJAvatar.png" alt="">
+                    <h4 mat-line>IntelliJ</h4>
+                    <p mat-line>About {{intellijYears}} year of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/DreamweaverAvatar.png" alt="">
+                    <h4 mat-line>Adobe Dreamweaver</h4>
+                    <p mat-line>About 5 years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/UnityAvatar.png" alt="">
+                    <h4 mat-line>Unity</h4>
+                    <p mat-line>About 2 years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/VisualStudioAvatar.png" alt="">
+                    <h4 mat-line>Visual Studio</h4>
+                    <p mat-line>About 3 years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/GitHubAvatar.png" alt="">
+                    <h4 mat-line>GitHub</h4>
+                    <p mat-line>About {{githubYears}} year of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/AndroidStudioAvatar.png" alt="">
+                    <h4 mat-line>Android Studio</h4>
+                    <p mat-line>About 2 years of experience</p>
+                </mat-list-item>
+            </mat-list>
+            <div fxShow fxHide.xs="false" fxHide="true"><mat-divider></mat-divider></div>
+        </div>
+        <div fxFlex="3.33%" fxFlex.sm="0%" fxFlex.xs="0%"></div>
+        <div fxFlex="20%" fxFlex.sm="33%" fxFlex.xs="100%" [@elementState]="scrollimateOptions.section13.currentState" [scrollimate]="scrollimateOptions.section13">
+            <mat-list>
+                <h5 mat-subheader>Languages and Frameworks</h5>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/CAvatar.png" alt="">
+                    <h4 mat-line>C, C# or C++</h4>
+                    <p mat-line>About {{cYears}} years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/JavaAvatar.png" alt="">
+                    <h4 mat-line>Java</h4>
+                    <p mat-line>About 3 years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/JavaScriptAvatar.png" alt="">
+                    <h4 mat-line>JavaScript</h4>
+                    <p mat-line>About {{jsYears}} years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/TypeScriptAvatar.png" alt="">
+                    <h4 mat-line>TypeScript</h4>
+                    <p mat-line>About {{tsYears}} year of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/HTMLandCSSAvatar.png" alt="">
+                    <h4 mat-line>HTML and CSS</h4>
+                    <p mat-line>About {{htmlYears}} years of experience</p>
+                </mat-list-item>
+                <mat-list-item>
+                    <img mat-list-avatar src="../../../assets/images/AngularAvatar.png" alt="">
+                    <h4 mat-line>Angular</h4>
+                    <p mat-line>About {{angularYears}} year of experience</p>
+                </mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+    <br>
+    <br>
 </div>
-<div fxLayout fxLayout.xs="column" fxLayoutAlign="center center">
-    <div fxFlex="20%" fxFlex.xs="100%" [@elementState]="scrollimateOptions.section11.currentState" [scrollimate]="scrollimateOptions.section11">
-        <mat-list>
-            <h5 mat-subheader>Content Creation</h5>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/PhotoshopAvatar.png" alt="">
-                <h4 mat-line>Adobe Photoshop</h4>
-                <p mat-line>About {{photoshopYears}} years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/InDesignAvatar.png" alt="">
-                <h4 mat-line>Adobe InDesign</h4>
-                <p mat-line>About {{indesignYears}} years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/IllustratorAvatar.png" alt="">
-                <h4 mat-line>Adobe Illustrator</h4>
-                <p mat-line>About {{illustratorYears}} years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/PremiereAvatar.png" alt="">
-                <h4 mat-line>Adobe Premiere</h4>
-                <p mat-line>About 2 years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/SonyVegasProAvatar.png" alt="">
-                <h4 mat-line>Sony Vegas Pro</h4>
-                <p mat-line>About 5 years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/3DsMaxAvatar.png" alt="">
-                <h4 mat-line>3Ds Max</h4>
-                <p mat-line>About 3 years of experience</p>
-            </mat-list-item>
-        </mat-list>
-        <mat-divider class="hide-on-large-only"></mat-divider>
-    </div>
-    <div fxFlex="3.33%"></div>
-    <div fxFlex="20%" fxFlex.xs="100%" [@elementState]="scrollimateOptions.section12.currentState" [scrollimate]="scrollimateOptions.section12">
-        <mat-list>
-            <h5 mat-subheader>Development</h5>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/IntelliJAvatar.png" alt="">
-                <h4 mat-line>IntelliJ</h4>
-                <p mat-line>About {{intellijYears}} year of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/DreamweaverAvatar.png" alt="">
-                <h4 mat-line>Adobe Dreamweaver</h4>
-                <p mat-line>About 5 years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/UnityAvatar.png" alt="">
-                <h4 mat-line>Unity</h4>
-                <p mat-line>About 2 years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/VisualStudioAvatar.png" alt="">
-                <h4 mat-line>Visual Studio</h4>
-                <p mat-line>About 3 years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/UnrealEngineAvatar.png" alt="">
-                <h4 mat-line>Unreal Engine</h4>
-                <p mat-line>About 1 year of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/AndroidStudioAvatar.png" alt="">
-                <h4 mat-line>Android Studio</h4>
-                <p mat-line>About 2 years of experience</p>
-            </mat-list-item>
-        </mat-list>
-        <mat-divider class="hide-on-large-only"></mat-divider>
-    </div>
-    <div fxFlex="3.33%"></div>
-    <div fxFlex="20%" fxFlex.xs="100%" [@elementState]="scrollimateOptions.section13.currentState" [scrollimate]="scrollimateOptions.section13">
-        <mat-list>
-            <h5 mat-subheader>Languages and Frameworks</h5>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/CAvatar.png" alt="">
-                <h4 mat-line>C, C# or C++</h4>
-                <p mat-line>About {{cYears}} years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/JavaAvatar.png" alt="">
-                <h4 mat-line>Java</h4>
-                <p mat-line>About 3 years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/JavaScriptAvatar.png" alt="">
-                <h4 mat-line>JavaScript</h4>
-                <p mat-line>About {{jsYears}} years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/TypeScriptAvatar.png" alt="">
-                <h4 mat-line>TypeScript</h4>
-                <p mat-line>About {{tsYears}} year of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/HTMLandCSSAvatar.png" alt="">
-                <h4 mat-line>HTML and CSS</h4>
-                <p mat-line>About {{htmlYears}} years of experience</p>
-            </mat-list-item>
-            <mat-list-item>
-                <img mat-list-avatar src="../../../assets/images/AngularAvatar.png" alt="">
-                <h4 mat-line>Angular</h4>
-                <p mat-line>About {{angularYears}} year of experience</p>
-            </mat-list-item>
-        </mat-list>
-    </div>
-</div>
-<br>
-<br>
