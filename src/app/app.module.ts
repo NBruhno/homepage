@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -11,9 +12,13 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { AlertDialog, DialogService } from './dialog.service';
+import { AppRoutingModule } from './app-routing.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { ErrorService } from './error.service';
 import { PermService } from './perm.service';
 import { PermGuard } from './perm.guard';
 import { UploadService } from './upload.service';
+import { SeoService } from './seo.service';
 import { FileDropDirective } from './file-drop.directive';
 import { environment } from '../environments/environment';
 import { Ng2ScrollimateModule } from 'ng2-scrollimate';
@@ -73,6 +78,7 @@ import { UsernameComponent } from './profile/username/username.component';
 import { AvatarComponent } from './profile/avatar/avatar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UsersListComponent } from './dashboard/users-list/users-list.component';
+import { DetailsComponent } from './authentication/details/details.component';
 
 @NgModule({
     declarations: [
@@ -99,14 +105,18 @@ import { UsersListComponent } from './dashboard/users-list/users-list.component'
         AlertDialog,
         AvatarComponent,
         DashboardComponent,
-        UsersListComponent
+        UsersListComponent,
+        DetailsComponent
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        AppRoutingModule,
+        FlexLayoutModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
         FormsModule,
         ReactiveFormsModule,
-        HttpModule,
+        HttpClientModule,
         RouterModule.forRoot(environment.routes),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
@@ -157,7 +167,9 @@ import { UsersListComponent } from './dashboard/users-list/users-list.component'
         MatIconRegistry,
         UploadService,
         PermService,
-        PermGuard
+        PermGuard,
+        SeoService,
+        ErrorService
     ],
     bootstrap: [
         AppComponent

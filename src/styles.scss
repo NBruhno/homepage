@@ -3,7 +3,7 @@
 html, body {
     margin: 0;
     padding: 0;
-    background: #FAFAFA;
+    background: #f1f1f1;
 }
 
 .circle {
@@ -1175,4 +1175,17 @@ html, body {
     .center-on-small-only {
         text-align: center;
     }
+}
+
+button.mat-menu-item {
+    line-height: 24px !important;
+}
+
+a.mat-menu-item > mat-icon {
+    margin-bottom: 16px;
+}
+
+.mat-icon svg {
+    height: 24px;
+    width: 24px;
 }

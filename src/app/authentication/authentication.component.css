@@ -1,7 +1,3 @@
-img {
-    width: 30px;
-}
-
 .header {
     background-color: #FF5722;
     color: #fff;
@@ -21,7 +17,7 @@ img {
     position: absolute;
     width: 100%;
     min-height: 380px;
-    height: 80vh;
+    height: 40vh;
     max-height: 540px;
     box-sizing: border-box;
     padding: 48px 48px 32px 48px;

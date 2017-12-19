@@ -15,7 +15,7 @@ export class UploadListComponent implements OnInit {
     uploads: Upload[];
 
     constructor(public up: UploadService, private db: AngularFirestore) {
-        this.up.uploads.subscribe(uploads => {
+        this.up.uploads.subscribe((uploads: Upload[]) => {
             this.uploads = uploads;
         });
 
