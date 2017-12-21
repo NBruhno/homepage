@@ -1,10 +1,10 @@
 <a href="{{upload.url}}" download>
     <mat-list-item class="testSelectionItem">
+        <mat-icon *ngIf="upload.filetype !== 'png'" mat-list-icon svgIcon="file"></mat-icon>
         <mat-icon *ngIf="upload.filetype === 'png'" mat-list-icon svgIcon="image"></mat-icon>
         <h4 mat-line>{{upload.name}}</h4>
-        <div mat-line>
-            <a *ngIf="(auth.user | async)?.admin === true" style="cursor: pointer" (click)='deleteUpload(upload)'><mat-icon svgIcon="delete"></mat-icon></a>
-        </div>
-        <mat-basic-chip>{{upload.createdAt}}</mat-basic-chip>
+        <p mat-line>{{(uploader | async)?.name}} | {{upload.size | bytes}}</p>
+        <mat-basic-chip>{{upload.createdAt | date: "dd/MM/y"}}  </mat-basic-chip>
+        <a *ngIf="(auth.user | async)?.admin === true" style="cursor: pointer" (click)='deleteUpload(upload)'><mat-icon svgIcon="delete"></mat-icon></a>
     </mat-list-item>
 </a>

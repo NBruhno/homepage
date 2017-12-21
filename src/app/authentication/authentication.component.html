@@ -1,5 +1,5 @@
-<div class="header"></div>
 <div fxShow="false" fxShow.gt-xs><br></div>
+<div fxShow="false" fxShow.xs style="margin-top: -80px;"><br></div>
 <div fxLayout="row" fxLayoutAlign="center">
     <div fxFlex="35%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="60%" fxFlex.xs="100%">
         <div fxShow fxHide.xs="false" fxHide="true"><br><br><br></div>
@@ -20,7 +20,16 @@
                     <app-details></app-details>
                 </div>
 
-                <div *ngIf="user.completeProfile" fxLayout="column" fxLayoutAlign="center">
+                <div *ngIf="user.completeProfile && !user.emailVerified" fxLayout="column" fxLayoutAlign="center center">
+                    <h3 fxFlex="100%" class="center">Your email is not verified yet, please select one of the options below</h3>
+                    <p style="text-align: just">An email with a verification link should already have been sent, but if not or you just can't find it, feel free to request for a new one</p>
+                    <button fxFlex="100%" mat-button color="accent" (click)="auth.sendVerifyEmail()">Resend activation link</button>
+                    <br>
+                    <p style="text-align: justify">Once you have clicked the link in the email and it says "Your email has been verified", please confirm the process by pressing the button below</p>
+                    <button fxFlex="100%" mat-button color="primary" (click)="auth.verifyEmail(user)">Confirm my email is verified</button>
+                </div>
+
+                <div *ngIf="user.completeProfile && user.emailVerified" fxLayout="column" fxLayoutAlign="center">
                     <h3 fxFlex="100%" class="center">You are already logged in</h3>
                     <button fxFlex="100%" mat-button color="primary" routerLink="/">Return to the front page</button>
                 </div>

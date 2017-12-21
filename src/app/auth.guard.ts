@@ -15,10 +15,13 @@ export class AuthGuard implements CanActivate {
         state: RouterStateSnapshot): Observable<boolean> | boolean {
         return this.auth.user
             .take(1)
-            .map(user => !!(user && user.completeProfile) )
+            .map(user => !!(user && user.completeProfile && user.emailVerified) )
             .do(loggedIn => {
                 if (!loggedIn) {
-                    this.snack.open('You must be logged in and your profile updated to access this page', '', { duration: 4000 });
+                    this.snack.open(
+                        'You must be logged in and your profile updated and verified to access this page',
+                        '',
+                        { duration: 4000 });
                     this.router.navigate(['/login']);
                 }
             });

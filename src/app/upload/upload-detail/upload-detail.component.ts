@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Upload, UploadService } from '../../upload.service';
-import { AuthService } from '../../auth.service';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AuthService, User } from '../../auth.service';
+import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-upload-detail',
@@ -12,14 +13,16 @@ import { AngularFirestore } from 'angularfire2/firestore';
 export class UploadDetailComponent implements OnInit {
 
     @Input() upload: Upload;
+    private uploaderDoc: AngularFirestoreDocument<User>;
+    uploader: Observable<User>;
 
-
-    constructor(public up: UploadService, public db: AngularFirestore, public auth: AuthService) { }
-
-    ngOnInit() {
-
+    constructor(public up: UploadService, public db: AngularFirestore, public auth: AuthService) {
     }
 
+    ngOnInit() {
+        this.uploaderDoc = this.db.doc(`users/${this.upload.uploaderUID}`);
+        this.uploader = this.uploaderDoc.valueChanges();
+    }
 
     deleteUpload(upload) {
         this.up.deleteUpload(upload);
