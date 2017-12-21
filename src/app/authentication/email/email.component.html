@@ -1,54 +1,60 @@
-<!DOCTYPE html>
-
-<div class="mat-typography">
-    <form [formGroup]="userForm" *ngIf="newUser" (ngSubmit)="login()" #loginForm="ngForm">
-        <div class="row">
-            <mat-form-field class="col s12">
-                <input matInput id="email-login" type="email" formControlName="email" placeholder="Email">
-                <mat-icon matSuffix svgIcon="email"></mat-icon>
-                <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
-            </mat-form-field>
-        </div>
-        <div class="row">
-            <mat-form-field class="col s12">
-                <input matInput id="password-login" type="password" formControlName="password" placeholder="Password">
-                <mat-icon matSuffix svgIcon="lock"></mat-icon>
-                <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
-            </mat-form-field>
-        </div>
-        <div class="row">
-            <div class="col s12">
-                <button mat-button color="primary" type="submit" [disabled]="!userForm.valid">Sign-In</button>
-                <button mat-button (click)="toggleForm();">New user?</button>
-            </div>
-        </div>
-        <div class="row" *ngIf="userForm.value.email.length >= 1">
-            <div class="col s12">
-                <a class="mat-caption" (click)="resetPassword()">Send password reset for {{userForm.value.email}}?</a>
-            </div>
-        </div>
-    </form>
-
-    <form [formGroup]="userForm" *ngIf="!newUser" (ngSubmit)="signup()">
-        <div class="row">
-            <mat-form-field class="col s12">
-                <input matInput id="email-signup" type="email" formControlName="email" placeholder="Email">
-                <mat-icon matSuffix svgIcon="email"></mat-icon>
-                <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
-            </mat-form-field>
-        </div>
-        <div class="row">
-            <mat-form-field class="col s12">
-                <input matInput id="password-signup" type="password" formControlName="password" placeholder="Password">
-                <mat-icon matSuffix svgIcon="lock"></mat-icon>
-                <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
-            </mat-form-field>
-        </div>
-        <div class="row">
-            <div class="col s12">
-                <button mat-button color="primary" type="submit" [disabled]="!userForm.valid">Sign-Up</button>
-                <button mat-button (click)="toggleForm();">Already registered?</button>
-            </div>
-        </div>
-    </form>
+<div *ngIf="!loaded">
+    <p style="text-align: center">One moment...</p>
+    <mat-spinner style="margin:0 auto;"></mat-spinner>
 </div>
+
+<div *ngIf="!finished">
+    <p style="text-align: center">Almost there!</p>
+    <mat-spinner style="margin:0 auto;"></mat-spinner>
+</div>
+
+<form [formGroup]="userForm" *ngIf="newUser && loaded && finished" (ngSubmit)="login()" #loginForm="ngForm">
+    <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="25px" class="mat-typography">
+        <mat-form-field fxFlex="50%">
+            <input matInput autocomplete="email" id="email-login" type="email" formControlName="email" placeholder="Email">
+            <mat-icon matSuffix svgIcon="email"></mat-icon>
+            <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
+        </mat-form-field>
+
+        <mat-form-field fxFlex="50%">
+            <input matInput autocomplete="current-password" id="password-login" type="password" formControlName="password" placeholder="Password">
+            <mat-icon matSuffix svgIcon="lock"></mat-icon>
+            <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayoutGap="5px" class="mat-typography">
+        <div fxFlex="100%">
+            <button mat-button color="primary" type="submit" [disabled]="!userForm.valid">Sign-In</button>
+            <button mat-button (click)="toggleForm();">New user?</button>
+        </div>
+
+        <br>
+
+        <div *ngIf="userForm.value.email.length >= 1" fxFlex="100%">
+            <a class="mat-caption" (click)="resetPassword()">Send password reset for {{userForm.value.email}}?</a>
+        </div>
+    </div>
+</form>
+
+<form [formGroup]="userForm" *ngIf="!newUser && loaded && finished"  (ngSubmit)="signup()">
+    <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="25px" class="mat-typography">
+        <mat-form-field fxFlex="50%">
+            <input matInput autocomplete="email" id="email-signup" type="email" formControlName="email" placeholder="Email">
+            <mat-icon matSuffix svgIcon="email"></mat-icon>
+            <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
+        </mat-form-field>
+        <mat-form-field fxFlex="50%">
+            <input matInput autocomplete="new-password" id="password-signup" type="password" formControlName="password" placeholder="Password">
+            <mat-icon matSuffix svgIcon="lock"></mat-icon>
+            <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="5px" class="mat-typography">
+        <div fxFlex="100%">
+            <button mat-button color="primary" type="submit" [disabled]="!userForm.valid">Sign-Up</button>
+            <button mat-button (click)="toggleForm();">Already registered?</button>
+        </div>
+    </div>
+</form>

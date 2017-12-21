@@ -12,6 +12,11 @@ html {
     flex: 1;
 }
 
+.navAvatar {
+    height: 24px;
+    width: 24px;
+}
+
 body {
     display: flex;
     flex-direction: column;
@@ -21,14 +26,59 @@ footer {
     z-index: 1000;
 }
 
-@media only screen and (min-width: 601px) {
-    header {
-        height: 64px;
-    }
+.topnav {
+    height: 64px;
+    z-index: 999;
 }
 
-@media only screen and (max-width: 600px) {
-    header {
-        height: 112px;
-    }
+.nav-banner {
+    width: 275px;
+    height: 120px;
+    background-color: #FF7043;
+}
+
+.mat-list-item {
+    padding-left: 10px;
+}
+
+.nav-banner-avatar {
+    margin-top: -105px;
+    margin-left: 12px;
+    margin-bottom: 3px;
+}
+
+.nav-banner-avatar img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.nav-banner-avatar-small {
+    padding-left: 24px;
+}
+
+.nav-banner-avatar-small img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+}
+
+.nav-banner-name {
+    font-size: 15px;
+    margin-left: 12px;
+    margin-bottom: -2px;
+}
+
+.nav-banner-mail {
+    font-size: 12px;
+    font-weight: 400;
+    margin-left: 12px;
+}
+
+.nav-size-toggle {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 45px;
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
 }

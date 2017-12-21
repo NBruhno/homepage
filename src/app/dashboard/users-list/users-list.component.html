@@ -1,8 +1,8 @@
-<div *ngFor="let user of usersList | async">
+<div *ngFor="let user of auth.users | async">
     <mat-expansion-panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
-                {{user.username}}
+                {{user.name}}
             </mat-panel-title>
             <mat-panel-description>
                 {{user.email}}
@@ -17,7 +17,7 @@
         </mat-chip-list>
         <br>
         <img class="circle" [src]="user.photoURL || '../../assets/images/ProfileTemp.png'" style="width: 75px; height: 75px;" alt="">
-        <p>Username: {{user.username}}</p>
+        <p>Name: {{user.name}}</p>
         <p>Email: {{user.email}}</p>
         <p>UID: {{user.uid}}</p>
         <button mat-raised-button color="warn">Disable</button>

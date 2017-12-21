@@ -1,17 +1,41 @@
-<!DOCTYPE html>
-
-<div class="col s3 m3 l3">
-    <img src="../../../assets/images/loginGoogle.png" alt="loginGoogle" (click)="signInWithGoogle()">
+<div fxLayout="row" fxLayoutAlign="center center" class="securityInfo">
+    <div fxFlex="2%"></div>
+    <mat-icon fxFlex="8%" style="margin-top: -12px" svgIcon="lock"></mat-icon>
+    <p fxFlex="90%" style="font-size: 12px;">Your information is handled securely and privately by Googles Firebase, I do not have access to your password. If you want to read more about what Firebase is, <a href="https://firebase.google.com/">click here</a>.</p>
 </div>
 
-<div class="col s3 m3 l3">
-    <img src="../../../assets/images/loginFacebook.png" alt="loginFacebook" (click)="signInWithFacebook()">
+<div class="spacerLogin" fxShow="false" fxShow.gt-xs></div>
+<div style="height: 5px;" fxShow="false" fxShow.xs></div>
+
+<div *ngIf="!loaded">
+    <p style="text-align: center">Please follow the instructions in the pop-up to login</p>
+    <mat-spinner style="margin:0 auto;"></mat-spinner>
 </div>
 
-<div class="col s3 m3 l3">
-    <img src="../../../assets/images/loginTwitter.png" alt="loginTwitter" (click)="signInWithTwitter()">
+<div *ngIf="!finished">
+    <p style="text-align: center">One moment...</p>
+    <mat-spinner style="margin:0 auto;"></mat-spinner>
 </div>
 
-<div class="col s3 m3 l3">
-    <img src="../../../assets/images/loginGithub.png" alt="loginGithub" (click)="signInWithGithub()">
+<div *ngIf="loaded && finished">
+    <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="5px">
+        <div fxFlex="50%" fxFlex.xs="100%" class="loginButton googleLogin" (click)="signInWithGoogle()">
+            <mat-icon svgIcon="google" style="vertical-align: -30%"></mat-icon><span>&nbsp; Login with Google</span>
+        </div>
+        <div fxFlex="50%" fxFlex.xs="100%" class="loginButton facebookLogin" (click)="signInWithFacebook()">
+            <mat-icon svgIcon="facebook" style="vertical-align: -30%"></mat-icon><span>&nbsp; Login with Facebook</span>
+        </div>
+    </div>
+
+    <div class="spacerLogin" fxShow="false" fxShow.gt-xs></div>
+    <div style="height: 5px;" fxShow="false" fxShow.xs></div>
+
+    <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="5px">
+        <div fxFlex="50%" class="loginButton twitterLogin" (click)="signInWithTwitter()">
+            <mat-icon svgIcon="twitter" style="vertical-align: -30%"></mat-icon><span>&nbsp; Login with Twitter</span>
+        </div>
+        <div fxFlex="50%" class="loginButton githubLogin" (click)="signInWithGithub()">
+            <mat-icon svgIcon="github-circle" style="vertical-align: -30%"></mat-icon><span>&nbsp; Login with GitHub</span>
+        </div>
+    </div>
 </div>

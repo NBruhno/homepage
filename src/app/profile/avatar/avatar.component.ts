@@ -62,7 +62,7 @@ export class AvatarComponent implements OnInit {
     handleDrop(fileList: FileList) {
         const filesIndex = _.range(fileList.length);
         _.each(filesIndex, (idx) => {
-            this.currentUpload = new UpTemp(fileList[idx]);
+            this.currentUpload = new UpTemp(fileList[idx], 'avatar');
             this.pushUpload(this.currentUpload);
         });
     }
@@ -70,7 +70,7 @@ export class AvatarComponent implements OnInit {
     fileEvent(fileList: FileList) {
         const filesIndex = _.range(fileList.length);
         _.each(filesIndex, (idx) => {
-            this.currentUpload = new UpTemp(fileList[idx]);
+            this.currentUpload = new UpTemp(fileList[idx], 'avatar');
             this.pushUpload(this.currentUpload);
         });
     }

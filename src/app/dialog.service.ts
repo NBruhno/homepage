@@ -1,6 +1,6 @@
 import { Component, Injectable, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { UsernameComponent } from './profile/username/username.component';
+import { NameComponent } from './profile/name/name.component';
 import { AvatarComponent } from './profile/avatar/avatar.component';
 
 @Injectable()
@@ -19,7 +19,7 @@ export class DialogService {
         }
 
         if (type === 'username') {
-            const dialogRef = this.dialog.open(UsernameComponent, {
+            const dialogRef = this.dialog.open(NameComponent, {
                 data: { message: message }
             });
 
@@ -34,6 +34,7 @@ export class DialogService {
     selector: 'alert-dialog',
     template: '<span mat-dialog-title>An error has occurred</span><p class="mat-body">{{data.message}}</p><button mat-button (click)="onNoClick();">Dismiss</button>',
 })
+
 export class AlertDialog {
 
     constructor(
