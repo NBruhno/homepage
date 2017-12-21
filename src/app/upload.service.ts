@@ -64,10 +64,10 @@ export class UploadService {
                 const createdAt = uploadTask.snapshot.metadata.timeCreated;
                 const updatedAt = uploadTask.snapshot.metadata.updated;
                 const uploaderUID = this.auth.userState.uid;
-                const filetype = upTemp.file.name.split(".").pop();
+                const filetype = upTemp.file.name.split('.').pop();
                 const size = uploadTask.snapshot.metadata.size;
                 const upload: Upload = { id, name, url, createdAt, updatedAt, uploaderUID, filetype, size, shared };
-                this.uploadsCollection.doc(upload.id).set(upload);
+                this.uploadsCollection.doc(upload.id).set(upload).catch();
                 this.snack.open(upTemp.file.name + ' has been uploaded successfully', '', { duration: 4000 });
                 return undefined;
             }

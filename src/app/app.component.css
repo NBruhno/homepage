@@ -4,9 +4,21 @@ html {
 
 .site {
     display: flex;
-    min-height: 100vh;
     flex-direction: column;
 }
+
+@media only screen and (max-width: 599px) {
+    .site {
+        min-height: 100vh;
+    }
+}
+
+@media only screen and (min-width: 600px) {
+    .site {
+        min-height: calc(100vh - 64px);
+    }
+}
+
 
 .site-content {
     flex: 1;

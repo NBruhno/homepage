@@ -35,19 +35,19 @@
                     <p class="nav-banner-mail">{{(auth.user | async)?.email}}</p>
                 </div>
                 <mat-nav-list>
+                    <a routerLink="/gallery" (click)="snav.toggle()">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon svgIcon="image-multiple"></mat-icon>
+                            <p mat-line>Gallery</p>
+                        </mat-list-item>
+                    </a>
+                    <a routerLink="/projects" (click)="snav.toggle()">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon svgIcon="file-chart"></mat-icon>
+                            <p mat-line>Projects</p>
+                        </mat-list-item>
+                    </a>
                     <div *ngIf="(auth.user | async)?.completeProfile === true">
-                        <a routerLink="/gallery" (click)="snav.toggle()">
-                            <mat-list-item>
-                                <mat-icon mat-list-icon svgIcon="image-multiple"></mat-icon>
-                                <p mat-line>Gallery</p>
-                            </mat-list-item>
-                        </a>
-                        <a routerLink="/projects" (click)="snav.toggle()">
-                            <mat-list-item>
-                                <mat-icon mat-list-icon svgIcon="file-chart"></mat-icon>
-                                <p mat-line>Projects</p>
-                            </mat-list-item>
-                        </a>
                         <a routerLink="/upload" (click)="snav.toggle()">
                             <mat-list-item>
                                 <mat-icon mat-list-icon svgIcon="upload"></mat-icon>
@@ -66,10 +66,10 @@
                                 <p mat-line>Dashboard</p>
                             </mat-list-item>
                         </a>
-                        <div class="spacer"></div>
-                        <mat-divider></mat-divider>
-                        <div class="spacer"></div>
                     </div>
+                    <div class="spacer"></div>
+                    <mat-divider></mat-divider>
+                    <div class="spacer"></div>
                     <a *ngIf="(auth.user | async)?.completeProfile === false" routerLink="/login" (click)="snav.toggle()">
                         <mat-list-item>
                             <mat-icon mat-list-icon style="color: red" svgIcon="alert-circle"></mat-icon>
@@ -97,9 +97,7 @@
                 </mat-nav-list>
             </div>
         </mat-sidenav>
-
         <mat-sidenav-content class="site">
-            <div fxHide.xs="false" fxHide="true" style="height: 64px;"></div>
             <main class="site-content"><router-outlet></router-outlet></main>
             <footer class="primary-400 mat-typography"><app-footer></app-footer></footer>
         </mat-sidenav-content>

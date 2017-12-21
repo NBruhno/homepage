@@ -77,6 +77,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { UsersListComponent } from './dashboard/users-list/users-list.component';
 import { DetailsComponent } from './authentication/details/details.component';
 import { BytesPipe } from './bytes.pipe';
+import { ProjectsComponent } from './projects/projects.component';
 
 @NgModule({
     declarations: [
@@ -103,7 +104,8 @@ import { BytesPipe } from './bytes.pipe';
         DashboardComponent,
         UsersListComponent,
         DetailsComponent,
-        BytesPipe
+        BytesPipe,
+        ProjectsComponent
     ],
     imports: [
         BrowserModule,
