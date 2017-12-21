@@ -69,8 +69,6 @@ import { FrontComponent } from './front/front.component';
 import { ErrorComponent } from './error/error.component';
 import { NotFoundComponent } from './error/not-found/not-found.component';
 import { UploadComponent } from './upload/upload.component';
-import { UploadFormComponent } from './upload/upload-form/upload-form.component';
-import { UploadListComponent } from './upload/upload-list/upload-list.component';
 import { UploadDetailComponent } from './upload/upload-detail/upload-detail.component';
 import { ProfileComponent } from './profile/profile.component';
 import { NameComponent } from './profile/name/name.component';
@@ -78,6 +76,7 @@ import { AvatarComponent } from './profile/avatar/avatar.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UsersListComponent } from './dashboard/users-list/users-list.component';
 import { DetailsComponent } from './authentication/details/details.component';
+import { BytesPipe } from './bytes.pipe';
 
 @NgModule({
     declarations: [
@@ -96,8 +95,6 @@ import { DetailsComponent } from './authentication/details/details.component';
         NotFoundComponent,
         UploadComponent,
         FileDropDirective,
-        UploadFormComponent,
-        UploadListComponent,
         UploadDetailComponent,
         ProfileComponent,
         NameComponent,
@@ -105,7 +102,8 @@ import { DetailsComponent } from './authentication/details/details.component';
         AvatarComponent,
         DashboardComponent,
         UsersListComponent,
-        DetailsComponent
+        DetailsComponent,
+        BytesPipe
     ],
     imports: [
         BrowserModule,

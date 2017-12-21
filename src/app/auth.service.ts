@@ -93,6 +93,27 @@ export class AuthService {
             });
     }
 
+    sendVerifyEmail() {
+        let user: any = firebase.auth().currentUser;
+        user.sendEmailVerification()
+            .then((success) => this.snack.open(
+                'A mail with a verification link has been sent your way', '', { duration: 4000 }))
+            .catch((error) => this.error.log(error));
+    }
+
+    verifyEmail(user: User) {
+        if (this.userState.emailVerified) {
+            return this.db.doc(`users/${user.uid}`).update({emailVerified: true})
+                .catch(error => this.error.log(error))
+                .then(() => {
+                    this.router.navigate(['/']);
+                    this.snack.open('Your email has been verified successfully', 'Thank you', { duration: 4000 });
+                });
+        } else {
+            this.snack.open('Your email has not been verified yet through your email', '', { duration: 4000 });
+        }
+    }
+
     resetPassword(email: string) {
         const auth = firebase.auth();
         return auth.sendPasswordResetEmail(email)
@@ -124,24 +145,32 @@ export class AuthService {
                 userRef.set(data);
             } else {
                 if (userData.completeProfile) {
-                    this.userVerified = true;
-                    this.router.navigate(['/']);
-                    this.snack.open('Welcome back ' + userData.name, 'Thank you', { duration: 4000 });
+                    if (this.userState.emailVerified) {
+                        this.userVerified = true;
+                        this.router.navigate(['/']);
+                        this.snack.open('Welcome back ' + userData.name, 'Thank you', { duration: 4000 });
+                    }
                 }
             }
         });
     }
 
     updateCompleteProfile(user: User, data: any) {
-        return this.db.doc(`users/${user.uid}`).update(data).catch(error => this.error.log(error)).then(() => {
-            this.router.navigate(['/']);
-            this.snack.open('Welcome ' + data.name, 'Thank you', { duration: 4000 });
-        });
+        return this.db.doc(`users/${user.uid}`).update(data)
+            .catch(error => this.error.log(error))
+            .then(() => {
+                this.sendVerifyEmail();
+                this.snack.open(
+                    'Welcome ' + data.name + 'an email with a verification link has been sent your way',
+                    '', { duration: 4000 });
+            });
     }
 
     updateName(user: User, data: any) {
-        return this.db.doc(`users/${user.uid}`).update(data).catch(error => this.error.log(error)).then(() => {
-            this.snack.open('Your name has been changed to  ' + data.name, 'Thank you', { duration: 4000 });
-        });
+        return this.db.doc(`users/${user.uid}`).update(data)
+            .catch(error => this.error.log(error))
+            .then(() => {
+                this.snack.open('Your name has been changed to  ' + data.name, 'Thank you', { duration: 4000 });
+            });
     }
 }

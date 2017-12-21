@@ -10,9 +10,12 @@ export class Upload {
     id: string;
     name: string;
     url: string;
-    createdAt: string;
+    createdAt: any;
+    updatedAt: any;
     uploaderUID: string;
     filetype: string;
+    size: number;
+    shared: boolean;
 }
 
 @Injectable()
@@ -25,7 +28,7 @@ export class UploadService {
     private basePath = 'uploads';
 
     constructor(private db: AngularFirestore, private auth: AuthService, private snack: MatSnackBar) {
-        this.uploadsCollection = this.db.collection('uploads');
+        this.uploadsCollection = this.db.collection('uploads', ref => ref.where('shared', '==', true).orderBy('createdAt'));
         this.uploads = this.uploadsCollection.valueChanges();
     }
 
@@ -33,7 +36,7 @@ export class UploadService {
         const storageRef = firebase.storage().ref();
         this.uploadsCollection.doc(`${upload.id}`).delete()
             .then( () => {
-                storageRef.child(`${this.basePath}/${upload.name}`).delete();
+                storageRef.child(`${this.basePath}/${upload.id}`).delete();
                 this.snack.open(upload.name + ' has been deleted', '', { duration: 4000 });
             }).catch(error => {
             this.snack.open(error.message, '', { duration: 4000 });
@@ -41,12 +44,9 @@ export class UploadService {
         });
     }
 
-    pushUpload(upTemp: UpTemp) {
+    pushUpload(upTemp: UpTemp, shared: boolean) {
         const storageRef = firebase.storage().ref();
-        const uploadTask = storageRef.child(`${this.basePath}/${upTemp.file.name}`).put(upTemp.file);
-        const day: string = new Date().getDate().toString();
-        const month: string = new Date().getMonth().toString();
-        const year: string = new Date().getFullYear().toString();
+        const uploadTask = storageRef.child(`${this.basePath}/${upTemp.fileID}`).put(upTemp.file);
 
         uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
             (snapshot) =>  {
@@ -58,15 +58,17 @@ export class UploadService {
                 console.log(error);
             },
             () => {
-                const id = this.db.createId();
+                const id = uploadTask.snapshot.metadata.name;
                 const name = upTemp.file.name;
                 const url = uploadTask.snapshot.downloadURL;
-                const createdAt = (day + '/' + month + '/' + year);
+                const createdAt = uploadTask.snapshot.metadata.timeCreated;
+                const updatedAt = uploadTask.snapshot.metadata.updated;
                 const uploaderUID = this.auth.userState.uid;
                 const filetype = upTemp.file.name.split(".").pop();
-                const upload: Upload = { id, name, url, createdAt, uploaderUID, filetype };
+                const size = uploadTask.snapshot.metadata.size;
+                const upload: Upload = { id, name, url, createdAt, updatedAt, uploaderUID, filetype, size, shared };
                 this.uploadsCollection.doc(upload.id).set(upload);
-                this.snack.open(upload.name + ' has been uploaded successfully', '', { duration: 4000 });
+                this.snack.open(upTemp.file.name + ' has been uploaded successfully', '', { duration: 4000 });
                 return undefined;
             }
         );
