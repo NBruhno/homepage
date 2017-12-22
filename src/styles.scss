@@ -343,7 +343,7 @@ a {
     background-color: #00E5FF;
     position: absolute;
     width: 100%;
-    height: 80vh;
+    height: 200vh;
     -webkit-transform: skewY(6deg);
     -moz-transform: skewY(6deg);
     -ms-transform: skewY(6deg);
@@ -357,16 +357,9 @@ a {
 
 .about-list {
     background-color: #00E5FF;
-    position: relative;
-    width: 100%;
-}
-
-.about-list:after {
-    width: 100%;
-    height: 100%;
     position: absolute;
-    background: inherit;
-    bottom: 0;
+    width: 100%;
+    height: 300vh;
     -webkit-transform-origin: 100%;
     transform-origin: 100%;
     -webkit-transform: skewY(6deg);
@@ -374,15 +367,13 @@ a {
     -ms-transform: skewY(6deg);
     -o-transform: skewY(6deg);
     transform: skewY(6deg);
+    z-index: -1;
 }
 
 @media only screen and (min-width: 600px) {
     .header {
         min-height: 200px;
         max-height: 520px;
-    }
-    .footer {
-        max-height: 220px;
     }
 }
 
@@ -392,6 +383,6 @@ a {
         max-height: 300px;
     }
     .footer {
-        max-height: 220px;
+        margin-top: -200px;
     }
 }
