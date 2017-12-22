@@ -10,14 +10,6 @@ img {
     padding: 12px 24px;
 }
 
-.securityInfo {
-    color: white;
-    display: block;
-    position: relative;
-    padding: 12px 24px 0 12px;
-    background-color: #2da854;
-}
-
 .googleLogin {
     background: #dd4b39;
 }
