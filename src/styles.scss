@@ -337,6 +337,7 @@ a {
     -webkit-transform-origin: 100%;
     transform-origin: 100%;
     overflow: hidden;
+    z-index: -1;
 }
 
 .footer {
@@ -375,6 +376,19 @@ a {
         min-height: 200px;
         max-height: 520px;
     }
+    .footer {
+        display: block;
+    }
+    .footer-content {
+        background: none;
+        margin-top: -110px;
+    }
+    footer {
+        z-index: -1;
+    }
+    .main-spacer {
+        margin-top: 110px;
+    }
 }
 
 @media only screen and (max-width: 599px) {
@@ -383,6 +397,16 @@ a {
         max-height: 300px;
     }
     .footer {
-        margin-top: -200px;
+        display: none;
+    }
+    .footer-content {
+        background: #00E5FF;
+        margin-top: 0;
+    }
+    footer {
+        z-index: 1000;
+    }
+    .main-spacer {
+        margin-top: 0;
     }
 }
