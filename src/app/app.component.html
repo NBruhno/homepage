@@ -54,11 +54,11 @@
                                 <p mat-line>Uploads</p>
                             </mat-list-item>
                         </a>
+                    </div>
+                    <div *ngIf="(auth.user | async)?.admin === true">
                         <div class="spacer"></div>
                         <mat-divider></mat-divider>
                         <div class="spacer"></div>
-                    </div>
-                    <div *ngIf="(auth.user | async)?.admin === true">
                         <h3 mat-subheader>Admin</h3>
                         <a routerLink="/dashboard" (click)="snav.toggle()">
                             <mat-list-item>
