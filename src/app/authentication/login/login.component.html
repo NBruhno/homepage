@@ -1,9 +1,3 @@
-<div fxLayout="row" fxLayoutAlign="center center" class="securityInfo">
-    <div fxFlex="2%"></div>
-    <mat-icon fxFlex="8%" style="margin-top: -12px" svgIcon="lock"></mat-icon>
-    <p fxFlex="90%" style="font-size: 12px;">Your information is handled securely and privately by Googles Firebase, I do not have access to your password. If you want to read more about what Firebase is, <a href="https://firebase.google.com/">click here</a>.</p>
-</div>
-
 <div class="spacerLogin" fxShow="false" fxShow.gt-xs></div>
 <div style="height: 5px;" fxShow="false" fxShow.xs></div>
 
@@ -20,10 +14,10 @@
 <div *ngIf="loaded && finished">
     <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="5px">
         <div fxFlex="50%" fxFlex.xs="100%" class="loginButton googleLogin" (click)="signInWithGoogle()">
-            <mat-icon svgIcon="google" style="vertical-align: -30%"></mat-icon><span>&nbsp; Login with Google</span>
+            <mat-icon svgIcon="google" style="vertical-align: -30%"></mat-icon><span style="margin-left: 12px">Login with Google</span>
         </div>
         <div fxFlex="50%" fxFlex.xs="100%" class="loginButton facebookLogin" (click)="signInWithFacebook()">
-            <mat-icon svgIcon="facebook" style="vertical-align: -30%"></mat-icon><span>&nbsp; Login with Facebook</span>
+            <mat-icon svgIcon="facebook" style="vertical-align: -30%"></mat-icon><span style="margin-left: 12px">Login with Facebook</span>
         </div>
     </div>
 
@@ -32,10 +26,10 @@
 
     <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="5px">
         <div fxFlex="50%" class="loginButton twitterLogin" (click)="signInWithTwitter()">
-            <mat-icon svgIcon="twitter" style="vertical-align: -30%"></mat-icon><span>&nbsp; Login with Twitter</span>
+            <mat-icon svgIcon="twitter" style="vertical-align: -30%"></mat-icon><span style="margin-left: 12px">Login with Twitter</span>
         </div>
         <div fxFlex="50%" class="loginButton githubLogin" (click)="signInWithGithub()">
-            <mat-icon svgIcon="github-circle" style="vertical-align: -30%"></mat-icon><span>&nbsp; Login with GitHub</span>
+            <mat-icon svgIcon="github-circle" style="vertical-align: -30%"></mat-icon><span style="margin-left: 12px">Login with GitHub</span>
         </div>
     </div>
 </div>

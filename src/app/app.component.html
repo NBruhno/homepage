@@ -5,7 +5,7 @@
         <div fxFlex="none" fxHide.xs="false" fxHide="true"><a routerLink="/" mat-button><img src="../../assets/images/B%20Light.svg" style="max-width: 60%;" alt="Logo">&nbsp;&nbsp;Bruhno</a></div>
         <div fxFlex="none" fxHide.xs="true" fxHide="false"><a routerLink="/" mat-icon-button><img src="../../assets/images/B%20Light.svg" style="max-width: 85%; vertical-align: -10%;" alt="Logo"></a></div>
         <a fxShow fxHide.xs="true" fxHide="false" routerLink="/gallery" mat-button matTooltip="This will be avaible soon™">Gallery</a>
-        <a fxShow fxHide.xs="true" fxHide="false" routerLink="/projects" mat-button matTooltip="This will be avaible soon™">Projects</a>
+        <a fxShow fxHide.xs="true" fxHide="false" routerLink="/projects" mat-button>Projects</a>
         <a fxShow fxHide.xs="true" fxHide="false" routerLink="/upload" mat-button>Upload</a>
         <div fxFlex fxShow fxHide.xs="true" fxHide="false"></div>
         <div fxFlex="nogrow" fxHide.xs="true" fxHide="false">
@@ -97,9 +97,12 @@
                 </mat-nav-list>
             </div>
         </mat-sidenav>
+
         <mat-sidenav-content class="site">
+            <div fxHide.xs="false" fxHide="true" style="height: 64px;"></div>
             <main class="site-content"><router-outlet></router-outlet></main>
-            <footer class="primary-400 mat-typography"><app-footer></app-footer></footer>
+            <div style="height: 110px;"></div>
+            <footer class="mat-typography"><app-footer></app-footer></footer>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

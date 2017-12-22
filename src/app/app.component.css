@@ -1,10 +1,7 @@
-html {
-    height: 100%;
-}
-
 .site {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 @media only screen and (max-width: 599px) {
@@ -18,7 +15,6 @@ html {
         min-height: calc(100vh - 64px);
     }
 }
-
 
 .site-content {
     flex: 1;
@@ -35,7 +31,7 @@ body {
 }
 
 footer {
-    z-index: 1000;
+    background: #00E5FF;
 }
 
 .topnav {

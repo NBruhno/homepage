@@ -1,17 +1,23 @@
-<div fxShow="false" fxShow.gt-xs><br></div>
-<div fxShow="false" fxShow.xs style="margin-top: -80px;"><br></div>
+<div class="header"></div>
+<div fxShow fxHide.xs="true" fxHide="false"><br></div>
 <div fxLayout="row" fxLayoutAlign="center">
-    <div fxFlex="35%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="60%" fxFlex.xs="100%">
-        <div fxShow fxHide.xs="false" fxHide="true"><br><br><br></div>
+    <div fxFlex="30%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="60%" fxFlex.xs="100%">
         <mat-card class="mat-typography" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;">
             <div *ngIf="!(auth.user | async)">
-                <h3>You can sign in with either of these options</h3>
-                <app-login></app-login>
+                <a href="https://firebase.google.com/" fxLayout="row" fxLayoutAlign="center center" class="securityInfo">
+                    <div fxFlex="2%"></div>
+                    <mat-icon fxFlex="8%" style="margin-top: -12px" svgIcon="firebase"></mat-icon>
+                    <p fxFlex="90%" style="font-size: 12px" ngStyle.xs="margin-left: 12px">Your information is handled securely and privately by Googles Firebase, click to learn more</p>
+                </a>
 
                 <br>
 
-                <h3>Or login with your email</h3>
+                <h3>You can sign in with either your email or another platform</h3>
                 <app-email></app-email>
+
+                <br>
+
+                <app-login></app-login>
             </div>
 
             <div *ngIf="auth.user | async as user">
@@ -37,5 +43,4 @@
         </mat-card>
     </div>
 </div>
-
-<br>
+<div fxShow fxHide.xs="true" fxHide="false"><br></div>
