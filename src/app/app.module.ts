@@ -78,6 +78,8 @@ import { UsersListComponent } from './dashboard/users-list/users-list.component'
 import { DetailsComponent } from './authentication/details/details.component';
 import { BytesPipe } from './bytes.pipe';
 import { ProjectsComponent } from './projects/projects.component';
+import { ProjectTemplateComponent } from './projects/project-template/project-template.component';
+import { IDService } from './id.service';
 
 @NgModule({
     declarations: [
@@ -105,7 +107,8 @@ import { ProjectsComponent } from './projects/projects.component';
         UsersListComponent,
         DetailsComponent,
         BytesPipe,
-        ProjectsComponent
+        ProjectsComponent,
+        ProjectTemplateComponent
     ],
     imports: [
         BrowserModule,
@@ -167,7 +170,8 @@ import { ProjectsComponent } from './projects/projects.component';
         PermService,
         PermGuard,
         SeoService,
-        ErrorService
+        ErrorService,
+        IDService
     ],
     bootstrap: [
         AppComponent

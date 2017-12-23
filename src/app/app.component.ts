@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { AuthService } from './auth.service';
+import { IDService } from './id.service';
 
 @Component({
     selector: 'app-root',
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 private title: Title,
                 private activatedRoute: ActivatedRoute,
                 private router: Router,
+                private id: IDService,
                 public auth: AuthService,
                 changeDetectorRef: ChangeDetectorRef,
                 media: MediaMatcher) {
