@@ -1,10 +1,10 @@
-import { HpV0.2Page } from './app.po';
+import { Bruhno.comPage } from './app.po';
 
-describe('hp-v0.2 App', () => {
-  let page: HpV0.2Page;
+describe('bruhno.com App', () => {
+  let page: Bruhno.comPage;
 
   beforeEach(() => {
-    page = new HpV0.2Page();
+    page = new Bruhno.comPage();
   });
 
   it('should display welcome message', () => {

@@ -13,6 +13,7 @@
             <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button><img [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="Profile img" style="height: 60%;" class="circle navAvatar"></a>
             <a *ngIf="(auth.user | async)" (click)="signOut();" mat-icon-button><mat-icon svgIcon="logout"></mat-icon></a>
             <a *ngIf="!(auth.user | async)" routerLink="/login" mat-icon-button><mat-icon svgIcon="login"></mat-icon></a>
+            <a href="https://github.com/BruhnoMus/bruhno.com" mat-icon-button><mat-icon svgIcon="github-circle"></mat-icon></a>
         </div>
         <div fxFlex="nogrow" fxHide.xs="true" fxHide="false"></div>
         <div fxFlex="15%" fxFlex.xs="0" fxHide.xs="true" fxHide="false"></div>
@@ -73,25 +74,31 @@
                     <a *ngIf="(auth.user | async)?.completeProfile === false" routerLink="/login" (click)="snav.toggle()">
                         <mat-list-item>
                             <mat-icon mat-list-icon style="color: red" svgIcon="alert-circle"></mat-icon>
-                            <p *ngIf="!resize" mat-line style="color: red">Complete Your Profile</p>
+                            <p mat-line style="color: red">Complete Your Profile</p>
                         </mat-list-item>
                     </a>
                     <a *ngIf="(auth.user | async)?.emailVerified === false" routerLink="/login" (click)="snav.toggle()">
                         <mat-list-item>
                             <mat-icon mat-list-icon style="color: red" svgIcon="alert-circle"></mat-icon>
-                            <p *ngIf="!resize" mat-line style="color: red">Email is not Verified</p>
+                            <p mat-line style="color: red">Email is not Verified</p>
                         </mat-list-item>
                     </a>
                     <a *ngIf="(auth.user | async)" (click)="snav.toggle(); signOut();">
                         <mat-list-item>
                             <mat-icon mat-list-icon svgIcon="logout"></mat-icon>
-                            <p *ngIf="!resize" mat-line>Logout</p>
+                            <p mat-line>Logout</p>
                         </mat-list-item>
                     </a>
                     <a *ngIf="!(auth.user | async)" routerLink="/login" (click)="snav.toggle()">
                         <mat-list-item>
                             <mat-icon mat-list-icon svgIcon="login"></mat-icon>
-                            <p *ngIf="!resize" mat-line>Login / Signup</p>
+                            <p mat-line>Login / Signup</p>
+                        </mat-list-item>
+                    </a>
+                    <a href="https://github.com/BruhnoMus/bruhno.com">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon svgIcon="github-circle"></mat-icon>
+                            <p mat-line>Bruhno.com on GitHub</p>
                         </mat-list-item>
                     </a>
                 </mat-nav-list>

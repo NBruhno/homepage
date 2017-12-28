@@ -1,6 +1,6 @@
 import { browser, by, element } from 'protractor';
 
-export class HpV0.2Page {
+export class Bruhno.comPage {
   navigateTo() {
     return browser.get('/');
   }
