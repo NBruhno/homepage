@@ -303,16 +303,18 @@ app-root:empty + .initial-loading {
 .initial-logo {
     max-width: 100%;
     max-height: 20vh;
+    opacity: 0.5;
+    animation: initial-logo 2s ease-in-out infinite;
 }
 
 .initial-loadingbar {
     margin-top: 20px;
     margin-left: 45%;
-    height: 4px;
+    height: 2px;
     width: 10%;
     position: relative;
     overflow: hidden;
-    background-color: #FFAB91;
+    background-color: #FF7043;
 }
 
 .initial-loadingbar:before {
@@ -321,7 +323,7 @@ app-root:empty + .initial-loading {
     content: "";
     left: -200px;
     width: 200px;
-    height: 4px;
+    height: 2px;
     background-color: #00E5FF;
     animation: initial-loadingbar 2s linear infinite;
 }
@@ -330,9 +332,18 @@ app-root:empty + .initial-loading {
     from {left: -200px; width: 30%;}
     50% {width: 30%;}
     70% {width: 70%;}
-    80% { left: 50%;}
+    80% {left: 50%;}
     95% {left: 120%;}
     to {left: 100%;}
+}
+
+@keyframes initial-logo {
+    from {opacity: 1;}
+    30% {opacity: 0.2;}
+    60% {opacity: 0.2;}
+    70% {opacity: 0.3;}
+    80% {opacity: 0.5;}
+    to {opacity: 1;}
 }
 
 a {
