@@ -1,7 +1,7 @@
 .profileHeader {
     margin-top: -10px;
     height: 30vh;
-    background: #FF7043;
+    background: #ff7043;
 }
 
 .profileAvatar {
@@ -49,13 +49,13 @@
 }
 
 .cn:hover {
-    opacity:1;
-    background:rgba(0,0,0,0.5) center no-repeat;
+    opacity: 1;
+    background: rgba(0, 0, 0, 0.5) center no-repeat;
 }
 
 div.inner {
     display: table-cell;
-    vertical-align:middle;
+    vertical-align: middle;
 }
 
 .avatarIcon {

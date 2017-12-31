@@ -9,7 +9,6 @@ import { ErrorService } from '../../error.service';
     templateUrl: './email.component.html',
     styleUrls: ['./email.component.css']
 })
-
 export class EmailComponent implements OnInit {
     loaded = true;
     finished = true;
@@ -17,27 +16,27 @@ export class EmailComponent implements OnInit {
     newUser = true;
 
     formErrors = {
-        'email': '',
-        'password': ''
+        email: '',
+        password: ''
     };
     validationMessages = {
-        'email': {
-            'required':      'Email is required.',
-            'email':         'Email must be valid'
+        email: {
+            required: 'Email is required.',
+            email: 'Email must be valid'
         },
-        'password': {
-            'required':      'Password is required.',
-            'pattern':       'Password must be include at one letter and one number.',
-            'minlength':     'Password must be at least 4 characters long.',
-            'maxlength':     'Password cannot be more than 40 characters long.',
+        password: {
+            required: 'Password is required.',
+            pattern: 'Password must be include at one letter and one number.',
+            minlength: 'Password must be at least 4 characters long.',
+            maxlength: 'Password cannot be more than 40 characters long.'
         }
     };
 
-    constructor(private fb: FormBuilder, public auth: AuthService, private error: ErrorService) { }
+    constructor(private fb: FormBuilder, public auth: AuthService, private error: ErrorService) {}
 
     ngOnInit(): void {
         this.buildForm();
-        this.auth.user.subscribe((user) => {
+        this.auth.user.subscribe(user => {
             if (user) {
                 if (user.uid !== '') {
                     this.finished = true;
@@ -54,26 +53,32 @@ export class EmailComponent implements OnInit {
 
     signup(): void {
         this.loaded = false;
-        this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']).then(() => {
-            this.loaded = true;
-            this.finished = false;
-        }).catch((error) => {
-            this.error.log(error);
-            this.loaded = true;
-            this.finished = true;
-        });
+        this.auth
+            .emailSignUp(this.userForm.value['email'], this.userForm.value['password'])
+            .then(() => {
+                this.loaded = true;
+                this.finished = false;
+            })
+            .catch(error => {
+                this.error.log(error);
+                this.loaded = true;
+                this.finished = true;
+            });
     }
 
     login(): void {
         this.loaded = false;
-        this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']).then(() => {
-            this.loaded = true;
-            this.finished = false;
-        }).catch((error) => {
-            this.error.log(error);
-            this.loaded = true;
-            this.finished = true;
-        });
+        this.auth
+            .emailLogin(this.userForm.value['email'], this.userForm.value['password'])
+            .then(() => {
+                this.loaded = true;
+                this.finished = false;
+            })
+            .catch(error => {
+                this.error.log(error);
+                this.loaded = true;
+                this.finished = true;
+            });
     }
 
     resetPassword() {
@@ -82,23 +87,25 @@ export class EmailComponent implements OnInit {
 
     buildForm(): void {
         this.userForm = this.fb.group({
-            'email': ['', [
-                Validators.required,
-                Validators.email
-            ]],
-            'password': ['', [
-                Validators.required,
-                Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-                Validators.minLength(8),
-                Validators.maxLength(25)
-            ]],
+            email: ['', [Validators.required, Validators.email]],
+            password: [
+                '',
+                [
+                    Validators.required,
+                    Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
+                    Validators.minLength(8),
+                    Validators.maxLength(25)
+                ]
+            ]
         });
         this.userForm.valueChanges.subscribe(data => this.onValueChanged(data));
         this.onValueChanged();
     }
 
     onValueChanged(data?: any) {
-        if (!this.userForm) { return; }
+        if (!this.userForm) {
+            return;
+        }
         const form = this.userForm;
 
         for (const field in this.formErrors) {

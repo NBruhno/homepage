@@ -5,19 +5,16 @@ import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firesto
 import { Observable } from 'rxjs/Observable';
 
 @Component({
-  selector: 'app-upload-detail',
-  templateUrl: './upload-detail.component.html',
-  styleUrls: ['./upload-detail.component.css']
+    selector: 'app-upload-detail',
+    templateUrl: './upload-detail.component.html',
+    styleUrls: ['./upload-detail.component.css']
 })
-
 export class UploadDetailComponent implements OnInit {
-
     @Input() upload: Upload;
     private uploaderDoc: AngularFirestoreDocument<User>;
     uploader: Observable<User>;
 
-    constructor(public up: UploadService, public db: AngularFirestore, public auth: AuthService) {
-    }
+    constructor(public up: UploadService, public db: AngularFirestore, public auth: AuthService) {}
 
     ngOnInit() {
         this.uploaderDoc = this.db.doc(`users/${this.upload.uploaderUID}`);

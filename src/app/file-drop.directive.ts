@@ -3,16 +3,13 @@ import { Directive, EventEmitter, HostListener, Output } from '@angular/core';
 @Directive({
     selector: '[appFileDrop]'
 })
-
 export class FileDropDirective {
+    @Output() filesDropped = new EventEmitter<FileList>();
+    @Output() filesHovered = new EventEmitter<boolean>();
 
-    @Output() filesDropped =  new EventEmitter<FileList>();
-    @Output() filesHovered =  new EventEmitter<boolean>();
-
-    constructor() {  }
+    constructor() {}
 
     @HostListener('drop', ['$event'])
-
     onDrop($event) {
         $event.preventDefault();
         const transfer = $event.dataTransfer;

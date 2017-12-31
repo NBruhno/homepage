@@ -1,36 +1,54 @@
 <div>
     <mat-toolbar color="primary" class="mat-typography topnav" fxLayout="row" fxLayoutWrap ngStyle.xs="top: 0; position: fixed">
-        <div fxFlex="none" fxShow fxHide.xs="false" fxHide="true"><a mat-icon-button (click)="snav.toggle()"><mat-icon svgIcon="menu"></mat-icon></a></div>
+        <div fxFlex="none" fxShow fxHide.xs="false" fxHide="true">
+            <a mat-icon-button (click)="snav.toggle()">
+                <mat-icon svgIcon="menu"></mat-icon>
+            </a>
+        </div>
         <div fxFlex="15%" fxFlex.xs="0%"></div>
-        <div fxFlex="none" fxHide.xs="false" fxHide="true"><a routerLink="/" mat-button><img src="../../assets/images/B%20Light.svg" style="max-width: 60%;" alt="Logo">&nbsp;&nbsp;Bruhno</a></div>
-        <div fxFlex="none" fxHide.xs="true" fxHide="false"><a routerLink="/" mat-icon-button><img src="../../assets/images/B%20Light.svg" style="max-width: 85%; vertical-align: -10%;" alt="Logo"></a></div>
+        <div fxFlex="none" fxHide.xs="false" fxHide="true">
+            <a routerLink="/" mat-button>
+                <img src="../../assets/images/B%20Light.svg" style="max-width: 60%;" alt="Logo">&nbsp;&nbsp;Bruhno</a>
+        </div>
+        <div fxFlex="none" fxHide.xs="true" fxHide="false">
+            <a routerLink="/" mat-icon-button>
+                <img src="../../assets/images/B%20Light.svg" style="max-width: 85%; vertical-align: -10%;" alt="Logo">
+            </a>
+        </div>
         <a fxShow fxHide.xs="true" fxHide="false" routerLink="/gallery" mat-button matTooltip="This will be avaible soon™">Gallery</a>
         <a fxShow fxHide.xs="true" fxHide="false" routerLink="/projects" mat-button>Projects</a>
         <a fxShow fxHide.xs="true" fxHide="false" routerLink="/upload" mat-button>Upload</a>
         <div fxFlex fxShow fxHide.xs="true" fxHide="false"></div>
         <div fxFlex="nogrow" fxHide.xs="true" fxHide="false">
-            <a *ngIf="(auth.user | async) && (auth.user | async)?.admin" routerLink="/dashboard" mat-icon-button><mat-icon svgIcon="view-dashboard"></mat-icon></a>
-            <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button><img [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="Profile img" style="height: 60%;" class="circle navAvatar"></a>
-            <a *ngIf="(auth.user | async)" (click)="signOut();" mat-icon-button><mat-icon svgIcon="logout"></mat-icon></a>
-            <a *ngIf="!(auth.user | async)" routerLink="/login" mat-icon-button><mat-icon svgIcon="login"></mat-icon></a>
-            <a href="https://github.com/BruhnoMus/bruhno.com" mat-icon-button><mat-icon svgIcon="github-circle"></mat-icon></a>
+            <a *ngIf="(auth.user | async) && (auth.user | async)?.admin" routerLink="/dashboard" mat-icon-button>
+                <mat-icon svgIcon="view-dashboard"></mat-icon>
+            </a>
+            <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button>
+                <img [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="Profile img" style="height: 60%;" class="circle navAvatar">
+            </a>
+            <a *ngIf="(auth.user | async)" (click)="signOut();" mat-icon-button>
+                <mat-icon svgIcon="logout"></mat-icon>
+            </a>
+            <a *ngIf="!(auth.user | async)" routerLink="/login" mat-icon-button>
+                <mat-icon svgIcon="login"></mat-icon>
+            </a>
+            <a href="https://github.com/BruhnoMus/bruhno.com" mat-icon-button>
+                <mat-icon svgIcon="github-circle"></mat-icon>
+            </a>
         </div>
         <div fxFlex="nogrow" fxHide.xs="true" fxHide="false"></div>
         <div fxFlex="15%" fxFlex.xs="0" fxHide.xs="true" fxHide="false"></div>
     </mat-toolbar>
     <mat-sidenav-container autosize>
-        <mat-sidenav #snav
-                     [mode]="'over'"
-                     [fixedInViewport]="true"
-                     class="sidenav mat-elevation-z1"
-                     fixedTopGap="64"
-                     [opened]="'false'">
+        <mat-sidenav #snav [mode]="'over'" [fixedInViewport]="true" class="sidenav mat-elevation-z1" fixedTopGap="64" [opened]="'false'">
             <div class="mat-typography">
                 <div *ngIf="(auth.user | async)?.completeProfile === true">
                     <div class="nav-banner">
                     </div>
                     <div class="nav-banner-avatar">
-                        <a routerLink="/profile" (click)="snav.toggle()"><img class="circle responsive-img" [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="profile-img"></a>
+                        <a routerLink="/profile" (click)="snav.toggle()">
+                            <img class="circle responsive-img" [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="profile-img">
+                        </a>
                     </div>
                     <p class="nav-banner-name">{{(auth.user | async)?.name}}</p>
                     <p class="nav-banner-mail">{{(auth.user | async)?.email}}</p>
@@ -107,9 +125,13 @@
 
         <mat-sidenav-content class="site">
             <div fxHide.xs="false" fxHide="true" style="height: 64px;"></div>
-            <main class="site-content"><router-outlet></router-outlet></main>
+            <main class="site-content">
+                <router-outlet></router-outlet>
+            </main>
             <div class="main-spacer"></div>
-            <footer class="mat-typography"><app-footer></app-footer></footer>
+            <footer class="mat-typography">
+                <app-footer></app-footer>
+            </footer>
         </mat-sidenav-content>
     </mat-sidenav-container>
 </div>

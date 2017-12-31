@@ -16,12 +16,18 @@
                 </a>
                 <div class="cn circle" (click)="changeAvatar()">
                     <div class="inner">
-                        <a><mat-icon svgIcon="camera" class="avatarIcon"></mat-icon></a>
+                        <a>
+                            <mat-icon svgIcon="camera" class="avatarIcon"></mat-icon>
+                        </a>
                     </div>
                 </div>
             </div>
             <div fxFlex="50%" fxFlex.xs="65%">
-                <a><p class="username white-text changeUsername" (click)="changeUsername()">{{ user.name || 'No name' }}<mat-icon svgIcon="pencil" class="usernameIcon"></mat-icon></p></a>
+                <a>
+                    <p class="username white-text changeUsername" (click)="changeUsername()">{{ user.name || 'No name' }}
+                        <mat-icon svgIcon="pencil" class="usernameIcon"></mat-icon>
+                    </p>
+                </a>
                 <p class="white-text email">{{ user.email || 'No email'}}</p>
             </div>
         </div>

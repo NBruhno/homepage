@@ -1,26 +1,26 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AuthenticationComponent } from './authentication.component';
+import { ChangeLogTableComponent } from './table.component';
 
-describe('AuthenticationComponent', () => {
-    let component: AuthenticationComponent;
-    let fixture: ComponentFixture<AuthenticationComponent>;
+describe('ChangeLogTableComponent', () => {
+    let component: ChangeLogTableComponent;
+    let fixture: ComponentFixture<ChangeLogTableComponent>;
 
     beforeEach(
         async(() => {
             TestBed.configureTestingModule({
-                declarations: [AuthenticationComponent]
+                declarations: [ChangeLogTableComponent]
             }).compileComponents();
         })
     );
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(AuthenticationComponent);
+        fixture = TestBed.createComponent(ChangeLogTableComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    it('should be created', () => {
+    it('should create', () => {
         expect(component).toBeTruthy();
     });
 });

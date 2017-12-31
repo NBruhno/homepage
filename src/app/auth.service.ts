@@ -23,7 +23,6 @@ export interface User {
 
 @Injectable()
 export class AuthService {
-
     private userDoc: AngularFirestoreDocument<User>;
     private usersCollection: AngularFirestoreCollection<User>;
     users: Observable<User[]>;
@@ -31,12 +30,13 @@ export class AuthService {
     userState: any = null;
     userVerified = false;
 
-    constructor(private afAuth: AngularFireAuth,
-                private db: AngularFirestore,
-                private error: ErrorService,
-                private router: Router,
-                private snack: MatSnackBar) {
-
+    constructor(
+        private afAuth: AngularFireAuth,
+        private db: AngularFirestore,
+        private error: ErrorService,
+        private router: Router,
+        private snack: MatSnackBar
+    ) {
         this.user = this.afAuth.authState.switchMap(user => {
             this.usersCollection = this.db.collection('users');
             this.users = this.usersCollection.valueChanges();
@@ -70,40 +70,39 @@ export class AuthService {
     }
 
     private socialSignIn(provider) {
-        return this.afAuth.auth.signInWithPopup(provider)
-            .then((credential) =>  {
-                this.userState = credential.user;
-                this.updateUserData(credential.user);
-            });
+        return this.afAuth.auth.signInWithPopup(provider).then(credential => {
+            this.userState = credential.user;
+            this.updateUserData(credential.user);
+        });
     }
 
     emailSignUp(email: string, password: string) {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-            .then((user) => {
-                this.userState = user;
-                this.updateUserData(user);
-            });
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(user => {
+            this.userState = user;
+            this.updateUserData(user);
+        });
     }
 
     emailLogin(email: string, password: string) {
-        return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-            .then((user) => {
-                this.userState = user;
-                this.updateUserData(user);
-            });
+        return this.afAuth.auth.signInWithEmailAndPassword(email, password).then(user => {
+            this.userState = user;
+            this.updateUserData(user);
+        });
     }
 
     sendVerifyEmail() {
         let user: any = firebase.auth().currentUser;
-        user.sendEmailVerification()
-            .then((success) => this.snack.open(
-                'A mail with a verification link has been sent your way', '', { duration: 4000 }))
-            .catch((error) => this.error.log(error));
+        user
+            .sendEmailVerification()
+            .then(success => this.snack.open('A mail with a verification link has been sent your way', '', { duration: 4000 }))
+            .catch(error => this.error.log(error));
     }
 
     verifyEmail(user: User) {
         if (this.userState.emailVerified) {
-            return this.db.doc(`users/${user.uid}`).update({emailVerified: true})
+            return this.db
+                .doc(`users/${user.uid}`)
+                .update({ emailVerified: true })
                 .catch(error => this.error.log(error))
                 .then(() => {
                     this.router.navigate(['/']);
@@ -116,10 +115,12 @@ export class AuthService {
 
     resetPassword(email: string) {
         const auth = firebase.auth();
-        return auth.sendPasswordResetEmail(email)
+        return auth
+            .sendPasswordResetEmail(email)
             .then(() => {
                 this.snack.open('A mail with a password reset link has been sent your way', '', { duration: 4000 });
-            }).catch(error => this.error.log(error));
+            })
+            .catch(error => this.error.log(error));
     }
 
     signOut(): void {
@@ -156,18 +157,22 @@ export class AuthService {
     }
 
     updateCompleteProfile(user: User, data: any) {
-        return this.db.doc(`users/${user.uid}`).update(data)
+        return this.db
+            .doc(`users/${user.uid}`)
+            .update(data)
             .catch(error => this.error.log(error))
             .then(() => {
                 this.sendVerifyEmail();
-                this.snack.open(
-                    'Welcome ' + data.name + 'an email with a verification link has been sent your way',
-                    '', { duration: 4000 });
+                this.snack.open('Welcome ' + data.name + 'an email with a verification link has been sent your way', '', {
+                    duration: 4000
+                });
             });
     }
 
     updateName(user: User, data: any) {
-        return this.db.doc(`users/${user.uid}`).update(data)
+        return this.db
+            .doc(`users/${user.uid}`)
+            .update(data)
             .catch(error => this.error.log(error))
             .then(() => {
                 this.snack.open('Your name has been changed to  ' + data.name, 'Thank you', { duration: 4000 });

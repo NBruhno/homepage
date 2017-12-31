@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {MatSnackBar} from '@angular/material';
+import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material';
 import * as firebase from 'firebase';
-import {AuthService} from './auth.service';
-import {Observable} from 'rxjs/Observable';
-import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
-import {UpTemp} from './upload/upload';
+import { AuthService } from './auth.service';
+import { Observable } from 'rxjs/Observable';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { UpTemp } from './upload/upload';
 
 export class Upload {
     id: string;
@@ -20,7 +20,6 @@ export class Upload {
 
 @Injectable()
 export class UploadService {
-
     private uploadsCollection: AngularFirestoreCollection<Upload>;
     private uploadDoc: AngularFirestoreDocument<Upload>;
     uploads: Observable<Upload[]>;
@@ -34,26 +33,30 @@ export class UploadService {
 
     deleteUpload(upload: Upload) {
         const storageRef = firebase.storage().ref();
-        this.uploadsCollection.doc(`${upload.id}`).delete()
-            .then( () => {
+        this.uploadsCollection
+            .doc(`${upload.id}`)
+            .delete()
+            .then(() => {
                 storageRef.child(`${this.basePath}/${upload.id}`).delete();
                 this.snack.open(upload.name + ' has been deleted', '', { duration: 4000 });
-            }).catch(error => {
-            this.snack.open(error.message, '', { duration: 4000 });
-            console.error(error);
-        });
+            })
+            .catch(error => {
+                this.snack.open(error.message, '', { duration: 4000 });
+                console.error(error);
+            });
     }
 
     pushUpload(upTemp: UpTemp, shared: boolean) {
         const storageRef = firebase.storage().ref();
         const uploadTask = storageRef.child(`${this.basePath}/${upTemp.fileID}`).put(upTemp.file);
 
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-            (snapshot) =>  {
+        uploadTask.on(
+            firebase.storage.TaskEvent.STATE_CHANGED,
+            snapshot => {
                 const snap = snapshot as firebase.storage.UploadTaskSnapshot;
-                upTemp.progress = (snap.bytesTransferred / snap.totalBytes) * 100;
+                upTemp.progress = snap.bytesTransferred / snap.totalBytes * 100;
             },
-            (error) => {
+            error => {
                 this.snack.open(error.message, '', { duration: 4000 });
                 console.log(error);
             },
@@ -67,7 +70,10 @@ export class UploadService {
                 const filetype = upTemp.file.name.split('.').pop();
                 const size = uploadTask.snapshot.metadata.size;
                 const upload: Upload = { id, name, url, createdAt, updatedAt, uploaderUID, filetype, size, shared };
-                this.uploadsCollection.doc(upload.id).set(upload).catch();
+                this.uploadsCollection
+                    .doc(upload.id)
+                    .set(upload)
+                    .catch();
                 this.snack.open(upTemp.file.name + ' has been uploaded successfully', '', { duration: 4000 });
                 return undefined;
             }

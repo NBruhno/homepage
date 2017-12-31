@@ -17,54 +17,66 @@ export class LoginComponent implements OnInit {
 
     signInWithGoogle(): void {
         this.loaded = false;
-        this.auth.googleLogin().then(() => {
-            this.loaded = true;
-            this.finished = false;
-        }).catch((error) => {
-            this.error.log(error);
-            this.loaded = true;
-            this.finished = true;
-        });
+        this.auth
+            .googleLogin()
+            .then(() => {
+                this.loaded = true;
+                this.finished = false;
+            })
+            .catch(error => {
+                this.error.log(error);
+                this.loaded = true;
+                this.finished = true;
+            });
     }
 
     signInWithFacebook(): void {
         this.loaded = false;
-        this.auth.facebookLogin().then(() => {
-            this.loaded = true;
-            this.finished = false;
-        }).catch((error) => {
-            this.error.log(error);
-            this.loaded = true;
-            this.finished = true;
-        });
+        this.auth
+            .facebookLogin()
+            .then(() => {
+                this.loaded = true;
+                this.finished = false;
+            })
+            .catch(error => {
+                this.error.log(error);
+                this.loaded = true;
+                this.finished = true;
+            });
     }
 
     signInWithTwitter(): void {
         this.loaded = false;
-        this.auth.twitterLogin().then(() => {
-            this.loaded = true;
-            this.finished = false;
-        }).catch((error) => {
-            this.error.log(error);
-            this.loaded = true;
-            this.finished = true;
-        });
+        this.auth
+            .twitterLogin()
+            .then(() => {
+                this.loaded = true;
+                this.finished = false;
+            })
+            .catch(error => {
+                this.error.log(error);
+                this.loaded = true;
+                this.finished = true;
+            });
     }
 
     signInWithGithub(): void {
         this.loaded = false;
-        this.auth.githubLogin().then(() => {
-            this.loaded = true;
-            this.finished = false;
-        }).catch((error) => {
-            this.error.log(error);
-            this.loaded = true;
-            this.finished = true;
-        });
+        this.auth
+            .githubLogin()
+            .then(() => {
+                this.loaded = true;
+                this.finished = false;
+            })
+            .catch(error => {
+                this.error.log(error);
+                this.loaded = true;
+                this.finished = true;
+            });
     }
 
     ngOnInit() {
-        this.auth.user.subscribe((user) => {
+        this.auth.user.subscribe(user => {
             if (user) {
                 if (user.uid !== '') {
                     this.finished = true;
@@ -75,4 +87,3 @@ export class LoginComponent implements OnInit {
         });
     }
 }
-

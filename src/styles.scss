@@ -1,201 +1,203 @@
 @charset "UTF-8";
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
-    background: #f1f1f1;
+    background: #f4f4f4;
 }
 
 .circle {
     border-radius: 50%;
 }
 
-.center, .center-align {
+.center,
+.center-align {
     text-align: center;
 }
 
 .primary-50 {
-    background-color: #FBE9E7 !important;
+    background-color: #fbe9e7 !important;
 }
 
 .primary-text-50 {
-    color: #FBE9E7 !important;
+    color: #fbe9e7 !important;
 }
 
 .primary-100 {
-    background-color: #FFCCBC !important;
+    background-color: #ffccbc !important;
 }
 
 .primary-text-100 {
-    color: #FFCCBC !important;
+    color: #ffccbc !important;
 }
 
 .primary-200 {
-    background-color: #FFAB91 !important;
+    background-color: #ffab91 !important;
 }
 
 .primary-text-200 {
-    color: #FFAB91 !important;
+    color: #ffab91 !important;
 }
 
 .primary-300 {
-    background-color: #FF8A65 !important;
+    background-color: #ff8a65 !important;
 }
 
 .primary-text-300 {
-    color: #FF8A65 !important;
+    color: #ff8a65 !important;
 }
 
 .primary-400 {
-    background-color: #FF7043 !important;
+    background-color: #ff7043 !important;
 }
 
 .primary-text-400 {
-    color: #FF7043 !important;
+    color: #ff7043 !important;
 }
 
 .primary-500 {
-    background-color: #FF5722 !important;
+    background-color: #ff5722 !important;
 }
 
 .primary-text-500 {
-    color: #FF5722 !important;
+    color: #ff5722 !important;
 }
 
 .primary-600 {
-    background-color: #F4511E !important;
+    background-color: #f4511e !important;
 }
 
 .primary-text-600 {
-    color: #F4511E !important;
+    color: #f4511e !important;
 }
 
 .primary-700 {
-    background-color: #E64A19 !important;
+    background-color: #e64a19 !important;
 }
 
 .primary-text-700 {
-    color: #E64A19 !important;
+    color: #e64a19 !important;
 }
 
 .primary-800 {
-    background-color: #D84315 !important;
+    background-color: #d84315 !important;
 }
 
 .primary-text-800 {
-    color: #D84315 !important;
+    color: #d84315 !important;
 }
 
 .primary-900 {
-    background-color: #BF360C !important;
+    background-color: #bf360c !important;
 }
 
 .primary-text-900 {
-    color: #BF360C !important;
+    color: #bf360c !important;
 }
 
 .primary-a100 {
-    background-color: #FF9E80 !important;
+    background-color: #ff9e80 !important;
 }
 
 .primary-text-a100 {
-    color: #FF9E80 !important;
+    color: #ff9e80 !important;
 }
 
 .primary-a200 {
-    background-color: #FF6E40 !important;
+    background-color: #ff6e40 !important;
 }
 
 .primary-text-a200 {
-    color: #FF6E40 !important;
+    color: #ff6e40 !important;
 }
 
 .primary-a400 {
-    background-color: #FF3D00 !important;
+    background-color: #ff3d00 !important;
 }
 
 .primary-text-a400 {
-    color: #FF3D00 !important;
+    color: #ff3d00 !important;
 }
 
 .primary-a700 {
-    background-color: #DD2C00 !important;
+    background-color: #dd2c00 !important;
 }
 
 .primary-text-a700 {
-    color: #DD2C00 !important;
+    color: #dd2c00 !important;
 }
 
 .secondary-50 {
-    background-color: #E0F7FA !important;
+    background-color: #e0f7fa !important;
 }
 
 .secondary-text-50 {
-    color: #E0F7FA !important;
+    color: #e0f7fa !important;
 }
 
 .secondary-100 {
-    background-color: #B2EBF2 !important;
+    background-color: #b2ebf2 !important;
 }
 
 .secondary-text-100 {
-    color: #B2EBF2 !important;
+    color: #b2ebf2 !important;
 }
 
 .secondary-200 {
-    background-color: #80DEEA !important;
+    background-color: #80deea !important;
 }
 
 .secondary-text-200 {
-    color: #80DEEA !important;
+    color: #80deea !important;
 }
 
 .secondary-300 {
-    background-color: #4DD0E1 !important;
+    background-color: #4dd0e1 !important;
 }
 
 .secondary-text-300 {
-    color: #4DD0E1 !important;
+    color: #4dd0e1 !important;
 }
 
 .secondary-400 {
-    background-color: #26C6DA !important;
+    background-color: #26c6da !important;
 }
 
 .secondary-text-400 {
-    color: #26C6DA !important;
+    color: #26c6da !important;
 }
 
 .secondary-500 {
-    background-color: #00BCD4 !important;
+    background-color: #00bcd4 !important;
 }
 
 .secondary-text-500 {
-    color: #00BCD4 !important;
+    color: #00bcd4 !important;
 }
 
 .secondary-600 {
-    background-color: #00ACC1 !important;
+    background-color: #00acc1 !important;
 }
 
 .secondary-text-600 {
-    color: #00ACC1 !important;
+    color: #00acc1 !important;
 }
 
 .secondary-700 {
-    background-color: #0097A7 !important;
+    background-color: #0097a7 !important;
 }
 
 .secondary-text-700 {
-    color: #0097A7 !important;
+    color: #0097a7 !important;
 }
 
 .secondary-800 {
-    background-color: #00838F !important;
+    background-color: #00838f !important;
 }
 
 .secondary-text-800 {
-    color: #00838F !important;
+    color: #00838f !important;
 }
 
 .secondary-900 {
@@ -207,35 +209,35 @@ html, body {
 }
 
 .secondary-a100 {
-    background-color: #84FFFF !important;
+    background-color: #84ffff !important;
 }
 
 .secondary-text-a100 {
-    color: #84FFFF !important;
+    color: #84ffff !important;
 }
 
 .secondary-a200 {
-    background-color: #18FFFF !important;
+    background-color: #18ffff !important;
 }
 
 .secondary-text-a200 {
-    color: #18FFFF !important;
+    color: #18ffff !important;
 }
 
 .secondary-a400 {
-    background-color: #00E5FF !important;
+    background-color: #00e5ff !important;
 }
 
 .secondary-text-a400 {
-    color: #00E5FF !important;
+    color: #00e5ff !important;
 }
 
 .secondary-a700 {
-    background-color: #00B8D4 !important;
+    background-color: #00b8d4 !important;
 }
 
 .secondary-text-a700 {
-    color: #00B8D4 !important;
+    color: #00b8d4 !important;
 }
 
 .black {
@@ -247,19 +249,19 @@ html, body {
 }
 
 .white {
-    background-color: #FFFFFF !important;
+    background-color: #ffffff !important;
 }
 
 .white-text {
-    color: #FFFFFF !important;
+    color: #ffffff !important;
 }
 
 .warn {
-    color: #D50000 !important;
+    color: #d50000 !important;
 }
 
 .warn-text {
-    color: #D50000 !important;
+    color: #d50000 !important;
 }
 
 .transparent {
@@ -288,16 +290,16 @@ a.mat-menu-item > mat-icon {
     position: fixed;
     height: 100%;
     width: 100%;
-    background: #FF5722;
+    background: #ff5722;
     padding-top: 27vh;
     text-align: center;
     z-index: -1;
-    transition: opacity .8s ease-out;
+    transition: opacity 0.8s ease-out;
 }
 
 app-root:empty + .initial-loading {
-  opacity: 1;
-  z-index: 100;
+    opacity: 1;
+    z-index: 100;
 }
 
 .initial-logo {
@@ -314,36 +316,61 @@ app-root:empty + .initial-loading {
     width: 10%;
     position: relative;
     overflow: hidden;
-    background-color: #FF7043;
+    background-color: #ff7043;
 }
 
 .initial-loadingbar:before {
     display: block;
     position: absolute;
-    content: "";
+    content: '';
     left: -200px;
     width: 200px;
     height: 2px;
-    background-color: #00E5FF;
+    background-color: #00e5ff;
     animation: initial-loadingbar 2s linear infinite;
 }
 
 @keyframes initial-loadingbar {
-    from {left: -200px; width: 30%;}
-    50% {width: 30%;}
-    70% {width: 70%;}
-    80% {left: 50%;}
-    95% {left: 120%;}
-    to {left: 100%;}
+    from {
+        left: -200px;
+        width: 30%;
+    }
+    50% {
+        width: 30%;
+    }
+    70% {
+        width: 70%;
+    }
+    80% {
+        left: 50%;
+    }
+    95% {
+        left: 120%;
+    }
+    to {
+        left: 100%;
+    }
 }
 
 @keyframes initial-logo {
-    from {opacity: 1;}
-    30% {opacity: 0.2;}
-    60% {opacity: 0.2;}
-    70% {opacity: 0.3;}
-    80% {opacity: 0.5;}
-    to {opacity: 1;}
+    from {
+        opacity: 1;
+    }
+    30% {
+        opacity: 0.2;
+    }
+    60% {
+        opacity: 0.2;
+    }
+    70% {
+        opacity: 0.3;
+    }
+    80% {
+        opacity: 0.5;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 a {
@@ -364,17 +391,17 @@ a {
     padding: 0 24px;
 }
 
-.testSelectionItemMobile{
+.testSelectionItemMobile {
     padding: 0;
 }
 
 .testSelectionItem:hover {
-    background-color: #E3F2FD;
+    background-color: #e3f2fd;
 }
 
 .testSelectionCard {
     background: #fff;
-    color: rgba(0,0,0,.87);
+    color: rgba(0, 0, 0, 0.87);
     display: block;
     position: relative;
     padding: 0;
@@ -388,7 +415,7 @@ a {
 }
 
 .header {
-    background-color: #FF5722;
+    background-color: #ff5722;
     position: absolute;
     width: 100%;
     height: 80vh;
@@ -404,7 +431,7 @@ a {
 }
 
 .footer {
-    background-color: #00E5FF;
+    background-color: #00e5ff;
     position: absolute;
     width: 100%;
     height: 200vh;
@@ -420,7 +447,7 @@ a {
 }
 
 .about-list {
-    background-color: #00E5FF;
+    background-color: #00e5ff;
     position: absolute;
     width: 100%;
     height: 300vh;
@@ -463,7 +490,7 @@ a {
         display: none;
     }
     .footer-content {
-        background: #00E5FF;
+        background: #00e5ff;
         margin-top: 0;
     }
     footer {
@@ -472,4 +499,13 @@ a {
     .main-spacer {
         margin-top: 0;
     }
+}
+
+.card-action-divider {
+    height: 1px;
+    background-color: #e9e9e9;
+}
+
+.mat-card-image {
+    border-bottom: 1px solid #e9e9e9;
 }

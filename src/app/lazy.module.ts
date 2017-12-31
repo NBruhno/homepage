@@ -4,9 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    CommonModule
-  ],
-  declarations: []
+    imports: [CommonModule],
+    declarations: []
 })
-export class LazyModule { }
+export class LazyModule {}

@@ -5,7 +5,6 @@ import { AvatarComponent } from './profile/avatar/avatar.component';
 
 @Injectable()
 export class DialogService {
-
     constructor(public dialog: MatDialog) {}
 
     openDialog(message: string, type: string): void {
@@ -14,8 +13,7 @@ export class DialogService {
                 data: { message: message }
             });
 
-            dialogRef.afterClosed().subscribe(result => {
-            });
+            dialogRef.afterClosed().subscribe(result => {});
         }
 
         if (type === 'username') {
@@ -23,26 +21,20 @@ export class DialogService {
                 data: { message: message }
             });
 
-            dialogRef.afterClosed().subscribe(result => {
-
-            });
+            dialogRef.afterClosed().subscribe(result => {});
         }
     }
 }
 
 @Component({
     selector: 'alert-dialog',
-    template: '<span mat-dialog-title>An error has occurred</span><p class="mat-body">{{data.message}}</p><button mat-button (click)="onNoClick();">Dismiss</button>',
+    template:
+        '<span mat-dialog-title>An error has occurred</span><p class="mat-body">{{data.message}}</p><button mat-button (click)="onNoClick();">Dismiss</button>'
 })
-
 export class AlertDialog {
-
-    constructor(
-        public dialogRef: MatDialogRef<AlertDialog>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
+    constructor(public dialogRef: MatDialogRef<AlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {}
 
     onNoClick(): void {
         this.dialogRef.close();
     }
-
 }
