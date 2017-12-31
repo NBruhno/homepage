@@ -39,8 +39,8 @@ export class AvatarComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         private afAuth: AngularFireAuth,
         private db: AngularFirestore,
-        private snack: MatSnackBar) {
-
+        private snack: MatSnackBar
+    ) {
         this.user = this.afAuth.authState.switchMap(user => {
             if (user) {
                 this.userDoc = db.doc<User>(`/users/${user.uid}`);
@@ -52,7 +52,7 @@ export class AvatarComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.user.subscribe(user => this.userTemp = user);
+        this.user.subscribe(user => (this.userTemp = user));
     }
 
     dropzoneState($event: boolean) {
@@ -61,7 +61,7 @@ export class AvatarComponent implements OnInit {
 
     handleDrop(fileList: FileList) {
         const filesIndex = _.range(fileList.length);
-        _.each(filesIndex, (idx) => {
+        _.each(filesIndex, idx => {
             this.currentUpload = new UpTemp(fileList[idx], 'avatar');
             this.pushUpload(this.currentUpload);
         });
@@ -69,7 +69,7 @@ export class AvatarComponent implements OnInit {
 
     fileEvent(fileList: FileList) {
         const filesIndex = _.range(fileList.length);
-        _.each(filesIndex, (idx) => {
+        _.each(filesIndex, idx => {
             this.currentUpload = new UpTemp(fileList[idx], 'avatar');
             this.pushUpload(this.currentUpload);
         });
@@ -78,22 +78,27 @@ export class AvatarComponent implements OnInit {
     pushUpload(upTemp: UpTemp) {
         const storageRef = firebase.storage().ref();
         const uploadTask = storageRef.child(`users/${this.userTemp.uid}/avatar`).put(upTemp.file);
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-            (snapshot) =>  {
+        uploadTask.on(
+            firebase.storage.TaskEvent.STATE_CHANGED,
+            snapshot => {
                 const snap = snapshot as firebase.storage.UploadTaskSnapshot;
-                upTemp.progress = (snap.bytesTransferred / snap.totalBytes) * 100;
+                upTemp.progress = snap.bytesTransferred / snap.totalBytes * 100;
             },
-            (error) => {
+            error => {
                 this.snack.open(error.message, '', { duration: 4000 });
                 console.log(error);
             },
             () => {
                 this.userTemp.photoURL = uploadTask.snapshot.downloadURL;
-                this.userDoc.update(this.userTemp).catch(error => console.log(error)).then(() => {
-                    this.snack.open('Your avatar has been updated sucessfully', 'OK', { duration: 4000 });
-                    this.dialogRef.close();
-                });
+                this.userDoc
+                    .update(this.userTemp)
+                    .catch(error => console.log(error))
+                    .then(() => {
+                        this.snack.open('Your avatar has been updated sucessfully', 'OK', { duration: 4000 });
+                        this.dialogRef.close();
+                    });
                 return undefined;
-            });
+            }
+        );
     }
 }

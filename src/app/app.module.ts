@@ -80,6 +80,8 @@ import { BytesPipe } from './bytes.pipe';
 import { ProjectsComponent } from './projects/projects.component';
 import { ProjectTemplateComponent } from './projects/project-template/project-template.component';
 import { IDService } from './id.service';
+import { ChangeLogComponent } from './change-log/change-log.component';
+import { ChangeLogTableComponent } from './change-log/table/table.component';
 
 @NgModule({
     declarations: [
@@ -108,7 +110,9 @@ import { IDService } from './id.service';
         DetailsComponent,
         BytesPipe,
         ProjectsComponent,
-        ProjectTemplateComponent
+        ProjectTemplateComponent,
+        ChangeLogComponent,
+        ChangeLogTableComponent
     ],
     imports: [
         BrowserModule,
@@ -153,13 +157,9 @@ import { IDService } from './id.service';
         MatTableModule,
         MatTabsModule,
         MatToolbarModule,
-        MatTooltipModule,
+        MatTooltipModule
     ],
-    entryComponents: [
-        NameComponent,
-        AlertDialog,
-        AvatarComponent
-    ],
+    entryComponents: [NameComponent, AlertDialog, AvatarComponent],
     providers: [
         AuthService,
         AuthGuard,
@@ -173,9 +173,6 @@ import { IDService } from './id.service';
         ErrorService,
         IDService
     ],
-    bootstrap: [
-        AppComponent
-    ]
+    bootstrap: [AppComponent]
 })
-
 export class AppModule {}

@@ -14,22 +14,23 @@ import { IDService } from './id.service';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.css']
 })
-
 export class AppComponent implements OnInit, OnDestroy {
     mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
 
-    constructor(private iconRegistry: MatIconRegistry,
-                private domSanitizer: DomSanitizer,
-                private title: Title,
-                private activatedRoute: ActivatedRoute,
-                private router: Router,
-                private id: IDService,
-                public auth: AuthService,
-                changeDetectorRef: ChangeDetectorRef,
-                media: MediaMatcher) {
-
-        iconRegistry.addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('../assets/mdi.svg'))
+    constructor(
+        private iconRegistry: MatIconRegistry,
+        private domSanitizer: DomSanitizer,
+        private title: Title,
+        private activatedRoute: ActivatedRoute,
+        private router: Router,
+        private id: IDService,
+        public auth: AuthService,
+        changeDetectorRef: ChangeDetectorRef,
+        media: MediaMatcher
+    ) {
+        iconRegistry
+            .addSvgIconSet(domSanitizer.bypassSecurityTrustResourceUrl('../assets/mdi.svg'))
             .addSvgIcon('firebase', domSanitizer.bypassSecurityTrustResourceUrl('../assets/google.svg'));
 
         this.mobileQuery = media.matchMedia('(max-width: 600px)');
@@ -47,13 +48,16 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.router.events
-            .filter((event) => event instanceof NavigationEnd)
+            .filter(event => event instanceof NavigationEnd)
             .map(() => this.activatedRoute)
-            .map((route) => {
-                while (route.firstChild) { route = route.firstChild; }
+            .map(route => {
+                while (route.firstChild) {
+                    route = route.firstChild;
+                }
                 return route;
-            }).filter((route) => route.outlet === 'primary')
-            .mergeMap((route) => route.data)
-            .subscribe((event) => this.title.setTitle(event['title']));
+            })
+            .filter(route => route.outlet === 'primary')
+            .mergeMap(route => route.data)
+            .subscribe(event => this.title.setTitle(event['title']));
     }
 }

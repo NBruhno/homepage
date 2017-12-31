@@ -38,7 +38,7 @@
     </div>
 </form>
 
-<form [formGroup]="userForm" *ngIf="!newUser && loaded && finished"  (ngSubmit)="signup()">
+<form [formGroup]="userForm" *ngIf="!newUser && loaded && finished" (ngSubmit)="signup()">
     <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="25px" class="mat-typography">
         <mat-form-field fxFlex="50%">
             <input matInput autocomplete="email" id="email-signup" type="email" formControlName="email" placeholder="Email">

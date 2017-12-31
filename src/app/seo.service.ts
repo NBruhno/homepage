@@ -3,21 +3,23 @@ import { Meta } from '@angular/platform-browser';
 
 @Injectable()
 export class SeoService {
-
-  constructor(private meta: Meta) { }
+    constructor(private meta: Meta) {}
 
     generateTags(config) {
         config = {
             title: 'Bruhno',
-            description: 'This is Nicolai Bruhn Lauritsen or more commonly known as Bruhno\'s personal website which ' +
-            'functions as a portfolio and a playground.',
+            description:
+                'This is Nicolai Bruhn Lauritsen or more commonly known as Bruhno\'s personal website which functions as a portfolio.',
             image: 'https://bruhno.com/assets/images/B Light.svg',
             slug: '',
             ...config
         };
 
-        this.meta.updateTag({ name: 'twitter:card', content: 'This is Nicolai Bruhn Lauritsen or more commonly ' +
-        'known as Bruhno\'s personal website which functions as a portfolio and a playground.'});
+        this.meta.updateTag({
+            name: 'twitter:card',
+            content:
+                'This is Nicolai Bruhn Lauritsen or more commonly known as Bruhno\'s personal website which functions as a portfolio.'
+        });
         this.meta.updateTag({ name: 'twitter:site', content: '@NBruhno' });
         this.meta.updateTag({ name: 'twitter:title', content: config.title });
         this.meta.updateTag({ name: 'twitter:description', content: config.description });
@@ -30,5 +32,4 @@ export class SeoService {
         this.meta.updateTag({ property: 'og:image', content: config.image });
         this.meta.updateTag({ property: 'og:url', content: `https://bruhno.com/${config.slug}` });
     }
-
 }

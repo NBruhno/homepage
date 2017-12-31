@@ -1,5 +1,7 @@
 <div class="header"></div>
-<div fxShow fxHide.xs="true" fxHide="false"><br></div>
+<div fxShow fxHide.xs="true" fxHide="false">
+    <br>
+</div>
 <div fxLayout="row" fxLayoutAlign="center">
     <div fxFlex="30%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="60%" fxFlex.xs="100%">
         <mat-card class="mat-typography" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;">
@@ -28,10 +30,12 @@
 
                 <div *ngIf="user.completeProfile && !user.emailVerified" fxLayout="column" fxLayoutAlign="center center">
                     <h3 fxFlex="100%" class="center">Your email is not verified yet, please select one of the options below</h3>
-                    <p style="text-align: just">An email with a verification link should already have been sent, but if not or you just can't find it, feel free to request for a new one</p>
+                    <p style="text-align: just">An email with a verification link should already have been sent, but if not or you just can't find it, feel free to request
+                        for a new one</p>
                     <button fxFlex="100%" mat-button color="accent" (click)="auth.sendVerifyEmail()">Resend activation link</button>
                     <br>
-                    <p style="text-align: justify">Once you have clicked the link in the email and it says "Your email has been verified", please confirm the process by pressing the button below</p>
+                    <p style="text-align: justify">Once you have clicked the link in the email and it says "Your email has been verified", please confirm the process by pressing
+                        the button below</p>
                     <button fxFlex="100%" mat-button color="primary" (click)="auth.verifyEmail(user)">Confirm my email is verified</button>
                 </div>
 
@@ -43,4 +47,6 @@
         </mat-card>
     </div>
 </div>
-<div fxShow fxHide.xs="true" fxHide="false"><br></div>
+<div fxShow fxHide.xs="true" fxHide="false">
+    <br>
+</div>

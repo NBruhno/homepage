@@ -7,27 +7,26 @@ import { AuthService } from '../../auth.service';
     templateUrl: './details.component.html',
     styleUrls: ['./details.component.css']
 })
-
 export class DetailsComponent implements OnInit {
     detailForm: FormGroup;
 
     formErrors = {
-        'name': '',
-        'country': '',
+        name: '',
+        country: ''
     };
 
     validationMessages = {
-        'name': {
-            'required': 'Your full name is required.',
-            'pattern': 'Your name can only exist of letters.',
+        name: {
+            required: 'Your full name is required.',
+            pattern: 'Your name can only exist of letters.'
         },
-        'country': {
-            'required': 'Last country is required.',
-            'pattern': 'Your country can only exist of letters.',
-        },
+        country: {
+            required: 'Last country is required.',
+            pattern: 'Your country can only exist of letters.'
+        }
     };
 
-    constructor(private fb: FormBuilder, public auth: AuthService) { }
+    constructor(private fb: FormBuilder, public auth: AuthService) {}
 
     ngOnInit() {
         this.buildForm();
@@ -35,21 +34,17 @@ export class DetailsComponent implements OnInit {
 
     buildForm(): void {
         this.detailForm = this.fb.group({
-            'name': ['', [
-                Validators.required,
-                Validators.pattern('^[a-zA-Z æøåÆØÅ]*$'),
-            ]],
-            'country': ['', [
-                Validators.required,
-                Validators.pattern('^[a-zA-Z æøåÆØÅ]*$'),
-            ]],
+            name: ['', [Validators.required, Validators.pattern('^[a-zA-Z æøåÆØÅ]*$')]],
+            country: ['', [Validators.required, Validators.pattern('^[a-zA-Z æøåÆØÅ]*$')]]
         });
         this.detailForm.valueChanges.subscribe(data => this.onValueChanged(data));
         this.onValueChanged();
     }
 
     onValueChanged(data?: any) {
-        if (!this.detailForm) { return; }
+        if (!this.detailForm) {
+            return;
+        }
         const form = this.detailForm;
 
         for (const field in this.formErrors) {

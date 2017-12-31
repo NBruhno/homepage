@@ -7,16 +7,12 @@ import { AuthService } from '../auth.service';
     templateUrl: './navigation.component.html',
     styleUrls: ['./navigation.component.css']
 })
-
 export class NavigationComponent implements OnInit {
-
     constructor(private router: Router, public auth: AuthService) {}
 
     signOut() {
         this.auth.signOut();
     }
 
-    ngOnInit() {
-    }
-
+    ngOnInit() {}
 }

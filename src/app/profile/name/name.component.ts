@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs/Observable';
 import { AuthService } from '../../auth.service';
@@ -18,9 +18,9 @@ interface User {
 }
 
 @Component({
-  selector: 'app-name',
-  templateUrl: './name.component.html',
-  styleUrls: ['./name.component.css']
+    selector: 'app-name',
+    templateUrl: './name.component.html',
+    styleUrls: ['./name.component.css']
 })
 export class NameComponent implements OnInit {
     user: Observable<User>;
@@ -29,19 +29,19 @@ export class NameComponent implements OnInit {
         public dialogRef: MatDialogRef<NameComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         public auth: AuthService,
-        private fb: FormBuilder) {
-    }
+        private fb: FormBuilder
+    ) {}
 
     detailForm: FormGroup;
 
     formErrors = {
-        'name': '',
+        name: ''
     };
 
     validationMessages = {
-        'name': {
-            'required': 'Your full name is required.',
-            'pattern': 'Your name can only exist of letters.',
+        name: {
+            required: 'Your full name is required.',
+            pattern: 'Your name can only exist of letters.'
         }
     };
 
@@ -51,17 +51,16 @@ export class NameComponent implements OnInit {
 
     buildForm(): void {
         this.detailForm = this.fb.group({
-            'name': ['', [
-                Validators.required,
-                Validators.pattern('^[a-zA-Z æøåÆØÅ]*$'),
-            ]]
+            name: ['', [Validators.required, Validators.pattern('^[a-zA-Z æøåÆØÅ]*$')]]
         });
         this.detailForm.valueChanges.subscribe(data => this.onValueChanged(data));
         this.onValueChanged();
     }
 
     onValueChanged(data?: any) {
-        if (!this.detailForm) { return; }
+        if (!this.detailForm) {
+            return;
+        }
         const form = this.detailForm;
 
         for (const field in this.formErrors) {
@@ -78,8 +77,10 @@ export class NameComponent implements OnInit {
     }
 
     updateName(user) {
-        return this.auth.updateName(user, {
-            name: this.detailForm.get('name').value
-        }).then(() => this.dialogRef.close());
+        return this.auth
+            .updateName(user, {
+                name: this.detailForm.get('name').value
+            })
+            .then(() => this.dialogRef.close());
     }
 }

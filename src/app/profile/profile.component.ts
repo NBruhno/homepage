@@ -8,11 +8,9 @@ import { DialogService } from '../dialog.service';
     styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
     constructor(public auth: AuthService, private dialog: DialogService) {}
 
-    ngOnInit() {
-    }
+    ngOnInit() {}
 
     changeUsername() {
         this.dialog.openDialog('Changing username', 'username');
@@ -21,5 +19,4 @@ export class ProfileComponent implements OnInit {
     changeAvatar() {
         this.dialog.openDialog('Changing avatar', 'avatar');
     }
-
 }

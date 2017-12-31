@@ -1,12 +1,13 @@
 <div class="header"></div>
-<div fxShow="false" fxShow.gt-xs><br></div>
+<div fxShow="false" fxShow.gt-xs>
+    <br>
+</div>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center start" fxLayoutAlign.xs="center" class="mat-typography">
     <div fxFlex.gt-xs="32%" fxFlex.xs="100%" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;" class="testSelectionCard mat-elevation-z1">
         <mat-list class="testSelection">
             <h3 mat-subheader>Public Uploads</h3>
-            <a class="center" *ngIf="(auth.user | async) && (auth.user | async)?.admin === true" appFileDrop
-               (filesDropped)="handleDrop($event, true)" (filesHovered)="dropzoneState($event)"
-               [ngClass]="{'active': dropzoneActive}" (click)="fileUpload.click();">
+            <a class="center" *ngIf="(auth.user | async) && (auth.user | async)?.admin === true" appFileDrop (filesDropped)="handleDrop($event, true)" (filesHovered)="dropzoneState($event)"
+                [ngClass]="{'active': dropzoneActive}" (click)="fileUpload.click();">
                 <mat-list-item class="testSelectionItem uploadZone">
                     <h4 mat-line>Drop your files here or click to select the files to upload</h4>
                     <input type="file" #fileUpload id="fileUpload" style="display: none;" (change)="fileEvent(fileUpload.files, false)" multiple>
@@ -17,22 +18,23 @@
                 </div>
             </a>
             <div *ngIf="(auth.user | async) && !(auth.user | async)?.admin">
-                <h2  mat-subheader>Uploading is currently limited to the admins</h2>
+                <h2 mat-subheader>Uploading is currently limited to the admins</h2>
             </div>
             <div *ngIf="!ready">
                 <mat-spinner style="margin:0 auto;"></mat-spinner>
                 <br>
             </div>
-            <div *ngFor="let upload of up.uploads | async"><app-upload-detail [upload]="upload"></app-upload-detail></div>
+            <div *ngFor="let upload of up.uploads | async">
+                <app-upload-detail [upload]="upload"></app-upload-detail>
+            </div>
         </mat-list>
     </div>
     <div fxFlex="1%" fxShow="false" fxShow.gt-xs></div>
     <div fxFlex.gt-xs="32%" fxFlex.xs="100%" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;" class="testSelectionCard mat-elevation-z1">
         <mat-list class="testSelection">
             <h3 mat-subheader>Private Uploads</h3>
-            <a class="center" *ngIf="(auth.user | async) && (auth.user | async)?.admin === true" appFileDrop
-               (filesDropped)="handleDrop($event, false)" (filesHovered)="dropzoneState($event)"
-               [ngClass]="{'active': dropzoneActive}" (click)="fileUploadPrivate.click();">
+            <a class="center" *ngIf="(auth.user | async) && (auth.user | async)?.admin === true" appFileDrop (filesDropped)="handleDrop($event, false)" (filesHovered)="dropzoneState($event)"
+                [ngClass]="{'active': dropzoneActive}" (click)="fileUploadPrivate.click();">
                 <mat-list-item class="testSelectionItem uploadZone">
                     <h4 mat-line>Drop your files here or click to select the files to upload</h4>
                     <input type="file" #fileUploadPrivate id="fileUploadPrivate" style="display: none;" (change)="fileEvent(fileUploadPrivate.files, false)" multiple>
@@ -43,15 +45,21 @@
                 </div>
             </a>
             <div *ngIf="(auth.user | async) && !(auth.user | async)?.admin">
-                <h2  mat-subheader>Uploading is currently limited to the admins</h2>
+                <h2 mat-subheader>Uploading is currently limited to the admins</h2>
             </div>
             <div *ngIf="!ready">
                 <mat-spinner style="margin:0 auto;"></mat-spinner>
                 <br>
             </div>
-            <div *ngFor="let upload of privateUploads | async"><app-upload-detail [upload]="upload"></app-upload-detail></div>
+            <div *ngFor="let upload of privateUploads | async">
+                <app-upload-detail [upload]="upload"></app-upload-detail>
+            </div>
         </mat-list>
     </div>
 </div>
-<div fxShow="false" fxShow.gt-xs><br></div>
-<div fxShow="false" fxShow.gt-xs><br></div>
+<div fxShow="false" fxShow.gt-xs>
+    <br>
+</div>
+<div fxShow="false" fxShow.gt-xs>
+    <br>
+</div>

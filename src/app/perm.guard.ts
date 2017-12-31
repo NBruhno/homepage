@@ -11,9 +11,7 @@ import 'rxjs/add/operator/take';
 @Injectable()
 export class PermGuard implements CanActivate {
     constructor(private auth: AuthService, private router: Router, private snack: MatSnackBar) {}
-    canActivate(
-        next: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot): Observable<boolean> | boolean {
+    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
         return this.auth.user
             .take(1)
             .map(user => _.get(user, 'admin') === true)

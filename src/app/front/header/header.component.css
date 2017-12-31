@@ -5,7 +5,7 @@
 }
 
 .title {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
     font-weight: 100;
     color: #424242;
 }
@@ -44,35 +44,35 @@
 }
 
 /*body {*/
-    /*background: -webkit-linear-gradient(225deg, #f62d51, #2a7cb6);*/
-    /*background: -moz-linear-gradient(225deg, #f62d51, #2a7cb6);*/
-    /*background: -o-linear-gradient(225deg, #f62d51, #2a7cb6);*/
-    /*background: linear-gradient(225deg, #f62d51, #2a7cb6);*/
-    /*background-size: 175% 175%;*/
+/*background: -webkit-linear-gradient(225deg, #f62d51, #2a7cb6);*/
+/*background: -moz-linear-gradient(225deg, #f62d51, #2a7cb6);*/
+/*background: -o-linear-gradient(225deg, #f62d51, #2a7cb6);*/
+/*background: linear-gradient(225deg, #f62d51, #2a7cb6);*/
+/*background-size: 175% 175%;*/
 
-    /*-webkit-animation: gradientBackground 8s ease-in-out infinite;*/
-    /*-moz-animation: gradientBackground 8s ease-in-out infinite;*/
-    /*-o-animation: gradientBackground 8s ease-in-out infinite;*/
-    /*animation: gradientBackground 8s ease-in-out infinite;*/
+/*-webkit-animation: gradientBackground 8s ease-in-out infinite;*/
+/*-moz-animation: gradientBackground 8s ease-in-out infinite;*/
+/*-o-animation: gradientBackground 8s ease-in-out infinite;*/
+/*animation: gradientBackground 8s ease-in-out infinite;*/
 /*}*/
 
 /*@-webkit-keyframes gradientBackground {*/
-    /*0%{background-position:100% 0%}*/
-    /*50%{background-position:0% 0%}*/
-    /*100%{background-position:0% 100%}*/
+/*0%{background-position:100% 0%}*/
+/*50%{background-position:0% 0%}*/
+/*100%{background-position:0% 100%}*/
 /*}*/
 /*@-moz-keyframes gradientBackground {*/
-    /*0%{background-position:100% 0%}*/
-    /*50%{background-position:0% 0%}*/
-    /*100%{background-position:0% 100%}*/
+/*0%{background-position:100% 0%}*/
+/*50%{background-position:0% 0%}*/
+/*100%{background-position:0% 100%}*/
 /*}*/
 /*@-o-keyframes gradientBackground {*/
-    /*0%{background-position:100% 0%}*/
-    /*50%{background-position:0% 0%}*/
-    /*100%{background-position:0% 100%}*/
+/*0%{background-position:100% 0%}*/
+/*50%{background-position:0% 0%}*/
+/*100%{background-position:0% 100%}*/
 /*}*/
 /*@keyframes gradientBackground {*/
-    /*0%{background-position:100% 0%}*/
-    /*50%{background-position:0% 0%}*/
-    /*100%{background-position:100% 0%}*/
+/*0%{background-position:100% 0%}*/
+/*50%{background-position:0% 0%}*/
+/*100%{background-position:100% 0%}*/
 /*}*/

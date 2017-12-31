@@ -14,10 +14,12 @@
 <div *ngIf="loaded && finished">
     <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="5px">
         <div fxFlex="50%" fxFlex.xs="100%" class="loginButton googleLogin" (click)="signInWithGoogle()">
-            <mat-icon svgIcon="google" style="vertical-align: -30%"></mat-icon><span style="margin-left: 12px">Login with Google</span>
+            <mat-icon svgIcon="google" style="vertical-align: -30%"></mat-icon>
+            <span style="margin-left: 12px">Login with Google</span>
         </div>
         <div fxFlex="50%" fxFlex.xs="100%" class="loginButton facebookLogin" (click)="signInWithFacebook()">
-            <mat-icon svgIcon="facebook" style="vertical-align: -30%"></mat-icon><span style="margin-left: 12px">Login with Facebook</span>
+            <mat-icon svgIcon="facebook" style="vertical-align: -30%"></mat-icon>
+            <span style="margin-left: 12px">Login with Facebook</span>
         </div>
     </div>
 
@@ -26,10 +28,12 @@
 
     <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="5px">
         <div fxFlex="50%" class="loginButton twitterLogin" (click)="signInWithTwitter()">
-            <mat-icon svgIcon="twitter" style="vertical-align: -30%"></mat-icon><span style="margin-left: 12px">Login with Twitter</span>
+            <mat-icon svgIcon="twitter" style="vertical-align: -30%"></mat-icon>
+            <span style="margin-left: 12px">Login with Twitter</span>
         </div>
         <div fxFlex="50%" class="loginButton githubLogin" (click)="signInWithGithub()">
-            <mat-icon svgIcon="github-circle" style="vertical-align: -30%"></mat-icon><span style="margin-left: 12px">Login with GitHub</span>
+            <mat-icon svgIcon="github-circle" style="vertical-align: -30%"></mat-icon>
+            <span style="margin-left: 12px">Login with GitHub</span>
         </div>
     </div>
 </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from '../../auth.service';
-import {Observable} from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 
 @Component({
@@ -24,7 +24,5 @@ export class UsersListComponent implements OnInit {
         this.usersList = this.userCollection.valueChanges();
     }
 
-    ngOnInit() {
-    }
-
+    ngOnInit() {}
 }

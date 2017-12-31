@@ -7,12 +7,7 @@
         {
             "root": "src",
             "outDir": "dist",
-            "assets": [
-                "assets",
-                "favicon.ico",
-                "favicon.png",
-                "manifest.json"
-            ],
+            "assets": ["assets", "favicon.ico", "favicon.png", "manifest.json"],
             "index": "index.html",
             "main": "main.ts",
             "polyfills": "polyfills.ts",
@@ -21,14 +16,8 @@
             "testTsconfig": "tsconfig.spec.json",
             "prefix": "app",
             "serviceWorker": true,
-            "styles": [
-                "maintheme.scss",
-                "styles.scss",
-                "../node_modules/mdi/css/materialdesignicons.min.css"
-            ],
-            "scripts": [
-                "google-analytics.js"
-            ],
+            "styles": ["maintheme.scss", "styles.scss", "../node_modules/mdi/css/materialdesignicons.min.css"],
+            "scripts": ["google-analytics.js"],
             "environmentSource": "environments/environment.ts",
             "environments": {
                 "dev": "environments/environment.ts",
@@ -63,7 +52,6 @@
     "defaults": {
         "styleExt": "css",
         "lintFix": true,
-        "component": {
-        }
+        "component": {}
     }
 }
