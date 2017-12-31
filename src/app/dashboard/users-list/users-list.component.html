@@ -4,16 +4,19 @@
             <mat-panel-title>
                 {{user.name}}
             </mat-panel-title>
-            <mat-panel-description>
+            <mat-panel-description fxHide="false" fxHide.xs="true">
                 {{user.email}}
             </mat-panel-description>
         </mat-expansion-panel-header>
         <mat-chip-list>
             <mat-chip *ngIf="user.admin" color="primary" selected="true">Admin</mat-chip>
-            <mat-chip *ngIf="user.author" color="accent" selected="true">Author</mat-chip>
+            <mat-chip *ngIf="!user.admin" color="accent" selected="true">User</mat-chip>
             <mat-chip *ngIf="user.reader">Reader</mat-chip>
             <mat-chip *ngIf="user.emailVerified">Verified</mat-chip>
             <mat-chip *ngIf="!user.emailVerified" color="warn" selected="true">Not verified</mat-chip>
+            <mat-chip *ngIf="user.completeProfile">Complete</mat-chip>
+            <mat-chip *ngIf="!user.completeProfile" color="warn" selected="true">Incomplete</mat-chip>
+            <mat-chip *ngIf=""></mat-chip>
         </mat-chip-list>
         <br>
         <img class="circle" [src]="user.photoURL || '../../assets/images/ProfileTemp.png'" style="width: 75px; height: 75px;" alt="">
@@ -23,5 +26,5 @@
         <button mat-raised-button color="warn">Disable</button>
         <button mat-button color="primary">Reset</button>
     </mat-expansion-panel>
-    <br>
+    <div class="spacer" fxHide="false" fxHide.xs="true"></div>
 </div>
