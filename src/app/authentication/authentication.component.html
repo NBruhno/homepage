@@ -6,12 +6,11 @@
     <div fxFlex="30%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="60%" fxFlex.xs="100%">
         <mat-card class="mat-typography" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;">
             <div *ngIf="!(auth.user | async)">
-                <a href="https://firebase.google.com/" fxLayout="row" fxLayoutAlign="center center" class="securityInfo">
+                <a routerLink="/privacy" fxLayout="row" fxLayoutAlign="center center" class="securityInfo">
                     <div fxFlex="2%"></div>
                     <mat-icon fxFlex="8%" style="margin-top: -12px" svgIcon="firebase"></mat-icon>
-                    <p fxFlex="90%" style="font-size: 12px" ngStyle.xs="margin-left: 12px">Your information is handled securely and privately by Googles Firebase, click to learn more</p>
+                    <p fxFlex="90%" style="font-size: 12px" ngStyle.xs="margin-left: 12px">Your information is handled securely and privately by Google Firebase, click here to learn more about the privacy policy of this website</p>
                 </a>
-
                 <br>
 
                 <h3>You can sign in with either your email or another platform</h3>
@@ -30,7 +29,7 @@
 
                 <div *ngIf="user.completeProfile && !user.emailVerified" fxLayout="column" fxLayoutAlign="center center">
                     <h3 fxFlex="100%" class="center">Your email is not verified yet, please select one of the options below</h3>
-                    <p style="text-align: just">An email with a verification link should already have been sent, but if not or you just can't find it, feel free to request
+                    <p style="text-align: justify">An email with a verification link should already have been sent, but if not or you just can't find it, feel free to request
                         for a new one</p>
                     <button fxFlex="100%" mat-button color="accent" (click)="auth.sendVerifyEmail()">Resend activation link</button>
                     <br>

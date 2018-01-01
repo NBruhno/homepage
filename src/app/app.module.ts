@@ -82,6 +82,8 @@ import { ProjectTemplateComponent } from './projects/project-template/project-te
 import { IDService } from './id.service';
 import { ChangeLogComponent } from './change-log/change-log.component';
 import { ChangeLogTableComponent } from './change-log/table/table.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+import { CookiesComponent } from './cookies/cookies.component';
 
 @NgModule({
     declarations: [
@@ -112,7 +114,9 @@ import { ChangeLogTableComponent } from './change-log/table/table.component';
         ProjectsComponent,
         ProjectTemplateComponent,
         ChangeLogComponent,
-        ChangeLogTableComponent
+        ChangeLogTableComponent,
+        PrivacyComponent,
+        CookiesComponent
     ],
     imports: [
         BrowserModule,
