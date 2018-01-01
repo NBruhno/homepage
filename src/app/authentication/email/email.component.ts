@@ -21,14 +21,14 @@ export class EmailComponent implements OnInit {
     };
     validationMessages = {
         email: {
-            required: 'Email is required.',
-            email: 'Email must be valid'
+            required: 'I can\'t verify you without an email, can I?',
+            email: 'This does not look like a valid email to me.'
         },
         password: {
-            required: 'Password is required.',
-            pattern: 'Password must be include at one letter and one number.',
-            minlength: 'Password must be at least 4 characters long.',
-            maxlength: 'Password cannot be more than 40 characters long.'
+            required: 'You need to type in a password silly.',
+            pattern: 'I would prefer if you used at least one letter and one number in your password.',
+            minlength: 'Can you try to make the password longer than 4 characters?',
+            maxlength: 'That is quite the mouthful! Can you shorten it to a maximum of 40 charaters?'
         }
     };
 

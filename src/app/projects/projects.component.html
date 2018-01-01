@@ -2,12 +2,6 @@
 <div fxShow fxHide.xs="true" fxHide="false">
     <br>
 </div>
-<div fxLayout="row" fxLayoutAlign="center start" class="mat-typography">
-    <div fxFlex="75%" fxFlex.xs="90%">
-        <span class="white-text mat-title">Projects through time</span>
-    </div>
-</div>
-<div class="spacer"></div>
 <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center start" class="mat-typography">
     <div fxFlex="28%" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="center center">
         <mat-card fxFlex="100%" class="projects-card" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;">
@@ -16,14 +10,14 @@
                 <mat-card-subtitle>2017 (In-progress)</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-                <p class="projects-description-text">I do not have anything to show as of right now of this project. But I decided that I wanted to try and make a working environment
-                    for people to assign tasks to other people and allow them to provide feedback, as in whether or not it is completed or perhaps
-                    attach more information.</p>
+                <p>I do not have anything to show as of right now of this project. But I decided that I wanted to try and make a working
+                   environment for people to assign tasks to other people and allow them to provide feedback, as in whether or not it is
+                   completed or perhaps attach more information.</p>
             </mat-card-content>
             <img matCardImage style="object-fit: none; max-height: 300px;" src="../../assets/images/workIcon.png">
-            <mat-card-actions>
-                <button mat-button color="primary" routerLink="/projects/we-2017" disabled>Learn more</button>
-            </mat-card-actions>
+            <mat-card-content>
+                <a routerLink="/projects/we-2017">Learn more</a>
+            </mat-card-content>
         </mat-card>
         <div>
             <br>
@@ -34,15 +28,16 @@
                 <mat-card-subtitle>2016 Student Project</mat-card-subtitle>
             </mat-card-header>
             <mat-card-content>
-                <p class="projects-description-text">This semester were about audio-visual experiments and so we set out to create a game in Unity and controlling it using the platform
-                    Airconsole.com on a mobile phone. Our game ended up being a co-opexperience with 4 players and a train that you have to keep
-                    alive for the journey by completing simple mini-games on the phone while the game is running on the screen/TV.
+                <p>This semester were about audio-visual experiments and so we set out to create a game in Unity and controlling it using
+                   the platform Airconsole.com on a mobile phone. Our game ended up being a co-op experience with 4 players and a train that
+                   you have to keep alive for the journey by completing simple mini-games on the phone while the game is running on the
+                   screen/TV.
                 </p>
             </mat-card-content>
-            <img matCardImage class="projects-card-image" src="../../assets/images/projectDerailed.png">
-            <mat-card-actions>
-                <button mat-button color="primary" routerLink="/projects/derailed-2016">Learn more</button>
-            </mat-card-actions>
+            <img matCardImage src="../../assets/images/projectDerailed.png">
+            <mat-card-content>
+                <a routerLink="/projects/derailed-2016">Learn more</a>
+            </mat-card-content>
         </mat-card>
     </div>
     <div fxFlex="2%" fxShow fxHide.xs="true" fxHide="false"></div>
@@ -50,23 +45,23 @@
         <br>
     </div>
     <div fxFlex="28%" fxFlex.xs="100%" fxLayout="column" fxLayoutAlign="center center">
-        <mat-card fxFlex="100%" class="projects-card" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;">
+        <mat-card fxFlex="100%" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;">
             <mat-card-header>
                 <mat-card-title>QFDCenter</mat-card-title>
                 <mat-card-subtitle>2017 (In-progress)</mat-card-subtitle>
             </mat-card-header>
-            <img matCardImage class="projects-card-image" src="../../assets/images/projectQFD.png">
             <mat-card-content>
-                <p class="projects-description-text">The owner of QFDCenter were in need of better methods to conduct tests on users who were part of his tasting of food program.
-                    So to solve this problem 2 other people and I set out to try and create a better and more solid platform for the user to
-                    participate in tests and also a better and more functional space for the owner to create these tests. Meanwhile the site
-                    should be able to function similar to that of a mobile application and allow for offline submissions during flight on an
-                    airplane.
+                <p>The owner of QFDCenter were in need of better methods to conduct tests on users who were part of his tasting of food
+                   program. So to solve this problem 2 other people and I set out to try and create a better and more solid platform for the
+                   user to participate in tests and also a better and more functional space for the owner to create these tests. Meanwhile
+                   the site should be able to function similar to that of a mobile application and allow for offline submissions during
+                   flight on an airplane.
                 </p>
             </mat-card-content>
-            <mat-card-actions>
-                <button mat-button color="primary" routerLink="/projects/qfd-2017">Learn more</button>
-            </mat-card-actions>
+            <img matCardImage src="../../assets/images/projectQFD.png">
+            <mat-card-content>
+                <a routerLink="/projects/qfd-2017">Learn more</a>
+            </mat-card-content>
         </mat-card>
         <div>
             <br>
@@ -76,15 +71,15 @@
                 <mat-card-title>Drummute</mat-card-title>
                 <mat-card-subtitle>2016 Student Project</mat-card-subtitle>
             </mat-card-header>
+            <mat-card-content>
+                <p>The theme of this semester project was to create an electronic product that would work with sound. This resulted in a
+                   product that was intended to be used by drummers to allow them to have a portable drumkit. The drumkit functioned through
+                   pressure sensors to detect hit, location and force.</p>
+            </mat-card-content>
             <img matCardImage class="projects-card-image" src="../../assets/images/projectDrums.jpg">
             <mat-card-content>
-                <p class="projects-description-text">The theme of this semester project was to create an electronic product that would work with sound. This resulted in a product
-                    that was intended to be used by drummers to allow them to have a portable drumkit. The drumkit functioned through pressure
-                    sensors to detect hit, location and force.</p>
+                <a routerLink="/projects/drummute-2016">Learn more</a>
             </mat-card-content>
-            <mat-card-actions>
-                <button mat-button color="primary" routerLink="/projects/drummute-2016">Learn more</button>
-            </mat-card-actions>
         </mat-card>
     </div>
     <div fxFlex="2%" fxShow fxHide.xs="true" fxHide="false"></div>
@@ -97,15 +92,16 @@
                 <mat-card-title>Better World Fashion</mat-card-title>
                 <mat-card-subtitle>2017 Student Project</mat-card-subtitle>
             </mat-card-header>
-            <img matCardImage class="projects-card-image" src="../../assets/images/projectBWF.png">
             <mat-card-content>
-                <p class="projects-description-text">My bachelor project was a collaboration with 2 other Medialogy students and we cooperated with a company called Better World
-                    Fashion to try and conceptualize a mobile applicationfor their users. The aim was to try and introduce their cirgular buiseness
-                    model and make it interesting tothe users by applying several methods of interaction and motivation in a social space.</p>
+                <p>My bachelor project was a collaboration with 2 other Medialogy students and we cooperated with a company called Better
+                   World Fashion to try and conceptualize a mobile applicationfor their users. The aim was to try and introduce their
+                   cirgular buiseness model and make it interesting to the users by applying several methods of interaction and motivation
+                   in a social space.</p>
             </mat-card-content>
-            <mat-card-actions>
-                <button mat-button color="primary" routerLink="/projects/bwf-2017">Learn more</button>
-            </mat-card-actions>
+            <img matCardImage src="../../assets/images/projectBWF.png">
+            <mat-card-content>
+                <a routerLink="/projects/bwf-2017">Learn more</a>
+            </mat-card-content>
         </mat-card>
         <div>
             <br>
@@ -115,15 +111,15 @@
                 <mat-card-title>Music Creation Through Image Processing</mat-card-title>
                 <mat-card-subtitle>2015 Student Project</mat-card-subtitle>
             </mat-card-header>
-            <img matCardImage class="projects-card-image" src="../../assets/images/musicCreation.png">
             <mat-card-content>
-                <p class="projects-description-text">This semester, the assignment was to work with image processing. My group and I ended up creating an application that could track
-                    your hand and react to gestures to control a program we had made to create simple musical tones. The program was also capable
-                    of controlling the computer.</p>
+                <p>This semester, the assignment was to work with image processing. My group and I ended up creating an application that
+                   could track your hand and react to gestures to control a program we had made to create simple musical tones. The program
+                   was also capable of controlling the computer.</p>
             </mat-card-content>
-            <mat-card-actions>
-                <button mat-button color="primary" routerLink="/projects/image-processing-2015">Learn more</button>
-            </mat-card-actions>
+            <img matCardImage src="../../assets/images/musicCreation.png">
+            <mat-card-content>
+                <a routerLink="/projects/image-processing-2015">Learn more</a>
+            </mat-card-content>
         </mat-card>
     </div>
 </div>

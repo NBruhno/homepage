@@ -39,13 +39,15 @@
 </form>
 
 <form [formGroup]="userForm" *ngIf="!newUser && loaded && finished" (ngSubmit)="signup()">
-    <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutAlign="center" fxLayoutGap="25px" class="mat-typography">
-        <mat-form-field fxFlex="50%">
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="25px" class="mat-typography">
+        <mat-form-field fxFlex="93%">
             <input matInput autocomplete="email" id="email-signup" type="email" formControlName="email" placeholder="Email">
             <mat-icon matSuffix svgIcon="email"></mat-icon>
             <mat-error *ngIf="formErrors.email">{{formErrors.email}}</mat-error>
         </mat-form-field>
-        <mat-form-field fxFlex="50%">
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="25px" class="mat-typography">
+        <mat-form-field fxFlex="93%">
             <input matInput autocomplete="new-password" id="password-signup" type="password" formControlName="password" placeholder="Password">
             <mat-icon matSuffix svgIcon="lock"></mat-icon>
             <mat-error *ngIf="formErrors.password">{{formErrors.password}}</mat-error>

@@ -20,20 +20,23 @@
         <a fxShow fxHide.xs="true" fxHide="false" routerLink="/upload" mat-button>Upload</a>
         <div fxFlex fxShow fxHide.xs="true" fxHide="false"></div>
         <div fxFlex="nogrow" fxHide.xs="true" fxHide="false">
-            <a *ngIf="(auth.user | async) && (auth.user | async)?.admin" routerLink="/dashboard" mat-icon-button>
+            <a *ngIf="(auth.user | async) && (auth.user | async)?.admin" routerLink="/dashboard" mat-icon-button matTooltip="Admin dashboard">
                 <mat-icon svgIcon="view-dashboard"></mat-icon>
             </a>
-            <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button>
+            <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button matTooltip="View your profile">
                 <img [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="Profile img" style="height: 60%;" class="circle navAvatar">
             </a>
-            <a *ngIf="(auth.user | async)" (click)="signOut();" mat-icon-button>
+            <a *ngIf="(auth.user | async)" (click)="signOut();" mat-icon-button matTooltip="Logout">
                 <mat-icon svgIcon="logout"></mat-icon>
             </a>
-            <a *ngIf="!(auth.user | async)" routerLink="/login" mat-icon-button>
+            <a *ngIf="!(auth.user | async)" routerLink="/login" mat-icon-button matTooltip="Login">
                 <mat-icon svgIcon="login"></mat-icon>
             </a>
-            <a href="https://github.com/BruhnoMus/bruhno.com" mat-icon-button>
+            <a href="https://github.com/BruhnoMus/bruhno.com" mat-icon-button matTooltip="View the source code on GitHub">
                 <mat-icon svgIcon="github-circle"></mat-icon>
+            </a>
+            <a routerLink="/change-log" mat-icon-button matTooltip="Change log for the website">
+                <mat-icon svgIcon="file-document-box"></mat-icon>
             </a>
         </div>
         <div fxFlex="nogrow" fxHide.xs="true" fxHide="false"></div>
@@ -117,6 +120,12 @@
                         <mat-list-item>
                             <mat-icon mat-list-icon svgIcon="github-circle"></mat-icon>
                             <p mat-line>Bruhno.com on GitHub</p>
+                        </mat-list-item>
+                    </a>
+                    <a routerLink="/change-log">
+                        <mat-list-item>
+                            <mat-icon mat-list-icon svgIcon="file-document-box"></mat-icon>
+                            <p mat-line>Change Log</p>
                         </mat-list-item>
                     </a>
                 </mat-nav-list>

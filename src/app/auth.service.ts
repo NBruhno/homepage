@@ -20,7 +20,6 @@ export interface User {
     provider?: string;
     completeProfile?: boolean;
 }
-
 @Injectable()
 export class AuthService {
     private userDoc: AngularFirestoreDocument<User>;
