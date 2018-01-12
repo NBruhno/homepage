@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { AuthenticationComponent } from '../authentication.component';
 import { DialogService } from '../../dialog.service';
-import { ErrorService } from '../../error.service';
+import { LogService } from '../../log.service';
 
 @Component({
     selector: 'app-login',
@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
     loaded = true;
     finished = true;
 
-    constructor(public auth: AuthService, private error: ErrorService) {}
+    constructor(public auth: AuthService, private log: LogService) {}
 
     signInWithGoogle(): void {
         this.loaded = false;
@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
                 this.finished = false;
             })
             .catch(error => {
-                this.error.log(error);
+                this.log.error(error);
                 this.loaded = true;
                 this.finished = true;
             });
@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
                 this.finished = false;
             })
             .catch(error => {
-                this.error.log(error);
+                this.log.error(error);
                 this.loaded = true;
                 this.finished = true;
             });
@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
                 this.finished = false;
             })
             .catch(error => {
-                this.error.log(error);
+                this.log.error(error);
                 this.loaded = true;
                 this.finished = true;
             });
@@ -69,7 +69,7 @@ export class LoginComponent implements OnInit {
                 this.finished = false;
             })
             .catch(error => {
-                this.error.log(error);
+                this.log.error(error);
                 this.loaded = true;
                 this.finished = true;
             });

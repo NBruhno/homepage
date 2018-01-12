@@ -8,6 +8,9 @@ import { AuthGuard } from '../app/auth.guard';
 import { DashboardComponent } from '../app/dashboard/dashboard.component';
 import { ProjectsComponent } from '../app/projects/projects.component';
 import { ProjectTemplateComponent } from '../app/projects/project-template/project-template.component';
+import { CookiesComponent } from '../app/cookies/cookies.component';
+import { PrivacyComponent } from '../app/privacy/privacy.component';
+import { ChangeLogComponent } from '../app/change-log/change-log.component';
 
 export const environment = {
     production: true,
@@ -28,6 +31,9 @@ export const environment = {
         { path: 'projects/:projectID', component: ProjectTemplateComponent, data: { title: 'Project • Bruhno' } },
         { path: 'profile', component: ProfileComponent, data: { title: 'Profile • Bruhno' }, canActivate: [AuthGuard] },
         { path: 'upload', component: UploadComponent, data: { title: 'Upload • Bruhno' }, canActivate: [AuthGuard] },
+        { path: 'change-log', component: ChangeLogComponent, data: { title: 'Upload • Bruhno' } },
+        { path: 'privacy', component: PrivacyComponent, data: { title: 'Privacy • Bruhno' } },
+        { path: 'cookies', component: CookiesComponent, data: { title: 'Cookies • Bruhno' } },
         { path: '404', component: NotFoundComponent, data: { title: 'Not found (404)' } },
         { path: '**', redirectTo: '/404' }
     ]
