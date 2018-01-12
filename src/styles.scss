@@ -422,7 +422,7 @@ a {
     background-color: #ff5722;
     position: absolute;
     width: 100%;
-    height: 35vh;
+    height: 29vh;
     -webkit-transform: skewY(6deg);
     -moz-transform: skewY(6deg);
     -ms-transform: skewY(6deg);
@@ -528,4 +528,32 @@ a {
 
 .mat-card-image {
     border-bottom: 1px solid #e9e9e9;
+}
+
+.project-body {
+    font-family: 'Roboto Slab', serif;
+    letter-spacing: .01rem;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 19px;
+    line-height: 1.7;
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 1em;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+}
+
+.project-image {
+    display: block;
+    margin: auto;
+    max-width: 100%;
+    cursor: zoom-in;
+}
+
+.project-caption {
+    font-family: 'Roboto Slab', serif;
+    text-align: center;
+    font-size: 12px;
+    color: #464646;
 }
