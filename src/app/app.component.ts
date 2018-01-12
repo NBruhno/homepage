@@ -51,7 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
             .filter(event => event instanceof NavigationEnd)
             .map(() => this.activatedRoute)
             .map(route => {
-                window.scroll(0, 0);
                 while (route.firstChild) {
                     route = route.firstChild;
                 }

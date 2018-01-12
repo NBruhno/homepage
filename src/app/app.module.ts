@@ -14,14 +14,13 @@ import { AuthGuard } from './auth.guard';
 import { AlertDialog, DialogService } from './dialog.service';
 import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { LogService } from './log.service';
+import { ErrorService } from './error.service';
 import { PermService } from './perm.service';
 import { PermGuard } from './perm.guard';
 import { UploadService } from './upload.service';
 import { SeoService } from './seo.service';
 import { FileDropDirective } from './file-drop.directive';
 import { environment } from '../environments/environment';
-import { NgxImageGalleryModule } from 'ngx-image-gallery';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -133,7 +132,6 @@ import { CookiesComponent } from './cookies/cookies.component';
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         AngularFirestoreModule,
-        NgxImageGalleryModule,
         MatAutocompleteModule,
         MatButtonModule,
         MatButtonToggleModule,
@@ -176,7 +174,7 @@ import { CookiesComponent } from './cookies/cookies.component';
         PermService,
         PermGuard,
         SeoService,
-        LogService,
+        ErrorService,
         IDService
     ],
     bootstrap: [AppComponent]

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
 import { MatSnackBar } from '@angular/material';
-import { LogService } from './log.service';
+import { ErrorService } from './error.service';
 
 export interface User {
     email: string;
@@ -32,7 +32,7 @@ export class AuthService {
     constructor(
         private afAuth: AngularFireAuth,
         private db: AngularFirestore,
-        private log: LogService,
+        private error: ErrorService,
         private router: Router,
         private snack: MatSnackBar
     ) {
@@ -94,7 +94,7 @@ export class AuthService {
         user
             .sendEmailVerification()
             .then(success => this.snack.open('A mail with a verification link has been sent your way', '', { duration: 4000 }))
-            .catch(error => this.log.error(error));
+            .catch(error => this.error.log(error));
     }
 
     verifyEmail(user: User) {
@@ -102,7 +102,7 @@ export class AuthService {
             return this.db
                 .doc(`users/${user.uid}`)
                 .update({ emailVerified: true })
-                .catch(error => this.log.error(error))
+                .catch(error => this.error.log(error))
                 .then(() => {
                     this.router.navigate(['/']);
                     this.snack.open('Your email has been verified successfully', 'Thank you', { duration: 4000 });
@@ -119,7 +119,7 @@ export class AuthService {
             .then(() => {
                 this.snack.open('A mail with a password reset link has been sent your way', '', { duration: 4000 });
             })
-            .catch(error => this.log.error(error));
+            .catch(error => this.error.log(error));
     }
 
     signOut(): void {
@@ -159,7 +159,7 @@ export class AuthService {
         return this.db
             .doc(`users/${user.uid}`)
             .update(data)
-            .catch(error => this.log.error(error))
+            .catch(error => this.error.log(error))
             .then(() => {
                 this.sendVerifyEmail();
                 this.snack.open('Welcome ' + data.name + 'an email with a verification link has been sent your way', '', {
@@ -172,7 +172,7 @@ export class AuthService {
         return this.db
             .doc(`users/${user.uid}`)
             .update(data)
-            .catch(error => this.log.error(error))
+            .catch(error => this.error.log(error))
             .then(() => {
                 this.snack.open('Your name has been changed to  ' + data.name, 'Thank you', { duration: 4000 });
             });
