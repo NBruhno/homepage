@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthenticationComponent } from '../authentication.component';
-import { LogService } from '../../log.service';
+import { ErrorService } from '../../error.service';
 
 @Component({
     selector: 'app-email',
@@ -32,7 +32,7 @@ export class EmailComponent implements OnInit {
         }
     };
 
-    constructor(private fb: FormBuilder, public auth: AuthService, private log: LogService) {}
+    constructor(private fb: FormBuilder, public auth: AuthService, private error: ErrorService) {}
 
     ngOnInit(): void {
         this.buildForm();
@@ -60,7 +60,7 @@ export class EmailComponent implements OnInit {
                 this.finished = false;
             })
             .catch(error => {
-                this.log.error(error);
+                this.error.log(error);
                 this.loaded = true;
                 this.finished = true;
             });
@@ -75,7 +75,7 @@ export class EmailComponent implements OnInit {
                 this.finished = false;
             })
             .catch(error => {
-                this.log.error(error);
+                this.error.log(error);
                 this.loaded = true;
                 this.finished = true;
             });
