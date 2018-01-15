@@ -22,7 +22,6 @@ import { SeoService } from './seo.service';
 import { FileDropDirective } from './file-drop.directive';
 import { environment } from '../environments/environment';
 import { NgxImageGalleryModule } from 'ngx-image-gallery';
-import { EmbedVideo } from 'ngx-embed-video';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -87,6 +86,7 @@ import { ChangeLogTableComponent } from './change-log/table/table.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { CookiesComponent } from './cookies/cookies.component';
 import { HttpModule } from '@angular/http';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
     declarations: [
@@ -119,7 +119,8 @@ import { HttpModule } from '@angular/http';
         ChangeLogComponent,
         ChangeLogTableComponent,
         PrivacyComponent,
-        CookiesComponent
+        CookiesComponent,
+        SafePipe
     ],
     imports: [
         BrowserModule,
@@ -137,7 +138,6 @@ import { HttpModule } from '@angular/http';
         AngularFireAuthModule,
         AngularFirestoreModule,
         NgxImageGalleryModule,
-        EmbedVideo.forRoot(),
         MatAutocompleteModule,
         MatButtonModule,
         MatButtonToggleModule,
