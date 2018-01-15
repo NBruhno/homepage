@@ -16,11 +16,6 @@ export class ProjectTemplateComponent implements OnInit {
     @ViewChild('galleryIP') galleryIP: NgxImageGalleryComponent;
     currentProjects = ['qfd-2017', 'bwf-2017', 'derailed-2016', 'drummute-2016', 'image-processing-2015'];
     idExists = false;
-    youtubeVidOptions = {
-        query: { portrait: 0, color: '333' },
-        attr: { width: 762, height: 430 },
-        image: 'maxresdefault'
-    };
 
     conf: GALLERY_CONF = {
         imageOffset: '0px',
