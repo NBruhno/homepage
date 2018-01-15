@@ -22,6 +22,7 @@ import { SeoService } from './seo.service';
 import { FileDropDirective } from './file-drop.directive';
 import { environment } from '../environments/environment';
 import { NgxImageGalleryModule } from 'ngx-image-gallery';
+import { EmbedVideo } from 'ngx-embed-video';
 import {
     MatAutocompleteModule,
     MatButtonModule,
@@ -85,6 +86,7 @@ import { ChangeLogComponent } from './change-log/change-log.component';
 import { ChangeLogTableComponent } from './change-log/table/table.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { CookiesComponent } from './cookies/cookies.component';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
     declarations: [
@@ -128,12 +130,14 @@ import { CookiesComponent } from './cookies/cookies.component';
         FormsModule,
         ReactiveFormsModule,
         HttpClientModule,
+        HttpModule,
         RouterModule.forRoot(environment.routes),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         AngularFirestoreModule,
         NgxImageGalleryModule,
+        EmbedVideo.forRoot(),
         MatAutocompleteModule,
         MatButtonModule,
         MatButtonToggleModule,
