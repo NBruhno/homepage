@@ -1,38 +1,51 @@
-<!DOCTYPE html>
-<div class="container">
-    <div class="hide-on-small-only">
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
+<div class="header"></div>
+<div fxShow fxHide.xs="true" fxHide="false">
+    <br>
+</div>
+<div fxLayout="row" fxLayoutAlign="center">
+    <div fxFlex="30%" fxFlex.lg="40%" fxFlex.md="50%" fxFlex.sm="60%" fxFlex.xs="100%">
+        <mat-card class="mat-typography" ngStyle.xs="-webkit-border-radius: 0; -moz-border-radius: 0; border-radius: 0;">
+            <div *ngIf="!(auth.user | async)">
+                <a routerLink="/privacy" fxLayout="row" fxLayoutAlign="center center" class="securityInfo">
+                    <div fxFlex="2%"></div>
+                    <mat-icon fxFlex="8%" style="margin-top: -12px" svgIcon="firebase"></mat-icon>
+                    <p fxFlex="90%" style="font-size: 12px" ngStyle.xs="margin-left: 12px">Your information is handled securely and privately by Google Firebase, click here to learn more about the privacy policy of this website</p>
+                </a>
+                <br>
+
+                <h3>You can sign in with either your email or another platform</h3>
+                <app-email></app-email>
+
+                <br>
+
+                <app-login></app-login>
+            </div>
+
+            <div *ngIf="auth.user | async as user">
+                <div *ngIf="!user.completeProfile">
+                    <h3>I need some more information to complete your profile</h3>
+                    <app-details></app-details>
+                </div>
+
+                <div *ngIf="user.completeProfile && !user.emailVerified" fxLayout="column" fxLayoutAlign="center center">
+                    <h3 fxFlex="100%" class="center">Your email is not verified yet, please select one of the options below</h3>
+                    <p style="text-align: justify">An email with a verification link should already have been sent, but if not or you just can't find it, feel free to request
+                        for a new one</p>
+                    <button fxFlex="100%" mat-button color="accent" (click)="auth.sendVerifyEmail()">Resend activation link</button>
+                    <br>
+                    <p style="text-align: justify">Once you have clicked the link in the email and it says "Your email has been verified", please confirm the process by pressing
+                        the button below</p>
+                    <button fxFlex="100%" mat-button color="primary" (click)="auth.verifyEmail(user)">Confirm my email is verified</button>
+                </div>
+
+                <div *ngIf="user.completeProfile && user.emailVerified" fxLayout="column" fxLayoutAlign="center">
+                    <h3 fxFlex="100%" class="center">You are already logged in</h3>
+                    <button fxFlex="100%" mat-button color="primary" routerLink="/">Return to the front page</button>
+                </div>
+            </div>
+        </mat-card>
     </div>
-    <div class="row" [@loadState]="loaded1">
-        <div class="col s12 m6 l4 offset-m3 offset-l4">
-            <mz-card
-                [backgroundClass]="''"
-                [textClass]="">
-                <mz-card-title></mz-card-title>
-                <mz-card-content>
-                    <div class="row" *ngIf="!auth.currentUser">
-                        <div class="col s12">
-                            <app-login></app-login>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="!auth.currentUser">
-                        <div class="col s12">
-                            <app-email></app-email>
-                        </div>
-                    </div>
-                    <div class="row" *ngIf="auth.currentUser">
-                        <div class="col s12 center">
-                            <h5 class="light">You are already logged in</h5>
-                            <br>
-                            <button mz-button routerLink="/">Return to home</button>
-                        </div>
-                    </div>
-                </mz-card-content>
-            </mz-card>
-        </div>
-    </div>
+</div>
+<div fxShow fxHide.xs="true" fxHide="false">
+    <br>
 </div>

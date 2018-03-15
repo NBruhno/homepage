@@ -1,24 +1,27 @@
-<!DOCTYPE html>
-<footer class="page-footer indigo lighten-1">
-    <div class="container">
-        <div class="row">
-            <div class="col s12 l7">
-                <h5 class="white-text">How to contact me</h5>
-                <p class="grey-text text-lighten-4">I prefer to be contacted by mail but I present other options in case it is not sufficient.</p>
-                <ul class="grey-text text-lighten-4">
-                    <li><a href="mailto: mail@bruhno.com" class="grey-text text-lighten-4"><i mz-tooltip [tooltip]="'mail@<b class=\'orange-text\'>bruhno.com</b>'" [position]="'top'" [delay]="0" [html]="true" mz-icon-mdi [size]="'36px'" [align]="'left'" [icon]="'email'"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/bruhno/" class="grey-text text-lighten-4"><i mz-tooltip [tooltip]="'linkedin.com/in/<b class=\'orange-text\'>bruhno</b>'" [position]="'top'" [delay]="0" [html]="true" mz-icon-mdi [size]="'36px'" [align]="'left'" [icon]="'linkedin'"></i></a></li>
-                    <li><a href="#" class="grey-text text-lighten-4"><i mz-tooltip [tooltip]="'<b class=\'orange-text\'>Bruhno</b>#4770'" [position]="'top'" [delay]="0" [html]="true" mz-icon-mdi [size]="'36px'" [align]="'left'" [icon]="'discord'"></i></a></li>
-                    <li><a href="http://steamcommunity.com/id/Bruhno" class="grey-text text-lighten-4"><i mz-tooltip [tooltip]="'steamcommunity.com/id/<b class=\'orange-text\'>bruhno</b>'" [position]="'top'" [delay]="0" [html]="true" mz-icon-mdi [size]="'36px'" [align]="'left'" [icon]="'steam'"></i></a></li>
-                    <li><a href="https://plus.google.com/+BruhnoDesigns" class="grey-text text-lighten-4"><i mz-tooltip [tooltip]="'plus.google.com/<b class=\'orange-text\'>+BruhnoDesigns</b>'" [position]="'top'" [delay]="0" [html]="true" mz-icon-mdi [size]="'36px'" [align]="'left'" [icon]="'google-plus'"></i></a></li>
-                </ul>
+<div class="footer"></div>
+<div class="footer-content" fxLayout="row" fxLayoutAlign="center start">
+    <div fxFlex="70%">
+        <br>
+        <h2>BRUHNO</h2>
+        <div fxLayout="column" fxLayoutAlign="space-between start">
+            <div fxFlex="none">
+                <a routerLink="/privacy" class="mat-caption">Privacy Policy • </a>
+                <a routerLink="/cookies" class="mat-caption">Cookie Policy</a>
+            </div>
+            <div fxFlex="none">
+                <a href="mailto: mail@bruhno.com" class="mat-caption" matTooltip="mail@bruhno.com" matTooltipPosition="above">Email • </a>
+                <a href="https://www.linkedin.com/in/bruhno/" class="mat-caption" matTooltip="linkedin.com/in/bruhno" matTooltipPosition="above">LinkedIn • </a>
+                <a href="#" class="mat-caption" matTooltip="Bruhno#4770" matTooltipPosition="above">Discord • </a>
+                <a href="https://steamcommunity.com/id/Bruhno" class="mat-caption" matTooltip="steamcommunity.com/id/bruhno" matTooltipPosition="above">Steam • </a>
+                <a href="https://plus.google.com/+BruhnoDesigns" class="mat-caption" matTooltip="plus.google.com/+BruhnoDesigns" matTooltipPosition="above">Google+</a>
             </div>
         </div>
-    </div>
-    <div class="footer-copyright">
-        <div class="container">
-            © 2010-2017 Bruhno, All rights reserved.
-            <!--<a href="/TaP" class="grey-text text-lighten-4 right">Terms and Policies</a>-->
+        <div fxLayout fxLayoutAlign="start center">
+            <div fxFlex="none">
+                <p class="mat-caption">© 2010-{{currentYear}} Bruhno, All rights reserved.</p>
+            </div>
         </div>
+        <br>
+        <br>
     </div>
-</footer>
+</div>

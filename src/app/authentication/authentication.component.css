@@ -1,3 +1,7 @@
-img {
-    width: 30px;
+.securityInfo {
+    color: black;
+    display: block;
+    position: relative;
+    padding: 12px 24px 0 12px;
+    background-color: #ebebeb;
 }

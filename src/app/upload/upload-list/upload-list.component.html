@@ -1,9 +1,0 @@
-<mz-collection>
-    <mz-collection-header><h5 class="light">Uploads</h5></mz-collection-header>
-    <mz-collection-item *ngFor="let upload of uploads | async">
-        <app-upload-detail [upload]='upload'></app-upload-detail>
-    </mz-collection-item>
-    <div class="center">
-        <mz-spinner [color]="'red'" [size]="'big'" *ngIf="showSpinner"></mz-spinner>
-    </div>
-</mz-collection>

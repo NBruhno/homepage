@@ -1,36 +1,50 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { UsernameComponent } from '../username/username.component';
-import { MzModalService } from 'ng2-materialize';
+import { AuthenticationComponent } from '../authentication.component';
+import { LogService } from '../../log.service';
 
 @Component({
     selector: 'app-email',
     templateUrl: './email.component.html',
     styleUrls: ['./email.component.css']
 })
-
 export class EmailComponent implements OnInit {
+    loaded = true;
+    finished = true;
     userForm: FormGroup;
     newUser = true;
 
-    errorMessages = {
-        'email': {
-            'required': 'Email is required.',
-            'email': 'Email must be a valid email'
+    formErrors = {
+        email: '',
+        password: ''
+    };
+    validationMessages = {
+        email: {
+            required: 'I can\'t verify you without an email, can I?',
+            email: 'This does not look like a valid email to me.'
         },
-        'password': {
-            'required': 'Password is required.',
-            'pattern': 'Password must include at least one letter and one number.',
-            'minlength': 'Password must be at least 8 characters long.',
-            'maxlength': 'Password cannot be more than 25 characters long.',
+        password: {
+            required: 'You need to type in a password silly.',
+            pattern: 'I would prefer if you used at least one letter and one number in your password.',
+            minlength: 'Can you try to make the password longer than 4 characters?',
+            maxlength: 'That is quite the mouthful! Can you shorten it to a maximum of 40 charaters?'
         }
     };
 
-    constructor(private fb: FormBuilder, private auth: AuthService, private modalService: MzModalService) { }
+    constructor(private fb: FormBuilder, public auth: AuthService, private log: LogService) {}
 
     ngOnInit(): void {
         this.buildForm();
+        this.auth.user.subscribe(user => {
+            if (user) {
+                if (user.uid !== '') {
+                    this.finished = true;
+                } else {
+                    this.finished = false;
+                }
+            }
+        });
     }
 
     toggleForm() {
@@ -38,11 +52,33 @@ export class EmailComponent implements OnInit {
     }
 
     signup(): void {
-        this.auth.emailSignUp(this.userForm.value['email'], this.userForm.value['password']);
+        this.loaded = false;
+        this.auth
+            .emailSignUp(this.userForm.value['email'], this.userForm.value['password'])
+            .then(() => {
+                this.loaded = true;
+                this.finished = false;
+            })
+            .catch(error => {
+                this.log.error(error);
+                this.loaded = true;
+                this.finished = true;
+            });
     }
 
     login(): void {
-        this.auth.emailLogin(this.userForm.value['email'], this.userForm.value['password']);
+        this.loaded = false;
+        this.auth
+            .emailLogin(this.userForm.value['email'], this.userForm.value['password'])
+            .then(() => {
+                this.loaded = true;
+                this.finished = false;
+            })
+            .catch(error => {
+                this.log.error(error);
+                this.loaded = true;
+                this.finished = true;
+            });
     }
 
     resetPassword() {
@@ -51,21 +87,37 @@ export class EmailComponent implements OnInit {
 
     buildForm(): void {
         this.userForm = this.fb.group({
-            'email': ['', [
-                Validators.required,
-                Validators.email
-            ]],
-            'password': ['', [
-                Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
-                Validators.minLength(8),
-                Validators.maxLength(25)
-            ]],
+            email: ['', [Validators.required, Validators.email]],
+            password: [
+                '',
+                [
+                    Validators.required,
+                    Validators.pattern('^(?=.*[0-9])(?=.*[a-zA-Z])([a-zA-Z0-9]+)$'),
+                    Validators.minLength(8),
+                    Validators.maxLength(25)
+                ]
+            ]
         });
+        this.userForm.valueChanges.subscribe(data => this.onValueChanged(data));
+        this.onValueChanged();
     }
 
-    // checkUsername() {
-    //     if (this.auth.hasUsername === false) {
-    //         this.modalService.open(UsernameComponent);
-    //     }
-    // }
+    onValueChanged(data?: any) {
+        if (!this.userForm) {
+            return;
+        }
+        const form = this.userForm;
+
+        for (const field in this.formErrors) {
+            this.formErrors[field] = '';
+            const control = form.get(field);
+
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';
+                }
+            }
+        }
+    }
 }

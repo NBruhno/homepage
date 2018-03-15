@@ -1,30 +1,28 @@
-<div class="navbar-fixed" style="margin-top:-1px;">
-    <mz-navbar navbarClass="grey darken-4">
-        <div class="menuBtn hide-on-large-only"><a [id]="'mobileMenuBtn'"><i mz-icon-mdi [align]="'left'" [icon]="'menu'" class="grey-text text-lighten-4"></i></a></div>
-        <mz-navbar-item-container class="left">
-            <ul>
-                <mz-navbar-item><li><a routerLink="/" class="logo left"><img src="../../assets/images/GreyHeaderSmall.png" alt="Logo Header" class="responsive-img center"></a></li></mz-navbar-item>
-                <mz-navbar-item><li routerLinkActive="active" mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a routerLink="/gallery" class="grey-text text-lighten-4 waves-effect">Gallery</a></li></mz-navbar-item>
-                <mz-navbar-item><li routerLinkActive="active" mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'bottom'"><a routerLink="/projects" class="grey-text text-lighten-4 waves-effect">Projects</a></li></mz-navbar-item>
-            </ul>
-        </mz-navbar-item-container>
-        <mz-navbar-item-container class="right">
-            <ul>
-                <mz-navbar-item *ngIf="!auth.currentUser"><li routerLink="/login"><a class="grey-text text-lighten-4 light waves-effect">Sign-In</a></li></mz-navbar-item>
-                <mz-navbar-item *ngIf="auth.currentUser"><li (click)="signOut();"><a class="grey-text text-lighten-4 light waves-effect">Sign-Out</a></li></mz-navbar-item>
-                <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/upload" (click)="log()"><a class="grey-text text-lighten-4 light waves-effect">Upload</a></li></mz-navbar-item>
-                <mz-navbar-item *ngIf="auth.currentUser"><li routerLink="/profile"><a class="grey-text text-lighten-4 light waves-effect">Profile</a></li></mz-navbar-item>
-            </ul>
-        </mz-navbar-item-container>
-    </mz-navbar>
-</div>
-
-<mz-sidenav [id]="'mobileMenu'" [collapseButtonId]="'mobileMenuBtn'" [closeOnClick]="true">
-    <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a routerLink="/gallery"><i mz-icon-mdi [align]="'left'" [icon]="'image-multiple'" class="grey-text text-darken-2"></i>Gallery</a></mz-sidenav-link>
-    <mz-sidenav-link mz-tooltip [tooltip]="'This will be avaible soon™'" [delay]="0" [position]="'right'"><a routerLink="/projects"><i mz-icon-mdi [align]="'left'" [icon]="'book-open-page-variant'" class="grey-text text-darken-2"></i>Projects</a></mz-sidenav-link>
-    <mz-sidenav-divider></mz-sidenav-divider>
-    <mz-sidenav-link *ngIf="!auth.currentUser" routerLink="/login"><a><i mz-icon-mdi [align]="'left'" [icon]="'login'" class="grey-text text-darken-2"></i>Sign-In</a></mz-sidenav-link>
-    <mz-sidenav-link *ngIf="auth.currentUser" (click)="signOut();"><a><i mz-icon-mdi [align]="'left'" [icon]="'logout'" class="grey-text text-darken-2"></i>Logout</a></mz-sidenav-link>
-    <mz-sidenav-link *ngIf="auth.currentUser" routerLink="/upload"><a><i mz-icon-mdi [align]="'left'" [icon]="'upload'" class="grey-text text-darken-2"></i>Upload</a></mz-sidenav-link>
-    <mz-sidenav-link *ngIf="auth.currentUser" routerLink="/profile"><a><i mz-icon-mdi [align]="'left'" [icon]="'account'" class="grey-text text-darken-2"></i>Profile</a></mz-sidenav-link>
-</mz-sidenav>
+<mat-toolbar color="primary" class="mat-typography" fxLayout="row" fxLayoutWrap>
+    <div fxFlex="15%" fxFlex.xs="0"></div>
+    <div fxFlex="none">
+        <a routerLink="/" mat-icon-button>
+            <img src="../../assets/images/B%20Light.svg" style="max-width: 550%; vertical-align: -10%;" alt="qfdcenter">
+        </a>
+    </div>
+    <a routerLink="/gallery" mat-button matTooltip="This will be avaible soon™">Gallery</a>
+    <a routerLink="/projects" mat-button matTooltip="This will be avaible soon™">Projects</a>
+    <a routerLink="/upload" mat-button>Upload</a>
+    <div fxFlex fxShow="false" fxShow.gt-xs></div>
+    <div fxFlex="nogrow">
+        <a *ngIf="(auth.user | async) && (auth.user | async)?.admin" routerLink="/dashboard" mat-icon-button>
+            <mat-icon svgIcon="view-dashboard"></mat-icon>
+        </a>
+        <a *ngIf="(auth.user | async)" routerLink="/profile" mat-icon-button>
+            <img [src]="(auth.user | async)?.photoURL || '../../assets/images/ProfileTemp.png'" alt="Profile img" style="height: 60%;" class="circle">
+        </a>
+        <a *ngIf="(auth.user | async)" (click)="signOut();" mat-icon-button>
+            <mat-icon svgIcon="logout"></mat-icon>
+        </a>
+        <a *ngIf="!(auth.user | async)" routerLink="/login" mat-icon-button>
+            <mat-icon svgIcon="login"></mat-icon>
+        </a>
+    </div>
+    <div fxFlex="nogrow" fxShow="false" fxShow.xs></div>
+    <div fxFlex="15%" fxFlex.xs="0"></div>
+</mat-toolbar>

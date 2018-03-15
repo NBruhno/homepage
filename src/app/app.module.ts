@@ -1,52 +1,59 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterializeModule } from 'ng2-materialize';
+import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
+import { AlertDialog, DialogService } from './dialog.service';
+import { AppRoutingModule } from './app-routing.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { LogService } from './log.service';
 import { PermService } from './perm.service';
 import { PermGuard } from './perm.guard';
 import { UploadService } from './upload.service';
+import { SeoService } from './seo.service';
 import { FileDropDirective } from './file-drop.directive';
 import { environment } from '../environments/environment';
-import { Ng2ScrollimateModule } from 'ng2-scrollimate';
+import { NgxImageGalleryModule } from 'ngx-image-gallery';
 import {
-    MdAutocompleteModule,
-    MdButtonModule,
-    MdButtonToggleModule,
-    MdCardModule,
-    MdCheckboxModule,
-    MdChipsModule,
-    MdDatepickerModule,
-    MdDialogModule,
-    MdExpansionModule,
-    MdGridListModule,
-    MdIconModule,
-    MdInputModule,
-    MdListModule,
-    MdMenuModule,
-    MdNativeDateModule,
-    MdPaginatorModule,
-    MdProgressBarModule,
-    MdProgressSpinnerModule,
-    MdRadioModule,
-    MdRippleModule,
-    MdSelectModule,
-    MdSidenavModule,
-    MdSliderModule,
-    MdSlideToggleModule,
-    MdSnackBarModule,
-    MdSortModule,
-    MdTableModule,
-    MdTabsModule,
-    MdToolbarModule,
-    MdTooltipModule,
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    MatIconRegistry,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule
 } from '@angular/material';
 
 import { AppComponent } from './app.component';
@@ -63,22 +70,23 @@ import { FrontComponent } from './front/front.component';
 import { ErrorComponent } from './error/error.component';
 import { NotFoundComponent } from './error/not-found/not-found.component';
 import { UploadComponent } from './upload/upload.component';
-import { UploadFormComponent } from './upload/upload-form/upload-form.component';
-import { UploadListComponent } from './upload/upload-list/upload-list.component';
 import { UploadDetailComponent } from './upload/upload-detail/upload-detail.component';
 import { ProfileComponent } from './profile/profile.component';
-import { UsernameComponent } from './authentication/username/username.component';
-
-export const routes: Routes = [
-    { path: '', component: FrontComponent },
-    { path: 'login', component: AuthenticationComponent, data: {title: 'Login'} },
-    { path: 'gallery', component: NotFoundComponent },
-    { path: 'projects', component: NotFoundComponent },
-    { path: 'profile', component: ProfileComponent },
-    { path: 'upload', component: UploadComponent, canActivate: [PermGuard] },
-    { path: '404', component: NotFoundComponent },
-    { path: '**', redirectTo: '/404' }
-];
+import { NameComponent } from './profile/name/name.component';
+import { AvatarComponent } from './profile/avatar/avatar.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { UsersListComponent } from './dashboard/users-list/users-list.component';
+import { DetailsComponent } from './authentication/details/details.component';
+import { BytesPipe } from './bytes.pipe';
+import { ProjectsComponent } from './projects/projects.component';
+import { ProjectTemplateComponent } from './projects/project-template/project-template.component';
+import { IDService } from './id.service';
+import { ChangeLogComponent } from './change-log/change-log.component';
+import { ChangeLogTableComponent } from './change-log/table/table.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+import { CookiesComponent } from './cookies/cookies.component';
+import { HttpModule } from '@angular/http';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
     declarations: [
@@ -97,72 +105,84 @@ export const routes: Routes = [
         NotFoundComponent,
         UploadComponent,
         FileDropDirective,
-        UploadFormComponent,
-        UploadListComponent,
         UploadDetailComponent,
         ProfileComponent,
-        UsernameComponent,
+        NameComponent,
+        AlertDialog,
+        AvatarComponent,
+        DashboardComponent,
+        UsersListComponent,
+        DetailsComponent,
+        BytesPipe,
+        ProjectsComponent,
+        ProjectTemplateComponent,
+        ChangeLogComponent,
+        ChangeLogTableComponent,
+        PrivacyComponent,
+        CookiesComponent,
+        SafePipe
     ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
+        AppRoutingModule,
+        FlexLayoutModule,
+        ServiceWorkerModule.register('/ngsw-worker.js', { enabled: environment.production }),
         FormsModule,
         ReactiveFormsModule,
-        MaterializeModule.forRoot(),
-        RouterModule.forRoot(routes),
+        HttpClientModule,
+        HttpModule,
+        RouterModule.forRoot(environment.routes),
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireDatabaseModule,
         AngularFireAuthModule,
         AngularFirestoreModule,
-        Ng2ScrollimateModule,
-        MdDialogModule,
-        MdNativeDateModule,
-        MdAutocompleteModule,
-        MdButtonModule,
-        MdButtonToggleModule,
-        MdCardModule,
-        MdCheckboxModule,
-        MdChipsModule,
-        MdDatepickerModule,
-        MdDialogModule,
-        MdExpansionModule,
-        MdGridListModule,
-        MdIconModule,
-        MdInputModule,
-        MdListModule,
-        MdMenuModule,
-        MdNativeDateModule,
-        MdPaginatorModule,
-        MdProgressBarModule,
-        MdProgressSpinnerModule,
-        MdRadioModule,
-        MdRippleModule,
-        MdSelectModule,
-        MdSidenavModule,
-        MdSliderModule,
-        MdSlideToggleModule,
-        MdSnackBarModule,
-        MdSortModule,
-        MdTableModule,
-        MdTabsModule,
-        MdToolbarModule,
-        MdTooltipModule
+        NgxImageGalleryModule,
+        MatAutocompleteModule,
+        MatButtonModule,
+        MatButtonToggleModule,
+        MatCardModule,
+        MatCheckboxModule,
+        MatChipsModule,
+        MatDatepickerModule,
+        MatDialogModule,
+        MatExpansionModule,
+        MatGridListModule,
+        MatIconModule,
+        MatInputModule,
+        MatListModule,
+        MatMenuModule,
+        MatNativeDateModule,
+        MatPaginatorModule,
+        MatProgressBarModule,
+        MatProgressSpinnerModule,
+        MatRadioModule,
+        MatRippleModule,
+        MatSelectModule,
+        MatSidenavModule,
+        MatSliderModule,
+        MatSlideToggleModule,
+        MatSnackBarModule,
+        MatSortModule,
+        MatTableModule,
+        MatTabsModule,
+        MatToolbarModule,
+        MatTooltipModule
     ],
-    entryComponents: [
-        AuthenticationComponent,
-        UsernameComponent
-    ],
+    entryComponents: [NameComponent, AlertDialog, AvatarComponent],
     providers: [
         AuthService,
         AuthGuard,
-        UploadService,
+        DialogService,
         FileDropDirective,
+        MatIconRegistry,
+        UploadService,
         PermService,
-        PermGuard
+        PermGuard,
+        SeoService,
+        LogService,
+        IDService
     ],
-    bootstrap: [
-        AppComponent
-    ]
+    bootstrap: [AppComponent]
 })
-
 export class AppModule {}

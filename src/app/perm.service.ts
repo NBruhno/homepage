@@ -5,13 +5,13 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class PermService {
-
     userRoles: Array<string>;
-    constructor(private auth: AuthService,
-                private db: AngularFireDatabase) {
-        auth.user.map(user => {
-            return this.userRoles = _.keys(_.get(user, 'roles'));
-        }).subscribe();
+    constructor(private auth: AuthService, private db: AngularFireDatabase) {
+        auth.user
+            .map(user => {
+                return (this.userRoles = _.keys(_.get(user, 'roles')));
+            })
+            .subscribe();
     }
 
     getPosts() {
@@ -39,14 +39,18 @@ export class PermService {
     }
 
     editPost(post, newData) {
-        if ( this.canEdit ) {
+        if (this.canEdit) {
             return this.db.object('posts/' + post.$key).update(newData);
-        } else { console.log('action prevented!'); }
+        } else {
+            console.log('action prevented!');
+        }
     }
 
     deletePost(key) {
-        if ( this.canDelete ) {
+        if (this.canDelete) {
             return this.db.list('posts/' + key).remove();
-        } else { console.log('action prevented!'); }
+        } else {
+            console.log('action prevented!');
+        }
     }
 }
