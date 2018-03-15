@@ -3,24 +3,24 @@
 <svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
 	 viewBox="0 0 1500 2000" style="enable-background:new 0 0 1500 2000;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#5F6060;}
-	.st1{fill:#4A494A;}
-	.st2{fill:#848484;}
-	.st3{fill:#6D6D6D;}
-	.st4{fill:#B7B7B7;}
-	.st5{fill:#E0E0E0;}
-	.st6{fill:#C5C5C4;}
+	.st0{fill:#B7B7B7;}
+	.st1{fill:#E0E0E0;}
+	.st2{fill:#C5C5C4;}
+	.st3{fill:#5F6060;}
+	.st4{fill:#4A494A;}
+	.st5{fill:#848484;}
+	.st6{fill:#6D6D6D;}
 </style>
-<polygon id="XMLID_32_" class="st0" points="720,531 720,1316 191,935 "/>
-<polygon id="XMLID_31_" class="st0" points="720,961 720,1029 191,935 "/>
-<polygon id="XMLID_15_" class="st1" points="191,935 720,558 720,463 191,18 "/>
-<polygon id="XMLID_19_" class="st1" points="191,1927 720,1551 720,1380 191,935 "/>
-<polygon id="XMLID_20_" class="st2" points="191,18 720,73 720,463 "/>
-<polygon id="XMLID_22_" class="st3" points="720,991 191,935 720,1380 "/>
-<polygon id="XMLID_23_" class="st0" points="720,558.9 720,991 191,935.1 "/>
-<polygon id="XMLID_24_" class="st4" points="720,1983 191,1927 720,1551 "/>
-<polygon id="XMLID_21_" class="st5" points="829,1474 720,1551 720,1983 1358,1529 "/>
-<polygon id="XMLID_25_" class="st6" points="720,991 1358,1529 829,1474 720,1380 "/>
-<polygon id="XMLID_26_" class="st5" points="779,514 720,558 720,991 1310,571 "/>
-<polygon id="XMLID_27_" class="st6" points="720,463 779,514 1310,571 720,73 "/>
+<polygon id="XMLID_24_" class="st0" points="720,1983 191,1927 720,1551 "/>
+<polygon id="XMLID_21_" class="st1" points="829,1474 720,1551 711,1567 711,1974 720,1983 1358,1529 1338,1516 831,1466 "/>
+<polygon id="XMLID_25_" class="st2" points="720,991 1358,1529 829,1474 720,1380 713,1375 709,985 "/>
+<polygon id="XMLID_26_" class="st1" points="779,514 720,558 709,566 709,990 720,991 1310,571 1297,566 779,510 "/>
+<polygon id="XMLID_27_" class="st2" points="720,463 779,514 1310,571 720,73 714,77 714,458 "/>
+<polygon id="XMLID_32_" class="st3" points="720,73 720,1983 191,1927 191,18 "/>
+<polygon id="XMLID_31_" class="st3" points="720,961 720,1029 191,935 "/>
+<polygon id="XMLID_15_" class="st4" points="191,935 720,558 720,463 191,18 "/>
+<polygon id="XMLID_19_" class="st4" points="191,1927 720,1551 720,1380 191,935 "/>
+<polygon id="XMLID_20_" class="st5" points="191,18 720,73 720,463 "/>
+<polygon id="XMLID_22_" class="st6" points="720,991 191,935 720,1380 "/>
+<polygon id="XMLID_23_" class="st3" points="720,558.9 720,991 191,935.1 "/>
 </svg>

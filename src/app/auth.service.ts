@@ -1,106 +1,52 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Router } from '@angular/router';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/switchMap';
-import { MzToastService } from 'ng2-materialize';
+import { MatSnackBar } from '@angular/material';
+import { LogService } from './log.service';
 
-interface Roles {
-    reader: boolean;
-    author?: boolean;
-    admin?:  boolean;
-}
-
-interface User {
-    displayName: string;
+export interface User {
     email: string;
     emailVerified: boolean;
-    isAnonymous: boolean;
-    phoneNumber: string;
-    photoURL: string;
-    providerId: string;
-    refreshToken: string;
     uid: string;
-    username: string;
-    name: string;
-    admin: false;
-    author: false;
-    reader: true;
+    name?: string;
+    photoURL?: string;
+    country?: string;
+    groups?: string[];
+    provider?: string;
+    completeProfile?: boolean;
 }
-
 @Injectable()
 export class AuthService {
-
     private userDoc: AngularFirestoreDocument<User>;
+    private usersCollection: AngularFirestoreCollection<User>;
+    users: Observable<User[]>;
     user: Observable<User>;
     userState: any = null;
+    userVerified = false;
 
-    constructor(private afAuth: AngularFireAuth,
-                private db: AngularFirestore,
-                private router: Router,
-                private toastService: MzToastService) {
-
-        this.afAuth.authState.subscribe((auth) => {
-            this.userState = auth;
-            if (auth !== null) {
-                this.userDoc = db.doc<User>(`/users/${auth.uid}`);
-                this.user = this.userDoc.valueChanges();
-            } else { return null; }
+    constructor(
+        private afAuth: AngularFireAuth,
+        private db: AngularFirestore,
+        private log: LogService,
+        private router: Router,
+        private snack: MatSnackBar
+    ) {
+        this.user = this.afAuth.authState.switchMap(user => {
+            this.usersCollection = this.db.collection('users');
+            this.users = this.usersCollection.valueChanges();
+            this.userState = user;
+            if (user) {
+                return this.db.doc<User>(`users/${user.uid}`).valueChanges();
+            } else {
+                return Observable.of(null);
+            }
         });
     }
-
-    get authenticated(): boolean {
-        return this.userState !== null;
-    }
-
-    get currentUser(): any {
-        return this.authenticated ? this.userState : null;
-    }
-
-    get currentUserObservable(): any {
-        return this.user;
-    }
-
-    get currentUserId(): string {
-        let uid = '';
-        this.user.subscribe(user => {
-            uid = user.uid;
-        });
-        return uid;
-    }
-
-    get currentUserEmail(): string {
-        let email = '';
-        this.user.subscribe(user => {
-            email = user.email;
-        });
-        return email;
-    }
-
-    get currentUserDisplayName(): string {
-        let displayName = '';
-        this.user.subscribe(user => {
-            displayName = user.displayName;
-        });
-        return displayName;
-    }
-
-    get currentUsername(): string {
-        let username = '';
-        this.user.subscribe(user => {
-            username = user.username;
-        });
-        return username;
-    }
-
-    // get hasUsername(): boolean {
-    //     console.log('Current username: ' + this.userData.subscribe(user => user.username));
-    //     console.log(!!this.userData.subscribe(user => user.username));
-    //     return !!this.userData.subscribe(user => user.username);
-    // }
 
     googleLogin() {
         const provider = new firebase.auth.GoogleAuthProvider();
@@ -123,103 +69,112 @@ export class AuthService {
     }
 
     private socialSignIn(provider) {
-        return this.afAuth.auth.signInWithPopup(provider)
-            .then((credential) =>  {
-                this.userState = credential.user;
-                this.updateUserData(credential.user);
-            }).catch(error => {
-                this.toastService.show(error.message, 4000, 'red');
-                console.error(error);
-            });
+        return this.afAuth.auth.signInWithPopup(provider).then(credential => {
+            this.userState = credential.user;
+            this.updateUserData(credential.user);
+        });
     }
 
     emailSignUp(email: string, password: string) {
-        return this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-            .then((user) => {
-                this.updateUserData(user);
-                this.userState = user;
-            }).catch(error => {
-                this.toastService.show(error.message, 4000, 'red');
-                console.error(error);
-            });
+        return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then(user => {
+            this.userState = user;
+            this.updateUserData(user);
+        });
     }
 
     emailLogin(email: string, password: string) {
-        return this.afAuth.auth.signInWithEmailAndPassword(email, password)
-            .then((user) => {
-                this.userState = user;
-                this.updateUserData(user);
-            }).catch(error => {
-                this.toastService.show(error.message, 4000, 'red');
-                console.error(error);
-            });
+        return this.afAuth.auth.signInWithEmailAndPassword(email, password).then(user => {
+            this.userState = user;
+            this.updateUserData(user);
+        });
+    }
+
+    sendVerifyEmail() {
+        let user: any = firebase.auth().currentUser;
+        user
+            .sendEmailVerification()
+            .then(success => this.snack.open('A mail with a verification link has been sent your way', '', { duration: 4000 }))
+            .catch(error => this.log.error(error));
+    }
+
+    verifyEmail(user: User) {
+        if (this.userState.emailVerified) {
+            return this.db
+                .doc(`users/${user.uid}`)
+                .update({ emailVerified: true })
+                .catch(error => this.log.error(error))
+                .then(() => {
+                    this.router.navigate(['/']);
+                    this.snack.open('Your email has been verified successfully', 'Thank you', { duration: 4000 });
+                });
+        } else {
+            this.snack.open('Your email has not been verified yet through your email', '', { duration: 4000 });
+        }
     }
 
     resetPassword(email: string) {
         const auth = firebase.auth();
-        return auth.sendPasswordResetEmail(email)
+        return auth
+            .sendPasswordResetEmail(email)
             .then(() => {
-                this.toastService.show('A mail with a password reset link has been sent your way', 4000);
+                this.snack.open('A mail with a password reset link has been sent your way', '', { duration: 4000 });
             })
-            .catch(error => {
-                this.toastService.show(error.message, 4000, 'red');
-                console.error(error);
-            });
+            .catch(error => this.log.error(error));
     }
 
     signOut(): void {
-        this.afAuth.auth.signOut();
-        this.router.navigate(['/']);
-        this.toastService.show('You have been signed out', 4000);
+        this.afAuth.auth.signOut().then(() => {
+            this.userVerified = false;
+            this.router.navigate(['/']);
+            this.snack.open('You have been signed out', 'OK', { duration: 4000 });
+        });
     }
 
-    checkUsername(username: string) {
-        // username = username.toLowerCase();
-        // return this.db.object(`usernames/${username}`);
-    }
+    updateUserData(user) {
+        const userRef: AngularFirestoreDocument<any> = this.db.doc(`users/${user.uid}`);
+        const data: User = {
+            email: this.userState.email,
+            emailVerified: this.userState.emailVerified,
+            photoURL: this.userState.photoURL,
+            uid: this.userState.uid,
+            completeProfile: false
+        };
 
-    updateUsername(username: string) {
-        // const data = {};
-        // data[username] = this.userState.uid;
-        // this.db.object(`/users/${this.currentUserId}`).update({'username': username});
-        // this.db.object(`/usernames`).update(data);
-    }
-
-    updateUserData(auth) {
-        this.userDoc = this.db.doc<User>(`/users/${auth.uid}`);
-        this.user = this.userDoc.valueChanges();
-        this.user.subscribe(user => {
-            if (user === null) {
-                console.log('User does not exist, creating a document for ' + this.userState.uid);
-                this.userDoc.set({
-                    displayName: this.userState.displayName,
-                    email: this.userState.email,
-                    emailVerified: this.userState.emailVerified,
-                    isAnonymous: this.userState.isAnonymous,
-                    phoneNumber: this.userState.phoneNumber,
-                    photoURL: this.userState.photoURL,
-                    providerId: this.userState.providerId,
-                    refreshToken: this.userState.refreshToken,
-                    uid: this.userState.uid,
-                    username: '',
-                    name: '',
-                    admin: false,
-                    author: false,
-                    reader: true
-                });
-                this.afterSignIn();
+        this.user.subscribe(userData => {
+            if (userData === null) {
+                userRef.set(data);
             } else {
-                console.log('User exist under document ' + user.uid);
-                this.afterSignIn();
+                if (userData.completeProfile) {
+                    if (this.userState.emailVerified) {
+                        this.userVerified = true;
+                        this.router.navigate(['/']);
+                        this.snack.open('Welcome back ' + userData.name, 'Thank you', { duration: 4000 });
+                    }
+                }
             }
         });
     }
 
-    afterSignIn(): void {
-        this.router.navigate(['/']);
-        this.user.subscribe(user => {
-            console.log('Signed in as ' + user.uid);
-            this.toastService.show('Welcome back' + user.username, 4000);
-        });
+    updateCompleteProfile(user: User, data: any) {
+        return this.db
+            .doc(`users/${user.uid}`)
+            .update(data)
+            .catch(error => this.log.error(error))
+            .then(() => {
+                this.sendVerifyEmail();
+                this.snack.open('Welcome ' + data.name + 'an email with a verification link has been sent your way', '', {
+                    duration: 4000
+                });
+            });
+    }
+
+    updateName(user: User, data: any) {
+        return this.db
+            .doc(`users/${user.uid}`)
+            .update(data)
+            .catch(error => this.log.error(error))
+            .then(() => {
+                this.snack.open('Your name has been changed to  ' + data.name, 'Thank you', { duration: 4000 });
+            });
     }
 }

@@ -1,14 +1,11 @@
-export class Upload {
-    $key: string;
+export class UpTemp {
     file: File;
     name: string;
-    url: string;
     progress: number;
-    createdAt: string;
-    uploaderUID: string;
-    uploaderName: string;
+    fileID: string;
 
-    constructor(file: File) {
+    constructor(file: File, filedID: string) {
         this.file = file;
+        this.fileID = filedID;
     }
 }

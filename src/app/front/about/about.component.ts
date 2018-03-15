@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { trigger, state, style, transition, animate, keyframes } from '@angular/animations';
 
 @Component({
@@ -39,66 +38,12 @@ import { trigger, state, style, transition, animate, keyframes } from '@angular/
 })
 
 export class AboutComponent implements OnInit {
-    scrollimateOptions: any = {
-        section1: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section2: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section3: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section4: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section5: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section6: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section7: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section8: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section9: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section10: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 22, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section11: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 15, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section12: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 15, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-        section13: {
-            currentState: 'inactive',
-            states: [{method: 'percentElement', value: 15, state: 'active'}, {method: 'default', state: 'inactive'}]
-        },
-    };
-
     time = new Date().valueOf();
     photoshopYears = this.convertMillisecondsToYears(this.time - new Date('2009-09-01T12:00:00.0').valueOf());
     indesignYears = this.convertMillisecondsToYears(this.time - new Date('2014-09-01T12:00:00.0').valueOf());
     illustratorYears = this.convertMillisecondsToYears(this.time - new Date('2013-09-01T12:00:00.0').valueOf());
     intellijYears = this.convertMillisecondsToYears(this.time - new Date('2016-09-01T12:00:00.0').valueOf());
+    githubYears = this.convertMillisecondsToYears(this.time - new Date('2014-09-01T12:00:00.0').valueOf());
     cYears = this.convertMillisecondsToYears(this.time - new Date('2014-09-01T12:00:00.0').valueOf());
     jsYears = this.convertMillisecondsToYears(this.time - new Date('2012-09-01T12:00:00.0').valueOf());
     tsYears = this.convertMillisecondsToYears(this.time - new Date('2016-09-01T12:00:00.0').valueOf());
@@ -113,5 +58,4 @@ export class AboutComponent implements OnInit {
 
     ngOnInit() {
     }
-
 }

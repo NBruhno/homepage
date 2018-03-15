@@ -1,19 +1,13 @@
 {
     "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
     "project": {
-        "name": "hp-v0.2"
+        "name": "bruhno.com"
     },
     "apps": [
         {
             "root": "src",
             "outDir": "dist",
-            "assets": [
-                "assets",
-                ".htaccess",
-                "favicon.ico",
-                "favicon.png",
-                "manifest.json"
-            ],
+            "assets": ["assets", "favicon.ico", "favicon.png", "manifest.json"],
             "index": "index.html",
             "main": "main.ts",
             "polyfills": "polyfills.ts",
@@ -22,15 +16,8 @@
             "testTsconfig": "tsconfig.spec.json",
             "prefix": "app",
             "serviceWorker": true,
-            "styles": [
-                "styles.scss",
-                "../node_modules/mdi/css/materialdesignicons.min.css"
-            ],
-            "scripts": [
-                "../node_modules/jquery/dist/jquery.min.js",
-                "../node_modules/materialize-css/dist/js/materialize.min.js",
-                "google-analytics.js"
-            ],
+            "styles": ["maintheme.scss", "styles.scss", "../node_modules/mdi/css/materialdesignicons.min.css"],
+            "scripts": ["google-analytics.js"],
             "environmentSource": "environments/environment.ts",
             "environments": {
                 "dev": "environments/environment.ts",
@@ -65,7 +52,6 @@
     "defaults": {
         "styleExt": "css",
         "lintFix": true,
-        "component": {
-        }
+        "component": {}
     }
 }

@@ -1,13 +1,30 @@
 {
-    "short_name": "Bruhno.com",
+    "short_name": "Bruhno",
     "name": "Bruhno's portfolio",
-    "theme_color": "#ff1744",
-    "background_color": "#ff1744",
+    "description": "This is the personal portfolio of Nicolai Bruhn",
+    "theme_color": "#FF5722",
+    "background_color": "#FAFAFA",
     "start_url": "/",
-    "display": "standalone",
+    "display": "fullscreen",
     "orientation": "portrait",
-
+    "dir": "rtl",
+    "lang": "en-US",
     "icons": [
+        {
+            "src": "assets/icons/icon-2000x2000.png",
+            "sizes": "2000x2000",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-1024x1024.png",
+            "sizes": "1024x1024",
+            "type": "image/png"
+        },
+        {
+            "src": "assets/icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
         {
             "src": "assets/icons/android-chrome-192x192.png",
             "sizes": "192x192",

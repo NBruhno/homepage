@@ -1,14 +1,31 @@
-.login-option {
-    cursor: pointer;
-    margin-bottom: 15px;
-}
-
-.login-option:hover {
-    -webkit-box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.3);
-}
-
 img {
     cursor: pointer;
-    width: 50px;
+}
+
+.loginButton {
+    cursor: pointer;
+    color: white;
+    display: block;
+    position: relative;
+    padding: 12px 24px;
+}
+
+.googleLogin {
+    background: #dd4b39;
+}
+
+.facebookLogin {
+    background: #3b5998;
+}
+
+.twitterLogin {
+    background: #00aced;
+}
+
+.githubLogin {
+    background: #333;
+}
+
+.spacerLogin {
+    padding-top: 5px;
 }

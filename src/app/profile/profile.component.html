@@ -1,21 +1,35 @@
-<div class="container">
-    <div class="row">
-        <div class="col s12">
-            <mz-card
-                [backgroundClass]="'blue-grey darken-1'"
-                [textClass]="'white-text'"
-                [hoverable]="true">
-                <mz-card-title>{{ (auth.user | async)?.username }} </mz-card-title>
-                <mz-card-content>
-                    <img class="card-img-top" [src]="(auth.user | async)?.photoURL || 'https://api.adorable.io/avatars/109/fire.png'" width=156px>
-                    <p>UID: {{ (auth.user | async)?.uid }}</p>
-                    <p>Email: {{ (auth.user | async)?.email }}</p>
-                </mz-card-content>
-                <mz-card-action>
-                    <a href="#">This is a link</a>
-                    <a href="#">This is a link</a>
-                </mz-card-action>
-            </mz-card>
+<div class="profileHeader">
+</div>
+
+<div *ngIf="auth.user | async; then authenticated else guest"></div>
+
+<ng-template #guest class="mat-typography">
+    <h4>You are not authenticated</h4>
+</ng-template>
+
+<ng-template #authenticated>
+    <div *ngIf="auth.user | async as user" class="container mat-typography">
+        <div fxLayout fxLayoutAlign="center start" fxLayoutGap="20px" fxLayoutGap.xs="6px" class="profileAvatar">
+            <div fxFlex="none">
+                <a class="changeAvatar">
+                    <img class="circle responsive-img" [src]="user.photoURL || '../../assets/images/ProfileTemp.png'" width=156px>
+                </a>
+                <div class="cn circle" (click)="changeAvatar()">
+                    <div class="inner">
+                        <a>
+                            <mat-icon svgIcon="camera" class="avatarIcon"></mat-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="50%" fxFlex.xs="65%">
+                <a>
+                    <p class="username white-text changeUsername" (click)="changeUsername()">{{ user.name || 'No name' }}
+                        <mat-icon svgIcon="pencil" class="usernameIcon"></mat-icon>
+                    </p>
+                </a>
+                <p class="white-text email">{{ user.email || 'No email'}}</p>
+            </div>
         </div>
     </div>
-</div>
+</ng-template>
