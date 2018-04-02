@@ -38,6 +38,5 @@ node_modules
 # TypeScript
 typings
 
-# JetBrains
-.idea
-.awcache
+# Git
+.git

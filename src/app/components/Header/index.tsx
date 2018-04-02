@@ -1,31 +1,15 @@
 import * as React from 'react'
-import { TodoTextInput } from '../TodoTextInput'
-import { TodoActions } from 'app/actions/todos'
+import { Link } from 'react-router'
 
-export namespace Header {
-	export interface Props {
-		addTodo: typeof TodoActions.addTodo
-	}
-}
+const style = require('./style.scss')
 
-export class Header extends React.Component<Header.Props> {
-	constructor(props: Header.Props, context?: any) {
-		super(props, context)
-		this.handleSave = this.handleSave.bind(this)
-	}
-
-	handleSave(text: string) {
-		if (text.length) {
-			this.props.addTodo({ text })
-		}
-	}
-
-	render() {
-		return (
-			<header>
-				<h1>Todos</h1>
-				<TodoTextInput newTodo onSave={this.handleSave} placeholder="What needs to be done?" />
-			</header>
-		)
-	}
-}
+export const Header = () => (
+	<nav className={style.Nav}>
+		<ul>
+			<li><Link to="/">Home</Link></li>
+			<li><Link to="about">About</Link></li>
+			<li><Link to="counter">Counter</Link></li>
+			<li><Link to="stars">Stars</Link></li>
+		</ul>
+	</nav>
+)
