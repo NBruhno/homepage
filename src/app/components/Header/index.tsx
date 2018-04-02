@@ -4,7 +4,7 @@ import { Link } from 'react-router'
 const style = require('./style.scss')
 
 export const Header = () => (
-	<nav className={style.Nav}>
+	<nav className={style.nav}>
 		<ul>
 			<li><Link to="/">Home</Link></li>
 			<li><Link to="about">About</Link></li>

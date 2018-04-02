@@ -1,14 +1,14 @@
-.Nav {
-  & ul {
-    list-style-type: none;
-    padding: 0;
+.nav {
+	& ul {
+		list-style-type: none;
+		padding: 0;
 
-    & li {
-      display: inline;
-      padding: 5px;
+		& li {
+			display: inline;
+			padding: 5px;
 
-      & a {
-        color: #212121;
+			& a {
+				color: #212121;
       }
     }
   }
