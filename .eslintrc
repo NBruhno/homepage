@@ -1,0 +1,67 @@
+{
+    "parser": "babel-eslint",
+    "extends": [
+        "standard",
+        "standard-react",
+        "plugin:import/errors",
+        "plugin:import/warnings"
+    ],
+    "plugins": [
+        "babel",
+        "react",
+        "promise",
+        "import",
+        "jest"
+    ],
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "moduleDirectory": ["node_modules", "src"],
+                "extensions": [".client.js", ".server.js", ".js", ".json"]
+            }
+        }
+    },
+    "env": {
+        "browser" : true,
+        "jest/globals": true
+    },
+    "rules": {
+        "no-tabs": 0,
+        "space-before-function-paren": [2, {"anonymous": "always", "named": "never"}],
+        "semi": [2, "never"],
+        "generator-star-spacing": [2, "both"],
+        "jsx-quotes": [2, "prefer-single"],
+        "react/jsx-indent": [2, "tab"],
+        "react/jsx-indent-props": [2, "tab"],
+        "react/jsx-no-bind": [2, {
+            "ignoreRefs": false,
+            "allowArrowFunctions": true,
+            "allowBind": false
+        }],
+        "indent": [2, "tab", {
+            "SwitchCase": 1,
+            "MemberExpression": 1,
+            "FunctionExpression": {"body": 1, "parameters": 1},
+            "CallExpression": {"arguments": 1}
+        }],
+        "comma-dangle": [2, {
+            "arrays": "always-multiline",
+            "objects": "always-multiline",
+            "imports": "always-multiline",
+            "exports": "always-multiline",
+            "functions": "always-multiline"
+        }],
+        "func-style": [2, "expression"],
+        "no-unused-vars": [2, {
+            "ignoreRestSiblings": true
+        }],
+        "object-curly-spacing": [2, "always"],
+        "standard/object-curly-even-spacing": 0,
+        "import/no-extraneous-dependencies": ["error", {
+            "devDependencies": true,
+            "optionalDependencies": false,
+            "peerDependencies": false
+        }],
+        "import/order": ["error", {"newlines-between": "always-and-inside-groups", "groups": ["builtin", "external", "internal", "parent", "sibling", "index"]}]
+    }
+}
