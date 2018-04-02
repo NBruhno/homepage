@@ -1,6 +1,5 @@
-MIT License
-
-Copyright (c) 2010-2017 Nicolai Bruhn Lauritsen
+The MIT License (MIT)
+Copyright (c) 2016 Barbar Startup Factory
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -10,12 +9,7 @@ copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
 The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software. All graphical elements are 
-not free of charge and can not be used without the owners written permission.
-This restriction also applies to any elements related to the brand Bruhno and 
-its logo. To make this clear, only the code and documentation included for said
-software is under the MIT License. Everything else is not covered by the MIT
-License and is protected by Copyright.
+copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
