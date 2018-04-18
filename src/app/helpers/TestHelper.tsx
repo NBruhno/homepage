@@ -15,7 +15,7 @@ const middlewares = [thunk]
 const mockStore = configureStore(middlewares)
 
 /** Render Component */
-function renderComponent(ComponentClass, state?, props?) {
+function renderComponent(ComponentClass: any, state?: any, props?: any) {
 	const store = createStore(rootReducer, state)
 
 	return mount(
