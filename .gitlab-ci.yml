@@ -1,5 +1,9 @@
 image: node:latest
 
+stages:
+    - lint
+    - build
+
 cache:
   paths:
   - node_modules/
@@ -17,4 +21,3 @@ build:
     script: 
         - echo "Running build"
         - npm run build:prod
-
