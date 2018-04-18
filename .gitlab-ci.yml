@@ -12,4 +12,4 @@ build:
     script: 
         - echo "Running build"
         - npm install
-        - npm cross-env NODE_ENV=production npm run build
+        - npm run build:prod
