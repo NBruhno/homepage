@@ -3,13 +3,18 @@ image: node:latest
 cache:
   paths:
   - node_modules/
-
-stages: 
-    - build
+  
+lint:
+    stage: lint
+    script:
+        - echo "Running linter"
+        - npm install
+        - npm run clean
+        - npm run lint
 
 build:
     stage: build
     script: 
         - echo "Running build"
-        - npm install
         - npm run build:prod
+
