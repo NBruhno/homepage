@@ -13,7 +13,7 @@
     "preserveConstEnums": true,
     "sourceMap": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "typeRoots": ["./node_modules/@types"],
     "lib": ["dom", "es2015", "es2016"],
     "strict": false,
@@ -21,7 +21,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
   },
   "exclude": [
     "node_modules",

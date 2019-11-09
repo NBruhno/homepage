@@ -1,12 +1,16 @@
 {
   "name": "bruhno.com",
+  "description": "My personal portfolio",
+  "homepage": "https://bruhno.dev",
+  "author": "Nicolai Bruhn Lauritsen <mail@bruhno.com> (https://bruhno.dev)",
   "license": "UNLICENSED",
+  "private": true,
   "version": "0.0.0",
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "lint": "stylelint './*.tsx'"
+    "lint": "eslint **/*.tsx"
   },
   "dependencies": {
     "next": "^9.0.2",
