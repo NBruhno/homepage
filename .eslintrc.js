@@ -22,6 +22,7 @@ module.exports = {
     'React': 'writeable',
   },
 	rules: {
+		'react/prop-types': 'off',
 		'react/react-in-jsx-scope': 'off',
     'space-infix-ops': 'off',
 		'import/namespace': 'off',
@@ -29,9 +30,8 @@ module.exports = {
 
 		// Allow using rest destructuring to omit variables without complaint
 		'@typescript-eslint/no-unused-vars': ['error', { 'ignoreRestSiblings': true }],
-		// Allow disorder in declarations of things that are not executed syncronously
+		// Allow disorder in declarations of things that are not executed synchronously
 		'@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
-		'@typescript-eslint/array-type': [true, 'generic'],
 		// Allow destructuring of snake-case props
 		'@typescript-eslint/camelcase': ['error', { ignoreDestructuring: true }],
 		'@typescript-eslint/indent': ['error', 'tab', {
@@ -40,7 +40,7 @@ module.exports = {
 			'FunctionExpression': { 'body': 1, 'parameters': 1 },
 			'CallExpression': { 'arguments': 1 },
 			'ignoredNodes': [
-				// Disable indent-check inside select tagged template litterals
+				// Disable indent-check inside select tagged template literals
 				// sql``
 				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
 				// styled(Component)``
@@ -118,7 +118,7 @@ module.exports = {
 			'FunctionExpression': { 'body': 1, 'parameters': 1 },
 			'CallExpression': { 'arguments': 1 },
 			'ignoredNodes': [
-				// Disable indent-check inside select tagged template litterals
+				// Disable indent-check inside select tagged template literals
 				// sql``
 				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
 				// styled(Component)``
@@ -180,28 +180,25 @@ module.exports = {
 		'react/prefer-stateless-function': 'off',
 		'react/sort-comp': 'off',
 		'react/jsx-filename-extension': 'off',
-		'react/require-default-props': 'off',
-		'react/forbid-prop-types': 'off',
 		'react/no-array-index-key': 'off',
 		// Rule is broken
 		'react/jsx-one-expression-per-line': 'off',
 		'react/destructuring-assignment': 'off',
 
+		'import/prefer-default-export': 'off',
+		'import/extensions': 'off',
+		'import/no-unresolved': 'off',
 		'import/no-extraneous-dependencies': ['error', { 'devDependencies': true, 'optionalDependencies': false, 'peerDependencies': false }],
 		'import/order': ['error', {
 			'newlines-between': 'always-and-inside-groups',
 			'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
 		}],
 
-		'import/prefer-default-export': 'off',
-		'import/extensions': 'off',
-
 		'jsx-a11y/label-has-for': 'off',
 		'jsx-a11y/anchor-is-valid': 'off',
 
-		'filenames/match-exported': ['error'],
-
 		'react-hooks/rules-of-hooks': 'error',
 		'react-hooks/exhaustive-deps': 'warn',
+
 	},
 }
