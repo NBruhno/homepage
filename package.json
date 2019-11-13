@@ -11,7 +11,8 @@
     "build": "next build",
     "export": "next export",
     "start": "next start",
-    "lint": "eslint **/*.tsx"
+    "lint": "eslint **/*.tsx",
+    "test": "echo No test implemented"
   },
   "dependencies": {
     "@zeit/next-source-maps": "^0.0.3",
