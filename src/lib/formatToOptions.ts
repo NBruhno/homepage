@@ -1,6 +1,6 @@
 import { isString, isNumber, has, lowerCase, upperFirst } from 'lodash'
 
-export default (options: Array<{}>) => Array.from(options, (option: string | { title: string, label: string, value: any, options: Array<{}>, id: string, hint: string, disabled: boolean }) => {
+export default (options: Array<{}>) => Array.from(options, (option: { title: string, label: string, value: any, options: Array<{}>, id: string, hint: string, disabled: boolean }) => {
 	if (isString(option) || isNumber(option)) {
 		return { label: upperFirst(lowerCase(isString(option) ? option : option.toString())), value: option }
 	} else if (has(option, 'title') && has(option, 'id')) {
