@@ -1,6 +1,11 @@
 const path = require('path')
 
 module.exports = {
+	exportPathMap: () => ({
+		'/': { page: '/' },
+		'/projects': { page: '/Projects' },
+	}),
+
 	webpack: (config) => {
 		// Fixes npm packages that depend on `fs` module
 		config.node = {
