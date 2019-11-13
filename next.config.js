@@ -1,32 +1,8 @@
 const path = require('path')
 
 const withSourceMaps = require('@zeit/next-source-maps')
-const withOffline = require('next-offline')
 
-module.exports = withOffline(withSourceMaps({
-	target: 'serverless',
-
-	workboxOpts: {
-		swDest: 'public/service-worker.js',
-		runtimeCaching: [
-			{
-				urlPattern: /^https?.*/,
-				handler: 'NetworkFirst',
-				options: {
-					cacheName: 'https-calls',
-					networkTimeoutSeconds: 15,
-					expiration: {
-						maxEntries: 150,
-						maxAgeSeconds: 30 * 24 * 60 * 60, // 1 month
-					},
-					cacheableResponse: {
-						statuses: [0, 200],
-					},
-				},
-			},
-		],
-	},
-
+module.exports = withSourceMaps({
 	exportPathMap: () => ({
 		'/': { page: '/' },
 		'/projects': { page: '/Projects' },
@@ -42,4 +18,4 @@ module.exports = withOffline(withSourceMaps({
 
 		return config
 	},
-}))
+})
