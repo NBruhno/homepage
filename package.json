@@ -14,8 +14,10 @@
     "lint": "eslint **/*.tsx"
   },
   "dependencies": {
+    "@zeit/next-source-maps": "^0.0.3",
     "lodash": "^4.17.15",
     "next": "^9.0.2",
+    "next-offline": "^4.0.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.3",
