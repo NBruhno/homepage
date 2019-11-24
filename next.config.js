@@ -3,12 +3,12 @@ const path = require('path')
 const withOffline = require('next-offline')
 const withSourceMaps = require('@zeit/next-source-maps')
 
-module.exports = withSourceMaps(withOffline({
+module.exports = withOffline(withSourceMaps({
 	target: 'serverless',
 	transformManifest: (manifest) => ['/'].concat(manifest),
-	generateInDevMode: true,
+	generateInDevMode: false,
 	workboxOpts: {
-		swDest: 'public/service-worker.js',
+		swDest: 'static/service-worker.js',
 		runtimeCaching: [
 			{
 				urlPattern: /^https?.*/,
