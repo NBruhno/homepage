@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 
 const Projects: NextPage = () => (
 	<div>
-		Hello
+		This is a placeholder
 	</div>
 )
 
