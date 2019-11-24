@@ -53,7 +53,7 @@ const walkSync = (dir) => {
 walkSync('src/pages/')
 
 domains.forEach((domain) => {
-	fs.writeFileSync(`sitemap-${domain}.xml`, `<?xml version="1.0" encoding="UTF-8"?>
+	fs.writeFileSync(`public/sitemaps/${domain}.xml`, `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
   ${Object.keys(pages).map(
 		(path) => `<url>
