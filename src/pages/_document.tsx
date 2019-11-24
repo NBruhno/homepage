@@ -23,14 +23,14 @@ class _document extends Document {
 					<meta name='twitter:card' content="This is Nicolai Bruhn Lauritsen or more commonly known as Bruhno's personal website which functions as a portfolio and a playground." />
 					<meta name='twitter:site' content='@NBruhno' />
 					<meta name='twitter:title' content='Homepage' />
-					<meta name='twitter:description' content='An angular app that is actually search crawler bot friendly' />
+					<meta name='twitter:description' content='Personal portfolio' />
 					<meta name='twitter:image' content='https://bruhno.dev/images/BLight.svg' />
 
 					{/* Facebook and other social sites */}
 					<meta property='og:type' content='article' />
 					<meta property='og:site_name' content='Bruhno' />
 					<meta property='og:title' content='Homepage' />
-					<meta property='og:description' content='Server side rendering that works with AngularFire2 - believe it' />
+					<meta property='og:description' content='Personal portfolio' />
 					<meta property='og:image' content='https://static.bruhno.dev/images/BLight.svg' />
 					<meta property='og:url' content='https://static.bruhno.dev' />
 
