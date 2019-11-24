@@ -24,4 +24,4 @@ yarn-error.log*
 .env.build
 
 # Automatically generated files
-/public/sitemaps
+/public/sitemap.xml
