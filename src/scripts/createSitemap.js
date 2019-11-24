@@ -2,6 +2,8 @@ const fs = require('fs')
 
 const domains = ['bruhno.com', 'bruhno.dev']
 
+console.log(`Creating sitemaps for ${domains}`)
+
 const formatDate = (date) => {
 	const d = new Date(date)
 	let month = '' + (d.getMonth() + 1)
@@ -52,8 +54,13 @@ const walkSync = (dir) => {
 
 walkSync('src/pages/')
 
+console.log('Listing files available')
+fs.readdirSync('./').forEach((file) => {
+	console.log(file)
+})
+
 domains.forEach((domain) => {
-	fs.writeFileSync(`../../public/sitemaps/${domain}.xml`, `<?xml version="1.0" encoding="UTF-8"?>
+	fs.writeFileSync(`public/sitemaps/${domain}.xml`, `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
   ${Object.keys(pages).map(
 		(path) => `<url>
@@ -65,4 +72,5 @@ domains.forEach((domain) => {
 	).join('\n	')}
 </urlset>
 	`)
+	console.log(`Created sitemap for ${domain}`)
 })
