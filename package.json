@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
+    "postbuild": "node src/scripts/postBuild.js",
     "start": "next start",
     "lint": "eslint **/*.tsx",
     "test": "echo No test implemented"
@@ -16,7 +17,7 @@
   "dependencies": {
     "@zeit/next-source-maps": "^0.0.3",
     "lodash": "^4.17.15",
-    "next": "^9.0.2",
+    "next": "^9.1.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-redux": "^7.1.3",
