@@ -1,8 +1,9 @@
 const fs = require('fs')
 
 const domains = ['bruhno.com', 'bruhno.dev']
+const outputLocation = 'public/sitemaps'
 
-console.log(`Creating sitemaps for ${domains}`)
+console.log(`Creating sitemaps for ${domains.join(', ')} in ${outputLocation}`)
 
 const formatDate = (date) => {
 	const d = new Date(date)
@@ -54,13 +55,16 @@ const walkSync = (dir) => {
 
 walkSync('src/pages/')
 
-console.log('Listing files available')
-fs.readdirSync('./').forEach((file) => {
-	console.log(file)
-})
+console.log('Found the following pages:')
+console.log(pages)
+
+if (!fs.existsSync('./public/sitemaps')) {
+	console.log(`${outputLocation} does not exists, creating directory`)
+	fs.mkdirSync(outputLocation)
+}
 
 domains.forEach((domain) => {
-	fs.writeFileSync(`public/sitemaps/${domain}.xml`, `<?xml version="1.0" encoding="UTF-8"?>
+	fs.writeFileSync(`${outputLocation}/${domain}.xml`, `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
   ${Object.keys(pages).map(
 		(path) => `<url>
@@ -74,3 +78,5 @@ domains.forEach((domain) => {
 	`)
 	console.log(`Created sitemap for ${domain}`)
 })
+
+console.log('All sitemaps created')
