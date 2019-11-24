@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "postbuild": "node src/scripts/postBuild.js",
+    "prebuild": "node src/scripts/createSitemap.js",
     "start": "next start",
     "lint": "eslint **/*.tsx",
     "test": "echo No test implemented"

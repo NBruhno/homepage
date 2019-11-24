@@ -22,3 +22,6 @@ yarn-error.log*
 # Environment Variables
 .env
 .env.build
+
+# Automatically generated files
+/public/sitemaps
