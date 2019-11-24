@@ -3,11 +3,6 @@ const path = require('path')
 const withSourceMaps = require('@zeit/next-source-maps')
 
 module.exports = withSourceMaps({
-	exportPathMap: () => ({
-		'/': { page: '/' },
-		'/projects': { page: '/Projects' },
-	}),
-
 	webpack: (config) => {
 		// Fixes npm packages that depend on `fs` module
 		config.node = {
