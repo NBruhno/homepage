@@ -10,6 +10,7 @@ class _document extends Document {
 		return (
 			<Html lang='en'>
 				<Head />
+				<link rel='manifest' href='/manifest.json' />
 				<body>
 					<Main />
 					<NextScript />
