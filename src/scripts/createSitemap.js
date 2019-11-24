@@ -66,10 +66,10 @@ if (!fs.existsSync('./public/sitemaps')) {
 domains.forEach((domain) => {
 	fs.writeFileSync(`${outputLocation}/${domain}.xml`, `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"> 
-  ${Object.keys(pages).map(
+	${Object.keys(pages).map(
 		(path) => `<url>
-    <loc>https://${domain}/${path}</loc>
-    <lastmod>${
+		<loc>https://${domain}/${path}</loc>
+		<lastmod>${
 	formatDate(new Date(pages[path].lastModified))
 }</lastmod>
 	</url>`,
