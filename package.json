@@ -9,7 +9,6 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "export": "next export",
     "start": "next start",
     "lint": "eslint **/*.tsx",
     "test": "echo No test implemented"
