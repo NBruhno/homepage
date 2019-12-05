@@ -28,11 +28,8 @@ module.exports = {
 		'import/namespace': 'off',
 		'import/named': 'off',
 
-		// Allow using rest destructuring to omit variables without complaint
 		'@typescript-eslint/no-unused-vars': ['error', { 'ignoreRestSiblings': true }],
-		// Allow disorder in declarations of things that are not executed synchronously
 		'@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
-		// Allow destructuring of snake-case props
 		'@typescript-eslint/camelcase': ['error', { ignoreDestructuring: true }],
 		'@typescript-eslint/indent': ['error', 'tab', {
 			'SwitchCase': 1,
@@ -40,16 +37,10 @@ module.exports = {
 			'FunctionExpression': { 'body': 1, 'parameters': 1 },
 			'CallExpression': { 'arguments': 1 },
 			'ignoredNodes': [
-				// Disable indent-check inside select tagged template literals
-				// sql``
 				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
-				// styled(Component)``
 				'TaggedTemplateExpression[tag.callee.name="styled"] > TemplateLiteral *',
-				// styled(Component).attrs()``
 				'TaggedTemplateExpression[tag.callee.object.callee.name="styled"] > TemplateLiteral *',
-				// styled.div``
 				'TaggedTemplateExpression[tag.object.name="styled"] > TemplateLiteral *',
-				// styled.div.attrs()``
 				'TaggedTemplateExpression[tag.callee.object.object.name="styled"] > TemplateLiteral *',
 			],
 		}],
@@ -118,16 +109,10 @@ module.exports = {
 			'FunctionExpression': { 'body': 1, 'parameters': 1 },
 			'CallExpression': { 'arguments': 1 },
 			'ignoredNodes': [
-				// Disable indent-check inside select tagged template literals
-				// sql``
 				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
-				// styled(Component)``
 				'TaggedTemplateExpression[tag.callee.name="styled"] > TemplateLiteral *',
-				// styled(Component).attrs()``
 				'TaggedTemplateExpression[tag.callee.object.callee.name="styled"] > TemplateLiteral *',
-				// styled.div``
 				'TaggedTemplateExpression[tag.object.name="styled"] > TemplateLiteral *',
-				// styled.div.attrs()``
 				'TaggedTemplateExpression[tag.callee.object.object.name="styled"] > TemplateLiteral *',
 			],
 		}],
@@ -181,7 +166,6 @@ module.exports = {
 		'react/sort-comp': 'off',
 		'react/jsx-filename-extension': 'off',
 		'react/no-array-index-key': 'off',
-		// Rule is broken
 		'react/jsx-one-expression-per-line': 'off',
 		'react/destructuring-assignment': 'off',
 
