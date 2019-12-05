@@ -10,7 +10,7 @@ const Home: NextPage<{ userAgent: string }> = ({ userAgent }) => (
 			<title>Bruhno</title>
 		</Head>
 		<Page>
-			<h1>Hej Hvam! - user agent: {userAgent}</h1>
+			<h1>This is another test! - user agent: {userAgent}</h1>
 			<Link href='/projects'>
 				<a>Projects</a>
 			</Link>
