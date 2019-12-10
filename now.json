@@ -16,5 +16,8 @@
       "src": "next.config.js",
       "use": "@now/next"
     }
-  ]
+  ],
+  "env": {
+    "FIREBASE_API_KEY": "AIzaSyBJmLdtUjHsS4Iat0EHNGnSlDmktOnKagg"
+  }
 }
