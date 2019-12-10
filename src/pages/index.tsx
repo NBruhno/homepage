@@ -12,7 +12,7 @@ const DEFAULT_STATE = { build: 1 }
 
 const { action, getState: getHomepageState } = namespaceConfig('homepage', DEFAULT_STATE)
 
-const bumpBuild = action('bumpBuild', (state, increment) => ({ ...state, build: state.build + increment }))
+const bumpBuild = action('bumpBuild', (state: any, increment: number) => ({ ...state, build: state.build + increment }))
 
 const Home: NextPage<{ userAgent?: string, build?: number, bumpBuild?: (incrementBy: number) => null }> = ({ userAgent, build, bumpBuild }) => (
 	<>
@@ -30,12 +30,9 @@ const Home: NextPage<{ userAgent?: string, build?: number, bumpBuild?: (incremen
 	</>
 )
 
-Home.getInitialProps = async ({ req }) => {
-	const userAgent = req ? req.headers['user-agent'] || '' : navigator.userAgent
-	return { userAgent }
-}
+Home.getInitialProps = async ({ req }) => ({ userAgent: req ? req.headers['user-agent'] || '' : navigator.userAgent })
 
-const mapStateToProps = (state) => getHomepageState(state)
-const mapDispatchToProps = (dispatch) => bindActionCreators({ bumpBuild }, dispatch)
+const mapStateToProps = (state: any) => getHomepageState(state)
+const mapDispatchToProps = (dispatch: any) => bindActionCreators({ bumpBuild }, dispatch)
 
 export default reduxPage(connect(mapStateToProps, mapDispatchToProps)(Home))

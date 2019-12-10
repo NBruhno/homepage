@@ -1,11 +1,10 @@
 const path = require('path')
 
 require('dotenv').config()
-const webpack = require('webpack')
 const withOffline = require('next-offline')
 const withSourceMaps = require('@zeit/next-source-maps')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
-	enabled: process.env.ANALYZE === 'true',
+	enabled: process.env.ANALYZE_BUILD === 'true',
 })
 
 module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
@@ -32,19 +31,20 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 			},
 		],
 	},
-
+	env: {
+		FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
+		FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
+		FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL,
+		FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
+		FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET,
+		FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
+		FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
+		FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
+		ANALYZE_BUILD: process.env.ANALYZE_BUILD,
+	},
 	webpack: (config) => {
-		const env = Object.keys(process.env).reduce((acc, curr) => {
-			acc[`process.env.${curr}`] = JSON.stringify(process.env[curr])
-			return acc
-		}, {})
-
-		config.plugins.push(new webpack.DefinePlugin(env))
-
 		// Fixes npm packages that depend on `fs` module
-		config.node = {
-			fs: 'empty',
-		}
+		config.node = { fs: 'empty' }
 		config.resolve.alias['components'] = path.join(__dirname, 'src/components')
 		config.resolve.alias['config'] = path.join(__dirname, 'src/config')
 		config.resolve.alias['lib'] = path.join(__dirname, 'src/lib')
