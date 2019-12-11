@@ -22,18 +22,13 @@
     "@zeit/next-source-maps": "^0.0.3",
     "date-fns": "^2.8.1",
     "dotenv": "^8.2.0",
-    "fast-redux": "^0.7.1",
     "firebase": "^7.5.1",
     "lodash": "^4.17.15",
     "next": "^9.1.4",
     "next-offline": "^5.0.0-beta.9",
-    "next-redux-wrapper": "~1.3.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-redux": "^7.1.3",
-    "redux": "^4.0.4",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-thunk": "^2.3.0"
+    "reinspect": "^1.0.2"
   },
   "devDependencies": {
     "@emotion/core": "^10.0.22",
@@ -42,7 +37,6 @@
     "@types/lodash": "^4.14.149",
     "@types/node": "^12.12.14",
     "@types/react": "^16.9.15",
-    "@types/react-redux": "^7.1.5",
     "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.10.0",
     "babel-jest": "^24.9.0",

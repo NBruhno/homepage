@@ -46,7 +46,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 		// Fixes npm packages that depend on `fs` module
 		config.node = { fs: 'empty' }
 		config.resolve.alias['components'] = path.join(__dirname, 'src/components')
-		config.resolve.alias['config'] = path.join(__dirname, 'src/config')
+		config.resolve.alias['reducers'] = path.join(__dirname, 'src/reducers')
 		config.resolve.alias['lib'] = path.join(__dirname, 'src/lib')
 
 		return config
