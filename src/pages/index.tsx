@@ -2,13 +2,11 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import Page from 'components/Page'
-import { useState } from 'reinspect'
 
 import useCounter from 'reducers/useCounter'
 
 const Home: NextPage<{ userAgent?: string }> = ({ userAgent }) => {
-	const { count, increment, decrement, reset } = useCounter()
-	const [counter, setCounter] = useState(0, 'TESTER')
+	const { count, message, increment, decrement, reset } = useCounter()
 
 	return (
 		<>
@@ -20,12 +18,11 @@ const Home: NextPage<{ userAgent?: string }> = ({ userAgent }) => {
 				<Link href='/projects'>
 					<a>Projects</a>
 				</Link>
-				<p>What is the current state count?: {count}</p>
+				<p>Global state count: {count}</p>
+				{message && <p>Message: <b>{message} to {count}</b></p>}
 				<button onClick={() => increment()} type='button'>+1</button>
 				<button onClick={() => decrement()} type='button'>-1</button>
 				<button onClick={() => reset()} type='button'>reset</button>
-				<p>What is the current state count?: {counter}</p>
-				<button onClick={() => setCounter(counter + 1)} type='button'>+1</button>
 			</Page>
 		</>
 	)

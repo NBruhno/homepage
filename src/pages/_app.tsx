@@ -1,16 +1,18 @@
 import React from 'react'
 import App from 'next/app'
+import { StateInspector } from 'reinspect'
 
-
-import { StoreProvider } from 'lib/store'
+import { StoreProvider, initialState } from 'lib/store'
 
 class MyApp extends App {
 	render() {
 		const { Component, pageProps } = this.props
 		return (
-			<StoreProvider>
-				<Component {...pageProps} />
-			</StoreProvider>
+			<StateInspector initialState={{ GLOBAL: { ...initialState } }} name='Bruhno'>
+				<StoreProvider>
+					<Component {...pageProps} />
+				</StoreProvider>
+			</StateInspector>
 		)
 	}
 }

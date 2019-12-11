@@ -1,41 +1,28 @@
 import { createContext, useContext } from 'react'
 
-import { StateInspector, useReducer } from 'reinspect'
+import { useReducer } from 'reinspect'
 
 const StoreContext = createContext(undefined)
-const initialState = { count: 0, message: '' }
+export const initialState = {
+	count: 0,
+	message: '',
+}
 
-const reducer = (state: any, action: { type: string, message: string }) => {
-	switch (action.type) {
-		case 'increment':
-			return {
-				count: state.count + 1,
-				message: action.message,
-			}
-		case 'decrement':
-			return {
-				count: state.count - 1,
-				message: action.message,
-			}
-		case 'reset':
-			return {
-				count: 0,
-				message: action.message,
-			}
-		default:
-			throw new Error(`Unhandled action type: ${action.type}`)
+const reducer = (_state: object, action: { type: string, message: string, payload: object }) => {
+	if (action.payload) {
+		return action.payload
+	} else {
+		throw new Error(`No payload specified for ${action.type}`)
 	}
 }
 
 export const StoreProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(reducer, initialState, 'state')
+	const [state, dispatch] = useReducer(reducer, initialState, ((state) => state), 'GLOBAL')
 
 	return (
-		<StateInspector initialState={initialState}>
-			<StoreContext.Provider value={{ state, dispatch }}>
-				{children}
-			</StoreContext.Provider>
-		</StateInspector>
+		<StoreContext.Provider value={{ state, dispatch }}>
+			{children}
+		</StoreContext.Provider>
 	)
 }
 
