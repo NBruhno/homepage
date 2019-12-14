@@ -2,11 +2,27 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import Page from 'components/Page'
+import { useCollection, useDocument } from 'react-firebase-hooks/firestore'
 
+import firebase from 'lib/firebase'
 import useCounter from 'reducers/useCounter'
 
 const Home: NextPage<{ userAgent?: string }> = ({ userAgent }) => {
 	const { count, message, increment, decrement, reset } = useCounter()
+	const [document, loading, error] = useDocument(
+		firebase.firestore().doc('test/hC80Jz6cY0PVFCcTRHF8'),
+	)
+
+	const [collection, loading1, error1] = useCollection(
+		firebase.firestore().collection('test'),
+	)
+
+	console.log('document loading:', loading)
+	console.log('document error:', error)
+	console.log('document value:', document)
+	console.log('collection loading:', loading1)
+	console.log('collection error:', error1)
+	console.log('collection value:', collection)
 
 	return (
 		<>
