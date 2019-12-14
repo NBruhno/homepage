@@ -12,10 +12,8 @@ const config = {
 	measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 }
 
-try {
+if (!firebase.apps.length) {
 	firebase.initializeApp(config)
-} catch (error) {
-	console.warn(error)
 }
 
 export default firebase
