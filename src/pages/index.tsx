@@ -2,27 +2,19 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
 import Page from 'components/Page'
-import { useCollection, useDocument } from 'react-firebase-hooks/firestore'
 
-import firebase from 'lib/firebase'
 import useCounter from 'reducers/useCounter'
+// import useTestList from 'reducers/useTestList'
+// import useTest from 'reducers/useTest'
 
 const Home: NextPage<{ userAgent?: string }> = ({ userAgent }) => {
 	const { count, message, increment, decrement, reset } = useCounter()
-	const [document, loading, error] = useDocument(
-		firebase.firestore().doc('test/hC80Jz6cY0PVFCcTRHF8'),
-	)
+	// const [test, testLoading, testError] = useTest('hC80Jz6cY0PVFCcTRHF8')
+	// const { tests, error, loading } = useTestList()
 
-	const [collection, loading1, error1] = useCollection(
-		firebase.firestore().collection('test'),
-	)
-
-	console.log('document loading:', loading)
-	console.log('document error:', error)
-	console.log('document value:', document)
-	console.log('collection loading:', loading1)
-	console.log('collection error:', error1)
-	console.log('collection value:', collection)
+	// if (!loading) {
+	// 	console.log(tests || error)
+	// }
 
 	return (
 		<>
@@ -39,6 +31,9 @@ const Home: NextPage<{ userAgent?: string }> = ({ userAgent }) => {
 				<button onClick={() => increment()} type='button'>+1</button>
 				<button onClick={() => decrement()} type='button'>-1</button>
 				<button onClick={() => reset()} type='button'>reset</button>
+				{/* {testLoading && <p>Loading...</p>}
+				{testError && <p>Error {testError}</p>}
+				{test && <p>{test?.title}</p>} */}
 			</Page>
 		</>
 	)
