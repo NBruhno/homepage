@@ -15,7 +15,10 @@
     "prebuild": "node src/scripts/createSitemap.js",
     "start": "next start",
     "lint": "eslint **/*.tsx",
-    "test": "echo No test implemented"
+    "test": "echo No test implemented",
+    "analyze": "cross-env ANALYZE_BUILD=true next build",
+    "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
+    "analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
     "@next/bundle-analyzer": "^9.1.4",
@@ -23,6 +26,7 @@
     "date-fns": "^2.8.1",
     "dotenv": "^8.2.0",
     "firebase": "^7.5.1",
+    "isomorphic-unfetch": "^3.0.0",
     "lodash": "^4.17.15",
     "next": "^9.1.4",
     "next-offline": "^5.0.0-beta.9",
@@ -44,6 +48,7 @@
     "@typescript-eslint/parser": "^2.10.0",
     "babel-jest": "^24.9.0",
     "babel-plugin-emotion": "^10.0.23",
+    "cross-env": "^6.0.3",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.7.2",
