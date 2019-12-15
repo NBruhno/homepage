@@ -5,7 +5,7 @@ import Head from 'next/head'
 
 import Page from 'components/Page'
 import useCounter from 'reducers/useCounter'
-import absoluteUrl from 'lib/absoluteURL'
+import absoluteUrl from 'lib/absoluteUrl'
 
 const Home: NextPage<{ userAgent?: string, test: [{ title: string }] }> = ({ userAgent, test }) => {
 	const { count, message, increment, decrement, reset } = useCounter()
@@ -22,10 +22,10 @@ const Home: NextPage<{ userAgent?: string, test: [{ title: string }] }> = ({ use
 				</Link>
 				{test && test.map(({ title }, index) => <div key={index}>{title}</div>)}
 				<p>Global state count: {count}</p>
-				{message && <p>Message: <b>{message} to {count}</b></p>}
 				<button onClick={() => increment()} type='button'>+1</button>
 				<button onClick={() => decrement()} type='button'>-1</button>
 				<button onClick={() => reset()} type='button'>reset</button>
+				{message && <p>Message: <b>{message} to {count}</b></p>}
 			</Page>
 		</>
 	)
