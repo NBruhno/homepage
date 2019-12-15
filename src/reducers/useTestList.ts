@@ -1,8 +1,8 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useCallback, useState } from 'react'
 import { useStore } from 'lib/store'
 import { useCollection } from 'react-firebase-hooks/firestore'
 
-import firebase from 'lib/firebase'
+import firebasePromise from 'lib/firebase'
 
 export const ACTIONS = {
 	GET_TEST_LIST: 'GET_TEST_LIST',
@@ -10,20 +10,27 @@ export const ACTIONS = {
 
 const useTestList = () => {
 	const { state, dispatch } = useStore()
-	const [snapshot, loading, error] = useCollection(firebase.firestore().collection(`test`))
+	const [firebase, setFirebase] = useState(null)
+	const [snapshot, loading, error] = useCollection(firebase?.firestore()?.doc(`test`))
 
-	const dispatchToGlobalState = useCallback(async () => dispatch({
+	const dispatchToGlobalState = useCallback(() => dispatch({
 		type: ACTIONS.GET_TEST_LIST,
-		payload: { tests: { data: snapshot.docs, loading, error } },
+		payload: { test: { docs: snapshot.docs, loading, error } },
 	}), [dispatch, error, loading, snapshot])
 
 	useEffect(() => {
-		if (!loading && state.tests.data !== snapshot?.docs) {
+		if (!firebase) {
+			firebasePromise().then((value) => {
+				setFirebase(value)
+			})
+		}
+
+		if (!loading && state.test?.docs !== snapshot?.docs) {
 			dispatchToGlobalState()
 		}
-	}, [dispatchToGlobalState, loading, state.tests.data, snapshot])
+	}, [dispatchToGlobalState, loading, state.test, state.test.docs, snapshot, firebase])
 
-	return [state.tests.data, state.tests.loading, state.tests.error]
+	return [state.test.docs, state.test.loading, state.test.error]
 }
 
 export default useTestList

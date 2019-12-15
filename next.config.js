@@ -1,6 +1,8 @@
 const path = require('path')
 
-require('dotenv').config()
+const webpack = require('webpack')
+const { parsed: localEnv } = require('dotenv').config()
+
 const withOffline = require('next-offline')
 const withSourceMaps = require('@zeit/next-source-maps')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
@@ -9,6 +11,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 	target: 'serverless',
+
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	workboxOpts: {
@@ -31,6 +34,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 			},
 		],
 	},
+
 	env: {
 		FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
 		FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
@@ -42,9 +46,13 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 		FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
 		ANALYZE_BUILD: process.env.ANALYZE_BUILD,
 	},
+
 	webpack: (config) => {
 		// Fixes npm packages that depend on `fs` module
 		config.node = { fs: 'empty' }
+
+		config.plugins.push(new webpack.EnvironmentPlugin(localEnv))
+
 		config.resolve.alias['components'] = path.join(__dirname, 'src/components')
 		config.resolve.alias['reducers'] = path.join(__dirname, 'src/reducers')
 		config.resolve.alias['lib'] = path.join(__dirname, 'src/lib')
