@@ -5,6 +5,7 @@ import Head from 'next/head'
 
 import Page from 'components/Page'
 import useCounter from 'reducers/useCounter'
+import absoluteUrl from 'lib/absoluteURL'
 
 const Home: NextPage<{ userAgent?: string, test: [{ title: string }] }> = ({ userAgent, test }) => {
 	const { count, message, increment, decrement, reset } = useCounter()
@@ -31,7 +32,8 @@ const Home: NextPage<{ userAgent?: string, test: [{ title: string }] }> = ({ use
 }
 
 Home.getInitialProps = async ({ req }) => {
-	const response = await fetch('http://localhost:3000/api/test')
+	console.log(`${absoluteUrl(req).origin}/api/test`)
+	const response = await fetch(`${absoluteUrl(req).origin}/api/test`)
 	return { test: await response.json(), userAgent: req ? req.headers['user-agent'] || '' : navigator.userAgent }
 }
 
