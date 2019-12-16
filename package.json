@@ -14,7 +14,7 @@
     "build": "next build",
     "prebuild": "node src/scripts/createSitemap.js",
     "start": "next start",
-    "lint": "eslint **/*.{ts,tsx,js} && stylelint **/*.tsx",
+    "lint": "eslint **/*.{ts,tsx,js} && stylelint src/components/**/*.tsx",
     "test": "echo No test implemented",
     "analyze": "cross-env ANALYZE_BUILD=true next build",
     "analyze:server": "cross-env BUNDLE_ANALYZE=server next build",
