@@ -2,7 +2,7 @@ import { useEffect, useState, Dispatch } from 'react'
 
 import config from '../config'
 
-const load = async () => {
+const loadFirebase = async () => {
 	const [firebase] = await Promise.all([
 		await import('firebase/app'),
 		await import('firebase/firestore'),
@@ -28,9 +28,9 @@ const load = async () => {
 let firebasePromise = null
 let firebaseInstance = null
 
-const setup = async (setFirebase: Dispatch<any>) => {
+const initializeFirebase = async (setFirebase: Dispatch<any>) => {
 	if (!firebasePromise) {
-		firebasePromise = load()
+		firebasePromise = loadFirebase()
 		firebaseInstance = await firebasePromise
 		setFirebase(firebaseInstance)
 	} else {
@@ -44,7 +44,7 @@ const useFirebase = () => {
 		if (firebase) {
 			return
 		}
-		setup(setFirebase)
+		initializeFirebase(setFirebase)
 	}, [firebase])
 
 	return [firebase, firebasePromise, firebaseInstance]

@@ -1,6 +1,7 @@
 module.exports = {
 	processors: [['stylelint-processor-styled-components', {
 		parserPlugins: [
+			'tsx',
 			'jsx',
 			'objectRestSpread',
 			['decorators', { decoratorsBeforeExport: true }],
@@ -16,7 +17,7 @@ module.exports = {
 		  ]
 	}]],
 	extends: [
-		'stylelint-config-standard',
+		'stylelint-config-recommended',
 		'stylelint-config-styled-components',
 	],
 	rules: {
