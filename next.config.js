@@ -51,7 +51,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 		// Fixes npm packages that depend on `fs` module
 		config.node = { fs: 'empty' }
 
-		config.plugins.push(new webpack.EnvironmentPlugin(localEnv))
+		config.plugins.push(new webpack.EnvironmentPlugin({ DEFAULT: null, ...localEnv }))
 
 		config.resolve.alias['components'] = path.join(__dirname, 'src/components')
 		config.resolve.alias['reducers'] = path.join(__dirname, 'src/reducers')
