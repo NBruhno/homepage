@@ -32,7 +32,6 @@ const Home: NextPage<{ userAgent?: string, test: [{ title: string }] }> = ({ use
 }
 
 Home.getInitialProps = async ({ req }) => {
-	console.log(`${absoluteUrl(req).origin}/api/test`)
 	const response = await fetch(`${absoluteUrl(req).origin}/api/test`)
 	return { test: await response.json(), userAgent: req ? req.headers['user-agent'] || '' : navigator.userAgent }
 }

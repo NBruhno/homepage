@@ -1,8 +1,8 @@
-import { useEffect, useCallback, useState } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useStore } from 'lib/store'
 import { useDocument } from 'react-firebase-hooks/firestore'
 
-import firebasePromise from 'lib/firebase'
+import useFirebase from 'lib/useFirebase'
 
 export const ACTIONS = {
 	GET_TESTS: 'GET_TESTS',
@@ -10,7 +10,7 @@ export const ACTIONS = {
 
 const useTest = (testId: string) => {
 	const { state, dispatch } = useStore()
-	const [firebase, setFirebase] = useState(null)
+	const [firebase] = useFirebase()
 	const [snapshot, loading, error] = useDocument(firebase?.firestore()?.doc(`test/${testId}`))
 
 	const dispatchToGlobalState = useCallback(() => dispatch({
@@ -19,22 +19,12 @@ const useTest = (testId: string) => {
 	}), [dispatch, error, loading, snapshot])
 
 	useEffect(() => {
-		if (!firebase) {
-			firebasePromise().then((value) => {
-				setFirebase(value)
-			})
-		}
-
 		if (!loading && state.test?.data?.updatedAt !== snapshot?.data()?.updatedAt) {
 			dispatchToGlobalState()
 		}
-	}, [dispatchToGlobalState, loading, state.test, state.test.data, snapshot, firebase])
+	}, [dispatchToGlobalState, loading, state.test, state.test.data, snapshot])
 
-	return [
-		state.test.data,
-		state.test.loading,
-		state.test.error,
-	]
+	return [state.test.data, state.test.loading, state.test.error]
 }
 
 export default useTest
