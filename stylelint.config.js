@@ -13,8 +13,8 @@ module.exports = {
 			'dynamicImport',
 			'optionalCatchBinding',
 			'optionalChaining',
-			'exportDefaultFrom'
-		  ]
+			'exportDefaultFrom',
+		],
 	}]],
 	extends: [
 		'stylelint-config-recommended',
