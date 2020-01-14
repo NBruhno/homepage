@@ -1,14 +1,15 @@
-import fetch from 'isomorphic-unfetch'
 import { NextPage } from 'next'
 import Link from 'next/link'
 import Head from 'next/head'
+import useSWR from 'swr'
 
+import fetcher from 'lib/fetcher'
 import Page from 'components/Page'
 import useCounter from 'reducers/useCounter'
-import absoluteUrl from 'lib/absoluteUrl'
 
-const Home: NextPage<{ userAgent?: string, test: [{ title: string }] }> = ({ userAgent, test }) => {
+const Home: NextPage<{ userAgent?: string }> = ({ userAgent }) => {
 	const { count, message, increment, decrement, reset } = useCounter()
+	const { data: test, error } = useSWR('/api/test', fetcher)
 
 	return (
 		<>
@@ -20,7 +21,7 @@ const Home: NextPage<{ userAgent?: string, test: [{ title: string }] }> = ({ use
 				<Link href='/projects'>
 					<a>Projects</a>
 				</Link>
-				{test && test.map(({ title }, index) => <div key={index}>{title}</div>)}
+				{!error && test && test.map(({ title }, index: number) => <div key={index}>{title}</div>)}
 				<p>Global state count: {count}</p>
 				<button onClick={() => increment()} type='button'>+1</button>
 				<button onClick={() => decrement()} type='button'>-1</button>
@@ -31,9 +32,6 @@ const Home: NextPage<{ userAgent?: string, test: [{ title: string }] }> = ({ use
 	)
 }
 
-Home.getInitialProps = async ({ req }) => {
-	const response = await fetch(`${absoluteUrl(req).origin}/api/test`)
-	return { test: await response.json(), userAgent: req ? req.headers['user-agent'] || '' : navigator.userAgent }
-}
+Home.getInitialProps = async ({ req }) => ({ userAgent: req ? req.headers['user-agent'] || '' : navigator.userAgent })
 
 export default Home
