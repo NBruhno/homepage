@@ -32,6 +32,7 @@ module.exports = {
     'space-infix-ops': 'off',
 		'import/namespace': 'off',
 		'import/named': 'off',
+		'no-undef': 'off',
 
 		'@typescript-eslint/no-unused-vars': ['error', { 'ignoreRestSiblings': true }],
 		'@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
@@ -129,7 +130,7 @@ module.exports = {
 			'functions': 'always-multiline',
 		}],
 		'func-style': ['error', 'expression'],
-		'no-unused-vars': ['error', { 'ignoreRestSiblings': true }],
+		'no-unused-vars': 'off',
 		'object-curly-spacing': ['error', 'always'],
 		'object-curly-newline': ['error', { multiline: true, consistent: true }],
 		'prefer-destructuring': ['error', {

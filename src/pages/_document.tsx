@@ -1,11 +1,21 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
+import { captureException } from '@sentry/browser'
+
+import config from '../config'
+
+process.on('unhandledRejection', (error) => {
+	if (config.environment === 'production') {
+		captureException(error)
+	}
+})
+
+process.on('uncaughtException', (error) => {
+	if (config.environment === 'production') {
+		captureException(error)
+	}
+})
 
 class _document extends Document {
-	static async getInitialProps(ctx: any) {
-		const initialProps = await Document.getInitialProps(ctx)
-		return { ...initialProps }
-	}
-
 	render() {
 		return (
 			<Html lang='en' dir='ltr'>

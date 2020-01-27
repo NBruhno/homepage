@@ -5,7 +5,12 @@ import { useReducer } from 'reinspect'
 const StoreContext = createContext(undefined)
 export const initialState = {
 	count: 0,
+
 	test: { data: undefined, loading: true, error: undefined },
+	tests: { data: [], loading: true, error: undefined },
+
+	task: { data: undefined, loading: true, error: undefined },
+	tasks: { data: [], loading: true, error: undefined },
 }
 
 const reducer = (state: object, action: { type: string, message: string, payload: object }) => {
