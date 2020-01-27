@@ -1,4 +1,8 @@
-import { isString, isNumber, has, lowerCase, upperFirst } from 'lodash'
+import isString from 'lodash/isString'
+import isNumber from 'lodash/isNumber'
+import has from 'lodash/has'
+import lowerCase from 'lodash/lowerCase'
+import upperFirst from 'lodash/upperFirst'
 
 export default (options: Array<{}>) => Array.from(options, (option: { title: string, label: string, value: any, options: Array<{}>, id: string, hint: string, disabled: boolean }) => {
 	if (isString(option) || isNumber(option)) {
