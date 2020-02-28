@@ -1,8 +1,15 @@
-import styled from 'styles/theme'
+import { css } from '@emotion/core'
 
-export default styled.span`
-	width: 1.4em;
-	height: 1em;
-	display: inline-block;
-	position: relative;
-`
+const Container = (props) => (
+	<span
+		css={css`
+			width: 1.4em;
+			height: 1em;
+			display: inline-block;
+			position: relative;
+		`}
+		{...props}
+	/>
+)
+
+export default Container

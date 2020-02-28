@@ -44,10 +44,6 @@ module.exports = {
 			'CallExpression': { 'arguments': 1 },
 			'ignoredNodes': [
 				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
-				'TaggedTemplateExpression[tag.callee.name="styled"] > TemplateLiteral *',
-				'TaggedTemplateExpression[tag.callee.object.callee.name="styled"] > TemplateLiteral *',
-				'TaggedTemplateExpression[tag.object.name="styled"] > TemplateLiteral *',
-				'TaggedTemplateExpression[tag.callee.object.object.name="styled"] > TemplateLiteral *',
 			],
 		}],
 		'@typescript-eslint/member-delimiter-style': ['error', {
@@ -116,10 +112,6 @@ module.exports = {
 			'CallExpression': { 'arguments': 1 },
 			'ignoredNodes': [
 				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
-				'TaggedTemplateExpression[tag.callee.name="styled"] > TemplateLiteral *',
-				'TaggedTemplateExpression[tag.callee.object.callee.name="styled"] > TemplateLiteral *',
-				'TaggedTemplateExpression[tag.object.name="styled"] > TemplateLiteral *',
-				'TaggedTemplateExpression[tag.callee.object.object.name="styled"] > TemplateLiteral *',
 			],
 		}],
 		'comma-dangle': ['error', {
@@ -179,7 +171,7 @@ module.exports = {
 		'import/extensions': 'off',
 		'import/no-unresolved': 'off',
 		'import/no-extraneous-dependencies': ['error', { 'devDependencies': true, 'optionalDependencies': false, 'peerDependencies': false }],
-		'import/order': ['error', {
+		'import/order': ['off', {
 			'newlines-between': 'always-and-inside-groups',
 			'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
 		}],

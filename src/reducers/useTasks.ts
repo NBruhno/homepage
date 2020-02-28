@@ -1,8 +1,8 @@
-import { useEffect, useCallback } from 'react'
-import { useStore } from 'lib/store'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import isEqual from 'lodash/isEqual'
+import { useEffect, useCallback } from 'react'
+import { isEqual } from 'lodash-es'
 
+import { useStore } from 'lib/store'
 import useFirebase from 'lib/useFirebase'
 
 export const ACTIONS = {
