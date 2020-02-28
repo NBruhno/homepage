@@ -7,6 +7,8 @@ import fetcher from 'lib/fetcher'
 import Page from 'components/Page'
 import useCounter from 'reducers/useCounter'
 
+import config from '../config'
+
 const Home: NextPage<{ userAgent?: string }> = ({ userAgent }) => {
 	const { count, message, increment, decrement, reset } = useCounter()
 	const { data: test, error } = useSWR('/api/tests', fetcher)
@@ -24,6 +26,9 @@ const Home: NextPage<{ userAgent?: string }> = ({ userAgent }) => {
 				<Link href='/test'>
 					<a>Test</a>
 				</Link>
+				<a href={config.environment === 'development' ? 'http://localhost:9000' : `/storybook/index.html`}>
+					<a>Storybook</a>
+				</a>
 				{!error && test && test.map(({ title }, index: number) => <div key={index}>{title}</div>)}
 				<p>Global state count: {count}</p>
 				<button onClick={() => increment()} type='button'>+1</button>

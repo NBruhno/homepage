@@ -3,11 +3,11 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import initializeFirebaseAdmin, { serverTimestamp } from 'lib/firebaseServer'
 
 export default (req?: NextApiRequest, res?: NextApiResponse) => {
-	const firestore = initializeFirebaseAdmin()
+	const { firestore } = initializeFirebaseAdmin()
 	const { method, query: { id }, body } = req
 	switch (method) {
 		case 'PUT': {
-			firestore.collection('tasks').doc(id.toString()).update({
+			firestore().collection('tasks').doc(id.toString()).update({
 				...body,
 				updatedAt: serverTimestamp,
 			})

@@ -7,7 +7,7 @@ import Page from 'components/Page'
 const Static: NextPage = () => (
 	<>
 		<Head>
-			<title>Bruhno</title>
+			<title>Static • Bruhno</title>
 		</Head>
 		<Page>
 			<p>Hello</p>

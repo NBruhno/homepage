@@ -15,7 +15,7 @@ const Projects: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Bruhno</title>
+				<title>Projects • Bruhno</title>
 			</Head>
 			<Page>
 				<div>

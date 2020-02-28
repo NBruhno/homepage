@@ -5,9 +5,9 @@ import config from '../config'
 const loadFirebase = async () => {
 	const [firebase] = await Promise.all([
 		await import('firebase/app'),
+		await import('firebase/auth'),
 		await import('firebase/firestore'),
 		// await import('firebase/storage'),
-		// await import('firebase/auth'),
 	])
 
 	if (firebase.apps.length) {

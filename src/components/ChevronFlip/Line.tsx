@@ -1,6 +1,6 @@
-import styled from 'styles/theme'
+import { css } from '@emotion/core'
 
-export default styled('span')<{ slim?: boolean, bold?: boolean, mirror?: boolean, isActive?: boolean }>(({ slim, bold, mirror, isActive }) => {
+const Line = ({ slim, bold, mirror, isActive, ...rest }: { slim?: boolean, bold?: boolean, mirror?: boolean, isActive?: boolean }) => {
 	let size = 0.1
 
 	if (slim) {
@@ -9,18 +9,25 @@ export default styled('span')<{ slim?: boolean, bold?: boolean, mirror?: boolean
 		size = 0.15
 	}
 
-	return (`
-		position: absolute;
-		bottom: 0.1em;
-		width: 0.6em;
-		background-color: currentColor;
-		transition: transform 0.15s;
+	return (
+		<span
+			css={css`
+				position: absolute;
+				bottom: 0.1em;
+				width: 0.6em;
+				background-color: currentColor;
+				transition: transform 0.15s;
+		
+				height: ${size}em;
+				border-radius: ${size / 2}em;
+				transform-origin: ${size / 2}em ${size / 2}em;
+				left: ${0.7 - size / 2}em;
+		
+				transform: translateY(${isActive ? -0.4 : 0}em) rotate(${-90 + (mirror ? -1 : 1) * (isActive ? 135 : 45)}deg);
+			`}
+			{...rest}
+		/>
+	)
+}
 
-		height: ${size}em;
-		border-radius: ${size / 2}em;
-		transform-origin: ${size / 2}em ${size / 2}em;
-		left: ${0.7 - size / 2}em;
-
-		transform: translateY(${isActive ? -0.4 : 0}em) rotate(${-90 + (mirror ? -1 : 1) * (isActive ? 135 : 45)}deg)
-	`)
-})
+export default Line

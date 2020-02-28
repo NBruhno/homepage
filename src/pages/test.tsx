@@ -1,24 +1,23 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
-
-import styled from 'styles/theme'
+import { css } from '@emotion/core'
 
 import Page from 'components/Page'
-import Form from 'components/Forms'
-import { Toggle, Checkbox, Input, Radio, Static, Select } from 'components/Forms/Fields'
+import Form from 'components/Form'
+import { Toggle, Checkbox, Input, Radio, Static, Select } from 'components/Fields'
 
 
-const Wrapper = styled.div`
+const wrapperStyle = css`
 	max-width: 500px;
 `
 
 const Test: NextPage = () => (
 	<>
 		<Head>
-			<title>Bruhno</title>
+			<title>Test • Bruhno</title>
 		</Head>
 		<Page>
-			<Wrapper>
+			<div css={wrapperStyle}>
 				<h1>Current form</h1>
 				<Form form='test' onSubmit={(value) => console.log(value)}>
 					<Toggle label='Testing toggle' name='toggle' />
@@ -30,7 +29,7 @@ const Test: NextPage = () => (
 					<Select label='Testing new select' name='selectNew' options={[{ label: 'Testing radio 1', value: 1 }, { label: 'Testing radio 2', value: 2 }, { label: 'Testing radio 3', value: 3 }]} />
 					<button type='submit'>Submit</button>
 				</Form>
-			</Wrapper>
+			</div>
 		</Page>
 	</>
 )
