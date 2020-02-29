@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { isArray, isFunction } from 'lodash'
+import { isArray, isFunction } from 'lodash-es'
 
 import delay from 'lib/delay'
 
@@ -33,7 +33,7 @@ const ButtonAsync = ({ label, onClick, isLoading = false, isLoadingManual, minDe
 		} else {
 			setMounted(false)
 		}
-	}, [isMounted])
+	}, [setMounted])
 
 	return (
 		<ButtonLoading
