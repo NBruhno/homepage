@@ -11,6 +11,7 @@ export const theme = {
 		white: 'white',
 		black: 'black',
 		error: 'hsl(3, 80%, 51%)',
+		background: 'white',
 	},
 	fontSize: {
 		large: '16px',

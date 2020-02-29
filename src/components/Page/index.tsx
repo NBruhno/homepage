@@ -1,12 +1,19 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import { css } from '@emotion/core'
 
-const style = css`
-	margin: 32px auto;
-	margin-left: 10px;
-	margin-top: 12px;
-`
-
-const Page = (props) => <div css={style} {...props} />
+const Page: React.FC = (props) => (
+	<div
+		css={css`
+			width: 100%;
+			max-width: 904px;
+			margin: 0 auto;
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			padding: 16px 24px 120px;
+			justify-content: center;
+		`}
+		{...props}
+	/>
+)
 
 export default Page

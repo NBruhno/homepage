@@ -1,4 +1,4 @@
-import ActivityIndicator from './ActivityIndicator'
+import ActivityIndicator from 'components/ActivityIndicator'
 
 import Label from './Label'
 import Button from './Button'
