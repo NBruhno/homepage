@@ -13,7 +13,7 @@
     "dev": "concurrently -p \"[{name}]\" -n \"next,storybook\" -c \"blue,magenta\" -s \"all\" -k \"true\" \"yarn dev:next\" \"yarn dev:storybook\"",
     "dev:next": "next",
     "dev:storybook": "start-storybook -p 9000 -c .storybook --quiet --ci",
-    "prebuild": "node src/scripts/createSitemap.ts",
+    "prebuild": "node src/scripts/createSitemap.js",
     "build": "concurrently -p \"[{name}]\" -n \"next,storybook\" -c \"blue,magenta\" -s \"all\" \"yarn build:next\" \"yarn build:storybook\"",
     "build:next": "next build",
     "build:storybook": "build-storybook -c .storybook -o public/storybook --quiet",
