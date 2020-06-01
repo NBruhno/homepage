@@ -3,7 +3,13 @@ import { createContext, useContext } from 'react'
 import { useReducer } from 'reinspect'
 
 const StoreContext = createContext(undefined)
-export const initialState = {
+export const initialState: {
+	count: number,
+	test: Record<any, any>,
+	tests: Record<any, any>,
+	task: Record<any, any>,
+	tasks: Record<any, any>,
+} = {
 	count: 0,
 
 	test: { data: undefined, loading: true, error: undefined },
@@ -21,7 +27,7 @@ const reducer = (state: object, action: { type: string, message: string, payload
 	}
 }
 
-export const StoreProvider = ({ children }) => {
+export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
 	const [state, dispatch] = useReducer(reducer, initialState, ((lazyState) => lazyState), 'GLOBAL')
 
 	return (

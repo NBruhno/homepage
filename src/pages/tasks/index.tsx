@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
 
-import Page from 'components/Page'
+import { Page } from 'components/Page'
 import useTask from 'reducers/useTask'
 import useTasks from 'reducers/useTasks'
 
@@ -20,7 +20,7 @@ const Projects: NextPage = () => {
 				<div>
 					{tasksLoading && <p>Loading test list...</p>}
 					{tasksError && <p>Error loading tasks: {tasksError}</p>}
-					{tasks && tasks.length > 0 && tasks.map(({ title, id }, index: number) => (
+					{tasks && tasks.length > 0 && tasks.map(({ title, id }: { title: string, id: string }, index: number) => (
 						<div key={index}>
 							<Link href='/tasks/[id]' as={`/tasks/${id}`}>
 								<a>{title}</a>
