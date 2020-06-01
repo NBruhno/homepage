@@ -2,7 +2,7 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 
-import Page from 'components/Page'
+import { Page } from 'components/Page'
 import useTask from 'reducers/useTask'
 
 const Projects: NextPage = () => {

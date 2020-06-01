@@ -7,13 +7,13 @@ export const ACTIONS = {
 const useLogin = () => {
 	const [firebase] = useFirebase()
 
-	const signUp = ({ email, password }) => {
-		firebase.auth().createUserWithEmailAndPassword(email, password).catch((error) => {
+	const signUp = ({ email, password }: { email: string, password: string }) => {
+		firebase.auth().createUserWithEmailAndPassword(email, password).catch((error: Error) => {
 			console.error(error)
 		})
 	}
 
-	const login = ({ email, password }) => {
+	const login = ({ email, password }: { email: string, password: string }) => {
 		firebase.auth().signInWithEmailAndPassword(email, password)
 	}
 

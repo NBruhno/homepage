@@ -25,8 +25,8 @@ const loadFirebase = async () => {
 	return firebase
 }
 
-let firebasePromise = null
-let firebaseInstance = null
+let firebasePromise: Promise<any> | Record<string, any> = null
+let firebaseInstance: Promise<any> | Record<string, any> = null
 
 const initializeFirebase = async (setFirebase: Dispatch<any>) => {
 	if (!firebasePromise) {

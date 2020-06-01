@@ -18,7 +18,7 @@ if (config.environment === 'production') {
 }
 
 class MyApp extends App {
-	componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+	componentDidCatch(error: Error, errorInfo: React.ErrorInfo | any) {
 		if (config.environment === 'production') {
 			withScope((scope) => {
 				Object.keys(errorInfo).forEach((key) => {

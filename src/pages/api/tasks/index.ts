@@ -29,7 +29,7 @@ export default (req?: NextApiRequest, res?: NextApiResponse) => {
 					functionality: 1234,
 				},
 				createdAt: serverTimestamp,
-				updatedAt: null,
+				updatedAt: serverTimestamp,
 			}
 
 			tasksRef.set(task).then((result) => {
