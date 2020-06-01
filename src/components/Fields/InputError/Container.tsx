@@ -1,23 +1,19 @@
-import { css } from '@emotion/core'
-import { useTheme } from 'emotion-theming'
+export type Props = {
+	isVisible: boolean,
+	isFocus: boolean,
+} & React.ComponentProps<'div'>
 
-const Container = ({ isVisible, isFocus, ...rest }) => {
-	const theme: Theme = useTheme()
-
-	return (
-		<div
-			css={css`
-				background-color: ${theme.color.error};
-				height: ${isVisible ? '33' : '0'}px;
-				transition: height 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-				width: 100%;
-				border-radius: 4px;
-				box-shadow: 0 0 0 2px ${isVisible && isFocus ? theme.color.error : 'none'};
-				overflow: hidden;
-			`}
-			{...rest}
-		/>
-	)
-}
-
-export default Container
+export const Container = ({ isVisible, isFocus, ...rest }: Props) => (
+	<div
+		css={(theme: Theme) => ({
+			backgroundColor: theme.color.error,
+			height: `${isVisible ? '33' : '0'}px`,
+			transition: 'height 0.3s ease, box-shadow 0.3s ease',
+			width: 'calc(100% + 2px)',
+			borderRadius: '4px',
+			boxShadow: isVisible && isFocus ? `0 0 0 1px ${theme.color.error}` : 'none',
+			overflow: 'hidden',
+		})}
+		{...rest}
+	/>
+)

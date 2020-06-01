@@ -1,21 +1,17 @@
-import { css } from '@emotion/core'
+import { ActivityIndicator } from 'components/ActivityIndicator'
 
-import ActivityIndicator from 'components/ActivityIndicator'
-
-const Loader: React.FC = (props) => (
+export const Loader = (props: React.ComponentProps<'div'>) => (
 	<div
-		css={css`
-			min-height: 100px;
-			min-width: 100px;
-			display: flex;
-			flex-direction: column;
-			align-items: center;
-			justify-content: center;
-		`}
+		css={{
+			alignItems: 'center',
+			display: 'flex',
+			flexDirection: 'column',
+			justifyContent: 'center',
+			minHeight: '100px',
+			minWidth: '100px',
+		}}
 		{...props}
 	>
 		<ActivityIndicator />
 	</div>
 )
-
-export default Loader

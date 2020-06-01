@@ -1,13 +1,20 @@
 import Collapse from 'components/Collapse'
 
-import Container from './Container'
-import Content from './Content'
-import Loader from './Loader'
-import Error from './Error'
+import { Container } from './Container'
+import { Content } from './Content'
+import { Loader } from './Loader'
+import { Error } from './Error'
 
-const Card: React.FC<{ hasError?: boolean, isExpanded?: boolean, isLoading?: boolean, header?: React.ReactNode, isFocus?: boolean }> = (
-	{ children, hasError = false, isExpanded = true, isLoading = false, header, isFocus },
-) => {
+export type Props = {
+	children: React.ReactNode,
+	hasError?: boolean,
+	header?: React.ReactNode,
+	isExpanded?: boolean,
+	isFocus?: boolean,
+	isLoading?: boolean,
+}
+
+export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, isFocus }: Props) => {
 	const elevate = isFocus || isExpanded
 
 	return (
@@ -22,5 +29,3 @@ const Card: React.FC<{ hasError?: boolean, isExpanded?: boolean, isLoading?: boo
 		</Container>
 	)
 }
-
-export default Card

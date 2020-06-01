@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
 import { useField } from 'react-final-form'
 
-import useUnique from 'lib/useUnique'
+import { useUnique } from 'lib/useUnique'
 
-import Hint from '../Hint'
-import RowLabel from '../RowLabel'
-import FieldWrapper from '../FieldWrapper'
+import { Hint } from '../Hint'
+import { RowLabel } from '../RowLabel'
+import { FieldWrapper } from '../FieldWrapper'
+import { LabelContainer } from '../LabelContainer'
 
-import Checkbox from './Checkbox'
-import Toggle from './Toggle'
+import { Checkbox } from './Checkbox'
+import { Toggle } from './Toggle'
 
 type Props = {
 	name: string,
@@ -52,10 +53,10 @@ export const ToggleComponent = ({
 					checked={input.value}
 				/>
 				<Toggle checked={input.value} disabled={disabled} focus={meta.active} />
-				<div>
+				<LabelContainer>
 					<div>{label}</div>
 					{hint && <Hint>{hint}</Hint>}
-				</div>
+				</LabelContainer>
 			</RowLabel>
 		</FieldWrapper>
 	)

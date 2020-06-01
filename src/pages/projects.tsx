@@ -1,16 +1,19 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
 
-import Page from 'components/Page'
+import { Page } from 'components/Page'
 import useCounter from 'reducers/useCounter'
 
 import useTestList from 'reducers/useTestList'
 import useTest from 'reducers/useTest'
 
+import { ButtonSolid } from 'components/Buttons'
+import { Card } from 'components/Card'
+
 const Projects: NextPage = () => {
 	const { count } = useCounter()
 	const [tests, testsLoading, testsError] = useTestList()
-	const [test, testLoading, testError, updateTest, createTest] = useTest('hC80Jz6cY0PVFCcTRHF8')
+	const [test, testLoading, testError, updateTest, createTest, deleteTest] = useTest('hC80Jz6cY0PVFCcTRHF8')
 
 	return (
 		<>
@@ -22,15 +25,16 @@ const Projects: NextPage = () => {
 					This is a placeholder
 					<p>State count: {count}</p>
 				</div>
-				<button onClick={() => createTest()} type='button'>Create a new test</button>
+				<ButtonSolid label='Create a new test' onClick={() => createTest()} />
 				<div>
 					{testsLoading && <p>Loading test list...</p>}
 					{testsError && <p>Error loading tests: {testsError}</p>}
-					{tests && tests.length > 0 && tests.map(({ title, id }, index: number) => (
-						<div key={index}>
-							<button onClick={() => updateTest(id)} type='button'>Update test</button>
+					{tests && tests.length > 0 && tests.map(({ title, id }: { title: string, id: string }, index: number) => (
+						<Card key={index}>
+							<ButtonSolid label='Update test' onClick={() => updateTest(id)} />
+							<ButtonSolid label='Delete test' onClick={() => deleteTest(id)} />
 							<span>{title}</span>
-						</div>
+						</Card>
 					))}
 				</div>
 				<div>

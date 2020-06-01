@@ -1,6 +1,6 @@
 import * as firebase from 'firebase-admin'
 
-import config from '../config'
+import { config } from 'config'
 
 export default () => {
 	try {

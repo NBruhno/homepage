@@ -1,6 +1,6 @@
 import { useEffect, useState, Dispatch } from 'react'
 
-import config from '../config'
+import { config } from 'config'
 
 const loadFirebase = async () => {
 	const [firebase] = await Promise.all([

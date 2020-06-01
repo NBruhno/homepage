@@ -1,15 +1,9 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
-import { css } from '@emotion/core'
 
-import Page from 'components/Page'
-import Form from 'components/Form'
+import { Page } from 'components/Page'
+import { Form } from 'components/Form'
 import { Toggle, Checkbox, Input, Radio, Static, Select } from 'components/Fields'
-
-
-const wrapperStyle = css`
-	max-width: 500px;
-`
 
 const Test: NextPage = () => (
 	<>
@@ -17,7 +11,7 @@ const Test: NextPage = () => (
 			<title>Test • Bruhno</title>
 		</Head>
 		<Page>
-			<div css={wrapperStyle}>
+			<div css={{ maxWidth: '500px' }}>
 				<h1>Current form</h1>
 				<Form form='test' onSubmit={(value) => console.log(value)}>
 					<Toggle label='Testing toggle' name='toggle' />

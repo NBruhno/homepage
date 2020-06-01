@@ -1,14 +1,10 @@
-import { css } from '@emotion/core'
-
-const Checkbox: React.FC<{ id?: string, type?: string, disabled?: boolean, checked?: boolean }> = (props) => (
+export const Checkbox = (props: React.ComponentProps<'input'>) => (
 	<input
-		css={css`
-			position: absolute;
-			opacity: 0;
-			flex-shrink: 0;
-		`}
+		css={{
+			position: 'absolute',
+			opacity: 0,
+			flexShrink: 0,
+		}}
 		{...props}
 	/>
 )
-
-export default Checkbox

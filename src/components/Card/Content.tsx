@@ -1,16 +1,16 @@
-import { css } from '@emotion/core'
+export type Props = {
+	header?: React.ReactNode,
+	isVisible: boolean,
+} & React.ComponentProps<'div'>
 
-const Content: React.FC<{ isVisible: boolean, header?: React.ReactNode }> = ({ isVisible, header, ...rest }) => (
+export const Content = ({ isVisible, header, ...rest }: Props) => (
 	<div
-		css={css`
-			padding: 16px 24px 30px;
-			min-height: 100px;
-			opacity: ${isVisible ? 1 : 0};
-			transition: opacity 0.2s ease-in-out;
-			padding-top: ${header && 0};
-		`}
+		css={{
+			opacity: isVisible ? 1 : 0,
+			padding: '16px 24px 30px',
+			paddingTop: header && 0,
+			transition: 'opacity 0.2s ease-in-out',
+		}}
 		{...rest}
 	/>
 )
-
-export default Content

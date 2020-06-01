@@ -1,13 +1,13 @@
-import { css } from '@emotion/core'
-import { useTheme } from 'emotion-theming'
-import { lighten, transparentize } from 'polished'
+export type Props = {
+	checked: boolean,
+	disabled: boolean,
+	focus: boolean,
+} & React.ComponentProps<'div'>
 
-const CheckMark = ({ checked, disabled, focus, ...rest }: { checked: boolean, disabled: boolean, focus: boolean }) => {
-	const theme: Theme = useTheme()
-
-	const backgroundColor = () => {
+export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
+	const backgroundColor = (theme: Theme) => {
 		if (disabled) {
-			return checked ? lighten(0.3, theme.color.primary) : theme.color.gray
+			return checked ? theme.color.gray : theme.color.background
 		} else {
 			return checked ? theme.color.primary : theme.color.white
 		}
@@ -15,44 +15,40 @@ const CheckMark = ({ checked, disabled, focus, ...rest }: { checked: boolean, di
 
 	return (
 		<div
-			css={css`
-				cursor: ${disabled ? 'auto' : 'pointer'};
-				position: relative;
-				box-shadow: ${focus ? `0 0 0 2px ${transparentize(0.8, theme.color.primary)}` : 'none'};
-				border: 1px solid ${checked ? theme.color.primary : theme.color.gray};
-				border-radius: 4px;
-				width: 22px;
-				height: 22px;
-				background-color: ${backgroundColor()};
-				outline: 0;
-				flex-shrink: 0;
-				margin: 1px 7px 1px 0;
-		
-				transition:
-					box-shadow 0.15s ease-in-out,
-					border-color 0.15s ease-in-out,
-					background-color 0.15s ease-in-out;
-		
-				&:after {
-					content: '';
-					position: absolute;
-					left: 7px;
-					top: 2px;
-					width: 6px;
-					height: 14px;
-					border: solid white;
-					border-width: ${checked ? '0 2px 2px 0' : '0'};
-					transform: rotate(37deg);
-					transition: border-width 0.15s ease-in-out;
-				}
-		
-				&:hover {
-					border-color: ${!disabled && theme.color.primary};
-				}
-			`}
+			css={(theme: Theme) => ({
+				cursor: disabled ? 'auto' : 'pointer',
+				position: 'relative',
+				boxShadow: focus ? `0 0 0 2px ${theme.color.primary}` : 'none',
+				border: `1px solid ${checked ? theme.color.primary : theme.color.gray}`,
+				borderRadius: '4px',
+				width: '22px',
+				height: '22px',
+				backgroundColor: backgroundColor(theme),
+				outline: 0,
+				flexShrink: 0,
+				margin: '1px 7px 1px 0',
+
+				transition: 'box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out, background-color 0.15s ease-in-out',
+
+				'&:after': {
+					content: '""',
+					position: 'absolute',
+					left: '7px',
+					top: '2px',
+					width: '6px',
+					height: '14px',
+					borderStyle: 'solid',
+					borderColor: theme.color.text,
+					borderWidth: checked ? '0 2px 2px 0' : 0,
+					transform: 'rotate(37deg)',
+					transition: 'border-width 0.15s ease-in-out',
+				},
+
+				'&:hover': {
+					borderColor: !disabled && theme.color.primary,
+				},
+			})}
 			{...rest}
 		/>
 	)
 }
-
-export default CheckMark

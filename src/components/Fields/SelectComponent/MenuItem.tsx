@@ -1,24 +1,34 @@
-import { css } from '@emotion/core'
-import { useTheme } from 'emotion-theming'
+export type Props = {
+	highlightedIndex: number,
+	selectedItem: any,
+	index: number,
+	value: any,
+} & React.ComponentProps<'div'>
 
-const MenuItem = ({ highlightedIndex, selectedItem, index, value, ...rest }) => {
-	const theme: Theme = useTheme()
+export const MenuItem = ({ highlightedIndex, selectedItem, index, value, ...rest }: Props) => (
+	<div
+		css={(theme: Theme) => ({
+			backgroundColor: highlightedIndex === index ? theme.color.primary : theme.color.inputBackground,
+			color: theme.color.text,
+			fontWeight: selectedItem === value ? 'bold' : 'normal',
+			padding: '12px',
+			transition: 'all 0.3s ease',
+			cursor: 'pointer',
 
-	return (
-		<div
-			css={css`
-				background-color: ${highlightedIndex === index ? theme.color.primary : theme.color.white};
-				font-weight: ${selectedItem === value ? 'bold' : 'normal'};
-				color: ${theme.color.black};
-				padding: 6px 12px;
-			
-				&:hover {
-			
-				}
-			`}
-			{...rest}
-		/>
-	)
-}
+			'&:hover': {
+				backgroundColor: theme.color.inputBackgroundHover,
+			},
 
-export default MenuItem
+			'&:last-of-type': {
+				borderBottomLeftRadius: '4px',
+				borderBottomRightRadius: '4px',
+			},
+
+			'&:first-of-type': {
+				borderTopLeftRadius: '4px',
+				borderTopRightRadius: '4px',
+			},
+		})}
+		{...rest}
+	/>
+)

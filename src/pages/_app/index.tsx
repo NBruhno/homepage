@@ -7,8 +7,9 @@ import { ThemeProvider } from 'emotion-theming'
 import { StoreProvider, initialState } from 'lib/store'
 import globalCss from 'styles/global'
 import { theme } from 'styles/theme'
+import { config } from 'config'
 
-import config from '../config'
+import { Body } from './Body'
 
 if (config.environment === 'production') {
 	init({
@@ -38,8 +39,10 @@ class MyApp extends App {
 			<StateInspector initialState={{ GLOBAL: { ...initialState } }} name='Bruhno'>
 				<Global styles={globalCss} />
 				<StoreProvider>
-					<ThemeProvider theme={theme}>
-						<Component {...pageProps} />
+					<ThemeProvider theme={theme()}>
+						<Body>
+							<Component {...pageProps} />
+						</Body>
 					</ThemeProvider>
 				</StoreProvider>
 			</StateInspector>

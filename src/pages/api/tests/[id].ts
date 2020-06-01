@@ -15,7 +15,21 @@ export default (req?: NextApiRequest, res?: NextApiResponse) => {
 					.then((result) => {
 						res.setHeader('Content-Type', 'application/json')
 						res.status(200).json(result)
-						resolve()
+						return resolve()
+					})
+					.catch((error) => {
+						res.status(500).json(error)
+						console.error(error)
+						return resolve()
+					})
+				break
+			}
+			case 'DELETE': {
+				firestore().collection('test').doc(id.toString()).delete()
+					.then((result) => {
+						res.setHeader('Content-Type', 'application/json')
+						res.status(200).json(result)
+						return resolve()
 					})
 					.catch((error) => {
 						res.status(500).json(error)

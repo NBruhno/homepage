@@ -1,17 +1,17 @@
 import { useField } from 'react-final-form'
 
-import useUnique from 'lib/useUnique'
+import { useUnique } from 'lib/useUnique'
 
-import LabelContainer from '../LabelContainer'
-import FieldWrapper from '../FieldWrapper'
-import ColumnLabel from '../ColumnLabel'
-import InputError from '../InputError'
-import Hint from '../Hint'
+import { LabelContainer } from '../LabelContainer'
+import { FieldWrapper } from '../FieldWrapper'
+import { ColumnLabel } from '../ColumnLabel'
+import { InputError } from '../InputError'
+import { Hint } from '../Hint'
 
-import HintContainer from './HintContainer'
-import validators from './validators'
-import Textarea from './Textarea'
-import Input from './Input'
+import { HintContainer } from './HintContainer'
+import { validators } from './validators'
+import { Textarea } from './Textarea'
+import { Input } from './Input'
 
 type InputProps = {
 	name: string,
@@ -75,13 +75,13 @@ export const InputComponent = ({
 	return (
 		<FieldWrapper fullWidth={fullWidth} minWidth={170}>
 			<ColumnLabel>
-				<LabelContainer htmlFor={id}>
+				<LabelContainer>
 					<HintContainer>
 						<div>
-							<div>{label} {optionalHint && !required && <Hint>(Optional)</Hint>}</div>
+							<label htmlFor={id}>{label} {optionalHint && !required && <Hint>(Optional)</Hint>}</label>
 							{hint && <Hint>{hint}</Hint>}
 						</div>
-						{maxLength && <Hint> {(input.value && input.value.length) || 0} / {maxLength}</Hint>}
+						{maxLength && <Hint htmlFor={id}> {(input.value && input.value.length) || 0} / {maxLength}</Hint>}
 					</HintContainer>
 				</LabelContainer>
 				{type === 'multiline' ? (
@@ -103,5 +103,3 @@ export const InputComponent = ({
 		</FieldWrapper>
 	)
 }
-
-export default InputComponent

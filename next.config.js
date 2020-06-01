@@ -1,5 +1,3 @@
-const path = require('path')
-
 const webpack = require('webpack')
 const { parsed: localEnv } = require('dotenv').config()
 
@@ -37,37 +35,11 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 		],
 	},
 
-	env: {
-		FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
-		FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
-		FIREBASE_DATABASE_URL: process.env.FIREBASE_DATABASE_URL,
-		FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
-		FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET,
-		FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
-		FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
-		FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
-		FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY,
-		FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL,
-
-		SENTRY_DSN: process.env.SENTRY_DSN,
-
-		ANALYZE_BUILD: process.env.ANALYZE_BUILD,
-		ENVIRONMENT: process.env.ENVIRONMENT,
-	},
-
 	webpack: (config) => {
 		// Fixes npm packages that depend on `fs` module
 		config.node = { fs: 'empty' }
 
 		config.plugins.push(new webpack.EnvironmentPlugin({ DEFAULT: null, ...localEnv }))
-
-		config.resolve.alias['components'] = path.join(__dirname, 'src/components')
-		config.resolve.alias['reducers'] = path.join(__dirname, 'src/reducers')
-		config.resolve.alias['styles'] = path.join(__dirname, 'src/styles')
-		config.resolve.alias['utils'] = path.join(__dirname, 'src/utils')
-		config.resolve.alias['public'] = path.join(__dirname, 'public')
-		config.resolve.alias['lib'] = path.join(__dirname, 'src/lib')
-
 		return config
 	},
 }))))

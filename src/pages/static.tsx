@@ -1,8 +1,7 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
 
-import Page from 'components/Page'
-
+import { Page } from 'components/Page'
 
 const Static: NextPage = () => (
 	<>

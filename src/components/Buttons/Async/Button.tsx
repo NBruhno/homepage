@@ -1,53 +1,51 @@
 /* eslint-disable react/button-has-type */
-import { css } from '@emotion/core'
+export type Props = {
+	isVisible: boolean,
+} & React.ComponentProps<'button'>
 
-const style = ({ isVisible }) => css`
-	display: inline-block;
-	position: relative;
-	vertical-align: middle;
-	touch-action: manipulation;
-	white-space: nowrap;
-	cursor: pointer;
-	user-select: none;
-	overflow: hidden;
-	height: 36px;
-	min-width: 72px;
-	max-width: 100%;
-	padding: 5px 30px;
-	flex-grow: 0;
+export const Button = ({ isVisible, ...rest }: Props) => (
+	<button
+		css={{
+			backgroundColor: '#000',
+			border: 'none',
+			color: '#FFF',
+			cursor: 'pointer',
+			display: 'inline-block',
+			flexGrow: 0,
+			fontSize: '1rem',
+			height: '36px',
+			margin: '2px',
+			maxWidth: '100%',
+			minWidth: '72px',
+			overflow: 'hidden',
+			padding: '5px 30px',
+			position: 'relative',
+			textAlign: 'center',
+			touchAction: 'manipulation',
+			transition: 'color 135ms cubic-bezier(0.4, 0, 0.2, 1), background-color 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+			userSelect: 'none',
+			verticalAlign: 'middle',
+			visibility: isVisible ? 'visible' : 'hidden',
+			whiteSpace: 'nowrap',
 
-	color: #FFF;
-	background-color: #000;
-	border: none;
+			'&:first-of-type': {
+				marginLeft: 0,
+			},
 
-	text-align: center;
-	font-size: 1rem;
+			'&:last-of-type': {
+				marginRight: 0,
+			},
 
-	visibility: ${isVisible ? 'visible' : 'hidden'};
+			'&:focus, &:hover, &:active': {
+				outline: 0,
+				textDecoration: 'none',
+			},
 
-	margin: 2px;
-
-	&:first-child {
-		margin-left: 0;
-	}
-
-	&:last-child {
-		margin-right: 0;
-	}
-
-	&:focus,
-	&:hover,
-	&:active {
-		outline: 0;
-		text-decoration: none;
-	}
-
-	&:disabled {
-		cursor: default;
-		box-shadow: none;
-	}
-`
-
-const Button = ({ isVisible, ...rest }) => <button css={style({ isVisible })} {...rest} />
-
-export default Button
+			'&:disabled': {
+				cursor: 'default',
+				boxShadow: 'none',
+			},
+		}}
+		{...rest}
+	/>
+)

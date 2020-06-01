@@ -1,18 +1,18 @@
-import LabelContainer from '../LabelContainer'
-import FieldWrapper from '../FieldWrapper'
-import ColumnLabel from '../ColumnLabel'
-import Hint from '../Hint'
+import { LabelContainer } from '../LabelContainer'
+import { FieldWrapper } from '../FieldWrapper'
+import { ColumnLabel } from '../ColumnLabel'
+import { Hint } from '../Hint'
 
-import Textarea from './Textarea'
+import { Textarea } from './Textarea'
 
 type Props = {
-	label: string,
-	id?: string,
+	fullWidth?: boolean,
 	hint?: string,
+	id?: string,
+	label: string,
+	maxRows?: number,
 	rows?: number,
 	value?: string,
-	maxRows?: number,
-	fullWidth?: boolean,
 }
 
 export const StaticComponent = ({ label, hint, value, rows = 1, maxRows, id: manualId, fullWidth }: Props) => {
@@ -23,9 +23,9 @@ export const StaticComponent = ({ label, hint, value, rows = 1, maxRows, id: man
 
 	return (
 		<FieldWrapper fullWidth={fullWidth} minWidth={170}>
-			<ColumnLabel htmlFor={manualId || uniqueId}>
+			<ColumnLabel>
 				<LabelContainer>
-					<div>{label}</div>
+					<label htmlFor={manualId || uniqueId}>{label}</label>
 					{hint && <Hint>{hint}</Hint>}
 				</LabelContainer>
 				<Textarea
@@ -40,5 +40,3 @@ export const StaticComponent = ({ label, hint, value, rows = 1, maxRows, id: man
 		</FieldWrapper>
 	)
 }
-
-export default StaticComponent

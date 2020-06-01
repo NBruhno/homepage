@@ -1,25 +1,26 @@
-import ActivityIndicator from 'components/ActivityIndicator'
+import { ActivityIndicator } from 'components/ActivityIndicator'
 
-import Label from './Label'
-import Button from './Button'
-import LoaderWrapper from './LoaderWrapper'
+import { Label } from './Label'
+import { Button } from './Button'
+import { LoaderWrapper } from './LoaderWrapper'
 
-const ButtonLoading = ({
-	label,
-	disabled = false,
-	submit = false,
-	onClick,
-	isLoading = false,
-	isVisible = false,
-	...rest
-}: {
+export type Props = {
 	label: string,
-	disabled?: boolean,
 	submit?: boolean,
-	onClick: Function,
 	isLoading?: boolean,
 	isVisible?: boolean,
-}) => (
+} & React.ComponentProps<'button'>
+
+export const ButtonLoading = ({
+	ref,
+	disabled = false,
+	isLoading = false,
+	isVisible = false,
+	label,
+	onClick,
+	submit = false,
+	...rest
+}: Props) => (
 	<Button
 		onClick={onClick}
 		disabled={disabled || isLoading || !isVisible}
@@ -34,5 +35,3 @@ const ButtonLoading = ({
 		{isVisible && <Label isVisible={!isLoading}>{label}</Label>}
 	</Button>
 )
-
-export default ButtonLoading

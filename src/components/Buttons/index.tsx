@@ -1,1 +1,1 @@
-export { default as ButtonSolid } from './Solid'
+export { Solid as ButtonSolid } from './Solid'

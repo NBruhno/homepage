@@ -2,21 +2,20 @@ import { isString, isNumber } from 'lodash-es'
 import { useField } from 'react-final-form'
 
 import formatToOptions from 'lib/formatToOptions'
-import useUnique from 'lib/useUnique'
+import { useUnique } from 'lib/useUnique'
 
-import FieldWrapper from '../FieldWrapper'
-import InputError from '../InputError'
-import Hint from '../Hint'
+import { FieldWrapper } from '../FieldWrapper'
+import { InputError } from '../InputError'
+import { RowLabel } from '../RowLabel'
+import { Hint } from '../Hint'
 
-import RadioCircle from './RadioCircle'
-import validators from './validators'
-import RowLabel from './RowLabel'
-import Label from './Label'
-import Radio from './Radio'
+import { RadioCircle } from './RadioCircle'
+import { validators } from './validators'
+import { Radio } from './Radio'
 
 type Props = {
 	name: string,
-	options: { label: string, value: any, hint?: string, disabled?: boolean }[],
+	options: Array<{ label: string, value: any, hint?: string, disabled?: boolean }>,
 	required?: boolean,
 	disabled?: boolean,
 	fullWidth?: boolean,
@@ -40,13 +39,13 @@ export const RadioComponent = ({
 		},
 	)
 
-	const handleChange = (event) => {
+	const handleChange = (event: any) => {
 		const option = options[event.currentTarget.value]
 		const value = (isString(option) || isNumber(option)) ? option : option.value
 		input.onChange(value)
 	}
 
-	const handleBlur = (event) => {
+	const handleBlur = (event: any) => {
 		const option = options[event.currentTarget.value]
 		const value = (isString(option) || isNumber(option)) ? option : option.value
 		input.onBlur(value)
@@ -62,7 +61,7 @@ export const RadioComponent = ({
 			{formattedOptions.map(({ value, label, hint, disabled }, idx) => {
 				const checked = value === input.value
 				return (
-					<RowLabel htmlFor={`${idx}-${id}`} disabled={globallyDisabled || disabled} key={idx}>
+					<RowLabel htmlFor={`${idx}-${id}`} css={{ paddingBottom: '12px', marginBottom: 0 }} key={idx}>
 						<Radio
 							{...input}
 							id={`${idx}-${id}`}
@@ -81,7 +80,7 @@ export const RadioComponent = ({
 							hasError={hasError}
 						/>
 						<div>
-							<Label>{label}</Label>
+							<label htmlFor={`${idx}-${id}`} css={{ marginTop: '2px' }}>{label}</label>
 							{hint && <Hint>{hint}</Hint>}
 						</div>
 					</RowLabel>
