@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 
-export {}
-
 const fs = require('fs')
 
 const format = require('date-fns/format')
