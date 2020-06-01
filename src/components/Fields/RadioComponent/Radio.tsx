@@ -1,14 +1,10 @@
-import { css } from '@emotion/core'
-
-const Radio = (props) => (
+export const Radio = (props: React.ComponentProps<'input'>) => (
 	<input
-		css={css`
-			position: absolute;
-			opacity: 0;
-			flex-shrink: 0;
-		`}
+		css={{
+			position: 'absolute',
+			opacity: 0,
+			flexShrink: 0,
+		}}
 		{...props}
 	/>
 )
-
-export default Radio

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 
-module.exports = {
+export const config = {
 	firebase: {
 		apiKey: process.env.FIREBASE_API_KEY,
 		authDomain: process.env.FIREBASE_AUTH_DOMAIN,

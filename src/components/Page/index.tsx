@@ -1,19 +1,15 @@
-import { css } from '@emotion/core'
-
-const Page: React.FC = (props) => (
+export const Page = (props: React.ComponentProps<'div'>) => (
 	<div
-		css={css`
-			width: 100%;
-			max-width: 904px;
-			margin: 0 auto;
-			flex-grow: 1;
-			display: flex;
-			flex-direction: column;
-			padding: 16px 24px 120px;
-			justify-content: center;
-		`}
+		css={{
+			width: '100%',
+			maxWidth: '904px',
+			margin: '0 auto',
+			flexGrow: 1,
+			display: 'flex',
+			flexDirection: 'column',
+			padding: '16px 24px 120px',
+			justifyContent: 'center',
+		}}
 		{...props}
 	/>
 )
-
-export default Page

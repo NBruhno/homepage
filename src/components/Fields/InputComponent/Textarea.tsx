@@ -1,19 +1,22 @@
 import AutosizeTextarea from 'react-autosize-textarea'
-import { useTheme } from 'emotion-theming'
-import { css } from '@emotion/core'
 
-import { style } from './Input'
+import { DefaultInputStyle } from '../DefaultInputStyle'
 
-const TextArea = ({ hasError, disabled, ...rest }) => {
-	const theme: Theme = useTheme()
-
-	const updatedStyle = css`
-		${style({ theme, hasError, disabled })}
-		min-height: none;
-		resize: none;
-	`
-
-	return <AutosizeTextarea {...rest} css={updatedStyle} />
+export type Props = {
+	async: boolean,
+	disabled: boolean,
+	hasError: boolean,
+	maxRows: number,
+	rows: number,
 }
 
-export default TextArea
+export const Textarea = ({ hasError, disabled, ...rest }: Props) => (
+	<AutosizeTextarea
+		{...rest}
+		css={(theme: Theme) => ({
+			...DefaultInputStyle({ theme, hasError, disabled }),
+			minHeight: 'none',
+			resize: 'none',
+		})}
+	/>
+)

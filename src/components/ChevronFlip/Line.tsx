@@ -1,6 +1,11 @@
-import { css } from '@emotion/core'
+export type Props = {
+	bold?: boolean,
+	isActive?: boolean,
+	mirror?: boolean,
+	slim?: boolean,
+} & React.ComponentProps<'span'>
 
-const Line = ({ slim, bold, mirror, isActive, ...rest }: { slim?: boolean, bold?: boolean, mirror?: boolean, isActive?: boolean }) => {
+export const Line = ({ slim, bold, mirror, isActive, ...rest }: Props) => {
 	let size = 0.1
 
 	if (slim) {
@@ -11,23 +16,19 @@ const Line = ({ slim, bold, mirror, isActive, ...rest }: { slim?: boolean, bold?
 
 	return (
 		<span
-			css={css`
-				position: absolute;
-				bottom: 0.1em;
-				width: 0.6em;
-				background-color: currentColor;
-				transition: transform 0.15s;
-		
-				height: ${size}em;
-				border-radius: ${size / 2}em;
-				transform-origin: ${size / 2}em ${size / 2}em;
-				left: ${0.7 - size / 2}em;
-		
-				transform: translateY(${isActive ? -0.4 : 0}em) rotate(${-90 + (mirror ? -1 : 1) * (isActive ? 135 : 45)}deg);
-			`}
+			css={{
+				backgroundColor: 'currentColor',
+				borderRadius: `${size / 2}em`,
+				bottom: '0.1em',
+				height: `${size}em`,
+				left: `${0.7 - size / 2}em`,
+				position: 'absolute',
+				transform: `translateY(${isActive ? -0.4 : 0}em) rotate(${-90 + (mirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`,
+				transformOrigin: `${size / 2}em ${size / 2}em`,
+				transition: 'transform 0.15s',
+				width: '0.6em',
+			}}
 			{...rest}
 		/>
 	)
 }
-
-export default Line

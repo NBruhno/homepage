@@ -9,9 +9,4 @@ export default css`
 	* {
 		font-family: 'Roboto', sans-serif;
 	}
-
-	body {
-		background-color: hsl(255, 0%,100%);
-		color: hsl(197, 0%, 17%);
-	}
 `

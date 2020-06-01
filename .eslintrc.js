@@ -82,7 +82,7 @@ module.exports = {
 		'semi': ['error', 'never'],
 		'generator-star-spacing': ['error', 'both'],
 		'arrow-parens': ['error', 'always'],
-		'quote-props': ['error', 'consistent'],
+		'quote-props': ['error', 'as-needed'],
 		'jsx-quotes': ['error', 'prefer-single'],
 		'function-paren-newline': ['error', 'consistent'],
 		'no-shadow': ['warn'],

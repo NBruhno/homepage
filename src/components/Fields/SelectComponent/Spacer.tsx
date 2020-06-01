@@ -1,15 +1,12 @@
-import { css } from '@emotion/core'
-
-const Spacer = () => (
+export const Spacer = (props: React.ComponentProps<'span'>) => (
 	<span
-		css={css`
-			position: absolute;
-			height: 5px;
-			top: 0;
-			left: 0;
-			right: 0;
-		`}
+		css={{
+			position: 'absolute',
+			height: '5px',
+			top: 0,
+			left: 0,
+			right: 0,
+		}}
+		{...props}
 	/>
 )
-
-export default Spacer

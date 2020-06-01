@@ -1,14 +1,10 @@
-import { css } from '@emotion/core'
-
-const HintContainer = (props) => (
+export const HintContainer = (props: React.ComponentProps<'div'>) => (
 	<div
-		css={css`
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-end;
-		`}
+		css={{
+			display: 'flex',
+			justifyContent: 'space-between',
+			alignItems: 'flex-end',
+		}}
 		{...props}
 	/>
 )
-
-export default HintContainer

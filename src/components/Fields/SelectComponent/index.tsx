@@ -1,39 +1,38 @@
+import { useField } from 'react-final-form'
+import matchSorter from 'match-sorter'
 import { useEffect } from 'react'
 import Downshift from 'downshift'
-import matchSorter from 'match-sorter'
-import { useField } from 'react-final-form'
 
-import useUnique from 'lib/useUnique'
+import { useUnique } from 'lib/useUnique'
 
-import LabelContainer from '../LabelContainer'
-import FieldWrapper from '../FieldWrapper'
-import ColumnLabel from '../ColumnLabel'
-import InputError from '../InputError'
-import Hint from '../Hint'
+import { LabelContainer } from '../LabelContainer'
+import { FieldWrapper } from '../FieldWrapper'
+import { InputError } from '../InputError'
+import { Hint } from '../Hint'
 
-import MenuAnchor from './MenuAnchor'
-import validators from './validators'
-import MenuItem from './MenuItem'
-import Select from './Select'
-import Menu from './Menu'
+import { MenuAnchor } from './MenuAnchor'
+import { validators } from './validators'
+import { MenuItem } from './MenuItem'
+import { Select } from './Select'
+import { Menu } from './Menu'
 
-type Props = {
-	name: string,
-	label: string,
-	hint?: string,
-	multiple?: boolean,
-	validate?: boolean,
-	required?: boolean,
+export type Props = {
 	disabled?: boolean,
-	fullWidth?: boolean,
-	placeholder?: string,
-	optionsLimit?: number,
-	optionalHint?: boolean,
 	enableValidate?: boolean,
-	renderLabel?: React.ReactNode,
-	parse?: (value: any, name: string) => any,
 	format?: (value: any, name: string) => any,
+	fullWidth?: boolean,
+	hint?: string,
+	label: string,
+	multiple?: boolean,
+	name: string,
+	optionalHint?: boolean,
 	options: { label: string, value: any, disabled?: boolean }[],
+	optionsLimit?: number,
+	parse?: (value: any, name: string) => any,
+	placeholder?: string,
+	renderLabel?: React.ReactNode,
+	required?: boolean,
+	validate?: boolean,
 }
 
 const itemToString = (item: any) => (item || '')
@@ -78,29 +77,25 @@ export const SelectComponent = ({
 			{({ getInputProps, getItemProps, getMenuProps, getRootProps, getLabelProps, isOpen, inputValue, highlightedIndex, selectedItem }) => {
 				const filteredOptions = matchSorter(options, inputValue, { keys: ['label'] })
 				return (
-					<FieldWrapper fullWidth={fullWidth} minWidth={170} {...getRootProps({ refKey: 'forwardRef' })} {...getLabelProps()}>
-						<ColumnLabel htmlFor={id}>
-							<LabelContainer>
-								<div>{label} {optionalHint && !required && <Hint>(Optional)</Hint>}</div>
-								{hint && <Hint>{hint}</Hint>}
-							</LabelContainer>
-							<MenuAnchor>
-								<Select {...getInputProps({ name: input.name, placeholder })} onFocus={input.onFocus} onBlur={input.onBlur} hasError={hasError} disabled={disabled} id={id} />
-								<Menu hasError={hasError} {...getMenuProps({ refKey: 'forwardRef' })} isOpen={isOpen && Boolean(filteredOptions.length)}>
-									{filteredOptions.map(({ value, label: optionLabel }, index: number) => (
-										<MenuItem {...getItemProps({ key: value, index, item: value })} highlightedIndex={highlightedIndex} selectedItem={selectedItem}>
-											{optionLabel}
-										</MenuItem>
-									))}
-								</Menu>
-							</MenuAnchor>
-							<InputError hasError={hasError} errorMessage={meta.error} isFocus={meta.active} />
-						</ColumnLabel>
+					<FieldWrapper fullWidth={fullWidth} minWidth={170} {...getRootProps()}>
+						<LabelContainer {...getLabelProps()}>
+							<label htmlFor={id}>{label} {optionalHint && !required && <Hint>(Optional)</Hint>}</label>
+							{hint && <Hint htmlFor={id}>{hint}</Hint>}
+						</LabelContainer>
+						<MenuAnchor>
+							<Select {...getInputProps({ name: input.name, placeholder })} onFocus={input.onFocus} onBlur={input.onBlur} hasError={hasError} disabled={disabled} id={id} />
+							<Menu hasError={hasError} {...getMenuProps()} isOpen={isOpen && Boolean(filteredOptions.length)}>
+								{filteredOptions.map(({ value, label: optionLabel }, index: number) => (
+									<MenuItem {...getItemProps({ key: value, index, item: value })} highlightedIndex={highlightedIndex} selectedItem={selectedItem}>
+										{optionLabel}
+									</MenuItem>
+								))}
+							</Menu>
+						</MenuAnchor>
+						<InputError hasError={hasError} errorMessage={meta.error} isFocus={meta.active} />
 					</FieldWrapper>
 				)
 			}}
 		</Downshift>
 	)
 }
-
-export default SelectComponent

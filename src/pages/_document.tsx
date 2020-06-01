@@ -1,19 +1,4 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
-import { captureException } from '@sentry/browser'
-
-import config from '../config'
-
-process.on('unhandledRejection', (error) => {
-	if (config.environment === 'production') {
-		captureException(error)
-	}
-})
-
-process.on('uncaughtException', (error) => {
-	if (config.environment === 'production') {
-		captureException(error)
-	}
-})
 
 class _document extends Document {
 	render() {
@@ -49,10 +34,8 @@ class _document extends Document {
 					<link rel='icon' type='image/png' sizes='192x192' href='favicon.png' />
 					<link rel='apple-touch-icon' href='favicon.png' />
 				</Head>
-				<body>
-					<Main />
-					<NextScript />
-				</body>
+				<Main />
+				<NextScript />
 			</Html>
 		)
 	}

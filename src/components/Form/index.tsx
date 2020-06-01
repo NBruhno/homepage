@@ -1,8 +1,8 @@
-import { useEffect, useState, ReactNode } from 'react'
-import { Form, FormSpy } from 'react-final-form'
+import { useEffect, useState } from 'react'
+import { Form as FinalForm, FormSpy } from 'react-final-form'
+import { SubmissionErrors, FormApi } from 'final-form'
 
 import useForm from 'reducers/useForm'
-import { FormApi, SubmissionErrors } from 'final-form'
 
 const onPersistState = (
 	values: object, valid: boolean, formName: string, persistState: string | boolean,
@@ -17,18 +17,18 @@ const onPersistState = (
 	}
 }
 
-type Props = {
-	onSubmit: (values: any, form: FormApi<any>) => void | SubmissionErrors | Promise<any>,
+export type Props = {
 	form: string,
-	children: ReactNode,
+	children: React.ReactNode,
 	initialValues?: object,
 	persistState?: string | boolean,
 	destroyStateOnUnmount?: boolean,
 	renderFormOnStateUpdate?: boolean,
 	resetFormOnSubmitSuccess?: boolean,
+	onSubmit: (values: any, form: FormApi<any>) => void | SubmissionErrors | Promise<any>,
 }
 
-const FinalForm = ({
+export const Form = ({
 	form: formName, onSubmit, initialValues, children, persistState,
 	renderFormOnStateUpdate, destroyStateOnUnmount, resetFormOnSubmitSuccess, ...props
 }: Props) => {
@@ -49,6 +49,8 @@ const FinalForm = ({
 				reset(formName)
 			}
 		}
+	// The effect is intended to only run on mount and dismount
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	// If renderFormOnStateUpdate is set, render the form on every state update
@@ -63,7 +65,7 @@ const FinalForm = ({
 
 	return (
 
-		<Form
+		<FinalForm
 			onSubmit={onSubmit}
 			initialValues={{ ...initialValues, ...initialStateValues }}
 
@@ -94,5 +96,3 @@ const FinalForm = ({
 		/>
 	)
 }
-
-export default FinalForm

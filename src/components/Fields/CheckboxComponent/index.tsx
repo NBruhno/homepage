@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
 import { useField } from 'react-final-form'
 
-import useUnique from 'lib/useUnique'
+import { useUnique } from 'lib/useUnique'
 
-import FieldWrapper from '../FieldWrapper'
-import RowLabel from '../RowLabel'
-import Hint from '../Hint'
+import { LabelContainer } from '../LabelContainer'
+import { FieldWrapper } from '../FieldWrapper'
+import { RowLabel } from '../RowLabel'
+import { Hint } from '../Hint'
 
-import Checkbox from './Checkbox'
-import CheckMark from './CheckMark'
-import LabelContainer from './LabelContainer'
+import { Checkbox } from './Checkbox'
+import { CheckMark } from './CheckMark'
 
 type Props = {
 	name: string,
@@ -53,7 +53,7 @@ export const CheckboxComponent = ({
 					disabled={disabled}
 				/>
 				<CheckMark checked={input.value} disabled={disabled} focus={meta.active} />
-				<LabelContainer>
+				<LabelContainer css={{ marginTop: '4px' }}>
 					<div>{label}</div>
 					{hint && <Hint>{hint}</Hint>}
 				</LabelContainer>
@@ -61,5 +61,3 @@ export const CheckboxComponent = ({
 		</FieldWrapper>
 	)
 }
-
-export default CheckboxComponent

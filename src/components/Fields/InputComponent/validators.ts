@@ -38,7 +38,7 @@ const typeValidators = {
 
 const composeValidators = (...validators) => (value) => validators.reduce((error, validator) => error || validator(value), undefined)
 
-export default ({ required, validate, type }) => composeValidators(
+export const validators = ({ required, validate, type }) => composeValidators(
 	required ? validateRequired : returnUndefined,
 	typeValidators[type] || returnUndefined,
 	isRegExp(validate) ? wrapRegex(validate) : returnUndefined,

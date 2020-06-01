@@ -2,9 +2,9 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import { useState } from 'react'
 
-import Page from 'components/Page'
-import Form from 'components/Form'
-import Card from 'components/Card'
+import { Page } from 'components/Page'
+import { Form } from 'components/Form'
+import { Card } from 'components/Card'
 import { Input } from 'components/Fields'
 import { ButtonSolid } from 'components/Buttons'
 

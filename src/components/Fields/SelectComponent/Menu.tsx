@@ -1,36 +1,33 @@
-import { css } from '@emotion/core'
-import { useTheme } from 'emotion-theming'
+import { forwardRef } from 'react'
 import { useSpring, animated } from 'react-spring'
 
-const Menu = ({ isOpen, hasError, forwardRef, ...rest }) => {
-	const theme: Theme = useTheme()
+export type Props = {
+	isOpen: boolean,
+	hasError: boolean,
+} & React.ComponentPropsWithRef<'div'>
 
-	return (
-		<animated.div
-			ref={forwardRef}
-			css={css`
-				background: ${theme.color.white};
-				position: absolute;
-				width: calc(100% - 14px);
-				left: 0;
-				right: 0;
-				z-index: 4;
-				border-radius: 4px;
-				box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-				padding: 10px 6px;
-				overflow: hidden;
-			`}
-			style={useSpring({
-				config: {
-					duration: 100,
-				},
-				opacity: isOpen ? 1 : 0,
-				height: isOpen ? 'unset' : 0,
-				top: isOpen ? '48px' : '42px',
-			})}
-			{...rest}
-		/>
-	)
-}
-
-export default Menu
+export const Menu: React.FC<Props> = forwardRef(({ isOpen, hasError, ...rest }, ref) => (
+	<animated.div
+		ref={ref}
+		css={(theme: Theme) => ({
+			background: theme.color.inputBackground,
+			position: 'absolute',
+			width: '100%',
+			left: 0,
+			right: 0,
+			zIndex: 4,
+			borderRadius: '4px',
+			boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+			overflow: 'hidden',
+		})}
+		style={useSpring({
+			config: {
+				duration: 100,
+			},
+			opacity: isOpen ? 1 : 0,
+			height: isOpen ? 'unset' : 0,
+			top: isOpen ? '48px' : '42px',
+		})}
+		{...rest}
+	/>
+))

@@ -6,4 +6,4 @@ const returnUndefined = () => undefined
 
 const validateRequired = (value) => value ? null : messages.required
 
-export default ({ required }) => required ? validateRequired : returnUndefined
+export const validators = ({ required }) => required ? validateRequired : returnUndefined

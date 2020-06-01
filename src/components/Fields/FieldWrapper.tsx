@@ -1,14 +1,18 @@
-import { css } from '@emotion/core'
+import { forwardRef } from 'react'
 
-const FieldWrapper: React.FC<{ fullWidth?: boolean, minWidth?: number, forwardRef?: string }> = ({ fullWidth, minWidth, forwardRef, ...rest }) => (
+export type Props = {
+	fullWidth?: boolean,
+	minWidth?: number,
+} & React.ComponentPropsWithRef<'div'>
+
+export const FieldWrapper: React.JSXElementConstructor<Props> = forwardRef(({ fullWidth, minWidth, ...rest }, ref) => (
 	<div
-		css={css`
-			display: ${fullWidth ? 'inline' : 'inline-block'};
-			min-width: ${`${minWidth}px` || 'auto'};
-		`}
-		ref={forwardRef}
+		css={{
+			display: fullWidth ? 'block' : 'inline-block',
+			minWidth: minWidth ? `${minWidth}px` : 'auto',
+			marginBottom: '25px',
+		}}
+		ref={ref}
 		{...rest}
 	/>
-)
-
-export default FieldWrapper
+))

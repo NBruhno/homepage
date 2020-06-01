@@ -1,15 +1,11 @@
-import { css } from '@emotion/core'
-
-const Container = (props) => (
+export const Container = (props: React.ComponentProps<'span'>) => (
 	<span
-		css={css`
-			width: 1.4em;
-			height: 1em;
-			display: inline-block;
-			position: relative;
-		`}
+		css={{
+			display: 'inline-block',
+			height: '1em',
+			position: 'relative',
+			width: '1.4em',
+		}}
 		{...props}
 	/>
 )
-
-export default Container

@@ -1,12 +1,16 @@
-import { css } from '@emotion/core'
+import { ButtonAsync, Props as AsyncProps } from './Async'
 
-import Async from './Async'
+export const Solid = (props: AsyncProps) => (
+	<ButtonAsync
+		css={(theme: Theme) => ({
+			backgroundColor: theme.color.primary,
+			borderRadius: '4px',
 
-const style = css`
-	background-color: lightcoral;
-	border-radius: 4px;
-`
-
-const Solid = (props) => <Async css={style} {...props} />
-
-export default Solid
+			'&:disabled': {
+				color: theme.color.grayLight,
+				backgroundColor: theme.color.gray,
+			},
+		})}
+		{...props}
+	/>
+)

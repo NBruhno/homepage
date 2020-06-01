@@ -30,12 +30,17 @@ const useTest = (id: string | string[]) => {
 		return response.json()
 	}
 
+	const deleteTest = async () => {
+		const response = await fetch(`/api/tests/${id}`, { method: 'DELETE', mode: 'cors' })
+		return response.json()
+	}
+
 	const create = async () => {
 		const response = await fetch('/api/tests', { method: 'POST', mode: 'cors' })
 		return response.json()
 	}
 
-	return [state.test.data, state.test.loading, state.test.error, update, create]
+	return [state.test.data, state.test.loading, state.test.error, update, create, deleteTest]
 }
 
 export default useTest

@@ -1,15 +1,16 @@
-import { css } from '@emotion/core'
+export type Props = {
+	isVisible: boolean,
+} & React.ComponentProps<'div'>
 
-const style = ({ isVisible }) => css`
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-
-	opacity: ${isVisible ? 1 : 0};
-
-	transition: opacity 0.4s;
-`
-
-const Label = ({ isVisible, ...rest }) => <div css={style({ isVisible })} {...rest} />
-
-export default Label
+export const Label = ({ isVisible, ...rest }: Props) => (
+	<div
+		css={{
+			opacity: isVisible ? 1 : 0,
+			overflow: 'hidden',
+			textOverflow: 'ellipsis',
+			transition: 'opacity 0.4s',
+			whiteSpace: 'nowrap',
+		}}
+		{...rest}
+	/>
+)
