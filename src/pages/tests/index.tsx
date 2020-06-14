@@ -38,11 +38,11 @@ const Projects: NextPage = () => {
 				</Card>
 				{testListLoading && <p>Loading test example...</p>}
 				{testListError && <p>Error loading test: {testListError.message}</p>}
-				{testList && testList.map((test: { id: string, title: string, note: string }) => (
-					<Card>
+				{testList && testList.map((test: { id: string, title: string, note: string }, index) => (
+					<Card key={index}>
 						<p>{test.title}</p>
 						<p>{test.note}</p>
-						<Link href={`/tests/${test.id}`}>
+						<Link href='/tests/[id]' as={`/tests/${test.id}`}>
 							<a>Edit</a>
 						</Link>
 						<ButtonSolid label='Delete test' onClick={() => deleteTest(test.id)} />
