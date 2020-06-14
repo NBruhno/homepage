@@ -1,6 +1,4 @@
-import { createContext, useContext } from 'react'
-
-import { useReducer } from 'reinspect'
+import { createContext, useContext, useReducer } from 'react'
 
 const StoreContext = createContext(undefined)
 export const initialState: {
@@ -19,16 +17,28 @@ export const initialState: {
 	tasks: { data: [], loading: true, error: undefined },
 }
 
-const reducer = (state: object, action: { type: string, message: string, payload: object }) => {
-	if (action.payload) {
-		return { ...state, ...action.payload }
+const reducer = (state: object, payload: object) => {
+	if (payload) {
+		return { ...state, ...payload }
 	} else {
-		throw new Error(`No payload specified for ${action.type}`)
+		throw new Error(`No payload specified`)
 	}
 }
 
+/**
+ * Global store provider used in conjunction with `useStore` to populate and read the store from any child of the provider.
+ * @param children - `ReactNode`, there should never be more than one child in the array
+ * @example
+ * ```tsx
+ * <StoreProvider>
+ * 	<Page>
+ * 		{...}
+ * 	</Page>
+ * </StoreProvider>
+ * ```
+ */
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
-	const [state, dispatch] = useReducer(reducer, initialState, ((lazyState) => lazyState), 'GLOBAL')
+	const [state, dispatch] = useReducer(reducer, initialState, ((lazyState) => lazyState))
 
 	return (
 		<StoreContext.Provider value={{ state, dispatch }}>

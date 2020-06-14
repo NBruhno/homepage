@@ -1,15 +1,14 @@
-import App from 'next/app'
-import { StateInspector } from 'reinspect'
-import { init, withScope, captureException } from '@sentry/browser'
 import { Global } from '@emotion/core'
+import { init, withScope, captureException } from '@sentry/browser'
 import { ThemeProvider } from 'emotion-theming'
+import App from 'next/app'
 
-import { StoreProvider, initialState } from 'lib/store'
-import globalCss from 'styles/global'
+import { StoreProvider } from 'lib/store'
+import { globalCss } from 'styles/global'
 import { theme } from 'styles/theme'
 import { config } from 'config'
 
-import { Body } from './Body'
+import { Grid, Navigation, Main, Footer } from 'components/Page'
 
 if (config.environment === 'production') {
 	init({
@@ -36,16 +35,22 @@ class MyApp extends App {
 		const { Component, pageProps } = this.props
 
 		return (
-			<StateInspector initialState={{ GLOBAL: { ...initialState } }} name='Bruhno'>
+			<StoreProvider>
 				<Global styles={globalCss} />
-				<StoreProvider>
-					<ThemeProvider theme={theme()}>
-						<Body>
+				<ThemeProvider theme={theme()}>
+					<Grid>
+						<Navigation>
+							<p>Navigation here</p>
+						</Navigation>
+						<Main>
 							<Component {...pageProps} />
-						</Body>
-					</ThemeProvider>
-				</StoreProvider>
-			</StateInspector>
+						</Main>
+						<Footer>
+							<p>Footer here</p>
+						</Footer>
+					</Grid>
+				</ThemeProvider>
+			</StoreProvider>
 		)
 	}
 }

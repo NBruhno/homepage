@@ -5,5 +5,13 @@
   ],
   "plugins": [
     ["polished"]
-  ]
+  ],
+  "env": {
+    "production": {
+      "plugins": ["emotion"]
+    },
+    "development": {
+      "plugins": [["emotion", { "sourceMap": true }]]
+    }
+  }
 }

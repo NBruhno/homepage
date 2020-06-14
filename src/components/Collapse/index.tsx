@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect, useCallback } from 'react'
 
-import useSize from 'lib/useSize'
+import { useSize } from 'lib/useSize'
 
 import context from './context'
 import Container, { transitionTime } from './Container'

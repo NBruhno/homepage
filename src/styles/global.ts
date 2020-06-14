@@ -1,9 +1,10 @@
 import { css } from '@emotion/core'
 
-import normalize from 'styles/normalize'
+import { normalize } from 'styles/normalize'
+import { fonts } from 'styles/fonts'
 
-export default css`
-	@import url('https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap');
+export const globalCss = css`
+	${fonts}
 	${normalize}
 
 	* {

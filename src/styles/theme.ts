@@ -28,9 +28,6 @@ export const theme = (darkTheme = true) => ({
 	},
 })
 
-// Tricks the TypeScript compiler to refer to the return of the function
-const themeDummy = (false as true) && theme(undefined)
-
 declare global {
-	type Theme = typeof themeDummy
+	type Theme = ReturnType<typeof theme>
 }

@@ -10,6 +10,7 @@ module.exports = ({ config }) => {
 				require.resolve("@emotion/babel-preset-css-prop"),
 			],
 			plugins: [
+				['emotion'],
 				['react-require'],
 				['polished'],
 			],
@@ -23,6 +24,8 @@ module.exports = ({ config }) => {
 	config.resolve.alias['components'] = path.join(__dirname, '../src/components')
 	config.resolve.alias['reducers'] = path.join(__dirname, '../src/reducers')
 	config.resolve.alias['styles'] = path.join(__dirname, '../src/styles')
+	config.resolve.alias['config$'] = path.join(__dirname, '../src/config.ts')
+	config.resolve.alias['hooks'] = path.join(__dirname, '../src/hooks')
 	config.resolve.alias['utils'] = path.join(__dirname, '../src/utils')
 	config.resolve.alias['lib'] = path.join(__dirname, '../src/lib')
 	return config;

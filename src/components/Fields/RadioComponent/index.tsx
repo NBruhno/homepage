@@ -1,7 +1,7 @@
 import { isString, isNumber } from 'lodash-es'
 import { useField } from 'react-final-form'
 
-import formatToOptions from 'lib/formatToOptions'
+import { formatToOptions, Option } from 'lib/formatToOptions'
 import { useUnique } from 'lib/useUnique'
 
 import { FieldWrapper } from '../FieldWrapper'
@@ -15,7 +15,7 @@ import { Radio } from './Radio'
 
 type Props = {
 	name: string,
-	options: Array<{ label: string, value: any, hint?: string, disabled?: boolean }>,
+	options: Array<Option>,
 	required?: boolean,
 	disabled?: boolean,
 	fullWidth?: boolean,
@@ -58,16 +58,16 @@ export const RadioComponent = ({
 
 	return (
 		<FieldWrapper fullWidth={fullWidth} minWidth={170}>
-			{formattedOptions.map(({ value, label, hint, disabled }, idx) => {
+			{formattedOptions.map(({ value, label, hint, disabled }: { value: any, label: string, hint: string, disabled: boolean }, index: number) => {
 				const checked = value === input.value
 				return (
-					<RowLabel htmlFor={`${idx}-${id}`} css={{ paddingBottom: '12px', marginBottom: 0 }} key={idx}>
+					<RowLabel htmlFor={`${index}-${id}`} css={{ paddingBottom: '12px', marginBottom: 0 }} key={index}>
 						<Radio
 							{...input}
-							id={`${idx}-${id}`}
+							id={`${index}-${id}`}
 							type='radio'
 							disabled={globallyDisabled || disabled}
-							value={idx}
+							value={index}
 							onChange={handleChange}
 							onBlur={handleBlur}
 							checked={checked}
@@ -76,11 +76,11 @@ export const RadioComponent = ({
 						<RadioCircle
 							checked={checked}
 							disabled={globallyDisabled || disabled}
-							focus={meta.active && (checked || (input.value === '' && idx === 0))}
+							focus={meta.active && (checked || (input.value === '' && index === 0))}
 							hasError={hasError}
 						/>
 						<div>
-							<label htmlFor={`${idx}-${id}`} css={{ marginTop: '2px' }}>{label}</label>
+							<label htmlFor={`${index}-${id}`} css={{ marginTop: '2px' }}>{label}</label>
 							{hint && <Hint>{hint}</Hint>}
 						</div>
 					</RowLabel>
