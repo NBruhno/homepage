@@ -1,7 +1,6 @@
 import { configure, addDecorator } from '@storybook/react'
 import { useDarkMode } from 'storybook-dark-mode'
 import { ThemeProvider } from 'emotion-theming'
-import { StateInspector } from 'reinspect'
 import { Global } from '@emotion/core'
 
 import { StoreProvider, initialState } from 'lib/store'
@@ -17,12 +16,10 @@ const ThemeWrapper = ({ children }) => (
 )
 
 addDecorator((story) => (
-	<StateInspector initialState={{ GLOBAL: { ...initialState } }} name='Bruhno'>
+	<StoreProvider>
 		<Global styles={globalCss} />
-		<StoreProvider>
-			<ThemeWrapper>
-				{story()}
-			</ThemeWrapper>
-		</StoreProvider>
-	</StateInspector>
+		<ThemeWrapper>
+			{story()}
+		</ThemeWrapper>
+	</StoreProvider>
 ))
