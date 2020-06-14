@@ -19,7 +19,11 @@ export const ButtonAsync = ({ label, onClick, isLoading = false, isLoadingManual
 	const [isMounted, setMounted] = useState(false)
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-		if (!submit && !onClick) {
+		if (submit) {
+			return
+		}
+
+		if (!onClick) {
 			throw new Error('This button does not have a onClick function!')
 		}
 

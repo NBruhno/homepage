@@ -5,7 +5,7 @@ import { StateInspector } from 'reinspect'
 import { Global } from '@emotion/core'
 
 import { StoreProvider, initialState } from 'lib/store'
-import globalCss from 'styles/global'
+import { globalCss } from 'styles/global'
 import { theme } from 'styles/theme'
 
 configure(require.context('../src/components', true, /\.stories\.(tsx|mdx)?$/), module)

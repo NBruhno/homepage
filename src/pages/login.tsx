@@ -2,14 +2,14 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import { useState } from 'react'
 
+import { useLogin } from 'reducers/login'
+import { useAuth } from 'reducers/auth'
+
 import { Page } from 'components/Page'
 import { Form } from 'components/Form'
 import { Card } from 'components/Card'
 import { Input } from 'components/Fields'
 import { ButtonSolid } from 'components/Buttons'
-
-import useLogin from 'reducers/useLogin'
-import useAuth from 'reducers/useAuth'
 
 const Test: NextPage = () => {
 	const { login, signUp, logout } = useLogin()
@@ -37,7 +37,8 @@ const Test: NextPage = () => {
 				</Card>
 				<Card>
 					<h1>Sign-up form</h1>
-					<Form form='test' onSubmit={({ email, password }) => signUp({ email, password })}>
+					<Form form='test' onSubmit={({ email, password, displayName }) => signUp({ email, password, displayName })}>
+						<Input label='Username' name='displayName' type='text' required />
 						<Input label='Email' name='email' type='email' required />
 						<Input label='Password' name='password' type='password' required />
 						<ButtonSolid label='Sign-up' submit />

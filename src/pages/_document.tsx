@@ -5,6 +5,7 @@ class _document extends Document {
 		return (
 			<Html lang='en' dir='ltr'>
 				<Head>
+					{/* General */}
 					<base href='/' />
 					<meta name='description' content="This is Nicolai Bruhn Lauritsen or more commonly known as Bruhno's personal website which functions as a portfolio and a playground." />
 					<meta name='viewport' content='width=device-width, initial-scale=1' />
@@ -34,8 +35,10 @@ class _document extends Document {
 					<link rel='icon' type='image/png' sizes='192x192' href='favicon.png' />
 					<link rel='apple-touch-icon' href='favicon.png' />
 				</Head>
-				<Main />
-				<NextScript />
+				<body>
+					<Main />
+					<NextScript />
+				</body>
 			</Html>
 		)
 	}

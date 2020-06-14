@@ -7,6 +7,7 @@ module.exports = {
 	],
 	plugins: [
 		'@typescript-eslint',
+		'eslint-plugin-tsdoc',
 		'babel',
 		'emotion',
 		'filenames',
@@ -20,50 +21,50 @@ module.exports = {
 		'standard',
 	],
 	env: {
-		'browser': true,
+		browser: true,
 		'jest/globals': true,
-  },
-  globals: {
-    'React': 'writeable',
-  },
+	},
+	globals: {
+		React: 'writeable',
+	},
 	rules: {
+		'tsdoc/syntax': 'warn',
 		'react/prop-types': 'off',
 		'react/react-in-jsx-scope': 'off',
-    'space-infix-ops': 'off',
+		'space-infix-ops': 'off',
 		'import/namespace': 'off',
 		'import/named': 'off',
 		'no-undef': 'off',
 
-		'@typescript-eslint/no-unused-vars': ['error', { 'ignoreRestSiblings': true }],
+		'@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
 		'@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
-		'@typescript-eslint/camelcase': ['error', { ignoreDestructuring: true }],
 		'@typescript-eslint/indent': ['error', 'tab', {
-			'SwitchCase': 1,
-			'MemberExpression': 1,
-			'FunctionExpression': { 'body': 1, 'parameters': 1 },
-			'CallExpression': { 'arguments': 1 },
-			'ignoredNodes': [
+			SwitchCase: 1,
+			MemberExpression: 1,
+			FunctionExpression: { body: 1, parameters: 1 },
+			CallExpression: { arguments: 1 },
+			ignoredNodes: [
 				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
 			],
 		}],
 		'@typescript-eslint/member-delimiter-style': ['error', {
-			'multiline': {
-				'delimiter': 'comma',
-				'requireLast': true,
+			multiline: {
+				delimiter: 'comma',
+				requireLast: true,
 			},
-			'singleline': {
-				'delimiter': 'comma',
-				'requireLast': false,
+			singleline: {
+				delimiter: 'comma',
+				requireLast: false,
 			},
-			'overrides': {
-				'interface': {
-					'multiline': {
-						'delimiter': 'none',
-						'requireLast': false,
+			overrides: {
+				interface: {
+					multiline: {
+						delimiter: 'none',
+						requireLast: false,
 					},
-					'singleline': {
-						'delimiter': 'semi',
-						'requireLast': false,
+					singleline: {
+						delimiter: 'semi',
+						requireLast: false,
 					},
 				},
 			},
@@ -75,11 +76,10 @@ module.exports = {
 		'@typescript-eslint/no-explicit-any': 'off',
 		'@typescript-eslint/no-misused-new': 'off',
 		'@typescript-eslint/prefer-interface': 'off',
-		'@typescript-eslint/generic-type-naming': 'off',
-    '@typescript-eslint/explicit-member-accessibility': 'off',
+		'@typescript-eslint/explicit-member-accessibility': 'off',
 
-		'space-before-function-paren': ['error', { 'anonymous': 'always', 'named': 'never' }],
-		'semi': ['error', 'never'],
+		'space-before-function-paren': ['error', { anonymous: 'always', named: 'never' }],
+		semi: ['error', 'never'],
 		'generator-star-spacing': ['error', 'both'],
 		'arrow-parens': ['error', 'always'],
 		'quote-props': ['error', 'as-needed'],
@@ -87,7 +87,7 @@ module.exports = {
 		'function-paren-newline': ['error', 'consistent'],
 		'no-shadow': ['warn'],
 		'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
-		'quotes': ['error', 'single', { allowTemplateLiterals: true }],
+		quotes: ['error', 'single', { allowTemplateLiterals: true }],
 		'no-implied-eval': ['error'],
 		'no-restricted-syntax': ['error',
 			{ selector: 'ForInStatement', message: 'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.' },
@@ -105,34 +105,34 @@ module.exports = {
 				],
 			},
 		],
-		'indent': ['error', 'tab', {
-			'SwitchCase': 1,
-			'MemberExpression': 1,
-			'FunctionExpression': { 'body': 1, 'parameters': 1 },
-			'CallExpression': { 'arguments': 1 },
-			'ignoredNodes': [
+		indent: ['error', 'tab', {
+			SwitchCase: 1,
+			MemberExpression: 1,
+			FunctionExpression: { body: 1, parameters: 1 },
+			CallExpression: { arguments: 1 },
+			ignoredNodes: [
 				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
 			],
 		}],
 		'comma-dangle': ['error', {
-			'arrays': 'always-multiline',
-			'objects': 'always-multiline',
-			'imports': 'always-multiline',
-			'exports': 'always-multiline',
-			'functions': 'always-multiline',
+			arrays: 'always-multiline',
+			objects: 'always-multiline',
+			imports: 'always-multiline',
+			exports: 'always-multiline',
+			functions: 'always-multiline',
 		}],
 		'func-style': ['error', 'expression'],
 		'no-unused-vars': 'off',
 		'object-curly-spacing': ['error', 'always'],
 		'object-curly-newline': ['error', { multiline: true, consistent: true }],
 		'prefer-destructuring': ['error', {
-			'VariableDeclarator': {
-				'array': true,
-				'object': true,
+			VariableDeclarator: {
+				array: true,
+				object: true,
 			},
-			'AssignmentExpression': {
-				'array': false,
-				'object': false,
+			AssignmentExpression: {
+				array: false,
+				object: false,
 			},
 		}],
 
@@ -154,9 +154,9 @@ module.exports = {
 		'react/jsx-indent': ['error', 'tab'],
 		'react/jsx-indent-props': ['error', 'tab'],
 		'react/jsx-no-bind': ['error', {
-			'ignoreRefs': false,
-			'allowArrowFunctions': true,
-			'allowBind': false,
+			ignoreRefs: false,
+			allowArrowFunctions: true,
+			allowBind: false,
 		}],
 		'react/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: false }],
 
@@ -170,10 +170,10 @@ module.exports = {
 		'import/prefer-default-export': 'off',
 		'import/extensions': 'off',
 		'import/no-unresolved': 'off',
-		'import/no-extraneous-dependencies': ['error', { 'devDependencies': true, 'optionalDependencies': false, 'peerDependencies': false }],
+		'import/no-extraneous-dependencies': ['error', { devDependencies: true, optionalDependencies: false, peerDependencies: false }],
 		'import/order': ['off', {
 			'newlines-between': 'always-and-inside-groups',
-			'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+			groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
 		}],
 
 		'jsx-a11y/label-has-for': 'off',
@@ -183,5 +183,6 @@ module.exports = {
 		'react-hooks/exhaustive-deps': 'warn',
 		'react/jsx-props-no-spreading': 'off',
 
+		'emotion/syntax-preference': [2, 'object'],
 	},
 }

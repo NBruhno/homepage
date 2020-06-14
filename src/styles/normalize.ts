@@ -1,6 +1,6 @@
 import { css } from '@emotion/core'
 
-export default css`
+export const normalize = css`
 	html {
 		line-height: 1.15;
 		text-size-adjust: 100%;
@@ -8,6 +8,10 @@ export default css`
 
 	body {
 		margin: 0;
+	}
+
+	html, body {
+		height: 100%;
 	}
 
 	main {

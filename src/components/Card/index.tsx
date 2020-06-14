@@ -10,22 +10,17 @@ export type Props = {
 	hasError?: boolean,
 	header?: React.ReactNode,
 	isExpanded?: boolean,
-	isFocus?: boolean,
 	isLoading?: boolean,
 }
 
-export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, isFocus }: Props) => {
-	const elevate = isFocus || isExpanded
-
-	return (
-		<Container {...{ elevate }}>
-			<Collapse isOpen={isExpanded}>
-				<>
-					{isExpanded && hasError && <Error>Failed to load content</Error>}
-					{isExpanded && !hasError && isLoading && <Loader />}
-					{!hasError && !isLoading && <Content header={header} isVisible={isExpanded}>{children}</Content>}
-				</>
-			</Collapse>
-		</Container>
-	)
-}
+export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header }: Props) => (
+	<Container>
+		<Collapse isOpen={isExpanded}>
+			<>
+				{isExpanded && hasError && <Error>Failed to load content</Error>}
+				{isExpanded && !hasError && isLoading && <Loader />}
+				{!hasError && !isLoading && <Content header={header} isVisible={isExpanded}>{children}</Content>}
+			</>
+		</Collapse>
+	</Container>
+)
