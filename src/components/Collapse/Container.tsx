@@ -1,6 +1,6 @@
 export const transitionTime = 0.3
 
-export type Props = {
+type Props = {
 	fill?: boolean,
 	isAnimated?: boolean,
 } & React.ComponentProps<'div'>

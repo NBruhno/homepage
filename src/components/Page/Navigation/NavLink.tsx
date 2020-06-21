@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import { forwardRef } from 'react'
 
-export type Props = {
+type Props = {
 	ref: ((instance: unknown) => void) | React.MutableRefObject<unknown>,
 } & React.ComponentPropsWithRef<'a'>
 

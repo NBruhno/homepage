@@ -1,7 +1,7 @@
 import { forwardRef } from 'react'
 import { useSpring, animated } from 'react-spring'
 
-export type Props = {
+type Props = {
 	isOpen: boolean,
 	hasError: boolean,
 } & React.ComponentPropsWithRef<'div'>

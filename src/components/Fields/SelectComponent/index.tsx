@@ -3,8 +3,6 @@ import matchSorter from 'match-sorter'
 import { useEffect } from 'react'
 import Downshift from 'downshift'
 
-import { useUnique } from 'lib/useUnique'
-
 import { LabelContainer } from '../LabelContainer'
 import { FieldWrapper } from '../FieldWrapper'
 import { InputError } from '../InputError'
@@ -16,23 +14,26 @@ import { MenuItem } from './MenuItem'
 import { Select } from './Select'
 import { Menu } from './Menu'
 
-export type Props = {
+type Props = {
+	name: string,
+	options: { label: string, value: any, disabled?: boolean }[],
+
 	disabled?: boolean,
 	enableValidate?: boolean,
-	format?: (value: any, name: string) => any,
 	fullWidth?: boolean,
 	hint?: string,
+	id?: string,
 	label: string,
 	multiple?: boolean,
-	name: string,
 	optionalHint?: boolean,
-	options: { label: string, value: any, disabled?: boolean }[],
 	optionsLimit?: number,
-	parse?: (value: any, name: string) => any,
 	placeholder?: string,
 	renderLabel?: React.ReactNode,
 	required?: boolean,
 	validate?: boolean,
+
+	format?: (value: any, name: string) => any,
+	parse?: (value: any, name: string) => any,
 }
 
 const itemToString = (item: any) => (item || '')
@@ -40,11 +41,10 @@ const itemToString = (item: any) => (item || '')
 export const SelectComponent = ({
 	optionalHint = true, fullWidth = true, required = false, enableValidate = true,
 	disabled, name, format, parse = (value) => value || null, label,
-	hint, placeholder, multiple, options,
+	hint, placeholder, multiple, options, id = name,
 }: Props) => {
 	const parseDefault = (value: any) => value || (multiple ? [] : null)
 
-	const id = useUnique(name)
 	const { input, meta } = useField(
 		name,
 		{

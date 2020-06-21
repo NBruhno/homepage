@@ -1,6 +1,6 @@
 import { css } from '@emotion/core'
 
-export type Props = {
+type Props = {
 	theme: Theme,
 	hasError: boolean,
 	disabled: boolean,

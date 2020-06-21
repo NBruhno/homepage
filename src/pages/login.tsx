@@ -3,7 +3,6 @@ import Head from 'next/head'
 import { useState } from 'react'
 
 import { useLogin } from 'reducers/login'
-import { useAuth } from 'reducers/auth'
 
 import { Page } from 'components/Page'
 import { Form } from 'components/Form'
@@ -13,12 +12,7 @@ import { ButtonSolid } from 'components/Buttons'
 
 const Test: NextPage = () => {
 	const { login, signUp, logout } = useLogin()
-	const { user, userLoading } = useAuth()
 	const [isExpanded, setIsExpanded] = useState(false)
-
-	if (!userLoading) {
-		console.log(user)
-	}
 
 	return (
 		<>

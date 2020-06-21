@@ -1,5 +1,5 @@
 /* eslint-disable react/button-has-type */
-export type Props = {
+type Props = {
 	isVisible: boolean,
 } & React.ComponentProps<'button'>
 

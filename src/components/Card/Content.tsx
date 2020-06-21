@@ -1,4 +1,4 @@
-export type Props = {
+type Props = {
 	header?: React.ReactNode,
 	isVisible: boolean,
 } & React.ComponentProps<'div'>

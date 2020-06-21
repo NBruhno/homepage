@@ -1,7 +1,7 @@
 import { Container } from './Container'
 import { Line } from './Line'
 
-export type Props = {
+type Props = {
 	bold?: boolean,
 	isActive?: boolean,
 	slim?: boolean,

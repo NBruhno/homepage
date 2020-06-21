@@ -6,7 +6,7 @@ import { useCounter } from 'reducers/counter'
 import { Page } from 'components/Page'
 import { ButtonSolid } from 'components/Buttons'
 
-export type Props = {
+type Props = {
 	userAgent?: string,
 }
 

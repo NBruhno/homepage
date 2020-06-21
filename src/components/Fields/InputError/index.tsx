@@ -2,7 +2,7 @@ import { Container } from './Container'
 import { Icon } from './Icon'
 import { Text } from './Text'
 
-export type Props = {
+type Props = {
 	hasError: boolean,
 	isFocus?: boolean,
 	errorMessage?: string,

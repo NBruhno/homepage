@@ -2,7 +2,7 @@ import AutosizeTextarea from 'react-autosize-textarea'
 
 import { DefaultInputStyle } from '../DefaultInputStyle'
 
-export type Props = {
+type Props = {
 	async: boolean,
 	disabled: boolean,
 	hasError: boolean,

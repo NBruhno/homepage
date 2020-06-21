@@ -19,8 +19,12 @@ export const All = () => (
 				})}
 				key={key}
 			>
-				<div><Icon size={42} /></div>
-				<span css={{ marginTop: '4px', ...ellipsis('80px') }} title={key}>{key}</span>
+				<div>
+					<Icon size={42} />
+				</div>
+				<span css={{ marginTop: '4px', ...ellipsis('80px') }} title={key}>
+					{key}
+				</span>
 			</div>
 		))}
 	</div>

@@ -3,8 +3,8 @@ import { useFirebase } from 'lib/useFirebase'
 export const useLogin = () => {
 	const { firebase } = useFirebase()
 
-	const signUp = ({ email, password, displayName }: { email: string, password: string, displayName: string }) => {
-		firebase.auth().createUserWithEmailAndPassword(email, password).then(async ({ user }) => {
+	const signUp = async ({ email, password, displayName }: { email: string, password: string, displayName: string }) => {
+		await firebase.auth().createUserWithEmailAndPassword(email, password).then(async ({ user }) => {
 			await firebase.auth().currentUser.getIdToken(false).then(async (token: string) => {
 				try {
 					await fetch(`/api/users`, {
@@ -28,12 +28,12 @@ export const useLogin = () => {
 		})
 	}
 
-	const login = ({ email, password }: { email: string, password: string }) => {
-		firebase.auth().signInWithEmailAndPassword(email, password)
+	const login = async ({ email, password }: { email: string, password: string }) => {
+		await firebase.auth().signInWithEmailAndPassword(email, password)
 	}
 
-	const logout = () => {
-		firebase.auth().signOut()
+	const logout = async () => {
+		await firebase.auth().signOut()
 	}
 
 	return { signUp, login, logout }

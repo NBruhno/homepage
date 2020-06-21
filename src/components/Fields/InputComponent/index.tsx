@@ -1,7 +1,5 @@
 import { useField } from 'react-final-form'
 
-import { useUnique } from 'lib/useUnique'
-
 import { LabelContainer } from '../LabelContainer'
 import { FieldWrapper } from '../FieldWrapper'
 import { ColumnLabel } from '../ColumnLabel'
@@ -16,29 +14,32 @@ import { Input } from './Input'
 type InputProps = {
 	name: string,
 	label: string,
+
+	autoComplete?: string,
+	autofocus?: boolean,
+	disabled?: boolean,
+	enableValidate?: boolean,
+	fullWidth?: boolean,
 	hint?: string,
+	id?: string,
+	maxLength?: number,
+	maxRows?: number,
+	minLength?: number,
+	optionalHint?: boolean,
+	pattern?: string,
+	placeholder?: string,
+	required?: boolean,
 	rows?: number,
 	type?: string,
-	maxRows?: number,
-	pattern?: string,
 	validate?: boolean,
-	required?: boolean,
-	disabled?: boolean,
-	minLength?: number,
-	maxLength?: number,
-	autofocus?: boolean,
-	fullWidth?: boolean,
-	placeholder?: string,
-	autoComplete?: string,
-	optionalHint?: boolean,
-	enableValidate?: boolean,
+
 	parse?: (value: any, name: string) => any,
 	format?: (value: any, name: string) => any,
 }
 
 export const InputComponent = ({
 	optionalHint = true, fullWidth = true, required = false, rows = 3, enableValidate = true, type = 'text',
-	disabled, maxRows, minLength, maxLength, name, format, validate, autoComplete = 'off',
+	disabled, maxRows, minLength, maxLength, name, format, validate, autoComplete = 'off', id= name,
 	parse = (value) => value || null, label, hint, placeholder, autofocus, pattern,
 }: InputProps) => {
 	const { input, meta } = useField(
@@ -52,20 +53,19 @@ export const InputComponent = ({
 		},
 	)
 
-	const id = useUnique(name)
 	const hasError = meta.submitFailed && Boolean(meta.error)
 
 	const defaultProps = {
-		value: input.value || '',
+		autoComplete,
 		autoFocus: autofocus,
-		id,
-		placeholder,
 		disabled,
 		hasError,
-		minLength,
+		id,
 		maxLength,
-		autoComplete,
+		minLength,
 		pattern,
+		placeholder,
+		value: input.value || '',
 	}
 
 	if (type === 'hidden') {

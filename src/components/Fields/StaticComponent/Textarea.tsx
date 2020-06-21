@@ -1,6 +1,6 @@
 import AutosizeTextarea from 'react-autosize-textarea'
 
-export type Props = {
+type Props = {
 	async: boolean,
 	disabled: boolean,
 	id: string,
