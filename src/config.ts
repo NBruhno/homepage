@@ -16,21 +16,12 @@ export const config = {
 		clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
 	},
 
-	sentry: {
-		dsn: process.env.SENTRY_DSN,
+	igdb: {
+		userKey: process.env.IGDB_USER_KEY,
 	},
 
-	auth0: {
-		clientId: process.env.AUTH0_CLIENT_ID,
-		clientSecret: process.env.AUTH0_CLIENT_SECRET,
-		scope: process.env.AUTH0_SCOPE,
-		domain: process.env.AUTH0_DOMAIN,
-		redirectUri: process.env.AUTH0_REDIRECT_URI,
-		postLogoutRedirectUri: process.env.POST_LOGOUT_REDIRECT_URI,
-		session: {
-			cookieSecret: process.env.SESSION_COOKIE_SECRET,
-			cookieLifetime: parseInt(process.env.SESSION_COOKIE_LIFETIME, 10),
-		},
+	sentry: {
+		dsn: process.env.SENTRY_DSN,
 	},
 
 	environment: process.env.NODE_ENV,

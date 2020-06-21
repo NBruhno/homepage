@@ -22,7 +22,9 @@ export const theme = (darkTheme = true) => ({
 		inputBorderHover: darkTheme ? 'hsl(0, 0%, 40%)' : 'hsl(0, 0%, 75%)',
 	},
 	fontSize: {
-		large: '16px',
+		huge: '26px',
+		larger: '22px',
+		large: '18px',
 		base: '14px',
 		small: '12px',
 	},

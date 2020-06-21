@@ -1,6 +1,6 @@
 import { DefaultInputStyle } from '../DefaultInputStyle'
 
-export type Props = {
+type Props = {
 	hasError: boolean,
 } & React.ComponentProps<'input'>
 

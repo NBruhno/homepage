@@ -16,6 +16,12 @@ export const Solid = () => (
 		<ButtonSolid label='Disabled' disabled onClick={action('onClick')} />
 		<ButtonSolid label='Loading' isLoadingManual onClick={action('onClick')} />
 		<ButtonSolid label='Delayed' minDelay={2} onClick={action('onClick')} />
-		<ButtonSolid label='Async' onClick={async () => { await delay(2); console.log('onClick') }} />
+		<ButtonSolid
+			label='Async'
+			onClick={async () => {
+				await delay(2)
+				console.log('onClick')
+			}}
+		/>
 	</>
 )

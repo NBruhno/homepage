@@ -1,4 +1,4 @@
-export type Props = {
+type Props = {
 	x?: number,
 	y?: number,
 	size?: number,

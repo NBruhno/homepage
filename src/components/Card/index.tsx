@@ -5,7 +5,7 @@ import { Content } from './Content'
 import { Loader } from './Loader'
 import { Error } from './Error'
 
-export type Props = {
+type Props = {
 	children: React.ReactNode,
 	hasError?: boolean,
 	header?: React.ReactNode,
@@ -19,7 +19,11 @@ export const Card = ({ children, hasError = false, isExpanded = true, isLoading 
 			<>
 				{isExpanded && hasError && <Error>Failed to load content</Error>}
 				{isExpanded && !hasError && isLoading && <Loader />}
-				{!hasError && !isLoading && <Content header={header} isVisible={isExpanded}>{children}</Content>}
+				{!hasError && !isLoading && (
+					<Content header={header} isVisible={isExpanded}>
+						{children}
+					</Content>
+				)}
 			</>
 		</Collapse>
 	</Container>

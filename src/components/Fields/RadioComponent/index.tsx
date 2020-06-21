@@ -2,7 +2,6 @@ import { isString, isNumber } from 'lodash-es'
 import { useField } from 'react-final-form'
 
 import { formatToOptions, Option } from 'lib/formatToOptions'
-import { useUnique } from 'lib/useUnique'
 
 import { FieldWrapper } from '../FieldWrapper'
 import { InputError } from '../InputError'
@@ -16,17 +15,20 @@ import { Radio } from './Radio'
 type Props = {
 	name: string,
 	options: Array<Option>,
-	required?: boolean,
+
 	disabled?: boolean,
-	fullWidth?: boolean,
 	enableValidate?: boolean,
-	parse?: (value: any, name: string) => any,
+	fullWidth?: boolean,
+	id?: string,
+	required?: boolean,
+
 	format?: (value: any, name: string) => any,
+	parse?: (value: any, name: string) => any,
 }
 
 export const RadioComponent = ({
 	parse = (value) => value || null, required = false, fullWidth = true, enableValidate = true,
-	options, disabled, name, format,
+	options, disabled, name, format, id = name,
 }: Props) => {
 	const { input, meta } = useField(
 		name,
@@ -53,7 +55,6 @@ export const RadioComponent = ({
 
 	const hasError = meta.submitFailed && Boolean(meta.error)
 	const formattedOptions = options ? formatToOptions(options) : []
-	const id = useUnique(name)
 	const globallyDisabled = disabled
 
 	return (

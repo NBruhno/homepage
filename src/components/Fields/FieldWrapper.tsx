@@ -1,6 +1,6 @@
 import { forwardRef } from 'react'
 
-export type Props = {
+type Props = {
 	fullWidth?: boolean,
 	minWidth?: number,
 } & React.ComponentPropsWithRef<'div'>

@@ -17,7 +17,7 @@ const onPersistState = (
 	}
 }
 
-export type Props = {
+type Props = {
 	form: string,
 	children: React.ReactNode,
 	initialValues?: object,

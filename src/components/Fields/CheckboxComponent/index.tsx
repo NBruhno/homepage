@@ -1,8 +1,6 @@
 import { useEffect } from 'react'
 import { useField } from 'react-final-form'
 
-import { useUnique } from 'lib/useUnique'
-
 import { LabelContainer } from '../LabelContainer'
 import { FieldWrapper } from '../FieldWrapper'
 import { RowLabel } from '../RowLabel'
@@ -12,18 +10,21 @@ import { Checkbox } from './Checkbox'
 import { CheckMark } from './CheckMark'
 
 type Props = {
-	name: string,
 	label: string,
-	hint?: string,
+	name: string,
+
 	disabled?: boolean,
 	fullWidth?: boolean,
-	parse?: (value: any, name: string) => any,
+	hint?: string,
+	id?: string,
+
 	format?: (value: any, name: string) => any,
+	parse?: (value: any, name: string) => any,
 }
 
 export const CheckboxComponent = ({
 	parse = (value) => value || false, fullWidth = true,
-	label, hint, disabled, name, format,
+	label, hint, disabled, name, format, id = name,
 }: Props) => {
 	const { input, meta } = useField(
 		name,
@@ -39,8 +40,6 @@ export const CheckboxComponent = ({
 			input.onChange(false)
 		}
 	})
-
-	const id = useUnique(name)
 
 	return (
 		<FieldWrapper fullWidth={fullWidth}>

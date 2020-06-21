@@ -1,6 +1,6 @@
 import { lighten, transparentize } from 'polished'
 
-export type Props = {
+type Props = {
 	focus: boolean,
 	hasError: boolean,
 	checked: boolean,

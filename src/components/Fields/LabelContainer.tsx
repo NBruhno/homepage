@@ -6,7 +6,7 @@ export const LabelContainer = (props: React.ComponentProps<'div'>) => (
 			color: theme.color.text,
 			fontSize: theme.fontSize.large,
 			fontWeight: 400,
-			marginBottom: '4px',
+			marginBottom: '6px',
 		})}
 		{...props}
 	/>

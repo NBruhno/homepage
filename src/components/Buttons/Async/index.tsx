@@ -14,7 +14,15 @@ export type Props = {
 	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => any,
 } & React.ComponentProps<'button'>
 
-export const ButtonAsync = ({ label, onClick, isLoading = false, isLoadingManual, minDelay = 0, submit, ...rest }: Props) => {
+export const ButtonAsync = ({
+	label,
+	onClick,
+	isLoading = false,
+	isLoadingManual,
+	minDelay = 0,
+	submit,
+	...rest
+}: Props) => {
 	const [isLoadingInternal, setInternalLoading] = useState(false)
 	const [isMounted, setMounted] = useState(false)
 
@@ -52,8 +60,8 @@ export const ButtonAsync = ({ label, onClick, isLoading = false, isLoadingManual
 		return () => {
 			setMounted(false)
 		}
-	// The effect is intended to only run on mount and dismount
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// The effect is intended to only run on mount and dismount
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
 	return (

@@ -46,6 +46,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 		FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
 		FIREBASE_PRIVATE_KEY: process.env.FIREBASE_PRIVATE_KEY,
 		FIREBASE_CLIENT_EMAIL: process.env.FIREBASE_CLIENT_EMAIL,
+		IGDB_USER_KEY: process.env.IGDB_USER_KEY,
 		SENTRY_DSN: process.env.SENTRY_DSN,
 		ANALYZE_BUILD: process.env.ANALYZE_BUILD,
 		ENVIRONMENT: process.env.ENVIRONMENT,

@@ -23,6 +23,7 @@
       "FIREBASE_MEASUREMENT_ID": "@firebase_measurement_id",
       "FIREBASE_PRIVATE_KEY": "@firebase_private_key",
       "FIREBASE_CLIENT_EMAIL": "@firebase_client_email",
+      "IGDB_USER_KEY": "@igdb_user_key",
       "SENTRY_DSN": "@sentry_dsn",
       "ANALYZE_BUILD": "false",
       "ENVIRONMENT": "@environment"

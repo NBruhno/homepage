@@ -5,7 +5,7 @@ import { useSize } from 'lib/useSize'
 import context from './context'
 import Container, { transitionTime } from './Container'
 
-export type Props = {
+type Props = {
 	children: React.ReactNode,
 	fill?: boolean,
 	isOpen?: boolean,

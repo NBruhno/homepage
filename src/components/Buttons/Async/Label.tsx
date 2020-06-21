@@ -1,4 +1,4 @@
-export type Props = {
+type Props = {
 	isVisible: boolean,
 } & React.ComponentProps<'div'>
 

@@ -4,7 +4,7 @@ import { Label } from './Label'
 import { Button } from './Button'
 import { LoaderWrapper } from './LoaderWrapper'
 
-export type Props = {
+type Props = {
 	label: string,
 	submit?: boolean,
 	isLoading?: boolean,
@@ -28,9 +28,7 @@ export const ButtonLoading = ({
 		isVisible={isVisible}
 		{...rest}
 	>
-		<LoaderWrapper isVisible={isLoading}>
-			{(isLoading) && <ActivityIndicator />}
-		</LoaderWrapper>
+		<LoaderWrapper isVisible={isLoading}>{isLoading && <ActivityIndicator />}</LoaderWrapper>
 
 		{isVisible && <Label isVisible={!isLoading}>{label}</Label>}
 	</Button>

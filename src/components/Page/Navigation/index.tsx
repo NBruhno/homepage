@@ -8,7 +8,7 @@ import { Header } from './Header'
 import { Placeholder } from './Placeholder'
 import { NavLink } from './NavLink'
 
-export const Navigation =(props: React.ComponentProps<'nav'>) => {
+export const Navigation = (props: React.ComponentProps<'nav'>) => {
 	const { user, userLoading, userError } = useAuth()
 
 	return (
@@ -26,22 +26,17 @@ export const Navigation =(props: React.ComponentProps<'nav'>) => {
 				<Link href='/login' passHref>
 					<NavLink>Login</NavLink>
 				</Link>
-				<Link href='/static' passHref>
-					<NavLink>Static</NavLink>
+				<Link href='/games' passHref>
+					<NavLink>Games</NavLink>
 				</Link>
-				<Link href='/' passHref>
-					<NavLink>Home</NavLink>
-				</Link>
-				<NavLink href={config.environment === 'development' ? 'http://localhost:9000' : `/storybook/index.html`}>Storybook</NavLink>
-				<div
-					css={(theme: Theme) => ({
-						color: theme.color.text,
-					})}
-				>
-					{userLoading && (<div>Loading user...</div>)}
-					{userError && (<div>Error loading user</div>)}
-					{user && (<div>{user.displayName}</div>)}
-				</div>
+				<NavLink href={config.environment === 'development' ? 'http://localhost:9000' : `/storybook/index.html`}>
+					Storybook
+				</NavLink>
+				<NavLink>
+					{userLoading && <div>Loading user...</div>}
+					{userError && <div>Error loading user</div>}
+					{user && <div>{user.displayName}</div>}
+				</NavLink>
 			</Header>
 			<Placeholder />
 		</>

@@ -1,4 +1,4 @@
-export type Props = {
+type Props = {
 	highlightedIndex: number,
 	selectedItem: any,
 	index: number,

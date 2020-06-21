@@ -6,10 +6,11 @@ import { Hint } from '../Hint'
 import { Textarea } from './Textarea'
 
 type Props = {
+	label: string,
+
 	fullWidth?: boolean,
 	hint?: string,
 	id?: string,
-	label: string,
 	maxRows?: number,
 	rows?: number,
 	value?: string,
