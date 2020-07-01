@@ -2,7 +2,7 @@
 export const Developer = (props: React.ComponentProps<'h1'>) => (
 	<h1
 		css={(theme: Theme) => ({
-			fontSize: theme.fontSize.large,
+			fontSize: theme.fontSize.s115,
 		})}
 		{...props}
 	/>

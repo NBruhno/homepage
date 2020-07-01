@@ -14,8 +14,6 @@ const GamePage: NextPage = () => {
 	const { data, error } = useSWR(id ? `/api/games/${id}` : null, IGDBFetcher, { revalidateOnFocus: false })
 	const isLoading = !data
 
-	console.log(data)
-
 	return (
 		<>
 			<Head>

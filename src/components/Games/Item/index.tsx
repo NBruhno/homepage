@@ -25,7 +25,7 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, isLoading }: Pro
 			<Cover coverUrl={cover?.url} size='small' css={{ marginRight: '12px' }} />
 			<div>
 				<Title>
-					<Placeholder isLoading={isLoading} width={index % 2 === 0 ? 200 : 250}>
+					<Placeholder isLoading={isLoading} width={index % 2 === 0 ? 100 : 90}>
 						{name}
 					</Placeholder>
 				</Title>

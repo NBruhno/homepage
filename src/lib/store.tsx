@@ -3,12 +3,14 @@ import { createContext, useContext, useReducer } from 'react'
 const StoreContext = createContext(undefined)
 export const initialState: {
 	count: number,
+	darkTheme: boolean,
 	test: Record<any, any>,
 	tests: Record<any, any>,
 	task: Record<any, any>,
 	tasks: Record<any, any>,
 } = {
 	count: 0,
+	darkTheme: true,
 
 	test: { data: undefined, loading: true, error: undefined },
 	tests: { data: [], loading: true, error: undefined },
@@ -17,7 +19,7 @@ export const initialState: {
 	tasks: { data: [], loading: true, error: undefined },
 }
 
-const reducer = (state: object, payload: object) => {
+const reducer = (state: Record<string, any>, payload: Record<string, any>) => {
 	if (payload) {
 		return { ...state, ...payload }
 	} else {

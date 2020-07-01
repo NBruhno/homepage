@@ -1,11 +1,8 @@
-import { Global } from '@emotion/core'
 import { init, withScope, captureException } from '@sentry/browser'
-import { ThemeProvider } from 'emotion-theming'
 import App from 'next/app'
 
 import { StoreProvider } from 'lib/store'
-import { globalCss } from 'styles/global'
-import { theme } from 'styles/theme'
+import { Theme } from 'lib/theming'
 import { config } from 'config'
 
 import { Grid, Navigation, Main, Footer } from 'components/Page'
@@ -36,8 +33,7 @@ class MyApp extends App {
 
 		return (
 			<StoreProvider>
-				<Global styles={globalCss} />
-				<ThemeProvider theme={theme()}>
+				<Theme>
 					<Grid>
 						<Navigation>
 							<p>Navigation here</p>
@@ -49,7 +45,7 @@ class MyApp extends App {
 							<p>Footer here</p>
 						</Footer>
 					</Grid>
-				</ThemeProvider>
+				</Theme>
 			</StoreProvider>
 		)
 	}

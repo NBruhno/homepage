@@ -11,7 +11,7 @@ export const Error = (props: React.ComponentProps<'div'>) => (
 			animation: `${fadeIn} 0.2s`,
 			display: 'flex',
 			flexDirection: 'column',
-			fontSize: theme.fontSize.small,
+			fontSize: theme.fontSize.s80,
 			justifyContent: 'center',
 			minHeight: '200px',
 			opacity: 0.6,

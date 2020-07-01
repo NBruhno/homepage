@@ -1,11 +1,10 @@
 export const Main = (props: React.ComponentProps<'main'>) => (
 	<main
 		css={(theme: Theme) => ({
+			padding: '24px',
 			backgroundColor: theme.color.background,
 			color: theme.color.text,
-			height: '100%',
-
-			fontSize: '2re',
+			maxWidth: '100vw',
 		})}
 		{...props}
 	/>
