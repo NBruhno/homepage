@@ -3,7 +3,7 @@
 export const Hint = (props: React.ComponentProps<'label'>) => (
 	<label
 		css={(theme: Theme) => ({
-			fontSize: theme.fontSize.small,
+			fontSize: theme.fontSize.s80,
 			flexShrink: 0,
 			verticalAlign: '1.5px',
 		})}

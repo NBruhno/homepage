@@ -2,7 +2,7 @@
 export const Title = (props: React.ComponentProps<'h1'>) => (
 	<h1
 		css={(theme: Theme) => ({
-			fontSize: theme.fontSize.huge,
+			fontSize: theme.fontSize.s160,
 		})}
 		{...props}
 	/>

@@ -4,7 +4,7 @@ export const LabelContainer = (props: React.ComponentProps<'div'>) => (
 			display: 'flex',
 			flexDirection: 'column',
 			color: theme.color.text,
-			fontSize: theme.fontSize.large,
+			fontSize: theme.fontSize.s115,
 			fontWeight: 400,
 			marginBottom: '6px',
 		})}

@@ -8,7 +8,7 @@ type Props = {
 
 export const DefaultInputStyle = ({ theme, hasError, disabled }: Props) => css({
 	position: 'relative',
-	fontSize: theme.fontSize.base,
+	fontSize: theme.fontSize.s100,
 	textAlign: 'left',
 	padding: '10px 6px',
 	display: 'block',
@@ -18,7 +18,7 @@ export const DefaultInputStyle = ({ theme, hasError, disabled }: Props) => css({
 	width: 'calc(100% - 14px)',
 	borderRadius: '4px',
 	border: `2px solid ${hasError ? theme.color.error : theme.color.inputBorder}`,
-	transition: 'all 0.3s ease',
+	transition: 'border 150ms ease, box-shadow 150ms ease',
 	WebkitTapHighlightColor: 'transparent',
 	outline: 0,
 
