@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { config } from 'config'
+import { config } from 'config.server'
 
 export default async (req?: NextApiRequest, res?: NextApiResponse) => {
 	const { method, body, query: { coverId } } = req

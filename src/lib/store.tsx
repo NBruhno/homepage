@@ -4,6 +4,10 @@ const StoreContext = createContext(undefined)
 export const initialState: {
 	count: number,
 	darkTheme: boolean,
+	user: {
+		accessToken?: string,
+
+	},
 	test: Record<any, any>,
 	tests: Record<any, any>,
 	task: Record<any, any>,
@@ -11,6 +15,9 @@ export const initialState: {
 } = {
 	count: 0,
 	darkTheme: true,
+	user: {
+		accessToken: undefined,
+	},
 
 	test: { data: undefined, loading: true, error: undefined },
 	tests: { data: [], loading: true, error: undefined },

@@ -3,7 +3,7 @@ import App from 'next/app'
 
 import { StoreProvider } from 'lib/store'
 import { Theme } from 'lib/theming'
-import { config } from 'config'
+import { config } from 'config.client'
 
 import { Grid, Navigation, Main, Footer } from 'components/Page'
 

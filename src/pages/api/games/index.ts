@@ -3,14 +3,16 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { Game } from 'types/Games'
 import { Game as IGDBGame } from 'types/IGDB'
+import { authenticateAccessToken } from 'server/authenticateAccessToken'
 
-import { config } from 'config'
+import { config } from 'config.server'
 
 export default async (req?: NextApiRequest, res?: NextApiResponse) => {
 	const { method, body } = req
 	switch (method) {
 		case 'POST': {
 			try {
+				await authenticateAccessToken(req, res)
 				const response = await fetch('https://api-v3.igdb.com/games', {
 					method: 'POST',
 					body: body?.search

@@ -1,34 +1,68 @@
-import { useDocument } from 'react-firebase-hooks/firestore'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import { useEffect, useCallback } from 'react'
-import { isEqual } from 'lodash-es'
 
 import { useStore } from 'lib/store'
-import { useFirebase } from 'lib/useFirebase'
+import { fetcher, Method } from 'lib/fetcher'
+import { decodeToken } from 'lib/decodeToken'
 
 export const useAuth = () => {
 	const { state, dispatch } = useStore()
-	const { firebase } = useFirebase()
-	// @ts-expect-error The auth hook specifically wants the Auth type, but that is not available during load.
-	const [user, loading, error] = useAuthState(firebase?.auth() ?? { onAuthStateChanged: (firebaseUser) => firebaseUser, currentUser: undefined })
-	const [snapshot, userDataLoading, userDataError] = useDocument(user?.uid ? firebase?.firestore()?.doc(`users/${user.uid}`) : null)
 
-	const dispatchToGlobalState = useCallback((user) => dispatch({ user }), [dispatch, user])
+	const dispatchToGlobalState = useCallback((user) => dispatch({ user }), [dispatch])
+
+	const signUp = async ({ email, password }: { email: string, password: string }) => {
+		try {
+			const token = await fetcher('/auth', { method: Method.Put, body: { email, password } })
+			const user = decodeToken(token)
+			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email })
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const login = async ({ email, password }: { email: string, password: string }) => {
+		try {
+			const token = await fetcher('/auth', { method: Method.Post, body: { email, password } })
+			const user = decodeToken(token)
+			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email })
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const logout = async () => {
+		try {
+			await fetcher('/auth', { method: Method.Delete, accessToken: state.user.accessToken })
+			dispatchToGlobalState({ accessToken: null, id: null, email: null })
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const refresh = async () => {
+		try {
+			const token = await fetcher('/auth')
+			const user = decodeToken(token)
+			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email })
+		} catch (error) {
+			console.error(error)
+		}
+	}
 
 	useEffect(() => {
-		if (!loading && !isEqual(state.user, user) && (!userDataLoading && !userDataError && snapshot?.data())) {
-			if (!user) {
-				dispatchToGlobalState({})
-			} else {
-				dispatchToGlobalState({
-					uid: user.uid,
-					email: user.email,
-					permissions: snapshot.data().permissions,
-					displayName: snapshot.data().displayName,
-				})
-			}
+		let refreshInterval = null as NodeJS.Timeout
+		if (!state.user.accessToken) {
+			refresh()
+		} else {
+			refreshInterval = setInterval(async () => {
+				if (state.user.accessToken) {
+					const { exp } = decodeToken(state.user.accessToken)
+					if (Math.round(exp - (60 * 2)) <= Math.round(Date.now() / 1000)) await refresh()
+				}
+			}, 30000)
 		}
-	}, [dispatchToGlobalState, user, firebase, snapshot])
 
-	return { user: state.user, userLoading: user !== undefined ? loading : true, userError: error }
+		return () => clearInterval(refreshInterval)
+	}, [state.user.accessToken])
+
+	return { user: state.user, signUp, login, logout, refresh }
 }

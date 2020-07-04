@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { Game } from 'types/Games'
 import { Game as IGDBGame } from 'types/IGDB'
 
-import { config } from 'config'
+import { config } from 'config.server'
 
 const root = [
 	'id',

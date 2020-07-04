@@ -1,22 +1,22 @@
 import { NextPage } from 'next'
-import Link from 'next/link'
+// import Link from 'next/link'
 import Head from 'next/head'
 
-import { useTestListActions, useTestList } from 'reducers/testList'
+// import { useTestListActions, useTestList } from 'reducers/testList'
 import { useCounter } from 'reducers/counter'
-import { useTestActions } from 'reducers/test'
+// import { useTestActions } from 'reducers/test'
 
-import { ButtonSolid } from 'components/Buttons'
-import { Input } from 'components/Fields'
-import { Form } from 'components/Form'
+// import { ButtonSolid } from 'components/Buttons'
+// import { Input } from 'components/Fields'
+// import { Form } from 'components/Form'
 import { Card } from 'components/Card'
 import { Page } from 'components/Page'
 
 const Projects: NextPage = () => {
 	const { count } = useCounter()
-	const { deleteTest } = useTestActions()
-	const { testList, testListLoading, testListError } = useTestList()
-	const { createTest } = useTestListActions()
+	// const { deleteTest } = useTestActions()
+	// const { testList, testListLoading, testListError } = useTestList()
+	// const { createTest } = useTestListActions()
 
 	return (
 		<>
@@ -30,13 +30,13 @@ const Projects: NextPage = () => {
 				</div>
 				<Card>
 					<h1>Create task</h1>
-					<Form form='createTest' onSubmit={(fields) => createTest(fields)}>
+					{/* <Form form='createTest' onSubmit={(fields) => createTest(fields)}>
 						<Input label='Title' name='title' type='text' required />
 						<Input label='Note' name='note' type='multiline' />
 						<ButtonSolid label='Create task' submit />
-					</Form>
+					</Form> */}
 				</Card>
-				{testListLoading && <p>Loading test example...</p>}
+				{/* {testListLoading && <p>Loading test example...</p>}
 				{testListError && <p>Error loading test: {testListError.message}</p>}
 				{testList && testList.map((test: { id: string, title: string, note: string }, index) => (
 					<Card key={index}>
@@ -47,7 +47,7 @@ const Projects: NextPage = () => {
 						</Link>
 						<ButtonSolid label='Delete test' onClick={() => deleteTest(test.id)} />
 					</Card>
-				))}
+				))} */}
 			</Page>
 		</>
 	)
