@@ -1,35 +1,37 @@
-import { useDocument } from 'react-firebase-hooks/firestore'
+export const useless = () => 1
 
-import { useAuthWrapper } from 'lib/useAuthWrapper'
-import { useFirebase } from 'lib/useFirebase'
+// import { useDocument } from 'react-firebase-hooks/firestore'
 
-export const useTest = (testId: string | string[]) => {
-	const { firebase } = useFirebase()
-	const authWrapper = useAuthWrapper(firebase)
-	const [snapshot, loading, error] = useDocument(firebase?.firestore()?.doc(`tests/${testId}`))
+// import { useAuthWrapper } from 'lib/useAuthWrapper'
+// import { useFirebase } from 'lib/useFirebase'
 
-	const updateTest = async (testId: string, body: Record<string, any>) => {
-		await authWrapper({ url: `/api/tests/${testId}`, method: 'PUT', body })
-	}
+// export const useTest = (testId: string | string[]) => {
+// 	const { firebase } = useFirebase()
+// 	const authWrapper = useAuthWrapper(firebase)
+// 	const [snapshot, loading, error] = useDocument(firebase?.firestore()?.doc(`tests/${testId}`))
 
-	const deleteTest = async (testId: string) => {
-		await authWrapper({ url: `/api/tests/${testId}`, method: 'DELETE' })
-	}
+// 	const updateTest = async (testId: string, body: Record<string, any>) => {
+// 		await authWrapper({ url: `/api/tests/${testId}`, method: 'PUT', body })
+// 	}
 
-	return { testData: snapshot?.data(), testLoading: loading, testError: error, updateTest, deleteTest }
-}
+// 	const deleteTest = async (testId: string) => {
+// 		await authWrapper({ url: `/api/tests/${testId}`, method: 'DELETE' })
+// 	}
 
-export const useTestActions = () => {
-	const { firebase } = useFirebase()
-	const authWrapper = useAuthWrapper(firebase)
+// 	return { testData: snapshot?.data(), testLoading: loading, testError: error, updateTest, deleteTest }
+// }
 
-	const updateTest = async (testId: string, body: Record<string, any>) => {
-		await authWrapper({ url: `/api/tests/${testId}`, method: 'PUT', body })
-	}
+// export const useTestActions = () => {
+// 	const { firebase } = useFirebase()
+// 	const authWrapper = useAuthWrapper(firebase)
 
-	const deleteTest = async (testId: string) => {
-		await authWrapper({ url: `/api/tests/${testId}`, method: 'DELETE' })
-	}
+// 	const updateTest = async (testId: string, body: Record<string, any>) => {
+// 		await authWrapper({ url: `/api/tests/${testId}`, method: 'PUT', body })
+// 	}
 
-	return { updateTest, deleteTest }
-}
+// 	const deleteTest = async (testId: string) => {
+// 		await authWrapper({ url: `/api/tests/${testId}`, method: 'DELETE' })
+// 	}
+
+// 	return { updateTest, deleteTest }
+// }

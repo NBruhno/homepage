@@ -1,18 +1,16 @@
-import useSWR from 'swr'
 import Head from 'next/head'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
-import { IGDBFetcher } from 'lib/fetcher'
-
+import { useGame } from 'reducers/games'
 import { Page } from 'components/Page'
 import { Detail } from 'components/Games/Detail'
 
 const GamePage: NextPage = () => {
 	const router = useRouter()
 	const { id } = router.query
-	const { data, error } = useSWR(id ? `/api/games/${id}` : null, IGDBFetcher, { revalidateOnFocus: false })
-	const isLoading = !data
+	const { game, error } = useGame(id)
+	const isLoading = !game
 
 	return (
 		<>
@@ -20,7 +18,7 @@ const GamePage: NextPage = () => {
 				<title>Game • Bruhno</title>
 			</Head>
 			<Page>
-				<Detail game={data} error={error} isLoading={isLoading} />
+				<Detail game={game} error={error} isLoading={isLoading} />
 			</Page>
 		</>
 	)

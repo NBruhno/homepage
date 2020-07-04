@@ -1,21 +1,23 @@
-import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { useAuthWrapper } from 'lib/useAuthWrapper'
-import { useFirebase } from 'lib/useFirebase'
+export const useless = () => 1
 
-export const useTestList = () => {
-	const { firebase } = useFirebase()
-	const [data, loading, error] = useCollectionData(firebase?.firestore()?.collection(`tests`))
+// import { useCollectionData } from 'react-firebase-hooks/firestore'
+// import { useAuthWrapper } from 'lib/useAuthWrapper'
+// import { useFirebase } from 'lib/useFirebase'
 
-	return { testList: data, testListLoading: loading, testListError: error }
-}
+// export const useTestList = () => {
+// 	const { firebase } = useFirebase()
+// 	const [data, loading, error] = useCollectionData(firebase?.firestore()?.collection(`tests`))
 
-export const useTestListActions = () => {
-	const { firebase } = useFirebase()
-	const authWrapper = useAuthWrapper(firebase)
+// 	return { testList: data, testListLoading: loading, testListError: error }
+// }
 
-	const createTest = async (body: Record<string, any>) => {
-		await authWrapper({ url: `/api/tests`, method: 'POST', body })
-	}
+// export const useTestListActions = () => {
+// 	const { firebase } = useFirebase()
+// 	const authWrapper = useAuthWrapper(firebase)
 
-	return { createTest }
-}
+// 	const createTest = async (body: Record<string, any>) => {
+// 		await authWrapper({ url: `/api/tests`, method: 'POST', body })
+// 	}
+
+// 	return { createTest }
+// }

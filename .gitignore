@@ -22,8 +22,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Environment Variables
-.env
-.env.build
+.env*
 
 # Automatically generated files
 /public/sitemap.xml

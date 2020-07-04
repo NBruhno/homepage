@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useState } from 'react'
 
-import { config } from 'config'
+import { config } from 'config.client'
 
 import { useAuth } from 'reducers/auth'
 
@@ -17,7 +17,7 @@ import { Menu } from './Menu'
 import { MenuItem } from './MenuItem'
 
 export const Navigation = (props: React.ComponentProps<'nav'>) => {
-	const { user, userLoading, userError } = useAuth()
+	const { user } = useAuth()
 	const [showMenu, setShowMenu] = useState(false)
 	const { state, dispatch } = useStore()
 
@@ -61,9 +61,7 @@ export const Navigation = (props: React.ComponentProps<'nav'>) => {
 					</Menu>
 				</MenuAnchor>
 				<NavLink>
-					{userLoading && <div>Loading user...</div>}
-					{userError && <div>Error loading user</div>}
-					{user && <div>{user.displayName}</div>}
+					{user ? <div>{user.email}</div> : <div>Loading user...</div>}
 				</NavLink>
 				<ButtonSolid
 					label={state.darkTheme ? 'Light theme' : 'Dark theme'}

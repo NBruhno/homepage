@@ -1,21 +1,21 @@
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
+// import { useRouter } from 'next/router'
 import Head from 'next/head'
 
 import { useCounter } from 'reducers/counter'
-import { useTest } from 'reducers/test'
+// import { useTest } from 'reducers/test'
 
-import { ButtonSolid } from 'components/Buttons'
-import { Input } from 'components/Fields'
-import { Form } from 'components/Form'
-import { Card } from 'components/Card'
+// import { ButtonSolid } from 'components/Buttons'
+// import { Input } from 'components/Fields'
+// import { Form } from 'components/Form'
+// import { Card } from 'components/Card'
 import { Page } from 'components/Page'
 
-const Test: NextPage = () => {
-	const router = useRouter()
-	const { id } = router.query
+const Project: NextPage = () => {
+	// const router = useRouter()
+	// const { id } = router.query
 	const { count } = useCounter()
-	const { testData, testLoading, testError, updateTest, deleteTest } = useTest(id)
+	// const { testData, testLoading, testError, updateTest, deleteTest } = useTest(id)
 
 	return (
 		<>
@@ -28,7 +28,7 @@ const Test: NextPage = () => {
 					<p>State count: {count}</p>
 				</div>
 				<div>
-					{testLoading && <p>Loading test example...</p>}
+					{/* {testLoading && <p>Loading test example...</p>}
 					{testError && <p>Error loading test: {testError.message}</p>}
 					{testData && (
 						<Card>
@@ -40,11 +40,11 @@ const Test: NextPage = () => {
 							</Form>
 							<ButtonSolid label='Delete task' onClick={() => deleteTest(testData.id)} />
 						</Card>
-					)}
+					)} */}
 				</div>
 			</Page>
 		</>
 	)
 }
 
-export default Test
+export default Project
