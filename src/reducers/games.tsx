@@ -16,7 +16,7 @@ export const useGames = () => {
 export const useGame = (id: string | Array<string>) => {
 	const { state } = useStore()
 
-	const { data, error } = useSWR(state.user.accessToken ? `/games/${id}` : null, (link) => fetcher(link, { accessToken: state.user.accessToken, method: Method.Post }), { revalidateOnFocus: false })
+	const { data, error } = useSWR(state.user.accessToken ? `/games/${id}` : null, (link) => fetcher(link, { accessToken: state.user.accessToken }), { revalidateOnFocus: false })
 
 	return { game: data, error }
 }

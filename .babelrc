@@ -4,14 +4,25 @@
     "@emotion/babel-preset-css-prop"
   ],
   "plugins": [
-    ["polished"]
+    [
+      "polished"
+    ]
   ],
   "env": {
     "production": {
-      "plugins": ["emotion"]
+      "plugins": [
+        "emotion"
+      ]
     },
     "development": {
-      "plugins": [["emotion", { "sourceMap": true }]]
+      "plugins": [
+        [
+          "emotion",
+          {
+            "sourceMap": true
+          }
+        ]
+      ]
     }
   }
 }

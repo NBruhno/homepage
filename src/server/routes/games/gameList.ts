@@ -1,14 +1,16 @@
 /* eslint-disable camelcase */
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { Game } from 'types/Games'
-import { Game as IGDBGame } from 'types/IGDB'
-import { authenticateAccessToken } from 'server/authenticateAccessToken'
-
 import { config } from 'config.server'
 
-export default async (req?: NextApiRequest, res?: NextApiResponse) => {
+import { Game as IGDBGame } from 'types/IGDB'
+import { Game } from 'types/Games'
+
+import { authenticateAccessToken } from 'server/authenticateAccessToken'
+
+export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
+
 	switch (method) {
 		case 'POST': {
 			try {

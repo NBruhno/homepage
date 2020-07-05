@@ -27,3 +27,5 @@ yarn-error.log*
 # Automatically generated files
 /public/sitemap.xml
 /.now
+
+.vercel

@@ -11,7 +11,7 @@ import { ButtonSolid } from 'components/Buttons'
 
 const Login: NextPage = () => {
 // const { data: user, error } = useSWR('/api/auth/profile', fetcher, { revalidateOnFocus: false, shouldRetryOnError: false })
-	const { signUp, login, logout } = useAuth()
+	const { register, login, logout } = useAuth()
 
 	return (
 		<>
@@ -30,7 +30,7 @@ const Login: NextPage = () => {
 				</Card>
 				<Card>
 					<h1>Sign-up form</h1>
-					<Form form='test' onSubmit={({ email, password }) => signUp({ email, password })}>
+					<Form form='test' onSubmit={({ email, password }) => register({ email, password })}>
 						<Input label='Email' name='email' type='email' required />
 						<Input label='Password' name='password' type='password' required />
 						<ButtonSolid label='Sign-up' submit />

@@ -1,7 +1,7 @@
 export const config = {
 	auth: {
-		publicKey: process.env.AUTH_PUBLIC_KEY.replace(/\\n/g, '\n'),
-		privateKey: process.env.AUTH_PRIVATE_KEY.replace(/\\n/g, '\n'),
+		publicKey: process.env.AUTH_PUBLIC_KEY,
+		privateKey: process.env.AUTH_PRIVATE_KEY,
 		secret: process.env.AUTH_SECRET,
 		refresh: {
 			publicKey: process.env.AUTH_REFRESH_PUBLIC_KEY,

@@ -2,14 +2,19 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
-export default async (req?: NextApiRequest, res?: NextApiResponse) => {
-	const { method, body, query: { coverId } } = req
+export const involvedList = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
+	const { method, body } = req
+
 	switch (method) {
 		case 'POST': {
+			if (!body || (!body?.size?.includes('small') && !body?.size?.includes('big'))) {
+				res.status(400).json(`Unknown size of "${body.size}" provided`)
+				break
+			}
 			try {
 				const response = await fetch('https://api-v3.igdb.com/involved_companies', {
 					method: 'POST',
-					body: `fields image_id; where id = ${coverId};`,
+					body: `fields image_id; where id = ${id};`,
 					headers: new Headers({
 						'user-key': config.igdb.userKey,
 						'Content-Type': 'text/plain',
@@ -26,8 +31,6 @@ export default async (req?: NextApiRequest, res?: NextApiResponse) => {
 			break
 		}
 
-		default: {
-			res.status(405).end(`Method ${method}`)
-		}
+		default: res.status(405).end()
 	}
 }
