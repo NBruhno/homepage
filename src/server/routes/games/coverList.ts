@@ -3,8 +3,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
-export default async (req?: NextApiRequest, res?: NextApiResponse) => {
+export const coverList = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
+
 	switch (method) {
 		case 'POST': {
 			if (!body?.coverIds?.[0]) {
@@ -38,8 +39,6 @@ export default async (req?: NextApiRequest, res?: NextApiResponse) => {
 			break
 		}
 
-		default: {
-			res.status(405).end(`Method ${method}`)
-		}
+		default: res.status(405).end()
 	}
 }

@@ -9,9 +9,9 @@ export const useAuth = () => {
 
 	const dispatchToGlobalState = useCallback((user) => dispatch({ user }), [dispatch])
 
-	const signUp = async ({ email, password }: { email: string, password: string }) => {
+	const register = async ({ email, password }: { email: string, password: string }) => {
 		try {
-			const token = await fetcher('/auth', { method: Method.Put, body: { email, password } })
+			const token = await fetcher('/auth/register', { method: Method.Post, body: { email, password } })
 			const user = decodeToken(token)
 			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email })
 		} catch (error) {
@@ -21,7 +21,7 @@ export const useAuth = () => {
 
 	const login = async ({ email, password }: { email: string, password: string }) => {
 		try {
-			const token = await fetcher('/auth', { method: Method.Post, body: { email, password } })
+			const token = await fetcher('/auth/login', { method: Method.Post, body: { email, password } })
 			const user = decodeToken(token)
 			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email })
 		} catch (error) {
@@ -31,7 +31,7 @@ export const useAuth = () => {
 
 	const logout = async () => {
 		try {
-			await fetcher('/auth', { method: Method.Delete, accessToken: state.user.accessToken })
+			await fetcher('/auth/logout', { method: Method.Post, accessToken: state.user.accessToken })
 			dispatchToGlobalState({ accessToken: null, id: null, email: null })
 		} catch (error) {
 			console.error(error)
@@ -40,7 +40,7 @@ export const useAuth = () => {
 
 	const refresh = async () => {
 		try {
-			const token = await fetcher('/auth')
+			const token = await fetcher('/auth/refresh')
 			const user = decodeToken(token)
 			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email })
 		} catch (error) {
@@ -64,5 +64,5 @@ export const useAuth = () => {
 		return () => clearInterval(refreshInterval)
 	}, [state.user.accessToken])
 
-	return { user: state.user, signUp, login, logout, refresh }
+	return { user: state.user, register, login, logout, refresh }
 }

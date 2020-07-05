@@ -57,10 +57,10 @@ const websites = [
 
 const fields = `fields ${[...root, ...cover, ...companies, ...releaseDates, ...platforms, ...engines, ...websites].join(', ')}`
 
-export default async (req?: NextApiRequest, res?: NextApiResponse) => {
-	const { method, query: { id } } = req
+export const game = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
+	const { method } = req
 	switch (method) {
-		case 'POST': {
+		case 'GET': {
 			try {
 				const response = await fetch('https://api-v3.igdb.com/games', {
 					method: 'POST',

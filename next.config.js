@@ -6,7 +6,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const withTranspileModules = require('next-transpile-modules')(['lodash-es'])
 
 module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModules({
-	target: 'serverless',
 	reactStrictMode: true,
 
 	transformManifest: (manifest) => ['/'].concat(manifest),
@@ -30,6 +29,11 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 				},
 			},
 		],
+	},
+
+	// TODO: Remove once this is no longer an experimental feature
+	experimental: {
+		optionalCatchAll: true,
 	},
 
 	webpack: (config) => {
