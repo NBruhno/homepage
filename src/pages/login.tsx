@@ -10,7 +10,6 @@ import { Input } from 'components/Fields'
 import { ButtonSolid } from 'components/Buttons'
 
 const Login: NextPage = () => {
-// const { data: user, error } = useSWR('/api/auth/profile', fetcher, { revalidateOnFocus: false, shouldRetryOnError: false })
 	const { register, login, logout } = useAuth()
 
 	return (
@@ -19,7 +18,6 @@ const Login: NextPage = () => {
 				<title>Login • Bruhno</title>
 			</Head>
 			<Page>
-				{/* <h1>{user?.id}</h1> */}
 				<Card>
 					<h1>Login form</h1>
 					<Form form='test' onSubmit={({ email, password }) => login({ email, password })}>
