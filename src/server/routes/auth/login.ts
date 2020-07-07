@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query } from 'faunadb'
 
 import { generateAccessToken, generateRefreshToken } from 'server/generateTokens'
-import { setRefreshCookie } from 'server/cookies'
+import { setRefreshCookie } from 'server/middleware'
 import { serverClient, faunaClient } from 'server/faunaClient'
 
 export const login = async (req: NextApiRequest, res: NextApiResponse) => {

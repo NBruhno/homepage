@@ -1,8 +1,8 @@
-import { useEffect, useCallback } from 'react'
+import { useCallback } from 'react'
 
-import { useStore } from 'lib/store'
-import { fetcher, Method } from 'lib/fetcher'
 import { decodeToken } from 'lib/decodeToken'
+import { fetcher, Method } from 'lib/fetcher'
+import { useStore } from 'lib/store'
 
 export const useAuth = () => {
 	const { state, dispatch } = useStore()
@@ -38,31 +38,5 @@ export const useAuth = () => {
 		}
 	}
 
-	const refresh = async () => {
-		try {
-			const token = await fetcher('/auth/refresh')
-			const user = decodeToken(token)
-			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email })
-		} catch (error) {
-			console.error(error)
-		}
-	}
-
-	useEffect(() => {
-		let refreshInterval = null as NodeJS.Timeout
-		if (!state.user.accessToken) {
-			refresh()
-		} else {
-			refreshInterval = setInterval(async () => {
-				if (state.user.accessToken) {
-					const { exp } = decodeToken(state.user.accessToken)
-					if (Math.round(exp - (60 * 2)) <= Math.round(Date.now() / 1000)) await refresh()
-				}
-			}, 30000)
-		}
-
-		return () => clearInterval(refreshInterval)
-	}, [state.user.accessToken])
-
-	return { user: state.user, register, login, logout, refresh }
+	return { user: state.user, register, login, logout }
 }

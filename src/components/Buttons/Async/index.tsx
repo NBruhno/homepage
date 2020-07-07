@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { ReactNode, useState, useEffect } from 'react'
 import { isFunction } from 'lodash-es'
 
 import { delay } from 'lib/delay'
@@ -8,7 +8,7 @@ import { ButtonLoading } from './ButtonLoading'
 export type Props = {
 	isLoading?: boolean,
 	isLoadingManual?: boolean,
-	label: string,
+	label: ReactNode,
 	minDelay?: number,
 	submit?: boolean,
 	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => any,

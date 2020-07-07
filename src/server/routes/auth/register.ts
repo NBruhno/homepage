@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query } from 'faunadb'
 
 import { generateRefreshToken, generateAccessToken } from 'server/generateTokens'
-import { setRefreshCookie } from 'server/cookies'
+import { setRefreshCookie } from 'server/middleware'
 import { serverClient } from 'server/faunaClient'
 
 export const register = async (req: NextApiRequest, res: NextApiResponse) => {

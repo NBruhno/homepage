@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { authenticateRefreshToken } from 'server/authenticateRefreshToken'
+import { authenticateRefreshToken, setRefreshCookie } from 'server/middleware'
 import { generateAccessToken, generateRefreshToken } from 'server/generateTokens'
-import { setRefreshCookie } from 'server/cookies'
 
 export const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, cookies } = req
