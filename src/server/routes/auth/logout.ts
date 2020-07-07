@@ -1,8 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query } from 'faunadb'
 
-import { authenticateAccessToken } from 'server/authenticateAccessToken'
-import { removeRefreshCookie } from 'server/cookies'
+import { authenticateAccessToken, removeRefreshCookie } from 'server/middleware'
 import { faunaClient } from 'server/faunaClient'
 
 export const logout = async (req: NextApiRequest, res: NextApiResponse) => {

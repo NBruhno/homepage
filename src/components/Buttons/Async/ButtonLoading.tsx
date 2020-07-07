@@ -5,7 +5,7 @@ import { Button } from './Button'
 import { LoaderWrapper } from './LoaderWrapper'
 
 type Props = {
-	label: string,
+	label: React.ReactNode,
 	submit?: boolean,
 	isLoading?: boolean,
 	isVisible?: boolean,

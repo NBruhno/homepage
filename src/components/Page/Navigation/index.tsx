@@ -3,11 +3,12 @@ import { useState } from 'react'
 
 import { config } from 'config.client'
 
-import { useAuth } from 'reducers/auth'
+import { useRefresh } from 'reducers/refresh'
 
 import { useStore } from 'lib/store'
 
-import { ButtonSolid } from 'components/Buttons'
+import { ButtonIcon } from 'components/Buttons'
+import { LightDarkModeIcon } from 'components/Icons'
 
 import { Header } from './Header'
 import { Placeholder } from './Placeholder'
@@ -17,7 +18,7 @@ import { Menu } from './Menu'
 import { MenuItem } from './MenuItem'
 
 export const Navigation = (props: React.ComponentProps<'nav'>) => {
-	const { user } = useAuth()
+	const { user } = useRefresh()
 	const [showMenu, setShowMenu] = useState(false)
 	const { state, dispatch } = useStore()
 
@@ -63,8 +64,8 @@ export const Navigation = (props: React.ComponentProps<'nav'>) => {
 				<NavLink>
 					{user ? <div>{user.email}</div> : <div>Loading user...</div>}
 				</NavLink>
-				<ButtonSolid
-					label={state.darkTheme ? 'Light theme' : 'Dark theme'}
+				<ButtonIcon
+					label={<LightDarkModeIcon />}
 					onClick={() => dispatch({ darkTheme: !state.darkTheme })}
 				/>
 			</Header>

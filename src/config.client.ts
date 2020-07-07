@@ -3,5 +3,5 @@ export const config = {
 		dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 	},
 
-	environment: process.env.NEXT_PUBLIC_NODE_ENV,
+	environment: process.env.NEXT_PUBLIC_ENVIRONMENT,
 }

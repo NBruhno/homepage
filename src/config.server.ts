@@ -16,13 +16,13 @@ export const config = {
 	},
 
 	fauna: {
-		secret: process.env.FAUNA_SECRET,
-		serverKey: process.env.FAUNA_SERVER_KEY,
+		secret: process.env.FAUNADB_SECRET,
+		serverKey: process.env.FAUNADB_SERVER_KEY,
 	},
 
 	igdb: {
 		userKey: process.env.IGDB_USER_KEY,
 	},
 
-	environment: process.env.NEXT_PUBLIC_NODE_ENV,
+	environment: process.env.NODE_ENV,
 }

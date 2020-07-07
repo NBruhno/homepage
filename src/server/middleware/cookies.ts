@@ -3,14 +3,13 @@ import { NextApiResponse, NextApiRequest } from 'next'
 
 import { config } from 'config.server'
 
-const maxAge = 60 * 60
-
 export const setRefreshCookie = (res: NextApiResponse, token: string) => {
-	const cookie = serialize('refreshToken', token, {
+	const expiration = Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3)
+	const cookie = serialize(config.environment !== 'development' ? '__Host-refreshToken' : 'refreshToken', token, {
 		sameSite: 'strict',
 		secure: config.environment !== 'development',
-		maxAge,
-		expires: new Date(Date.now() + (maxAge * 1000)),
+		maxAge: 60 * 60 * 24 * 3,
+		expires: new Date(expiration * 1000),
 		httpOnly: true,
 		path: '/',
 	})
@@ -19,7 +18,7 @@ export const setRefreshCookie = (res: NextApiResponse, token: string) => {
 }
 
 export const removeRefreshCookie = (res: NextApiResponse) => {
-	const cookie = serialize('refreshToken', '', {
+	const cookie = serialize(config.environment !== 'development' ? '__Host-refreshToken' : 'refreshToken', '', {
 		maxAge: -1,
 		path: '/',
 	})
@@ -36,5 +35,5 @@ export const parseCookies = (req: NextApiRequest) => {
 
 export const getRefreshCookie = (req: NextApiRequest) => {
 	const cookies = parseCookies(req)
-	return cookies['refreshToken']
+	return cookies[config.environment !== 'development' ? '__Host-refreshToken' : 'refreshToken']
 }

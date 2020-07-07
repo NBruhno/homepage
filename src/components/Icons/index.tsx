@@ -1,4 +1,4 @@
-import { mdiAlertCircle, mdiWindowClose } from '@mdi/js'
+import { mdiAlertCircle, mdiWindowClose, mdiThemeLightDark } from '@mdi/js'
 
 type Props = {
 	x?: number,
@@ -34,5 +34,12 @@ export const WindowCloseIcon = (props: Props) => (
 	<Svg {...props}>
 		<path fill='currentColor' d={mdiWindowClose} />
 		<title>Close</title>
+	</Svg>
+)
+
+export const LightDarkModeIcon = (props: Props) => (
+	<Svg {...props}>
+		<path fill='currentColor' d={mdiThemeLightDark} />
+		<title>Light/Dark mode</title>
 	</Svg>
 )
