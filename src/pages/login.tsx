@@ -20,17 +20,17 @@ const Login: NextPage = () => {
 			<Page>
 				<Card>
 					<h1>Login form</h1>
-					<Form form='test' onSubmit={({ email, password }) => login({ email, password })}>
-						<Input label='Email' name='email' type='email' required />
-						<Input label='Password' name='password' type='password' required />
+					<Form form='login' onSubmit={({ email, password }) => login({ email, password })}>
+						<Input label='Email' name='email' type='email' id='loginEmail' required />
+						<Input label='Password' name='password' type='password' id='loginPassword' required />
 						<ButtonSolid label='Login' submit />
 					</Form>
 				</Card>
 				<Card>
 					<h1>Sign-up form</h1>
-					<Form form='test' onSubmit={({ email, password }) => register({ email, password })}>
-						<Input label='Email' name='email' type='email' required />
-						<Input label='Password' name='password' type='password' required />
+					<Form form='register' onSubmit={({ email, password }) => register({ email, password })}>
+						<Input label='Email' name='email' type='email' id='registerEmail' required />
+						<Input label='Password' name='password' type='password' id='registerPassword' required />
 						<ButtonSolid label='Sign-up' submit />
 					</Form>
 				</Card>
