@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 
 import { config } from 'config.client'
 import { decodeToken } from 'lib/decodeToken'
@@ -7,6 +7,8 @@ import { useStore } from 'lib/store'
 
 export const useRefresh = () => {
 	const { state, dispatch } = useStore()
+	const [hasRefreshToken, setHasRefreshToken] = useState(false)
+	const isProduction = config.environment !== 'development'
 
 	const dispatchToGlobalState = useCallback((user) => dispatch({ user }), [dispatch])
 
@@ -21,16 +23,17 @@ export const useRefresh = () => {
 	}, [dispatchToGlobalState])
 
 	useEffect(() => {
-		let refreshInterval = null as NodeJS.Timeout
-
 		// Attempt to create a cookie with exactly the same name as the one meant to refresh
 		// If the cookie can be read afterwards, there is not refresh cookie, otherwise, refresh
 		const date = new Date()
 		date.setTime(date.getTime() + 1000)
-		const expires = `expires=${date.toUTCString()}`
 
-		document.cookie = `${config.environment !== 'development' ? '__Host-refreshToken' : 'refreshToken'}=new_value;path=/;${expires}`
-		const hasRefreshToken = document.cookie.indexOf(config.environment !== 'development' ? '__Host-refreshToken' : 'refreshToken') === -1
+		document.cookie = `${isProduction ? '__Host-refreshToken' : 'refreshToken'}=new_value;path=/;expires=${date.toUTCString()};${isProduction && 'secure;'}`
+		setHasRefreshToken(document.cookie.indexOf(isProduction ? '__Host-refreshToken' : 'refreshToken') === -1)
+	}, [state.user])
+
+	useEffect(() => {
+		let refreshInterval = null as NodeJS.Timeout
 
 		// Initial load
 		if (hasRefreshToken && !state.user.accessToken) {
@@ -40,7 +43,7 @@ export const useRefresh = () => {
 		// Start up an interval for getting a new access token if a refresh token is present
 		if (state.user.accessToken && hasRefreshToken) {
 			refreshInterval = setInterval(async () => {
-				if (state.user.accessToken) {
+				if (state.user.accessToken && hasRefreshToken) {
 					const { exp } = decodeToken(state.user.accessToken)
 					if (Math.round(exp - (60 * 2)) <= Math.round(Date.now() / 1000)) await refresh()
 				}
@@ -49,7 +52,7 @@ export const useRefresh = () => {
 
 		// Clear the interval when this hook is dismounted
 		return () => clearInterval(refreshInterval)
-	}, [state.user.accessToken, refresh])
+	}, [refresh, hasRefreshToken])
 
 	return { user: state.user, refresh }
 }
