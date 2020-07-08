@@ -65,6 +65,7 @@ export const Navigation = (props: React.ComponentProps<'nav'>) => {
 					{user ? <div>{user.email}</div> : <div>Loading user...</div>}
 				</NavLink>
 				<ButtonIcon
+					aria-label='theme switch'
 					label={<LightDarkModeIcon />}
 					onClick={() => dispatch({ darkTheme: !state.darkTheme })}
 				/>
