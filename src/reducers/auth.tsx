@@ -11,9 +11,9 @@ export const useAuth = () => {
 
 	const register = async ({ email, password }: { email: string, password: string }) => {
 		try {
-			const token = await fetcher('/auth/register', { method: Method.Post, body: { email, password } })
+			const token = await fetcher('/auth/register', { method: Method.Post, body: { email, password }, cacheControl: 'no-cache' })
 			const user = decodeToken(token)
-			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email })
+			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email, shouldRefresh: true })
 		} catch (error) {
 			console.error(error)
 		}
@@ -21,9 +21,9 @@ export const useAuth = () => {
 
 	const login = async ({ email, password }: { email: string, password: string }) => {
 		try {
-			const token = await fetcher('/auth/login', { method: Method.Post, body: { email, password } })
+			const token = await fetcher('/auth/login', { method: Method.Post, body: { email, password }, cacheControl: 'no-cache' })
 			const user = decodeToken(token)
-			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email })
+			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email, shouldRefresh: true })
 		} catch (error) {
 			console.error(error)
 		}
@@ -31,8 +31,8 @@ export const useAuth = () => {
 
 	const logout = async () => {
 		try {
-			await fetcher('/auth/logout', { method: Method.Post, accessToken: state.user.accessToken })
-			dispatchToGlobalState({ accessToken: null, id: null, email: null })
+			await fetcher('/auth/logout', { method: Method.Post, accessToken: state.user.accessToken, cacheControl: 'no-cache' })
+			dispatchToGlobalState({ accessToken: null, id: null, email: null, shouldRefresh: false })
 		} catch (error) {
 			console.error(error)
 		}

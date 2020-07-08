@@ -11,6 +11,7 @@ export const logout = async (req: NextApiRequest, res: NextApiResponse) => {
 		case 'POST': {
 			try {
 				const token = await authenticateAccessToken(req, res)
+				if (!token) break
 				if (!token.secret) {
 					res.status(200).end()
 					break
