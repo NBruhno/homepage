@@ -6,7 +6,7 @@ export const initialState: {
 	darkTheme: boolean,
 	user: {
 		accessToken?: string,
-
+		shouldRefresh: boolean,
 	},
 	test: Record<any, any>,
 	tests: Record<any, any>,
@@ -17,6 +17,7 @@ export const initialState: {
 	darkTheme: true,
 	user: {
 		accessToken: undefined,
+		shouldRefresh: false,
 	},
 
 	test: { data: undefined, loading: true, error: undefined },

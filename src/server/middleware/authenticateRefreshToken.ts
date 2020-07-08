@@ -21,7 +21,7 @@ export const authenticateRefreshToken = async (req: NextApiRequest, res: NextApi
 
 		return decodedToken
 	} catch (error) {
-		console.error(error)
 		res.status(500).json(error)
+		throw new Error(error)
 	}
 }
