@@ -11,11 +11,12 @@ type Props = {
 	header?: React.ReactNode,
 	isExpanded?: boolean,
 	isLoading?: boolean,
+	shouldAnimate?: boolean,
 }
 
-export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header }: Props) => (
+export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, shouldAnimate = true }: Props) => (
 	<Container>
-		<Collapse isOpen={isExpanded}>
+		<Collapse isOpen={isExpanded} transitionTime={shouldAnimate ? 0.2 : 0}>
 			<>
 				{isExpanded && hasError && <Error>Failed to load content</Error>}
 				{isExpanded && !hasError && isLoading && <Loader />}

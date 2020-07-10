@@ -1,11 +1,10 @@
-export const transitionTime = 0.3
-
 type Props = {
 	fill?: boolean,
+	transitionTime?: number,
 	isAnimated?: boolean,
 } & React.ComponentProps<'div'>
 
-const Container = ({ isAnimated, fill, ...rest }: Props) => (
+export const Container = ({ isAnimated, transitionTime, fill, ...rest }: Props) => (
 	<div
 		css={[
 			{
@@ -21,5 +20,3 @@ const Container = ({ isAnimated, fill, ...rest }: Props) => (
 		{...rest}
 	/>
 )
-
-export default Container

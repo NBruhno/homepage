@@ -2,16 +2,17 @@ import { useState, useContext, useEffect, useCallback } from 'react'
 
 import { useSize } from 'lib/useSize'
 
-import context from './context'
-import Container, { transitionTime } from './Container'
+import { context } from './context'
+import { Container } from './Container'
 
 type Props = {
 	children: React.ReactNode,
 	fill?: boolean,
 	isOpen?: boolean,
+	transitionTime?: number,
 }
 
-const Collapse = ({ children, isOpen = true, fill }: Props) => {
+const Collapse = ({ children, isOpen = true, fill, transitionTime = 0.2 }: Props) => {
 	// Toggle animation on/off when a child element is animating its height
 	const [isAnimated, setAnimated] = useState(true)
 	// Size of content
@@ -65,7 +66,7 @@ const Collapse = ({ children, isOpen = true, fill }: Props) => {
 	}
 
 	return (
-		<Container fill={fill} isAnimated={isAnimated} css={{ height: getHeight() }}>
+		<Container fill={fill} isAnimated={isAnimated} transitionTime={transitionTime} css={{ height: getHeight() }}>
 			<div ref={ref}>
 				<context.Provider value={onChildTransitionStart}>
 					{children}

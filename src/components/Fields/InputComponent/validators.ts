@@ -7,6 +7,7 @@ const messages = {
 		email: 'This does not look like an email',
 		tel: 'This is not a valid phone number',
 		number: 'This has to be a number',
+		password: 'Needs to be 14 to 64 characters long',
 	},
 }
 
@@ -33,6 +34,7 @@ const wrapFunction = (func: (value: any, allValues: any[], props: any) => any) =
 const typeValidators = {
 	email: wrapRegex(/^\S+@\S+\.\S+$/, messages.type.email),
 	tel: wrapRegex(/^[0-9]{8}$/, messages.type.tel),
+	password: wrapRegex(/^.{14,64}$/, messages.type.password),
 	number: wrapRegex(/^[0-9]*$/, messages.type.number),
 }
 
@@ -40,7 +42,7 @@ const composeValidators = (...validators: any[]) => (value: any) => validators.r
 
 export const validators = ({ required, validate, type }: { required: boolean, validate: boolean, type: string }) => composeValidators(
 	required ? validateRequired : returnUndefined,
-	((type === 'email' || type === 'tel' || type === 'number') && typeValidators[type]) || returnUndefined,
+	((type === 'email' || type === 'tel' || type === 'number' || type === 'password') && typeValidators[type]) || returnUndefined,
 	isRegExp(validate) ? wrapRegex(validate) : returnUndefined,
 	isFunction(validate) ? wrapFunction(validate) : returnUndefined,
 )

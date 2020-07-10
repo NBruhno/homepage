@@ -18,7 +18,7 @@ const Login: NextPage = () => {
 				<title>Login • Bruhno</title>
 			</Head>
 			<Page>
-				<Card>
+				<Card shouldAnimate={false}>
 					<h1>Login form</h1>
 					<Form form='login' onSubmit={({ email, password }) => login({ email, password })}>
 						<Input label='Email' name='email' type='email' id='loginEmail' required />
@@ -26,7 +26,7 @@ const Login: NextPage = () => {
 						<ButtonSolid label='Login' submit />
 					</Form>
 				</Card>
-				<Card>
+				<Card shouldAnimate={false}>
 					<h1>Sign-up form</h1>
 					<Form form='register' onSubmit={({ email, password }) => register({ email, password })}>
 						<Input label='Email' name='email' type='email' id='registerEmail' required />
