@@ -5,27 +5,30 @@ import { Button } from './Button'
 import { LoaderWrapper } from './LoaderWrapper'
 
 type Props = {
-	label: React.ReactNode,
-	submit?: boolean,
+	fullWidth?: boolean,
 	isLoading?: boolean,
 	isVisible?: boolean,
+	label: React.ReactNode,
+	submit?: boolean,
 } & React.ComponentProps<'button'>
 
 export const ButtonLoading = ({
-	ref,
 	disabled = false,
+	fullWidth = false,
 	isLoading = false,
 	isVisible = false,
 	label,
 	onClick,
+	ref,
 	submit = false,
 	...rest
 }: Props) => (
 	<Button
-		onClick={onClick}
 		disabled={disabled || isLoading || !isVisible}
-		type={submit ? 'submit' : 'button'}
+		fullWidth={fullWidth}
 		isVisible={isVisible}
+		onClick={onClick}
+		type={submit ? 'submit' : 'button'}
 		{...rest}
 	>
 		<LoaderWrapper isVisible={isLoading}>{isLoading && <ActivityIndicator />}</LoaderWrapper>

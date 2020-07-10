@@ -15,6 +15,8 @@ export const theme = (darkTheme = true) => ({
 		errorBackgroundHover: darkTheme ? 'hsl(0, 65%, 20%)' : 'hsl(0, 80%, 85%)',
 		background: darkTheme ? 'hsl(0, 0%, 20%)' : 'hsl(0, 0%, 98%)',
 		text: darkTheme ? 'hsl(0, 0%, 95%)' : 'hsl(0, 0%, 10%)',
+		textInverted: darkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 95%)',
+		border: darkTheme ? 'hsl(0, 0%, 25%)' : 'hsl(0, 0%, 85%)',
 
 		inputBackground: darkTheme ? 'hsl(0, 0%, 20%)' : 'hsl(0, 0%, 98%)',
 		inputBackgroundHover: darkTheme ? 'hsl(0, 0%, 23%)' : 'hsl(0, 0%, 96%)',
@@ -31,6 +33,9 @@ export const theme = (darkTheme = true) => ({
 		s90: '0.889em',
 		s80: '0.79em',
 		s70: '0.702em',
+	},
+	fontFamily: {
+		roboto: `'Roboto', sans-serif`,
 	},
 })
 

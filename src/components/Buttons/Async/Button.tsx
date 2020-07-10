@@ -1,9 +1,10 @@
 /* eslint-disable react/button-has-type */
 type Props = {
+	fullWidth?: boolean,
 	isVisible: boolean,
 } & React.ComponentProps<'button'>
 
-export const Button = ({ isVisible, ...rest }: Props) => (
+export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 	<button
 		css={{
 			backgroundColor: '#000',
@@ -14,10 +15,9 @@ export const Button = ({ isVisible, ...rest }: Props) => (
 			flexGrow: 0,
 			fontSize: '1rem',
 			height: '36px',
-			margin: '2px',
+			margin: '6px',
 			maxWidth: '100%',
 			minWidth: '72px',
-			overflow: 'hidden',
 			padding: '5px 30px',
 			position: 'relative',
 			textAlign: 'center',
@@ -27,6 +27,7 @@ export const Button = ({ isVisible, ...rest }: Props) => (
 			verticalAlign: 'middle',
 			visibility: isVisible ? 'visible' : 'hidden',
 			whiteSpace: 'nowrap',
+			width: fullWidth ? '100%' : 'auto',
 
 			'&:first-of-type': {
 				marginLeft: 0,

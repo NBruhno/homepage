@@ -6,6 +6,7 @@ import { delay } from 'lib/delay'
 import { ButtonLoading } from './ButtonLoading'
 
 export type Props = {
+	fullWidth?: boolean,
 	isLoading?: boolean,
 	isLoadingManual?: boolean,
 	label: ReactNode,
@@ -15,12 +16,13 @@ export type Props = {
 } & React.ComponentProps<'button'>
 
 export const ButtonAsync = ({
-	label,
-	onClick,
 	isLoading = false,
 	isLoadingManual,
+	label,
 	minDelay = 0,
+	onClick,
 	submit,
+	fullWidth = false,
 	...rest
 }: Props) => {
 	const [isLoadingInternal, setInternalLoading] = useState(false)
@@ -70,6 +72,7 @@ export const ButtonAsync = ({
 			isVisible={!isLoading}
 			label={label}
 			onClick={(event) => handleClick(event)}
+			fullWidth={fullWidth}
 			submit={submit}
 			{...rest}
 		/>

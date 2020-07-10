@@ -18,7 +18,7 @@ export const DefaultInputStyle = ({ theme, hasError, disabled }: Props) => css({
 	width: 'calc(100% - 14px)',
 	borderRadius: '4px',
 	border: `2px solid ${hasError ? theme.color.error : theme.color.inputBorder}`,
-	transition: 'border 150ms ease, box-shadow 150ms ease',
+	transition: 'border 135ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 135ms cubic-bezier(0.4, 0, 0.2, 1)',
 	WebkitTapHighlightColor: 'transparent',
 	outline: 0,
 
