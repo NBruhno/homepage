@@ -19,7 +19,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 			break
 		}
 
-		case 'PUT': {
+		case 'PATCH': {
 			const { secret, otp } = body
 			const token = await authenticateAccessToken(req, res)
 			if (!token) break

@@ -16,7 +16,7 @@ type Props = {
 	value?: string,
 }
 
-export const StaticComponent = ({ label, hint, value, rows = 1, maxRows, id: manualId, fullWidth }: Props) => {
+export const Static = ({ label, hint, value, rows = 1, maxRows, id: manualId, fullWidth }: Props) => {
 	const uniqueId = `${label}`
 	const formattedValue = value === null || value === undefined
 		? '–'

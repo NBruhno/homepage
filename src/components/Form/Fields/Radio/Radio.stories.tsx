@@ -4,9 +4,9 @@ import { action } from '@storybook/addon-actions'
 import { Form } from 'components/Form'
 import { ButtonSolid } from 'components/Buttons'
 
-import { Checkbox } from '..'
+import { Radio } from '.'
 
-storiesOf('Fields/Checkbox', module)
+storiesOf('Fields/Radio', module)
 	.addDecorator((story) => (
 		<div css={{ maxWidth: '400px', padding: '12px' }}>
 			<Form form='select' onSubmit={action('submit')}>
@@ -15,4 +15,4 @@ storiesOf('Fields/Checkbox', module)
 			</Form>
 		</div>
 	))
-	.add('Default', () => (<Checkbox name='Checkbox' label='Checkbox' />))
+	.add('Default', () => (<Radio name='radio' options={[{ label: 'One', value: 1 }, { label: 'Two', value: 2 }, { label: 'Three', value: 3 }]} />))

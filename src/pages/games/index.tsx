@@ -6,7 +6,7 @@ import { useGames } from 'reducers/games'
 import { Form } from 'components/Form'
 import { Page } from 'components/Page'
 import { GameList } from 'components/Games/List'
-import { Input } from 'components/Fields'
+import { Input } from 'components/Form/Fields/Input'
 
 const Games: NextPage = () => {
 	const { games, error, setQuery } = useGames()

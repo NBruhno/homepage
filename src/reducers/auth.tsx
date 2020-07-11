@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
 import { decodeToken } from 'lib/decodeToken'
 import { fetcher, Method } from 'lib/fetcher'
@@ -6,6 +6,7 @@ import { useStore } from 'lib/store'
 
 export const useAuth = () => {
 	const { state, dispatch } = useStore()
+	const [userInfo, setUserInfo] = useState<{ exists: boolean, email: string } | null>(null)
 
 	const dispatchToGlobalState = useCallback((user) => dispatch({ user }), [dispatch])
 
@@ -50,6 +51,15 @@ export const useAuth = () => {
 		}
 	}
 
+	const check = async ({ email }: { email: string }) => {
+		try {
+			const { userExists } = await fetcher('/auth/check', { body: { email }, method: Method.Post, cacheControl: 'no-cache' })
+			setUserInfo({ exists: userExists, email })
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
 	const initialize2fa = async () => {
 		try {
 			const secret = await fetcher('/auth/2fa', { accessToken: state.user.accessToken, cacheControl: 'no-cache' })
@@ -63,7 +73,7 @@ export const useAuth = () => {
 		try {
 			await fetcher('/auth/2fa', {
 				body: { secret: state.user.secret, otp },
-				method: Method.Put,
+				method: Method.Patch,
 				accessToken: state.user.accessToken,
 				cacheControl: 'no-cache',
 			})
@@ -82,11 +92,11 @@ export const useAuth = () => {
 			})
 
 			const user = decodeToken(accessToken)
-			dispatchToGlobalState({ accessToken, id: user.sub, email: user.email, shouldRefresh: true })
+			dispatchToGlobalState({ accessToken, id: user.sub, email: user.email, shouldRefresh: true, intermediateToken: null })
 		} catch (error) {
 			console.error(error)
 		}
 	}
 
-	return { user: state.user, register, login, logout, initialize2fa, register2fa, verify2fa }
+	return { user: state.user, userInfo, check, register, login, logout, initialize2fa, register2fa, verify2fa }
 }

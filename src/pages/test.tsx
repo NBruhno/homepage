@@ -3,7 +3,13 @@ import Head from 'next/head'
 
 import { Page } from 'components/Page'
 import { Form } from 'components/Form'
-import { Toggle, Checkbox, Input, Radio, Static, Select } from 'components/Fields'
+
+import { Checkbox } from 'components/Form/Fields/Checkbox'
+import { Input } from 'components/Form/Fields/Input'
+import { Radio } from 'components/Form/Fields/Radio'
+import { Select } from 'components/Form/Fields/Select'
+import { Static } from 'components/Form/Fields/Static'
+import { Toggle } from 'components/Form/Fields/Toggle'
 
 const Test: NextPage = () => (
 	<>

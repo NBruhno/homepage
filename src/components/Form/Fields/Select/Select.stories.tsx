@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions'
 import { Form } from 'components/Form'
 import { ButtonSolid } from 'components/Buttons'
 
-import { Select } from '..'
+import { Select } from '.'
 
 storiesOf('Fields/Select', module)
 	.addDecorator((story) => (

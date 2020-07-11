@@ -7,7 +7,7 @@ import { FieldWrapper } from '../FieldWrapper'
 import { LabelContainer } from '../LabelContainer'
 
 import { Checkbox } from './Checkbox'
-import { Toggle } from './Toggle'
+import { ToggleComponent } from './ToggleComponent'
 
 type Props = {
 	label: string,
@@ -22,7 +22,7 @@ type Props = {
 	parse?: (value: any, name: string) => any,
 }
 
-export const ToggleComponent = ({
+export const Toggle = ({
 	parse = (value: any) => value || false, fullWidth = true,
 	label, hint, disabled, name, format, id = name,
 }: Props) => {
@@ -51,7 +51,7 @@ export const ToggleComponent = ({
 					disabled={disabled}
 					checked={input.value}
 				/>
-				<Toggle checked={input.value} disabled={disabled} focus={meta.active} />
+				<ToggleComponent checked={input.value} disabled={disabled} focus={meta.active} />
 				<LabelContainer>
 					<div>{label}</div>
 					{hint && <Hint>{hint}</Hint>}
@@ -60,5 +60,3 @@ export const ToggleComponent = ({
 		</FieldWrapper>
 	)
 }
-
-export default ToggleComponent
