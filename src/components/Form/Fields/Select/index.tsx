@@ -11,7 +11,7 @@ import { Hint } from '../Hint'
 import { MenuAnchor } from './MenuAnchor'
 import { validators } from './validators'
 import { MenuItem } from './MenuItem'
-import { Select } from './Select'
+import { SelectComponent } from './SelectComponent'
 import { Menu } from './Menu'
 
 type Props = {
@@ -38,7 +38,7 @@ type Props = {
 
 const itemToString = (item: any) => (item || '')
 
-export const SelectComponent = ({
+export const Select = ({
 	optionalHint = true, fullWidth = true, required = false, enableValidate = true,
 	disabled, name, format, parse = (value) => value || null, label,
 	hint, placeholder, multiple, options, id = name,
@@ -83,7 +83,7 @@ export const SelectComponent = ({
 							{hint && <Hint htmlFor={id}>{hint}</Hint>}
 						</LabelContainer>
 						<MenuAnchor>
-							<Select {...getInputProps({ name: input.name, placeholder })} onFocus={input.onFocus} onBlur={input.onBlur} hasError={hasError} disabled={disabled} id={id} />
+							<SelectComponent {...getInputProps({ name: input.name, placeholder })} onFocus={input.onFocus} onBlur={input.onBlur} hasError={hasError} disabled={disabled} id={id} />
 							<Menu hasError={hasError} {...getMenuProps()} isOpen={isOpen && Boolean(filteredOptions.length)}>
 								{filteredOptions.map(({ value, label: optionLabel }, index: number) => (
 									<MenuItem {...getItemProps({ key: value, index, item: value })} highlightedIndex={highlightedIndex} selectedItem={selectedItem}>

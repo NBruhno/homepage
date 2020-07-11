@@ -1,6 +1,0 @@
-export { CheckboxComponent as Checkbox } from './CheckboxComponent'
-export { InputComponent as Input } from './InputComponent'
-export { RadioComponent as Radio } from './RadioComponent'
-export { SelectComponent as Select } from './SelectComponent'
-export { StaticComponent as Static } from './StaticComponent'
-export { ToggleComponent as Toggle } from './ToggleComponent'

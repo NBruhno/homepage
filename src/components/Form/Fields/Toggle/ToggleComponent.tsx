@@ -6,7 +6,7 @@ type Props = {
 	focus?: boolean,
 }
 
-export const Toggle = ({ checked, disabled, focus }: Props) => {
+export const ToggleComponent = ({ checked, disabled, focus }: Props) => {
 	const backgroundColor = (theme: Theme) => {
 		if (disabled) {
 			return checked ? theme.color.primaryLight : lighten(0.075, theme.color.gray)

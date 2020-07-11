@@ -10,7 +10,7 @@ import { Hint } from '../Hint'
 
 import { RadioCircle } from './RadioCircle'
 import { validators } from './validators'
-import { Radio } from './Radio'
+import { RadioComponent } from './RadioComponent'
 
 type Props = {
 	name: string,
@@ -26,7 +26,7 @@ type Props = {
 	parse?: (value: any, name: string) => any,
 }
 
-export const RadioComponent = ({
+export const Radio = ({
 	parse = (value) => value || null, required = false, fullWidth = true, enableValidate = true,
 	options, disabled, name, format, id = name,
 }: Props) => {
@@ -63,7 +63,7 @@ export const RadioComponent = ({
 				const checked = value === input.value
 				return (
 					<RowLabel htmlFor={`${index}-${id}`} css={{ paddingBottom: '12px', marginBottom: 0 }} key={index}>
-						<Radio
+						<RadioComponent
 							{...input}
 							id={`${index}-${id}`}
 							type='radio'
@@ -91,5 +91,3 @@ export const RadioComponent = ({
 		</FieldWrapper>
 	)
 }
-
-export default RadioComponent

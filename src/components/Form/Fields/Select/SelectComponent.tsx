@@ -4,7 +4,7 @@ type Props = {
 	hasError: boolean,
 } & React.ComponentProps<'input'>
 
-export const Select = ({ hasError, disabled, ...rest }: Props) => (
+export const SelectComponent = ({ hasError, disabled, ...rest }: Props) => (
 	<input
 		css={(theme: Theme) => ({
 			...DefaultInputStyle({ hasError, disabled, theme }),

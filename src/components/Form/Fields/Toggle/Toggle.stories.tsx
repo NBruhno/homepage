@@ -4,9 +4,9 @@ import { action } from '@storybook/addon-actions'
 import { Form } from 'components/Form'
 import { ButtonSolid } from 'components/Buttons'
 
-import { Radio } from '..'
+import { Toggle } from '.'
 
-storiesOf('Fields/Radio', module)
+storiesOf('Fields/Toggle', module)
 	.addDecorator((story) => (
 		<div css={{ maxWidth: '400px', padding: '12px' }}>
 			<Form form='select' onSubmit={action('submit')}>
@@ -15,4 +15,4 @@ storiesOf('Fields/Radio', module)
 			</Form>
 		</div>
 	))
-	.add('Default', () => (<Radio name='radio' options={[{ label: 'One', value: 1 }, { label: 'Two', value: 2 }, { label: 'Three', value: 3 }]} />))
+	.add('Default', () => (<Toggle name='Toggle' label='Toggle' />))

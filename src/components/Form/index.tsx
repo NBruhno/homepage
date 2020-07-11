@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Form as FinalForm, FormSpy } from 'react-final-form'
 import { SubmissionErrors, FormApi } from 'final-form'
 
-import useForm from 'reducers/form'
+import { useForm } from 'reducers/form'
 
 const onPersistState = (
 	values: object, valid: boolean, formName: string, persistState: string | boolean,

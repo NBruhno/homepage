@@ -4,9 +4,9 @@ import { action } from '@storybook/addon-actions'
 import { Form } from 'components/Form'
 import { ButtonSolid } from 'components/Buttons'
 
-import { Toggle } from '..'
+import { Checkbox } from '.'
 
-storiesOf('Fields/Toggle', module)
+storiesOf('Fields/Checkbox', module)
 	.addDecorator((story) => (
 		<div css={{ maxWidth: '400px', padding: '12px' }}>
 			<Form form='select' onSubmit={action('submit')}>
@@ -15,4 +15,4 @@ storiesOf('Fields/Toggle', module)
 			</Form>
 		</div>
 	))
-	.add('Default', () => (<Toggle name='Toggle' label='Toggle' />))
+	.add('Default', () => (<Checkbox name='Checkbox' label='Checkbox' />))

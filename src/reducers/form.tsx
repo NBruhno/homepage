@@ -1,6 +1,6 @@
 import { useStore } from 'lib/store'
 
-const useForm = () => {
+export const useForm = () => {
 	const { state, dispatch } = useStore()
 	return {
 		form: state.form,
@@ -8,5 +8,3 @@ const useForm = () => {
 		reset: (formName: string) => dispatch({ form: { [formName]: null } }),
 	}
 }
-
-export default useForm

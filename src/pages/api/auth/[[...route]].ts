@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { login, logout, register, refresh, twoFactorAuthentication } from 'server/routes/auth'
+import { login, logout, register, refresh, twoFactorAuthentication, check } from 'server/routes/auth'
 import { ApiError } from 'server/errors/ApiError'
 
 const auth = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { query: { route } } = req
 
-	if (!route) {
+	if (!route) { // /auth
 		res.status(400).end()
 		return
 	}
@@ -14,28 +14,32 @@ const auth = async (req: NextApiRequest, res: NextApiResponse) => {
 	const [location] = route
 
 	switch (location) {
-		case 'login': {
+		case 'login': { // /auth/login
 			await login(req, res)
 			break
 		}
-		case 'register': {
+		case 'register': { // /auth/register
 			await register(req, res)
 			break
 		}
-		case 'logout': {
+		case 'logout': { // /auth/logout
 			await logout(req, res)
 			break
 		}
-		case 'refresh': {
+		case 'refresh': { // /auth/refresh
 			await refresh(req, res)
 			break
 		}
-		case '2fa': {
+		case '2fa': { // /auth/2fa
 			await twoFactorAuthentication(req, res)
 			break
 		}
+		case 'check': { // /auth/check
+			await check(req, res)
+			break
+		}
 		default: {
-			const error = ApiError.fromCode(405)
+			const error = ApiError.fromCode(404)
 			res.status(error.statusCode).json({ error: error.message })
 			throw error
 		}

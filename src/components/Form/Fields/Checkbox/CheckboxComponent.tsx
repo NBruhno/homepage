@@ -1,4 +1,4 @@
-export const Radio = (props: React.ComponentProps<'input'>) => (
+export const CheckboxComponent = (props: React.ComponentProps<'input'>) => (
 	<input
 		css={{
 			position: 'absolute',

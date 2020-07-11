@@ -9,7 +9,7 @@ import { Hint } from '../Hint'
 import { HintContainer } from './HintContainer'
 import { validators } from './validators'
 import { Textarea } from './Textarea'
-import { Input } from './Input'
+import { InputComponent } from './InputComponent'
 
 type InputProps = {
 	name: string,
@@ -37,7 +37,7 @@ type InputProps = {
 	format?: (value: any, name: string) => any,
 }
 
-export const InputComponent = ({
+export const Input = ({
 	optionalHint = true, fullWidth = true, required = false, rows = 3, enableValidate = true, type = 'text',
 	disabled, maxRows, minLength, maxLength, name, format, validate, autoComplete = 'off', id= name,
 	parse = (value) => value || null, label, hint, placeholder, autofocus, pattern,
@@ -93,7 +93,7 @@ export const InputComponent = ({
 						async
 					/>
 				) : (
-					<Input
+					<InputComponent
 						{...input}
 						{...defaultProps}
 					/>

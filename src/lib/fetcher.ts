@@ -1,13 +1,14 @@
 export enum ContentType {
 	Text = 'text/plain',
-	JSON = 'application/json'
+	JSON = 'application/json',
 }
 
 export enum Method {
 	Put = 'PUT',
 	Post = 'POST',
 	Get = 'GET',
-	Delete = 'DELETE'
+	Delete = 'DELETE',
+	Patch = 'PATCH',
 }
 
 export type Options = {

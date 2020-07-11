@@ -6,7 +6,7 @@ import { FieldWrapper } from '../FieldWrapper'
 import { RowLabel } from '../RowLabel'
 import { Hint } from '../Hint'
 
-import { Checkbox } from './Checkbox'
+import { CheckboxComponent } from './CheckboxComponent'
 import { CheckMark } from './CheckMark'
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
 	parse?: (value: any, name: string) => any,
 }
 
-export const CheckboxComponent = ({
+export const Checkbox = ({
 	parse = (value) => value || false, fullWidth = true,
 	label, hint, disabled, name, format, id = name,
 }: Props) => {
@@ -44,7 +44,7 @@ export const CheckboxComponent = ({
 	return (
 		<FieldWrapper fullWidth={fullWidth}>
 			<RowLabel htmlFor={id}>
-				<Checkbox
+				<CheckboxComponent
 					{...input}
 					checked={input.value || false}
 					id={id}
