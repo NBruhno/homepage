@@ -18,26 +18,27 @@ export type Options = {
 	credentials?: RequestCredentials,
 	mode?: RequestMode,
 	cacheControl?: string,
+	absoluteUrl?: string,
 }
 
 /**
- * Helper function for fetching resources using `useSWR()` or as a normal fetch.
+ * Helper function for fetching resources using `useSWR()` or as a normal fetch. Default method is GET.
  * @param url - the resource to fetch.
  * @param options - a set of options to transform the fetch call.
  * @example
  * ```tsx
- * const { data: test, error } = useSWR('/api/tests', fetcher)
+ * const { data: test, error } = useSWR('/tests', fetcher)
  * ```
  * @example
  * ```tsx
- * fetcher('api/tests', { method: Method.Post })
+ * fetcher('/tests', { method: Method.Post })
  * ```
  */
 export const fetcher = async (
 	url: string, {
-		accessToken, body, method = Method.Get, contentType = ContentType.JSON,
+		accessToken, body, method = Method.Get, contentType = ContentType.JSON, absoluteUrl,
 		credentials = 'same-origin', mode = 'cors', cacheControl = 's-maxage=60, stale-while-revalidate',
-	}: Options = {}) => fetch(url ? `/api${url}` : null, {
+	}: Options = {}) => fetch(url ? `${absoluteUrl ?? ''}/api${url}` : null, {
 	method,
 	body: body ? JSON.stringify(body) : undefined,
 	headers: new Headers({

@@ -1,3 +1,9 @@
+export enum TokenTypes {
+	Refresh = 'refresh',
+	Intermediate = 'intermediate',
+	Access = 'access',
+}
+
 export type Token = {
 	aud: Array<string>,
 	email: string,
@@ -8,4 +14,5 @@ export type Token = {
 	nbf: number,
 	secret: string,
 	sub: string,
+	type: TokenTypes,
 }

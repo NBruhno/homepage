@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query } from 'faunadb'
 
-import { generateAccessToken, generateRefreshToken } from 'server/generateTokens'
+import { generateAccessToken, generateRefreshToken, generateIntermediateToken } from 'server/generateTokens'
 import { setRefreshCookie } from 'server/middleware'
+import { ApiError } from 'server/errors/ApiError'
 import { serverClient, faunaClient } from 'server/faunaClient'
 
 export const login = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -10,38 +11,50 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (method) {
 		case 'POST': {
-			try {
-				if (!email || !password) {
-					res.status(400).json('Please provide both an email and a password')
-					break
-				}
+			if (!email || !password) {
+				const error = ApiError.fromCode(400)
+				res.status(error.statusCode).json({ error: error.message })
+				throw error
+			}
 
-				const loginRes: { secret: string } = await serverClient.query(
-					query.Login(query.Match(query.Index('users_by_email'), email), {
-						password,
-					}),
-				)
+			const loginRes: { secret: string } = await serverClient.query(
+				query.Login(query.Match(query.Index('users_by_email'), email), {
+					password,
+				}),
+			)
 
-				if (!loginRes.secret) {
-					res.status(401).end('Failed to login with the provided email and/or password')
-					break
-				}
+			if (!loginRes.secret) {
+				const error = ApiError.fromCode(401)
+				res.status(error.statusCode).json({ error: error.message })
+				throw error
+			}
 
-				const { id }: { id: string } = await faunaClient(loginRes.secret).query(query.Identity())
+			const { id }: { id: string } = await faunaClient(loginRes.secret).query(query.Identity())
 
+			const user: { data: Record<string, any> } = await faunaClient(loginRes.secret).query(
+				query.Get(query.Match(query.Index('users_by_email'), email)),
+			)
+
+			if (user.data.twoFactorSecret) {
+				const intermediateToken = generateIntermediateToken(loginRes.secret, { email, sub: id })
+
+				res.status(200).json({ intermediateToken })
+				break
+			} else {
 				const accessToken = generateAccessToken(loginRes.secret, { email, sub: id })
 				const refreshToken = generateRefreshToken(loginRes.secret, { email, sub: id })
 
 				setRefreshCookie(res, refreshToken)
 
-				res.setHeader('Content-Type', 'text/plain')
-				res.status(200).send(accessToken)
-			} catch (error) {
-				res.status(500).json(error)
-				throw new Error(error)
+				res.status(200).json({ accessToken })
+				break
 			}
-			break
 		}
-		default: res.status(405).end()
+
+		default: {
+			const error = ApiError.fromCode(405)
+			res.status(error.statusCode).json({ error: error.message })
+			throw error
+		}
 	}
 }

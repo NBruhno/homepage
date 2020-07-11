@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { game, gameList, cover, coverList, involved, involvedList } from 'server/routes/games'
-import { authenticateAccessToken } from 'server/middleware'
 
 const auth = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { query: { route } } = req
@@ -10,8 +9,6 @@ const auth = async (req: NextApiRequest, res: NextApiResponse) => {
 		await gameList(req, res)
 		return
 	}
-
-	await authenticateAccessToken(req, res)
 
 	const [gameId, resource, resourceId] = route
 

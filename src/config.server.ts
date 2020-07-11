@@ -7,12 +7,14 @@ const authRefreshPrivateKey = 'TpROinam5LnGmiVazWPHZeXDHSjAV450ZGf1WIFCjxFoqyIMF
 
 export const config = {
 	auth: {
+		iv: process.env.AUTH_IV,
 		publicKey: decryptConfig(authPublicKey),
 		privateKey: decryptConfig(authPrivateKey),
 		refresh: {
 			publicKey: decryptConfig(authRefreshPublicKey),
 			privateKey: decryptConfig(authRefreshPrivateKey),
 		},
+		secret: process.env.AUTH_SECRET,
 	},
 
 	fauna: {

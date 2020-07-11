@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query } from 'faunadb'
 
 import { authenticateAccessToken, removeRefreshCookie } from 'server/middleware'
+import { ApiError } from 'server/errors/ApiError'
 import { faunaClient } from 'server/faunaClient'
 
 export const logout = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -9,27 +10,27 @@ export const logout = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (method) {
 		case 'POST': {
-			try {
-				const token = await authenticateAccessToken(req, res)
-				if (!token) break
-				if (!token.secret) {
-					res.status(200).end()
-					break
-				}
-
-				await faunaClient(token.secret).query(query.Logout(false))
-
-				removeRefreshCookie(res)
-
+			const token = await authenticateAccessToken(req, res)
+			if (!token?.secret) {
 				res.setHeader('Content-Type', 'text/plain')
-				res.status(200).end()
-			} catch (error) {
-				res.status(500).json(error)
-				throw new Error(error)
+				res.status(200).send('')
+				removeRefreshCookie(res)
+				break
 			}
+
+			await faunaClient(token.secret).query(query.Logout(false))
+
+			removeRefreshCookie(res)
+
+			res.setHeader('Content-Type', 'text/plain')
+			res.status(200).send('')
 			break
 		}
 
-		default: res.status(405).end()
+		default: {
+			const error = ApiError.fromCode(405)
+			res.status(error.statusCode).json({ error: error.message })
+			throw error
+		}
 	}
 }
