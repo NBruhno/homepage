@@ -5,7 +5,7 @@ import { StoreProvider } from 'lib/store'
 import { Theme } from 'lib/theming'
 import { config } from 'config.client'
 
-import { Grid, Header, Main, Footer, Navigation } from 'components/Page'
+import { Grid, Header, Main, Footer, Navigation } from 'components/Pages/App'
 
 if (config.environment === 'production') {
 	init({

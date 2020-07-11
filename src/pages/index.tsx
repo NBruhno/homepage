@@ -3,7 +3,7 @@ import Head from 'next/head'
 
 import { useCounter } from 'reducers/counter'
 
-import { Page } from 'components/Page'
+import { Page } from 'components/Pages/Layout/Page'
 import { ButtonSolid } from 'components/Buttons'
 
 type Props = {

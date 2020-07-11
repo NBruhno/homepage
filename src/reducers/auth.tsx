@@ -98,5 +98,5 @@ export const useAuth = () => {
 		}
 	}
 
-	return { user: state.user, userInfo, check, register, login, logout, initialize2fa, register2fa, verify2fa }
+	return { user: state.user, userInfo, check, register, login, logout, initialize2fa, register2fa, verify2fa, setUserInfo }
 }

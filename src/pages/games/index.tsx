@@ -3,10 +3,10 @@ import Head from 'next/head'
 
 import { useGames } from 'reducers/games'
 
-import { Form } from 'components/Form'
-import { Page } from 'components/Page'
+import { Form } from 'components/Forms'
+import { Page } from 'components/Pages'
 import { GameList } from 'components/Games/List'
-import { Input } from 'components/Form/Fields/Input'
+import { Input } from 'components/Forms/Fields/Input'
 
 const Games: NextPage = () => {
 	const { games, error, setQuery } = useGames()
