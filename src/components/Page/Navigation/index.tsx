@@ -21,7 +21,7 @@ export const Navigation = (props: React.ComponentProps<'nav'>) => {
 	return (
 		<Sidebar {...props}>
 			<NavLink>
-				{user ? <div>{user.email}</div> : <div>Loading user...</div>}
+				{user?.email ? <div>{user.email}</div> : <div>Not logged in</div>}
 			</NavLink>
 			<Link href='/' passHref>
 				<NavLink active={pathname === '/'}>Home</NavLink>
