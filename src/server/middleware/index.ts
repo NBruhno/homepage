@@ -1,3 +1,2 @@
-export { authenticateAccessToken } from './authenticateAccessToken'
-export { authenticateRefreshToken } from './authenticateRefreshToken'
+export { authenticateAccessToken, authenticateRefreshToken, authenticateIntermediateToken } from './authenticate'
 export { setRefreshCookie, removeRefreshCookie, parseCookies, getRefreshCookie } from './cookies'

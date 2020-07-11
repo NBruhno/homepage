@@ -1,6 +1,7 @@
 import { useEffect, useCallback } from 'react'
 
 import { config } from 'config.client'
+
 import { decodeToken } from 'lib/decodeToken'
 import { fetcher } from 'lib/fetcher'
 import { useStore } from 'lib/store'
@@ -14,9 +15,9 @@ export const useRefresh = () => {
 
 	const refresh = useCallback(async () => {
 		try {
-			const token = await fetcher('/auth/refresh', { cacheControl: 'no-cache' })
-			const user = decodeToken(token)
-			dispatchToGlobalState({ accessToken: token, id: user.sub, email: user.email, shouldRefresh: true })
+			const { accessToken } = await fetcher('/auth/refresh', { cacheControl: 'no-cache' })
+			const user = decodeToken(accessToken)
+			dispatchToGlobalState({ accessToken, id: user.sub, email: user.email, shouldRefresh: true })
 		} catch (error) {
 			console.error(error)
 		}

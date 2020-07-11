@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 import { NextApiRequest, NextApiResponse } from 'next'
 
+import { config } from 'config.server'
+
 import { Game } from 'types/Games'
 import { Game as IGDBGame } from 'types/IGDB'
-
-import { config } from 'config.server'
+import { ApiError } from 'server/errors/ApiError'
 
 const root = [
 	'id',
@@ -61,52 +62,50 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 	const { method } = req
 	switch (method) {
 		case 'GET': {
-			try {
-				const response = await fetch('https://api-v3.igdb.com/games', {
-					method: 'POST',
-					body: `${fields}; where slug = "${id}";`,
-					headers: new Headers({
-						'user-key': config.igdb.userKey,
-						'Content-Type': 'text/plain',
-						accept: 'application/json',
-					}),
-				})
-				const result = await response.json()
-				if (result[0]?.status && result[0]?.status <= 400) {
-					res.status(result[0]?.status).send(result[0])
-					return
-				}
-
-				const transformedResult: Game[] = result.map(({ aggregated_rating, aggregated_rating_count, category, genres, storyline, summary, involved_companies, cover, name, platforms, first_release_date, release_dates, game_engines }: IGDBGame) => ({
-					rating: aggregated_rating,
-					ratingCount: aggregated_rating_count,
-					category: category ?? null,
-					companies: {
-						...involved_companies,
-					},
-					cover: {
-						...cover,
-						url: cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${cover.image_id}.jpg` : null,
-					},
-					engines: game_engines,
-					genres,
-					name,
-					summary,
-					storyline,
-					platforms: platforms ?? null,
-					releaseDate: first_release_date ?? null,
-					releaseDates: release_dates ?? null,
-				}))
-				res.status(200).json(transformedResult[0])
-			} catch (error) {
-				console.error(error)
-				res.status(500).json(error)
+			const response = await fetch('https://api-v3.igdb.com/games', {
+				method: 'POST',
+				body: `${fields}; where slug = "${id}";`,
+				headers: new Headers({
+					'user-key': config.igdb.userKey,
+					'Content-Type': 'text/plain',
+					accept: 'application/json',
+				}),
+			})
+			const result = await response.json()
+			if (result[0]?.status && result[0]?.status <= 400) {
+				const error = ApiError.fromCode(result[0]?.status)
+				res.status(error.statusCode).json({ error: error.message })
+				throw error
 			}
+
+			const transformedResult: Game[] = result.map(({ aggregated_rating, aggregated_rating_count, category, genres, storyline, summary, involved_companies, cover, name, platforms, first_release_date, release_dates, game_engines }: IGDBGame) => ({
+				rating: aggregated_rating,
+				ratingCount: aggregated_rating_count,
+				category: category ?? null,
+				companies: {
+					...involved_companies,
+				},
+				cover: {
+					...cover,
+					url: cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${cover.image_id}.jpg` : null,
+				},
+				engines: game_engines,
+				genres,
+				name,
+				summary,
+				storyline,
+				platforms: platforms ?? null,
+				releaseDate: first_release_date ?? null,
+				releaseDates: release_dates ?? null,
+			}))
+			res.status(200).json(transformedResult[0])
 			break
 		}
 
 		default: {
-			res.status(405).end(`Method ${method}`)
+			const error = ApiError.fromCode(405)
+			res.status(error.statusCode).json({ error: error.message })
+			throw error
 		}
 	}
 }

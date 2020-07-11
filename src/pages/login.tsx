@@ -10,7 +10,7 @@ import { Input } from 'components/Fields'
 import { ButtonSolid } from 'components/Buttons'
 
 const Login: NextPage = () => {
-	const { register, login, logout } = useAuth()
+	const { register, login, logout, verify2fa } = useAuth()
 
 	return (
 		<>
@@ -23,6 +23,13 @@ const Login: NextPage = () => {
 					<Form form='login' onSubmit={({ email, password }) => login({ email, password })}>
 						<Input label='Email' name='email' type='email' id='loginEmail' required />
 						<Input label='Password' name='password' type='password' id='loginPassword' required />
+						<ButtonSolid label='Login' submit />
+					</Form>
+				</Card>
+				<Card shouldAnimate={false}>
+					<h1>2FA form</h1>
+					<Form form='2fa' onSubmit={({ otp }) => verify2fa({ otp })}>
+						<Input label='One time password' name='otp' type='text' id='2faOtp' required />
 						<ButtonSolid label='Login' submit />
 					</Form>
 				</Card>
