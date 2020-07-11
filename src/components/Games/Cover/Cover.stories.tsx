@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 
-import { Form } from 'components/Form'
+import { Form } from 'components/Forms'
 import { ButtonSolid } from 'components/Buttons'
 
 import { Cover } from '.'
