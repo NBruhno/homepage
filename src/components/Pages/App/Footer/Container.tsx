@@ -5,8 +5,9 @@ export const Container = (props: React.ComponentProps<'footer'>) => (
 			backgroundColor: theme.color.background,
 			color: theme.color.text,
 			padding: '12px 24px',
-			minHeight: '72px',
-			position: 'relative',
+			height: '72px',
+			marginTop: 'auto',
+			bottom: 0,
 		})}
 		{...props}
 	/>

@@ -6,7 +6,6 @@ import { Theme } from 'lib/theming'
 import { config } from 'config.client'
 
 import { Grid, Main, Footer, Navigation, Header, Shade } from 'components/Pages/App'
-import { MainContent } from 'components/Pages/Layout/MainContent'
 
 if (config.environment === 'production') {
 	init({
@@ -37,14 +36,12 @@ class MyApp extends App {
 				<Theme>
 					<Grid>
 						<Header />
-						<MainContent>
-							<Navigation />
-							<Main>
-								<Component {...pageProps} />
-								<Shade />
-								<Footer />
-							</Main>
-						</MainContent>
+						<Navigation />
+						<Main>
+							<Component {...pageProps} />
+							<Shade />
+							<Footer />
+						</Main>
 					</Grid>
 				</Theme>
 			</StoreProvider>
