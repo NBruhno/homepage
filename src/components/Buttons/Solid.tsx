@@ -13,23 +13,6 @@ export const Solid = (props: AsyncProps) => (
 				backgroundColor: theme.color.gray,
 			},
 
-			'&:after': {
-				content: '""',
-				display: 'block',
-				position: 'absolute',
-				top: '-2px',
-				bottom: '-2px',
-				left: '-2px',
-				right: '-2px',
-				borderRadius: '5px',
-				boxShadow: `0 0 0 0 ${theme.color.primary}`,
-				transition: 'box-shadow 135ms cubic-bezier(0.4, 0, 0.2, 1)',
-			},
-
-			'&:focus:after, &:hover:after': {
-				boxShadow: `0 0 0 2px ${theme.color.primary}`,
-			},
-
 			'&:hover': {
 				backgroundColor: transparentize(0.5, theme.color.primary),
 			},

@@ -2,10 +2,11 @@ type Props = {
 	bold?: boolean,
 	isActive?: boolean,
 	mirror?: boolean,
+	horizontal: boolean,
 	slim?: boolean,
 } & React.ComponentProps<'span'>
 
-export const Line = ({ slim, bold, mirror, isActive, ...rest }: Props) => {
+export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Props) => {
 	let size = 0.1
 
 	if (slim) {
@@ -13,6 +14,9 @@ export const Line = ({ slim, bold, mirror, isActive, ...rest }: Props) => {
 	} else if (bold) {
 		size = 0.15
 	}
+
+	const verticalTransform = `translateY(${isActive ? -0.4 : 0}em) rotate(${-90 + (mirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
+	const horizontalTransform = `translateY(${isActive ? -0.4 : -0.40}em) rotate(${0 + (mirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
 
 	return (
 		<span
@@ -23,7 +27,7 @@ export const Line = ({ slim, bold, mirror, isActive, ...rest }: Props) => {
 				height: `${size}em`,
 				left: `${0.7 - size / 2}em`,
 				position: 'absolute',
-				transform: `translateY(${isActive ? -0.4 : 0}em) rotate(${-90 + (mirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`,
+				transform: horizontal ? horizontalTransform : verticalTransform,
 				transformOrigin: `${size / 2}em ${size / 2}em`,
 				transition: 'transform 0.15s',
 				width: '0.6em',

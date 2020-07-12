@@ -5,11 +5,12 @@ type Props = {
 	bold?: boolean,
 	isActive?: boolean,
 	slim?: boolean,
+	horizontal?: boolean,
 }
 
-export const ChevronFlip = ({ isActive, slim, bold }: Props) => (
+export const ChevronFlip = ({ isActive, slim, bold, horizontal = false }: Props) => (
 	<Container>
-		<Line isActive={isActive} slim={slim} bold={bold} />
-		<Line isActive={isActive} slim={slim} bold={bold} mirror />
+		<Line isActive={isActive} slim={slim} bold={bold} horizontal={horizontal} />
+		<Line isActive={isActive} slim={slim} bold={bold} horizontal={horizontal} mirror />
 	</Container>
 )

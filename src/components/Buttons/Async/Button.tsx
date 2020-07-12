@@ -6,7 +6,7 @@ type Props = {
 
 export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 	<button
-		css={{
+		css={(theme: Theme) => ({
 			backgroundColor: '#000',
 			border: 'none',
 			color: '#FFF',
@@ -29,14 +29,6 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 			whiteSpace: 'nowrap',
 			width: fullWidth ? '100%' : 'auto',
 
-			'&:first-of-type': {
-				marginLeft: 0,
-			},
-
-			'&:last-of-type': {
-				marginRight: 0,
-			},
-
 			'&:focus, &:hover, &:active': {
 				outline: 0,
 				textDecoration: 'none',
@@ -46,7 +38,24 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 				cursor: 'default',
 				boxShadow: 'none',
 			},
-		}}
+
+			'&:after': {
+				content: '""',
+				display: 'block',
+				position: 'absolute',
+				top: '-2px',
+				bottom: '-2px',
+				left: '-2px',
+				right: '-2px',
+				borderRadius: '5px',
+				boxShadow: `0 0 0 0 ${theme.color.text}`,
+				transition: 'box-shadow 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+			},
+
+			'&:focus:after': {
+				boxShadow: `0 0 0 ${theme.darkTheme ? '1px' : '2px'} ${theme.color.text}`,
+			},
+		})}
 		{...rest}
 	/>
 )

@@ -1,3 +1,5 @@
+import { transparentize } from 'polished'
+
 import { ButtonAsync, Props as AsyncProps } from './Async'
 
 export const Icon = (props: AsyncProps) => (
@@ -13,7 +15,7 @@ export const Icon = (props: AsyncProps) => (
 			},
 
 			'&:hover': {
-				backgroundColor: theme.color.gray,
+				backgroundColor: transparentize(0.5, theme.color.primary),
 			},
 		})}
 		{...props}

@@ -12,24 +12,17 @@ export const NavLink = forwardRef(({ active, ...rest }: Props, ref) => (
 		ref={ref}
 		css={(theme: Theme) => ({
 			padding: '6px 12px',
-			color: theme.color.text,
+			color: theme.color.textFaded,
 			textDecoration: 'none',
 			backgroundColor: active ? transparentize(0.5, theme.color.primary) : 'transparent',
 			borderRadius: '4px',
-			margin: '4px 0',
+			margin: '4px 12px',
 			transition: 'color 135ms cubic-bezier(0.4, 0, 0.2, 1), background-color 135ms cubic-bezier(0.4, 0, 0.2, 1)',
-			width: '100%',
+			fontSize: theme.fontSize.s90,
+			display: 'flex',
 
 			'&:hover, &:focus': {
 				backgroundColor: transparentize(0.3, theme.color.primary),
-			},
-
-			'&:first-of-type': {
-				marginLeft: 0,
-			},
-
-			'&:last-of-type': {
-				marginRight: 0,
 			},
 		})}
 		{...rest}
