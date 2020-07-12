@@ -5,6 +5,7 @@ const StoreContext = createContext(undefined)
 export const initialState: {
 	count: number,
 	responsive: {
+		collapsedSidebar: boolean,
 		darkTheme: boolean,
 		isMobile: boolean,
 		isTablet: boolean,
@@ -20,6 +21,7 @@ export const initialState: {
 	tasks: Record<any, any>,
 } = {
 	responsive: {
+		collapsedSidebar: false,
 		darkTheme: true,
 		isMobile: false,
 		isTablet: false,

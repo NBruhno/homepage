@@ -6,14 +6,16 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 		<div
 			onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: true } })}
 			css={(theme: Theme) => ({
-				position: 'absolute',
-				top: 0,
-				bottom: 0,
-				left: 0,
-				right: 0,
 				backgroundColor: theme.color.black,
-				display: (responsive.isMobile && !responsive.collapsedSidebar) ? 'static' : 'none',
+				bottom: 0,
+				display: 'static',
+				left: 0,
 				opacity: (responsive.isMobile && !responsive.collapsedSidebar) ? 0.4 : 0,
+				pointerEvents: (responsive.isMobile && !responsive.collapsedSidebar) ? 'auto' : 'none',
+				position: 'absolute',
+				right: 0,
+				top: 0,
+				transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)',
 				zIndex: 4,
 			})}
 			aria-hidden='true'
