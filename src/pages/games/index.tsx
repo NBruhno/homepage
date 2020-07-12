@@ -17,10 +17,12 @@ const Games: NextPage = () => {
 				<title>Games • Bruhno</title>
 			</Head>
 			<Page>
-				<Form form='gameListQuery' onSubmit={(fields) => setQuery(fields)}>
-					<Input label='Search for a game' name='search' />
-				</Form>
-				<GameList games={games} error={error} />
+				<div css={{ maxWidth: '700px', margin: '0 auto' }}>
+					<Form form='gameListQuery' onSubmit={(fields) => setQuery(fields)}>
+						<Input label='Search for a game' name='search' />
+					</Form>
+					<GameList games={games} error={error} />
+				</div>
 			</Page>
 		</>
 	)

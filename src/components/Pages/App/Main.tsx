@@ -4,7 +4,7 @@ export const Main = (props: React.ComponentProps<'main'>) => (
 			color: theme.color.text,
 			position: 'relative',
 			display: 'grid',
-			grid: '1fr auto / 1fr',
+			gridTemplateRows: '1fr auto',
 		})}
 		{...props}
 	/>
