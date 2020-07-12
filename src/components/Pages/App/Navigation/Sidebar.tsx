@@ -20,7 +20,7 @@ export const Sidebar = ({ collapsed, isMobile, ...rest }: Props) => {
 	return (
 		<nav
 			css={(theme: Theme) => ({
-				height: '100%',
+				height: '100vh',
 				padding: '0',
 				backgroundColor: theme.color.background,
 				borderRight: `1px solid ${theme.color.border}`,
@@ -31,7 +31,8 @@ export const Sidebar = ({ collapsed, isMobile, ...rest }: Props) => {
 				justifyContent: 'space-between',
 				width: width(),
 				transform: isMobile && collapsed ? 'translate(-70px)' : '',
-				position: isMobile ? 'fixed' : 'static',
+				top: 0,
+				position: isMobile ? 'fixed' : 'sticky',
 				zIndex: 5,
 			})}
 			{...rest}
