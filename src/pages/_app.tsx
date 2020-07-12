@@ -42,9 +42,9 @@ class MyApp extends App {
 							<Main>
 								<Component {...pageProps} />
 								<Shade />
+								<Footer />
 							</Main>
 						</MainContent>
-						<Footer />
 					</Grid>
 				</Theme>
 			</StoreProvider>
