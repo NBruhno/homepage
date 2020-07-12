@@ -15,7 +15,6 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 			flexGrow: 0,
 			fontSize: '1rem',
 			height: '36px',
-			margin: '6px',
 			maxWidth: '100%',
 			minWidth: '72px',
 			padding: '5px 30px',
