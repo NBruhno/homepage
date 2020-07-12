@@ -32,6 +32,7 @@ export const Sidebar = ({ collapsed, isMobile, ...rest }: Props) => {
 				width: width(),
 				transform: isMobile && collapsed ? 'translate(-70px)' : '',
 				top: 0,
+				marginTop: isMobile ? '54px' : 0,
 				position: isMobile ? 'fixed' : 'sticky',
 				zIndex: 5,
 			})}
