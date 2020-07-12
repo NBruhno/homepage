@@ -5,7 +5,8 @@ import { StoreProvider } from 'lib/store'
 import { Theme } from 'lib/theming'
 import { config } from 'config.client'
 
-import { Grid, Header, Main, Footer, Navigation } from 'components/Pages/App'
+import { Grid, Main, Footer, Navigation, Header, Shade } from 'components/Pages/App'
+import { MainContent } from 'components/Pages/Layout/MainContent'
 
 if (config.environment === 'production') {
 	init({
@@ -36,12 +37,13 @@ class MyApp extends App {
 				<Theme>
 					<Grid>
 						<Header />
-						<div css={{ display: 'grid', gridTemplateColumns: 'minmax(0, 240px) auto' }}>
+						<MainContent>
 							<Navigation />
 							<Main>
 								<Component {...pageProps} />
+								<Shade />
 							</Main>
-						</div>
+						</MainContent>
 						<Footer />
 					</Grid>
 				</Theme>

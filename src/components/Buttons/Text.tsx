@@ -1,15 +1,21 @@
 import { ButtonAsync, Props as AsyncProps } from './Async'
 import { transparentize } from 'polished'
 
-export const Text = (props: AsyncProps) => (
+type Props = {
+	slim?: boolean,
+} & AsyncProps
+
+export const Text = ({ slim, ...rest }: Props) => (
 	<ButtonAsync
 		css={(theme: Theme) => ({
 			backgroundColor: 'transparent',
 			borderRadius: '4px',
-			color: theme.color.text,
+			color: slim ? theme.color.textFaded : theme.color.text,
 			padding: '6px 12px',
 			margin: '4px 0',
-			minHeight: '38px',
+			minWidth: '0px',
+			height: slim ? '35px' : 'unset',
+			fontSize: slim ? theme.fontSize.s90 : theme.fontSize.s100,
 
 			'&:disabled': {
 				color: theme.color.grayLight,
@@ -19,15 +25,7 @@ export const Text = (props: AsyncProps) => (
 			'&:hover, &:focus': {
 				backgroundColor: transparentize(0.3, theme.color.primary),
 			},
-
-			'&:first-of-type': {
-				marginLeft: 0,
-			},
-
-			'&:last-of-type': {
-				marginRight: 0,
-			},
 		})}
-		{...props}
+		{...rest}
 	/>
 )

@@ -1,8 +1,14 @@
-import { createContext, useContext, useReducer } from 'react'
+import { createContext, useContext, useReducer, useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 const StoreContext = createContext(undefined)
 export const initialState: {
 	count: number,
+	responsive: {
+		darkTheme: boolean,
+		isMobile: boolean,
+		isTablet: boolean,
+	},
 	darkTheme: boolean,
 	user: {
 		accessToken?: string,
@@ -13,6 +19,11 @@ export const initialState: {
 	task: Record<any, any>,
 	tasks: Record<any, any>,
 } = {
+	responsive: {
+		darkTheme: true,
+		isMobile: false,
+		isTablet: false,
+	},
 	count: 0,
 	darkTheme: true,
 	user: {
@@ -49,6 +60,16 @@ const reducer = (state: Record<string, any>, payload: Record<string, any>) => {
  */
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
 	const [state, dispatch] = useReducer(reducer, initialState, ((lazyState) => lazyState))
+	const isMobile = useMediaQuery({ query: '(max-width: 550px)' })
+	const isTablet = useMediaQuery({ query: '(max-width: 1100px)' })
+	const systemPrefersDark = useMediaQuery({ query: '(prefers-color-scheme: dark)' }, undefined, (darkTheme: boolean) => {
+		setIsDark(darkTheme)
+	})
+	const [isDark, setIsDark] = useState(systemPrefersDark)
+
+	useEffect(() => {
+		dispatch({ responsive: { isMobile, isTablet, darkTheme: isDark, collapsedSidebar: isTablet || isMobile } })
+	}, [isMobile, isTablet, isDark])
 
 	return (
 		<StoreContext.Provider value={{ state, dispatch }}>
