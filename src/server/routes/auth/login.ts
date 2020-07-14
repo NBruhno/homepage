@@ -1,10 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { query } from 'faunadb'
+import { query as q } from 'faunadb'
+
+import { User } from 'types/User'
 
 import { generateAccessToken, generateRefreshToken, generateIntermediateToken } from 'server/generateTokens'
 import { setRefreshCookie } from 'server/middleware'
 import { ApiError } from 'server/errors/ApiError'
-import { serverClient, faunaClient } from 'server/faunaClient'
+import { serverClient } from 'server/faunaClient'
 
 export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body: { email, password } } = req
@@ -17,32 +19,28 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 				throw error
 			}
 
-			const loginRes: { secret: string } = await serverClient.query(
-				query.Login(query.Match(query.Index('users_by_email'), email), {
-					password,
-				}),
-			)
+			let user = null as User
 
-			if (!loginRes.secret) {
-				const error = ApiError.fromCode(401)
-				res.status(error.statusCode).json({ error: error.message })
+			try {
+				user = await serverClient.query(q.Merge(
+					q.Login(q.Match(q.Index('users_by_email'), email), { password }),
+					q.Get(q.Match(q.Index('users_by_email'), email)),
+				))
+			} catch (error) {
+				if (error.requestResult.statusCode === 400) {
+					res.status(401).json({ error: 'Password is incorrect' })
+				}
 				throw error
 			}
 
-			const { id }: { id: string } = await faunaClient(loginRes.secret).query(query.Identity())
-
-			const user: { data: Record<string, any> } = await faunaClient(loginRes.secret).query(
-				query.Get(query.Match(query.Index('users_by_email'), email)),
-			)
-
-			if (user.data.twoFactorSecret) {
-				const intermediateToken = generateIntermediateToken(loginRes.secret, { email, sub: id })
+			if (user.data?.twoFactorSecret) {
+				const intermediateToken = generateIntermediateToken(user.secret, { sub: email, ref: user.ref })
 
 				res.status(200).json({ intermediateToken })
 				break
 			} else {
-				const accessToken = generateAccessToken(loginRes.secret, { email, sub: id })
-				const refreshToken = generateRefreshToken(loginRes.secret, { email, sub: id })
+				const accessToken = generateAccessToken(user.secret, { sub: email, ref: user.ref })
+				const refreshToken = generateRefreshToken(user.secret, { sub: email, ref: user.ref })
 
 				setRefreshCookie(res, refreshToken)
 

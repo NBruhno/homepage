@@ -29,7 +29,7 @@ export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Prop
 				position: 'absolute',
 				transform: horizontal ? horizontalTransform : verticalTransform,
 				transformOrigin: `${size / 2}em ${size / 2}em`,
-				transition: 'transform 0.15s',
+				transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
 				width: '0.6em',
 			}}
 			{...rest}

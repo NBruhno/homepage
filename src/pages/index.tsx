@@ -20,9 +20,11 @@ const Home: NextPage<Props> = () => {
 			</Head>
 			<Page>
 				<p>Global state count: {count}</p>
-				<ButtonSolid label='+1' onClick={() => increment()} type='button' />
-				<ButtonSolid label='-1' onClick={() => decrement()} type='button' />
-				<ButtonSolid label='Reset' onClick={() => reset()} type='button' />
+				<div css={{ display: 'flex', justifyContent: 'space-between', maxWidth: '300px' }}>
+					<ButtonSolid label='+1' onClick={() => increment()} type='button' />
+					<ButtonSolid label='-1' onClick={() => decrement()} type='button' />
+					<ButtonSolid label='Reset' onClick={() => reset()} type='button' />
+				</div>
 			</Page>
 		</>
 	)

@@ -37,7 +37,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 			}
 
 			await faunaClient(token.secret).query(
-				query.Update(query.Select(['ref'], query.Get(query.Match(query.Index('users_by_email'), token.email))), {
+				query.Update(query.Select(['ref'], query.Get(query.Match(query.Index('users_by_email'), token.sub))), {
 					data: { twoFactorSecret: secret },
 				}),
 			)
@@ -59,7 +59,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 			}
 
 			const user: { data: Record<string, any> } = await faunaClient(token.secret).query(
-				query.Get(query.Match(query.Index('users_by_email'), token.email)),
+				query.Get(query.Match(query.Index('users_by_email'), token.sub)),
 			)
 
 			if (!authenticator.verify({ token: otp, secret: user.data.twoFactorSecret })) {
@@ -68,8 +68,8 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 				throw error
 			}
 
-			const accessToken = generateAccessToken(token.secret, { email: token.email, sub: token.sub })
-			const refreshToken = generateRefreshToken(token.secret, { email: token.email, sub: token.sub })
+			const accessToken = generateAccessToken(token.secret, { sub: token.sub, ref: token.ref })
+			const refreshToken = generateRefreshToken(token.secret, { sub: token.sub, ref: token.ref })
 
 			setRefreshCookie(res, refreshToken)
 

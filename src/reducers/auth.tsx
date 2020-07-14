@@ -14,7 +14,7 @@ export const useAuth = () => {
 		try {
 			const { accessToken } = await fetcher('/auth/register', { method: Method.Post, body: { email, password }, cacheControl: 'no-cache' })
 			const user = decodeToken(accessToken)
-			dispatchToGlobalState({ accessToken, id: user.sub, email: user.email, shouldRefresh: true })
+			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true })
 		} catch (error) {
 			console.error(error)
 		}
@@ -26,13 +26,13 @@ export const useAuth = () => {
 
 			if (accessToken) {
 				const user = decodeToken(accessToken)
-				dispatchToGlobalState({ accessToken, id: user.sub, email: user.email, shouldRefresh: true })
+				dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true })
 				return
 			}
 
 			if (intermediateToken) {
 				const user = decodeToken(intermediateToken)
-				dispatchToGlobalState({ intermediateToken, id: user.sub, email: user.email, shouldRefresh: false })
+				dispatchToGlobalState({ intermediateToken, email: user.sub, shouldRefresh: false })
 				return
 			}
 
@@ -92,7 +92,7 @@ export const useAuth = () => {
 			})
 
 			const user = decodeToken(accessToken)
-			dispatchToGlobalState({ accessToken, id: user.sub, email: user.email, shouldRefresh: true, intermediateToken: null })
+			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true, intermediateToken: null })
 		} catch (error) {
 			console.error(error)
 		}
