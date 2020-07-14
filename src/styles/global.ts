@@ -3,29 +3,41 @@ import { css } from '@emotion/core'
 import { normalize } from 'styles/normalize'
 import { fonts } from 'styles/fonts'
 
-export const globalCss = css`
-	${fonts}
-	${normalize}
+export const globalCss = css([
+	normalize,
+	fonts,
+	{
+		'*': {
+			fontFamily: 'Roboto, sans-serif',
+		},
 
-	* {
-		font-family: 'Roboto', sans-serif;
-	}
+		'*::-webkit-scrollbar': {
+			backgroundColor: 'none',
+			width: '8px',
+		},
 
-	html {
-		font-size: 100%;
-	}
+		'*::-webkit-scrollbar-thumb': {
+			backgroundColor: '#8a9bb2',
+			borderRadius: '8px',
+			border: 'none',
+		},
 
-	body {
-		line-height: 1.65
-	}
+		html: {
+			fontSize: '100%',
+		},
 
-	p {
-		margin-bottom: 1.15rem;
-	}
+		body: {
+			lineHeight: 1.65,
+		},
 
-	h1, h2, h3, h4, h5 {
-		margin: 2.75rem 0 1.05rem;
-		line-height: 1.15;
-		font-weight: 400;
-	}
-`
+		p: {
+			marginBottom: '1.15rem',
+		},
+
+		'h1, h2, h3, h4, h5': {
+			margin: '2.75rem 0 1.05rem',
+			lineHeight: 1.15,
+			fontWeight: 400,
+		},
+	},
+])
