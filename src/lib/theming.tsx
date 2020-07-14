@@ -1,8 +1,8 @@
 import { Global } from '@emotion/core'
-import { ThemeProvider } from 'emotion-theming'
+import { ThemeProvider, useTheme } from 'emotion-theming'
 
 import { globalCss } from 'styles/global'
-import { theme } from 'styles/theme'
+import { theme as siteTheme } from 'styles/theme'
 
 import { useStore } from 'lib/store'
 
@@ -15,12 +15,22 @@ export const Theme = ({ children }: Props) => {
 
 	return (
 		<>
-			<ThemeProvider theme={theme(state.responsive.darkTheme ?? null)}>
-				<>
-					<Global styles={globalCss} />
+			<ThemeProvider theme={siteTheme(state.responsive.darkTheme ?? null)}>
+				<GlobalStyling>
 					{children}
-				</>
+				</GlobalStyling>
 			</ThemeProvider>
+		</>
+	)
+}
+
+const GlobalStyling = ({ children }: Props) => {
+	const theme: Theme = useTheme()
+
+	return (
+		<>
+			<Global styles={globalCss(theme)} />
+			{children}
 		</>
 	)
 }

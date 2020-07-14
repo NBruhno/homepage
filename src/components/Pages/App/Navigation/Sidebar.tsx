@@ -20,20 +20,24 @@ export const Sidebar = ({ collapsed, isMobile, ...rest }: Props) => {
 	return (
 		<nav
 			css={(theme: Theme) => ({
-				height: isMobile ? 'calc(100% - 54px)' : '100%',
-				padding: '0',
+				alignItems: 'stretch',
 				backgroundColor: theme.color.background,
 				borderRight: `1px solid ${theme.color.border}`,
-				transition: 'width 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
 				display: 'flex',
 				flexDirection: 'column',
-				alignItems: 'stretch',
+				height: isMobile ? 'calc(100vh - 54px)' : '100vh',
 				justifyContent: 'space-between',
-				width: width(),
-				transform: isMobile && collapsed ? 'translate(-70px)' : '',
-				top: isMobile ? '54px' : 0,
+				padding: '0',
 				position: isMobile ? 'fixed' : 'sticky',
+				top: isMobile ? '54px' : 0,
+				transform: isMobile && collapsed ? 'translate(-70px)' : '',
+				transition: 'width 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+				width: width(),
 				zIndex: 5,
+
+				'> ::-webkit-scrollbar': {
+					width: collapsed ? 0 : '8px',
+				},
 			})}
 			{...rest}
 		/>

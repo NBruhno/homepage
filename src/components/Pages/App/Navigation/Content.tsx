@@ -4,6 +4,11 @@ export const Content = (props: React.ComponentProps<'div'>) => (
 			display: 'flex',
 			flexDirection: 'column',
 			alignItems: 'stretch',
+
+			'&:first-of-type': {
+				overflowX: 'hidden',
+				overflowY: 'auto',
+			},
 		}}
 		{...props}
 	/>

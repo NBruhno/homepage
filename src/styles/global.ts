@@ -3,7 +3,7 @@ import { css } from '@emotion/core'
 import { normalize } from 'styles/normalize'
 import { fonts } from 'styles/fonts'
 
-export const globalCss = css([
+export const globalCss = (theme: Theme) => css([
 	normalize,
 	fonts,
 	{
@@ -12,12 +12,12 @@ export const globalCss = css([
 		},
 
 		'*::-webkit-scrollbar': {
-			backgroundColor: 'none',
+			backgroundColor: theme.color.background,
 			width: '8px',
 		},
 
 		'*::-webkit-scrollbar-thumb': {
-			backgroundColor: '#8a9bb2',
+			backgroundColor: theme.color.gray,
 			borderRadius: '8px',
 			border: 'none',
 		},

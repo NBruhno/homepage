@@ -17,7 +17,7 @@ export const useRefresh = () => {
 		try {
 			const { accessToken } = await fetcher('/auth/refresh', { cacheControl: 'no-cache' })
 			const user = decodeToken(accessToken)
-			dispatchToGlobalState({ accessToken, id: user.sub, email: user.email, shouldRefresh: true })
+			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true })
 		} catch (error) {
 			console.error(error)
 		}

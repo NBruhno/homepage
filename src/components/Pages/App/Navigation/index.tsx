@@ -18,27 +18,41 @@ import { NavLink } from '../NavLink'
 import { Separator } from './Separator'
 import { Sidebar } from './Sidebar'
 import { Text } from './Text'
+import { Logo } from 'components/Logo'
 
 export const Navigation = () => {
 	const { user } = useRefresh()
 	const { state: { responsive }, dispatch } = useStore()
 	const { logout } = useAuth()
 	const { pathname } = useRouter()
+	const closeMenuOnInteraction = () => {
+		if (responsive.isMobile) {
+			dispatch({ responsive: { ...responsive, collapsedSidebar: responsive.isMobile || false } })
+		}
+	}
 
 	return (
 		<Sidebar collapsed={responsive.collapsedSidebar} isMobile={responsive.isMobile}>
-			<Content>
-				{!responsive.isMobile && (
-					<Link href='/' passHref>
-						<Header onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: responsive.isMobile || false } })}>
-							{!responsive.collapsedSidebar && <Text>Bruhno</Text>}
-						</Header>
-					</Link>
-				)}
-				<NavLink onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: responsive.isMobile || false } })}>
+			{!responsive.isMobile && (
+				<Link href='/' passHref>
+					<Header darkTheme={responsive.darkTheme} onClick={() => closeMenuOnInteraction()}>
+						<Logo
+							css={{
+								width: '32px',
+								height: '32px',
+								margin: responsive.collapsedSidebar ? '0 8px 0 -6px' : '0 6px 0 42px',
+								transition: 'margin 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+							}}
+						/>
+						{!responsive.collapsedSidebar && <Text>Bruhno</Text>}
+					</Header>
+				</Link>
+			)}
+			<Content css={{ paddingTop: '12px' }}>
+				<NavLink onClick={() => closeMenuOnInteraction()}>
 					<AccountIcon css={{ marginRight: '6px' }} size={22} />
 					{user?.accessToken ? (
-						<Text css={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+						<Text>
 							{user.email}
 						</Text>
 					) : (
@@ -49,7 +63,7 @@ export const Navigation = () => {
 					<Link href='/login' passHref>
 						<NavLink
 							active={pathname === '/login'}
-							onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: responsive.isMobile || false } })}
+							onClick={() => closeMenuOnInteraction()}
 						>
 							<LoginIcon css={{ marginRight: '6px' }} size={22} /><Text>Sign in</Text>
 						</NavLink>
@@ -57,25 +71,25 @@ export const Navigation = () => {
 				)}
 				{user?.accessToken && (
 					<ButtonText
-						css={{ margin: '4px 12px' }}
+						css={{ margin: '4px 12px', height: '35px' }}
 						slim
 						label={(
-							<div css={{ display: 'flex', alignContent: 'center', alignItems: 'center' }}>
+							<div css={{ display: 'flex', alignItems: 'center', height: '20px' }}>
 								<LogoutIcon css={{ marginRight: '6px' }} />Logout
 							</div>
 						)}
 						onClick={() => {
-							dispatch({ responsive: { ...responsive, collapsedSidebar: responsive.isMobile || false } })
+							closeMenuOnInteraction()
 							logout()
 						}}
 					/>
 				)}
-				<Separator>{!responsive.collapsedSidebar && <Text>Tools</Text>}</Separator>
 
+				<Separator collapsed={responsive.collapsedSidebar}>{!responsive.collapsedSidebar && <Text>Tools</Text>}</Separator>
 				<Link href='/games' passHref>
 					<NavLink
 						active={pathname === '/games'}
-						onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: responsive.isMobile || false } })}
+						onClick={() => closeMenuOnInteraction()}
 					>
 						<GhostIcon css={{ marginRight: '6px' }} size={22} /><Text>Games</Text>
 					</NavLink>
@@ -83,27 +97,27 @@ export const Navigation = () => {
 				<Link href='/test' passHref>
 					<NavLink
 						active={pathname === '/test'}
-						onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: responsive.isMobile || false } })}
+						onClick={() => closeMenuOnInteraction()}
 					>
 						<TestTubeIcon css={{ marginRight: '6px' }} size={22} /><Text>Test</Text>
 					</NavLink>
 				</Link>
 				<NavLink
 					href={config.environment === 'development' ? 'http://localhost:9000' : `/storybook/index.html`}
-					onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: responsive.isMobile || false } })}
+					onClick={() => closeMenuOnInteraction()}
 				>
 					<PencilRulerIcon css={{ marginRight: '6px' }} size={22} /><Text>Storybook</Text>
 				</NavLink>
 			</Content>
-			<Content>
+			<Content css={{ marginTop: 'auto' }}>
 				<Separator slim />
 				<ButtonText
-					css={{ margin: '4px 12px 6px' }}
+					css={{ margin: '6px 12px 7px', height: '35px' }}
 					slim
 					label={(
-						<div css={{ display: 'flex', alignContent: 'center', alignItems: 'center' }}>
+						<div css={{ display: 'flex', alignItems: 'center', height: '20px' }}>
 							<LightDarkModeIcon css={{ marginRight: '6px' }} />
-							<Text>{responsive.darkTheme ? 'Light theme' : 'Dark theme'}</Text>
+							{responsive.darkTheme ? 'Light theme' : 'Dark theme'}
 						</div>
 					)}
 					onClick={() => dispatch({ responsive: { ...responsive, darkTheme: !responsive.darkTheme } })}
@@ -111,10 +125,10 @@ export const Navigation = () => {
 				<div css={(theme: Theme) => ({ borderTop: `1px solid ${theme.color.border}` })} />
 				{!responsive.isMobile && (
 					<ButtonIcon
-						css={{ margin: '6px 12px' }}
+						css={{ margin: '6px 12px', height: '35px' }}
 						onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: !responsive.collapsedSidebar } })}
 						label={(
-							<div css={(theme: Theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', color: theme.color.text })}>
+							<div css={(theme: Theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', color: theme.color.text, marginTop: '2px' })}>
 								<ChevronFlip horizontal isActive={responsive.collapsedSidebar} />
 							</div>
 						)}

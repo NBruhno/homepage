@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { query } from 'faunadb'
+import { query as q } from 'faunadb'
+
+import { User } from 'types/User'
 
 import { generateRefreshToken, generateAccessToken } from 'server/generateTokens'
 import { setRefreshCookie } from 'server/middleware'
@@ -7,20 +9,20 @@ import { serverClient } from 'server/faunaClient'
 import { ApiError } from 'server/errors/ApiError'
 
 export const register = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { method, body: { email, password } } = req
+	const { method, body: { email, password, displayName } } = req
 
 	switch (method) {
 		case 'POST': {
-			if (!email || !password) {
+			if (!email || !password || !displayName) {
 				const error = ApiError.fromCode(400)
 				res.status(error.statusCode).json({ error: error.message })
 				throw error
 			}
 
-			const user: Record<string, any> = await serverClient.query(
-				query.Create(query.Collection('users'), {
+			const user: User = await serverClient.query(
+				q.Create(q.Collection('users'), {
 					credentials: { password },
-					data: { email },
+					data: { email, role: 'user', twoFactorSecret: null, displayName },
 				}),
 			)
 
@@ -31,7 +33,7 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			const loginRes: { secret: string } = await serverClient.query(
-				query.Login(user.ref, {
+				q.Login(user.ref, {
 					password,
 				}),
 			)
@@ -41,8 +43,8 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 				break
 			}
 
-			const accessToken = generateAccessToken(loginRes.secret, { sub: user.ref.id, email })
-			const refreshToken = generateRefreshToken(loginRes.secret, { sub: user.ref.id, email })
+			const accessToken = generateAccessToken(loginRes.secret, { sub: email, ref: user.ref })
+			const refreshToken = generateRefreshToken(loginRes.secret, { sub: email, ref: user.ref })
 
 			setRefreshCookie(res, refreshToken)
 

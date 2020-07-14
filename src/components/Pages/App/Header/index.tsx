@@ -14,7 +14,7 @@ export const Header = (props: React.ComponentProps<'nav'>) => {
 
 	return (
 		<HeaderComponent {...props}>
-			<ButtonIcon label={<MenuIcon />} onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: !responsive.collapsedSidebar } })} />
+			<ButtonIcon title='Menu' label={<MenuIcon />} onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: !responsive.collapsedSidebar } })} />
 			<Link href='/' passHref>
 				<NavLink>Bruhno</NavLink>
 			</Link>
