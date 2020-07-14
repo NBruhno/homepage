@@ -44,7 +44,7 @@ export const Navigation = () => {
 								transition: 'margin 300ms cubic-bezier(0.4, 0, 0.2, 1)',
 							}}
 						/>
-						{!responsive.collapsedSidebar && <Text>Bruhno</Text>}
+						<Text>Bruhno</Text>
 					</Header>
 				</Link>
 			)}
