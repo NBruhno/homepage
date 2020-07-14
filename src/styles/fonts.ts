@@ -1,35 +1,40 @@
 import { css } from '@emotion/core'
 
-export const fonts = css({
-	'@font-face': {
-		fontFamily: 'Roboto',
-		fontStyle: 'normal',
-		fontWeight: 400,
-		fontDisplay: 'switch',
-		src: 'url(\'./fonts/roboto-v20-latin-regular.woff2\') format(\'woff2\'), url(\'./fonts/roboto-v20-latin-regular.woff\') format(\'woff\')',
-	},
+export const fonts = css`
+	@font-face {
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 300;
+		font-display: switch;
+		src:
+			url('./fonts/roboto-v20-latin-300.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+			url('./fonts/roboto-v20-latin-300.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+	}
 
-	'@font-face': {
-		fontFamily: 'Roboto',
-		fontStyle: 'normal',
-		fontWeight: 300,
-		fontDisplay: 'switch',
-		src: 'url(\'./fonts/roboto-v20-latin-300.woff2\') format(\'woff2\'), url(\'./fonts/roboto-v20-latin-300.woff\') format(\'woff\')',
-	},
+	@font-face {
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 400;
+		src:
+			url('./fonts/roboto-v20-latin-regular.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+			url('./fonts/roboto-v20-latin-regular.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+	}
 
-	'@font-face': {
-		fontFamily: 'Roboto',
-		fontStyle: 'normal',
-		fontWeight: 500,
-		fontDisplay: 'switch',
-		src: 'url(\'./fonts/roboto-v20-latin-500.woff2\') format(\'woff2\'), url(\'./fonts/roboto-v20-latin-500.woff\') format(\'woff\')',
-	},
+	@font-face {
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 500;
+		src:
+			url('./fonts/roboto-v20-latin-500.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+			url('./fonts/roboto-v20-latin-500.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+	}
 
-	'@font-face': {
-		fontFamily: 'Roboto',
-		fontStyle: 'normal',
-		fontWeight: 700,
-		fontDisplay: 'switch',
-		src: 'url(\'./fonts/roboto-v20-latin-700.woff2\') format(\'woff2\'), url(\'./fonts/roboto-v20-latin-700.woff\') format(\'woff\')',
-	},
-})
+	@font-face {
+		font-family: 'Roboto';
+		font-style: normal;
+		font-weight: 700;
+		src:
+			url('./fonts/roboto-v20-latin-700.woff2') format('woff2'), /* Chrome 26+, Opera 23+, Firefox 39+ */
+			url('./fonts/roboto-v20-latin-700.woff') format('woff'); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+	}
+`
