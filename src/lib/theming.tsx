@@ -15,9 +15,11 @@ export const Theme = ({ children }: Props) => {
 
 	return (
 		<>
-			<Global styles={globalCss} />
 			<ThemeProvider theme={theme(state.responsive.darkTheme ?? null)}>
-				{children}
+				<>
+					<Global styles={globalCss} />
+					{children}
+				</>
 			</ThemeProvider>
 		</>
 	)
