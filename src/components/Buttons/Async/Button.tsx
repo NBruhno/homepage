@@ -28,7 +28,7 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 			whiteSpace: 'nowrap',
 			width: fullWidth ? '100%' : 'auto',
 
-			'&:focus, &:hover, &:active': {
+			'&:focus:enabled, &:hover:enabled, &:active:enabled': {
 				outline: 0,
 				textDecoration: 'none',
 			},
