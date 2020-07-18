@@ -30,14 +30,14 @@
     "@zeit/next-source-maps": "^0.0.3",
     "cookie": "^0.4.1",
     "cors": "^2.8.5",
-    "date-fns": "^2.14.0",
+    "date-fns": "^2.15.0",
     "downshift": "^5.4.6",
     "emotion-theming": "^10.0.27",
     "faunadb": "^2.14.2",
     "final-form": "^4.20.1",
     "jose": "^1.27.2",
     "lodash-es": "^4.17.15",
-    "match-sorter": "^4.1.0",
+    "match-sorter": "^4.2.0",
     "next": "^9.4.4",
     "next-offline": "^5.0.2",
     "otplib": "^12.0.1",
@@ -53,7 +53,7 @@
     "ts-custom-error": "^3.1.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.10.4",
+    "@babel/core": "^7.10.5",
     "@emotion/babel-preset-css-prop": "^10.0.27",
     "@next/bundle-analyzer": "^9.4.4",
     "@storybook/addon-actions": "^5.3.19",
@@ -98,7 +98,7 @@
     "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "^16.13.1",
     "storybook-dark-mode": "^0.6.1",
-    "typescript": "^3.9.6",
+    "typescript": "^3.9.7",
     "webpack": "^4.43.0"
   }
 }
