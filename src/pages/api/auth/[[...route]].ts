@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { login, logout, register, refresh, twoFactorAuthentication, check } from 'server/routes/auth'
+import { login, logout, register, refresh, twoFactorAuthentication, check, tokens } from 'server/routes/auth'
 import { ApiError } from 'server/errors/ApiError'
 
 const auth = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -36,6 +36,10 @@ const auth = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 		case 'check': { // /auth/check
 			await check(req, res)
+			break
+		}
+		case 'tokens': { // /auth/tokens
+			await tokens(req, res)
 			break
 		}
 		default: {

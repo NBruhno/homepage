@@ -1,6 +1,7 @@
 import { Game } from 'types/Games'
 
 import { Placeholder } from 'components/Placeholder'
+fflowimport { ButtonBorder } from 'components/Buttons'
 
 import { Cover } from '../Cover'
 
@@ -13,9 +14,11 @@ type Props = {
 	game: Game,
 	error: any,
 	isLoading: boolean,
+
+	onFollow: () => Promise<any>,
 }
 
-export const Detail = ({ game, isLoading }: Props) => (
+export const Detail = ({ game, onFollow, isLoading }: Props) => (
 	<Wrapper>
 		<div>
 			<Cover coverUrl={game?.cover.url ?? null} />
@@ -36,6 +39,7 @@ export const Detail = ({ game, isLoading }: Props) => (
 					I Made This Corp.
 				</Placeholder>
 			</Developer>
+			<ButtonBorder label='Follow' onClick={() => onFollow()} isLoading={isLoading} />
 		</div>
 	</Wrapper>
 )

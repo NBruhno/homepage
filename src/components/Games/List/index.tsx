@@ -3,9 +3,12 @@ import { Item } from '../Item'
 type Props = {
 	games: Array<Record<string, any>>,
 	error: string,
+
+	onFollow: (id: string) => Promise<any>,
+	onUnfollow: (id: string) => Promise<any>,
 }
 
-export const GameList = ({ games, error }: Props) => {
+export const GameList = ({ games, onFollow, onUnfollow, error }: Props) => {
 	const isLoading = !games
 	const gamesToRender = !isLoading && !error ? games : [{}, {}, {}, {}, {}, {}, {}]
 
@@ -16,6 +19,8 @@ export const GameList = ({ games, error }: Props) => {
 					isLoading={isLoading}
 					key={game?.id ?? index}
 					index={index}
+					onFollow={onFollow}
+					onUnfollow={onUnfollow}
 					{...game}
 				/>
 			))}

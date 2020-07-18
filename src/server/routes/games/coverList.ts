@@ -2,11 +2,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
+
 import { ApiError } from 'server/errors/ApiError'
+import { authenticateAccessToken } from 'server/middleware'
 
 export const coverList = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
 
+	await authenticateAccessToken(req, res)
 	switch (method) {
 		case 'POST': {
 			if (!body?.coverIds?.[0]) {

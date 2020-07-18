@@ -5,6 +5,8 @@ import { config } from 'config.server'
 
 import { Game } from 'types/Games'
 import { Game as IGDBGame } from 'types/IGDB'
+
+import { authenticateAccessToken } from 'server/middleware'
 import { ApiError } from 'server/errors/ApiError'
 
 const root = [
@@ -60,6 +62,8 @@ const fields = `fields ${[...root, ...cover, ...companies, ...releaseDates, ...p
 
 export const game = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method } = req
+
+	await authenticateAccessToken(req, res)
 	switch (method) {
 		case 'GET': {
 			const response = await fetch('https://api-v3.igdb.com/games', {

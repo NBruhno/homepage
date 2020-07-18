@@ -1,11 +1,14 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
+
 import { ApiError } from 'server/errors/ApiError'
+import { authenticateAccessToken } from 'server/middleware'
 
 export const involvedList = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method, body } = req
 
+	await authenticateAccessToken(req, res)
 	switch (method) {
 		case 'POST': {
 			if (!body || (!body?.size?.includes('small') && !body?.size?.includes('big'))) {

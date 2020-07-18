@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { NextApiRequest, NextApiResponse } from 'next'
+import { query as q } from 'faunadb'
 
 import { config } from 'config.server'
 
@@ -7,15 +8,15 @@ import { Game as IGDBGame } from 'types/IGDB'
 import { Game } from 'types/Games'
 
 import { authenticateAccessToken } from 'server/middleware'
+import { faunaClient } from 'server/faunaClient'
 import { ApiError } from 'server/errors/ApiError'
 
 export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
 
+	const token = await authenticateAccessToken(req, res)
 	switch (method) {
 		case 'GET': {
-			await authenticateAccessToken(req, res)
-
 			const response = await fetch('https://api-v3.igdb.com/games', {
 				method: 'POST',
 				body: 'fields name, release_dates, cover.image_id, first_release_date, slug; sort popularity desc; limit 7;',
@@ -34,14 +35,19 @@ export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			if (result.length > 0) {
-				const transformedResult: Array<Game> = result.map((game: IGDBGame) => ({
-					cover: {
-						url: game.cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_small_2x/${game.cover.image_id}.jpg` : null,
-					},
-					id: game.slug ?? null,
-					name: game.name,
-					releaseDate: game.first_release_date ?? null,
-				}))
+				const followedGames: { data: Array<string> } = await faunaClient(token.secret).query(q.Paginate(q.Match(q.Index('gamesByUser'), q.Identity())))
+				const transformedResult: Array<Game> = result.map((game: IGDBGame) => {
+					const following = followedGames.data.includes(game.slug)
+					return {
+						cover: {
+							url: game.cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_small_2x/${game.cover.image_id}.jpg` : null,
+						},
+						id: game.slug ?? null,
+						name: game.name,
+						releaseDate: game.first_release_date ?? null,
+						following,
+					}
+				})
 				res.status(200).send(transformedResult)
 			} else {
 				res.status(200).send([])
@@ -50,13 +56,12 @@ export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 
 		case 'POST': {
-			await authenticateAccessToken(req, res)
-
+			const followedGames: { data: Array<string> } = await faunaClient(token.secret).query(q.Paginate(q.Match(q.Index('gamesByUser'), q.Identity())))
 			const response = await fetch('https://api-v3.igdb.com/games', {
 				method: 'POST',
 				body: body?.search
-					? `fields name, release_dates, cover.image_id, first_release_date, slug; limit 7; search "${body?.search}";`
-					: 'fields name, release_dates, cover.image_id, first_release_date, slug; sort popularity desc; limit 7;',
+					? `fields name, release_dates, cover.image_id, first_release_date, slug; limit 20; search "${body?.search}";`
+					: `fields name, release_dates, cover.image_id, first_release_date, slug; sort first_release_date asc; limit 100; where slug = ("${followedGames.data.join(`", "`)}");`,
 				headers: new Headers({
 					'user-key': config.igdb.userKey,
 					'Content-Type': 'text/plain',
@@ -68,18 +73,22 @@ export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 			if (result[0]?.status && result[0]?.status <= 400) {
 				const error = ApiError.fromCode(result[0]?.status)
 				res.status(error.statusCode).json({ error: error.message })
-				throw error
+				throw result
 			}
 
 			if (result.length > 0) {
-				const transformedResult: Array<Game> = result.map((game: IGDBGame) => ({
-					cover: {
-						url: game.cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_small_2x/${game.cover.image_id}.jpg` : null,
-					},
-					id: game.slug ?? null,
-					name: game.name,
-					releaseDate: game.first_release_date ?? null,
-				}))
+				const transformedResult: Array<Game> = result.map((game: IGDBGame) => {
+					const following = body?.search ? followedGames.data.includes(game.slug) : true
+					return ({
+						cover: {
+							url: game.cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_small_2x/${game.cover.image_id}.jpg` : null,
+						},
+						id: game.slug ?? null,
+						name: game.name,
+						releaseDate: game.first_release_date ?? null,
+						following,
+					})
+				})
 				res.status(200).send(transformedResult)
 			} else {
 				res.status(200).send([])
