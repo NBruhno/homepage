@@ -38,6 +38,10 @@ class _document extends Document {
 				<body>
 					<Main />
 					<NextScript />
+					<noscript>
+						<link rel='stylesheet' type='text/css' href='noScript.css' />
+						<div className='noScript'>You&apos;ve disabled JavaScript, so a lot of things <b>will not work</b>. This website is not designed to function without JavaScript, <b>please respect that</b>.</div>
+					</noscript>
 				</body>
 			</Html>
 		)
