@@ -17,9 +17,11 @@ const ThemeWrapper = ({ children }) => (
 
 addDecorator((story) => (
 	<StoreProvider>
-		<Global styles={globalCss} />
 		<ThemeWrapper>
-			{story()}
+			<>
+				<Global styles={globalCss} />
+				{story()}
+			</>
 		</ThemeWrapper>
 	</StoreProvider>
 ))
