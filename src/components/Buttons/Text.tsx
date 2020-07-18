@@ -18,11 +18,11 @@ export const Text = ({ slim, ...rest }: Props) => (
 			fontSize: slim ? theme.fontSize.s90 : theme.fontSize.s100,
 
 			'&:disabled': {
-				color: theme.color.grayLight,
+				color: transparentize(0.3, theme.color.white),
 				backgroundColor: theme.color.gray,
 			},
 
-			'&:hover, &:focus': {
+			'&:hover:enabled, &:focus:enabled': {
 				backgroundColor: transparentize(0.3, theme.color.primary),
 			},
 		})}

@@ -13,7 +13,7 @@ export const Solid = (props: AsyncProps) => (
 				backgroundColor: theme.color.gray,
 			},
 
-			'&:hover': {
+			'&:hover:enabled': {
 				backgroundColor: transparentize(0.5, theme.color.primary),
 			},
 		})}
