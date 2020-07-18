@@ -9,7 +9,7 @@ import { Detail } from 'components/Games/Detail'
 const GamePage: NextPage = () => {
 	const router = useRouter()
 	const { id } = router.query
-	const { game, error } = useGame(id)
+	const { game, error, follow } = useGame(id as string)
 	const isLoading = !game
 
 	return (
@@ -18,7 +18,7 @@ const GamePage: NextPage = () => {
 				<title>Game • Bruhno</title>
 			</Head>
 			<Page>
-				<Detail game={game} error={error} isLoading={isLoading} />
+				<Detail game={game} error={error} isLoading={isLoading} onFollow={follow} />
 			</Page>
 		</>
 	)

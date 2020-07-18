@@ -1,6 +1,7 @@
 import Link from 'next/link'
 
 import { Placeholder } from 'components/Placeholder'
+import { ButtonBorder } from 'components/Buttons'
 
 import { Cover } from '../Cover'
 
@@ -17,9 +18,13 @@ type Props = {
 		url: string,
 	},
 	releaseDate: number | null,
+	following: boolean,
+
+	onFollow: (id: string) => Promise<any>,
+	onUnfollow: (id: string) => Promise<any>,
 }
 
-export const Item = ({ id, name, releaseDate, index = 0, cover, isLoading }: Props) => (
+export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoading, onFollow, onUnfollow }: Props) => (
 	<Link href='/games/[id]' as={`/games/${id}`} passHref>
 		<Container>
 			<Cover coverUrl={cover?.url} size='small' css={{ marginRight: '12px' }} />
@@ -34,6 +39,9 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, isLoading }: Pro
 						{releaseDate ? new Date(releaseDate * 1000).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Time of release is unknown'}
 					</Placeholder>
 				</Subtitle>
+				<div css={{ marginTop: '6px' }}>
+					<ButtonBorder label={following ? 'Unfollow' : 'Follow'} onClick={() => following ? onUnfollow(id) : onFollow(id)} isLoading={isLoading} />
+				</div>
 			</div>
 		</Container>
 	</Link>

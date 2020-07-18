@@ -1,22 +1,25 @@
-import { query } from 'faunadb'
+import { query as q } from 'faunadb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { faunaClient } from 'server/faunaClient'
 import { authenticateAccessToken } from 'server/middleware'
 import { ApiError } from 'server/errors/ApiError'
 
-const profile = async (req?: NextApiRequest, res?: NextApiResponse) => {
+export const tokens = async (req?: NextApiRequest, res?: NextApiResponse) => {
 	const { method } = req
 	const token = await authenticateAccessToken(req, res)
 
 	switch (method) {
 		case 'GET': {
 			const getProfile = async () => {
-				const ref: { id: string } = await faunaClient(token.secret).query(query.Identity())
-				return ref.id
+				const ref: { id: string } = await faunaClient(token.secret).query(q.Paginate(q.Match(
+					q.Index('tokens_by_instance'),
+					q.Select('instance', q.Identity()),
+				)))
+				return ref
 			}
 
-			res.status(200).json({ userId: await getProfile() })
+			res.status(200).json({ tokens: await getProfile() })
 			break
 		}
 
@@ -27,5 +30,3 @@ const profile = async (req?: NextApiRequest, res?: NextApiResponse) => {
 		}
 	}
 }
-
-export default profile

@@ -9,7 +9,7 @@ import { GameList } from 'components/Games/List'
 import { Input } from 'components/Forms/Fields/Input'
 
 const Games: NextPage = () => {
-	const { games, error, setQuery } = useGames()
+	const { games, error, setQuery, follow, unfollow } = useGames()
 
 	return (
 		<>
@@ -21,7 +21,7 @@ const Games: NextPage = () => {
 					<Form form='gameListQuery' onSubmit={(fields) => setQuery(fields)}>
 						<Input label='Search for a game' name='search' />
 					</Form>
-					<GameList games={games} error={error} />
+					<GameList games={games} error={error} onFollow={follow} onUnfollow={unfollow} />
 				</div>
 			</Page>
 		</>

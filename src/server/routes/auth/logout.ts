@@ -18,7 +18,7 @@ export const logout = async (req: NextApiRequest, res: NextApiResponse) => {
 				break
 			}
 
-			await faunaClient(token.secret).query(query.Logout(false))
+			await faunaClient(token.secret).query(query.Logout(true))
 
 			removeRefreshCookie(res)
 

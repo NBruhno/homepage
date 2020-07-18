@@ -3,10 +3,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { config } from 'config.server'
 
 import { ApiError } from 'server/errors/ApiError'
+import { authenticateAccessToken } from 'server/middleware'
 
 export const involved = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method, body } = req
 
+	await authenticateAccessToken(req, res)
 	switch (method) {
 		case 'POST': {
 			const response = await fetch('https://api-v3.igdb.com/involved_companies', {
