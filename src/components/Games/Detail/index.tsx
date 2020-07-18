@@ -1,7 +1,7 @@
 import { Game } from 'types/Games'
 
 import { Placeholder } from 'components/Placeholder'
-fflowimport { ButtonBorder } from 'components/Buttons'
+import { ButtonBorder } from 'components/Buttons'
 
 import { Cover } from '../Cover'
 
