@@ -2,10 +2,9 @@ import { init, withScope, captureException } from '@sentry/browser'
 import App from 'next/app'
 
 import { StoreProvider } from 'lib/store'
-import { Theme } from 'lib/theming'
 import { config } from 'config.client'
 
-import { Grid, Main, Footer, Navigation, Header, Shade } from 'components/Pages/App'
+import { Theme, Grid, Main, Footer, Navigation, Header, Shade } from 'components/Pages/App'
 
 if (config.environment === 'production') {
 	init({
