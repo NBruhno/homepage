@@ -3,8 +3,8 @@ export const Header = (props: React.ComponentProps<'header'>) => (
 		css={(theme: Theme) => ({
 			height: '30px',
 			padding: '12px',
-			backgroundColor: theme.color.grayDark,
-			color: theme.color.text,
+			backgroundColor: theme.darkTheme ? theme.color.grayDark : theme.color.gray,
+			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
 			position: 'sticky',
 			display: 'flex',
 			alignItems: 'center',

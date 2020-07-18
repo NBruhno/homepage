@@ -10,7 +10,7 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				bottom: 0,
 				display: 'static',
 				left: 0,
-				opacity: (responsive.isMobile && !responsive.collapsedSidebar) ? 0.4 : 0,
+				opacity: (responsive.isMobile && !responsive.collapsedSidebar) ? 0.2 : 0,
 				pointerEvents: (responsive.isMobile && !responsive.collapsedSidebar) ? 'auto' : 'none',
 				position: 'absolute',
 				right: 0,

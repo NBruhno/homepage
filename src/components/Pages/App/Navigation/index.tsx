@@ -11,6 +11,7 @@ import { useStore } from 'lib/store'
 import { ChevronFlip } from 'components/ChevronFlip'
 import { ButtonText, ButtonIcon } from 'components/Buttons'
 import { LoginIcon, PencilRulerIcon, LightDarkModeIcon, TestTubeIcon, GhostIcon, AccountIcon, LogoutIcon } from 'components/Icons'
+import { Logo } from 'components/Logo'
 
 import { Content } from './Content'
 import { Header } from './Header'
@@ -18,7 +19,6 @@ import { NavLink } from '../NavLink'
 import { Separator } from './Separator'
 import { Sidebar } from './Sidebar'
 import { Text } from './Text'
-import { Logo } from 'components/Logo'
 
 export const Navigation = () => {
 	const { user } = useRefresh()
@@ -35,7 +35,7 @@ export const Navigation = () => {
 		<Sidebar collapsed={responsive.collapsedSidebar} isMobile={responsive.isMobile}>
 			{!responsive.isMobile && (
 				<Link href='/' passHref>
-					<Header darkTheme={responsive.darkTheme} onClick={() => closeMenuOnInteraction()}>
+					<Header onClick={() => closeMenuOnInteraction()}>
 						<Logo
 							css={{
 								width: '32px',
@@ -85,7 +85,7 @@ export const Navigation = () => {
 					/>
 				)}
 
-				<Separator collapsed={responsive.collapsedSidebar}>{!responsive.collapsedSidebar && <Text>Tools</Text>}</Separator>
+				<Separator collapsed={responsive.collapsedSidebar}>Tools</Separator>
 				<Link href='/games' passHref>
 					<NavLink
 						active={pathname === '/games'}
@@ -127,6 +127,7 @@ export const Navigation = () => {
 					<ButtonIcon
 						css={{ margin: '6px 12px', height: '35px' }}
 						onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: !responsive.collapsedSidebar } })}
+						title='Collapse sidebar'
 						label={(
 							<div css={(theme: Theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', color: theme.color.text, marginTop: '2px' })}>
 								<ChevronFlip horizontal isActive={responsive.collapsedSidebar} />
