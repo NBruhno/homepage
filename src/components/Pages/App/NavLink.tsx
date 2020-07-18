@@ -4,15 +4,16 @@ import { transparentize } from 'polished'
 
 type Props = {
 	active?: boolean,
+	currentColor?: boolean,
 	ref: ((instance: unknown) => void) | React.MutableRefObject<unknown>,
 } & React.ComponentPropsWithRef<'a'>
 
-export const NavLink = forwardRef(({ active, ...rest }: Props, ref) => (
+export const NavLink = forwardRef(({ active, currentColor = false, ...rest }: Props, ref) => (
 	<a
 		ref={ref}
 		css={(theme: Theme) => ({
 			padding: '6px 12px',
-			color: theme.color.textFaded,
+			color: currentColor ? 'currentColor' : theme.color.textFaded,
 			textDecoration: 'none',
 			backgroundColor: active ? transparentize(0.5, theme.color.primary) : 'transparent',
 			borderRadius: '4px',

@@ -1,3 +1,5 @@
+import { transparentize } from 'polished'
+
 type Props = {
 	collapsed: boolean,
 	isMobile: boolean,
@@ -21,7 +23,7 @@ export const Sidebar = ({ collapsed, isMobile, ...rest }: Props) => {
 		<nav
 			css={(theme: Theme) => ({
 				alignItems: 'stretch',
-				backgroundColor: theme.color.background,
+				backgroundColor: transparentize(isMobile ? 0.2 : 1, theme.color.background),
 				borderRight: `1px solid ${theme.color.border}`,
 				display: 'flex',
 				flexDirection: 'column',
@@ -32,6 +34,7 @@ export const Sidebar = ({ collapsed, isMobile, ...rest }: Props) => {
 				top: isMobile ? '54px' : 0,
 				transform: isMobile && collapsed ? 'translate(-70px)' : '',
 				transition: 'width 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+				backdropFilter: isMobile ? 'blur(8px)' : 'none',
 				width: width(),
 				zIndex: 5,
 
