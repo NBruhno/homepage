@@ -24,8 +24,6 @@ const walkSync = (dir) => {
 				.substr(0, filePath.lastIndexOf('.'))
 				.replace(pagesLocation, '')
 
-			console.log(cleanFileName)
-
 			if (cleanFileName.includes('_document') || cleanFileName.includes('_error') || cleanFileName.includes('_app') || cleanFileName.includes('api/') || cleanFileName.includes('/[')) return
 			if (cleanFileName.includes('/index')) {
 				pages[cleanFileName.replace('/index', '') || ''] = {
@@ -46,8 +44,6 @@ const walkSync = (dir) => {
 				page: `${cleanFileName}`,
 				lastModified: fileStat.mtime,
 			}
-
-			console.log(pages)
 		}
 	})
 }
