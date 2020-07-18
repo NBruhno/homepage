@@ -14,7 +14,7 @@ export const Icon = (props: AsyncProps) => (
 				color: theme.color.grayLight,
 			},
 
-			'&:hover:enabled': {
+			'&:hover:enabled, &:focus:enabled': {
 				backgroundColor: transparentize(0.5, theme.color.primary),
 			},
 		})}

@@ -62,7 +62,7 @@ export const Navigation = () => {
 				{!user?.accessToken && (
 					<Link href='/login' passHref>
 						<NavLink
-							active={pathname === '/login'}
+							active={pathname.includes('/login')}
 							onClick={() => closeMenuOnInteraction()}
 						>
 							<LoginIcon css={{ marginRight: '6px' }} size={22} /><Text>Sign in</Text>
@@ -88,7 +88,7 @@ export const Navigation = () => {
 				<Separator collapsed={responsive.collapsedSidebar}>Tools</Separator>
 				<Link href='/games' passHref>
 					<NavLink
-						active={pathname === '/games'}
+						active={pathname.includes('/games')}
 						onClick={() => closeMenuOnInteraction()}
 					>
 						<GhostIcon css={{ marginRight: '6px' }} size={22} /><Text>Games</Text>
@@ -96,7 +96,7 @@ export const Navigation = () => {
 				</Link>
 				<Link href='/test' passHref>
 					<NavLink
-						active={pathname === '/test'}
+						active={pathname.includes('/test')}
 						onClick={() => closeMenuOnInteraction()}
 					>
 						<TestTubeIcon css={{ marginRight: '6px' }} size={22} /><Text>Test</Text>

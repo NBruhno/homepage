@@ -47,7 +47,7 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 				left: '-2px',
 				right: '-2px',
 				borderRadius: '5px',
-				boxShadow: `0 0 0 0 ${theme.color.text}`,
+				boxShadow: 'none',
 				transition: 'box-shadow 135ms cubic-bezier(0.4, 0, 0.2, 1)',
 			},
 
