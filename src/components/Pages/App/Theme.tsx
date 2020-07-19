@@ -1,4 +1,4 @@
-import { useState, useLayoutEffect } from 'react'
+import { useState, useLayoutEffect, useEffect } from 'react'
 import { Global } from '@emotion/core'
 import { ThemeProvider, useTheme } from 'emotion-theming'
 
@@ -25,8 +25,15 @@ const GlobalStyling = ({ children }: Props) => {
 export const Theme = ({ children }: Props) => {
 	const { state } = useStore()
 	const [browserIsNotSupported, setBrowserIsNotSupported] = useState(false)
+	const canUseDOM: boolean = !!(
+		typeof window !== 'undefined'
+		&& typeof window.document !== 'undefined'
+		&& typeof window.document.createElement !== 'undefined'
+	)
 
-	useLayoutEffect(() => {
+	const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect
+
+	useIsomorphicLayoutEffect(() => {
 		setBrowserIsNotSupported(/Trident\/|MSIE/.test(window.navigator.userAgent))
 	}, [])
 
