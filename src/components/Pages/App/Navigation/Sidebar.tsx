@@ -38,7 +38,7 @@ export const Sidebar = ({ collapsed, isMobile, ...rest }: Props) => {
 				zIndex: 5,
 
 				'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
-					backgroundColor: transparentize(isMobile ? 0.15 : 1, theme.color.background),
+					backgroundColor: transparentize(isMobile ? 0.3 : 1, theme.color.background),
 					backdropFilter: isMobile ? 'blur(8px)' : 'none',
 				},
 

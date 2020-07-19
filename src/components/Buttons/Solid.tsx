@@ -1,5 +1,4 @@
 import { ButtonAsync, Props as AsyncProps } from './Async'
-import { transparentize } from 'polished'
 
 export const Solid = (props: AsyncProps) => (
 	<ButtonAsync
@@ -14,7 +13,7 @@ export const Solid = (props: AsyncProps) => (
 			},
 
 			'&:hover:enabled': {
-				backgroundColor: transparentize(0.5, theme.color.primary),
+				backgroundColor: theme.color.primaryLight,
 			},
 		})}
 		{...props}

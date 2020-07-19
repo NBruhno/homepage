@@ -18,6 +18,14 @@ export const Border = (props: AsyncProps) => (
 			'&:hover:enabled': {
 				backgroundColor: transparentize(0.5, theme.color.primary),
 			},
+
+			'&:after': {
+				top: '-3px',
+				bottom: '-3px',
+				left: '-3px',
+				right: '-3px',
+				borderRadius: '6px',
+			},
 		})}
 		{...props}
 	/>

@@ -5,7 +5,7 @@ import { useGames } from 'reducers/games'
 
 import { Form } from 'components/Forms'
 import { Page } from 'components/Pages/Layout/Page'
-import { GameList } from 'components/Games/List'
+import { GameList } from 'components/Pages/Games/List'
 import { Input } from 'components/Forms/Fields/Input'
 
 const Games: NextPage = () => {

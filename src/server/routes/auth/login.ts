@@ -33,8 +33,6 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 				throw error
 			}
 
-			console.log(user)
-
 			if (user.data?.twoFactorSecret) {
 				const intermediateToken = generateIntermediateToken(user.secret, { sub: email, ref: user.ref })
 
