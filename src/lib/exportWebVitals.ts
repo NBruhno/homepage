@@ -8,5 +8,5 @@ export type Metric = {
 
 export const reportWebVitals = (metric: Metric) => {
 	// eslint-disable-next-line no-console
-	console.log(metric)
+	console.debug(metric)
 }

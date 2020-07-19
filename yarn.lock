@@ -1965,13 +1965,13 @@
   resolved "https://registry.yarnpkg.com/@mdx-js/util/-/util-1.6.6.tgz#9c70eb7e7e4abc1083c8edf7151d35a19e442c00"
   integrity sha512-PKTHVgMHnK5p+kcMWWNnZuoR7O19VmHiOujmVcyN50hya7qIdDb5vvsYC+dwLxApEXiABhLozq0dlIwFeS3yjg==
 
-"@microsoft/tsdoc-config@0.13.4":
-  version "0.13.4"
-  resolved "https://registry.yarnpkg.com/@microsoft/tsdoc-config/-/tsdoc-config-0.13.4.tgz#84ad92b88d3899683376224de91567b01d447d18"
-  integrity sha512-B3F3mndJTGUmcHTt8chqjN4EPvxJlkzZIkrZUHwJvKvbr74HEe6mB8Aa6Rlh8jj6mHq7mmtyiUn17+5zr4vbXw==
+"@microsoft/tsdoc-config@0.13.5":
+  version "0.13.5"
+  resolved "https://registry.yarnpkg.com/@microsoft/tsdoc-config/-/tsdoc-config-0.13.5.tgz#2efeb27f5e4d191b8356aa4eb09e146c0813070c"
+  integrity sha512-KlnIdTRnPSsU9Coz9wzDAkT8JCLopP3ec1sgsgo7trwE6QLMKRpM4hZi2uzVX897SW49Q4f439auGBcQLnZQfA==
   dependencies:
     "@microsoft/tsdoc" "0.12.20"
-    ajv "~6.10.2"
+    ajv "~6.12.3"
     jju "~1.4.0"
     resolve "~1.12.0"
 
@@ -2839,10 +2839,10 @@
     "@types/istanbul-lib-coverage" "*"
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@^26.0.4":
-  version "26.0.4"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.4.tgz#d2e513e85aca16992816f192582b5e67b0b15efb"
-  integrity sha512-4fQNItvelbNA9+sFgU+fhJo8ZFF+AS4Egk3GWwCW2jFtViukXbnztccafAdLhzE/0EiCogljtQQXP8aQ9J7sFg==
+"@types/jest@^26.0.5":
+  version "26.0.5"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.5.tgz#23a8eecf4764a770ea8d3a0d1ea16b96c822035d"
+  integrity sha512-heU+7w8snfwfjtcj2H458aTx3m5unIToOJhx75ebHilBiiQ39OIdA18WkG4LP08YKeAoWAGvWg8s+22w/PeJ6w==
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
@@ -3458,12 +3458,12 @@ ajv@^6.1.0, ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.0, ajv@^6.12.2, ajv@^6.5.5:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-ajv@~6.10.2:
-  version "6.10.2"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.10.2.tgz#d3cea04d6b017b2894ad69040fec8b623eb4bd52"
-  integrity sha512-TXtUUEYHuaTEbLZWIKUr5pmBuhDLy+8KYtPYdcV8qC+pOZL+NKqYwvWSRrVXHn+ZmRRAu8vJTAznH7Oag6RVRw==
+ajv@~6.12.3:
+  version "6.12.3"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.12.3.tgz#18c5af38a111ddeb4f2697bd78d68abc1cabd706"
+  integrity sha512-4K0cK3L1hsqk9xIb2z9vs/XU+PGJZ9PNpJRDS9YLzmNdX6jmVPfamLvTJr0aDAusnHyCHO6MjzlkAsgtqp9teA==
   dependencies:
-    fast-deep-equal "^2.0.1"
+    fast-deep-equal "^3.1.1"
     fast-json-stable-stringify "^2.0.0"
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
@@ -6611,13 +6611,13 @@ eslint-plugin-standard@^4.0.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-standard/-/eslint-plugin-standard-4.0.1.tgz#ff0519f7ffaff114f76d1bd7c3996eef0f6e20b4"
   integrity sha512-v/KBnfyaOMPmZc/dmc6ozOdWqekGp7bBGq4jLAecEfPGmfKiWS4sA8sC0LqiV9w5qmXAtXVn4M3p1jSyhY85SQ==
 
-eslint-plugin-tsdoc@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-tsdoc/-/eslint-plugin-tsdoc-0.2.5.tgz#ae8b1117c11b771d57797314da4bab620dfccc61"
-  integrity sha512-KXquQlf/3u2U7A3LebYdcmAMtMxmUW3HN4JtOluq+iRuRPbBNVeUlg4SOXrnqSuQCOpSITHlPhP418IwjExA+w==
+eslint-plugin-tsdoc@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-tsdoc/-/eslint-plugin-tsdoc-0.2.6.tgz#8e63aeff24708da5a01ac2bef1e46c4cd779ce09"
+  integrity sha512-pU6/VVEOlC85BrUjsqZGGSRy41N+PHfWXokqjpQRWT1LSpBsAEbRpsueNYSFS+93Sx9CFD0511kjLKVySRbLbg==
   dependencies:
     "@microsoft/tsdoc" "0.12.20"
-    "@microsoft/tsdoc-config" "0.13.4"
+    "@microsoft/tsdoc-config" "0.13.5"
 
 eslint-rule-composer@^0.3.0:
   version "0.3.0"

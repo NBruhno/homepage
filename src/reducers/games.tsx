@@ -36,29 +36,31 @@ export const useGames = () => {
 }
 
 export const useGame = (id: string) => {
-	const [games, setGames] = useState(null)
+	const [game, setGame] = useState(null)
 	const { state } = useStore()
 	const { data, error } = useSWR(state.user.accessToken ? `/games/${id}` : null, (link) => fetcher(link, { accessToken: state.user.accessToken }), { revalidateOnFocus: false })
 
 	const follow = async () => {
 		const response = await fetcher(`/games/${id}/follow`, { accessToken: state.user.accessToken, method: Method.Post })
+
 		if (response.message) {
-			setGames(games.map((game: Game) => {
+			setGame(() => {
 				if (id === game.id) return { ...game, following: true }
 				return game
-			}))
+			})
 		}
 	}
+
 	const unfollow = async () => {
 		const response = await fetcher(`/games/${id}/unfollow`, { accessToken: state.user.accessToken, method: Method.Post })
 		if (response.message) {
-			setGames(games.map((game: Game) => {
+			setGame(() => {
 				if (id === game.id) return { ...game, following: false }
 				return game
-			}))
+			})
 		}
 	}
-	useEffect(() => setGames(data), [data])
+	useEffect(() => setGame(data), [data])
 
-	return { game: data, error, follow: async () => follow(), unfollow: async () => unfollow() }
+	return { game, error, follow: async () => follow(), unfollow: async () => unfollow() }
 }

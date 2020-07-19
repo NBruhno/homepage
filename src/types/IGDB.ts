@@ -30,8 +30,8 @@ enum GameCategory {
 }
 
 type Image = {
-	alpha_channel: boolean,
-	animated: boolean,
+	alpha_channel?: boolean,
+	animated?: boolean,
 	height: number,
 	image_id: string,
 	width: number,
@@ -62,6 +62,10 @@ type Platform = {
 
 type Company = {
 	description: string,
+	developer: boolean,
+	publisher: boolean,
+	porting: boolean,
+	supporting: boolean,
 	logo?: {
 		id: number,
 		alpha_channel: boolean,
@@ -89,6 +93,7 @@ export type Game = {
 	name: string,
 	platforms?: Array<Platform>,
 	release_dates?: Array<ReleaseDate>,
+	screenshots: Array<Image>,
 	slug: string,
 	storyline?: string,
 	summary?: string,
