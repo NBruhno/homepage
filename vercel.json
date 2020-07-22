@@ -7,7 +7,7 @@
     },
     {
       "source": "/storybook",
-      "destination": "/public/storybook"
+      "destination": "/storybook"
     }
   ],
   "headers": [
