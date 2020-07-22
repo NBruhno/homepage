@@ -7,7 +7,7 @@
     },
     {
       "source": "/storybook",
-      "destination": "/public/storybook/index.html"
+      "destination": "/public/storybook"
     }
   ],
   "headers": [
