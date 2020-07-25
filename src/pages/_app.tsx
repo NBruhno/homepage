@@ -1,4 +1,4 @@
-import { init, withScope, captureException } from '@sentry/browser'
+import { init } from '@sentry/node'
 import App from 'next/app'
 
 import { StoreProvider } from 'lib/store'
@@ -6,29 +6,17 @@ import { config } from 'config.client'
 
 import { Theme, Grid, Main, Footer, Navigation, Header, Shade } from 'components/Pages/App'
 
-if (config.environment === 'production') {
+if (config.sentry.dsn) {
 	init({
+		enabled: config.environment !== 'production',
 		dsn: config.sentry.dsn,
 	})
 }
 
 class MyApp extends App {
-	componentDidCatch(error: Error, errorInfo: React.ErrorInfo | any) {
-		if (config.environment === 'production') {
-			withScope((scope) => {
-				Object.keys(errorInfo).forEach((key) => {
-					scope.setExtra(key, errorInfo[key])
-				})
-
-				captureException(error)
-			})
-
-			super.componentDidCatch(error, errorInfo)
-		}
-	}
-
 	render() {
-		const { Component, pageProps } = this.props
+		// @ts-expect-error
+		const { Component, pageProps, err } = this.props
 
 		return (
 			<StoreProvider>
@@ -37,7 +25,7 @@ class MyApp extends App {
 						<Header />
 						<Navigation />
 						<Main>
-							<Component {...pageProps} />
+							<Component {...pageProps} err={err} />
 							<Shade />
 							<Footer />
 						</Main>

@@ -17,7 +17,7 @@ export const Header = (props: React.ComponentProps<'nav'>) => {
 		<HeaderComponent {...props}>
 			<ButtonIcon title='Menu' label={<MenuIcon />} onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: !responsive.collapsedSidebar } })} />
 			<Link href='/' passHref>
-				<NavLink currentColor css={{ alignItems: 'center' }}>
+				<NavLink currentColor css={{ alignItems: 'center' }} onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: true } })}>
 					<Logo
 						css={{
 							width: '32px',

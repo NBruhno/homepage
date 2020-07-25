@@ -1,16 +1,33 @@
 /* eslint-disable jsx-a11y/heading-has-content */
-type Props = {
-	isMobile: boolean,
-} & React.ComponentProps<'h1'>
-
-export const Title = ({ isMobile, ...rest }: Props) => (
+export const Title = (props: React.ComponentProps<'h1'>) => (
 	<h1
 		css={(theme: Theme) => ({
-			fontSize: isMobile ? theme.fontSize.s125 : theme.fontSize.s180,
-			marginTop: isMobile ? '4px' : '12px',
+			fontSize: '3em',
+			paddingTop: '12px',
 			color: theme.color.white,
-			marginBottom: 0,
+			margin: 0,
+
+			[theme.mediaQueries.maxMobile]: {
+				fontSize: theme.fontSize.s125,
+				paddingTop: '4px',
+			},
+
+			[theme.mediaQueries.mobileToTablet]: {
+				fontSize: theme.fontSize.s140,
+			},
+
+			[theme.mediaQueries.tabletToLaptop]: {
+				fontSize: theme.fontSize.s160,
+			},
+
+			[theme.mediaQueries.laptopToDesktop]: {
+				fontSize: theme.fontSize.s180,
+			},
+
+			[theme.mediaQueries.desktopToDesktopLarge]: {
+				fontSize: theme.fontSize.s200,
+			},
 		})}
-		{...rest}
+		{...props}
 	/>
 )

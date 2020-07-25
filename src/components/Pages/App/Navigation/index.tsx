@@ -32,7 +32,7 @@ export const Navigation = () => {
 	}
 
 	return (
-		<Sidebar collapsed={responsive.collapsedSidebar} isMobile={responsive.isMobile}>
+		<Sidebar collapsed={responsive.collapsedSidebar}>
 			{!responsive.isMobile && (
 				<Link href='/' passHref>
 					<Header onClick={() => closeMenuOnInteraction()}>

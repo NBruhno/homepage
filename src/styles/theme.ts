@@ -1,3 +1,41 @@
+export const screenSizes = {
+	mobile: 576,
+	tablet: 768,
+	laptop: 992,
+	desktop: 1200,
+	desktopLarge: 1600,
+}
+
+export const breakpoints = [screenSizes.mobile, screenSizes.tablet, screenSizes.laptop, screenSizes.desktop]
+
+export const mediaQueries = {
+	mobileToTablet: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.tablet -1}px)`,
+	mobileToLaptop: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.laptop -1}px)`,
+	mobileToDesktop: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.desktop -1}px)`,
+	mobileToDesktopLarge: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+
+	tabletToLaptop: `@media only screen and (min-width: ${screenSizes.tablet}px) and (max-width: ${screenSizes.laptop -1}px)`,
+	tabletToDesktop: `@media only screen and (min-width: ${screenSizes.tablet}px) and (max-width: ${screenSizes.desktop -1}px)`,
+	tabletToDesktopLarge: `@media only screen and (min-width: ${screenSizes.tablet}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+
+	laptopToDesktop: `@media only screen and (min-width: ${screenSizes.laptop}px) and (max-width: ${screenSizes.desktop -1}px)`,
+	laptopToDesktopLarge: `@media only screen and (min-width: ${screenSizes.laptop}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+
+	desktopToDesktopLarge: `@media only screen and (min-width: ${screenSizes.desktop}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+
+	maxMobile: `@media only screen and (max-width: ${screenSizes.mobile - 1}px)`,
+	maxTablet: `@media only screen and (max-width: ${screenSizes.tablet - 1}px)`,
+	maxLaptop: `@media only screen and (max-width: ${screenSizes.laptop - 1}px)`,
+	maxDesktop: `@media only screen and (max-width: ${screenSizes.desktop - 1}px)`,
+	maxDesktopLarge: `@media only screen and (max-width: ${screenSizes.desktopLarge - 1}px)`,
+
+	minMobile: `@media only screen and (min-width: ${screenSizes.mobile}px)`,
+	minTablet: `@media only screen and (min-width: ${screenSizes.tablet}px)`,
+	minLaptop: `@media only screen and (min-width: ${screenSizes.laptop}px)`,
+	minDesktop: `@media only screen and (min-width: ${screenSizes.desktop}px)`,
+	minDesktopLarge: `@media only screen and (min-width: ${screenSizes.desktopLarge}px)`,
+}
+
 export const theme = (darkTheme = true) => ({
 	color: {
 		primary: 'hsl(21, 80%, 51%)',
@@ -25,7 +63,8 @@ export const theme = (darkTheme = true) => ({
 		inputBorderHover: darkTheme ? 'hsl(0, 0%, 40%)' : 'hsl(0, 0%, 75%)',
 	},
 	fontSize: {
-		s180: '1.802em',
+		s200: '2em',
+		s180: '1.800em',
 		s160: '1.602em',
 		s140: '1.424em',
 		s125: '1.266em',
@@ -39,6 +78,7 @@ export const theme = (darkTheme = true) => ({
 		roboto: `'Roboto', sans-serif`,
 	},
 	darkTheme,
+	mediaQueries,
 })
 
 declare global {

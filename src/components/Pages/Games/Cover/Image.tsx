@@ -1,21 +1,22 @@
-import { useStore } from 'lib/store'
-
 type Props = {
 	size: string,
+	loading?: string,
 } & React.ComponentProps<'img'>
 
-export const Image = ({ size, ...rest }: Props) => {
-	const { state } = useStore()
+export const Image = ({ size, loading = 'lazy', ...rest }: Props) => (
+	<img
+		css={(theme: Theme) => ({
+			backgroundColor: theme.color.grayDark,
+			height: size === 'big' ? '352px' : '160px',
+			width: size === 'big' ? '264px' : '111px',
 
-	return (
-		<img
-			css={(theme: Theme) => ({
-				backgroundColor: theme.color.grayDark,
-				height: size === 'big' && !state.responsive.isMobile ? '352px' : '160px',
-				width: size === 'big' && !state.responsive.isMobile ? '264px' : '111px',
-			})}
-			alt='game cover'
-			{...rest}
-		/>
-	)
-}
+			[theme.mediaQueries.maxMobile]: {
+				height: '160px',
+				width: '111px',
+			},
+		})}
+		alt='game cover'
+		loading={loading}
+		{...rest}
+	/>
+)
