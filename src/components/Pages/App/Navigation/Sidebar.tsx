@@ -2,51 +2,48 @@ import { transparentize } from 'polished'
 
 type Props = {
 	collapsed: boolean,
-	isMobile: boolean,
 } & React.ComponentProps<'nav'>
 
-export const Sidebar = ({ collapsed, isMobile, ...rest }: Props) => {
-	const width = () => {
-		if (isMobile) {
-			if (collapsed) {
-				return 0
-			}
-			return '250px'
-		} else if (collapsed) {
-			return '70px'
-		} else {
-			return '250px'
-		}
-	}
+export const Sidebar = ({ collapsed, ...rest }: Props) => (
+	<nav
+		css={(theme: Theme) => ({
+			alignItems: 'stretch',
+			backgroundColor: theme.color.background,
+			borderRight: `1px solid ${theme.color.border}`,
+			display: 'flex',
+			flexDirection: 'column',
+			height: '100vh',
+			justifyContent: 'space-between',
+			padding: '0',
+			position: 'sticky',
+			top: 0,
+			transform: 'none',
+			transition: 'width 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+			width: collapsed ? '70px' : '250px',
+			zIndex: 5,
 
-	return (
-		<nav
-			css={(theme: Theme) => ({
-				alignItems: 'stretch',
-				backgroundColor: theme.color.background,
-				borderRight: `1px solid ${theme.color.border}`,
-				display: 'flex',
-				flexDirection: 'column',
-				height: isMobile ? 'calc(100vh - 54px)' : '100vh',
-				justifyContent: 'space-between',
-				padding: '0',
-				position: isMobile ? 'fixed' : 'sticky',
-				top: isMobile ? '54px' : 0,
-				transform: isMobile && collapsed ? 'translate(-70px)' : '',
-				transition: 'width 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
-				width: width(),
-				zIndex: 5,
+			'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
+				backgroundColor: transparentize(1, theme.color.background),
+				backdropFilter: 'none',
 
-				'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
-					backgroundColor: transparentize(isMobile ? 0.3 : 1, theme.color.background),
-					backdropFilter: isMobile ? 'blur(8px)' : 'none',
+				[theme.mediaQueries.maxMobile]: {
+					backgroundColor: transparentize(0.2, theme.color.background),
+					backdropFilter: 'saturate(150%) blur(5px)',
 				},
+			},
 
-				'> ::-webkit-scrollbar': {
-					width: collapsed ? 0 : '8px',
-				},
-			})}
-			{...rest}
-		/>
-	)
-}
+			'> ::-webkit-scrollbar': {
+				width: collapsed ? 0 : '8px',
+			},
+
+			[theme.mediaQueries.maxMobile]: {
+				width: collapsed ? 0 : '250px',
+				transform: collapsed ? 'translate(-70px)' : 'none',
+				height: 'calc(100vh - 54px)',
+				position: 'fixed',
+				top: '54px',
+			},
+		})}
+		{...rest}
+	/>
+)

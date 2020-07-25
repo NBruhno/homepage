@@ -1,19 +1,20 @@
-type Props = {
-	isMobile: boolean,
-} & React.ComponentProps<'div'>
-
-export const BackgroundWrapper = ({ isMobile, ...rest }: Props) => (
+export const BackgroundWrapper = (props: React.ComponentProps<'div'>) => (
 	<div
-		css={{
+		css={(theme: Theme) => ({
 			position: 'absolute',
 			top: 0,
 			left: 0,
 			right: 0,
-			height: isMobile ? '250px' :'500px',
+			height: '500px',
 			width: '100%',
 			zIndex: 0,
 			overflow: 'hidden',
-		}}
-		{...rest}
+			backgroundColor: theme.color.gray,
+
+			[theme.mediaQueries.maxMobile]: {
+				height: '250px',
+			},
+		})}
+		{...props}
 	/>
 )

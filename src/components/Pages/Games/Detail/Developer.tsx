@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/heading-has-content */
-type Props = {
-	isMobile: boolean,
-} & React.ComponentProps<'h1'>
-
-export const Developer = ({ isMobile, ...rest }: Props) => (
+export const Developer = (props: React.ComponentProps<'h1'>) => (
 	<h1
 		css={(theme: Theme) => ({
-			fontSize: isMobile ? theme.fontSize.s90 : theme.fontSize.s115,
-			marginTop: isMobile ? '6px' : '12px',
-			marginBottom: '16px',
 			color: theme.color.white,
+			fontSize: theme.fontSize.s115,
+			marginBottom: '16px',
+			marginTop: '12px',
+
+			[theme.mediaQueries.maxMobile]: {
+				fontSize: theme.fontSize.s90,
+				marginTop: '6px',
+			},
 		})}
-		{...rest}
+		{...props}
 	/>
 )

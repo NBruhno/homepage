@@ -4,10 +4,6 @@
     {
       "source": "/service-worker.js",
       "destination": "/_next/static/service-worker.js"
-    },
-    {
-      "source": "/storybook",
-      "destination": "/storybook"
     }
   ],
   "headers": [
@@ -21,15 +17,6 @@
         {
           "key": "Service-Worker-Allowed",
           "value": "/"
-        }
-      ]
-    },
-    {
-      "source": "/storybook",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=43200, immutable"
         }
       ]
     }

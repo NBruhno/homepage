@@ -4,6 +4,7 @@ export const Wrapper = (props: React.ComponentProps<'div'>) => (
 			display: 'flex',
 			overflow: 'hidden',
 			textOverflow: 'ellipsis',
+			justifyContent: 'space-around',
 		})}
 		{...props}
 	/>

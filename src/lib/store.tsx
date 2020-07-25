@@ -1,6 +1,8 @@
 import { createContext, useContext, useReducer, useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
+import { screenSizes } from 'styles/theme'
+
 const StoreContext = createContext(undefined)
 export const initialState: {
 	count: number,
@@ -62,16 +64,16 @@ const reducer = (state: Record<string, any>, payload: Record<string, any>) => {
  */
 export const StoreProvider = ({ children }: { children: React.ReactNode }) => {
 	const [state, dispatch] = useReducer(reducer, initialState, ((lazyState) => lazyState))
-	const isMobile = useMediaQuery({ query: '(max-width: 550px)' })
-	const isTablet = useMediaQuery({ query: '(max-width: 1100px)' })
+	const isMobile = useMediaQuery({ query: `(max-width: ${screenSizes.mobile - 1}px` })
+	const isLaptop = useMediaQuery({ query: `(max-width: ${screenSizes.laptop - 1}px` })
 	const systemPrefersDark = useMediaQuery({ query: '(prefers-color-scheme: dark)' }, undefined, (darkTheme: boolean) => {
 		setIsDark(darkTheme)
 	})
 	const [isDark, setIsDark] = useState(systemPrefersDark)
 
 	useEffect(() => {
-		dispatch({ responsive: { isMobile, isTablet, darkTheme: isDark, collapsedSidebar: isTablet || isMobile } })
-	}, [isMobile, isTablet, isDark])
+		dispatch({ responsive: { isMobile, isLaptop, darkTheme: isDark, collapsedSidebar: isLaptop || isMobile } })
+	}, [isMobile, isLaptop, isDark])
 
 	return (
 		<StoreContext.Provider value={{ state, dispatch }}>

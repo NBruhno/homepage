@@ -1,14 +1,15 @@
 /* eslint-disable no-console */
 
 const fs = require('fs')
-
 const format = require('date-fns/format')
+const chalk = require('chalk')
 
+const { log } = console
 const domains = ['bruhno.com', 'bruhno.dev']
 const outputLocation = 'public'
 const pagesLocation = 'src/pages/'
 
-console.log(`Creating sitemaps for ${domains.join(', ')} in ${outputLocation}`)
+log(`Creating sitemaps for ${domains.join(' & ')} in ${outputLocation}...`)
 
 const pages = {}
 const walkSync = (dir) => {
@@ -63,4 +64,4 @@ fs.writeFileSync(`${outputLocation}/sitemap.xml`, `<?xml version="1.0" encoding=
 	${sitemapEntries.join('\n	')}
 </urlset>`)
 
-console.log(`Created sitemap (${outputLocation}/sitemap.xml)`)
+log(chalk.greenBright(`Created successfully (${outputLocation}/sitemap.xml)`))

@@ -26,5 +26,5 @@ export const config = {
 		userKey: process.env.IGDB_USER_KEY,
 	},
 
-	environment: process.env.ENVIRONMENT,
+	environment: process.env.NODE_ENV,
 }

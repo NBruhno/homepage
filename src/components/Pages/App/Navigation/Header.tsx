@@ -17,6 +17,8 @@ export const Header = forwardRef((props: Props, ref) => (
 			padding: '12px 24px',
 			textDecoration: 'none',
 			flexShrink: 0,
+			width: theme.darkTheme ? 'auto' : 'calc(100% - 47px)',
+			overflow: 'none',
 		})}
 		{...props}
 	/>

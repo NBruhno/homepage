@@ -1,23 +1,22 @@
-import { useStore } from 'lib/store'
-
 type Props = {
 	size: string,
 } & React.ComponentProps<'div'>
 
-export const Placeholder = ({ size, ...rest }: Props) => {
-	const { state } = useStore()
+export const Placeholder = ({ size, ...rest }: Props) => (
+	<div
+		css={(theme: Theme) => ({
+			backgroundColor: theme.color.grayDark,
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'space-around',
+			height: size === 'big' ? '352px' : '160px',
+			width: size === 'big' ? '264px' : '111px',
 
-	return (
-		<div
-			css={(theme: Theme) => ({
-				backgroundColor: theme.color.grayDark,
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'space-around',
-				height: size === 'big' && !state.responsive.isMobile ? '352px' : '160px',
-				width: size === 'big' && !state.responsive.isMobile ? '264px' : '111px',
-			})}
-			{...rest}
-		/>
-	)
-}
+			[theme.mediaQueries.maxMobile]: {
+				height: '160px',
+				width: '111px',
+			},
+		})}
+		{...rest}
+	/>
+)
