@@ -6,13 +6,13 @@ import { ButtonSolid } from 'components/Buttons'
 import { Cover } from '../Cover'
 
 import { Background } from './Background'
-import { BackgroundWrapper } from './BackgroundWrapper'
 import { BackgroundPlaceholder } from './BackgroundPlaceholder'
+import { BackgroundWrapper } from './BackgroundWrapper'
 import { Developer } from './Developer'
+import { MainContent } from './MainContent'
 import { ReleaseDate } from './ReleaseDate'
 import { Title } from './Title'
 import { Wrapper } from './Wrapper'
-import { MainContent } from './MainContent'
 
 type Props = {
 	game: Game,

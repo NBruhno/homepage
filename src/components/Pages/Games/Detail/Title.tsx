@@ -9,6 +9,7 @@ export const Title = (props: React.ComponentProps<'h1'>) => (
 
 			[theme.mediaQueries.maxMobile]: {
 				fontSize: theme.fontSize.s125,
+				fontWeight: 500,
 				paddingTop: '4px',
 			},
 

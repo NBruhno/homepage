@@ -7,12 +7,13 @@ const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB
 
 export const Background = ({ quality, src, ...rest }: Props) => (
 	<img
-		css={(theme: Theme) => ({
-			width: '100%',
-			height: '100%',
+		css={{
+			width: 'calc(100% + 25px)',
+			height: 'calc(100% + 25px)',
 			filter: 'blur(0) brightness(0.7)',
 			backgroundColor: 'transparent',
 			objectFit: 'cover',
+			margin: '-15px',
 
 			'@media(min-width: 2600px)': {
 				filter: 'blur(5px) brightness(0.7)',
@@ -25,11 +26,7 @@ export const Background = ({ quality, src, ...rest }: Props) => (
 			'@media(min-width: 1250px)': {
 				filter: quality === 'low' && 'blur(5px) brightness(0.7)',
 			},
-
-			[theme.mediaQueries.maxMobile]: {
-				filter: 'none',
-			},
-		})}
+		}}
 		alt='background'
 		loading='eager'
 		src={src ?? placeholderImage}

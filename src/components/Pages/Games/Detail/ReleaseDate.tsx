@@ -9,7 +9,7 @@ export const ReleaseDate = (props: React.ComponentProps<'h1'>) => (
 
 			[theme.mediaQueries.maxMobile]: {
 				fontSize: theme.fontSize.s100,
-				marginTop: '6px',
+				marginTop: '8px',
 			},
 		})}
 		{...props}
