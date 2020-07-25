@@ -11,7 +11,6 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				left: 0,
 				right: 0,
 				top: 0,
-				display: 'static',
 				opacity: 0,
 				pointerEvents: 'none',
 				position: 'absolute',
@@ -19,7 +18,6 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				zIndex: 4,
 
 				[theme.mediaQueries.maxMobile]: {
-					display: 'static',
 					opacity: responsive.collapsedSidebar ? 0 : 0.4,
 					pointerEvents: responsive.collapsedSidebar ? 'none' : 'auto',
 				},

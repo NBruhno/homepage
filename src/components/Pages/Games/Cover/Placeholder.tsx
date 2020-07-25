@@ -5,10 +5,8 @@ type Props = {
 export const Placeholder = ({ size, ...rest }: Props) => (
 	<div
 		css={(theme: Theme) => ({
+			flexShrink: 0,
 			backgroundColor: theme.color.grayDark,
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'space-around',
 			height: size === 'big' ? '352px' : '160px',
 			width: size === 'big' ? '264px' : '111px',
 
