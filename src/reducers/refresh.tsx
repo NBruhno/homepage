@@ -17,7 +17,7 @@ export const useRefresh = () => {
 		try {
 			const { accessToken } = await fetcher('/auth/refresh', { cacheControl: 'no-cache' })
 			const user = decodeToken(accessToken)
-			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true })
+			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
 			console.error(error)
 		}
@@ -34,6 +34,10 @@ export const useRefresh = () => {
 
 		document.cookie = `${isProduction ? '__Host-refreshToken' : 'refreshToken'}=;path=/;${expires};${isProduction ? 'secure' : ''}`
 		const hasRefreshToken = document.cookie.indexOf(isProduction ? '__Host-refreshToken' : 'refreshToken') === -1
+
+		if (!hasRefreshToken && !state.user.accessToken) {
+			dispatchToGlobalState({ ...state.user, isStateKnown: true })
+		}
 
 		// Initial load
 		if (hasRefreshToken && !state.user.accessToken) {

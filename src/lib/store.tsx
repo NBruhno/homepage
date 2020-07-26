@@ -14,6 +14,7 @@ export const initialState: {
 	},
 	darkTheme: boolean,
 	user: {
+		isStateKnown: boolean,
 		accessToken?: string,
 		shouldRefresh: boolean,
 	},
@@ -31,6 +32,7 @@ export const initialState: {
 	count: 0,
 	darkTheme: true,
 	user: {
+		isStateKnown: false,
 		accessToken: undefined,
 		shouldRefresh: false,
 	},
