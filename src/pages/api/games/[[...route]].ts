@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { game, gameList, cover, coverList, involved, involvedList, follow, unfollow } from 'server/routes/games'
+import { withSentry } from 'server/middleware/withSentry'
 import { ApiError } from 'server/errors/ApiError'
 
-const auth = async (req: NextApiRequest, res: NextApiResponse) => {
+const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
 	const { query: { route } } = req
 
 	if (!route) { // /games
@@ -58,6 +59,6 @@ const auth = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 		}
 	}
-}
+})
 
 export default auth

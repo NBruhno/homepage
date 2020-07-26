@@ -26,5 +26,9 @@ export const config = {
 		userKey: process.env.IGDB_USER_KEY,
 	},
 
+	sentry: {
+		dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+	},
+
 	environment: process.env.NODE_ENV,
 }

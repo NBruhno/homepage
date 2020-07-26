@@ -1,9 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
 import { login, logout, register, refresh, twoFactorAuthentication, check, tokens } from 'server/routes/auth'
+import { withSentry } from 'server/middleware/withSentry'
 import { ApiError } from 'server/errors/ApiError'
 
-const auth = async (req: NextApiRequest, res: NextApiResponse) => {
+const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
 	const { query: { route } } = req
 
 	if (!route) { // /auth
@@ -48,6 +49,6 @@ const auth = async (req: NextApiRequest, res: NextApiResponse) => {
 			throw error
 		}
 	}
-}
+})
 
 export default auth
