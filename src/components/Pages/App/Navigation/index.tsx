@@ -10,7 +10,7 @@ import { useStore } from 'lib/store'
 
 import { ChevronFlip } from 'components/ChevronFlip'
 import { ButtonText, ButtonIcon } from 'components/Buttons'
-import { LoginIcon, PencilRulerIcon, LightDarkModeIcon, TestTubeIcon, GhostIcon, AccountIcon, LogoutIcon } from 'components/Icons'
+import { LoginIcon, PencilRulerIcon, LightDarkModeIcon, TestTubeIcon, ControllerIcon, AccountIcon, LogoutIcon, InfoIcon, ToolsIcon } from 'components/Icons'
 import { Logo } from 'components/Logo'
 
 import { Content } from './Content'
@@ -91,7 +91,7 @@ export const Navigation = () => {
 						active={pathname.includes('/games')}
 						onClick={() => closeMenuOnInteraction()}
 					>
-						<GhostIcon css={{ marginRight: '6px' }} size={22} /><Text>Games</Text>
+						<ControllerIcon css={{ marginRight: '6px' }} size={22} /><Text>Games</Text>
 					</NavLink>
 				</Link>
 				<Link href='/test' passHref>
@@ -109,6 +109,25 @@ export const Navigation = () => {
 					<PencilRulerIcon css={{ marginRight: '6px' }} size={22} /><Text>Storybook</Text>
 				</NavLink>
 			</Content>
+
+			<Separator collapsed={responsive.collapsedSidebar}>Site</Separator>
+			<Link href='/404' passHref>
+				<NavLink
+					active={pathname.includes('/projects')}
+					onClick={() => closeMenuOnInteraction()}
+				>
+					<ToolsIcon css={{ marginRight: '6px' }} size={22} /><Text>Projects</Text>
+				</NavLink>
+			</Link>
+			<Link href='/about' passHref>
+				<NavLink
+					active={pathname.includes('/about')}
+					onClick={() => closeMenuOnInteraction()}
+				>
+					<InfoIcon css={{ marginRight: '6px' }} size={22} /><Text>About</Text>
+				</NavLink>
+			</Link>
+
 			<Content css={{ marginTop: 'auto' }}>
 				<Separator slim />
 				<ButtonText

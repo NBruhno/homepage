@@ -25,7 +25,7 @@ const walkSync = (dir) => {
 				.substr(0, filePath.lastIndexOf('.'))
 				.replace(pagesLocation, '')
 
-			if (cleanFileName.includes('_document') || cleanFileName.includes('_error') || cleanFileName.includes('_app') || cleanFileName.includes('api/') || cleanFileName.includes('/[')) return
+			if (cleanFileName.includes('_document') || cleanFileName.includes('_error') || cleanFileName.includes('_app') || cleanFileName.includes('404') || cleanFileName.includes('api/') || cleanFileName.includes('/[')) return
 			if (cleanFileName.includes('/index')) {
 				pages[cleanFileName.replace('/index', '') || ''] = {
 					page: '',

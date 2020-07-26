@@ -1,4 +1,4 @@
-import { mdiAlertCircle, mdiWindowClose, mdiThemeLightDark, mdiLogin, mdiPencilRuler, mdiTestTube, mdiGhost, mdiAccount, mdiAccountOff, mdiMenu, mdiLogout } from '@mdi/js'
+import { mdiAlertCircle, mdiWindowClose, mdiThemeLightDark, mdiLogin, mdiPencilRuler, mdiTestTube, mdiGhost, mdiAccount, mdiAccountOff, mdiMenu, mdiLogout, mdiInformation, mdiGoogleController, mdiTools } from '@mdi/js'
 
 type Props = {
 	x?: number,
@@ -76,7 +76,7 @@ export const TestTubeIcon = (props: Props) => (
 export const GhostIcon = (props: Props) => (
 	<Svg {...props}>
 		<path fill='currentColor' d={mdiGhost} />
-		<title>Games</title>
+		<title>Ghost</title>
 	</Svg>
 )
 
@@ -98,5 +98,26 @@ export const MenuIcon = (props: Props) => (
 	<Svg {...props}>
 		<path fill='currentColor' d={mdiMenu} />
 		<title>Menu</title>
+	</Svg>
+)
+
+export const InfoIcon = (props: Props) => (
+	<Svg {...props}>
+		<path fill='currentColor' d={mdiInformation} />
+		<title>Info</title>
+	</Svg>
+)
+
+export const ControllerIcon = (props: Props) => (
+	<Svg {...props}>
+		<path fill='currentColor' d={mdiGoogleController} />
+		<title>Games</title>
+	</Svg>
+)
+
+export const ToolsIcon = (props: Props) => (
+	<Svg {...props}>
+		<path fill='currentColor' d={mdiTools} />
+		<title>Projects</title>
 	</Svg>
 )

@@ -6,6 +6,7 @@ export const RowLabel = (props: React.ComponentProps<'label'>) => (
 			gridTemplateColumns: 'min-content 1fr',
 			color: theme.color.text,
 			fontSize: theme.fontSize.s115,
+			fontFamily: theme.fontFamily.poppins,
 			fontWeight: 300,
 			margin: '0 12px 20px 0',
 		})}

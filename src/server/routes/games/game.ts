@@ -57,11 +57,16 @@ const releaseDates = [
 	'release_dates.platform.platform_logo.alpha_channel',
 ]
 
+const genres = [
+	'genres.name',
+]
+
 const platforms = [
 	'platforms.abbreviation',
 	'platforms.name',
 	'platforms.platform_logo.image_id',
 	'platforms.platform_logo.alpha_channel',
+	'platforms.platform_logo.url',
 ]
 
 const engines = [
@@ -77,7 +82,7 @@ const websites = [
 	'websites.url',
 ]
 
-const fields = `fields ${[...root, ...cover, ...screenshots, ...companies, ...releaseDates, ...platforms, ...engines, ...websites].join(', ')}`
+const fields = `fields ${[...root, ...cover, ...screenshots, ...companies, ...releaseDates, ...genres, ...platforms, ...engines, ...websites].join(', ')}`
 
 export const game = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method } = req
@@ -156,11 +161,11 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				},
 				engines: game_engines,
 				following: Boolean(followedGame),
-				genres,
+				genres: genres.map(({ name }) => name) ?? null,
 				name,
 				summary,
 				storyline,
-				platforms: platforms ?? null,
+				platforms: platforms.map(({ name }) => name) ?? null,
 				releaseDate: first_release_date ?? null,
 				releaseDates: release_dates ?? null,
 			}))

@@ -3,6 +3,7 @@ export const Page = (props: React.ComponentProps<'div'>) => (
 		css={{
 			padding: '24px',
 			overflow: 'hidden',
+			position: 'relative',
 		}}
 		{...props}
 	/>

@@ -15,7 +15,7 @@ const GamePage: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Game • Bruhno</title>
+				<title>{game?.name ?? 'Game'} • Bruhno</title>
 			</Head>
 			<Page>
 				<Detail game={game} error={error} isLoading={isLoading} onFollow={follow} onUnfollow={unfollow} />

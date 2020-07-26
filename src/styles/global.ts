@@ -7,10 +7,6 @@ export const globalCss = (theme: Theme) => css([
 	normalize,
 	fonts,
 	{
-		'*': {
-			fontFamily: 'Roboto, sans-serif',
-		},
-
 		'*::-webkit-scrollbar': {
 			backgroundColor: theme.color.background,
 			width: '8px',
@@ -23,6 +19,7 @@ export const globalCss = (theme: Theme) => css([
 		},
 
 		html: {
+			fontFamily: 'Roboto, sans-serif',
 			fontSize: '100%',
 		},
 
@@ -38,6 +35,7 @@ export const globalCss = (theme: Theme) => css([
 			margin: '2.75rem 0 1.05rem',
 			lineHeight: 1.15,
 			fontWeight: 400,
+			fontFamily: theme.fontFamily.poppins,
 		},
 	},
 ])
