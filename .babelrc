@@ -1,5 +1,28 @@
 {
   "presets": [
-    "es2015"
-  ]
+    "next/babel",
+    "@emotion/babel-preset-css-prop"
+  ],
+  "plugins": [
+    [
+      "polished"
+    ]
+  ],
+  "env": {
+    "production": {
+      "plugins": [
+        "emotion"
+      ]
+    },
+    "development": {
+      "plugins": [
+        [
+          "emotion",
+          {
+            "sourceMap": true
+          }
+        ]
+      ]
+    }
+  }
 }

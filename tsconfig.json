@@ -1,32 +1,46 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "*": [
-        "src/app/*",
-        "src/app/redux/*"
-      ]
-    },
-    "outDir": "build",
-    "module": "commonjs",
-    "target": "es6",
-    "sourceMap": true,
-    "inlineSourceMap": false,
-    "inlineSources": false,
-    "experimentalDecorators": true,
-    "noUnusedParameters": true,
+    "target": "esnext",
+    "module": "esnext",
+    "jsx": "preserve",
+    "allowJs": false,
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
-    "jsx": "react",
-    "moduleResolution": "node"
+    "noUnusedParameters": true,
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "skipLibCheck": true,
+    "baseUrl": "./src",
+    "typeRoots": [
+      "./node_modules/@types"
+    ],
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ]
   },
   "exclude": [
     "node_modules",
-    "build",
-    "typings/main",
-    "typings/main.d.ts"
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ],
-  "awesomeTypescriptLoaderOptions": {
-    "useCache": true,
-    "useBabel": true
-  }
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/.*.tsx",
+  ]
 }

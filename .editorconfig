@@ -1,23 +1,13 @@
-root=true
+root = true
 
 [*]
 end_of_line = lf
 insert_final_newline = true
+
+[*.{js,jsx,ts,tsx}]
+indent_size = 2
 indent_style = tab
-trim_trailing_whitespace = true
-charset = utf-8
 
-[package.json]
+[*.{json,yml,lock}]
 indent_style = space
 indent_size = 2
-
-[.sass-lint.yml]
-indent_style = space
-indent_size = 2
-
-[.eslintrc]
-indent_style = space
-indent_size = 4
-
-[*.md]
-trim_trailing_whitespace = false
