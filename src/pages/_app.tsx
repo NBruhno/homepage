@@ -8,7 +8,7 @@ import { Theme, Grid, Main, Footer, Navigation, Header, Shade } from 'components
 
 if (config.sentry.dsn) {
 	init({
-		enabled: config.environment !== 'production',
+		enabled: config.environment === 'production',
 		dsn: config.sentry.dsn,
 	})
 }

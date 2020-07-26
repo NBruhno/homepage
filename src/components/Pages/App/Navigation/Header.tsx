@@ -13,12 +13,13 @@ export const Header = forwardRef((props: Props, ref) => (
 			backgroundColor: theme.darkTheme ? theme.color.grayDark : theme.color.gray,
 			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
 			display: 'flex',
+			flexShrink: 0,
+			fontFamily: theme.fontFamily.poppins,
 			height: '35px',
+			overflow: 'none',
 			padding: '12px 24px',
 			textDecoration: 'none',
-			flexShrink: 0,
 			width: theme.darkTheme ? 'auto' : 'calc(100% - 47px)',
-			overflow: 'none',
 		})}
 		{...props}
 	/>

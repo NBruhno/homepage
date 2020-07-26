@@ -2,6 +2,7 @@
 export const ReleaseDate = (props: React.ComponentProps<'h1'>) => (
 	<h1
 		css={(theme: Theme) => ({
+			textShadow: '1px 1px 5px black, 0 0 12px black',
 			fontSize: theme.fontSize.s125,
 			marginTop: '12px',
 			marginBottom: 0,

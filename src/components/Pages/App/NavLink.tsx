@@ -19,6 +19,7 @@ export const NavLink = forwardRef(({ active, currentColor = false, ...rest }: Pr
 			borderRadius: '4px',
 			margin: '4px 12px',
 			transition: 'color 135ms cubic-bezier(0.4, 0, 0.2, 1), background-color 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+			fontFamily: theme.fontFamily.poppins,
 			fontSize: theme.fontSize.s90,
 			display: 'flex',
 

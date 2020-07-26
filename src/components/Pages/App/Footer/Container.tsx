@@ -8,6 +8,8 @@ export const Container = (props: React.ComponentProps<'footer'>) => (
 			height: '72px',
 			marginTop: 'auto',
 			bottom: 0,
+			overflow: 'hidden',
+			verticalAlign: 'bottom',
 		})}
 		{...props}
 	/>

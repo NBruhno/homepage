@@ -14,8 +14,8 @@ type Props = {
 	shouldAnimate?: boolean,
 }
 
-export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, shouldAnimate = true }: Props) => (
-	<Container>
+export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, shouldAnimate = true, ...rest }: Props) => (
+	<Container {...rest}>
 		<Collapse isOpen={isExpanded} transitionTime={shouldAnimate ? 0.2 : 0}>
 			<>
 				{isExpanded && hasError && <Error>Failed to load content</Error>}
