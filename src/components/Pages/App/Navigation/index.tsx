@@ -94,7 +94,7 @@ export const Navigation = () => {
 						<ControllerIcon css={{ marginRight: '6px' }} size={22} /><Text>Games</Text>
 					</NavLink>
 				</Link>
-				<Link href='/test' passHref>
+				<Link href='/404' passHref>
 					<NavLink
 						active={pathname.includes('/test')}
 						onClick={() => closeMenuOnInteraction()}
