@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { config } from 'config.client'
-
 import { useRefresh } from 'reducers/refresh'
 import { useAuth } from 'reducers/auth'
 
