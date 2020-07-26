@@ -102,12 +102,14 @@ export const Navigation = () => {
 						<TestTubeIcon css={{ marginRight: '6px' }} size={22} /><Text>Test</Text>
 					</NavLink>
 				</Link>
-				<NavLink
-					href={config.environment === 'development' ? 'http://localhost:9000' : `/storybook/index.html`}
-					onClick={() => closeMenuOnInteraction()}
-				>
-					<PencilRulerIcon css={{ marginRight: '6px' }} size={22} /><Text>Storybook</Text>
-				</NavLink>
+				<Link href='/storybook' passHref>
+					<NavLink
+						active={pathname.includes('/storybook')}
+						onClick={() => closeMenuOnInteraction()}
+					>
+						<PencilRulerIcon css={{ marginRight: '6px' }} size={22} /><Text>Storybook</Text>
+					</NavLink>
+				</Link>
 			</Content>
 
 			<Separator collapsed={responsive.collapsedSidebar}>Site</Separator>
