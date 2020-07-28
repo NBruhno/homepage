@@ -87,18 +87,22 @@ const fields = `fields ${[...root, ...cover, ...screenshots, ...companies, ...re
 export const game = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method } = req
 
-	const token = await authenticateAccessToken(req, res)
+	const token = await authenticateAccessToken(req, res, { optional: true })
 	switch (method) {
 		case 'GET': {
-			const followedGame: { data: Array<string> } = await faunaClient(token.secret).query(
-				q.Select(['data', 'id'], q.Get(q.Match(q.Index('gamesByIdAndUser'), [id, q.Identity()]))),
-			).catch((error: errors.FaunaError) => {
-				if (error instanceof errors.NotFound) {
-					return null
-				} else {
-					throw error
-				}
-			})
+			let followedGame = null as { data: Array<string> } | null
+
+			if (token) {
+				followedGame = await faunaClient(token.secret).query(
+					q.Select(['data', 'id'], q.Get(q.Match(q.Index('gamesByIdAndUser'), [id, q.Identity()]))),
+				).catch((error: errors.FaunaError) => {
+					if (error instanceof errors.NotFound) {
+						return null
+					} else {
+						throw error
+					}
+				})
+			}
 
 			const response = await fetch('https://api-v3.igdb.com/games', {
 				method: 'POST',
@@ -117,32 +121,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				throw error
 			}
 
-			let screenshotQuality = 'high'
-			let screenshots = result[0].screenshots.map(({ width, image_id }: { width: number, image_id: string }) => {
-				if (width >= 1900) {
-					return `https://images.igdb.com/igdb/image/upload/t_screenshot_huge_2x/${image_id}.jpg`
-				} else {
-					return null
-				}
-			}).filter(Boolean)
-
-			if (screenshots.length === 0) {
-				screenshotQuality = 'medium'
-				screenshots = result[0].screenshots.map(({ width, image_id }: { width: number, image_id: string }) => {
-					if (width >= 1200) {
-						return `https://images.igdb.com/igdb/image/upload/t_screenshot_huge_2x/${image_id}.jpg`
-					} else {
-						return null
-					}
-				}).filter(Boolean)
-			}
-
-			if (screenshots.length === 0) {
-				screenshotQuality = 'low'
-				screenshots = result[0].screenshots.map(
-					({ image_id }: { image_id: string }) => `https://images.igdb.com/igdb/image/upload/t_screenshot_huge_2x/${image_id}.jpg`,
-				).filter(Boolean)
-			}
+			const screenshots = result[0].screenshots.map(({ image_id }: { width: number, image_id: string }) => `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${image_id}.jpg`).filter(Boolean)
 
 			const transformedResult: Game[] = result.map(({ slug, aggregated_rating, aggregated_rating_count, category, genres, storyline, summary, involved_companies, cover, name, platforms, first_release_date, release_dates, game_engines }: IGDBGame) => ({
 				id: slug ?? null,
@@ -154,18 +133,15 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				publisher: involved_companies.find(({ publisher }) => publisher),
 				porting: involved_companies.find(({ porting }) => porting),
 				companies: { ...involved_companies },
-				cover: { ...cover, url: cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big_2x/${cover.image_id}.jpg` : null },
-				screenshot: {
-					quality: screenshotQuality,
-					url: sample(screenshots),
-				},
+				cover: { ...cover, url: cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${cover.image_id}.jpg` : null },
+				screenshot: sample(screenshots),
 				engines: game_engines,
 				following: Boolean(followedGame),
-				genres: genres.map(({ name }) => name) ?? null,
+				genres: genres ? genres.map(({ name }) => name) : [],
 				name,
 				summary,
 				storyline,
-				platforms: platforms.map(({ name }) => name) ?? null,
+				platforms: platforms ? platforms.map(({ name }) => name) : null,
 				releaseDate: first_release_date ?? null,
 				releaseDates: release_dates ?? null,
 			}))

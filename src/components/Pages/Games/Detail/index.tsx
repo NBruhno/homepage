@@ -14,6 +14,7 @@ import { Title } from './Header/Title'
 
 import { MainContent } from './MainContent'
 import { Wrapper } from './Wrapper'
+import { useAuth } from 'reducers/auth'
 
 type Props = {
 	game: Game,
@@ -24,40 +25,49 @@ type Props = {
 	onUnfollow: () => Promise<any>,
 }
 
-export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => (
-	<Wrapper>
-		<BackgroundWrapper>
-			{isLoading ? (
-				<BackgroundPlaceholder />
-			) : (
-				<Background src={game?.screenshot.url ?? game?.cover.url ?? null} quality={game?.screenshot.quality} />
-			)}
-		</BackgroundWrapper>
-		<MainContent>
-			<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '18px' }}>
-				<Cover coverUrl={game?.cover.url ?? null} loading='eager' />
-				<div>
-					<Title>
-						<Placeholder width='75%' isLoading={isLoading}>
-							{game?.name ?? 'Loading'}
-						</Placeholder>
-					</Title>
-					<ReleaseDate>
-						<Placeholder isLoading={isLoading} width={120}>
-							{game?.releaseDate ? new Date(game.releaseDate * 1000).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' }) : 'No official release date'}
-						</Placeholder>
-					</ReleaseDate>
-					<Developer>
-						<Placeholder isLoading={isLoading} width={200}>
-							By {game?.developer?.company.name}
-						</Placeholder>
-					</Developer>
-					<ButtonSolid label={game?.following ? 'Unfollow' : 'Follow'} onClick={() => game?.following ? onUnfollow() : onFollow()} plain isLoading={isLoading} />
+export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
+	const { user } = useAuth()
+
+	return (
+		<Wrapper>
+			<BackgroundWrapper>
+				{isLoading ? (
+					<BackgroundPlaceholder />
+				) : (
+					<Background src={game?.screenshot ?? game?.cover.url ?? null} />
+				)}
+			</BackgroundWrapper>
+			<MainContent>
+				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '18px' }}>
+					<Cover coverUrl={game?.cover.url ?? null} loading='eager' />
+					<div>
+						<Title>
+							<Placeholder width='75%' isLoading={isLoading}>
+								{game?.name ?? 'Loading'}
+							</Placeholder>
+						</Title>
+						<ReleaseDate>
+							<Placeholder isLoading={isLoading} width={120}>
+								{game?.releaseDate ? new Date(game.releaseDate * 1000).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' }) : 'No official release date'}
+							</Placeholder>
+						</ReleaseDate>
+						<Developer>
+							<Placeholder isLoading={isLoading} width={200}>
+								By {game?.developer?.company.name}
+							</Placeholder>
+						</Developer>
+						<ButtonSolid
+							label={game?.following ? 'Unfollow' : 'Follow'}
+							onClick={() => game?.following ? onUnfollow() : onFollow()}
+							disabled={!user.accessToken}
+							isLoading={isLoading}
+						/>
+					</div>
 				</div>
-			</div>
-			<p>Genres: {game?.genres.join(', ')}</p>
-			<p>Platforms: {game?.platforms.join(', ')}</p>
-			<p>{game?.summary}</p>
-		</MainContent>
-	</Wrapper>
-)
+				{game?.genres.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
+				{game?.platforms.length > 0 && <p>Platforms: {game?.platforms.join(', ')}</p>}
+				{game?.summary && <p>{game?.summary}</p>}
+			</MainContent>
+		</Wrapper>
+	)
+}

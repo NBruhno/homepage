@@ -14,18 +14,22 @@ import { ApiError } from 'server/errors/ApiError'
 export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
 
-	const token = await authenticateAccessToken(req, res)
+	const token = await authenticateAccessToken(req, res, { optional: true })
 	switch (method) {
 		case 'POST': {
-			const followedGames: { data: Array<string> } = await faunaClient(token.secret).query(
-				q.Paginate(q.Match(q.Index('gamesByUser'), q.Identity())),
-			)
+			let followedGames = null as { data: Array<string> } | null
+
+			if (token) {
+				followedGames = await faunaClient(token.secret).query(
+					q.Paginate(q.Match(q.Index('gamesByUser'), q.Identity())),
+				)
+			}
 
 			const response = await fetch('https://api-v3.igdb.com/games', {
 				method: 'POST',
-				body: body?.search
-					? `fields name, release_dates, cover.image_id, first_release_date, slug; limit 20; search "${body?.search}";`
-					: `fields name, release_dates, cover.image_id, first_release_date, slug; sort first_release_date asc; limit 100; where slug = ("${followedGames.data.join(`", "`)}");`,
+				body: body?.search || !followedGames
+					? `fields name, release_dates, cover.image_id, first_release_date, slug; limit 20; ${body?.search ? `search "${body?.search}"` : 'sort popularity desc'};`
+					: `fields name, release_dates, cover.image_id, first_release_date, slug; sort first_release_date asc; limit 100; where slug = ("${followedGames?.data.join(`", "`)}");`,
 				headers: new Headers({
 					'user-key': config.igdb.userKey,
 					'Content-Type': 'text/plain',
@@ -43,7 +47,7 @@ export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 
 			if (result.length > 0) {
 				const transformedResult: Array<Game> = result.map((game: IGDBGame) => {
-					const following = body?.search ? followedGames.data.includes(game.slug) : true
+					const following = followedGames ? Boolean(followedGames?.data.includes(game.slug)) : false
 					return ({
 						cover: {
 							url: game.cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_small_2x/${game.cover.image_id}.jpg` : null,

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
@@ -19,19 +18,21 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, id: stri
 						userRefs: [q.Identity()],
 					},
 				}),
-			).catch(async (error) => {
+			).then(() => {
+				res.status(200).json({ message: 'Success' })
+			}).catch(async (error) => {
 				if (error.description.includes('unique')) {
 					await faunaClient(token.secret).query(q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), id))), {
 						data: {
 							userRefs: q.Append(q.Select(['data', 'userRefs'], q.Get(q.Match(q.Index('gamesById'), id))), [q.Identity()]),
 						},
-					}))
+					})).then(() => {
+						res.status(201).json({ message: 'Success' })
+					})
 				} else {
 					throw error
 				}
 			})
-
-			res.status(200).json({ message: 'Success' })
 			break
 		}
 
