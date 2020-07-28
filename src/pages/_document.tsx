@@ -8,7 +8,6 @@ class _document extends Document {
 					{/* General */}
 					<base href='/' />
 					<meta name='description' content="This is Nicolai Bruhn Lauritsen or more commonly known as Bruhno's personal website which functions as a portfolio and a playground." />
-					<meta name='viewport' content='width=device-width, initial-scale=1' />
 					<meta name='mobile-web-app-capable' content='yes' />
 					<meta name='apple-mobile-web-app-capable' content='yes' />
 					<meta name='msapplication-starturl' content='/' />
