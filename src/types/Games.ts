@@ -8,10 +8,7 @@ export type Game = {
 	supporting: Record<string, any>,
 	publisher: Record<string, any>,
 	name: string,
-	screenshot: {
-		quality: 'high' | 'medium' | 'low',
-		url: string,
-	},
+	screenshot: string | null,
 	summary: string,
 	genres: Array<string>,
 	platforms: Array<string>,

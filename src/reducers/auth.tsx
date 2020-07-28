@@ -14,7 +14,7 @@ export const useAuth = () => {
 		try {
 			const { accessToken } = await fetcher('/auth/register', { method: Method.Post, body: { email, password }, cacheControl: 'no-cache' })
 			const user = decodeToken(accessToken)
-			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true })
+			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
 			console.error(error)
 		}
@@ -26,13 +26,13 @@ export const useAuth = () => {
 
 			if (accessToken) {
 				const user = decodeToken(accessToken)
-				dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true })
+				dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true, isStateKnown: true })
 				return
 			}
 
 			if (intermediateToken) {
 				const user = decodeToken(intermediateToken)
-				dispatchToGlobalState({ intermediateToken, email: user.sub, shouldRefresh: false })
+				dispatchToGlobalState({ intermediateToken, email: user.sub, shouldRefresh: false, isStateKnown: true })
 				return
 			}
 
@@ -45,7 +45,7 @@ export const useAuth = () => {
 	const logout = async () => {
 		try {
 			await fetcher('/auth/logout', { method: Method.Post, accessToken: state.user.accessToken, cacheControl: 'no-cache' })
-			dispatchToGlobalState({ accessToken: null, id: null, email: null, shouldRefresh: false })
+			dispatchToGlobalState({ accessToken: null, id: null, email: null, shouldRefresh: false, isStateKnown: true })
 		} catch (error) {
 			console.error(error)
 		}
@@ -63,7 +63,7 @@ export const useAuth = () => {
 	const initialize2fa = async () => {
 		try {
 			const secret = await fetcher('/auth/2fa', { accessToken: state.user.accessToken, cacheControl: 'no-cache' })
-			dispatchToGlobalState({ twoFactorSecret: secret })
+			dispatchToGlobalState({ twoFactorSecret: secret, isStateKnown: true })
 		} catch (error) {
 			console.error(error)
 		}
@@ -92,7 +92,7 @@ export const useAuth = () => {
 			})
 
 			const user = decodeToken(accessToken)
-			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true, intermediateToken: null })
+			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true, intermediateToken: null, isStateKnown: true })
 		} catch (error) {
 			console.error(error)
 		}
