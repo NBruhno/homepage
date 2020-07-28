@@ -42,6 +42,11 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 		],
 	},
 
+	// TODO: Remove once this is no longer an experimental feature
+	experimental: {
+		optionalCatchAll: true,
+	},
+
 	webpack: (config, options) => {
 		if (!options.isServer) {
 			config.resolve.alias['@sentry/node'] = '@sentry/browser'

@@ -121,8 +121,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				throw error
 			}
 
-			const screenshots = result[0].screenshots.map(({ image_id }: { width: number, image_id: string }) => `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${image_id}.jpg`).filter(Boolean)
-
+			const screenshots = result[0].screenshots?.length > 0 ? result[0].screenshots.map(({ image_id }: { width: number, image_id: string }) => `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${image_id}.jpg`).filter(Boolean) : []
 			const transformedResult: Game[] = result.map(({ slug, aggregated_rating, aggregated_rating_count, category, genres, storyline, summary, involved_companies, cover, name, platforms, first_release_date, release_dates, game_engines }: IGDBGame) => ({
 				id: slug ?? null,
 				rating: aggregated_rating,

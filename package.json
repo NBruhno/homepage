@@ -40,7 +40,7 @@
     "jose": "^1.27.2",
     "lodash-es": "^4.17.15",
     "match-sorter": "^4.2.0",
-    "next": "^9.5.0",
+    "next": "^9.4.4",
     "next-offline": "^5.0.2",
     "otplib": "^12.0.1",
     "polished": "^3.6.5",
@@ -57,7 +57,7 @@
   "devDependencies": {
     "@babel/core": "^7.10.5",
     "@emotion/babel-preset-css-prop": "^10.0.27",
-    "@next/bundle-analyzer": "^9.5.0",
+    "@next/bundle-analyzer": "^9.4.4",
     "@storybook/addon-actions": "^5.3.19",
     "@storybook/addon-docs": "^5.3.19",
     "@storybook/react": "^5.3.19",

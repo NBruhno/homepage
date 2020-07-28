@@ -1877,7 +1877,7 @@
     call-me-maybe "^1.0.1"
     glob-to-regexp "^0.3.0"
 
-"@next/bundle-analyzer@^9.5.0":
+"@next/bundle-analyzer@^9.4.4":
   version "9.5.0"
   resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-9.5.0.tgz#9258b8ca6b68d000778dfde898eb0d3d9936c133"
   integrity sha512-gU8IkQzqdNXTQEWcjEZynM+wTpLQfQjPsRxl3pTLbgOCqumND8DmFHHD+YZ7sjFMiwu6V6dD/Ql+dlrovTeHfw==
@@ -10044,7 +10044,7 @@ next-transpile-modules@^4.0.0:
     micromatch "^4.0.2"
     slash "^3.0.0"
 
-next@^9.5.0:
+next@^9.4.4:
   version "9.5.0"
   resolved "https://registry.yarnpkg.com/next/-/next-9.5.0.tgz#964c35db00f9938443a53858e16bba31d234fb4b"
   integrity sha512-kb6QnrbMyS/h4bvryZSQKgRqLtFVL2NZQed4jxrFZ15yxtwdsSCf5+LNfS7bcpVxh7HeD5Ddwh55l9+nOGkEBQ==
