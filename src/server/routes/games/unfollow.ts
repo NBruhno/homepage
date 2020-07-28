@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
