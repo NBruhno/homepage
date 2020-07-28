@@ -1,4 +1,5 @@
 import { init } from '@sentry/node'
+import Head from 'next/head'
 import App from 'next/app'
 
 import { StoreProvider } from 'lib/store'
@@ -19,19 +20,24 @@ class MyApp extends App {
 		const { Component, pageProps, err } = this.props
 
 		return (
-			<StoreProvider>
-				<Theme>
-					<Grid>
-						<Header />
-						<Navigation />
-						<Main>
-							<Component {...pageProps} err={err} />
-							<Shade />
-							<Footer />
-						</Main>
-					</Grid>
-				</Theme>
-			</StoreProvider>
+			<>
+				<Head>
+					<meta name='viewport' content='width=device-width, initial-scale=1' />
+				</Head>
+				<StoreProvider>
+					<Theme>
+						<Grid>
+							<Header />
+							<Navigation />
+							<Main>
+								<Component {...pageProps} err={err} />
+								<Shade />
+								<Footer />
+							</Main>
+						</Grid>
+					</Theme>
+				</StoreProvider>
+			</>
 		)
 	}
 }
