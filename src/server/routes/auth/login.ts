@@ -34,13 +34,13 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			if (user.data?.twoFactorSecret) {
-				const intermediateToken = generateIntermediateToken(user.secret, { sub: email, ref: user.ref })
+				const intermediateToken = generateIntermediateToken(user.secret, { sub: email, displayName: user.data.displayName })
 
 				res.status(200).json({ intermediateToken })
 				break
 			} else {
-				const accessToken = generateAccessToken(user.secret, { sub: email, ref: user.ref })
-				const refreshToken = generateRefreshToken(user.secret, { sub: email, ref: user.ref })
+				const accessToken = generateAccessToken(user.secret, { sub: email, displayName: user.data.displayName })
+				const refreshToken = generateRefreshToken(user.secret, { sub: email, displayName: user.data.displayName })
 
 				setRefreshCookie(res, refreshToken)
 

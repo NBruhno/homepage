@@ -1,3 +1,5 @@
+import { logger } from 'lib/logger'
+
 import { Form } from '.'
 
 import { Checkbox } from './Fields/Checkbox'
@@ -10,7 +12,7 @@ import { Toggle } from './Fields/Toggle'
 export const FormTest = () => (
 	<div css={{ maxWidth: '500px' }}>
 		<h1>Current form</h1>
-		<Form form='test' onSubmit={(value) => console.log(value)}>
+		<Form form='test' onSubmit={(value) => logger.log(value)}>
 			<Toggle label='Testing toggle' name='toggle' />
 			<Checkbox label='Testing checkbox' name='checkbox' />
 			<Input label='Testing field' name='field' required />

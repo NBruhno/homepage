@@ -27,7 +27,7 @@ export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 
 			const response = await fetch('https://api-v3.igdb.com/games', {
 				method: 'POST',
-				body: body?.search || !followedGames
+				body: body?.search || !followedGames || followedGames?.data?.length === 0
 					? `fields name, release_dates, cover.image_id, first_release_date, slug; limit 20; ${body?.search ? `search "${body?.search}"` : 'sort popularity desc'};`
 					: `fields name, release_dates, cover.image_id, first_release_date, slug; sort first_release_date asc; limit 100; where slug = ("${followedGames?.data.join(`", "`)}");`,
 				headers: new Headers({

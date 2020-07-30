@@ -184,5 +184,7 @@ module.exports = {
 		'react/jsx-props-no-spreading': 'off',
 
 		'emotion/syntax-preference': [2, 'object'],
+
+		'no-console': ['error'],
 	},
 }

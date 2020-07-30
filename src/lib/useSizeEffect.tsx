@@ -1,5 +1,7 @@
-import { useMemo, useRef, useCallback, useEffect, useLayoutEffect } from 'react'
+import { useMemo, useRef, useCallback } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
+
+import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 
 type Callback = (contentRect: DOMRectReadOnly) => void
 
@@ -15,13 +17,6 @@ type Callback = (contentRect: DOMRectReadOnly) => void
  */
 export const useSizeEffect = (callback: Callback) => {
 	const persistedCallback = useRef<Callback>()
-	const canUseDOM: boolean = !!(
-		typeof window !== 'undefined'
-		&& typeof window.document !== 'undefined'
-		&& typeof window.document.createElement !== 'undefined'
-	)
-
-	const useIsomorphicLayoutEffect = canUseDOM ? useLayoutEffect : useEffect
 
 	useIsomorphicLayoutEffect(() => {
 		persistedCallback.current = callback

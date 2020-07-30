@@ -9,6 +9,7 @@ import { useStore } from 'lib/store'
 import { ChevronFlip } from 'components/ChevronFlip'
 import { ButtonText, ButtonIcon } from 'components/Buttons'
 import { LoginIcon, PencilRulerIcon, LightDarkModeIcon, TestTubeIcon, ControllerIcon, AccountIcon, LogoutIcon, InfoIcon, ToolsIcon } from 'components/Icons'
+import { Placeholder } from 'components/Placeholder'
 import { Logo } from 'components/Logo'
 
 import { Content } from './Content'
@@ -47,27 +48,24 @@ export const Navigation = () => {
 				</Link>
 			)}
 			<Content css={{ paddingTop: '12px' }}>
-				<NavLink onClick={() => closeMenuOnInteraction()}>
-					<AccountIcon css={{ marginRight: '6px' }} size={22} />
-					{user?.accessToken ? (
-						<Text>
-							{user.email}
-						</Text>
-					) : (
-						<Text>Not logged in</Text>
-					)}
-				</NavLink>
-				{!user?.accessToken && (
-					<Link href='/login' passHref>
-						<NavLink
-							active={pathname.includes('/login')}
-							onClick={() => closeMenuOnInteraction()}
-						>
-							<LoginIcon css={{ marginRight: '6px' }} size={22} /><Text>Sign in</Text>
-						</NavLink>
-					</Link>
-				)}
-				{user?.accessToken && (
+				<Link href='/user/profile' passHref>
+					<NavLink
+						active={pathname.includes('/user/profile')}
+						onClick={() => closeMenuOnInteraction()}
+					>
+						<AccountIcon css={{ marginRight: '6px' }} size={22} />
+						<Placeholder isLoading={!user.isStateKnown}>
+							{user.accessToken ? (
+								<Text>
+									{user.displayName}
+								</Text>
+							) : (
+								<Text>Not logged in</Text>
+							)}
+						</Placeholder>
+					</NavLink>
+				</Link>
+				{user.accessToken ? (
 					<ButtonText
 						css={{ margin: '4px 12px', height: '35px' }}
 						slim
@@ -76,13 +74,20 @@ export const Navigation = () => {
 								<LogoutIcon css={{ marginRight: '6px' }} />Logout
 							</div>
 						)}
-						onClick={() => {
-							closeMenuOnInteraction()
-							logout()
-						}}
+						onClick={async () => { await logout() }}
 					/>
+				) : (
+					<Link href='/login' passHref>
+						<NavLink
+							active={pathname.includes('/login')}
+							onClick={() => closeMenuOnInteraction()}
+						>
+							<Placeholder isLoading={!user.isStateKnown}>
+								<LoginIcon css={{ marginRight: '6px' }} size={22} /><Text>Sign in</Text>
+							</Placeholder>
+						</NavLink>
+					</Link>
 				)}
-
 				<Separator collapsed={responsive.collapsedSidebar}>Tools</Separator>
 				<Link href='/games' passHref>
 					<NavLink
