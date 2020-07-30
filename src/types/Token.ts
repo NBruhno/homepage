@@ -6,6 +6,7 @@ export enum TokenTypes {
 
 export type Token = {
 	aud: Array<string>,
+	displayName: string,
 	exp: number,
 	iat: number,
 	id: string,

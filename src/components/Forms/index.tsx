@@ -6,7 +6,7 @@ import { useForm } from 'reducers/form'
 
 const onPersistState = (
 	values: object, valid: boolean, formName: string, persistState: string | boolean,
-	updateFormState: (formName: string, values: object) => null,
+	updateFormState: (formName: string, values: object) => void,
 ) => {
 	if (persistState === true) {
 		return updateFormState(formName, values)

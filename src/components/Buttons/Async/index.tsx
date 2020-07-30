@@ -4,6 +4,7 @@ import { isFunction } from 'lodash-es'
 import { delay } from 'lib/delay'
 
 import { ButtonLoading } from './ButtonLoading'
+import { SubmitWrapper } from './SubmitWrapper'
 
 export type Props = {
 	fullWidth?: boolean,
@@ -68,14 +69,30 @@ export const ButtonAsync = ({
 	}, [])
 
 	return (
-		<ButtonLoading
-			isLoading={isLoadingManual || isLoadingInternal}
-			isVisible={!isLoading}
-			label={label}
-			onClick={(event) => handleClick(event)}
-			fullWidth={fullWidth}
-			submit={submit}
-			{...rest}
-		/>
+		<>
+			{submit ? (
+				<SubmitWrapper>
+					<ButtonLoading
+						isLoading={isLoadingManual || isLoadingInternal}
+						isVisible={!isLoading}
+						label={label}
+						onClick={(event) => handleClick(event)}
+						fullWidth={fullWidth}
+						submit={submit}
+						{...rest}
+					/>
+				</SubmitWrapper>
+			) : (
+				<ButtonLoading
+					isLoading={isLoadingManual || isLoadingInternal}
+					isVisible={!isLoading}
+					label={label}
+					onClick={(event) => handleClick(event)}
+					fullWidth={fullWidth}
+					submit={submit}
+					{...rest}
+				/>
+			)}
+		</>
 	)
 }

@@ -1,3 +1,4 @@
+export { changePassword } from './changePassword'
 export { check } from './check'
 export { login } from './login'
 export { logout } from './logout'

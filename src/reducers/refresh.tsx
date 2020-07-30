@@ -5,6 +5,7 @@ import { config } from 'config.client'
 import { decodeToken } from 'lib/decodeToken'
 import { fetcher } from 'lib/fetcher'
 import { useStore } from 'lib/store'
+import { logger } from 'lib/logger'
 
 const isProduction = config.environment !== 'development'
 
@@ -15,11 +16,11 @@ export const useRefresh = () => {
 
 	const refresh = useCallback(async () => {
 		try {
-			const { accessToken } = await fetcher('/auth/refresh', { cacheControl: 'no-cache' })
+			const { accessToken }: { accessToken: string } = await fetcher('/auth/refresh', { cacheControl: 'no-cache' })
 			const user = decodeToken(accessToken)
-			dispatchToGlobalState({ accessToken, email: user.sub, shouldRefresh: true, isStateKnown: true })
+			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
-			console.error(error)
+			logger.error(error)
 		}
 	}, [dispatchToGlobalState])
 
