@@ -1,5 +1,7 @@
 import Link from 'next/link'
 
+import type { SimpleGame } from 'types/Games'
+
 import { Placeholder } from 'components/Placeholder'
 import { ButtonBorder } from 'components/Buttons'
 
@@ -11,19 +13,12 @@ import { Container } from './Container'
 import { useAuth } from 'reducers/auth'
 
 type Props = {
-	id: string,
 	index?: number,
 	isLoading: boolean,
-	name: string,
-	cover?: {
-		url: string,
-	},
-	releaseDate: number | null,
-	following: boolean,
 
 	onFollow: (id: string) => Promise<any>,
 	onUnfollow: (id: string) => Promise<any>,
-}
+} & SimpleGame
 
 export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoading, onFollow, onUnfollow }: Props) => {
 	const { user } = useAuth()
@@ -31,7 +26,7 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoa
 	return (
 		<Link href='/games/[id]' as={`/games/${id}`} passHref>
 			<Container>
-				<Cover coverUrl={cover?.url} size='small' css={{ marginRight: '12px' }} />
+				<Cover coverUrl={cover} size='small' css={{ marginRight: '12px' }} />
 				<div>
 					<Title>
 						<Placeholder isLoading={isLoading} width={index % 2 === 0 ? 100 : 90}>

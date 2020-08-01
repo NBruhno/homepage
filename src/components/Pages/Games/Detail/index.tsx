@@ -1,4 +1,6 @@
-import { Game } from 'types/Games'
+import type { Game } from 'types/Games'
+
+import { useAuth } from 'reducers/auth'
 
 import { Placeholder } from 'components/Placeholder'
 import { ButtonSolid } from 'components/Buttons'
@@ -14,7 +16,6 @@ import { Title } from './Header/Title'
 
 import { MainContent } from './MainContent'
 import { Wrapper } from './Wrapper'
-import { useAuth } from 'reducers/auth'
 
 type Props = {
 	game: Game,
@@ -34,12 +35,21 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 				{isLoading ? (
 					<BackgroundPlaceholder />
 				) : (
-					<Background src={game?.screenshot ?? game?.cover.url ?? null} />
+					<Background src={game?.screenshot ?? game?.cover ?? null} />
 				)}
 			</BackgroundWrapper>
 			<MainContent>
 				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '18px' }}>
-					<Cover coverUrl={game?.cover.url ?? null} loading='eager' />
+					<div css={{ display: 'grid', gridTemplateRows: 'auto auto', gridRowGap: '12px' }}>
+						<Cover coverUrl={game?.cover ?? null} loading='eager' />
+						<ButtonSolid
+							label={game?.following ? 'Unfollow' : 'Follow'}
+							onClick={() => game?.following ? onUnfollow() : onFollow()}
+							disabled={!user.accessToken}
+							isLoading={isLoading}
+							css={{ padding: '5px 16px' }}
+						/>
+					</div>
 					<div>
 						<Title>
 							<Placeholder width='75%' isLoading={isLoading}>
@@ -53,19 +63,13 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 						</ReleaseDate>
 						<Developer>
 							<Placeholder isLoading={isLoading} width={200}>
-								By {game?.developer?.company.name}
+								By {game?.developer?.name}
 							</Placeholder>
 						</Developer>
-						<ButtonSolid
-							label={game?.following ? 'Unfollow' : 'Follow'}
-							onClick={() => game?.following ? onUnfollow() : onFollow()}
-							disabled={!user.accessToken}
-							isLoading={isLoading}
-						/>
 					</div>
 				</div>
-				{game?.genres.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
-				{game?.platforms.length > 0 && <p>Platforms: {game?.platforms.join(', ')}</p>}
+				{game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
+				{game?.platforms?.length > 0 && <p>Platforms: {game?.platforms.map(({ name }) => name).join(', ')}</p>}
 				{game?.summary && <p>{game?.summary}</p>}
 			</MainContent>
 		</Wrapper>

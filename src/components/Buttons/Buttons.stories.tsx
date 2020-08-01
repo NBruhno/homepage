@@ -2,6 +2,7 @@ import React from 'react'
 import { action } from '@storybook/addon-actions'
 
 import { delay } from 'lib/delay'
+import { logger } from 'lib/logger'
 
 import { ButtonSolid, ButtonText, ButtonBorder } from '.'
 
@@ -13,7 +14,7 @@ export default {
 export const Solid = () => (
 	<>
 		<ButtonSolid label='Solid' onClick={action('onClick')} />
-		<ButtonSolid label='Plain' plain onClick={action('onClick')} />
+		<ButtonSolid label='Colored' backgroundColor='text' color='textInverted' onClick={action('onClick')} />
 		<ButtonSolid label='Disabled' disabled onClick={action('onClick')} />
 		<ButtonSolid label='Loading' isLoadingManual onClick={action('onClick')} />
 		<ButtonSolid label='Delayed' minDelay={2} onClick={action('onClick')} />
@@ -21,7 +22,7 @@ export const Solid = () => (
 			label='Async'
 			onClick={async () => {
 				await delay(2)
-				console.log('onClick')
+				logger.log('onClick')
 			}}
 		/>
 	</>
@@ -36,7 +37,7 @@ export const Text = () => (
 			label='Async'
 			onClick={async () => {
 				await delay(2)
-				console.log('onClick')
+				logger.log('onClick')
 			}}
 		/>
 	</>
@@ -51,7 +52,7 @@ export const Border = () => (
 			label='Async'
 			onClick={async () => {
 				await delay(2)
-				console.log('onClick')
+				logger.log('onClick')
 			}}
 		/>
 	</>

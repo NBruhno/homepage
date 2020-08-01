@@ -1,12 +1,12 @@
-import { createContext, useContext, useReducer, useEffect, useState } from 'react'
+import { createContext, useContext, useReducer, useEffect, useState, Dispatch } from 'react'
 import { useMediaQuery } from 'react-responsive'
 
 import { screenSizes } from 'styles/theme'
 
-const StoreContext = createContext(undefined)
-export const initialState: {
+export type State = {
 	count: number,
 	responsive: {
+		showLogin: boolean,
 		collapsedSidebar: boolean,
 		darkTheme: boolean,
 		isMobile: boolean,
@@ -14,16 +14,27 @@ export const initialState: {
 	},
 	darkTheme: boolean,
 	user: {
-		isStateKnown: boolean,
 		accessToken?: string,
+		displayName: string,
+		email: string,
+		intermediateToken?: string,
+		isStateKnown: boolean,
+		role?: string,
+		secret?: string,
 		shouldRefresh: boolean,
+		twoFactorSecret?: string,
 	},
+	form: Record<string, any>,
 	test: Record<any, any>,
 	tests: Record<any, any>,
 	task: Record<any, any>,
 	tasks: Record<any, any>,
-} = {
+}
+
+const StoreContext = createContext<{ state: State, dispatch: Dispatch<Partial<State>> }>(undefined)
+export const initialState = {
 	responsive: {
+		showLogin: false,
 		collapsedSidebar: false,
 		darkTheme: true,
 		isMobile: false,
@@ -32,19 +43,22 @@ export const initialState: {
 	count: 0,
 	darkTheme: true,
 	user: {
+		displayName: undefined,
+		email: undefined,
 		isStateKnown: false,
 		accessToken: undefined,
 		shouldRefresh: false,
 	},
 
+	form: undefined,
 	test: { data: undefined, loading: true, error: undefined },
 	tests: { data: [], loading: true, error: undefined },
 
 	task: { data: undefined, loading: true, error: undefined },
 	tasks: { data: [], loading: true, error: undefined },
-}
+} as State
 
-const reducer = (state: Record<string, any>, payload: Record<string, any>) => {
+const reducer = (state: State, payload: Record<string, any>) => {
 	if (payload) {
 		return { ...state, ...payload }
 	} else {

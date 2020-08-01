@@ -1,21 +1,34 @@
-import { transparentize } from 'polished'
+type Props = {
+	show: boolean,
+} & React.ComponentProps<'div'>
 
-export const Container = (props: React.ComponentProps<'div'>) => (
+export const Container = ({ show, children, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
-			backgroundColor: transparentize(0.5, theme.color.background),
-			position: 'absolute',
-			top: 0,
+		css={{
+			top: '15vh',
 			left: 0,
 			right: 0,
-			bottom: 0,
-			zIndex: 4,
+			display: 'flex',
+			opacity: show ? 1 : 0,
+			pointerEvents: 'none',
+			position: 'absolute',
+			zIndex: 5,
 
-			'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
-				backdropFilter: 'saturate(150%) blur(5px) opacity(0.7)',
-				backgroundColor: transparentize(1, theme.color.background),
-			},
-		})}
-		{...props}
-	/>
+			transition: 'opacity 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+		}}
+		{...rest}
+	>
+		<div
+			css={{
+				display: 'flex',
+				margin: 'auto',
+				maxWidth: '100%',
+				padding: '24px',
+				pointerEvents: show ? 'auto' : 'none',
+				width: '450px',
+			}}
+		>
+			{children}
+		</div>
+	</div>
 )

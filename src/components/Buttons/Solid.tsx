@@ -1,15 +1,17 @@
 import { ButtonAsync, Props as AsyncProps } from './Async'
+import { shade } from 'polished'
 
 type Props = {
-	plain?: boolean,
+	backgroundColor?: keyof Theme['color'],
+	color?: keyof Theme['color'],
 } & AsyncProps
 
-export const Solid = ({ plain = false, ...rest }: Props) => (
+export const Solid = ({ color, backgroundColor, ...rest }: Props) => (
 	<ButtonAsync
 		css={(theme: Theme) => ({
-			backgroundColor: plain ? theme.color.text : theme.color.primary,
+			backgroundColor: backgroundColor ? theme.color[backgroundColor] : theme.color.primary,
 			borderRadius: '4px',
-			color: plain ? theme.color.textInverted : theme.color.black,
+			color: color ? theme.color.textInverted : theme.color.black,
 
 			'&:disabled': {
 				color: theme.color.grayLight,
@@ -17,7 +19,7 @@ export const Solid = ({ plain = false, ...rest }: Props) => (
 			},
 
 			'&:hover:enabled': {
-				backgroundColor: plain ? theme.color.grayLighter : theme.color.primaryLight,
+				backgroundColor: backgroundColor ? shade(0.5, theme.color[backgroundColor]) : theme.color.primaryLight,
 			},
 		})}
 		{...rest}

@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { query } from 'faunadb'
+import { query as q } from 'faunadb'
 import { authenticator } from 'otplib'
 
 import { authenticateAccessToken, authenticateIntermediateToken, setRefreshCookie } from 'server/middleware'
@@ -37,7 +37,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 			}
 
 			await faunaClient(token.secret).query(
-				query.Update(query.Select(['ref'], query.Get(query.Match(query.Index('users_by_email'), token.sub))), {
+				q.Update(q.Select(['ref'], q.Get(q.Identity())), {
 					data: { twoFactorSecret: secret },
 				}),
 			)
@@ -59,7 +59,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 			}
 
 			const user: { data: Record<string, any> } = await faunaClient(token.secret).query(
-				query.Get(query.Match(query.Index('users_by_email'), token.sub)),
+				q.Get(q.Identity()),
 			)
 
 			if (!authenticator.verify({ token: otp, secret: user.data.twoFactorSecret })) {
@@ -68,8 +68,8 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 				throw error
 			}
 
-			const accessToken = generateAccessToken(token.secret, { sub: token.sub, ref: token.ref })
-			const refreshToken = generateRefreshToken(token.secret, { sub: token.sub, ref: token.ref })
+			const accessToken = generateAccessToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role })
+			const refreshToken = generateRefreshToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role })
 
 			setRefreshCookie(res, refreshToken)
 

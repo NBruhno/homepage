@@ -2,12 +2,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
-import { config } from 'config.server'
-
-import { Game as IGDBGame } from 'types/IGDB'
-import { Game } from 'types/Games'
+import type { Game as IGDBGame } from 'types/IGDB'
+import type { SimpleGame } from 'types/Games'
 
 import { authenticateAccessToken } from 'server/middleware'
+import { igdbFetcher } from 'server/igdbFetcher'
 import { faunaClient } from 'server/faunaClient'
 import { ApiError } from 'server/errors/ApiError'
 
@@ -25,33 +24,18 @@ export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 				)
 			}
 
-			const response = await fetch('https://api-v3.igdb.com/games', {
-				method: 'POST',
-				body: body?.search || !followedGames
-					? `fields name, release_dates, cover.image_id, first_release_date, slug; limit 20; ${body?.search ? `search "${body?.search}"` : 'sort popularity desc'};`
-					: `fields name, release_dates, cover.image_id, first_release_date, slug; sort first_release_date asc; limit 100; where slug = ("${followedGames?.data.join(`", "`)}");`,
-				headers: new Headers({
-					'user-key': config.igdb.userKey,
-					'Content-Type': 'text/plain',
-					accept: 'application/json',
-				}),
+			const commonFields = 'fields name, release_dates, cover.image_id, first_release_date, slug;'
+			const games = await igdbFetcher<Array<IGDBGame>>('/games', res, {
+				body: body?.search || !followedGames || followedGames?.data?.length === 0
+					? `${commonFields} limit 20; ${body?.search ? `search "${body?.search}"` : 'sort popularity desc'};`
+					: `${commonFields} sort first_release_date asc; limit 100; where slug = ("${followedGames?.data.join(`", "`)}");`,
 			})
 
-			const result = await response.json()
-
-			if (result[0]?.status && result[0]?.status <= 400) {
-				const error = ApiError.fromCode(result[0]?.status)
-				res.status(error.statusCode).json({ error: error.message })
-				throw result
-			}
-
-			if (result.length > 0) {
-				const transformedResult: Array<Game> = result.map((game: IGDBGame) => {
+			if (games.length > 0) {
+				const transformedResult: Array<SimpleGame> = games.map((game: IGDBGame) => {
 					const following = followedGames ? Boolean(followedGames?.data.includes(game.slug)) : false
 					return ({
-						cover: {
-							url: game.cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_small_2x/${game.cover.image_id}.jpg` : null,
-						},
+						cover: game.cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_small_2x/${game.cover.image_id}.jpg` : null,
 						id: game.slug ?? null,
 						name: game.name,
 						releaseDate: game.first_release_date ?? null,

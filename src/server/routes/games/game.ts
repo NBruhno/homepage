@@ -3,14 +3,29 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q, errors } from 'faunadb'
 import { sample } from 'lodash-es'
 
-import { config } from 'config.server'
-
-import { Game } from 'types/Games'
-import { Game as IGDBGame } from 'types/IGDB'
+import type { Game } from 'types/Games'
+import type { Game as IGDBGame, Company } from 'types/IGDB'
 
 import { authenticateAccessToken } from 'server/middleware'
 import { ApiError } from 'server/errors/ApiError'
+import { igdbFetcher } from 'server/igdbFetcher'
 import { faunaClient } from 'server/faunaClient'
+
+const resolveCompany = (involvedCompany: Company) => {
+	if (!involvedCompany) {
+		return null
+	}
+
+	const { description, logo, name, slug, websites } = involvedCompany.company
+
+	return ({
+		description,
+		logo: logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${logo.image_id}.jpg` : null,
+		name,
+		slug,
+		websites,
+	})
+}
 
 const root = [
 	'id',
@@ -53,6 +68,7 @@ const companies = [
 const releaseDates = [
 	'release_dates.date',
 	'release_dates.platform.name',
+	'release_dates.platform.abbreviation',
 	'release_dates.platform.platform_logo.image_id',
 	'release_dates.platform.platform_logo.alpha_channel',
 ]
@@ -65,8 +81,6 @@ const platforms = [
 	'platforms.abbreviation',
 	'platforms.name',
 	'platforms.platform_logo.image_id',
-	'platforms.platform_logo.alpha_channel',
-	'platforms.platform_logo.url',
 ]
 
 const engines = [
@@ -91,60 +105,66 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 	switch (method) {
 		case 'GET': {
 			let followedGame = null as { data: Array<string> } | null
+			let igdbGame = null
 
 			if (token) {
-				followedGame = await faunaClient(token.secret).query(
-					q.Select(['data', 'id'], q.Get(q.Match(q.Index('gamesByIdAndUser'), [id, q.Identity()]))),
-				).catch((error: errors.FaunaError) => {
-					if (error instanceof errors.NotFound) {
-						return null
-					} else {
-						throw error
-					}
+				await Promise.all([
+					faunaClient(token.secret).query(
+						q.Select(['data', 'id'], q.Get(q.Match(q.Index('gamesByIdAndUser'), [id, q.Identity()]))),
+					).catch((error: errors.FaunaError) => {
+						if (error instanceof errors.NotFound) {
+							return null
+						} else {
+							throw error
+						}
+					}),
+					igdbFetcher<IGDBGame>('/games', res, { body: `${fields}; where slug = "${id}";`, single: true }),
+				]).then(([faunaResponse, gameResponse]) => {
+					followedGame = faunaResponse
+					igdbGame = gameResponse
 				})
+			} else {
+				igdbGame = await igdbFetcher<IGDBGame>('/games', res, { body: `${fields}; where slug = "${id}";`, single: true })
 			}
 
-			const response = await fetch('https://api-v3.igdb.com/games', {
-				method: 'POST',
-				body: `${fields}, screenshots; where slug = "${id}";`,
-				headers: new Headers({
-					'user-key': config.igdb.userKey,
-					'Content-Type': 'text/plain',
-					accept: 'application/json',
-				}),
-			})
-
-			const result = await response.json()
-			if (result[0]?.status && result[0]?.status <= 400) {
-				const error = ApiError.fromCode(result[0]?.status)
-				res.status(error.statusCode).json({ error: error.message })
-				throw error
-			}
-
-			const screenshots = result[0].screenshots?.length > 0 ? result[0].screenshots.map(({ image_id }: { width: number, image_id: string }) => `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${image_id}.jpg`).filter(Boolean) : []
-			const transformedResult: Game[] = result.map(({ slug, aggregated_rating, aggregated_rating_count, category, genres, storyline, summary, involved_companies, cover, name, platforms, first_release_date, release_dates, game_engines }: IGDBGame) => ({
-				id: slug ?? null,
-				rating: aggregated_rating,
-				ratingCount: aggregated_rating_count,
-				category: category ?? null,
-				developer: involved_companies.find(({ developer }) => developer),
-				supporting: involved_companies.find(({ supporting }) => supporting),
-				publisher: involved_companies.find(({ publisher }) => publisher),
-				porting: involved_companies.find(({ porting }) => porting),
-				companies: { ...involved_companies },
-				cover: { ...cover, url: cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${cover.image_id}.jpg` : null },
-				screenshot: sample(screenshots),
-				engines: game_engines,
-				following: Boolean(followedGame),
-				genres: genres ? genres.map(({ name }) => name) : [],
+			const { slug, aggregated_rating, aggregated_rating_count, genres, storyline, summary, involved_companies, cover, name, platforms, first_release_date, release_dates, game_engines, screenshots } = igdbGame
+			const screenshotUrls = screenshots?.length > 0 ? screenshots.map(({ image_id }: { width: number, image_id: string }) => `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${image_id}.jpg`).filter(Boolean) : []
+			const transformedGame: Game = {
 				name,
 				summary,
 				storyline,
-				platforms: platforms ? platforms.map(({ name }) => name) : null,
+				id: slug ?? null,
+				rating: aggregated_rating,
+				ratingCount: aggregated_rating_count,
+				developer: resolveCompany(involved_companies?.find(({ developer }) => developer)),
+				supporting: resolveCompany(involved_companies?.find(({ supporting }) => supporting)),
+				publisher: resolveCompany(involved_companies?.find(({ publisher }) => publisher)),
+				porting: resolveCompany(involved_companies?.find(({ porting }) => porting)),
+				cover: cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${cover.image_id}.jpg` : null,
+				screenshot: sample(screenshotUrls),
+				engines: game_engines?.map(({ description, logo, name }) => ({
+					description,
+					logo: logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${logo.image_id}.jpg` : null,
+					name,
+				})) ?? null,
+				following: Boolean(followedGame),
+				genres: genres ? genres.map(({ name }) => name) : [],
+				platforms: platforms?.map(({ platform_logo, abbreviation, name }) => ({
+					abbreviation,
+					logo: platform_logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${platform_logo.image_id}.jpg` : null,
+					name,
+				})) ?? null,
 				releaseDate: first_release_date ?? null,
-				releaseDates: release_dates ?? null,
-			}))
-			res.status(200).json(transformedResult[0])
+				releaseDates: release_dates?.map(({ date, platform: { platform_logo, abbreviation, name } }) => ({
+					date,
+					platform: {
+						abbreviation,
+						logo: platform_logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${platform_logo.image_id}.jpg` : null,
+						name,
+					},
+				})) ?? null,
+			}
+			res.status(200).json(transformedGame)
 			break
 		}
 

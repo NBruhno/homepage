@@ -1,12 +1,13 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
-class _document extends Document {
+class MyDocument extends Document {
 	render() {
 		return (
 			<Html lang='en' dir='ltr'>
 				<Head>
 					{/* General */}
 					<base href='/' />
+					<meta charSet='UTF-8' />
 					<meta name='description' content="This is Nicolai Bruhn Lauritsen or more commonly known as Bruhno's personal website which functions as a portfolio and a playground." />
 					<meta name='mobile-web-app-capable' content='yes' />
 					<meta name='apple-mobile-web-app-capable' content='yes' />
@@ -47,4 +48,4 @@ class _document extends Document {
 	}
 }
 
-export default _document
+export default MyDocument

@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { login, logout, register, refresh, twoFactorAuthentication, check, tokens } from 'server/routes/auth'
+import { login, logout, register, refresh, twoFactorAuthentication, check, tokens, changePassword } from 'server/routes/auth'
 import { withSentry } from 'server/middleware/withSentry'
 import { ApiError } from 'server/errors/ApiError'
 
@@ -17,6 +17,10 @@ const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
 	switch (location) {
 		case 'login': { // /auth/login
 			await login(req, res)
+			break
+		}
+		case 'changePassword': { // /auth/changePassword
+			await changePassword(req, res)
 			break
 		}
 		case 'register': { // /auth/register

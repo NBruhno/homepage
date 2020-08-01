@@ -19,6 +19,10 @@ const {
 module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModules({
 	reactStrictMode: true,
 
+	devIndicators: {
+		autoPrerender: false,
+	},
+
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	workboxOpts: {
@@ -40,11 +44,6 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 				},
 			},
 		],
-	},
-
-	// TODO: Remove once this is no longer an experimental feature
-	experimental: {
-		optionalCatchAll: true,
 	},
 
 	webpack: (config, options) => {

@@ -20,8 +20,8 @@ export const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 
 			const token = await authenticateRefreshToken(req, res)
 
-			const accessToken = generateAccessToken(token.secret, { sub: token.sub, ref: token.ref })
-			const newRefreshToken = generateRefreshToken(token.secret, { sub: token.sub, ref: token.ref })
+			const accessToken = generateAccessToken(token.secret, { sub: token.sub, displayName: token.displayName })
+			const newRefreshToken = generateRefreshToken(token.secret, { sub: token.sub, displayName: token.displayName })
 
 			setRefreshCookie(res, newRefreshToken)
 

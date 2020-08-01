@@ -1,7 +1,9 @@
 import { JWT } from 'jose'
 
 import { TokenTypes } from 'types/Token'
+
 import { config } from 'config.server'
+
 import { encrypt } from 'server/cipher'
 
 type Payload = Record<string, any>

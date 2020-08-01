@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
-import { User } from 'types/User'
+import type { User } from 'types/User'
 
 import { generateRefreshToken, generateAccessToken } from 'server/generateTokens'
 import { setRefreshCookie } from 'server/middleware'
@@ -22,7 +22,7 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 			const user: User = await serverClient.query(
 				q.Create(q.Collection('users'), {
 					credentials: { password },
-					data: { email, role: 'user', twoFactorSecret: null, displayName },
+					data: { email, user: true, twoFactorSecret: null, displayName },
 				}),
 			)
 
@@ -43,8 +43,8 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 				break
 			}
 
-			const accessToken = generateAccessToken(loginRes.secret, { sub: email, ref: user.ref })
-			const refreshToken = generateRefreshToken(loginRes.secret, { sub: email, ref: user.ref })
+			const accessToken = generateAccessToken(loginRes.secret, { sub: email, displayName, role: 'user' })
+			const refreshToken = generateRefreshToken(loginRes.secret, { sub: email, displayName, role: 'user' })
 
 			setRefreshCookie(res, refreshToken)
 
