@@ -34,12 +34,12 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 				{isLoading ? (
 					<BackgroundPlaceholder />
 				) : (
-					<Background src={game?.screenshot ?? game?.cover.url ?? null} />
+					<Background src={game?.screenshot ?? game?.cover ?? null} />
 				)}
 			</BackgroundWrapper>
 			<MainContent>
 				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '18px' }}>
-					<Cover coverUrl={game?.cover.url ?? null} loading='eager' />
+					<Cover coverUrl={game?.cover ?? null} loading='eager' />
 					<div>
 						<Title>
 							<Placeholder width='75%' isLoading={isLoading}>
@@ -53,7 +53,7 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 						</ReleaseDate>
 						<Developer>
 							<Placeholder isLoading={isLoading} width={200}>
-								By {game?.developer?.company.name}
+								By {game?.developer?.name}
 							</Placeholder>
 						</Developer>
 						<ButtonSolid
@@ -64,8 +64,8 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 						/>
 					</div>
 				</div>
-				{game?.genres.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
-				{game?.platforms.length > 0 && <p>Platforms: {game?.platforms.join(', ')}</p>}
+				{game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
+				{game?.platforms?.length > 0 && <p>Platforms: {game?.platforms.map(({ name }) => name).join(', ')}</p>}
 				{game?.summary && <p>{game?.summary}</p>}
 			</MainContent>
 		</Wrapper>

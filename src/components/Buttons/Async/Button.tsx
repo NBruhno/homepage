@@ -21,7 +21,7 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 			position: 'relative',
 			textAlign: 'center',
 			touchAction: 'manipulation',
-			transition: 'color 135ms cubic-bezier(0.4, 0, 0.2, 1), background-color 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+			transition: 'color 135ms cubic-bezier(0.4, 0, 0.2, 1), background-color 135ms cubic-bezier(0.4, 0, 0.2, 1), border-color 135ms cubic-bezier(0.4, 0, 0.2, 1)',
 			userSelect: 'none',
 			verticalAlign: 'middle',
 			visibility: isVisible ? 'visible' : 'hidden',

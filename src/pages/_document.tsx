@@ -1,6 +1,6 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 
-class _document extends Document {
+class MyDocument extends Document {
 	render() {
 		return (
 			<Html lang='en' dir='ltr'>
@@ -47,4 +47,4 @@ class _document extends Document {
 	}
 }
 
-export default _document
+export default MyDocument

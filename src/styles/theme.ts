@@ -39,8 +39,8 @@ export const mediaQueries = {
 export const theme = (darkTheme = true) => ({
 	color: {
 		primary: 'hsl(21, 80%, 51%)',
-		primaryLight: 'hsl(21, 80%, 65%)',
-		primaryLighter: 'hsl(21, 80%, 75%)',
+		primaryLight: 'hsl(21, 80%, 56%)',
+		primaryLighter: 'hsl(21, 80%, 61%)',
 		grayDarker: darkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 80%)',
 		grayDark: darkTheme ? 'hsl(0, 0%, 15%)' : 'hsl(0, 0%, 50%)',
 		gray: 'hsl(0, 0%, 30%)',

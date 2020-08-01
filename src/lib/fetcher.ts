@@ -35,11 +35,11 @@ export type Options = {
  * fetcher('/tests', { method: Method.Post })
  * ```
  */
-export const fetcher = async (
-	url: string, {
+export const fetcher = async <T>(
+	url: RequestInfo, {
 		accessToken, body, method = Method.Get, contentType = ContentType.JSON, absoluteUrl,
 		credentials = 'same-origin', mode = 'cors', cacheControl = 's-maxage=60, stale-while-revalidate',
-	}: Options = {}) => fetch(url ? `${absoluteUrl ?? ''}/api${url}` : null, {
+	}: Options = {}): Promise<T> => fetch(url ? `${absoluteUrl ?? ''}/api${url}` : null, {
 	method,
 	body: body ? JSON.stringify(body) : undefined,
 	headers: new Headers({

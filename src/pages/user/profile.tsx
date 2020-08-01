@@ -4,6 +4,7 @@ import Head from 'next/head'
 import { Page } from 'components/Pages/Layout/Page'
 import { Card } from 'components/Card'
 import { FormChangePassword } from 'components/Forms/ChangePassword'
+import { AuthGuard } from 'components/Pages/App/AuthGuard'
 
 const Login: NextPage = () => (
 	<Page>
@@ -15,6 +16,7 @@ const Login: NextPage = () => (
 				<FormChangePassword />
 			</Card>
 		</div>
+		<AuthGuard text='Please login to change your settings' />
 	</Page>
 )
 
