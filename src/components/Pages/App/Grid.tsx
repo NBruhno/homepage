@@ -7,6 +7,7 @@ export const Grid = (props: React.ComponentProps<'div'>) => (
 			gridTemplateRows: '1fr',
 			maxWidth: '100vw',
 			minHeight: '100vh',
+			position: 'relative',
 
 			[theme.mediaQueries.maxMobile]: {
 				gridTemplateColumns: '1fr',

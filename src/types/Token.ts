@@ -13,6 +13,7 @@ export type Token = {
 	iss: string,
 	nbf: number,
 	ref: string,
+	role: string,
 	secret: string,
 	sub: string,
 	type: TokenTypes,

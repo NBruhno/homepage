@@ -38,7 +38,7 @@ export const FormLogin = () => {
 		return (
 			<>
 				<Title>Sign in</Title>
-				<Subtitle>Lets see if you already have an user here</Subtitle>
+				<Subtitle>Lets see if you already have a user here</Subtitle>
 				<Form form={formName} onSubmit={async ({ email }) => { await check({ email }) }}>
 					<Input label='Email' name='email' type='email' id={`${formName}-email`} required autoComplete='email' />
 					<ButtonSolid label='Next' submit fullWidth />

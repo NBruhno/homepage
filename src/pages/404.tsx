@@ -1,5 +1,8 @@
 export const NotFound = () => (
-	<h1 css={{ margin: 'auto' }}>404 - Resource not found</h1>
+	<div css={{ margin: 'auto', textAlign: 'center' }}>
+		<h1 css={{ marginBottom: 0, fontSize: '4.5em' }}>404</h1>
+		<p css={{ marginTop: 0 }}>resource not found</p>
+	</div>
 )
 
 export default NotFound

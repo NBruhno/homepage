@@ -19,28 +19,32 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 				throw error
 			}
 
-			let user = null as User
-
-			try {
-				user = await serverClient.query(q.Merge(
-					q.Login(q.Match(q.Index('users_by_email'), email), { password }),
-					q.Get(q.Match(q.Index('users_by_email'), email)),
-				))
-			} catch (error) {
+			const { data, secret } = await serverClient.query<User>(q.Merge(
+				q.Login(q.Match(q.Index('users_by_email'), email), { password }),
+				q.Get(q.Match(q.Index('users_by_email'), email)),
+			)).catch((error) => {
 				if (error.requestResult.statusCode === 400) {
 					res.status(401).json({ error: 'Password is incorrect' })
 				}
 				throw error
+			})
+
+			const getRole = () => {
+				switch (true) {
+					case data.owner: return 'owner'
+					case data.user: return 'user'
+					default: return 'unknown'
+				}
 			}
 
-			if (user.data?.twoFactorSecret) {
-				const intermediateToken = generateIntermediateToken(user.secret, { sub: email, displayName: user.data.displayName })
+			if (data?.twoFactorSecret) {
+				const intermediateToken = generateIntermediateToken(secret, { sub: email, displayName: data.displayName, role: getRole() })
 
 				res.status(200).json({ intermediateToken })
 				break
 			} else {
-				const accessToken = generateAccessToken(user.secret, { sub: email, displayName: user.data.displayName })
-				const refreshToken = generateRefreshToken(user.secret, { sub: email, displayName: user.data.displayName })
+				const accessToken = generateAccessToken(secret, { sub: email, displayName: data.displayName, role: getRole() })
+				const refreshToken = generateRefreshToken(secret, { sub: email, displayName: data.displayName, role: getRole() })
 
 				setRefreshCookie(res, refreshToken)
 

@@ -4,7 +4,8 @@ export type User = {
 	data: {
 		displayName: string,
 		email: string,
-		role: string,
+		owner?: boolean,
+		user?: boolean,
 		twoFactorSecret?: string,
 	},
 }

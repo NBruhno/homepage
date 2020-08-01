@@ -11,6 +11,22 @@ import { ApiError } from 'server/errors/ApiError'
 import { igdbFetcher } from 'server/igdbFetcher'
 import { faunaClient } from 'server/faunaClient'
 
+const resolveCompany = (involvedCompany: Company) => {
+	if (!involvedCompany) {
+		return null
+	}
+
+	const { description, logo, name, slug, websites } = involvedCompany.company
+
+	return ({
+		description,
+		logo: logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${logo.image_id}.jpg` : null,
+		name,
+		slug,
+		websites,
+	})
+}
+
 const root = [
 	'id',
 	'slug',
@@ -109,22 +125,6 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				})
 			} else {
 				igdbGame = await igdbFetcher<IGDBGame>('/games', res, { body: `${fields}; where slug = "${id}";`, single: true })
-			}
-
-			const resolveCompany = (involvedCompany: Company) => {
-				if (!involvedCompany) {
-					return null
-				}
-
-				const { description, logo, name, slug, websites } = involvedCompany.company
-
-				return ({
-					description,
-					logo: logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${logo.image_id}.jpg` : null,
-					name,
-					slug,
-					websites,
-				})
 			}
 
 			const { slug, aggregated_rating, aggregated_rating_count, genres, storyline, summary, involved_companies, cover, name, platforms, first_release_date, release_dates, game_engines, screenshots } = igdbGame
