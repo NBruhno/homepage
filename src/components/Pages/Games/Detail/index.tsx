@@ -1,4 +1,4 @@
-import { Game } from 'types/Games'
+import type { Game } from 'types/Games'
 
 import { Placeholder } from 'components/Placeholder'
 import { ButtonSolid } from 'components/Buttons'

@@ -2,12 +2,12 @@
 export const Title = (props: React.ComponentProps<'h1'>) => (
 	<h1
 		css={(theme: Theme) => ({
-			textShadow: '1px 1px 5px black, 0 0 12px black',
+			textShadow: '1px 1px 5px hsla(0, 0%, 0%, 0.5), 0 0 12px hsla(0, 0%, 0%, 0.5)',
 			fontSize: '3em',
 			paddingTop: '12px',
 			color: theme.color.white,
 			margin: 0,
-			fontWeight: 400,
+			fontWeight: 500,
 
 			[theme.mediaQueries.maxMobile]: {
 				fontSize: theme.fontSize.s125,

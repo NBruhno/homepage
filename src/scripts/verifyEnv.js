@@ -5,7 +5,7 @@ const chalk = require('chalk')
 
 const { log } = console
 
-log(`Current environment:      ${chalk.blue(process.env.NODE_ENV)}`)
+log(`Current environment:      ${chalk.blue(process.env.DEPLOY_ENV)}`)
 log(`AUTH_IV:                  ${process.env.AUTH_IV ? chalk.green('Exists') : chalk.red('Missing')}`)
 log(`AUTH_SECRET:              ${process.env.AUTH_SECRET ? chalk.green('Exists') : chalk.red('Missing')}`)
 log(`FAUNADB_SECRET:           ${process.env.FAUNADB_SECRET ? chalk.green('Exists') : chalk.red('Missing')}`)

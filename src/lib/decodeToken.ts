@@ -1,4 +1,4 @@
-import { Token } from 'types/Token'
+import type { Token } from 'types/Token'
 
 export const decodeToken = (token: string) => {
 	try {
