@@ -10,7 +10,7 @@ export const logout = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (method) {
 		case 'POST': {
-			const token = await authenticateAccessToken(req, res)
+			const token = await authenticateAccessToken(req, res, { optional: true })
 			if (!token?.secret) {
 				res.setHeader('Content-Type', 'text/plain')
 				res.status(200).send('')
@@ -18,7 +18,13 @@ export const logout = async (req: NextApiRequest, res: NextApiResponse) => {
 				break
 			}
 
-			await faunaClient(token.secret).query(query.Logout(false))
+			await faunaClient(token.secret).query(query.Logout(false)).catch((error) => {
+				removeRefreshCookie(res)
+
+				res.setHeader('Content-Type', 'text/plain')
+				res.status(200).send('')
+				throw error
+			})
 
 			removeRefreshCookie(res)
 

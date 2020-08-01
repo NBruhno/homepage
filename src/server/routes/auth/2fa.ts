@@ -68,8 +68,8 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 				throw error
 			}
 
-			const accessToken = generateAccessToken(token.secret, { sub: token.sub, displayName: token.displayName })
-			const refreshToken = generateRefreshToken(token.secret, { sub: token.sub, displayName: token.displayName })
+			const accessToken = generateAccessToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role })
+			const refreshToken = generateRefreshToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role })
 
 			setRefreshCookie(res, refreshToken)
 

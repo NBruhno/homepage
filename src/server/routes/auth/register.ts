@@ -43,8 +43,8 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 				break
 			}
 
-			const accessToken = generateAccessToken(loginRes.secret, { sub: email, displayName })
-			const refreshToken = generateRefreshToken(loginRes.secret, { sub: email, displayName })
+			const accessToken = generateAccessToken(loginRes.secret, { sub: email, displayName, role: 'user' })
+			const refreshToken = generateRefreshToken(loginRes.secret, { sub: email, displayName, role: 'user' })
 
 			setRefreshCookie(res, refreshToken)
 

@@ -20,7 +20,7 @@ export const Sidebar = ({ collapsed, ...rest }: Props) => (
 			transform: 'none',
 			transition: 'width 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
 			width: collapsed ? '70px' : '250px',
-			zIndex: 5,
+			zIndex: 10,
 
 			'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
 				backgroundColor: transparentize(1, theme.color.background),

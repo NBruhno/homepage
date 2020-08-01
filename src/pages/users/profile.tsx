@@ -4,9 +4,8 @@ import Head from 'next/head'
 import { Page } from 'components/Pages/Layout/Page'
 import { Card } from 'components/Card'
 import { FormChangePassword } from 'components/Forms/ChangePassword'
-import { AuthGuard } from 'components/Pages/App/AuthGuard'
 
-const Login: NextPage = () => (
+const Profile: NextPage = () => (
 	<Page>
 		<Head>
 			<title>Profile • Bruhno</title>
@@ -16,8 +15,7 @@ const Login: NextPage = () => (
 				<FormChangePassword />
 			</Card>
 		</div>
-		<AuthGuard text='Please login to change your settings' />
 	</Page>
 )
 
-export default Login
+export default Profile

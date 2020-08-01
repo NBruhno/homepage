@@ -4,21 +4,23 @@ import { config } from 'config.client'
 
 import { decodeToken } from 'lib/decodeToken'
 import { fetcher } from 'lib/fetcher'
-import { useStore } from 'lib/store'
+import { useStore, State } from 'lib/store'
 import { logger } from 'lib/logger'
+
+import { useResponsive } from './responsive'
 
 const isProduction = config.environment !== 'development'
 
 export const useRefresh = () => {
 	const { state, dispatch } = useStore()
-
-	const dispatchToGlobalState = useCallback((user) => dispatch({ user }), [dispatch])
+	const { updateResponsive } = useResponsive()
+	const dispatchToGlobalState = useCallback((user: Partial<State['user']>) => dispatch({ user: { ...state.user, ...user } }), [dispatch, state.user.accessToken])
 
 	const refresh = useCallback(async () => {
 		try {
 			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/refresh', { cacheControl: 'no-cache' })
 			const user = decodeToken(accessToken)
-			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, shouldRefresh: true, isStateKnown: true })
+			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, role: user.role, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
 			logger.error(error)
 		}
@@ -37,12 +39,16 @@ export const useRefresh = () => {
 		const hasRefreshToken = document.cookie.indexOf(isProduction ? '__Host-refreshToken' : 'refreshToken') === -1
 
 		if (!hasRefreshToken && !state.user.accessToken) {
-			dispatchToGlobalState({ ...state.user, isStateKnown: true })
+			dispatchToGlobalState({ isStateKnown: true })
 		}
 
 		// Initial load
 		if (hasRefreshToken && !state.user.accessToken) {
 			refresh()
+		}
+
+		if (state.user.accessToken) {
+			updateResponsive({ showLogin: false })
 		}
 
 		// Start up an interval for getting a new access token if a refresh token is present

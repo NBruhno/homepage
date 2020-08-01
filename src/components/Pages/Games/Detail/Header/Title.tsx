@@ -6,28 +6,32 @@ export const Title = (props: React.ComponentProps<'h1'>) => (
 			fontSize: '3em',
 			paddingTop: '12px',
 			color: theme.color.white,
-			margin: 0,
+			margin: '0 0 24px',
 			fontWeight: 500,
 
 			[theme.mediaQueries.maxMobile]: {
 				fontSize: theme.fontSize.s125,
-				paddingTop: '4px',
+				margin: '4px 0 14px',
 			},
 
 			[theme.mediaQueries.mobileToTablet]: {
 				fontSize: theme.fontSize.s140,
+				margin: '0 0 16px',
 			},
 
 			[theme.mediaQueries.tabletToLaptop]: {
 				fontSize: theme.fontSize.s160,
+				margin: '4px 0 18px',
 			},
 
 			[theme.mediaQueries.laptopToDesktop]: {
 				fontSize: theme.fontSize.s180,
+				margin: '4px 0 20px',
 			},
 
 			[theme.mediaQueries.desktopToDesktopLarge]: {
 				fontSize: theme.fontSize.s200,
+				margin: '4px 0 22',
 			},
 		})}
 		{...props}

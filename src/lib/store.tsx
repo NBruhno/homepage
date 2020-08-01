@@ -3,9 +3,10 @@ import { useMediaQuery } from 'react-responsive'
 
 import { screenSizes } from 'styles/theme'
 
-type State = {
+export type State = {
 	count: number,
 	responsive: {
+		showLogin: boolean,
 		collapsedSidebar: boolean,
 		darkTheme: boolean,
 		isMobile: boolean,
@@ -18,8 +19,10 @@ type State = {
 		email: string,
 		intermediateToken?: string,
 		isStateKnown: boolean,
+		role?: string,
 		secret?: string,
 		shouldRefresh: boolean,
+		twoFactorSecret?: string,
 	},
 	form: Record<string, any>,
 	test: Record<any, any>,
@@ -28,9 +31,10 @@ type State = {
 	tasks: Record<any, any>,
 }
 
-const StoreContext = createContext<{ state: State, dispatch: Dispatch<Record<string, any>> }>(undefined)
+const StoreContext = createContext<{ state: State, dispatch: Dispatch<Partial<State>> }>(undefined)
 export const initialState = {
 	responsive: {
+		showLogin: false,
 		collapsedSidebar: false,
 		darkTheme: true,
 		isMobile: false,

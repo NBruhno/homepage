@@ -5,7 +5,7 @@ import App from 'next/app'
 import { StoreProvider } from 'lib/store'
 import { config } from 'config.client'
 
-import { Theme, Grid, Main, Footer, Navigation, Header, Shade } from 'components/Pages/App'
+import { Theme, Grid, Main, Navigation, Header } from 'components/Pages/App'
 
 if (config.sentry.dsn) {
 	init({
@@ -31,8 +31,6 @@ class MyApp extends App {
 							<Navigation />
 							<Main>
 								<Component {...pageProps} err={err} />
-								<Shade />
-								<Footer />
 							</Main>
 						</Grid>
 					</Theme>

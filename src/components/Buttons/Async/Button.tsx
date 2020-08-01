@@ -16,7 +16,7 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 			fontSize: '1rem',
 			height: '36px',
 			maxWidth: '100%',
-			minWidth: '72px',
+			minWidth: '60px',
 			padding: '5px 30px',
 			position: 'relative',
 			textAlign: 'center',

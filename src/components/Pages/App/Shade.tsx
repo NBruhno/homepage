@@ -15,7 +15,7 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				pointerEvents: 'none',
 				position: 'absolute',
 				transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)',
-				zIndex: 4,
+				zIndex: 9,
 
 				[theme.mediaQueries.maxMobile]: {
 					opacity: responsive.collapsedSidebar ? 0 : 0.4,
