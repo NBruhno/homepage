@@ -45,7 +45,7 @@ export const Navigation = () => {
 				</Link>
 			)}
 			<Content css={{ paddingTop: '12px' }}>
-				<Link href='/user/profile' passHref>
+				<Link href='/users/profile' passHref>
 					<NavLink
 						active={pathname.includes('/users/profile')}
 						onClick={() => closeMenuOnInteraction()}
