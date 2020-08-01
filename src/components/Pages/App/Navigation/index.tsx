@@ -47,7 +47,7 @@ export const Navigation = () => {
 			<Content css={{ paddingTop: '12px' }}>
 				<Link href='/user/profile' passHref>
 					<NavLink
-						active={pathname.includes('/user/profile')}
+						active={pathname.includes('/users/profile')}
 						onClick={() => closeMenuOnInteraction()}
 					>
 						<AccountIcon css={{ marginRight: '6px' }} size={22} />
@@ -84,7 +84,11 @@ export const Navigation = () => {
 						)}
 						onClick={() => {
 							window.scrollTo(0, 0)
-							updateResponsive({ showLogin: !showLogin, collapsedSidebar: true })
+							if (isMobile) {
+								updateResponsive({ showLogin: !showLogin, collapsedSidebar: true })
+							} else {
+								updateResponsive({ showLogin: !showLogin })
+							}
 						}}
 					/>
 				)}
