@@ -16,7 +16,7 @@ export const useRefresh = () => {
 
 	const refresh = useCallback(async () => {
 		try {
-			const { accessToken }: { accessToken: string } = await fetcher('/auth/refresh', { cacheControl: 'no-cache' })
+			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/refresh', { cacheControl: 'no-cache' })
 			const user = decodeToken(accessToken)
 			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
@@ -27,8 +27,8 @@ export const useRefresh = () => {
 	useEffect(() => {
 		let refreshInterval = null as NodeJS.Timeout
 
-		// Attempt to create a cookie with exactly the same name as the one meant to refresh
-		// If the cookie can be read afterwards, there is not refresh cookie, otherwise, refresh
+		// Attempt to create a cookie with exactly the same name as the one meant to refresh, which is a http cookie
+		// If the cookie can be read afterwards, there is no refresh cookie, otherwise, refresh with the http cookie
 		const date = new Date()
 		date.setTime(date.getTime() + 1000)
 		const expires = `expires=${date.toUTCString()}`

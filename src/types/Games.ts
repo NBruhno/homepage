@@ -1,18 +1,57 @@
-export type Game = {
-	cover: {
-		url: string,
-	},
-	id: string,
-	developer: Record<string, any>,
-	porting: Record<string, any>,
-	supporting: Record<string, any>,
-	publisher: Record<string, any>,
+import { WebsiteCategory } from './IGDB'
+
+type Company = {
+	description: string,
+	logo?: string,
 	name: string,
-	screenshot: string | null,
-	summary: string,
+	slug: string,
+	websites: Array<{
+		category: WebsiteCategory,
+		trusted: boolean,
+		url: string,
+	}>,
+}
+
+export type Game = {
+	following: boolean,
+	cover: string,
+	developer: Company,
+	engines: Array<{
+		description?: string,
+		logo?: string,
+		name: string,
+	}> | null,
 	genres: Array<string>,
-	platforms: Array<string>,
+	id: string,
+	name: string,
+	platforms: Array<{
+		logo: string,
+		name: string,
+		abbreviation: string,
+	}>,
+	porting: Company,
+	publisher: Company,
+	rating: number,
+	ratingCount: number,
 	releaseDate: number,
-	releaseDates: Array<number>,
+	releaseDates: Array<{
+		date: number,
+		platform: {
+			logo: string,
+			name: string,
+			abbreviation: string,
+		},
+	}> | null,
+	screenshot: string | null,
+	storyline: string,
+	summary: string,
+	supporting: Company,
+}
+
+export type SimpleGame = {
+	id: string,
+	cover: string | null,
+	name: string,
+	releaseDate: number | null,
 	following: boolean,
 }

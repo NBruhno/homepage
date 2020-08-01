@@ -13,7 +13,7 @@ export const useAuth = () => {
 
 	const register = async ({ email, password, displayName }: { email: string, password: string, displayName: string }) => {
 		try {
-			const { accessToken } = await fetcher('/auth/register', { method: Method.Post, body: { email, password, displayName }, cacheControl: 'no-cache' })
+			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/register', { method: Method.Post, body: { email, password, displayName }, cacheControl: 'no-cache' })
 			const user = decodeToken(accessToken)
 			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
@@ -23,11 +23,12 @@ export const useAuth = () => {
 
 	const login = async ({ email, password }: { email: string, password: string }) => {
 		try {
-			const { accessToken, intermediateToken }: Record<string, string> = await fetcher('/auth/login', { method: Method.Post, body: { email, password }, cacheControl: 'no-cache' })
+			const { accessToken, intermediateToken }: Record<string, string> = await fetcher<{ accessToken: string, intermediateToken: string }>('/auth/login', { method: Method.Post, body: { email, password }, cacheControl: 'no-cache' })
 
 			if (accessToken) {
 				const user = decodeToken(accessToken)
 				dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, shouldRefresh: true, isStateKnown: true })
+				setUserInfo(null)
 				return
 			}
 
@@ -62,7 +63,7 @@ export const useAuth = () => {
 
 	const check = async ({ email }: { email: string }) => {
 		try {
-			const { userExists } = await fetcher('/auth/check', { body: { email }, method: Method.Post, cacheControl: 'no-cache' })
+			const { userExists } = await fetcher<{ userExists: boolean }>('/auth/check', { body: { email }, method: Method.Post, cacheControl: 'no-cache' })
 			setUserInfo({ exists: userExists, email })
 		} catch (error) {
 			logger.error(error)
@@ -93,7 +94,7 @@ export const useAuth = () => {
 
 	const verify2fa = async ({ otp }: { otp: string }) => {
 		try {
-			const { accessToken }: Record<string, string> = await fetcher('/auth/2fa', {
+			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/2fa', {
 				body: { otp },
 				method: Method.Post,
 				accessToken: state.user.intermediateToken,
@@ -102,6 +103,7 @@ export const useAuth = () => {
 
 			const user = decodeToken(accessToken)
 			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, shouldRefresh: true, intermediateToken: null, isStateKnown: true })
+			setUserInfo(null)
 		} catch (error) {
 			logger.error(error)
 		}

@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 
-enum WebsiteCategory {
+export enum WebsiteCategory {
 	Official = 1,
 	Wiki = 2,
 	Wikipedia = 3,
@@ -19,7 +19,7 @@ enum WebsiteCategory {
 	GoG = 17,
 }
 
-enum GameCategory {
+export enum GameCategory {
 	MainGame = 0,
 	DLCAddon = 1,
 	Expansion = 2,
@@ -29,7 +29,7 @@ enum GameCategory {
 	Episode = 6,
 }
 
-type Image = {
+export type Image = {
 	alpha_channel?: boolean,
 	animated?: boolean,
 	height: number,
@@ -37,46 +37,48 @@ type Image = {
 	width: number,
 }
 
-type Website = {
+export type Website = {
 	category: WebsiteCategory,
 	trusted: boolean,
 	url: string,
 }
 
-type Genre = {
+export type Genre = {
 	name: string,
 	slug: string,
 }
 
-type Engine = {
+export type Engine = {
 	description?: string,
 	logo?: Image,
 	name: string,
 }
 
-type Platform = {
+export type Platform = {
 	abbreviation?: string,
 	name: string,
 	platform_logo?: Image,
 }
 
-type Company = {
-	description: string,
+export type Company = {
 	developer: boolean,
 	publisher: boolean,
 	porting: boolean,
 	supporting: boolean,
-	logo?: {
-		id: number,
-		alpha_channel: boolean,
-		image_id: number,
+	company: {
+		description: string,
+		logo?: {
+			id: number,
+			alpha_channel: boolean,
+			image_id: number,
+		},
+		name: string,
+		slug: string,
+		websites: Array<Website>,
 	},
-	name: string,
-	slug: string,
-	websites: Array<Website>,
 }
 
-type ReleaseDate = {
+export type ReleaseDate = {
 	date: number,
 	platform: Platform,
 }

@@ -20,6 +20,7 @@ type InputProps = {
 	disabled?: boolean,
 	enableValidate?: boolean,
 	fullWidth?: boolean,
+	hidden?: boolean,
 	hint?: string,
 	id?: string,
 	maxLength?: number,
@@ -39,7 +40,7 @@ type InputProps = {
 
 export const Input = ({
 	optionalHint = true, fullWidth = true, required = false, rows = 3, enableValidate = true, type = 'text',
-	disabled, maxRows, minLength, maxLength, name, format, validate, autoComplete = 'off', id= name,
+	disabled, maxRows, minLength, maxLength, name, format, validate, autoComplete = 'off', id= name, hidden,
 	parse = (value) => value || null, label, hint, placeholder, autofocus, pattern,
 }: InputProps) => {
 	const { input, meta } = useField(
@@ -66,6 +67,7 @@ export const Input = ({
 		pattern,
 		placeholder,
 		value: input.value || '',
+		'aria-hidden': hidden,
 	}
 
 	if (type === 'hidden') {
@@ -73,7 +75,7 @@ export const Input = ({
 	}
 
 	return (
-		<FieldWrapper fullWidth={fullWidth} minWidth={170}>
+		<FieldWrapper fullWidth={fullWidth} minWidth={170} hidden={hidden}>
 			<ColumnLabel>
 				<LabelContainer>
 					<HintContainer>

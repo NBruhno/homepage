@@ -3,7 +3,7 @@ type Props = {
 	collapsed?: boolean,
 } & React.ComponentProps<'div'>
 
-export const Separator = ({ slim = false, collapsed = false, ...rest }: Props) => {
+export const Separator = ({ slim = false, collapsed = false, children, ...rest }: Props) => {
 	const padding = () => {
 		if (slim) return '0 24px'
 		if (collapsed) return '4px 24px 12px'
@@ -14,7 +14,7 @@ export const Separator = ({ slim = false, collapsed = false, ...rest }: Props) =
 		<div
 			css={(theme: Theme) => ({
 				borderTop: `1px solid ${theme.color.border}`,
-				color: collapsed ? theme.color.background : theme.color.text,
+				color: theme.color.text,
 				fontFamily: theme.fontFamily.poppins,
 				fontSize: theme.fontSize.s100,
 				height: (slim || collapsed) ? '0px' : '26px',
@@ -27,6 +27,10 @@ export const Separator = ({ slim = false, collapsed = false, ...rest }: Props) =
 				whiteSpace: 'nowrap',
 			})}
 			{...rest}
-		/>
+		>
+			<span css={{ opacity: collapsed ? 0 : 1, transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
+				{children}
+			</span>
+		</div>
 	)
 }

@@ -9,6 +9,7 @@ type Props = {
 export const DefaultInputStyle = ({ theme, hasError, disabled }: Props) => css({
 	position: 'relative',
 	fontSize: theme.fontSize.s100,
+	fontFamily: theme.fontFamily.roboto,
 	textAlign: 'left',
 	padding: '10px 6px',
 	display: 'block',

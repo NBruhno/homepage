@@ -19,6 +19,10 @@ const {
 module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModules({
 	reactStrictMode: true,
 
+	devIndicators: {
+		autoPrerender: false,
+	},
+
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	workboxOpts: {

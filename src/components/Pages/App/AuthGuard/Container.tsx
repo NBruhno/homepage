@@ -10,6 +10,8 @@ export const Container = (props: React.ComponentProps<'div'>) => (
 			right: 0,
 			bottom: 0,
 			zIndex: 4,
+			display: 'flex',
+			padding: '24px',
 
 			'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
 				backdropFilter: 'saturate(150%) blur(5px) opacity(0.7)',
