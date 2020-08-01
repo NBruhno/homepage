@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
-import { User } from 'types/User'
+import type { User } from 'types/User'
 
 import { generateAccessToken, generateRefreshToken, generateIntermediateToken } from 'server/generateTokens'
 import { setRefreshCookie } from 'server/middleware'
