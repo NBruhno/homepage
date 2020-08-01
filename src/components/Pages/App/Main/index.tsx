@@ -54,7 +54,7 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 					<FormLogin />
 				) : (
 					<>
-						<h3 css={{ margin: '0 0 24px' }}>You are not authorized to access this resource</h3>
+						<h1 css={{ margin: '0 0 24px', fontSize: '1.5em' }}>You are not authorized to access this resource</h1>
 						<Link href='/' passHref><a css={(theme: Theme) => ({ color: theme.color.text })}>Home</a></Link>
 					</>
 				)}
