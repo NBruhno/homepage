@@ -3,7 +3,7 @@
   "name": "Bruhno's portfolio",
   "description": "This is the personal portfolio of Nicolai Bruhn",
   "theme_color": "hsl(21, 80%, 51%)",
-  "background_color": "hsl(0, 0%, 20%)",
+  "background_color": "hsl(0, 0%, 10%)",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
