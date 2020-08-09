@@ -24,8 +24,8 @@ export type Options = {
 
 /**
  * Helper function for fetching resources using `useSWR()` or as a normal fetch. Default method is GET.
- * @param url - the resource to fetch.
  * @param options - a set of options to transform the fetch call.
+ * @param url - the resource to fetch.
  * @example
  * ```tsx
  * const { data: test, error } = useSWR('/tests', fetcher)

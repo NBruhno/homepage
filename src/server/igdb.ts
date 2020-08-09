@@ -28,3 +28,5 @@ export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { b
 
 	return single ? data[0] : data
 }
+
+export const igdbImageUrl = 'https://images.igdb.com/igdb/image/upload'

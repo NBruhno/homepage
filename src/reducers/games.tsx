@@ -9,33 +9,47 @@ import { fetcher, Method } from 'lib/fetcher'
 
 export const useGames = () => {
 	const [query, setQuery] = useState(undefined)
-	const [games, setGames] = useState(null)
+	const [games, setGames] = useState<{ games: Array<SimpleGame>, following: Array<SimpleGame> }>({ games: null, following: null })
 	const { user } = useAuth()
-	const { data, error } = useSWR<Array<SimpleGame>>(user?.isStateKnown ? ['/games', query, user.accessToken] : null, (link, query) => fetcher(link, { body: query, accessToken: user?.accessToken, method: Method.Post }), { revalidateOnFocus: false })
+	const { data, error } = useSWR<{ games: Array<SimpleGame>, following: Array<SimpleGame> }>(
+		user?.isStateKnown ? ['/games', query, user.accessToken] : null, (link, query) => fetcher(link, { body: query, accessToken: user?.accessToken, method: Method.Post }), { revalidateOnFocus: false },
+	)
 
 	const follow = async (id: string) => {
 		const response = await fetcher<{ message?: string }>(`/games/${id}/follow`, { accessToken: user.accessToken, method: Method.Post })
 		if (response.message) {
-			setGames(games.map((game: SimpleGame) => {
-				if (id === game.id) return { ...game, following: true }
-				return game
-			}))
+			setGames({
+				games: games.games.map((game: SimpleGame) => {
+					if (id === game.id) return { ...game, following: true }
+					return game
+				}),
+				following: games.following.map((game: SimpleGame) => {
+					if (id === game.id) return { ...game, following: true }
+					return game
+				}),
+			})
 		}
 	}
 
 	const unfollow = async (id: string) => {
 		const response = await fetcher<{ message?: string }>(`/games/${id}/unfollow`, { accessToken: user.accessToken, method: Method.Post })
 		if (response.message) {
-			setGames(games.map((game: SimpleGame) => {
-				if (id === game.id) return { ...game, following: false }
-				return game
-			}))
+			setGames({
+				games: games.games.map((game: SimpleGame) => {
+					if (id === game.id) return { ...game, following: false }
+					return game
+				}),
+				following: games.following.map((game: SimpleGame) => {
+					if (id === game.id) return { ...game, following: false }
+					return game
+				}),
+			})
 		}
 	}
 
 	useEffect(() => setGames(data), [data])
 
-	return { games, error, setQuery, follow: async (id: string) => follow(id), unfollow: async (id: string) => unfollow(id) }
+	return { ...games, error, setQuery, follow: async (id: string) => follow(id), unfollow: async (id: string) => unfollow(id) }
 }
 
 export const useGame = (id: string) => {

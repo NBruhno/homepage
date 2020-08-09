@@ -10,9 +10,9 @@ export const FieldWrapper: React.JSXElementConstructor<Props> = forwardRef(({ hi
 	<div
 		css={{
 			display: fullWidth ? 'block' : 'inline-block',
-			minWidth: minWidth ? `${minWidth}px` : 'auto',
-			marginBottom: hidden ? 0 : '25px',
 			height: hidden ? 0 : 'auto',
+			marginBottom: hidden ? 0 : '25px',
+			minWidth: minWidth ? `${minWidth}px` : 'auto',
 			overflow: hidden ? 'hidden' : 'visible',
 		}}
 		ref={ref}

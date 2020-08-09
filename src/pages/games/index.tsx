@@ -9,7 +9,7 @@ import { GameList } from 'components/Pages/Games/List'
 import { Input } from 'components/Forms/Fields/Input'
 
 const Games: NextPage = () => {
-	const { games, error, setQuery, follow, unfollow } = useGames()
+	const { games, following, error, setQuery, follow, unfollow } = useGames()
 
 	return (
 		<>
@@ -17,11 +17,23 @@ const Games: NextPage = () => {
 				<title>Games • Bruhno</title>
 			</Head>
 			<Page>
-				<PageContent maxWidth={700}>
-					<Form form='gameListQuery' onSubmit={(fields) => setQuery(fields)}>
-						<Input label='Search for a game' name='search' />
-					</Form>
-					<GameList games={games} error={error} onFollow={follow} onUnfollow={unfollow} />
+				<PageContent maxWidth={1300}>
+					<div css={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gridColumnGap: '156px' }}>
+						<div>
+							<h2>Recent and upcoming popular games</h2>
+							<Form form='gamesQuery' onSubmit={(fields) => setQuery(fields)}>
+								<Input label='Search for a game' name='search' />
+							</Form>
+							<GameList games={games} error={error} onFollow={follow} onUnfollow={unfollow} />
+						</div>
+						<div>
+							<h2>Games you follow</h2>
+							<Form form='followingQuery' onSubmit={(fields) => setQuery(fields)}>
+								<Input label='Search among your games' name='searchFollowing' />
+							</Form>
+							<GameList games={following} error={error} onFollow={follow} onUnfollow={unfollow} />
+						</div>
+					</div>
 				</PageContent>
 			</Page>
 		</>
