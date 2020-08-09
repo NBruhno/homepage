@@ -23,6 +23,10 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 		autoPrerender: false,
 	},
 
+	serverRuntimeConfig: {
+		rootDir: __dirname,
+	},
+
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	workboxOpts: {

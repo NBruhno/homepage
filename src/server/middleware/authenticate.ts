@@ -29,7 +29,7 @@ const resolveError = (error: any, res: NextApiResponse) => {
 export const authenticateAccessToken = async (req: NextApiRequest, res: NextApiResponse, { optional = false, token }: Options = {}) => {
 	const { headers: { authorization } } = req
 
-	if (!authorization) {
+	if (!authorization && !optional) {
 		const error = ApiError.fromCode(401)
 		res.status(error.statusCode).json({ error: error.message })
 		throw error

@@ -17,7 +17,7 @@ export const Container = forwardRef((props: Props, ref) => (
 			marginBottom: '12px',
 			overflow: 'hidden',
 			textDecoration: 'none',
-			transition: 'background-color 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+			transition: `background-color 135ms ${theme.animation.default}`,
 
 			'&:hover, &:focus': {
 				backgroundColor: theme.darkTheme ? theme.color.gray : theme.color.grayDarker,

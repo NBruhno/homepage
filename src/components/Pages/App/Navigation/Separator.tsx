@@ -23,12 +23,12 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 				overflow: 'hidden',
 				padding: padding(),
 				textOverflow: 'ellipsis',
-				transition: 'height 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1), padding 300ms cubic-bezier(0.4, 0, 0.2, 1), min-height 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+				transition: `height 300ms ${theme.animation.default}, color 300ms ${theme.animation.default}, padding 300ms ${theme.animation.default}, min-height 300ms ${theme.animation.default}`,
 				whiteSpace: 'nowrap',
 			})}
 			{...rest}
 		>
-			<span css={{ opacity: collapsed ? 0 : 1, transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)' }}>
+			<span css={(theme: Theme) => ({ opacity: collapsed ? 0 : 1, transition: `opacity 300ms ${theme.animation.default}` })}>
 				{children}
 			</span>
 		</div>

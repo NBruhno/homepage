@@ -2,6 +2,8 @@ import Link from 'next/link'
 
 import type { SimpleGame } from 'types/Games'
 
+import { dateOrYear } from 'lib/dateOrYear'
+
 import { Placeholder } from 'components/Placeholder'
 import { ButtonBorder } from 'components/Buttons'
 
@@ -26,8 +28,8 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoa
 	return (
 		<Link href='/games/[id]' as={`/games/${id}`} passHref>
 			<Container>
-				<Cover coverUrl={cover} size='small' css={{ marginRight: '12px' }} />
-				<div>
+				<Cover coverUrl={cover} size='small' />
+				<div css={{ padding: '12px', width: '100%' }}>
 					<Title>
 						<Placeholder isLoading={isLoading} width={index % 2 === 0 ? 100 : 90}>
 							{name}
@@ -35,7 +37,7 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoa
 					</Title>
 					<Subtitle>
 						<Placeholder isLoading={isLoading} width={index % 3 === 0 ? 90 : 80}>
-							{releaseDate ? new Date(releaseDate * 1000).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Time of release is unknown'}
+							{dateOrYear(releaseDate)}
 						</Placeholder>
 					</Subtitle>
 					<div css={{ marginTop: '6px' }}>

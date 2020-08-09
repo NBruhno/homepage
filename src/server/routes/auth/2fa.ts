@@ -73,7 +73,6 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 
 			setRefreshCookie(res, refreshToken)
 
-			res.setHeader('Content-Type', 'text/plain')
 			res.status(200).json({ accessToken })
 			break
 		}

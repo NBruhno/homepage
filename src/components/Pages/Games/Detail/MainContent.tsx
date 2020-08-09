@@ -4,7 +4,7 @@ export const MainContent = (props: React.ComponentProps<'div'>) => (
 			margin: '272px auto 0',
 			zIndex: 1,
 			width: '1300px',
-			transition: 'width 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+			transition: `width 300ms ${theme.animation.default}`,
 
 			[theme.mediaQueries.maxMobile]: {
 				width: '100%',

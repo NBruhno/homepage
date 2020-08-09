@@ -1,4 +1,6 @@
+import { RewriteFrames } from '@sentry/integrations'
 import { init } from '@sentry/node'
+import getConfig from 'next/config'
 import Head from 'next/head'
 import App from 'next/app'
 
@@ -8,8 +10,18 @@ import { config } from 'config.client'
 import { Theme, Grid, Main, Navigation, Header } from 'components/Pages/App'
 
 if (config.sentry.dsn) {
+	const nextConfig = getConfig()
+	const distDir = `${nextConfig.serverRuntimeConfig.rootDir}/.next`
 	init({
 		enabled: config.environment === 'production',
+		integrations: [
+			new RewriteFrames({
+				iteratee: (frame) => {
+					frame.filename = frame.filename.replace(distDir, 'app:///_next')
+					return frame
+				},
+			}),
+		],
 		dsn: config.sentry.dsn,
 	})
 }

@@ -6,7 +6,7 @@ export const Container = (props: React.ComponentProps<'div'>) => (
 			borderRadius: '8px',
 			margin: '8px 0',
 			overflowWrap: 'break-word',
-			transition: 'height 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+			transition: `height 135ms ${theme.animation.default}`,
 			wordBreak: 'break-word',
 		})}
 		{...props}
