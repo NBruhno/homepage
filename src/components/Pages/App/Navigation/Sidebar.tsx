@@ -18,7 +18,7 @@ export const Sidebar = ({ collapsed, ...rest }: Props) => (
 			position: 'sticky',
 			top: 0,
 			transform: 'none',
-			transition: 'width 300ms cubic-bezier(0.4, 0, 0.2, 1), transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+			transition: `width 300ms ${theme.animation.default}, transform 300ms ${theme.animation.default}`,
 			width: collapsed ? '70px' : '250px',
 			zIndex: 10,
 

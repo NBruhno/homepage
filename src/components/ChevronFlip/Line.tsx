@@ -20,7 +20,7 @@ export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Prop
 
 	return (
 		<span
-			css={{
+			css={(theme: Theme) => ({
 				backgroundColor: 'currentColor',
 				borderRadius: `${size / 2}em`,
 				bottom: '0.1em',
@@ -29,9 +29,9 @@ export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Prop
 				position: 'absolute',
 				transform: horizontal ? horizontalTransform : verticalTransform,
 				transformOrigin: `${size / 2}em ${size / 2}em`,
-				transition: 'transform 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+				transition: `transform 300ms ${theme.animation.default}`,
 				width: '0.6em',
-			}}
+			})}
 			{...rest}
 		/>
 	)

@@ -33,12 +33,12 @@ export const Navigation = () => {
 				<Link href='/' passHref>
 					<Header onClick={() => closeMenuOnInteraction()}>
 						<Logo
-							css={{
+							css={(theme: Theme) => ({
 								width: '32px',
 								height: '32px',
 								margin: collapsedSidebar ? '0 8px 0 -6px' : '0 6px 0 42px',
-								transition: 'margin 300ms cubic-bezier(0.4, 0, 0.2, 1)',
-							}}
+								transition: `margin 300ms ${theme.animation.default}`,
+							})}
 						/>
 						<Text>Bruhno</Text>
 					</Header>

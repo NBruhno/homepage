@@ -21,7 +21,7 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 			position: 'relative',
 			textAlign: 'center',
 			touchAction: 'manipulation',
-			transition: 'color 135ms cubic-bezier(0.4, 0, 0.2, 1), background-color 135ms cubic-bezier(0.4, 0, 0.2, 1), border-color 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+			transition: `color 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}, border-color 135ms ${theme.animation.default}`,
 			userSelect: 'none',
 			verticalAlign: 'middle',
 			visibility: isVisible ? 'visible' : 'hidden',
@@ -48,7 +48,7 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 				right: '-2px',
 				borderRadius: '5px',
 				boxShadow: 'none',
-				transition: 'box-shadow 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+				transition: `box-shadow 135ms ${theme.animation.default}`,
 			},
 
 			'&:focus:after': {

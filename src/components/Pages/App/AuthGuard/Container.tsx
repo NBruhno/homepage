@@ -4,7 +4,7 @@ type Props = {
 
 export const Container = ({ show, children, ...rest }: Props) => (
 	<div
-		css={{
+		css={(theme: Theme) => ({
 			top: '15vh',
 			left: 0,
 			right: 0,
@@ -14,8 +14,8 @@ export const Container = ({ show, children, ...rest }: Props) => (
 			position: 'absolute',
 			zIndex: 5,
 
-			transition: 'opacity 135ms cubic-bezier(0.4, 0, 0.2, 1)',
-		}}
+			transition: `opacity 135ms ${theme.animation.default}`,
+		})}
 		{...rest}
 	>
 		<div

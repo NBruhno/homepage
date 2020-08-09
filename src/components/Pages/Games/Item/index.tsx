@@ -2,6 +2,8 @@ import Link from 'next/link'
 
 import type { SimpleGame } from 'types/Games'
 
+import { dateOrYear } from 'lib/dateOrYear'
+
 import { Placeholder } from 'components/Placeholder'
 import { ButtonBorder } from 'components/Buttons'
 
@@ -35,7 +37,7 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoa
 					</Title>
 					<Subtitle>
 						<Placeholder isLoading={isLoading} width={index % 3 === 0 ? 90 : 80}>
-							{releaseDate ? new Date(releaseDate * 1000).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' }) : 'Time of release is unknown'}
+							{dateOrYear(releaseDate)}
 						</Placeholder>
 					</Subtitle>
 					<div css={{ marginTop: '6px' }}>

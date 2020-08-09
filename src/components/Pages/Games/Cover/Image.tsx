@@ -6,6 +6,7 @@ export const Image = ({ loading = 'lazy', ...rest }: Props) => (
 	<img
 		css={{
 			height: '100%',
+			width: '100%',
 			objectFit: 'cover',
 		}}
 		alt='game cover'

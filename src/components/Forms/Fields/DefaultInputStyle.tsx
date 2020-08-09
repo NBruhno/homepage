@@ -19,7 +19,7 @@ export const DefaultInputStyle = ({ theme, hasError, disabled }: Props) => css({
 	padding: '10px 6px',
 	position: 'relative',
 	textAlign: 'left',
-	transition: 'border 135ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+	transition: `border 135ms ${theme.animation.default}, box-shadow 135ms ${theme.animation.default}`,
 	WebkitTapHighlightColor: 'transparent',
 	width: 'calc(100% - 14px)',
 
