@@ -28,6 +28,7 @@
     "@emotion/core": "^10.0.28",
     "@mdi/js": "^5.4.55",
     "@sentry/browser": "^5.20.1",
+    "@sentry/integrations": "^5.20.1",
     "@sentry/node": "^5.20.1",
     "@sentry/webpack-plugin": "^1.12.0",
     "@zeit/next-source-maps": "^0.0.4-canary.1",
