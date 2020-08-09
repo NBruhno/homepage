@@ -26,8 +26,8 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoa
 	return (
 		<Link href='/games/[id]' as={`/games/${id}`} passHref>
 			<Container>
-				<Cover coverUrl={cover} size='small' css={{ marginRight: '12px' }} />
-				<div>
+				<Cover coverUrl={cover} size='small' />
+				<div css={{ padding: '12px', width: '100%' }}>
 					<Title>
 						<Placeholder isLoading={isLoading} width={index % 2 === 0 ? 100 : 90}>
 							{name}

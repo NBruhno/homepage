@@ -8,7 +8,7 @@ import type { Game as IGDBGame, Company } from 'types/IGDB'
 
 import { authenticateAccessToken } from 'server/middleware'
 import { ApiError } from 'server/errors/ApiError'
-import { igdbFetcher } from 'server/igdbFetcher'
+import { igdbFetcher } from 'server/igdb'
 import { faunaClient } from 'server/faunaClient'
 
 const resolveCompany = (involvedCompany: Company) => {
@@ -28,20 +28,20 @@ const resolveCompany = (involvedCompany: Company) => {
 }
 
 const root = [
-	'id',
-	'slug',
-	'name',
+	'aggregated_rating_count',
+	'aggregated_rating',
 	'first_release_date',
+	'id',
+	'name',
+	'slug',
 	'storyline',
 	'summary',
-	'aggregated_rating',
-	'aggregated_rating_count',
 ]
 
 const cover = [
-	'cover.image_id',
 	'cover.alpha_channel',
 	'cover.animated',
+	'cover.image_id',
 ]
 
 const screenshots = [
@@ -52,25 +52,25 @@ const screenshots = [
 
 const companies = [
 	'involved_companies.company.description',
-	'involved_companies.developer',
 	'involved_companies.company.logo.alpha_channel',
 	'involved_companies.company.logo.image_id',
 	'involved_companies.company.name',
-	'involved_companies.porting',
-	'involved_companies.publisher',
 	'involved_companies.company.slug',
-	'involved_companies.supporting',
 	'involved_companies.company.websites.category',
 	'involved_companies.company.websites.trusted',
 	'involved_companies.company.websites.url',
+	'involved_companies.developer',
+	'involved_companies.porting',
+	'involved_companies.publisher',
+	'involved_companies.supporting',
 ]
 
 const releaseDates = [
 	'release_dates.date',
-	'release_dates.platform.name',
 	'release_dates.platform.abbreviation',
-	'release_dates.platform.platform_logo.image_id',
+	'release_dates.platform.name',
 	'release_dates.platform.platform_logo.alpha_channel',
+	'release_dates.platform.platform_logo.image_id',
 ]
 
 const genres = [
@@ -85,9 +85,9 @@ const platforms = [
 
 const engines = [
 	'game_engines.description',
-	'game_engines.name',
-	'game_engines.logo.image_id',
 	'game_engines.logo.alpha_channel',
+	'game_engines.logo.image_id',
+	'game_engines.name',
 ]
 
 const websites = [
@@ -111,7 +111,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				await Promise.all([
 					faunaClient(token.secret).query(
 						q.Select(['data', 'id'], q.Get(q.Match(q.Index('gamesByIdAndUser'), [id, q.Identity()]))),
-					).catch((error: errors.FaunaError) => {
+					).catch((error) => {
 						if (error instanceof errors.NotFound) {
 							return null
 						} else {
@@ -133,21 +133,21 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				name,
 				summary,
 				storyline,
-				id: slug ?? null,
-				rating: aggregated_rating,
-				ratingCount: aggregated_rating_count,
-				developer: resolveCompany(involved_companies?.find(({ developer }) => developer)),
-				supporting: resolveCompany(involved_companies?.find(({ supporting }) => supporting)),
-				publisher: resolveCompany(involved_companies?.find(({ publisher }) => publisher)),
-				porting: resolveCompany(involved_companies?.find(({ porting }) => porting)),
 				cover: cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${cover.image_id}.jpg` : null,
-				screenshot: sample(screenshotUrls),
+				developer: resolveCompany(involved_companies?.find(({ developer }) => developer)),
 				engines: game_engines?.map(({ description, logo, name }) => ({
 					description,
 					logo: logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${logo.image_id}.jpg` : null,
 					name,
 				})) ?? null,
 				following: Boolean(followedGame),
+				id: slug ?? null,
+				porting: resolveCompany(involved_companies?.find(({ porting }) => porting)),
+				publisher: resolveCompany(involved_companies?.find(({ publisher }) => publisher)),
+				rating: aggregated_rating,
+				ratingCount: aggregated_rating_count,
+				screenshot: sample(screenshotUrls),
+				supporting: resolveCompany(involved_companies?.find(({ supporting }) => supporting)),
 				genres: genres ? genres.map(({ name }) => name) : [],
 				platforms: platforms?.map(({ platform_logo, abbreviation, name }) => ({
 					abbreviation,
