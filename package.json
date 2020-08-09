@@ -5,7 +5,7 @@
   "author": "Nicolai Bruhn Lauritsen <mail@bruhno.com> (https://bruhno.dev)",
   "license": "UNLICENSED",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "engines": {
     "node": "^12"
   },
