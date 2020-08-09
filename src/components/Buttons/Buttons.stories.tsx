@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { action } from '@storybook/addon-actions'
 
 import { delay } from 'lib/delay'
 import { logger } from 'lib/logger'
 
-import { ButtonSolid, ButtonText, ButtonBorder } from '.'
+import { ButtonSolid, ButtonText, ButtonBorder, ButtonToggle } from '.'
 
 export default {
 	title: 'Buttons',
-	decorators: [(story: any) => <div css={{ padding: '12px', display: 'flex', flexWrap: 'wrap', '> button': { marginRight: '12px' } }}>{story()}</div>],
+	decorators: [(story: any) => <div css={{ padding: '12px', display: 'grid', flexWrap: 'wrap', gridGap: '12px', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))' }}>{story()}</div>],
 }
 
 export const Solid = () => (
@@ -57,3 +57,23 @@ export const Border = () => (
 		/>
 	</>
 )
+export const Toggle = () => {
+	const [active, setActive] = useState(false)
+
+	return (
+		<>
+			<ButtonToggle label='Toggle' active={active} onClick={() => setActive(!active)} />
+			<ButtonToggle label='Disabled' active={active} disabled onClick={() => setActive(!active)} />
+			<ButtonToggle label='Loading' active={active} isLoadingManual onClick={() => setActive(!active)} />
+			<ButtonToggle label='Delayed' active={active} minDelay={2} onClick={() => setActive(!active)} />
+			<ButtonToggle
+				label='Async'
+				active={active}
+				onClick={async () => {
+					await delay(2)
+					setActive(!active)
+				}}
+			/>
+		</>
+	)
+}

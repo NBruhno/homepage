@@ -78,6 +78,9 @@ export const theme = (darkTheme = true) => ({
 		roboto: `'Roboto', sans-serif`,
 		poppins: `'Poppins', sans-serif`,
 	},
+	animation: {
+		default: 'cubic-bezier(0.4, 0, 0.2, 1)',
+	},
 	darkTheme,
 	mediaQueries,
 })

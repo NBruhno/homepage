@@ -18,7 +18,7 @@ export const NavLink = forwardRef(({ active, currentColor = false, ...rest }: Pr
 			backgroundColor: active ? transparentize(0.5, theme.color.primary) : 'transparent',
 			borderRadius: '4px',
 			margin: '4px 12px',
-			transition: 'color 135ms cubic-bezier(0.4, 0, 0.2, 1), background-color 135ms cubic-bezier(0.4, 0, 0.2, 1)',
+			transition: `color 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}`,
 			fontFamily: theme.fontFamily.poppins,
 			fontSize: theme.fontSize.s90,
 			display: 'flex',

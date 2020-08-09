@@ -22,6 +22,7 @@ type Props = {
 	children: React.ReactNode,
 	initialValues?: object,
 	persistState?: string | boolean,
+	persistStateOnSubmit?: boolean,
 	destroyStateOnUnmount?: boolean,
 	renderFormOnStateUpdate?: boolean,
 	resetFormOnSubmitSuccess?: boolean,
@@ -29,17 +30,17 @@ type Props = {
 }
 
 export const Form = ({
-	form: formName, onSubmit, initialValues, children, persistState,
+	form: formName, onSubmit, initialValues, children, persistState, persistStateOnSubmit,
 	renderFormOnStateUpdate, destroyStateOnUnmount, resetFormOnSubmitSuccess, ...props
 }: Props) => {
 	const [initialStateValues, setInitialStateValues] = useState(null)
 	const { form: globalFormState, update, reset } = useForm()
 
-	const formState = persistState ? globalFormState[formName] : null
+	const formState = (persistState || persistStateOnSubmit) ? globalFormState?.[formName] : null
 
 	useEffect(() => {
 		// Set initialValues on mount
-		if (persistState && formState) {
+		if ((persistState || persistStateOnSubmit) && formState) {
 			setInitialStateValues(formState)
 		}
 
@@ -58,7 +59,7 @@ export const Form = ({
 		if (renderFormOnStateUpdate && formState) {
 			setInitialStateValues(formState)
 		}
-	}, [persistState, formState, renderFormOnStateUpdate])
+	}, [persistState, persistStateOnSubmit, formState, renderFormOnStateUpdate])
 
 	useEffect(() => {
 	}, [])
@@ -89,6 +90,16 @@ export const Form = ({
 						<FormSpy
 							subscription={{ values: true, valid: true }}
 							onChange={({ values, valid }) => onPersistState(values, valid, formName, persistState, update)}
+						/>
+					)}
+					{persistStateOnSubmit && (
+						<FormSpy
+							subscription={{ values: true, valid: true, submitSucceeded: true, dirtySinceLastSubmit: true }}
+							onChange={({ values, valid, dirtySinceLastSubmit, submitSucceeded }) => {
+								if (submitSucceeded && !dirtySinceLastSubmit) {
+									onPersistState(values, valid, formName, persistState || persistStateOnSubmit, update)
+								}
+							}}
 						/>
 					)}
 				</form>

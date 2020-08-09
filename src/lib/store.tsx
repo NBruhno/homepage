@@ -3,6 +3,8 @@ import { useMediaQuery } from 'react-responsive'
 
 import { screenSizes } from 'styles/theme'
 
+import { Lists as GameListTypes } from 'reducers/games'
+
 export type State = {
 	count: number,
 	responsive: {
@@ -24,7 +26,10 @@ export type State = {
 		shouldRefresh: boolean,
 		twoFactorSecret?: string,
 	},
-	form: Record<string, any>,
+	forms: Record<string, any>,
+	games: {
+		currentList: GameListTypes,
+	},
 	test: Record<any, any>,
 	tests: Record<any, any>,
 	task: Record<any, any>,
@@ -50,7 +55,10 @@ export const initialState = {
 		shouldRefresh: false,
 	},
 
-	form: undefined,
+	forms: {},
+	games: {
+		currentList: GameListTypes.Popular,
+	},
 	test: { data: undefined, loading: true, error: undefined },
 	tests: { data: [], loading: true, error: undefined },
 

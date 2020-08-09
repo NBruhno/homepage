@@ -11,6 +11,7 @@ export const CoverWrapper = ({ size, ...rest }: Props) => (
 			height: size === 'big' ? '352px' : '160px',
 			width: size === 'big' ? '264px' : '120px',
 			overflow: 'hidden',
+			objectFit: 'cover',
 
 			[theme.mediaQueries.maxMobile]: {
 				height: '160px',

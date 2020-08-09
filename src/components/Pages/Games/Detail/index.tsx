@@ -1,5 +1,7 @@
 import type { Game } from 'types/Games'
 
+import { dateOrYear } from 'lib/dateOrYear'
+
 import { useAuth } from 'reducers/auth'
 
 import { Placeholder } from 'components/Placeholder'
@@ -58,7 +60,7 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 						</Title>
 						<ReleaseDate>
 							<Placeholder isLoading={isLoading} width={120}>
-								{game?.releaseDate ? new Date(game.releaseDate * 1000).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' }) : 'No official release date'}
+								{dateOrYear(game?.releaseDate)}
 							</Placeholder>
 						</ReleaseDate>
 						<Developer>

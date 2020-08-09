@@ -14,7 +14,7 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				opacity: 0,
 				pointerEvents: 'none',
 				position: 'absolute',
-				transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+				transition: `opacity 300ms ${theme.animation.default}`,
 				zIndex: 9,
 
 				[theme.mediaQueries.maxMobile]: {

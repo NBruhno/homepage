@@ -10,7 +10,7 @@ export const BackgroundWrapper = (props: React.ComponentProps<'div'>) => (
 			zIndex: 0,
 			overflow: 'hidden',
 			backgroundColor: theme.color.gray,
-			transition: 'height 300ms cubic-bezier(0.4, 0, 0.2, 1)',
+			transition: `height 300ms ${theme.animation.default}`,
 
 			[theme.mediaQueries.maxMobile]: {
 				height: '250px',

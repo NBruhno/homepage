@@ -8,7 +8,7 @@ import type { Game as IGDBGame, Company } from 'types/IGDB'
 
 import { authenticateAccessToken } from 'server/middleware'
 import { ApiError } from 'server/errors/ApiError'
-import { igdbFetcher } from 'server/igdb'
+import { igdbFetcher, igdbImageUrl } from 'server/igdb'
 import { faunaClient } from 'server/faunaClient'
 
 const resolveCompany = (involvedCompany: Company) => {
@@ -20,7 +20,7 @@ const resolveCompany = (involvedCompany: Company) => {
 
 	return ({
 		description,
-		logo: logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${logo.image_id}.jpg` : null,
+		logo: logo?.image_id ? `${igdbImageUrl}/t_thumb/${logo.image_id}.jpg` : null,
 		name,
 		slug,
 		websites,
@@ -128,16 +128,16 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 			}
 
 			const { slug, aggregated_rating, aggregated_rating_count, genres, storyline, summary, involved_companies, cover, name, platforms, first_release_date, release_dates, game_engines, screenshots } = igdbGame
-			const screenshotUrls = screenshots?.length > 0 ? screenshots.map(({ image_id }: { width: number, image_id: string }) => `https://images.igdb.com/igdb/image/upload/t_screenshot_big/${image_id}.jpg`).filter(Boolean) : []
+			const screenshotUrls = screenshots?.length > 0 ? screenshots.map(({ image_id }: { width: number, image_id: string }) => `${igdbImageUrl}/t_screenshot_big/${image_id}.jpg`).filter(Boolean) : []
 			const transformedGame: Game = {
 				name,
 				summary,
 				storyline,
-				cover: cover?.image_id ? `https://images.igdb.com/igdb/image/upload/t_cover_big/${cover.image_id}.jpg` : null,
+				cover: cover?.image_id ? `${igdbImageUrl}/t_cover_big/${cover.image_id}.jpg` : null,
 				developer: resolveCompany(involved_companies?.find(({ developer }) => developer)),
 				engines: game_engines?.map(({ description, logo, name }) => ({
 					description,
-					logo: logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${logo.image_id}.jpg` : null,
+					logo: logo?.image_id ? `${igdbImageUrl}/t_thumb/${logo.image_id}.jpg` : null,
 					name,
 				})) ?? null,
 				following: Boolean(followedGame),
@@ -151,15 +151,15 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				genres: genres ? genres.map(({ name }) => name) : [],
 				platforms: platforms?.map(({ platform_logo, abbreviation, name }) => ({
 					abbreviation,
-					logo: platform_logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${platform_logo.image_id}.jpg` : null,
+					logo: platform_logo?.image_id ? `${igdbImageUrl}/t_thumb/${platform_logo.image_id}.jpg` : null,
 					name,
 				})) ?? null,
-				releaseDate: first_release_date ?? null,
+				releaseDate: first_release_date * 1000 ?? null,
 				releaseDates: release_dates?.map(({ date, platform: { platform_logo, abbreviation, name } }) => ({
 					date,
 					platform: {
 						abbreviation,
-						logo: platform_logo?.image_id ? `https://images.igdb.com/igdb/image/upload/t_thumb/${platform_logo.image_id}.jpg` : null,
+						logo: platform_logo?.image_id ? `${igdbImageUrl}/t_thumb/${platform_logo.image_id}.jpg` : null,
 						name,
 					},
 				})) ?? null,

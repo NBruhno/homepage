@@ -19,12 +19,12 @@ export const Header = (props: React.ComponentProps<'nav'>) => {
 			<Link href='/' passHref>
 				<NavLink currentColor css={{ alignItems: 'center' }} onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: true } })}>
 					<Logo
-						css={{
+						css={(theme: Theme) => ({
 							width: '32px',
 							height: '32px',
 							margin: '0 8px 0 -6px',
-							transition: 'margin 300ms cubic-bezier(0.4, 0, 0.2, 1)',
-						}}
+							transition: `margin 300ms ${theme.animation.default}`,
+						})}
 					/>
 					Bruhno
 				</NavLink>

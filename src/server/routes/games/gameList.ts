@@ -19,7 +19,7 @@ const mapGames = (games: Array<IGDBGame>, followedGames: Array<string>) => {
 				cover: game.cover?.image_id ? `${igdbImageUrl}/t_cover_small_2x/${game.cover.image_id}.jpg` : null,
 				id: game.slug ?? null,
 				name: game.name ?? null,
-				releaseDate: game.first_release_date ?? null,
+				releaseDate: game.first_release_date * 1000 ?? null,
 				following,
 			})
 		})
@@ -36,43 +36,34 @@ export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 	switch (method) {
 		case 'POST': {
 			const commonFields = 'fields name, release_dates, cover.image_id, first_release_date, slug;'
-			let followedGames = null as { data: Array<string> } | null
+			let following = null as { data: Array<string> } | null
 			let mappedGames = null as Array<SimpleGame>
 			let mappedGamesFollowed = null as Array<SimpleGame>
+			let mappedSearch = null as Array<SimpleGame>
 
 			if (token) {
-				followedGames = await faunaClient(token.secret).query(
+				following = await faunaClient(token.secret).query(
 					q.Paginate(q.Match(q.Index('gamesByUser'), q.Identity())),
 				)
 			}
 
-			if (followedGames?.data?.length > 0) {
-				const [games, gamesFollowing] = await Promise.all([
-					await igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: body?.search
-							? `${commonFields} limit 50; search "${body?.search}";`
-							: `${commonFields} sort first_release_date asc; limit 30; where first_release_date > ${getUnixTime(sub(Date.now(), { months: 2 }))} & hypes >= 0; sort hypes desc;`,
-					}),
-					await igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: body?.searchFollowing
-							? `${commonFields} limit 50; search "${body?.searchFollowing}"; where slug = ("${followedGames?.data.join(`", "`)}");`
-							: `${commonFields} sort first_release_date asc; limit 100; where slug = ("${followedGames?.data.join(`", "`)}");`,
-					}),
-				])
+			const [gamesPopular, gamesFollowing, gamesSearch] = await Promise.all([
+				igdbFetcher<Array<IGDBGame>>('/games', res, {
+					body: `${commonFields} sort first_release_date asc; limit 30; where first_release_date > ${getUnixTime(sub(Date.now(), { months: 2 }))} & hypes >= 0; sort hypes desc;`,
+				}),
+				following?.data?.length > 0 ? igdbFetcher<Array<IGDBGame>>('/games', res, {
+					body: `${commonFields} sort first_release_date asc; limit 100; where slug = ("${following?.data.join(`", "`)}");`,
+				}) : [],
+				body?.search ? igdbFetcher<Array<IGDBGame>>('/games', res, {
+					body: `${commonFields} limit 50; search "${body?.search}";`,
+				}) : [],
+			])
 
-				mappedGames = mapGames(games, followedGames?.data)
-				mappedGamesFollowed = mapGames(gamesFollowing, followedGames?.data)
-			} else {
-				const games = await igdbFetcher<Array<IGDBGame>>('/games', res, {
-					body: body?.search
-						? `${commonFields} limit 50; search "${body?.search}";`
-						: `${commonFields} sort first_release_date asc; limit 30; where first_release_date > ${getUnixTime(sub(Date.now(), { months: 2 }))} & hypes >= 0; sort hypes desc;`,
-				})
-				mappedGames = mapGames(games, followedGames?.data)
-				mappedGamesFollowed = []
-			}
+			mappedGames = mapGames(gamesPopular, following?.data)
+			mappedGamesFollowed = mapGames(gamesFollowing, following?.data)
+			mappedSearch = mapGames(gamesSearch, following?.data)
 
-			res.status(200).json({ games: mappedGames, following: mappedGamesFollowed })
+			res.status(200).json({ popular: mappedGames, following: mappedGamesFollowed, games: mappedSearch })
 			break
 		}
 
