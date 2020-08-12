@@ -1,13 +1,13 @@
 import type { Game } from 'types/Games'
 
-import { dateOrYear } from 'lib/dateOrYear'
-
 import { useAuth } from 'reducers/auth'
 
 import { Placeholder } from 'components/Placeholder'
 import { ButtonSolid } from 'components/Buttons'
 
 import { Cover } from '../Cover'
+import { dateOrYear } from '../dateOrYear'
+import { groupByReleaseDate } from '../groupByReleaseDate'
 
 import { Background } from './Header/Background'
 import { BackgroundPlaceholder } from './Header/BackgroundPlaceholder'
@@ -20,7 +20,7 @@ import { MainContent } from './MainContent'
 import { Wrapper } from './Wrapper'
 
 type Props = {
-	game: Game,
+	game: Game | null,
 	error: any,
 	isLoading: boolean,
 
@@ -30,6 +30,7 @@ type Props = {
 
 export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 	const { user } = useAuth()
+	const groupedReleaseDates = game?.releaseDates ? groupByReleaseDate(game.releaseDates, ({ date }) => date, game.releaseDate) : null
 
 	return (
 		<Wrapper>
@@ -54,20 +55,28 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 					</div>
 					<div>
 						<Title>
-							<Placeholder width='75%' isLoading={isLoading}>
+							<Placeholder isLoading={isLoading} width='55%'>
 								{game?.name ?? 'Loading'}
 							</Placeholder>
 						</Title>
 						<ReleaseDate>
-							<Placeholder isLoading={isLoading} width={120}>
+							<Placeholder isLoading={isLoading} width='30%'>
 								{dateOrYear(game?.releaseDate)}
 							</Placeholder>
 						</ReleaseDate>
 						<Developer>
-							<Placeholder isLoading={isLoading} width={200}>
+							<Placeholder isLoading={isLoading} width='25%'>
 								By {game?.developer?.name}
 							</Placeholder>
 						</Developer>
+						<div>
+							<div>Later release dates:</div>
+							{groupedReleaseDates?.map(({ date, platforms }) => (
+								<div key={date}>
+									<p>{dateOrYear(date)}: {platforms.join(', ')}</p>
+								</div>
+							))}
+						</div>
 					</div>
 				</div>
 				{game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}

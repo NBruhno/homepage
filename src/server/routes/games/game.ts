@@ -156,7 +156,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				})) ?? null,
 				releaseDate: first_release_date * 1000 ?? null,
 				releaseDates: release_dates?.map(({ date, platform: { platform_logo, abbreviation, name } }) => ({
-					date,
+					date: date * 1000,
 					platform: {
 						abbreviation,
 						logo: platform_logo?.image_id ? `${igdbImageUrl}/t_thumb/${platform_logo.image_id}.jpg` : null,

@@ -1,6 +1,6 @@
 import { WebsiteCategory } from './IGDB'
 
-type Company = {
+export type Company = {
 	description: string,
 	logo?: string,
 	name: string,
@@ -12,46 +12,42 @@ type Company = {
 	}>,
 }
 
+export type Platform = {
+	logo: string,
+	name: string,
+	abbreviation: string,
+}
+
+export type Engine = {
+	description?: string,
+	logo?: string,
+	name: string,
+}
+
+export type ReleaseDate = {
+	date: number,
+	platform: Platform,
+}
+
 export type Game = {
 	following: boolean,
-	cover: string,
+	cover: string | null,
 	developer: Company,
-	engines: Array<{
-		description?: string,
-		logo?: string,
-		name: string,
-	}> | null,
+	engines: Array<Engine> | null,
 	genres: Array<string>,
 	id: string,
 	name: string,
-	platforms: Array<{
-		logo: string,
-		name: string,
-		abbreviation: string,
-	}>,
+	platforms: Array<Platform>,
 	porting: Company,
 	publisher: Company,
 	rating: number,
 	ratingCount: number,
-	releaseDate: number,
-	releaseDates: Array<{
-		date: number,
-		platform: {
-			logo: string,
-			name: string,
-			abbreviation: string,
-		},
-	}> | null,
+	releaseDate: number | null,
+	releaseDates: Array<ReleaseDate> | null,
 	screenshot: string | null,
 	storyline: string,
 	summary: string,
 	supporting: Company,
 }
 
-export type SimpleGame = {
-	id: string,
-	cover: string | null,
-	name: string,
-	releaseDate: number | null,
-	following: boolean,
-}
+export type SimpleGame = Pick<Game, 'id' | 'cover' | 'name' | 'releaseDate' | 'following'>
