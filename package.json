@@ -27,9 +27,9 @@
   "dependencies": {
     "@emotion/core": "10.0.34",
     "@mdi/js": "5.5.55",
-    "@sentry/browser": "5.20.1",
-    "@sentry/integrations": "5.20.1",
-    "@sentry/node": "5.20.1",
+    "@sentry/browser": "5.21.0",
+    "@sentry/integrations": "5.21.0",
+    "@sentry/node": "5.21.0",
     "@sentry/webpack-plugin": "1.12.0",
     "@zeit/next-source-maps": "0.0.4-canary.1",
     "cookie": "0.4.1",
