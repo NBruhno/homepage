@@ -2,12 +2,11 @@ import Link from 'next/link'
 
 import type { SimpleGame } from 'types/Games'
 
-import { dateOrYear } from 'lib/dateOrYear'
-
 import { Placeholder } from 'components/Placeholder'
 import { ButtonBorder } from 'components/Buttons'
 
 import { Cover } from '../Cover'
+import { dateOrYear } from '../dateOrYear'
 
 import { Title } from './Title'
 import { Subtitle } from './Subtitle'
