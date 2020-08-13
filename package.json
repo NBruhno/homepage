@@ -22,7 +22,7 @@
     "verify:env": "node src/scripts/verifyEnv.js",
     "start": "next start",
     "lint": "eslint \"src/**/*.{ts,tsx,js}\"",
-    "test": "echo No test implemented"
+    "test": "jest"
   },
   "dependencies": {
     "@emotion/core": "10.0.34",
@@ -68,6 +68,7 @@
     "@storybook/addons": "6.0.5",
     "@storybook/react": "6.0.5",
     "@storybook/theming": "6.0.5",
+    "@testing-library/react": "^10.4.8",
     "@types/cookie": "0.4.0",
     "@types/jest": "26.0.9",
     "@types/lodash-es": "4.17.3",
@@ -103,7 +104,9 @@
     "eslint-plugin-standard": "4.0.1",
     "eslint-plugin-tsdoc": "0.2.6",
     "jest": "26.4.0",
+    "lodash": "4.17.19",
     "next-transpile-modules": "4.1.0",
+    "node-mocks-http": "^1.8.1",
     "react-addons-test-utils": "15.6.2",
     "react-is": "16.13.1",
     "react-test-renderer": "16.13.1",
