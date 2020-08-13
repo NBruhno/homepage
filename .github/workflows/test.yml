@@ -16,4 +16,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: yarn install
+    - run: npm i -g vercel
+    - run: vercel env pull
     - run: yarn test
