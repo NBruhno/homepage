@@ -1,9 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import { isString } from 'lodash'
 import { createMocks } from 'node-mocks-http'
-import { check, login } from '../../../server/routes/auth'
 
-describe('/api/auth - AUTH API', () => {
+import { check, login } from '../../../server/routes/auth'
+import { ApiError } from '../../../server/errors/ApiError'
+
+import { parseJson, expectStatusCode, expectSpecificObject } from '../utils'
+
+describe('/api/auth', () => {
 	// Email check
 	test('/check - Email exists', async () => {
 		const { req, res } = createMocks({
@@ -12,10 +16,8 @@ describe('/api/auth - AUTH API', () => {
 		})
 
 		await check(req, res)
-		expect(res._getStatusCode()).toBe(200)
-		expect(JSON.parse(res._getData())).toEqual(expect.objectContaining({
-			userExists: true,
-		}))
+		expectStatusCode(res, 200)
+		expectSpecificObject(res, { userExists: true })
 	})
 	test('/check - Email does not exist', async () => {
 		const { req, res } = createMocks({
@@ -24,14 +26,12 @@ describe('/api/auth - AUTH API', () => {
 		})
 
 		await check(req, res)
-		expect(res._getStatusCode()).toBe(200)
-		expect(JSON.parse(res._getData())).toEqual(expect.objectContaining({
-			userExists: false,
-		}))
+		expectStatusCode(res, 200)
+		expectSpecificObject(res, { userExists: false })
 	})
 
 	// Login
-	test('/login - Successful attempt', async () => {
+	test('/login - Success', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: {
@@ -41,7 +41,21 @@ describe('/api/auth - AUTH API', () => {
 		})
 
 		await login(req, res)
-		expect(res._getStatusCode()).toBe(200)
-		expect(isString(JSON.parse(res._getData()).accessToken))
+		expectStatusCode(res, 200)
+		expect(isString(parseJson(res).accessToken))
+	})
+
+	test('/login - Fail', async () => {
+		const { req, res } = createMocks({
+			method: 'POST',
+			body: {
+				email: 'something',
+				password: 'test1234',
+			},
+		})
+
+		await expect(login(req, res)).rejects.toThrow(ApiError)
+		expectStatusCode(res, 401)
+		expectSpecificObject(res, { error: 'Invalid email and/or password' })
 	})
 })

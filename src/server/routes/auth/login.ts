@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { query as q } from 'faunadb'
+import { query as q, errors } from 'faunadb'
 
 import type { User } from 'types/User'
 
@@ -22,11 +22,16 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 			const { data, secret } = await serverClient.query<User>(q.Merge(
 				q.Login(q.Match(q.Index('users_by_email'), email), { password }),
 				q.Get(q.Match(q.Index('users_by_email'), email)),
-			)).catch((error) => {
-				if (error.requestResult.statusCode === 400) {
-					res.status(401).json({ error: 'Password is incorrect' })
+			)).catch((faunaError) => {
+				if (faunaError instanceof errors.BadRequest) {
+					const error = ApiError.fromCode(401)
+					res.status(error.statusCode).json({ error: 'Invalid email and/or password' })
+					throw error
+				} else {
+					const error = ApiError.fromCode(500)
+					res.status(error.statusCode).json({ error: error.message })
+					throw faunaError
 				}
-				throw error
 			})
 
 			const getRole = () => {
