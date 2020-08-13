@@ -45,7 +45,7 @@ describe('/api/auth', () => {
 		expect(isString(parseJson(res).accessToken))
 	})
 
-	test('/login - Fail', async () => {
+	test('/login - Invalid login', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: {
