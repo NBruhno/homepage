@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
-import { authenticateRefreshToken, setRefreshCookie } from 'server/middleware'
-import { generateAccessToken, generateRefreshToken } from 'server/generateTokens'
-import { ApiError } from 'server/errors/ApiError'
+import { ApiError } from '../errors/ApiError'
+import { authenticateRefreshToken, setRefreshCookie } from '../middleware'
+import { generateAccessToken, generateRefreshToken } from '../generateTokens'
 
 export const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, cookies } = req
@@ -24,8 +24,7 @@ export const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 			const newRefreshToken = generateRefreshToken(token.secret, { sub: token.sub, displayName: token.displayName })
 
 			setRefreshCookie(res, newRefreshToken)
-
-			res.status(200).send({ accessToken })
+			res.status(200).json({ accessToken })
 			break
 		}
 

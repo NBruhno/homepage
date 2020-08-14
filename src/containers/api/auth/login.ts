@@ -3,10 +3,10 @@ import { query as q, errors } from 'faunadb'
 
 import type { User } from 'types/User'
 
-import { generateAccessToken, generateRefreshToken, generateIntermediateToken } from 'server/generateTokens'
-import { setRefreshCookie } from 'server/middleware'
-import { ApiError } from 'server/errors/ApiError'
-import { serverClient } from 'server/faunaClient'
+import { ApiError } from '../errors/ApiError'
+import { generateAccessToken, generateRefreshToken, generateIntermediateToken } from '../generateTokens'
+import { serverClient } from '../faunaClient'
+import { setRefreshCookie } from '../middleware'
 
 export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body: { email, password } } = req

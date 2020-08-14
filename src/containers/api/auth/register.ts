@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { query as q } from 'faunadb'
+import { query as q, errors } from 'faunadb'
 
 import type { User } from 'types/User'
 
-import { generateRefreshToken, generateAccessToken } from 'server/generateTokens'
-import { setRefreshCookie } from 'server/middleware'
-import { serverClient } from 'server/faunaClient'
-import { ApiError } from 'server/errors/ApiError'
+import { ApiError } from '../errors/ApiError'
+import { generateRefreshToken, generateAccessToken } from '../generateTokens'
+import { serverClient } from '../faunaClient'
+import { setRefreshCookie } from '../middleware'
 
 export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body: { email, password, displayName } } = req
@@ -19,12 +19,22 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 				throw error
 			}
 
-			const user: User = await serverClient.query(
+			const user = await serverClient.query<User>(
 				q.Create(q.Collection('users'), {
 					credentials: { password },
 					data: { email, user: true, twoFactorSecret: null, displayName },
 				}),
-			)
+			).catch((faunaError) => {
+				if (faunaError instanceof errors.BadRequest) {
+					const error = ApiError.fromCode(400)
+					res.status(error.statusCode).json({ error: 'Email is already in use' })
+					throw error
+				} else {
+					const error = ApiError.fromCode(500)
+					res.status(error.statusCode).json({ error: error.message })
+					throw faunaError
+				}
+			})
 
 			if (!user.ref) {
 				const error = ApiError.fromCode(401)

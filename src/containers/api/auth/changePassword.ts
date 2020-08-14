@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
-import { authenticateAccessToken } from 'server/middleware'
-import { ApiError } from 'server/errors/ApiError'
-import { faunaClient } from 'server/faunaClient'
+import { ApiError } from '../errors/ApiError'
+import { authenticateAccessToken } from '../middleware'
+import { faunaClient } from '../faunaClient'
 
 export const changePassword = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body: { newPassword } } = req
@@ -18,7 +18,7 @@ export const changePassword = async (req: NextApiRequest, res: NextApiResponse) 
 			}
 
 			await faunaClient(token.secret).query(q.Update(q.Identity(), { credentials: { password: newPassword } }))
-			res.status(200).json({ message: 'success' })
+			res.status(200).json({ message: 'Your password has been updated' })
 			break
 		}
 

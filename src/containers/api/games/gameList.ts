@@ -6,10 +6,10 @@ import { query as q } from 'faunadb'
 import type { Game as IGDBGame } from 'types/IGDB'
 import type { SimpleGame } from 'types/Games'
 
-import { authenticateAccessToken } from 'server/middleware'
-import { igdbFetcher, igdbImageUrl } from 'server/igdb'
-import { faunaClient } from 'server/faunaClient'
-import { ApiError } from 'server/errors/ApiError'
+import { ApiError } from '../errors/ApiError'
+import { authenticateAccessToken } from '../middleware'
+import { faunaClient } from '../faunaClient'
+import { igdbFetcher, igdbImageUrl } from '../igdb'
 
 const mapGames = (games: Array<IGDBGame>, followedGames: Array<string>) => {
 	if (games.length > 0) {

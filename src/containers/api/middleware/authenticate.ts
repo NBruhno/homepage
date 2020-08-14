@@ -3,9 +3,11 @@ import { JWT, errors } from 'jose'
 
 import { config } from 'config.server'
 
-import { ApiError } from 'server/errors/ApiError'
 import { Token, TokenTypes } from 'types/Token'
-import { decrypt } from 'server/cipher'
+
+import { decrypt } from 'lib/cipher'
+
+import { ApiError } from '../errors/ApiError'
 
 export type Options = {
 	/** Does not error out if authentication fails, but still decodes the token if valid */
@@ -21,7 +23,6 @@ const resolveError = (error: any, res: NextApiResponse) => {
 	} else {
 		const apiError = ApiError.fromCode(500)
 		res.status(apiError.statusCode).json({ error: apiError.message })
-		throw error
 	}
 	throw error
 }
@@ -43,17 +44,12 @@ export const authenticateAccessToken = async (req: NextApiRequest, res: NextApiR
 				algorithms: ['RS256'],
 				audience: ['https://bruhno.com', 'https://bruhno.dev'],
 				issuer: 'https://bruhno.dev',
+				typ: TokenTypes.Access,
 			})
 		} catch (error) {
 			if (!optional) {
 				throw error
 			}
-		}
-
-		if (decodedToken?.type !== TokenTypes.Access && !optional) {
-			const error = ApiError.fromCode(401)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
 		}
 
 		if (decodedToken) decodedToken = { ...decodedToken, secret: decrypt(decodedToken.secret) }
@@ -75,17 +71,12 @@ export const authenticateRefreshToken = async (req: NextApiRequest, res: NextApi
 	}
 
 	try {
-		let decodedToken = <Token>JWT.verify(token || refreshToken, config.auth.refresh.publicKey, {
+		let decodedToken = <Token>JWT.verify(token || refreshToken, config.auth.publicKey, {
 			algorithms: ['RS256'],
 			audience: ['https://bruhno.com', 'https://bruhno.dev'],
 			issuer: 'https://bruhno.dev',
+			typ: TokenTypes.Refresh,
 		})
-
-		if (decodedToken.type !== TokenTypes.Refresh) {
-			const error = ApiError.fromCode(401)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
-		}
 
 		decodedToken = { ...decodedToken, secret: decrypt(decodedToken.secret) }
 
@@ -109,13 +100,8 @@ export const authenticateIntermediateToken = async (req: NextApiRequest, res: Ne
 			algorithms: ['RS256'],
 			audience: ['https://bruhno.com', 'https://bruhno.dev'],
 			issuer: 'https://bruhno.dev',
+			typ: TokenTypes.Intermediate,
 		})
-
-		if (decodedToken.type !== TokenTypes.Intermediate) {
-			const error = ApiError.fromCode(401)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
-		}
 
 		decodedToken = { ...decodedToken, secret: decrypt(decodedToken.secret) }
 

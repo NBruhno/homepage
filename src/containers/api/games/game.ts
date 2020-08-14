@@ -6,10 +6,10 @@ import { sample } from 'lodash-es'
 import type { Game } from 'types/Games'
 import type { Game as IGDBGame, Company } from 'types/IGDB'
 
-import { authenticateAccessToken } from 'server/middleware'
-import { ApiError } from 'server/errors/ApiError'
-import { igdbFetcher, igdbImageUrl } from 'server/igdb'
-import { faunaClient } from 'server/faunaClient'
+import { ApiError } from '../errors/ApiError'
+import { authenticateAccessToken } from '../middleware'
+import { faunaClient } from '../faunaClient'
+import { igdbFetcher, igdbImageUrl } from '../igdb'
 
 const resolveCompany = (involvedCompany: Company) => {
 	if (!involvedCompany) {

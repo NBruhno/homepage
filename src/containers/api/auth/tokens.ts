@@ -1,9 +1,9 @@
 import { query as q } from 'faunadb'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { faunaClient } from 'server/faunaClient'
-import { authenticateAccessToken } from 'server/middleware'
-import { ApiError } from 'server/errors/ApiError'
+import { ApiError } from '../errors/ApiError'
+import { authenticateAccessToken } from '../middleware'
+import { faunaClient } from '../faunaClient'
 
 export const tokens = async (req?: NextApiRequest, res?: NextApiResponse) => {
 	const { method } = req
