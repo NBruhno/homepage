@@ -40,7 +40,7 @@ describe('/api/auth/deleteUser', () => {
 		}
 	})
 
-	test('POST   › Delete user', async () => {
+	test('POST › Delete user', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			headers: {
@@ -53,7 +53,7 @@ describe('/api/auth/deleteUser', () => {
 		expectSpecificObject(res, { message: 'Your user has been deleted' })
 	})
 
-	test('POST   › Not authenticated', async () => {
+	test('POST › Not authenticated', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 		})
@@ -62,7 +62,7 @@ describe('/api/auth/deleteUser', () => {
 		expectStatusCode(res, 401)
 	})
 
-	test('ERRORS › Invalid method', async () => {
+	test('Invalid method', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 			headers: {

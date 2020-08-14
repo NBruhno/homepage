@@ -7,7 +7,7 @@ import { ApiError } from '../errors/ApiError'
 import { login } from './login'
 
 describe('/api/auth/login', () => {
-	test('POST   › Successful login', async () => {
+	test('POST › Successful login', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: {
@@ -22,7 +22,7 @@ describe('/api/auth/login', () => {
 		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
 	})
 
-	test('POST   › Successful 2FA login', async () => {
+	test('POST › Successful 2FA login', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: {
@@ -36,7 +36,7 @@ describe('/api/auth/login', () => {
 		expect(parseJson(res).intermediateToken).toMatch(intermediateTokenMatch)
 	})
 
-	test('POST   › Invalid login', async () => {
+	test('POST › Invalid login', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: {
@@ -50,7 +50,7 @@ describe('/api/auth/login', () => {
 		expectSpecificObject(res, { error: 'Invalid email and/or password' })
 	})
 
-	test('POST   › Invalid body', async () => {
+	test('POST › Invalid body', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 		})
@@ -60,7 +60,7 @@ describe('/api/auth/login', () => {
 		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
 
-	test('ERRORS › Invalid method', async () => {
+	test('Invalid method', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 		})

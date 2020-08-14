@@ -23,7 +23,7 @@ describe('/api/auth/refresh', () => {
 		refreshToken = parseHeaders(res)['set-cookie']
 	})
 
-	test('GET    › Refresh token', async () => {
+	test('GET › Refresh token', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 			cookies: {
@@ -37,7 +37,7 @@ describe('/api/auth/refresh', () => {
 		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
 	})
 
-	test('GET    › Invalid body', async () => {
+	test('GET › Invalid body', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 		})
@@ -46,7 +46,7 @@ describe('/api/auth/refresh', () => {
 		expectStatusCode(res, 400)
 	})
 
-	test('ERRORS › Invalid method', async () => {
+	test('Invalid method', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 		})

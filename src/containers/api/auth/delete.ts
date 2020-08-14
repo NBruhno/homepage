@@ -7,7 +7,7 @@ import { faunaClient } from '../faunaClient'
 
 export const deleteUser = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method } = req
-	const token = await authenticateAccessToken(req, res)
+	const token = authenticateAccessToken(req, res)
 
 	switch (method) {
 		case 'POST': {

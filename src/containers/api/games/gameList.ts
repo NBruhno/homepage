@@ -32,7 +32,7 @@ const mapGames = (games: Array<IGDBGame>, followedGames: Array<string>) => {
 export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
 
-	const token = await authenticateAccessToken(req, res, { optional: true })
+	const token = authenticateAccessToken(req, res, { optional: true })
 	switch (method) {
 		case 'POST': {
 			const commonFields = 'fields name, release_dates, cover.image_id, first_release_date, slug;'

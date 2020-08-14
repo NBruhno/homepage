@@ -26,7 +26,7 @@ describe('/api/auth/2fa', () => {
 	})
 
 	/** ------- GET method ------- */
-	test('GET    › Get 2FA secret', async () => {
+	test('GET › Get 2FA secret', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 			headers: {
@@ -39,7 +39,7 @@ describe('/api/auth/2fa', () => {
 		expect(typeof parseJson(res).twoFactorSecret).toBe('string')
 	})
 
-	test('GET    › Unauthorized', async () => {
+	test('GET › Unauthorized', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 		})
@@ -50,7 +50,7 @@ describe('/api/auth/2fa', () => {
 	})
 
 	/** ------- PATCH method ------- */
-	test('PATCH  › Activate 2FA', async () => {
+	test('PATCH › Activate 2FA', async () => {
 		const { req, res } = createMocks({
 			method: 'PATCH',
 			headers: {
@@ -67,7 +67,7 @@ describe('/api/auth/2fa', () => {
 		expectSpecificObject(res, { message: '2FA has been activated' })
 	})
 
-	test('PATCH  › Invalid OTP', async () => {
+	test('PATCH › Invalid OTP', async () => {
 		const { req, res } = createMocks({
 			method: 'PATCH',
 			headers: {
@@ -84,7 +84,7 @@ describe('/api/auth/2fa', () => {
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
-	test('PATCH  › Invalid body', async () => {
+	test('PATCH › Invalid body', async () => {
 		const { req, res } = createMocks({
 			method: 'PATCH',
 			headers: {
@@ -97,7 +97,7 @@ describe('/api/auth/2fa', () => {
 		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
 
-	test('PATCH  › Unauthorized', async () => {
+	test('PATCH › Unauthorized', async () => {
 		const { req, res } = createMocks({
 			method: 'PATCH',
 			body: {
@@ -112,7 +112,7 @@ describe('/api/auth/2fa', () => {
 	})
 
 	/** ------- POST method ------- */
-	test('POST   › Verify 2FA', async () => {
+	test('POST › Verify 2FA', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			headers: {
@@ -129,7 +129,7 @@ describe('/api/auth/2fa', () => {
 		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
 	})
 
-	test('POST   › Invalid OTP', async () => {
+	test('POST › Invalid OTP', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			headers: {
@@ -145,7 +145,7 @@ describe('/api/auth/2fa', () => {
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
-	test('POST   › Invalid body', async () => {
+	test('POST › Invalid body', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			headers: {
@@ -158,7 +158,7 @@ describe('/api/auth/2fa', () => {
 		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
 
-	test('POST   › Unauthorized', async () => {
+	test('POST › Unauthorized', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 		})
@@ -193,7 +193,7 @@ describe('/api/auth/2fa', () => {
 	})
 
 	/** ------- others ------- */
-	test('ERRORS › Invalid method', async () => {
+	test('Invalid method', async () => {
 		const { req, res } = createMocks({
 			method: 'CONNECT',
 		})
