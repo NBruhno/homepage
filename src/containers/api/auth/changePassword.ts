@@ -7,7 +7,7 @@ import { faunaClient } from '../faunaClient'
 
 export const changePassword = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body: { newPassword } } = req
-	const token = await authenticateAccessToken(req, res)
+	const token = authenticateAccessToken(req, res)
 
 	switch (method) {
 		case 'POST': {

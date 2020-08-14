@@ -12,7 +12,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 
 	switch (method) {
 		case 'GET': {
-			await authenticateAccessToken(req, res)
+			authenticateAccessToken(req, res)
 			const twoFactorSecret = authenticator.generateSecret()
 
 			res.status(200).json({ twoFactorSecret })
@@ -20,7 +20,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 		}
 
 		case 'PATCH': {
-			const token = await authenticateAccessToken(req, res)
+			const token = authenticateAccessToken(req, res)
 
 			if (!secret || !otp) {
 				const error = ApiError.fromCode(400)
@@ -45,7 +45,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 		}
 
 		case 'DELETE': {
-			const token = await authenticateAccessToken(req, res)
+			const token = authenticateAccessToken(req, res)
 
 			await faunaClient(token.secret).query(
 				q.Update(q.Select(['ref'], q.Get(q.Identity())), {
@@ -58,7 +58,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 		}
 
 		case 'POST': {
-			const token = await authenticateIntermediateToken(req, res)
+			const token = authenticateIntermediateToken(req, res)
 
 			if (!otp) {
 				const error = ApiError.fromCode(400)

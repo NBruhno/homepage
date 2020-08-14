@@ -7,7 +7,7 @@ import { ApiError } from '../errors/ApiError'
 import { check } from './check'
 
 describe('/api/auth/check', () => {
-	test('POST   › Email exists', async () => {
+	test('POST › Email exists', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: { email: 'mail+test@bruhno.dev' },
@@ -18,7 +18,7 @@ describe('/api/auth/check', () => {
 		expectSpecificObject(res, { userExists: true })
 	})
 
-	test('POST   › Email does not exist', async () => {
+	test('POST › Email does not exist', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: { email: 'something' },
@@ -29,7 +29,7 @@ describe('/api/auth/check', () => {
 		expectSpecificObject(res, { userExists: false })
 	})
 
-	test('POST   › Invalid body', async () => {
+	test('POST › Invalid body', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 		})
@@ -38,7 +38,7 @@ describe('/api/auth/check', () => {
 		expectStatusCode(res, 400)
 	})
 
-	test('ERRORS › Invalid method', async () => {
+	test('Invalid method', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 		})

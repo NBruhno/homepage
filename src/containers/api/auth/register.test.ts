@@ -35,7 +35,7 @@ describe('/api/auth/register', () => {
 		}).catch((error) => logger.debug(error))
 	})
 
-	test('POST   › Register successfully', async () => {
+	test('POST › Register successfully', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: {
@@ -51,7 +51,7 @@ describe('/api/auth/register', () => {
 		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
 	})
 
-	test('POST   › Register already existing email', async () => {
+	test('POST › Register already existing email', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: {
@@ -66,7 +66,7 @@ describe('/api/auth/register', () => {
 		expectSpecificObject(res, { error: 'Email is already in use' })
 	})
 
-	test('POST   › Invalid body', async () => {
+	test('POST › Invalid body', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 		})
@@ -76,7 +76,7 @@ describe('/api/auth/register', () => {
 		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
 
-	test('ERRORS › Invalid method', async () => {
+	test('Invalid method', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 		})

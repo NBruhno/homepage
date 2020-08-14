@@ -8,7 +8,7 @@ import { faunaClient } from '../faunaClient'
 export const unfollow = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method } = req
 
-	const token = await authenticateAccessToken(req, res)
+	const token = authenticateAccessToken(req, res)
 	switch (method) {
 		case 'POST': {
 			await faunaClient(token.secret).query(q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), id))), {

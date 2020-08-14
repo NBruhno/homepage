@@ -17,11 +17,11 @@ const defaultPayload = {
 
 export const generateAccessToken = (secret: string, payload: Payload) => {
 	const signedToken = JWT.sign({
-		...payload,
-		...defaultPayload,
-		// 15 minutes expiration
 		exp: Math.floor(Date.now() / 1000) + (60 * 15),
 		secret: secret ? encrypt(secret) : null,
+		...defaultPayload,
+		...payload,
+		// 15 minutes expiration
 	}, config.auth.privateKey, {
 		algorithm: 'RS256',
 		header: {
@@ -34,11 +34,11 @@ export const generateAccessToken = (secret: string, payload: Payload) => {
 
 export const generateRefreshToken = (secret: string, payload: Payload) => {
 	const signedToken = JWT.sign({
-		...payload,
-		...defaultPayload,
-		// 3 days expiration
 		exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3),
 		secret: secret ? encrypt(secret) : null,
+		...defaultPayload,
+		...payload,
+		// 3 days expiration
 	}, config.auth.privateKey, {
 		algorithm: 'RS256',
 		header: {
@@ -51,11 +51,11 @@ export const generateRefreshToken = (secret: string, payload: Payload) => {
 
 export const generateIntermediateToken = (secret: string, payload: Payload) => {
 	const signedToken = JWT.sign({
-		...payload,
-		...defaultPayload,
-		// 5 minutes expiration
 		exp: Math.floor(Date.now() / 1000) + (60 * 5),
 		secret: secret ? encrypt(secret) : null,
+		...defaultPayload,
+		...payload,
+		// 5 minutes expiration
 	}, config.auth.privateKey, {
 		algorithm: 'RS256',
 		header: {

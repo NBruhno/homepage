@@ -27,7 +27,7 @@ const resolveError = (error: any, res: NextApiResponse) => {
 	throw error
 }
 
-export const authenticateAccessToken = async (req: NextApiRequest, res: NextApiResponse, { optional = false, token }: Options = {}) => {
+export const authenticateAccessToken = (req: NextApiRequest, res: NextApiResponse, { optional = false, token }: Options = {}) => {
 	const { headers: { authorization } } = req
 
 	if (!authorization && !optional) {
@@ -60,7 +60,7 @@ export const authenticateAccessToken = async (req: NextApiRequest, res: NextApiR
 	}
 }
 
-export const authenticateRefreshToken = async (req: NextApiRequest, res: NextApiResponse, token?: string) => {
+export const authenticateRefreshToken = (req: NextApiRequest, res: NextApiResponse, token?: string) => {
 	const { cookies } = req
 	const refreshToken = config.environment !== 'development' ? cookies['__Host-refreshToken'] : cookies['refreshToken']
 
@@ -86,7 +86,7 @@ export const authenticateRefreshToken = async (req: NextApiRequest, res: NextApi
 	}
 }
 
-export const authenticateIntermediateToken = async (req: NextApiRequest, res: NextApiResponse, token?: string) => {
+export const authenticateIntermediateToken = (req: NextApiRequest, res: NextApiResponse, token?: string) => {
 	const { headers: { authorization } } = req
 
 	if (!authorization) {

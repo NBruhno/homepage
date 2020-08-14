@@ -22,7 +22,7 @@ describe('/api/auth/logout', () => {
 		accessToken = parseJson(res).accessToken
 	})
 
-	test('POST   › Logout', async () => {
+	test('POST › Logout', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			headers: {
@@ -35,7 +35,7 @@ describe('/api/auth/logout', () => {
 		expectSpecificObject(res, { message: 'You have been logged out successfully' })
 	})
 
-	test('POST   › Unauthorized', async () => {
+	test('POST › Unauthorized', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 		})
@@ -45,7 +45,7 @@ describe('/api/auth/logout', () => {
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
-	test('ERRORS › Invalid method', async () => {
+	test('Invalid method', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 		})

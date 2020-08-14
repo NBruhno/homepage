@@ -8,7 +8,7 @@ import { ApiError } from '../errors/ApiError'
 import { changePassword } from './changePassword'
 
 describe('/api/auth/changePassword', () => {
-	test('POST   › Change password', async () => {
+	test('POST › Change password', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			body: {
@@ -24,7 +24,7 @@ describe('/api/auth/changePassword', () => {
 		expectSpecificObject(res, { message: 'Your password has been updated' })
 	})
 
-	test('POST   › Invalid body', async () => {
+	test('POST › Invalid body', async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
 			headers: {
@@ -48,7 +48,7 @@ describe('/api/auth/changePassword', () => {
 		expectStatusCode(res, 401)
 	})
 
-	test('ERRORS › Invalid method', async () => {
+	test('Invalid method', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 			body: {

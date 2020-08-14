@@ -18,7 +18,7 @@ export const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 				throw error
 			}
 
-			const token = await authenticateRefreshToken(req, res)
+			const token = authenticateRefreshToken(req, res)
 
 			const accessToken = generateAccessToken(token.secret, { sub: token.sub, displayName: token.displayName })
 			const newRefreshToken = generateRefreshToken(token.secret, { sub: token.sub, displayName: token.displayName })

@@ -101,7 +101,7 @@ const fields = `fields ${[...root, ...cover, ...screenshots, ...companies, ...re
 export const game = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method } = req
 
-	const token = await authenticateAccessToken(req, res, { optional: true })
+	const token = authenticateAccessToken(req, res, { optional: true })
 	switch (method) {
 		case 'GET': {
 			let followedGame = null as { data: Array<string> } | null
