@@ -2,7 +2,7 @@ import { NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
-import { ApiError } from 'server/errors/ApiError'
+import { ApiError } from './errors/ApiError'
 
 type Options = {
 	body?: string,

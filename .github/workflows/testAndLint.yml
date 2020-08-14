@@ -34,8 +34,11 @@ jobs:
       env:
         AUTH_IV: ${{ secrets.AUTH_IV }}
         AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+        DEPLOY_ENV: ${{ secrets.DEPLOY_ENV }}
         FAUNADB_SECRET: ${{ secrets.FAUNADB_SECRET }}
         FAUNADB_SERVER_KEY: ${{ secrets.FAUNADB_SERVER_KEY }}
         IGDB_USER_KEY: ${{ secrets.IGDB_USER_KEY }}
         NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
-        DEPLOY_ENV: ${{ secrets.DEPLOY_ENV }}
+        NODE_ENV: ${{ secrets.NODE_ENV }}
+        TESTING_CREDENTIALS: ${{ secrets.TESTING_CREDENTIALS }}
+        TESTING_TOKEN: ${{ secrets.TESTING_TOKEN }}

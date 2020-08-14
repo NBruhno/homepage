@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { query } from 'faunadb'
+import { query as q } from 'faunadb'
 
-import { ApiError } from 'server/errors/ApiError'
-import { serverClient } from 'server/faunaClient'
+import { ApiError } from '../errors/ApiError'
+import { serverClient } from '../faunaClient'
 
 export const check = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body: { email } } = req
@@ -19,7 +19,7 @@ export const check = async (req: NextApiRequest, res: NextApiResponse) => {
 
 			try {
 				const user = await serverClient.query(
-					query.Get(query.Match(query.Index('users_by_email'), email)),
+					q.Get(q.Match(q.Index('users_by_email'), email)),
 				)
 
 				if (user) {

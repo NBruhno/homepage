@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
-import { authenticateAccessToken } from 'server/middleware'
-import { faunaClient } from 'server/faunaClient'
-import { ApiError } from 'server/errors/ApiError'
+import { ApiError } from '../errors/ApiError'
+import { authenticateAccessToken } from '../middleware'
+import { faunaClient } from '../faunaClient'
 
 export const follow = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method } = req

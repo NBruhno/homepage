@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { login, logout, register, refresh, twoFactorAuthentication, check, tokens, changePassword } from 'server/routes/auth'
-import { withSentry } from 'server/middleware/withSentry'
-import { ApiError } from 'server/errors/ApiError'
+import { login, logout, register, refresh, twoFactorAuthentication, check, tokens, changePassword, deleteUser } from 'containers/api/auth'
+import { withSentry } from 'containers/api/middleware'
+import { ApiError } from 'containers/api/errors/ApiError'
 
 const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
 	const { query: { route } } = req
@@ -45,6 +45,10 @@ const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 		case 'tokens': { // /auth/tokens
 			await tokens(req, res)
+			break
+		}
+		case 'delete': { // /auth/delete
+			await deleteUser(req, res)
 			break
 		}
 		default: {

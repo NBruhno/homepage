@@ -3,8 +3,8 @@ import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 import { useGame } from 'reducers/games'
-import { Page } from 'components/Pages/Layout/Page'
-import { Detail } from 'components/Pages/Games/Detail'
+import { Page } from 'components/Layout/Page'
+import { Detail } from 'containers/games/Detail'
 
 const GamePage: NextPage = () => {
 	const router = useRouter()

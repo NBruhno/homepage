@@ -2,13 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 import { authenticator } from 'otplib'
 
-import { authenticateAccessToken, authenticateIntermediateToken, setRefreshCookie } from 'server/middleware'
-import { generateAccessToken, generateRefreshToken } from 'server/generateTokens'
-import { ApiError } from 'server/errors/ApiError'
-import { faunaClient } from 'server/faunaClient'
+import { ApiError } from '../errors/ApiError'
+import { authenticateAccessToken, authenticateIntermediateToken, setRefreshCookie } from '../middleware'
+import { faunaClient } from '../faunaClient'
+import { generateAccessToken, generateRefreshToken } from '../generateTokens'
 
 export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { method, body } = req
+	const { method, body: { secret, otp } } = req
 
 	switch (method) {
 		case 'GET': {
@@ -20,9 +20,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 		}
 
 		case 'PATCH': {
-			const { secret, otp } = body
 			const token = await authenticateAccessToken(req, res)
-			if (!token) break
 
 			if (!secret || !otp) {
 				const error = ApiError.fromCode(400)
@@ -42,15 +40,25 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 				}),
 			)
 
-			res.setHeader('Content-Type', 'text/plain')
-			res.status(200).end()
+			res.status(200).json({ message: '2FA has been activated' })
+			break
+		}
+
+		case 'DELETE': {
+			const token = await authenticateAccessToken(req, res)
+
+			await faunaClient(token.secret).query(
+				q.Update(q.Select(['ref'], q.Get(q.Identity())), {
+					data: { twoFactorSecret: null },
+				}),
+			)
+
+			res.status(200).json({ message: '2FA has been removed' })
 			break
 		}
 
 		case 'POST': {
-			const { otp } = body
 			const token = await authenticateIntermediateToken(req, res)
-			if (!token) break
 
 			if (!otp) {
 				const error = ApiError.fromCode(400)

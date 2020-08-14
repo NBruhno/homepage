@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { game, gameList, follow, unfollow } from 'server/routes/games'
-import { withSentry } from 'server/middleware/withSentry'
-import { ApiError } from 'server/errors/ApiError'
+import { game, gameList, follow, unfollow } from 'containers/api/games'
+import { withSentry } from 'containers/api/middleware'
+import { ApiError } from 'containers/api/errors/ApiError'
 
 const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
 	const { query: { route } } = req
