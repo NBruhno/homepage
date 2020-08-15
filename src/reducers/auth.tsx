@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import { decodeToken } from 'lib/decodeToken'
+import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher, Method } from 'lib/fetcher'
 import { logger } from 'lib/logger'
 import { useStore, State } from 'lib/store'
@@ -13,7 +13,7 @@ export const useAuth = () => {
 	const register = async ({ email, password, displayName }: { email: string, password: string, displayName: string }) => {
 		try {
 			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/register', { method: Method.Post, body: { email, password, displayName }, cacheControl: 'no-cache' })
-			const user = decodeToken(accessToken)
+			const user = decodeJwtToken(accessToken)
 			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, role: user.role, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
 			logger.error(error)
@@ -25,7 +25,7 @@ export const useAuth = () => {
 			const { accessToken, intermediateToken }: Record<string, string> = await fetcher<{ accessToken: string, intermediateToken: string }>('/auth/login', { method: Method.Post, body: { email, password }, cacheControl: 'no-cache' })
 
 			if (accessToken) {
-				const user = decodeToken(accessToken)
+				const user = decodeJwtToken(accessToken)
 				setUserInfo(null)
 				dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, role: user.role, shouldRefresh: true })
 				return
@@ -99,7 +99,7 @@ export const useAuth = () => {
 				cacheControl: 'no-cache',
 			})
 
-			const user = decodeToken(accessToken)
+			const user = decodeJwtToken(accessToken)
 			setUserInfo(null)
 			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, role: user.role, shouldRefresh: true, intermediateToken: null })
 		} catch (error) {

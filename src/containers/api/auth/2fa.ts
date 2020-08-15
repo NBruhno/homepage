@@ -7,7 +7,7 @@ import { TokenTypes } from 'types/Token'
 import { ApiError } from '../errors/ApiError'
 import { authenticate, setRefreshCookie } from '../middleware'
 import { faunaClient } from '../faunaClient'
-import { generateAccessToken, generateRefreshToken } from '../generateTokens'
+import { getJwtToken } from '../getJwtToken'
 
 export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body: { secret, otp } } = req
@@ -78,8 +78,8 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 				throw error
 			}
 
-			const accessToken = generateAccessToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role })
-			const refreshToken = generateRefreshToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role })
+			const accessToken = getJwtToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role })
+			const refreshToken = getJwtToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role }, TokenTypes.Refresh)
 
 			setRefreshCookie(res, refreshToken)
 
