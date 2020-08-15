@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query } from 'faunadb'
 
 import { ApiError } from '../errors/ApiError'
-import { authenticateAccessToken, removeRefreshCookie } from '../middleware'
+import { authenticate, removeRefreshCookie } from '../middleware'
 import { faunaClient } from '../faunaClient'
 
 export const logout = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -10,7 +10,7 @@ export const logout = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (method) {
 		case 'POST': {
-			const token = authenticateAccessToken(req, res)
+			const token = authenticate(req, res)
 			await faunaClient(token.secret).query(query.Logout(false)).catch((error) => {
 				removeRefreshCookie(res)
 				res.status(200).json({ message: 'You have been logged out successfully' })

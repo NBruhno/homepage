@@ -7,7 +7,7 @@ import type { Game as IGDBGame } from 'types/IGDB'
 import type { SimpleGame } from 'types/Games'
 
 import { ApiError } from '../errors/ApiError'
-import { authenticateAccessToken } from '../middleware'
+import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { igdbFetcher, igdbImageUrl } from '../igdb'
 
@@ -32,7 +32,7 @@ const mapGames = (games: Array<IGDBGame>, followedGames: Array<string>) => {
 export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, body } = req
 
-	const token = authenticateAccessToken(req, res, { optional: true })
+	const token = authenticate(req, res, { optional: true })
 	switch (method) {
 		case 'POST': {
 			const commonFields = 'fields name, release_dates, cover.image_id, first_release_date, slug;'

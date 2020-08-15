@@ -2,8 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
+import { TokenTypes } from 'types/Token'
+
 import { ApiError } from '../errors/ApiError'
-import { authenticateRefreshToken, setRefreshCookie } from '../middleware'
+import { authenticate, setRefreshCookie } from '../middleware'
 import { generateAccessToken, generateRefreshToken } from '../generateTokens'
 
 export const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -18,7 +20,7 @@ export const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 				throw error
 			}
 
-			const token = authenticateRefreshToken(req, res)
+			const token = authenticate(req, res, { type: TokenTypes.Refresh })
 
 			const accessToken = generateAccessToken(token.secret, { sub: token.sub, displayName: token.displayName })
 			const newRefreshToken = generateRefreshToken(token.secret, { sub: token.sub, displayName: token.displayName })
