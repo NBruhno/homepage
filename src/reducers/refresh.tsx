@@ -2,7 +2,7 @@ import { useEffect, useCallback } from 'react'
 
 import { config } from 'config.client'
 
-import { decodeToken } from 'lib/decodeToken'
+import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher } from 'lib/fetcher'
 import { useStore, State } from 'lib/store'
 import { logger } from 'lib/logger'
@@ -19,7 +19,7 @@ export const useRefresh = () => {
 	const refresh = useCallback(async () => {
 		try {
 			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/refresh', { cacheControl: 'no-cache' })
-			const user = decodeToken(accessToken)
+			const user = decodeJwtToken(accessToken)
 			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, role: user.role, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
 			logger.error(error)
@@ -55,7 +55,7 @@ export const useRefresh = () => {
 		if (state.user.accessToken && state.user.shouldRefresh) {
 			refreshInterval = setInterval(async () => {
 				if (state.user.accessToken && state.user.shouldRefresh) {
-					const { exp } = decodeToken(state.user.accessToken)
+					const { exp } = decodeJwtToken(state.user.accessToken)
 					if (Math.round(exp - (60 * 2)) <= Math.round(Date.now() / 1000)) await refresh()
 				}
 			}, 30000)

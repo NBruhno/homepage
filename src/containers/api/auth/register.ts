@@ -2,9 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q, errors } from 'faunadb'
 
 import type { User } from 'types/User'
+import { TokenTypes } from 'types/Token'
 
 import { ApiError } from '../errors/ApiError'
-import { generateRefreshToken, generateAccessToken } from '../generateTokens'
+import { getJwtToken } from '../getJwtToken'
 import { serverClient } from '../faunaClient'
 import { setRefreshCookie } from '../middleware'
 
@@ -53,8 +54,8 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 				break
 			}
 
-			const accessToken = generateAccessToken(loginRes.secret, { sub: email, displayName, role: 'user' })
-			const refreshToken = generateRefreshToken(loginRes.secret, { sub: email, displayName, role: 'user' })
+			const accessToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user' })
+			const refreshToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user' }, TokenTypes.Refresh)
 
 			setRefreshCookie(res, refreshToken)
 

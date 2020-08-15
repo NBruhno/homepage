@@ -6,7 +6,7 @@ import { TokenTypes } from 'types/Token'
 
 import { ApiError } from '../errors/ApiError'
 import { authenticate, setRefreshCookie } from '../middleware'
-import { generateAccessToken, generateRefreshToken } from '../generateTokens'
+import { getJwtToken } from '../getJwtToken'
 
 export const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, cookies } = req
@@ -22,8 +22,8 @@ export const refresh = async (req: NextApiRequest, res: NextApiResponse) => {
 
 			const token = authenticate(req, res, { type: TokenTypes.Refresh })
 
-			const accessToken = generateAccessToken(token.secret, { sub: token.sub, displayName: token.displayName })
-			const newRefreshToken = generateRefreshToken(token.secret, { sub: token.sub, displayName: token.displayName })
+			const accessToken = getJwtToken(token.secret, { sub: token.sub, displayName: token.displayName })
+			const newRefreshToken = getJwtToken(token.secret, { sub: token.sub, displayName: token.displayName }, TokenTypes.Refresh)
 
 			setRefreshCookie(res, newRefreshToken)
 			res.status(200).json({ accessToken })

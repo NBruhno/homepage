@@ -2,9 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q, errors } from 'faunadb'
 
 import type { User } from 'types/User'
+import { TokenTypes } from 'types/Token'
 
 import { ApiError } from '../errors/ApiError'
-import { generateAccessToken, generateRefreshToken, generateIntermediateToken } from '../generateTokens'
+import { getJwtToken } from '../getJwtToken'
 import { serverClient } from '../faunaClient'
 import { setRefreshCookie } from '../middleware'
 
@@ -43,13 +44,13 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			if (data?.twoFactorSecret) {
-				const intermediateToken = generateIntermediateToken(secret, { sub: email, displayName: data.displayName, role: getRole() })
+				const intermediateToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: getRole() }, TokenTypes.Intermediate)
 
 				res.status(200).json({ intermediateToken })
 				break
 			} else {
-				const accessToken = generateAccessToken(secret, { sub: email, displayName: data.displayName, role: getRole() })
-				const refreshToken = generateRefreshToken(secret, { sub: email, displayName: data.displayName, role: getRole() })
+				const accessToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: getRole() })
+				const refreshToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: getRole() }, TokenTypes.Refresh)
 
 				setRefreshCookie(res, refreshToken)
 
