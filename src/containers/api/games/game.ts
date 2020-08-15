@@ -7,7 +7,7 @@ import type { Game } from 'types/Games'
 import type { Game as IGDBGame, Company } from 'types/IGDB'
 
 import { ApiError } from '../errors/ApiError'
-import { authenticateAccessToken } from '../middleware'
+import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { igdbFetcher, igdbImageUrl } from '../igdb'
 
@@ -101,7 +101,7 @@ const fields = `fields ${[...root, ...cover, ...screenshots, ...companies, ...re
 export const game = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method } = req
 
-	const token = authenticateAccessToken(req, res, { optional: true })
+	const token = authenticate(req, res, { optional: true })
 	switch (method) {
 		case 'GET': {
 			let followedGame = null as { data: Array<string> } | null

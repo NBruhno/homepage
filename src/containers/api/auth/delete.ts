@@ -2,12 +2,12 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
 import { ApiError } from '../errors/ApiError'
-import { authenticateAccessToken, removeRefreshCookie } from '../middleware'
+import { authenticate, removeRefreshCookie } from '../middleware'
 import { faunaClient } from '../faunaClient'
 
 export const deleteUser = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method } = req
-	const token = authenticateAccessToken(req, res)
+	const token = authenticate(req, res)
 
 	switch (method) {
 		case 'POST': {

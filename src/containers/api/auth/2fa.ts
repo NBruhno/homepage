@@ -2,8 +2,10 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 import { authenticator } from 'otplib'
 
+import { TokenTypes } from 'types/Token'
+
 import { ApiError } from '../errors/ApiError'
-import { authenticateAccessToken, authenticateIntermediateToken, setRefreshCookie } from '../middleware'
+import { authenticate, setRefreshCookie } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { generateAccessToken, generateRefreshToken } from '../generateTokens'
 
@@ -12,7 +14,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 
 	switch (method) {
 		case 'GET': {
-			authenticateAccessToken(req, res)
+			authenticate(req, res)
 			const twoFactorSecret = authenticator.generateSecret()
 
 			res.status(200).json({ twoFactorSecret })
@@ -20,7 +22,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 		}
 
 		case 'PATCH': {
-			const token = authenticateAccessToken(req, res)
+			const token = authenticate(req, res)
 
 			if (!secret || !otp) {
 				const error = ApiError.fromCode(400)
@@ -45,7 +47,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 		}
 
 		case 'DELETE': {
-			const token = authenticateAccessToken(req, res)
+			const token = authenticate(req, res)
 
 			await faunaClient(token.secret).query(
 				q.Update(q.Select(['ref'], q.Get(q.Identity())), {
@@ -58,7 +60,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 		}
 
 		case 'POST': {
-			const token = authenticateIntermediateToken(req, res)
+			const token = authenticate(req, res, { type: TokenTypes.Intermediate })
 
 			if (!otp) {
 				const error = ApiError.fromCode(400)

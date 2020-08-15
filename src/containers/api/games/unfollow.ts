@@ -2,13 +2,13 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
 import { ApiError } from '../errors/ApiError'
-import { authenticateAccessToken } from '../middleware'
+import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
 
 export const unfollow = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
 	const { method } = req
 
-	const token = authenticateAccessToken(req, res)
+	const token = authenticate(req, res)
 	switch (method) {
 		case 'POST': {
 			await faunaClient(token.secret).query(q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), id))), {
