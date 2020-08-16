@@ -23,16 +23,12 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 			const { data, secret } = await serverClient.query<User>(q.Merge(
 				q.Login(q.Match(q.Index('users_by_email'), email), { password }),
 				q.Get(q.Match(q.Index('users_by_email'), email)),
-			)).catch((faunaError) => {
-				if (faunaError instanceof errors.BadRequest) {
-					const error = ApiError.fromCode(401)
-					res.status(error.statusCode).json({ error: 'Invalid email and/or password' })
-					throw error
-				} else {
-					const error = ApiError.fromCode(500)
-					res.status(error.statusCode).json({ error: error.message })
-					throw faunaError
-				}
+			)).catch((error) => {
+				if (error instanceof errors.BadRequest) {
+					const apiError = ApiError.fromCode(401)
+					res.status(apiError.statusCode).json({ error: 'Invalid email and/or password' })
+					throw apiError
+				} else throw error
 			})
 
 			const getRole = () => {

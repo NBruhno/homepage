@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { login, logout, register, refresh, twoFactorAuthentication, check, tokens, changePassword, deleteUser } from 'containers/api/auth'
+import { login, logout, register, refresh, twoFactorAuthentication, check, changePassword, deleteUser } from 'containers/api/auth'
 import { withSentry } from 'containers/api/middleware'
 import { ApiError } from 'containers/api/errors/ApiError'
 
@@ -41,10 +41,6 @@ const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
 		}
 		case 'check': { // /auth/check
 			await check(req, res)
-			break
-		}
-		case 'tokens': { // /auth/tokens
-			await tokens(req, res)
 			break
 		}
 		case 'delete': { // /auth/delete

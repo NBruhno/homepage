@@ -22,9 +22,6 @@ const resolveError = (error: any, res: NextApiResponse) => {
 	if (error instanceof errors.JOSEError) {
 		const apiError = ApiError.fromCode(401)
 		res.status(apiError.statusCode).json({ error: apiError.message })
-	} else {
-		const apiError = ApiError.fromCode(500)
-		res.status(apiError.statusCode).json({ error: apiError.message })
 	}
 	throw error
 }

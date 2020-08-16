@@ -26,7 +26,7 @@ export const unfollow = async (req: NextApiRequest, res: NextApiResponse, id: st
 					const apiError = ApiError.fromCode(404)
 					res.status(apiError.statusCode).json({ error: apiError.message })
 					throw apiError
-				}
+				} else throw error
 			})
 
 			res.status(200).json({ message: 'Successfully unfollowed the game' })

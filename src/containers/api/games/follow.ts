@@ -28,9 +28,7 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, id: stri
 							},
 						}),
 					)
-				} else {
-					throw error
-				}
+				} else throw error
 			})
 
 			res.status(200).json({ message: 'Successfully followed the game' })

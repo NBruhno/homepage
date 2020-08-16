@@ -11,11 +11,7 @@ export const deleteUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (method) {
 		case 'POST': {
-			await faunaClient(token.secret).query(q.Delete(q.Identity())).catch((faunaError) => {
-				const error = ApiError.fromCode(500)
-				res.status(error.statusCode).json({ error: error.message })
-				throw faunaError
-			})
+			await faunaClient(token.secret).query(q.Delete(q.Identity()))
 
 			removeRefreshCookie(res)
 			res.status(200).json({ message: 'Your user has been deleted' })
