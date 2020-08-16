@@ -4,6 +4,7 @@ import { useAuth } from 'reducers/auth'
 
 import { Placeholder } from 'components/Placeholder'
 import { ButtonSolid } from 'components/Buttons'
+import { Tooltip } from 'components/Tooltip'
 
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
@@ -44,13 +45,15 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '18px' }}>
 					<div css={{ display: 'grid', gridTemplateRows: 'auto auto', gridRowGap: '12px' }}>
 						<Cover coverUrl={game?.cover ?? null} loading='eager' />
-						<ButtonSolid
-							label={game?.following ? 'Unfollow' : 'Follow'}
-							onClick={() => game?.following ? onUnfollow() : onFollow()}
-							disabled={!user.accessToken}
-							isLoading={isLoading}
-							css={{ padding: '5px 16px' }}
-						/>
+						<Tooltip tip='You need to be logged in' css={{ display: 'grid' }}>
+							<ButtonSolid
+								label={game?.following ? 'Unfollow' : 'Follow'}
+								onClick={() => game?.following ? onUnfollow() : onFollow()}
+								disabled={!user.accessToken}
+								isLoading={isLoading}
+								css={{ padding: '5px 16px' }}
+							/>
+						</Tooltip>
 					</div>
 					<div>
 						<Title>
