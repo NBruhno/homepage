@@ -36,32 +36,34 @@ export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 	switch (method) {
 		case 'POST': {
 			const commonFields = 'fields name, release_dates, cover.image_id, first_release_date, slug;'
-			let following = null as { data: Array<string> } | null
+			let following = [] as Array<string>
 			let mappedGames = null as Array<SimpleGame>
 			let mappedGamesFollowed = null as Array<SimpleGame>
 			let mappedSearch = null as Array<SimpleGame>
 
 			if (token) {
-				following = await faunaClient(token.secret).query(
-					q.Paginate(q.Match(q.Index('gamesByUser'), q.Identity())),
-				)
+				await faunaClient(token.secret).query<{ data: Array<[boolean, string]> }>(
+					q.Paginate(q.Match(q.Index('gamesByOwner'), q.Identity())),
+				).then((games) => {
+					following = games.data.map(([isFollowing, game]) => isFollowing ? game : null).filter(Boolean)
+				})
 			}
 
 			const [gamesPopular, gamesFollowing, gamesSearch] = await Promise.all([
 				igdbFetcher<Array<IGDBGame>>('/games', res, {
 					body: `${commonFields} sort first_release_date asc; limit 30; where first_release_date > ${getUnixTime(sub(Date.now(), { months: 2 }))} & hypes >= 0; sort hypes desc;`,
 				}),
-				following?.data?.length > 0 ? igdbFetcher<Array<IGDBGame>>('/games', res, {
-					body: `${commonFields} sort first_release_date asc; limit 100; where slug = ("${following?.data.join(`", "`)}");`,
+				following?.length > 0 ? igdbFetcher<Array<IGDBGame>>('/games', res, {
+					body: `${commonFields} sort first_release_date asc; limit 100; where slug = ("${following.join(`", "`)}");`,
 				}) : [],
 				body?.search ? igdbFetcher<Array<IGDBGame>>('/games', res, {
 					body: `${commonFields} limit 50; search "${body?.search}";`,
 				}) : [],
 			])
 
-			mappedGames = mapGames(gamesPopular, following?.data)
-			mappedGamesFollowed = mapGames(gamesFollowing, following?.data)
-			mappedSearch = mapGames(gamesSearch, following?.data)
+			mappedGames = mapGames(gamesPopular, following)
+			mappedGamesFollowed = mapGames(gamesFollowing, following)
+			mappedSearch = mapGames(gamesSearch, following)
 
 			res.status(200).json({ popular: mappedGames, following: mappedGamesFollowed, games: mappedSearch })
 			break

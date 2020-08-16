@@ -51,3 +51,13 @@ export type Game = {
 }
 
 export type SimpleGame = Pick<Game, 'id' | 'cover' | 'name' | 'releaseDate' | 'following'>
+
+export type FaunaGame = {
+	ref: string,
+	ts: number,
+	data: {
+		id: string,
+		owner: string,
+		following: boolean,
+	},
+}
