@@ -16,5 +16,5 @@ export type Token = {
 	role: string,
 	secret: string,
 	sub: string,
-	type: TokenTypes,
+	typ: TokenTypes,
 }

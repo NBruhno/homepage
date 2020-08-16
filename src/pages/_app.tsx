@@ -4,10 +4,11 @@ import getConfig from 'next/config'
 import Head from 'next/head'
 import App from 'next/app'
 
-import { StoreProvider } from 'lib/store'
 import { config } from 'config.client'
 
-import { Theme, Grid, Main, Navigation, Header } from 'components/Pages/App'
+import { StoreProvider } from 'lib/store'
+
+import { Theme, Grid, Main, Navigation, Header } from 'containers/app'
 
 if (config.sentry.dsn) {
 	const nextConfig = getConfig()

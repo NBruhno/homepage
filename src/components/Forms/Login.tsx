@@ -1,5 +1,6 @@
 import { ButtonSolid, ButtonBorder } from 'components/Buttons'
-import { Title, Subtitle } from 'components/Pages/Login'
+
+import { Title, Subtitle } from 'containers/login'
 
 import { useAuth } from 'reducers/auth'
 

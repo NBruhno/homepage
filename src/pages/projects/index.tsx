@@ -10,7 +10,7 @@ import { useCounter } from 'reducers/counter'
 // import { Input } from 'components/Fields'
 // import { Form } from 'components/Form'
 import { Card } from 'components/Card'
-import { Page } from 'components/Pages/Layout/Page'
+import { Page } from 'components/Layout/Page'
 
 const Projects: NextPage = () => {
 	const { count } = useCounter()

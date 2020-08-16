@@ -60,6 +60,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 				new SentryWebpackPlugin({
 					include: '.next',
 					ignore: ['node_modules'],
+					stripPrefix: ['webpack://_N_E/'],
 					urlPrefix: '~/_next',
 					release: COMMIT_SHA,
 				}),

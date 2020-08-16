@@ -1,7 +1,7 @@
 import { NextPage } from 'next'
 import Head from 'next/head'
 
-import { Page } from 'components/Pages/Layout/Page'
+import { Page } from 'components/Layout/Page'
 import { Logo } from 'components/Logo'
 
 type Props = {

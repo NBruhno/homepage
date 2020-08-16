@@ -2,19 +2,14 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import { FormSpy } from 'react-final-form'
 
-import { useGames } from 'reducers/games'
+import { useGames, Lists } from 'reducers/games'
+
+import { GameList } from 'containers/games/List'
 
 import { ButtonToggle } from 'components/Buttons'
 import { Form } from 'components/Forms'
-import { GameList } from 'components/Pages/Games/List'
 import { Input } from 'components/Forms/Fields/Input'
-import { Page, PageContent } from 'components/Pages/Layout'
-
-enum Lists {
-	Popular = 'popular',
-	Search = 'search',
-	Following = 'following',
-}
+import { Page, PageContent } from 'components/Layout'
 
 const Games: NextPage = () => {
 	const { games, following, popular, currentList, setCurrentList, error, follow, unfollow } = useGames()
