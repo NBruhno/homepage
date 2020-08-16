@@ -110,7 +110,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 			if (token) {
 				await Promise.all([
 					faunaClient(token.secret).query(
-						q.Select(['data', 'id'], q.Get(q.Match(q.Index('gamesByIdAndUser'), [id, q.Identity()]))),
+						q.Select(['data', 'id'], q.Get(q.Match(q.Index('gamesByIdAndOwner'), [id, q.Identity()]))),
 					).catch((error) => {
 						if (error instanceof errors.NotFound) {
 							return null

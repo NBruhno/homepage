@@ -50,7 +50,7 @@ export const useGames = () => {
 	}
 
 	const unfollow = async (id: string) => {
-		const response = await fetcher<{ message?: string }>(`/games/${id}/unfollow`, { accessToken: user.accessToken, method: Method.Post })
+		const response = await fetcher<{ message?: string }>(`/games/${id}/unfollow`, { accessToken: user.accessToken, method: Method.Patch })
 		if (response.message) {
 			setGames({
 				popular: games.popular.map((game: SimpleGame) => {
@@ -97,7 +97,7 @@ export const useGame = (id: string) => {
 	}
 
 	const unfollow = async () => {
-		const response = await fetcher<{ message?: string }>(`/games/${id}/unfollow`, { accessToken: user.accessToken, method: Method.Post })
+		const response = await fetcher<{ message?: string }>(`/games/${id}/unfollow`, { accessToken: user.accessToken, method: Method.Patch })
 		if (response.message) {
 			setGame(() => {
 				if (id === game.id) return { ...game, following: false }
