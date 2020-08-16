@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { query as q } from 'faunadb'
+import { query as q, errors } from 'faunadb'
 
 import { ApiError } from '../errors/ApiError'
 import { serverClient } from '../faunaClient'
@@ -15,25 +15,15 @@ export const check = async (req: NextApiRequest, res: NextApiResponse) => {
 				throw error
 			}
 
-			let userExists = false
-
-			try {
-				const user = await serverClient.query(
-					q.Get(q.Match(q.Index('users_by_email'), email)),
-				)
-
-				if (user) {
-					userExists = true
+			const user = await serverClient.query(
+				q.Get(q.Match(q.Index('users_by_email'), email)),
+			).catch((error) => {
+				if (!(error instanceof errors.NotFound)) {
+					throw error
 				}
-			} catch (error) {
-				if (error.requestResult.statusCode !== 404) {
-					const apiError = ApiError.fromCode(error.statusCode)
-					res.status(apiError.statusCode).json({ error: apiError.message })
-					throw apiError
-				}
-			}
+			})
 
-			res.status(200).json({ userExists })
+			res.status(200).json({ userExists: Boolean(user) })
 			break
 		}
 

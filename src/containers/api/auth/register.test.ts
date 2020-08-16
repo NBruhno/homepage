@@ -61,7 +61,7 @@ describe('/api/auth/register', () => {
 			},
 		})
 
-		await expect(register(req, res)).rejects.toThrow(ApiError)
+		await register(req, res)
 		expectStatusCode(res, 400)
 		expectSpecificObject(res, { error: 'Email is already in use' })
 	})
