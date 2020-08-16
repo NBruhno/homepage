@@ -21,7 +21,6 @@ import { Wrapper } from './Wrapper'
 
 type Props = {
 	game: Game | null,
-	error: any,
 	isLoading: boolean,
 
 	onFollow: () => Promise<any>,
@@ -69,19 +68,18 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 								By {game?.developer?.name}
 							</Placeholder>
 						</Developer>
-						<div>
-							<div>Later release dates:</div>
-							{groupedReleaseDates?.map(({ date, platforms }) => (
-								<div key={date}>
-									<p>{dateOrYear(date)}: {platforms.join(', ')}</p>
-								</div>
-							))}
-						</div>
 					</div>
 				</div>
 				{game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
 				{game?.platforms?.length > 0 && <p>Platforms: {game?.platforms.map(({ name }) => name).join(', ')}</p>}
+				{game?.summary && <h3>Summary</h3>}
 				{game?.summary && <p>{game?.summary}</p>}
+				{groupedReleaseDates?.length > 0 && <h3>Later release dates:</h3>}
+				{groupedReleaseDates?.map(({ date, platforms }) => (
+					<div key={date}>
+						<p>{dateOrYear(date)}: {platforms.join(', ')}</p>
+					</div>
+				))}
 			</MainContent>
 		</Wrapper>
 	)
