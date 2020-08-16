@@ -11,7 +11,7 @@ type Props = {
 	children: React.ReactNode,
 	location?: Location,
 	show?: boolean,
-	tip: string,
+	tip: React.ReactNode,
 } & React.ComponentProps<'div'>
 
 export const Tooltip = ({ tip, show = true, location = Location.Top, children, ...rest }: Props) => {
@@ -90,68 +90,77 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 	}
 
 	return (
-		<div
-			css={{
-				position: 'relative',
-				zIndex: 5,
+		<div id='tooltip-wrapper' css={{ position: 'relative', display: 'inline-block' }} {...rest}>
+			{show && (
+				<div
+					css={{
+						position: 'absolute',
+						zIndex: 4,
+						visibility: 'hidden',
+						opacity: 0,
+						left: getLeft(),
+						right: location === Location.Left ? 'calc(100% + 5px)' : 'auto',
+						bottom: getBottom(),
+						top: location === Location.Bottom ? 'calc(100% + 5px)' : 'auto',
+						pointerEvents: 'none',
+						transition: '0.2s',
 
-				'&::after, &::before': {
-					position: 'absolute',
-					visibility: 'hidden',
-					opacity: 0,
-					left: getLeft(),
-					right: location === Location.Left ? 'calc(100% + 5px)' : 'auto',
-					bottom: getBottom(),
-					top: location === Location.Bottom ? 'calc(100% + 5px)' : 'auto',
-					pointerEvents: 'none',
-					transition: '0.2s',
-				},
+						padding: '10px 18px',
+						minWidth: '50px',
+						maxWidth: '300px',
+						width: 'max-content',
+						borderRadius: '4px',
+						fontSize: theme.fontSize.s90,
+						backgroundColor: theme.color.inputBackgroundHover,
+						boxShadow: '0px 0px 24px rgba(0, 0, 0, 0.2)',
+						color: theme.color.text,
+						textAlign: 'center',
+						whiteSpace: 'pre-wrap',
+						transform: `${getTransform()} scale(0.5)`,
 
-				'&::after': {
-					content: '""',
-					borderStyle: 'solid',
-					borderWidth: getBorderWidth(),
-					borderColor: getBorderColor(),
-					transitionDuration: '0s',
-					transformOrigin: getTransformOrigin(),
-					transform: `${getAfterTranslate()} ${getAfterScale(0)}`,
-				},
-
-				'&::before': {
-					content: `"${tip}"`,
-					padding: '10px 18px',
-					minWidth: '50px',
-					maxWidth: '300px',
-					width: 'max-content',
-					borderRadius: '4px',
-					fontSize: theme.fontSize.s90,
-					backgroundColor: theme.color.inputBackgroundHover,
-					boxShadow: '0px 0px 24px rgba(0, 0, 0, 0.2)',
-					color: theme.color.text,
-					textAlign: 'center',
-					whiteSpace: 'pre-wrap',
-					transform: `${getTransform()} scale(0.5)`,
-				},
-
-				'&:hover::after, &:hover::before': {
-					visibility: 'visible',
-					opacity: 1,
-				},
-
-				'&:hover::after': {
-					transitionDelay: '0.5s',
-					transitionDuration: '0.2s',
-					transform: `${getAfterTranslate()} ${getAfterScale(1)}`,
-				},
-
-				'&:hover::before': {
-					transitionDelay: '0.3s',
-					transform: `${getTransform()} scale(1)`,
-				},
-			}}
-			{...rest}
-		>
+						[`#tooltip-wrapper:hover &`]: {
+							transitionDelay: '0.3s',
+							transform: `${getTransform()} scale(1)`,
+							visibility: 'visible',
+							opacity: 1,
+						},
+					}}
+				>
+					{tip}
+				</div>
+			)}
 			{children}
+			{show && (
+				<div
+					css={{
+						position: 'absolute',
+						zIndex: 4,
+						visibility: 'hidden',
+						opacity: 0,
+						left: getLeft(),
+						right: location === Location.Left ? 'calc(100% + 5px)' : 'auto',
+						bottom: getBottom(),
+						top: location === Location.Bottom ? 'calc(100% + 5px)' : 'auto',
+						pointerEvents: 'none',
+						transition: '0.2s',
+
+						borderStyle: 'solid',
+						borderWidth: getBorderWidth(),
+						borderColor: getBorderColor(),
+						transitionDuration: '0s',
+						transformOrigin: getTransformOrigin(),
+						transform: `${getAfterTranslate()} ${getAfterScale(0)}`,
+
+						[`#tooltip-wrapper:hover &`]: {
+							visibility: 'visible',
+							opacity: 1,
+							transitionDelay: '0.5s',
+							transitionDuration: '0.2s',
+							transform: `${getAfterTranslate()} ${getAfterScale(1)}`,
+						},
+					}}
+				/>
+			)}
 		</div>
 	)
 }

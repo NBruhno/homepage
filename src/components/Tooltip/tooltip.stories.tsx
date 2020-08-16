@@ -4,13 +4,13 @@ import { Tooltip, Location } from '.'
 
 export default {
 	title: 'Tooltip',
-	decorators: [(story: any) => <div css={{ padding: '64px 12px', textAlign: 'center' }}>{story()}</div>],
+	decorators: [(story: any) => <div css={{ padding: '72px 12px', textAlign: 'center' }}>{story()}</div>],
 }
 
 export const Top = () => (
 	<div css={(theme: Theme) => ({ display: 'inline-block', color: theme.color.text })}>
 		<Tooltip tip='This is a tooltip'>
-			<p>Hover over me</p>
+			<span>Hover over me</span>
 		</Tooltip>
 	</div>
 )
@@ -18,7 +18,7 @@ export const Top = () => (
 export const Right = () => (
 	<div css={(theme: Theme) => ({ display: 'inline-block', color: theme.color.text })}>
 		<Tooltip tip='This is a tooltip' location={Location.Right}>
-			<p>Hover over me</p>
+			<span>Hover over me</span>
 		</Tooltip>
 	</div>
 )
@@ -26,7 +26,7 @@ export const Right = () => (
 export const Bottom = () => (
 	<div css={(theme: Theme) => ({ display: 'inline-block', color: theme.color.text })}>
 		<Tooltip tip='This is a tooltip' location={Location.Bottom}>
-			<p>Hover over me</p>
+			<span>Hover over me</span>
 		</Tooltip>
 	</div>
 )
@@ -34,7 +34,7 @@ export const Bottom = () => (
 export const Left = () => (
 	<div css={(theme: Theme) => ({ display: 'inline-block', color: theme.color.text })}>
 		<Tooltip tip='This is a tooltip' location={Location.Left}>
-			<p>Hover over me</p>
+			<span>Hover over me</span>
 		</Tooltip>
 	</div>
 )
@@ -45,7 +45,22 @@ export const LotsOfText = () => (
 			tip="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
 			location={Location.Bottom}
 		>
-			<p>Hover over me</p>
+			<span>Hover over me</span>
+		</Tooltip>
+	</div>
+)
+
+export const Jsx = () => (
+	<div css={(theme: Theme) => ({ display: 'inline-block', color: theme.color.text })}>
+		<Tooltip
+			tip={(
+				<>
+					<h3 css={{ margin: '6px 0' }}>This is html</h3>
+					Ain&apos;t that nice
+				</>
+			)}
+		>
+			<span>Hover over me</span>
 		</Tooltip>
 	</div>
 )
