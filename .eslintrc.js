@@ -166,6 +166,7 @@ module.exports = {
 		'react/no-array-index-key': 'off',
 		'react/jsx-one-expression-per-line': 'off',
 		'react/destructuring-assignment': 'off',
+		'react/require-default-props': 0,
 
 		'import/prefer-default-export': 'off',
 		'import/extensions': 'off',
