@@ -47,6 +47,7 @@
     "polished": "3.6.5",
     "react": "16.13.1",
     "react-autosize-textarea": "7.1.0",
+    "react-cool-portal": "^1.0.17",
     "react-dom": "16.13.1",
     "react-final-form": "6.5.1",
     "react-responsive": "8.1.0",
