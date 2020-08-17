@@ -49,7 +49,7 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '18px' }}>
 					<div css={{ display: 'grid', gridTemplateRows: 'auto auto', gridRowGap: '12px' }}>
 						<Cover coverUrl={game?.cover ?? null} loading='eager' />
-						<Tooltip tip='You need to be logged in' css={{ display: 'grid' }} show={Boolean(user.accessToken)} location={isMobile ? Location.Right : Location.Top}>
+						<Tooltip tip='You need to be logged in' css={{ display: 'grid' }} show={!user.accessToken} location={isMobile ? Location.Right : Location.Top}>
 							<ButtonSolid
 								label={game?.following ? 'Unfollow' : 'Follow'}
 								onClick={() => game?.following ? onUnfollow() : onFollow()}

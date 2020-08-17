@@ -41,7 +41,7 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoa
 						</Placeholder>
 					</Subtitle>
 					<div css={{ marginTop: '6px' }}>
-						<Tooltip tip='You need to be logged in' show={Boolean(user.accessToken)} location={Location.Bottom}>
+						<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Bottom}>
 							<ButtonBorder label={following ? 'Unfollow' : 'Follow'} onClick={() => following ? onUnfollow(id) : onFollow(id)} isLoading={isLoading} disabled={!user.accessToken} />
 						</Tooltip>
 					</div>
