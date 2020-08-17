@@ -23,9 +23,15 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 			const user = await serverClient.query<User>(
 				q.Create(q.Collection('users'), {
 					credentials: { password },
-					data: { email, user: true, twoFactorSecret: null, displayName },
+					data: { email, role: 'user', twoFactorSecret: null, displayName },
 				}),
-			).catch((error) => {
+			).then(async ({ ref }) => serverClient.query<User>(
+				q.Update(ref, {
+					data: {
+						owner: ref,
+					},
+				}),
+			)).catch((error) => {
 				if (error instanceof errors.BadRequest) {
 					const apiError = ApiError.fromCode(400)
 					res.status(apiError.statusCode).json({ error: 'Email is already in use' })

@@ -21,8 +21,8 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			const { data, secret } = await serverClient.query<User>(q.Merge(
-				q.Login(q.Match(q.Index('users_by_email'), email), { password }),
-				q.Get(q.Match(q.Index('users_by_email'), email)),
+				q.Login(q.Match(q.Index('usersByEmail'), email), { password }),
+				q.Get(q.Match(q.Index('usersByEmail'), email)),
 			)).catch((error) => {
 				if (error instanceof errors.BadRequest) {
 					const apiError = ApiError.fromCode(401)
@@ -31,22 +31,14 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 				} else throw error
 			})
 
-			const getRole = () => {
-				switch (true) {
-					case data.owner: return 'owner'
-					case data.user: return 'user'
-					default: return 'unknown'
-				}
-			}
-
 			if (data?.twoFactorSecret) {
-				const intermediateToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: getRole() }, TokenTypes.Intermediate)
+				const intermediateToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: data.role }, TokenTypes.Intermediate)
 
 				res.status(200).json({ intermediateToken })
 				break
 			} else {
-				const accessToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: getRole() })
-				const refreshToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: getRole() }, TokenTypes.Refresh)
+				const accessToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: data.role })
+				const refreshToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: data.role }, TokenTypes.Refresh)
 
 				setRefreshCookie(res, refreshToken)
 

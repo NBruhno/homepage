@@ -16,7 +16,7 @@ export const check = async (req: NextApiRequest, res: NextApiResponse) => {
 			}
 
 			const user = await serverClient.query(
-				q.Get(q.Match(q.Index('users_by_email'), email)),
+				q.Get(q.Match(q.Index('usersByEmail'), email)),
 			).catch((error) => {
 				if (!(error instanceof errors.NotFound)) {
 					throw error
