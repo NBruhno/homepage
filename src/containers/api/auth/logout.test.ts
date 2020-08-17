@@ -1,4 +1,5 @@
 import { createMocks } from 'node-mocks-http'
+import { errors } from 'faunadb'
 
 import { parseJson, expectStatusCode, expectSpecificObject, testingCredentials } from 'test/utils'
 
@@ -31,6 +32,19 @@ describe('/api/auth/logout', () => {
 		})
 
 		await logout(req, res)
+		expectStatusCode(res, 200)
+		expectSpecificObject(res, { message: 'You have been logged out successfully' })
+	})
+
+	test('POST › Logout already logged out session', async () => {
+		const { req, res } = createMocks({
+			method: 'POST',
+			headers: {
+				authorization: `Bearer ${accessToken}`,
+			},
+		})
+
+		await expect(logout(req, res)).rejects.toThrow(errors.Unauthorized)
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'You have been logged out successfully' })
 	})

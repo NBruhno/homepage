@@ -4,6 +4,7 @@ import type { SimpleGame } from 'types/Games'
 
 import { Placeholder } from 'components/Placeholder'
 import { ButtonBorder } from 'components/Buttons'
+import { Tooltip, Location } from 'components/Tooltip'
 
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
@@ -28,7 +29,7 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoa
 		<Link href='/games/[id]' as={`/games/${id}`} passHref>
 			<Container>
 				<Cover coverUrl={cover} size='small' />
-				<div css={{ padding: '12px', width: '100%' }}>
+				<div css={{ padding: '12px' }}>
 					<Title>
 						<Placeholder isLoading={isLoading} width={index % 2 === 0 ? 100 : 90}>
 							{name}
@@ -40,7 +41,9 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoa
 						</Placeholder>
 					</Subtitle>
 					<div css={{ marginTop: '6px' }}>
-						<ButtonBorder label={following ? 'Unfollow' : 'Follow'} onClick={() => following ? onUnfollow(id) : onFollow(id)} isLoading={isLoading} disabled={!user.accessToken} />
+						<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Bottom}>
+							<ButtonBorder label={following ? 'Unfollow' : 'Follow'} onClick={() => following ? onUnfollow(id) : onFollow(id)} isLoading={isLoading} disabled={!user.accessToken} />
+						</Tooltip>
 					</div>
 				</div>
 			</Container>

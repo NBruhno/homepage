@@ -1,3 +1,5 @@
+import { Role } from './User'
+
 export enum TokenTypes {
 	Refresh = 'refresh',
 	Intermediate = 'intermediate',
@@ -13,7 +15,7 @@ export type Token = {
 	iss: string,
 	nbf: number,
 	ref: string,
-	role: string,
+	role: Role,
 	secret: string,
 	sub: string,
 	typ: TokenTypes,

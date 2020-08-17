@@ -5,7 +5,7 @@
   "author": "Nicolai Bruhn Lauritsen <mail@bruhno.com> (https://bruhno.dev)",
   "license": "UNLICENSED",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "engines": {
     "node": "^12"
   },
@@ -59,7 +59,6 @@
     "@babel/core": "7.11.1",
     "@emotion/babel-preset-css-prop": "10.0.27",
     "@next/bundle-analyzer": "9.5.2",
-    "@storybook/addon-a11y": "6.0.10",
     "@storybook/addon-actions": "6.0.10",
     "@storybook/addon-backgrounds": "6.0.10",
     "@storybook/addon-docs": "6.0.10",

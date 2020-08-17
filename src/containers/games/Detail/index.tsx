@@ -1,9 +1,11 @@
 import type { Game } from 'types/Games'
 
 import { useAuth } from 'reducers/auth'
+import { useResponsive } from 'reducers/responsive'
 
 import { Placeholder } from 'components/Placeholder'
 import { ButtonSolid } from 'components/Buttons'
+import { Tooltip, Location } from 'components/Tooltip'
 
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
@@ -29,28 +31,33 @@ type Props = {
 
 export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 	const { user } = useAuth()
+	const { isMobile } = useResponsive()
 	const groupedReleaseDates = game?.releaseDates ? groupByReleaseDate(game.releaseDates, ({ date }) => date, game.releaseDate) : null
 
 	return (
 		<Wrapper>
-			<BackgroundWrapper>
-				{isLoading ? (
-					<BackgroundPlaceholder />
-				) : (
-					<Background src={game?.screenshot ?? game?.cover ?? null} />
-				)}
-			</BackgroundWrapper>
+			<div>
+				<BackgroundWrapper>
+					{isLoading ? (
+						<BackgroundPlaceholder />
+					) : (
+						<Background src={game?.screenshot ?? game?.cover ?? null} />
+					)}
+				</BackgroundWrapper>
+			</div>
 			<MainContent>
 				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '18px' }}>
 					<div css={{ display: 'grid', gridTemplateRows: 'auto auto', gridRowGap: '12px' }}>
 						<Cover coverUrl={game?.cover ?? null} loading='eager' />
-						<ButtonSolid
-							label={game?.following ? 'Unfollow' : 'Follow'}
-							onClick={() => game?.following ? onUnfollow() : onFollow()}
-							disabled={!user.accessToken}
-							isLoading={isLoading}
-							css={{ padding: '5px 16px' }}
-						/>
+						<Tooltip tip='You need to be logged in' css={{ display: 'grid' }} show={!user.accessToken} location={isMobile ? Location.Right : Location.Top}>
+							<ButtonSolid
+								label={game?.following ? 'Unfollow' : 'Follow'}
+								onClick={() => game?.following ? onUnfollow() : onFollow()}
+								disabled={!user.accessToken}
+								isLoading={isLoading}
+								css={{ padding: '5px 16px' }}
+							/>
+						</Tooltip>
 					</div>
 					<div>
 						<Title>
