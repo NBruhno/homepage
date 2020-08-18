@@ -1,6 +1,6 @@
 import { createMocks } from 'node-mocks-http'
 
-import { parseJson, parseHeaders, expectStatusCode, accessTokenMatch, refreshTokenMatch, testingCredentials } from 'test/utils'
+import { parseJson, parseHeaders, expectStatusCode, accessTokenMatch, refreshTokenMatch, testingCredentials, expectSpecificObject } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'
 
@@ -37,13 +37,14 @@ describe('/api/auth/refresh', () => {
 		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
 	})
 
-	test('GET › Invalid body', async () => {
+	test('GET › Unauthorized', async () => {
 		const { req, res } = createMocks({
 			method: 'GET',
 		})
 
 		await expect(refresh(req, res)).rejects.toThrow(ApiError)
-		expectStatusCode(res, 400)
+		expectStatusCode(res, 401)
+		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
 	test('Invalid method', async () => {
