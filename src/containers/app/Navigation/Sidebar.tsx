@@ -36,7 +36,7 @@ export const Sidebar = ({ collapsed, ...rest }: Props) => (
 				width: collapsed ? 0 : '8px',
 			},
 
-			[theme.mediaQueries.maxMobile]: {
+			'@media only screen and (max-width: 575px)': {
 				height: 'calc(100vh - 53px)',
 				position: 'fixed',
 				top: '54px',
