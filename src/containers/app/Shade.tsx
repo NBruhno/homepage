@@ -15,9 +15,12 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				pointerEvents: 'none',
 				position: 'absolute',
 				zIndex: 9,
+				visibility: 'hidden',
 
 				[theme.mediaQueries.maxMobile]: {
-					opacity: responsive.collapsedSidebar ? 0 : 0.4,
+					opacity: !responsive.collapsedSidebar ? 0.4 : 0,
+					visibility: responsive.collapsedSidebar ? 'hidden' : 'visible',
+					transition: responsive.collapsedSidebar ? 'none' : `opacity 300ms ${theme.animation.default}`,
 					pointerEvents: responsive.collapsedSidebar ? 'none' : 'auto',
 				},
 			})}
