@@ -5,16 +5,21 @@ type Props = {
 export const Container = ({ show, children, ...rest }: Props) => (
 	<div
 		css={(theme: Theme) => ({
-			top: '15vh',
-			left: 0,
-			right: 0,
 			display: 'flex',
+			left: 0,
 			opacity: show ? 1 : 0,
 			pointerEvents: 'none',
 			position: 'absolute',
+			right: 0,
+			top: '15vh',
+			visibility: show ? 'visible' : 'hidden',
 			zIndex: 5,
 
 			transition: `opacity 135ms ${theme.animation.default}`,
+
+			[theme.mediaQueries.maxMobile]: {
+				transition: 'none',
+			},
 		})}
 		{...rest}
 	>
@@ -25,6 +30,7 @@ export const Container = ({ show, children, ...rest }: Props) => (
 				maxWidth: '100%',
 				padding: '24px',
 				pointerEvents: show ? 'auto' : 'none',
+				visibility: show ? 'visible' : 'hidden',
 				width: '450px',
 			}}
 		>
