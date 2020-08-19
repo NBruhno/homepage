@@ -42,7 +42,7 @@ export const Sidebar = ({ collapsed, ...rest }: Props) => (
 				top: '54px',
 				transform: collapsed ? 'translate(-251px)' : 'none',
 				transition: collapsed ? 'none' : `transform 300ms ${theme.animation.default}`,
-				visibility: collapsed ? 'hidden' : 'visible',
+				visibility: !collapsed ? 'visible' : 'hidden',
 				width: '250px',
 			},
 		})}
