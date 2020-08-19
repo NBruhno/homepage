@@ -28,7 +28,7 @@ export const Navigation = () => {
 	}
 
 	return (
-		<Sidebar collapsed={collapsedSidebar}>
+		<Sidebar collapsed={collapsedSidebar} isMobile={isMobile}>
 			{!isMobile && (
 				<Link href='/' passHref>
 					<Header onClick={() => closeMenuOnInteraction()}>
@@ -92,7 +92,7 @@ export const Navigation = () => {
 						}}
 					/>
 				)}
-				<Separator collapsed={collapsedSidebar}>Tools</Separator>
+				<Separator collapsed={collapsedSidebar} isMobile={isMobile}>Tools</Separator>
 				<Link href='/games' passHref>
 					<NavLink
 						active={pathname.includes('/games')}
@@ -119,7 +119,7 @@ export const Navigation = () => {
 				</Link>
 			</Content>
 
-			<Separator collapsed={collapsedSidebar}>Site</Separator>
+			<Separator collapsed={collapsedSidebar} isMobile={isMobile}>Site</Separator>
 			<Link href='/404' passHref>
 				<NavLink
 					active={pathname.includes('/projects')}

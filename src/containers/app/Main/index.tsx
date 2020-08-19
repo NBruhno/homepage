@@ -1,20 +1,27 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
 
 import { useResponsive } from 'reducers/responsive'
 import { useAuth } from 'reducers/auth'
 
-import { FormLogin } from 'components/Forms/Login'
-
 import { Shade } from '../Shade'
-import { AuthGuard } from '../AuthGuard'
 import { Footer } from '../Footer'
 
 import { MainContent } from './MainContent'
 
+const AuthGuard = dynamic(async () => {
+	const module = await import('../AuthGuard')
+	return module.AuthGuard
+})
+const FormLogin = dynamic(async () => {
+	const module = await import('components/Forms/Login')
+	return module.FormLogin
+})
+
 const protectedRoutes = [
-	'/user/profile',
+	'/users/profile',
 ]
 
 const roleProtectedRoutes = [

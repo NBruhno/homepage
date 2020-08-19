@@ -20,6 +20,10 @@ export const config = {
 		userKey: process.env.IGDB_USER_KEY,
 	},
 
+	sendGrid: {
+		apiKey: process.env.SENDGRID_API_KEY,
+	},
+
 	sentry: {
 		dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 	},
