@@ -21,6 +21,7 @@ export const Sidebar = ({ collapsed, ...rest }: Props) => (
 			transition: `width 300ms ${theme.animation.default}`,
 			width: collapsed ? '70px' : '250px',
 			zIndex: 10,
+			opacity: 0,
 
 			'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
 				backgroundColor: transparentize(1, theme.color.background),
@@ -36,8 +37,13 @@ export const Sidebar = ({ collapsed, ...rest }: Props) => (
 				width: collapsed ? 0 : '8px',
 			},
 
-			'@media only screen and (max-width: 575px)': {
+			[theme.mediaQueries.minMobile]: {
+				opacity: 1,
+			},
+
+			[theme.mediaQueries.maxMobile]: {
 				height: 'calc(100vh - 53px)',
+				opacity: collapsed ? 0 : 1,
 				position: 'fixed',
 				top: '54px',
 				transform: collapsed ? 'translate(-251px)' : 'none',
