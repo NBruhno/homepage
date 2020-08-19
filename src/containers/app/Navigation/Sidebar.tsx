@@ -2,9 +2,10 @@ import { transparentize } from 'polished'
 
 type Props = {
 	collapsed: boolean,
+	isMobile: boolean,
 } & React.ComponentProps<'nav'>
 
-export const Sidebar = ({ collapsed, ...rest }: Props) => (
+export const Sidebar = ({ collapsed, isMobile, ...rest }: Props) => (
 	<nav
 		css={(theme: Theme) => ({
 			alignItems: 'stretch',
@@ -18,7 +19,7 @@ export const Sidebar = ({ collapsed, ...rest }: Props) => (
 			position: 'sticky',
 			top: 0,
 			transform: 'none',
-			transition: `width 300ms ${theme.animation.default}, transform 300ms ${theme.animation.default}`,
+			transition: isMobile ? `transform 300ms ${theme.animation.default}` : `width 300ms ${theme.animation.default}`,
 			width: collapsed ? '70px' : '250px',
 			zIndex: 10,
 
@@ -37,8 +38,8 @@ export const Sidebar = ({ collapsed, ...rest }: Props) => (
 			},
 
 			[theme.mediaQueries.maxMobile]: {
-				width: collapsed ? 0 : '250px',
-				transform: collapsed ? 'translate(-70px)' : 'none',
+				width: '250px',
+				transform: collapsed ? 'translate(-251px)' : 'none',
 				height: 'calc(100vh - 54px)',
 				position: 'fixed',
 				top: '54px',
