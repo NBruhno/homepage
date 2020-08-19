@@ -15,6 +15,7 @@ export const GuardShade = ({ show, ...rest }: Props) => (
 			bottom: 0,
 			zIndex: 4,
 			pointerEvents: show ? 'auto' : 'none',
+			visibility: show ? 'visible' : 'hidden',
 			transition: `background-color 135ms ${theme.animation.default}`,
 
 			'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
