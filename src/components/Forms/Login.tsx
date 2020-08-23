@@ -2,7 +2,7 @@ import { ButtonSolid, ButtonBorder } from 'components/Buttons'
 
 import { Title, Subtitle } from 'containers/login'
 
-import { useAuth } from 'reducers/auth'
+import { useAuth } from 'states/auth'
 
 import { Input } from './Fields/Input'
 import { Form } from '.'

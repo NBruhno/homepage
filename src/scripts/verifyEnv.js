@@ -30,7 +30,7 @@ const verifyVariable = (value, productionOnly = false) => {
 	}
 }
 
-console.log(`Current environment:      ${chalk.blue(DEPLOY_ENV.charAt(0).toUpperCase() + DEPLOY_ENV.slice(1))}`)
+console.log(`Current environment:      ${chalk.blue(DEPLOY_ENV ? DEPLOY_ENV.charAt(0).toUpperCase() + DEPLOY_ENV.slice(1) : 'Undefined')}`)
 verifyVariable('AUTH_IV')
 verifyVariable('AUTH_SECRET')
 verifyVariable('FAUNADB_SECRET')

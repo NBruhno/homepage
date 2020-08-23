@@ -6,8 +6,6 @@ import App from 'next/app'
 
 import { config } from 'config.client'
 
-import { StoreProvider } from 'lib/store'
-
 import { Theme, Grid, Main, Navigation, Header } from 'containers/app'
 
 if (config.sentry.dsn) {
@@ -37,17 +35,15 @@ class MyApp extends App {
 				<Head>
 					<meta name='viewport' content='width=device-width, initial-scale=1' />
 				</Head>
-				<StoreProvider>
-					<Theme>
-						<Grid>
-							<Header />
-							<Navigation />
-							<Main>
-								<Component {...pageProps} err={err} />
-							</Main>
-						</Grid>
-					</Theme>
-				</StoreProvider>
+				<Theme>
+					<Grid>
+						<Header />
+						<Navigation />
+						<Main>
+							<Component {...pageProps} err={err} />
+						</Main>
+					</Grid>
+				</Theme>
 			</>
 		)
 	}

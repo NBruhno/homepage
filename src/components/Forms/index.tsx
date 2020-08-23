@@ -2,18 +2,18 @@ import { useEffect, useState } from 'react'
 import { Form as FinalForm, FormSpy } from 'react-final-form'
 import { SubmissionErrors, FormApi } from 'final-form'
 
-import { useForm } from 'reducers/form'
+import { useGlobalState } from 'states/globalState'
 
 const onPersistState = (
-	values: object, valid: boolean, formName: string, persistState: string | boolean,
-	updateFormState: (formName: string, values: object) => void,
+	values: object, valid: boolean, persistState: string | boolean,
+	updateFormState: (values: Record<string, any>) => void,
 ) => {
 	if (persistState === true) {
-		return updateFormState(formName, values)
+		return updateFormState(values)
 	}
 
 	if (persistState === 'valid' && valid) {
-		return updateFormState(formName, values)
+		return updateFormState(values)
 	}
 }
 
@@ -34,9 +34,10 @@ export const Form = ({
 	renderFormOnStateUpdate, destroyStateOnUnmount, resetFormOnSubmitSuccess, ...props
 }: Props) => {
 	const [initialStateValues, setInitialStateValues] = useState(null)
-	const { form: globalFormState, update, reset } = useForm()
+	const [formsState, setFormsState] = useGlobalState('forms')
+	const updateFormsState = (form: Record<string, any>) => setFormsState({ ...formsState, [formName]: form })
 
-	const formState = (persistState || persistStateOnSubmit) ? globalFormState?.[formName] : null
+	const formState = (persistState || persistStateOnSubmit) ? formsState?.[formName] : null
 
 	useEffect(() => {
 		// Set initialValues on mount
@@ -47,7 +48,7 @@ export const Form = ({
 		// Reset the form state if destroyStateOnUnmount is set
 		return () => {
 			if (destroyStateOnUnmount && formState) {
-				reset(formName)
+				setFormsState({ ...formsState, [formName]: null })
 			}
 		}
 	// The effect is intended to only run on mount and dismount
@@ -89,7 +90,7 @@ export const Form = ({
 					{persistState && (
 						<FormSpy
 							subscription={{ values: true, valid: true }}
-							onChange={({ values, valid }) => onPersistState(values, valid, formName, persistState, update)}
+							onChange={({ values, valid }) => onPersistState(values, valid, persistState, updateFormsState)}
 						/>
 					)}
 					{persistStateOnSubmit && (
@@ -97,7 +98,7 @@ export const Form = ({
 							subscription={{ values: true, valid: true, submitSucceeded: true, dirtySinceLastSubmit: true }}
 							onChange={({ values, valid, dirtySinceLastSubmit, submitSucceeded }) => {
 								if (submitSucceeded && !dirtySinceLastSubmit) {
-									onPersistState(values, valid, formName, persistState || persistStateOnSubmit, update)
+									onPersistState(values, valid, persistState || persistStateOnSubmit, updateFormsState)
 								}
 							}}
 						/>

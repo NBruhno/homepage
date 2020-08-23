@@ -4,17 +4,14 @@ import { ThemeProvider } from 'emotion-theming'
 import { themes } from '@storybook/theming'
 import { useDarkMode } from 'storybook-dark-mode'
 
-import { StoreProvider } from 'lib/store'
 import { globalCss } from 'styles/global'
 import { theme } from 'styles/theme'
 
 const MainDecorator = (Story: Story) => (
-	<StoreProvider>
-		<ThemeProvider theme={theme(useDarkMode())}>
-			<Global styles={globalCss} />
-			<Story />
-		</ThemeProvider>
-	</StoreProvider>
+	<ThemeProvider theme={theme(useDarkMode())}>
+		<Global styles={globalCss} />
+		<Story />
+	</ThemeProvider>
 )
 
 export const decorators = [MainDecorator]
