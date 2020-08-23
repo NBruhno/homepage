@@ -11,13 +11,13 @@ import { NavLink } from '../NavLink'
 import { Header as HeaderComponent } from './Header'
 
 export const Header = (props: React.ComponentProps<'nav'>) => {
-	const { collapsedSidebar, updateResponsive } = useResponsive()
+	const { showMenu, updateResponsive } = useResponsive()
 
 	return (
 		<HeaderComponent {...props}>
-			<ButtonIcon title='Menu' label={<MenuIcon />} onClick={() => updateResponsive({ collapsedSidebar: !collapsedSidebar })} />
+			<ButtonIcon title='Menu' label={<MenuIcon />} onClick={() => updateResponsive({ showMenu: !showMenu })} />
 			<Link href='/' passHref>
-				<NavLink currentColor css={{ alignItems: 'center' }} onClick={() => updateResponsive({ collapsedSidebar: true })}>
+				<NavLink currentColor css={{ alignItems: 'center' }} onClick={() => updateResponsive({ showMenu: false })}>
 					<Logo
 						css={(theme: Theme) => ({
 							width: '32px',
