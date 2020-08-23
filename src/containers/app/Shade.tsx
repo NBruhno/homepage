@@ -1,10 +1,10 @@
 import { useResponsive } from 'states/responsive'
 
 export const Shade = (props: React.ComponentProps<'div'>) => {
-	const { collapsedSidebar, updateResponsive } = useResponsive()
+	const { showMenu, updateResponsive } = useResponsive()
 	return (
 		<div
-			onClick={() => updateResponsive({ collapsedSidebar: true })}
+			onClick={() => updateResponsive({ showMenu: false })}
 			css={(theme: Theme) => ({
 				backgroundColor: theme.color.black,
 				bottom: 0,
@@ -18,10 +18,10 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				visibility: 'hidden',
 
 				[theme.mediaQueries.maxMobile]: {
-					opacity: !collapsedSidebar ? 0.4 : 0,
-					visibility: collapsedSidebar ? 'hidden' : 'visible',
-					transition: collapsedSidebar ? 'none' : `opacity 300ms ${theme.animation.default}`,
-					pointerEvents: collapsedSidebar ? 'none' : 'auto',
+					opacity: showMenu ? 0.4 : 0,
+					visibility: showMenu ? 'visible' : 'hidden',
+					transition: showMenu ? `opacity 300ms ${theme.animation.default}` : 'none',
+					pointerEvents: showMenu ? 'auto' : 'none',
 				},
 			})}
 			aria-hidden='true'

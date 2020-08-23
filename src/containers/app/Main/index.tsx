@@ -39,7 +39,7 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	const systemPrefersDark = useMediaQuery({ query: '(prefers-color-scheme: dark)' }, undefined, (darkTheme: boolean) => {
 		setIsDark(darkTheme)
 	})
-	const [isDark, setIsDark] = useState(systemPrefersDark)
+	const [darkTheme, setIsDark] = useState(systemPrefersDark)
 	const [protectRoute, setProtectRoute] = useState(false)
 	const [roleProtectRoute, setRoleProtectRoute] = useState(false)
 	const { pathname } = useRouter()
@@ -60,8 +60,8 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	}, [pathname, user.isStateKnown, user.role])
 
 	useEffect(() => {
-		updateResponsive({ isMobile, darkTheme: isDark, collapsedSidebar })
-	}, [isMobile, collapsedSidebar, isDark])
+		updateResponsive({ isMobile, darkTheme, collapsedSidebar })
+	}, [isMobile, collapsedSidebar, darkTheme])
 
 	return (
 		<MainContent>

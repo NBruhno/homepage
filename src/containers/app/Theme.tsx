@@ -33,7 +33,7 @@ export const Theme = ({ children }: Props) => {
 
 	return (
 		<>
-			<ThemeProvider theme={siteTheme(darkTheme ?? null)}>
+			<ThemeProvider<Theme> theme={siteTheme(darkTheme ?? null)}>
 				<GlobalStyling>
 					{browserIsNotSupported ? (
 						<div css={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'space-around', margin: 'auto', fontSize: '42px', textAlign: 'center' }}>

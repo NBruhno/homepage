@@ -3,10 +3,11 @@ import { createGlobalState } from 'react-hooks-global-state'
 import { ListTypes } from 'types/Games'
 
 type Responsive = {
-	showLogin: boolean,
 	collapsedSidebar: boolean,
 	darkTheme: boolean,
 	isMobile: boolean,
+	showLogin: boolean,
+	showMenu: boolean,
 }
 
 type User = {
@@ -22,23 +23,26 @@ type User = {
 }
 
 export type State = {
-	count: number,
-	responsive: Responsive,
-	user: User,
 	forms: Record<string, any>,
 	games: {
 		currentList: ListTypes,
 	},
+	responsive: Responsive,
+	user: User,
 }
 
 export const { useGlobalState } = createGlobalState<State>({
+	forms: {},
+	games: {
+		currentList: ListTypes.Popular,
+	},
 	responsive: {
 		showLogin: false,
+		showMenu: false,
 		collapsedSidebar: false,
 		darkTheme: true,
 		isMobile: false,
 	},
-	count: 0,
 	user: {
 		displayName: undefined,
 		email: undefined,
@@ -47,8 +51,4 @@ export const { useGlobalState } = createGlobalState<State>({
 		shouldRefresh: false,
 	},
 
-	forms: {},
-	games: {
-		currentList: ListTypes.Popular,
-	},
 })
