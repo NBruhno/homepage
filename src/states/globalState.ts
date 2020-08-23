@@ -7,7 +7,6 @@ type Responsive = {
 	collapsedSidebar: boolean,
 	darkTheme: boolean,
 	isMobile: boolean,
-	isLaptop: boolean,
 }
 
 type User = {
@@ -38,7 +37,6 @@ export const { useGlobalState } = createGlobalState<State>({
 		collapsedSidebar: false,
 		darkTheme: true,
 		isMobile: false,
-		isLaptop: false,
 	},
 	count: 0,
 	user: {

@@ -34,8 +34,8 @@ const roleProtectedRoutes = [
 export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	const { showLogin, updateResponsive } = useResponsive()
 	const { user } = useAuth()
-	const isMobile = useMediaQuery({ query: `(max-width: ${screenSizes.mobile - 1}px` })
-	const isLaptop = useMediaQuery({ query: `(max-width: ${screenSizes.laptop - 1}px` })
+	const isMobile = useMediaQuery({ maxWidth: screenSizes.mobile - 1 })
+	const collapsedSidebar = useMediaQuery({ maxWidth: screenSizes.laptop - 1 })
 	const systemPrefersDark = useMediaQuery({ query: '(prefers-color-scheme: dark)' }, undefined, (darkTheme: boolean) => {
 		setIsDark(darkTheme)
 	})
@@ -60,8 +60,8 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	}, [pathname, user.isStateKnown, user.role])
 
 	useEffect(() => {
-		updateResponsive({ isMobile, isLaptop, darkTheme: isDark, collapsedSidebar: isLaptop || isMobile })
-	}, [isMobile, isLaptop, isDark])
+		updateResponsive({ isMobile, darkTheme: isDark, collapsedSidebar })
+	}, [isMobile, collapsedSidebar, isDark])
 
 	return (
 		<MainContent>
