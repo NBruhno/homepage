@@ -2,7 +2,8 @@ import Head from 'next/head'
 import { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
-import { useGame } from 'reducers/games'
+import { useGame } from 'states/games'
+
 import { Page } from 'components/Layout/Page'
 import { Detail } from 'containers/games/Detail'
 

@@ -1,20 +1,20 @@
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher, Method } from 'lib/fetcher'
 import { logger } from 'lib/logger'
-import { useStore, State } from 'lib/store'
+
+import { useGlobalState } from './globalState'
 
 export const useAuth = () => {
-	const { state, dispatch } = useStore()
+	const [user, setUser] = useGlobalState('user')
 	const [userInfo, setUserInfo] = useState<{ exists: boolean, email: string } | null>(null)
-	const dispatchToGlobalState = useCallback((user: Partial<State['user']>) => dispatch({ user: { ...state.user, ...user } }), [dispatch, state.user])
 
 	const register = async ({ email, password, displayName }: { email: string, password: string, displayName: string }) => {
 		try {
 			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/register', { method: Method.Post, body: { email, password, displayName }, cacheControl: 'no-cache' })
-			const user = decodeJwtToken(accessToken)
-			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, role: user.role, shouldRefresh: true, isStateKnown: true })
+			const decodedToken = decodeJwtToken(accessToken)
+			setUser({ ...user, accessToken, email: decodedToken.sub, displayName: decodedToken.displayName, role: decodedToken.role, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
 			logger.error(error)
 		}
@@ -25,14 +25,14 @@ export const useAuth = () => {
 			const { accessToken, intermediateToken }: Record<string, string> = await fetcher<{ accessToken: string, intermediateToken: string }>('/auth/login', { method: Method.Post, body: { email, password }, cacheControl: 'no-cache' })
 
 			if (accessToken) {
-				const user = decodeJwtToken(accessToken)
+				const { sub, displayName, role } = decodeJwtToken(accessToken)
 				setUserInfo(null)
-				dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, role: user.role, shouldRefresh: true })
+				setUser({ ...user, accessToken, email: sub, displayName, role, shouldRefresh: true })
 				return
 			}
 
 			if (intermediateToken) {
-				dispatchToGlobalState({ intermediateToken })
+				setUser({ ...user, intermediateToken })
 				return
 			}
 
@@ -44,8 +44,8 @@ export const useAuth = () => {
 
 	const logout = async () => {
 		try {
-			await fetcher('/auth/logout', { method: Method.Post, accessToken: state.user.accessToken, cacheControl: 'no-cache' })
-			dispatchToGlobalState({ accessToken: null, email: null, displayName: null, role: null, shouldRefresh: false })
+			await fetcher('/auth/logout', { method: Method.Post, accessToken: user.accessToken, cacheControl: 'no-cache' })
+			setUser({ ...user, accessToken: null, email: null, displayName: null, role: null, shouldRefresh: false })
 		} catch (error) {
 			logger.error(error)
 		}
@@ -53,7 +53,7 @@ export const useAuth = () => {
 
 	const changePassword = async ({ newPassword }: { currentPassword: string, newPassword: string }) => {
 		try {
-			await fetcher('/auth/changePassword', { body: { newPassword }, method: Method.Post, cacheControl: 'no-cache', accessToken: state.user.accessToken })
+			await fetcher('/auth/changePassword', { body: { newPassword }, method: Method.Post, cacheControl: 'no-cache', accessToken: user.accessToken })
 		} catch (error) {
 			logger.error(error)
 		}
@@ -70,8 +70,8 @@ export const useAuth = () => {
 
 	const initialize2fa = async () => {
 		try {
-			const secret = await fetcher<string>('/auth/2fa', { accessToken: state.user.accessToken, cacheControl: 'no-cache' })
-			dispatchToGlobalState({ twoFactorSecret: secret })
+			const secret = await fetcher<string>('/auth/2fa', { accessToken: user.accessToken, cacheControl: 'no-cache' })
+			setUser({ ...user, twoFactorSecret: secret })
 		} catch (error) {
 			logger.error(error)
 		}
@@ -80,9 +80,9 @@ export const useAuth = () => {
 	const register2fa = async ({ otp }: { otp: string }) => {
 		try {
 			await fetcher('/auth/2fa', {
-				body: { secret: state.user.secret, otp },
+				body: { secret: user.secret, otp },
 				method: Method.Patch,
-				accessToken: state.user.accessToken,
+				accessToken: user.accessToken,
 				cacheControl: 'no-cache',
 			})
 		} catch (error) {
@@ -95,17 +95,17 @@ export const useAuth = () => {
 			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/2fa', {
 				body: { otp },
 				method: Method.Post,
-				accessToken: state.user.intermediateToken,
+				accessToken: user.intermediateToken,
 				cacheControl: 'no-cache',
 			})
 
-			const user = decodeJwtToken(accessToken)
+			const { sub, displayName, role } = decodeJwtToken(accessToken)
 			setUserInfo(null)
-			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, role: user.role, shouldRefresh: true, intermediateToken: null })
+			setUser({ ...user, accessToken, email: sub, displayName, role, shouldRefresh: true, intermediateToken: null })
 		} catch (error) {
 			logger.error(error)
 		}
 	}
 
-	return { user: state.user, userInfo, check, register, login, logout, initialize2fa, register2fa, verify2fa, setUserInfo, changePassword }
+	return { user, userInfo, check, register, login, logout, initialize2fa, register2fa, verify2fa, setUserInfo, changePassword }
 }

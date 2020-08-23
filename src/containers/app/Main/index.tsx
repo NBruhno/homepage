@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 
-import { useResponsive } from 'reducers/responsive'
-import { useAuth } from 'reducers/auth'
+import { useResponsive } from 'states/responsive'
+import { useAuth } from 'states/auth'
+
+import { screenSizes } from 'styles/theme'
 
 import { Shade } from '../Shade'
 import { Footer } from '../Footer'
@@ -31,6 +34,12 @@ const roleProtectedRoutes = [
 export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	const { showLogin, updateResponsive } = useResponsive()
 	const { user } = useAuth()
+	const isMobile = useMediaQuery({ query: `(max-width: ${screenSizes.mobile - 1}px` })
+	const isLaptop = useMediaQuery({ query: `(max-width: ${screenSizes.laptop - 1}px` })
+	const systemPrefersDark = useMediaQuery({ query: '(prefers-color-scheme: dark)' }, undefined, (darkTheme: boolean) => {
+		setIsDark(darkTheme)
+	})
+	const [isDark, setIsDark] = useState(systemPrefersDark)
 	const [protectRoute, setProtectRoute] = useState(false)
 	const [roleProtectRoute, setRoleProtectRoute] = useState(false)
 	const { pathname } = useRouter()
@@ -49,6 +58,10 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 			}
 		}
 	}, [pathname, user.isStateKnown, user.role])
+
+	useEffect(() => {
+		updateResponsive({ isMobile, isLaptop, darkTheme: isDark, collapsedSidebar: isLaptop || isMobile })
+	}, [isMobile, isLaptop, isDark])
 
 	return (
 		<MainContent>

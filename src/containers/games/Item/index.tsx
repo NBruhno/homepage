@@ -2,6 +2,8 @@ import Link from 'next/link'
 
 import type { SimpleGame } from 'types/Games'
 
+import { useAuth } from 'states/auth'
+
 import { Placeholder } from 'components/Placeholder'
 import { ButtonBorder } from 'components/Buttons'
 import { Tooltip, Location } from 'components/Tooltip'
@@ -12,7 +14,6 @@ import { dateOrYear } from '../dateOrYear'
 import { Title } from './Title'
 import { Subtitle } from './Subtitle'
 import { Container } from './Container'
-import { useAuth } from 'reducers/auth'
 
 type Props = {
 	index?: number,

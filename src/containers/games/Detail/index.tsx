@@ -1,7 +1,7 @@
 import type { Game } from 'types/Games'
 
-import { useAuth } from 'reducers/auth'
-import { useResponsive } from 'reducers/responsive'
+import { useAuth } from 'states/auth'
+import { useResponsive } from 'states/responsive'
 
 import { Placeholder } from 'components/Placeholder'
 import { ButtonSolid } from 'components/Buttons'

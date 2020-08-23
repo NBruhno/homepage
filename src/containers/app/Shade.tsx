@@ -1,10 +1,10 @@
-import { useStore } from 'lib/store'
+import { useResponsive } from 'states/responsive'
 
 export const Shade = (props: React.ComponentProps<'div'>) => {
-	const { state: { responsive }, dispatch } = useStore()
+	const { collapsedSidebar, updateResponsive } = useResponsive()
 	return (
 		<div
-			onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: true } })}
+			onClick={() => updateResponsive({ collapsedSidebar: true })}
 			css={(theme: Theme) => ({
 				backgroundColor: theme.color.black,
 				bottom: 0,
@@ -18,10 +18,10 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				visibility: 'hidden',
 
 				[theme.mediaQueries.maxMobile]: {
-					opacity: !responsive.collapsedSidebar ? 0.4 : 0,
-					visibility: responsive.collapsedSidebar ? 'hidden' : 'visible',
-					transition: responsive.collapsedSidebar ? 'none' : `opacity 300ms ${theme.animation.default}`,
-					pointerEvents: responsive.collapsedSidebar ? 'none' : 'auto',
+					opacity: !collapsedSidebar ? 0.4 : 0,
+					visibility: collapsedSidebar ? 'hidden' : 'visible',
+					transition: collapsedSidebar ? 'none' : `opacity 300ms ${theme.animation.default}`,
+					pointerEvents: collapsedSidebar ? 'none' : 'auto',
 				},
 			})}
 			aria-hidden='true'

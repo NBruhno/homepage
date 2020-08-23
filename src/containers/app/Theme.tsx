@@ -5,7 +5,7 @@ import { ThemeProvider, useTheme } from 'emotion-theming'
 import { globalCss } from 'styles/global'
 import { theme as siteTheme } from 'styles/theme'
 
-import { useStore } from 'lib/store'
+import { useResponsive } from 'states/responsive'
 import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 
 type Props = {
@@ -24,7 +24,7 @@ const GlobalStyling = ({ children }: Props) => {
 }
 
 export const Theme = ({ children }: Props) => {
-	const { state } = useStore()
+	const { darkTheme } = useResponsive()
 	const [browserIsNotSupported, setBrowserIsNotSupported] = useState(false)
 
 	useIsomorphicLayoutEffect(() => {
@@ -33,7 +33,7 @@ export const Theme = ({ children }: Props) => {
 
 	return (
 		<>
-			<ThemeProvider theme={siteTheme(state.responsive.darkTheme ?? null)}>
+			<ThemeProvider theme={siteTheme(darkTheme ?? null)}>
 				<GlobalStyling>
 					{browserIsNotSupported ? (
 						<div css={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'space-around', margin: 'auto', fontSize: '42px', textAlign: 'center' }}>

@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { useStore } from 'lib/store'
+import { useResponsive } from 'states/responsive'
 
 import { ButtonIcon } from 'components/Buttons'
 import { MenuIcon } from 'components/Icons'
@@ -11,13 +11,13 @@ import { NavLink } from '../NavLink'
 import { Header as HeaderComponent } from './Header'
 
 export const Header = (props: React.ComponentProps<'nav'>) => {
-	const { state: { responsive }, dispatch } = useStore()
+	const { collapsedSidebar, updateResponsive } = useResponsive()
 
 	return (
 		<HeaderComponent {...props}>
-			<ButtonIcon title='Menu' label={<MenuIcon />} onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: !responsive.collapsedSidebar } })} />
+			<ButtonIcon title='Menu' label={<MenuIcon />} onClick={() => updateResponsive({ collapsedSidebar: !collapsedSidebar })} />
 			<Link href='/' passHref>
-				<NavLink currentColor css={{ alignItems: 'center' }} onClick={() => dispatch({ responsive: { ...responsive, collapsedSidebar: true } })}>
+				<NavLink currentColor css={{ alignItems: 'center' }} onClick={() => updateResponsive({ collapsedSidebar: true })}>
 					<Logo
 						css={(theme: Theme) => ({
 							width: '32px',

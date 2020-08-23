@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { useAuth } from 'reducers/auth'
-import { useRefresh } from 'reducers/refresh'
-import { useResponsive } from 'reducers/responsive'
+import { useAuth } from 'states/auth'
+import { useRefresh } from 'states/refresh'
+import { useResponsive } from 'states/responsive'
 
 import { ChevronFlip } from 'components/ChevronFlip'
 import { ButtonText, ButtonIcon } from 'components/Buttons'
