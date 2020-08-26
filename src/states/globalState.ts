@@ -4,7 +4,6 @@ import { ListTypes } from 'types/Games'
 
 type Responsive = {
 	collapsedSidebar: boolean,
-	darkTheme: boolean,
 	isMobile: boolean,
 	showLogin: boolean,
 	showMenu: boolean,
@@ -27,6 +26,7 @@ export type State = {
 	games: {
 		currentList: ListTypes,
 	},
+	theme: string,
 	responsive: Responsive,
 	user: User,
 }
@@ -40,9 +40,9 @@ export const { useGlobalState } = createGlobalState<State>({
 		showLogin: false,
 		showMenu: false,
 		collapsedSidebar: false,
-		darkTheme: true,
 		isMobile: false,
 	},
+	theme: 'dark',
 	user: {
 		displayName: undefined,
 		email: undefined,

@@ -10,10 +10,10 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				bottom: 0,
 				left: 0,
 				right: 0,
-				top: 0,
+				top: '54px',
 				opacity: 0,
 				pointerEvents: 'none',
-				position: 'absolute',
+				position: 'fixed',
 				zIndex: 9,
 				visibility: 'hidden',
 

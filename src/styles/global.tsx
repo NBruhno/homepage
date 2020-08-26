@@ -1,4 +1,5 @@
-import { css } from '@emotion/core'
+import { css, Global } from '@emotion/core'
+import { useTheme } from 'emotion-theming'
 
 import { normalize } from 'styles/normalize'
 import { fonts } from 'styles/fonts'
@@ -39,3 +40,14 @@ export const globalCss = (theme: Theme) => css([
 		},
 	},
 ])
+
+export const GlobalStyling = ({ children }: { children: React.ReactNode }) => {
+	const theme: Theme = useTheme()
+
+	return (
+		<>
+			<Global styles={globalCss(theme)} />
+			{children}
+		</>
+	)
+}

@@ -11,11 +11,9 @@ export const Container = ({ show, children, ...rest }: Props) => (
 			pointerEvents: 'none',
 			position: 'absolute',
 			right: 0,
-			top: '15vh',
+			transition: `opacity 135ms ${theme.animation.default}`,
 			visibility: show ? 'visible' : 'hidden',
 			zIndex: 5,
-
-			transition: `opacity 135ms ${theme.animation.default}`,
 
 			[theme.mediaQueries.maxMobile]: {
 				transition: 'none',
