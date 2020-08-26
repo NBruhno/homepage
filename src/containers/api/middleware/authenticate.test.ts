@@ -11,7 +11,6 @@ describe('/api/middleware/authenticate', () => {
 	test('Authenticate › Valid token', async () => {
 		const accessToken = getJwtToken('secret', { ...defaultPayload })
 		const { req, res } = createMocks({
-			method: 'POST',
 			headers: {
 				authorization: `Bearer ${accessToken}`,
 			},
@@ -21,10 +20,17 @@ describe('/api/middleware/authenticate', () => {
 		expect(token)
 	})
 
+	test('Authenticate › Manually supplied token', async () => {
+		const accessToken = getJwtToken('secret', { ...defaultPayload })
+		const { req, res } = createMocks()
+
+		const token = authenticate(req, res, { token: accessToken })
+		expect(token)
+	})
+
 	test('Authenticate › Expired token', async () => {
 		const accessToken = getJwtToken('secret', { ...defaultPayload, exp: Math.floor(Date.now() / 1000) - 60 })
 		const { req, res } = createMocks({
-			method: 'POST',
 			headers: {
 				authorization: `Bearer ${accessToken}`,
 			},
@@ -36,7 +42,6 @@ describe('/api/middleware/authenticate', () => {
 	test('Authenticate › Invalid issuer', async () => {
 		const accessToken = getJwtToken('secret', { ...defaultPayload, iss: 'https://something.else' })
 		const { req, res } = createMocks({
-			method: 'POST',
 			headers: {
 				authorization: `Bearer ${accessToken}`,
 			},
@@ -48,7 +53,6 @@ describe('/api/middleware/authenticate', () => {
 	test('Authenticate › Invalid audience', async () => {
 		const accessToken = getJwtToken('secret', { ...defaultPayload, aud: ['https://something.else'] })
 		const { req, res } = createMocks({
-			method: 'POST',
 			headers: {
 				authorization: `Bearer ${accessToken}`,
 			},
@@ -60,7 +64,6 @@ describe('/api/middleware/authenticate', () => {
 	test('Authenticate › Tampered token', async () => {
 		const accessToken = getJwtToken('secret', { ...defaultPayload }).split('.')
 		const { req, res } = createMocks({
-			method: 'POST',
 			headers: {
 				authorization: `Bearer ${accessToken.join('Y.')}`,
 			},
@@ -70,9 +73,7 @@ describe('/api/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Optional', async () => {
-		const { req, res } = createMocks({
-			method: 'POST',
-		})
+		const { req, res } = createMocks()
 
 		const token = authenticate(req, res, { optional: true })
 		expect(token).toBe(undefined)

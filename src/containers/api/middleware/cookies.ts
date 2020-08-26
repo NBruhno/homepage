@@ -1,5 +1,5 @@
-import { serialize, parse } from 'cookie'
-import { NextApiResponse, NextApiRequest } from 'next'
+import { serialize } from 'cookie'
+import { NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
@@ -30,16 +30,4 @@ export const removeRefreshCookie = (res: NextApiResponse) => {
 	})
 
 	res.setHeader('Set-Cookie', cookie)
-}
-
-export const parseCookies = (req: NextApiRequest) => {
-	if (req.cookies) return req.cookies
-
-	const cookie = req.headers?.cookie
-	return parse(cookie || '')
-}
-
-export const getRefreshCookie = (req: NextApiRequest) => {
-	const cookies = parseCookies(req)
-	return cookies[isProduction ? '__Host-refreshToken' : 'refreshToken']
 }

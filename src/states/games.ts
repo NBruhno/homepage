@@ -1,12 +1,12 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import useSWR from 'swr'
 
-import { useAuth } from 'reducers/auth'
+import { useAuth } from 'states/auth'
 
-import type { Game, SimpleGame } from 'types/Games'
+import type { Game, SimpleGame, ListTypes } from 'types/Games'
 
 import { fetcher, Method } from 'lib/fetcher'
-import { useStore } from 'lib/store'
+import { useGlobalState } from './globalState'
 
 type GameList = {
 	following: Array<SimpleGame>,
@@ -14,19 +14,13 @@ type GameList = {
 	popular: Array<SimpleGame>,
 }
 
-export enum Lists {
-	Popular = 'popular',
-	Search = 'search',
-	Following = 'following',
-}
-
 export const useGames = () => {
-	const { state: { forms: { gamesForm }, games: gamesState }, dispatch } = useStore()
-	const dispatchToGlobalState = useCallback((list: Lists) => dispatch({ games: { ...gamesState, currentList: list } }), [dispatch, gamesState])
+	const [forms] = useGlobalState('forms')
+	const [gamesState, setGameState] = useGlobalState('games')
 	const [games, setGames] = useState<GameList>({ popular: null, games: null, following: null })
 	const { user } = useAuth()
 	const { data, error } = useSWR<GameList>(
-		user?.isStateKnown ? ['/games', gamesForm?.search, user.accessToken] : null, (link, search, accessToken) => fetcher(link, { body: { search }, accessToken, method: Method.Post }), { revalidateOnFocus: false },
+		user?.isStateKnown ? ['/games', forms.games?.search, user.accessToken] : null, (link, search, accessToken) => fetcher(link, { body: { search }, accessToken, method: Method.Post }), { revalidateOnFocus: false },
 	)
 
 	const follow = async (id: string) => {
@@ -69,9 +63,9 @@ export const useGames = () => {
 		}
 	}
 
-	const setCurrentList = (list: Lists) => {
-		if (list !== gamesState.currentList) {
-			dispatchToGlobalState(list)
+	const setCurrentList = (currentList: ListTypes) => {
+		if (currentList !== gamesState.currentList) {
+			setGameState({ ...gamesState, currentList })
 		}
 	}
 

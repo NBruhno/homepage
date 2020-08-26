@@ -1,18 +1,47 @@
 /* eslint-disable no-console */
-
 require('dotenv').config()
 const chalk = require('chalk')
 
-const { log } = console
+const { DEPLOY_ENV } = process.env
 
-log(`Current environment:      ${chalk.blue(process.env.DEPLOY_ENV)}`)
-log(`AUTH_IV:                  ${process.env.AUTH_IV ? chalk.green('Exists') : chalk.red('Missing')}`)
-log(`AUTH_SECRET:              ${process.env.AUTH_SECRET ? chalk.green('Exists') : chalk.red('Missing')}`)
-log(`FAUNADB_SECRET:           ${process.env.FAUNADB_SECRET ? chalk.green('Exists') : chalk.red('Missing')}`)
-log(`FAUNADB_SERVER_KEY:       ${process.env.FAUNADB_SERVER_KEY ? chalk.green('Exists') : chalk.red('Missing')}`)
-log(`IGDB_USER_KEY:            ${process.env.IGDB_USER_KEY ? chalk.green('Exists') : chalk.red('Missing')}`)
-log(`NEXT_PUBLIC_SENTRY_DSN:   ${process.env.NEXT_PUBLIC_SENTRY_DSN ? chalk.green('Exists') : chalk.red('Missing')}`)
-log(`SENTRY_AUTH_TOKEN:        ${process.env.SENTRY_AUTH_TOKEN ? chalk.green('Exists') : chalk.red('Missing')}`)
-log(`SENTRY_ORG:               ${process.env.SENTRY_ORG ? chalk.green('Exists') : chalk.red('Missing')}`)
-log(`SENTRY_PROJECT:           ${process.env.SENTRY_PROJECT ? chalk.green('Exists') : chalk.red('Missing')}`)
-log(`VERCEL_GITHUB_COMMIT_SHA: ${process.env.VERCEL_GITHUB_COMMIT_SHA ? chalk.green('Exists') : chalk.red('Missing')}`)
+let missingAValue = false
+
+const log = (value, result) => {
+	const ending = () => {
+		switch (result) {
+			case 'exists': return chalk.green('Exists')
+			case 'missing': return chalk.red('Missing')
+			case 'production': return chalk.yellow('Production only')
+		}
+	}
+	console.log(`${value}:${new Array(25 - value.length).join(' ')} ${ending()}`)
+}
+
+const verifyVariable = (value, productionOnly = false) => {
+	if (process.env[value] === undefined) {
+		if (!productionOnly && DEPLOY_ENV !== 'production') {
+			log(value, 'missing')
+			missingAValue = true
+		} else {
+			log(value, 'production')
+		}
+	} else {
+		log(value, 'exists')
+	}
+}
+
+console.log(`Current environment:      ${chalk.blue(DEPLOY_ENV ? DEPLOY_ENV.charAt(0).toUpperCase() + DEPLOY_ENV.slice(1) : 'Undefined')}`)
+verifyVariable('AUTH_IV')
+verifyVariable('AUTH_SECRET')
+verifyVariable('FAUNADB_SECRET')
+verifyVariable('FAUNADB_SERVER_KEY')
+verifyVariable('IGDB_USER_KEY')
+verifyVariable('NEXT_PUBLIC_SENTRY_DSN')
+verifyVariable('SENTRY_AUTH_TOKEN', true)
+verifyVariable('SENTRY_ORG', true)
+verifyVariable('SENTRY_PROJECT', true)
+verifyVariable('VERCEL_GITHUB_COMMIT_SHA', true)
+
+if (missingAValue) {
+	throw new Error('Missing the above mentioned env variable(s)')
+}

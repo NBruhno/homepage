@@ -4,27 +4,25 @@ import { config } from 'config.client'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher } from 'lib/fetcher'
-import { useStore, State } from 'lib/store'
 import { logger } from 'lib/logger'
 
-import { useResponsive } from './responsive'
+import { useGlobalState } from './globalState'
 
 const isProduction = config.environment !== 'development'
 
 export const useRefresh = () => {
-	const { state, dispatch } = useStore()
-	const { updateResponsive } = useResponsive()
-	const dispatchToGlobalState = useCallback((user: Partial<State['user']>) => dispatch({ user: { ...state.user, ...user } }), [dispatch, state.user.accessToken])
+	const [user, setUser] = useGlobalState('user')
+	const [responsive, setResponsive] = useGlobalState('responsive')
 
 	const refresh = useCallback(async () => {
 		try {
 			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/refresh', { cacheControl: 'no-cache' })
-			const user = decodeJwtToken(accessToken)
-			dispatchToGlobalState({ accessToken, email: user.sub, displayName: user.displayName, role: user.role, shouldRefresh: true, isStateKnown: true })
+			const { sub, displayName, role } = decodeJwtToken(accessToken)
+			setUser({ ...user, accessToken, email: sub, displayName, role, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
 			logger.error(error)
 		}
-	}, [dispatchToGlobalState])
+	}, [user, setUser])
 
 	useEffect(() => {
 		let refreshInterval = null as NodeJS.Timeout
@@ -38,24 +36,24 @@ export const useRefresh = () => {
 		document.cookie = `${isProduction ? '__Host-refreshToken' : 'refreshToken'}=;path=/;${expires};${isProduction ? 'secure' : ''}`
 		const hasRefreshToken = document.cookie.indexOf(isProduction ? '__Host-refreshToken' : 'refreshToken') === -1
 
-		if (!hasRefreshToken && !state.user.accessToken) {
-			dispatchToGlobalState({ isStateKnown: true })
+		if (!hasRefreshToken && !user.accessToken) {
+			setUser({ ...user, isStateKnown: true })
 		}
 
 		// Initial load
-		if (hasRefreshToken && !state.user.accessToken) {
+		if (hasRefreshToken && !user.accessToken) {
 			refresh()
 		}
 
-		if (state.user.accessToken) {
-			updateResponsive({ showLogin: false })
+		if (user.accessToken) {
+			setResponsive({ ...responsive, showLogin: false })
 		}
 
 		// Start up an interval for getting a new access token if a refresh token is present
-		if (state.user.accessToken && state.user.shouldRefresh) {
+		if (user.accessToken && user.shouldRefresh) {
 			refreshInterval = setInterval(async () => {
-				if (state.user.accessToken && state.user.shouldRefresh) {
-					const { exp } = decodeJwtToken(state.user.accessToken)
+				if (user.accessToken && user.shouldRefresh) {
+					const { exp } = decodeJwtToken(user.accessToken)
 					if (Math.round(exp - (60 * 2)) <= Math.round(Date.now() / 1000)) await refresh()
 				}
 			}, 30000)
@@ -63,7 +61,7 @@ export const useRefresh = () => {
 
 		// Clear the interval when this hook is dismounted
 		return () => clearInterval(refreshInterval)
-	}, [state.user.accessToken, state.user.shouldRefresh, refresh])
+	}, [user.accessToken, user.shouldRefresh])
 
-	return { user: state.user, refresh }
+	return { user, refresh }
 }

@@ -1,5 +1,7 @@
 const withOffline = require('next-offline')
-const withSourceMaps = require('@zeit/next-source-maps')()
+const withSourceMaps = require('@zeit/next-source-maps')({
+	devtool: process.env.NODE_ENV !== 'development' ? 'hidden-source-map' : 'source-map',
+})
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
 	enabled: process.env.ANALYZE_BUILD === 'true',
 })
@@ -49,6 +51,8 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 			},
 		],
 	},
+
+	target: 'experimental-serverless-trace',
 
 	webpack: (config, options) => {
 		if (!options.isServer) {

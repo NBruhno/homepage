@@ -2,7 +2,9 @@ import { NextPage } from 'next'
 import Head from 'next/head'
 import { FormSpy } from 'react-final-form'
 
-import { useGames, Lists } from 'reducers/games'
+import { ListTypes } from 'types/Games'
+
+import { useGames } from 'states/games'
 
 import { GameList } from 'containers/games/List'
 
@@ -22,23 +24,23 @@ const Games: NextPage = () => {
 			<Page>
 				<PageContent maxWidth={700}>
 					<div>
-						<Form form='gamesForm' onSubmit={() => null} persistStateOnSubmit>
+						<Form form='games' onSubmit={() => null} persistStateOnSubmit>
 							<Input label='Find a game' name='search' />
 							<FormSpy
 								subscription={{ submitSucceeded: true, dirtySinceLastSubmit: true }}
 								onChange={({ dirtySinceLastSubmit, submitSucceeded }) => {
-									if (submitSucceeded && !dirtySinceLastSubmit) setCurrentList(Lists.Search)
+									if (submitSucceeded && !dirtySinceLastSubmit) setCurrentList(ListTypes.Search)
 								}}
 							/>
 						</Form>
 						<div css={(theme: Theme) => ({ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gridGap: '24px', marginBottom: '18px', [theme.mediaQueries.maxMobile]: { gridGap: '12px' } })}>
-							<ButtonToggle label='Popular' active={currentList === Lists.Popular} onClick={() => setCurrentList(Lists.Popular)} />
-							<ButtonToggle label='Following' active={currentList === Lists.Following} onClick={() => setCurrentList(Lists.Following)} />
-							<ButtonToggle label='Search' active={currentList === Lists.Search} onClick={() => setCurrentList(Lists.Search)} />
+							<ButtonToggle label='Popular' active={currentList === ListTypes.Popular} onClick={() => setCurrentList(ListTypes.Popular)} />
+							<ButtonToggle label='Following' active={currentList === ListTypes.Following} onClick={() => setCurrentList(ListTypes.Following)} />
+							<ButtonToggle label='Search' active={currentList === ListTypes.Search} onClick={() => setCurrentList(ListTypes.Search)} />
 						</div>
-						{currentList === Lists.Popular && <GameList games={popular} error={error} onFollow={follow} onUnfollow={unfollow} />}
-						{currentList === Lists.Following && <GameList games={following} error={error} onFollow={follow} onUnfollow={unfollow} emptyMessage='You are not following any games' />}
-						{currentList === Lists.Search && <GameList games={games} error={error} onFollow={follow} onUnfollow={unfollow} />}
+						{currentList === ListTypes.Popular && <GameList games={popular} error={error} onFollow={follow} onUnfollow={unfollow} />}
+						{currentList === ListTypes.Following && <GameList games={following} error={error} onFollow={follow} onUnfollow={unfollow} emptyMessage='You are not following any games' />}
+						{currentList === ListTypes.Search && <GameList games={games} error={error} onFollow={follow} onUnfollow={unfollow} />}
 					</div>
 				</PageContent>
 			</Page>

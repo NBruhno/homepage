@@ -2,13 +2,11 @@ import { RewriteFrames } from '@sentry/integrations'
 import { init } from '@sentry/node'
 import getConfig from 'next/config'
 import Head from 'next/head'
-import App from 'next/app'
+import NextApp from 'next/app'
 
 import { config } from 'config.client'
 
-import { StoreProvider } from 'lib/store'
-
-import { Theme, Grid, Main, Navigation, Header } from 'containers/app'
+import { App } from 'containers/app'
 
 if (config.sentry.dsn) {
 	const nextConfig = getConfig()
@@ -27,7 +25,7 @@ if (config.sentry.dsn) {
 	})
 }
 
-class MyApp extends App {
+export default class MyApp extends NextApp {
 	render() {
 		// @ts-expect-error
 		const { Component, pageProps, err } = this.props
@@ -37,20 +35,10 @@ class MyApp extends App {
 				<Head>
 					<meta name='viewport' content='width=device-width, initial-scale=1' />
 				</Head>
-				<StoreProvider>
-					<Theme>
-						<Grid>
-							<Header />
-							<Navigation />
-							<Main>
-								<Component {...pageProps} err={err} />
-							</Main>
-						</Grid>
-					</Theme>
-				</StoreProvider>
+				<App>
+					<Component {...pageProps} err={err} />
+				</App>
 			</>
 		)
 	}
 }
-
-export default MyApp

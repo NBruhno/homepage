@@ -61,3 +61,15 @@ export type FaunaGame = {
 		following: boolean,
 	},
 }
+
+export type GameList = {
+	following: Array<SimpleGame>,
+	games: Array<SimpleGame>,
+	popular: Array<SimpleGame>,
+}
+
+export enum ListTypes {
+	Popular = 'popular',
+	Search = 'search',
+	Following = 'following',
+}

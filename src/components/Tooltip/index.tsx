@@ -1,4 +1,5 @@
 import { useTheme } from 'emotion-theming'
+import { css } from '@emotion/core'
 
 export enum Location {
 	Top = 'top',
@@ -89,22 +90,24 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 		}
 	}
 
+	const sharedStyles = css({
+		position: 'absolute',
+		zIndex: 4,
+		visibility: 'hidden',
+		opacity: 0,
+		left: getLeft(),
+		right: location === Location.Left ? 'calc(100% + 5px)' : 'auto',
+		bottom: getBottom(),
+		top: location === Location.Bottom ? 'calc(100% + 5px)' : 'auto',
+		pointerEvents: 'none',
+		transition: '0.2s',
+	})
+
 	return (
 		<div id='tooltip-wrapper' css={{ position: 'relative', display: 'inline-block' }} {...rest}>
 			{show && (
 				<div
-					css={{
-						position: 'absolute',
-						zIndex: 4,
-						visibility: 'hidden',
-						opacity: 0,
-						left: getLeft(),
-						right: location === Location.Left ? 'calc(100% + 5px)' : 'auto',
-						bottom: getBottom(),
-						top: location === Location.Bottom ? 'calc(100% + 5px)' : 'auto',
-						pointerEvents: 'none',
-						transition: '0.2s',
-
+					css={[sharedStyles, {
 						padding: '10px 18px',
 						minWidth: '50px',
 						maxWidth: '300px',
@@ -124,7 +127,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 							visibility: 'visible',
 							opacity: 1,
 						},
-					}}
+					}]}
 				>
 					{tip}
 				</div>
@@ -132,18 +135,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 			{children}
 			{show && (
 				<div
-					css={{
-						position: 'absolute',
-						zIndex: 4,
-						visibility: 'hidden',
-						opacity: 0,
-						left: getLeft(),
-						right: location === Location.Left ? 'calc(100% + 5px)' : 'auto',
-						bottom: getBottom(),
-						top: location === Location.Bottom ? 'calc(100% + 5px)' : 'auto',
-						pointerEvents: 'none',
-						transition: '0.2s',
-
+					css={[sharedStyles, {
 						borderStyle: 'solid',
 						borderWidth: getBorderWidth(),
 						borderColor: getBorderColor(),
@@ -158,7 +150,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 							transitionDuration: '0.2s',
 							transform: `${getAfterTranslate()} ${getAfterScale(1)}`,
 						},
-					}}
+					}]}
 				/>
 			)}
 		</div>

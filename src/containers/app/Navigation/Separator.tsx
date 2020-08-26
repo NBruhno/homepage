@@ -17,14 +17,21 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 				color: theme.color.text,
 				fontFamily: theme.fontFamily.poppins,
 				fontSize: theme.fontSize.s100,
-				height: (slim || collapsed) ? '0px' : '26px',
+				height: ((slim || collapsed)) ? '0px' : '26px',
 				margin: slim ? 0 : '18px 0 2px',
-				minHeight: (slim || collapsed) ? '0px' : '26px',
+				minHeight: ((slim || collapsed)) ? '0px' : '26px',
 				overflow: 'hidden',
 				padding: padding(),
 				textOverflow: 'ellipsis',
-				transition: `height 300ms ${theme.animation.default}, color 300ms ${theme.animation.default}, padding 300ms ${theme.animation.default}, min-height 300ms ${theme.animation.default}`,
+				transition: `height 300ms ${theme.animation.default}, padding 300ms ${theme.animation.default}, min-height 300ms ${theme.animation.default}`,
 				whiteSpace: 'nowrap',
+
+				[theme.mediaQueries.maxMobile]: {
+					height: slim ? '0px' : '26px',
+					minHeight: slim ? '0px' : '26px',
+					padding: slim ? '0 24px' : '12px 24px',
+					transition: 'none',
+				},
 			})}
 			{...rest}
 		>

@@ -29,14 +29,8 @@ const resolveError = (error: any, res: NextApiResponse) => {
 export const authenticate = (req: NextApiRequest, res: NextApiResponse, { optional = false, token, type }: Options = { type: TokenTypes.Access }): Token => {
 	const { headers: { authorization }, cookies } = req
 	const getToken = () => {
-		if (token) {
-			return token
-		}
-
-		if (type === TokenTypes.Refresh) {
-			return config.environment !== 'development' ? cookies['__Host-refreshToken'] : cookies['refreshToken']
-		}
-
+		if (token) return token
+		if (type === TokenTypes.Refresh) return config.environment !== 'development' ? cookies['__Host-refreshToken'] : cookies['refreshToken']
 		return authorization?.split('Bearer ')[1]
 	}
 

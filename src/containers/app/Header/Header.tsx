@@ -16,6 +16,7 @@ export const Header = (props: React.ComponentProps<'header'>) => (
 
 			[theme.mediaQueries.minMobile]: {
 				display: 'none',
+				visibility: 'hidden',
 			},
 		})}
 		{...props}

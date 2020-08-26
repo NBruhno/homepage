@@ -22,11 +22,12 @@ module.exports = ({ config }) => {
 	config.node = { fs: 'empty' }
 
 	config.resolve.alias['components'] = path.join(__dirname, '../src/components')
-	config.resolve.alias['reducers'] = path.join(__dirname, '../src/reducers')
-	config.resolve.alias['styles'] = path.join(__dirname, '../src/styles')
-	config.resolve.alias['config.client$'] = path.join(__dirname, '../src/config.client.ts')
 	config.resolve.alias['hooks'] = path.join(__dirname, '../src/hooks')
-	config.resolve.alias['utils'] = path.join(__dirname, '../src/utils')
 	config.resolve.alias['lib'] = path.join(__dirname, '../src/lib')
+	config.resolve.alias['states'] = path.join(__dirname, '../src/states')
+	config.resolve.alias['styles'] = path.join(__dirname, '../src/styles')
+	config.resolve.alias['types'] = path.join(__dirname, '../src/types')
+	config.resolve.alias['utils'] = path.join(__dirname, '../src/utils')
+	config.resolve.alias['config.client$'] = path.join(__dirname, '../src/config.client.ts')
 	return config;
 }

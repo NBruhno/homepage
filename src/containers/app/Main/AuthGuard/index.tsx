@@ -1,6 +1,7 @@
-import { useResponsive } from 'reducers/responsive'
+import { useResponsive } from 'states/responsive'
 
 import { Card } from 'components/Card'
+
 import { Container } from './Container'
 import { GuardShade } from './GuardShade'
 

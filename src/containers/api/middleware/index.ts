@@ -1,3 +1,3 @@
 export { authenticate } from './authenticate'
-export { setRefreshCookie, removeRefreshCookie, parseCookies, getRefreshCookie } from './cookies'
+export { setRefreshCookie, removeRefreshCookie } from './cookies'
 export { withSentry } from './withSentry'
