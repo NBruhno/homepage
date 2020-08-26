@@ -4,24 +4,21 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 
-import { useResponsive } from 'states/responsive'
 import { useAuth } from 'states/auth'
+import { useResponsive } from 'states/responsive'
 
 import { screenSizes } from 'styles/theme'
 
-import { Shade } from '../Shade'
 import { Footer } from '../Footer'
 
+import { AuthGuard } from './AuthGuard'
 import { MainContent } from './MainContent'
+import { Shade } from './Shade'
 
-const AuthGuard = dynamic(async () => {
-	const module = await import('../AuthGuard')
-	return module.AuthGuard
-})
 const FormLogin = dynamic(async () => {
 	const module = await import('components/Forms/Login')
 	return module.FormLogin
-})
+}, { ssr: false })
 
 const protectedRoutes = [
 	'/users/profile',
@@ -36,10 +33,6 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	const { user } = useAuth()
 	const isMobile = useMediaQuery({ maxWidth: screenSizes.mobile - 1 })
 	const collapsedSidebar = useMediaQuery({ maxWidth: screenSizes.laptop - 1 })
-	const systemPrefersDark = useMediaQuery({ query: '(prefers-color-scheme: dark)' }, undefined, (darkTheme: boolean) => {
-		setIsDark(darkTheme)
-	})
-	const [darkTheme, setIsDark] = useState(systemPrefersDark)
 	const [protectRoute, setProtectRoute] = useState(false)
 	const [roleProtectRoute, setRoleProtectRoute] = useState(false)
 	const { pathname } = useRouter()
@@ -60,18 +53,22 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	}, [pathname, user.isStateKnown, user.role])
 
 	useEffect(() => {
-		updateResponsive({ isMobile, darkTheme, collapsedSidebar })
-	}, [isMobile, collapsedSidebar, darkTheme])
+		updateResponsive({ isMobile, collapsedSidebar })
+	}, [isMobile, collapsedSidebar])
+
+	const show = (protectRoute || roleProtectRoute || showLogin) ?? false
 
 	return (
 		<MainContent>
 			{children}
 			<AuthGuard
 				allowClosure={(!protectRoute || !roleProtectRoute)}
-				show={(protectRoute || roleProtectRoute || showLogin) ?? false}
+				show={show}
 			>
 				{!user.accessToken ? (
-					<FormLogin />
+					<>
+						{show && <FormLogin />}
+					</>
 				) : (
 					<>
 						<h1 css={{ margin: '0 0 24px', fontSize: '1.5em' }}>You are not authorized to access this resource</h1>
