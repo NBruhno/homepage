@@ -52,6 +52,8 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 		],
 	},
 
+	target: 'experimental-serverless-trace',
+
 	webpack: (config, options) => {
 		if (!options.isServer) {
 			config.resolve.alias['@sentry/node'] = '@sentry/browser'
