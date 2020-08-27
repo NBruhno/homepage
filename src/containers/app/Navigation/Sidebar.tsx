@@ -64,12 +64,12 @@ export const MobileSidebar = ({ show, ...rest }: Props & { show: boolean }) => {
 					[theme.mediaQueries.maxMobile]: {
 						display: 'flex',
 						height: 'calc(100vh - 53px)',
-						opacity: show ? 1 : 0,
+						opacity: 1,
 						position: 'fixed',
 						top: '54px',
 						transform: show ? 'none' : 'translate(-251px)',
 						transition: `transform 300ms ${theme.animation.default}`,
-						visibility: show ? 'visible' : 'hidden',
+						visibility: 'visible',
 						width: '250px',
 
 						'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {

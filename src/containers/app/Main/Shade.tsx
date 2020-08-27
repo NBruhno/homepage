@@ -15,12 +15,10 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				pointerEvents: 'none',
 				position: 'fixed',
 				zIndex: 9,
-				visibility: 'hidden',
 
 				[theme.mediaQueries.maxMobile]: {
 					opacity: showMenu ? 0.4 : 0,
-					visibility: showMenu ? 'visible' : 'hidden',
-					transition: showMenu ? `opacity 300ms ${theme.animation.default}` : 'none',
+					transition: `opacity 300ms ${theme.animation.default}`,
 					pointerEvents: showMenu ? 'auto' : 'none',
 				},
 			})}

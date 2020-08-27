@@ -64,7 +64,7 @@ export const Navigation = () => {
 			<MobileSidebar show={showMenu}>
 				<DefaultNavigation
 					closeMenuOnInteraction={closeMenuOnInteraction}
-					collapsedSidebar={collapsedSidebar}
+					collapsedSidebar={false}
 					showLogin={showLogin}
 					updateResponsive={updateResponsive}
 				/>
