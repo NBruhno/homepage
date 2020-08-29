@@ -1,4 +1,3 @@
-import { useTheme } from 'emotion-theming'
 import { transparentize } from 'polished'
 import { css } from '@emotion/core'
 
@@ -23,63 +22,55 @@ const defaultCss = (theme: Theme, collapsed: boolean) => css({
 	},
 })
 
-export const DesktopSidebar = ({ collapsed, ...rest }: Props) => {
-	const theme = useTheme<Theme>()
+export const DesktopSidebar = ({ collapsed, ...rest }: Props) => (
+	<nav
+		css={(theme: Theme) => ([
+			defaultCss(theme, collapsed),
+			{
+				[theme.mediaQueries.minMobile]: {
+					display: 'flex',
+					height: '100vh',
+					opacity: 1,
+					position: 'sticky',
+					top: 0,
+					transition: `width 300ms ${theme.animation.default}`,
+					visibility: 'visible',
+					width: collapsed ? '70px' : '250px',
 
-	return (
-		<nav
-			css={[
-				defaultCss(theme, collapsed),
-				{
-					[theme.mediaQueries.minMobile]: {
-						display: 'flex',
-						height: '100vh',
-						opacity: 1,
-						position: 'sticky',
-						top: 0,
-						transition: `width 300ms ${theme.animation.default}`,
-						visibility: 'visible',
-						width: collapsed ? '70px' : '250px',
-
-						'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
-							backdropFilter: 'none',
-							backgroundColor: transparentize(1, theme.color.background),
-						},
+					'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
+						backdropFilter: 'none',
+						backgroundColor: transparentize(1, theme.color.background),
 					},
 				},
-			]}
-			{...rest}
-		/>
-	)
-}
+			},
+		])}
+		{...rest}
+	/>
+)
 
-export const MobileSidebar = ({ show, ...rest }: Props & { show: boolean }) => {
-	const theme = useTheme<Theme>()
+export const MobileSidebar = ({ show, ...rest }: Props & { show: boolean }) => (
+	<nav
+		css={(theme: Theme) => ([
+			defaultCss(theme, !show),
+			{
+				[theme.mediaQueries.maxMobile]: {
+					display: 'flex',
+					height: 'calc(100vh - 53px)',
+					opacity: 1,
+					position: 'fixed',
+					top: '54px',
+					transform: show ? 'none' : 'translate(-251px)',
+					transition: `transform 300ms ${theme.animation.default}`,
+					visibility: 'visible',
+					width: '250px',
 
-	return (
-		<nav
-			css={[
-				defaultCss(theme, !show),
-				{
-					[theme.mediaQueries.maxMobile]: {
-						display: 'flex',
-						height: 'calc(100vh - 53px)',
-						opacity: 1,
-						position: 'fixed',
-						top: '54px',
-						transform: show ? 'none' : 'translate(-251px)',
-						transition: `transform 300ms ${theme.animation.default}`,
-						visibility: 'visible',
-						width: '250px',
-
-						'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
-							backdropFilter: 'saturate(150%) blur(5px)',
-							backgroundColor: transparentize(0.2, theme.color.background),
-						},
+					'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
+						backdropFilter: 'saturate(150%) blur(5px)',
+						backgroundColor: transparentize(0.2, theme.color.background),
 					},
 				},
-			]}
-			{...rest}
-		/>
-	)
-}
+			},
+		])}
+		{...rest}
+	/>
+)
