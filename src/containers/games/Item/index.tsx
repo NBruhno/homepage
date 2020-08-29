@@ -28,7 +28,7 @@ export const Item = ({ id, name, releaseDate, index = 0, cover, following, isLoa
 
 	return (
 		<Link href='/games/[id]' as={`/games/${id}`} passHref>
-			<Container>
+			<Container isLoading={isLoading}>
 				<Cover coverUrl={cover} size='small' />
 				<div css={{ padding: '12px' }}>
 					<Title>

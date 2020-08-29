@@ -1,4 +1,3 @@
-import { useTheme } from 'emotion-theming'
 import { css } from '@emotion/core'
 
 export enum Location {
@@ -16,8 +15,6 @@ type Props = {
 } & React.ComponentProps<'div'>
 
 export const Tooltip = ({ tip, show = true, location = Location.Top, children, ...rest }: Props) => {
-	const theme = useTheme<Theme>()
-
 	const getLeft = () => {
 		switch (location) {
 			case Location.Top:
@@ -54,7 +51,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 		}
 	}
 
-	const getBorderColor = () => {
+	const getBorderColor = (theme: Theme) => {
 		switch (location) {
 			case Location.Top: return `${theme.color.inputBackgroundHover} transparent transparent transparent`
 			case Location.Bottom: return `transparent transparent ${theme.color.inputBackgroundHover} transparent`
@@ -107,7 +104,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 		<div id='tooltip-wrapper' css={{ position: 'relative', display: 'inline-block' }} {...rest}>
 			{show && (
 				<div
-					css={[sharedStyles, {
+					css={(theme: Theme) => ([sharedStyles, {
 						padding: '10px 18px',
 						minWidth: '50px',
 						maxWidth: '300px',
@@ -127,7 +124,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 							visibility: 'visible',
 							opacity: 1,
 						},
-					}]}
+					}])}
 				>
 					{tip}
 				</div>
@@ -135,10 +132,10 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 			{children}
 			{show && (
 				<div
-					css={[sharedStyles, {
+					css={(theme: Theme) => ([sharedStyles, {
 						borderStyle: 'solid',
 						borderWidth: getBorderWidth(),
-						borderColor: getBorderColor(),
+						borderColor: getBorderColor(theme),
 						transitionDuration: '0s',
 						transformOrigin: getTransformOrigin(),
 						transform: `${getAfterTranslate()} ${getAfterScale(0)}`,
@@ -150,7 +147,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 							transitionDuration: '0.2s',
 							transform: `${getAfterTranslate()} ${getAfterScale(1)}`,
 						},
-					}]}
+					}])}
 				/>
 			)}
 		</div>
