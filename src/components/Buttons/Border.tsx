@@ -10,9 +10,9 @@ export const Border = (props: AsyncProps) => (
 			color: theme.color.text,
 
 			'&:disabled': {
-				color: theme.color.grayLight,
+				color: theme.color.gray040,
 				backgroundColor: 'transparent',
-				border: `1px solid ${theme.color.gray}`,
+				border: `1px solid ${theme.color.gray040}`,
 			},
 
 			'&:hover:enabled': {

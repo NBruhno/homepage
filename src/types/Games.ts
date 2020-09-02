@@ -29,6 +29,15 @@ export type ReleaseDate = {
 	platform: Platform,
 }
 
+export enum Status {
+	Released = 'Released',
+	Alpha = 'Alpha',
+	Beta = 'Beta',
+	EarlyAccess = 'Early access',
+	Offline = 'Offline',
+	Rumored = 'Rumored',
+}
+
 export type Game = {
 	following: boolean,
 	cover: string | null,
@@ -45,12 +54,13 @@ export type Game = {
 	releaseDate: number | null,
 	releaseDates: Array<ReleaseDate> | null,
 	screenshot: string | null,
+	status: Status | null,
 	storyline: string,
 	summary: string,
 	supporting: Company,
 }
 
-export type SimpleGame = Pick<Game, 'id' | 'cover' | 'name' | 'releaseDate' | 'following'>
+export type SimpleGame = Pick<Game, 'id' | 'cover' | 'name' | 'releaseDate' | 'status' | 'following'>
 
 export type FaunaGame = {
 	ref: string,

@@ -29,6 +29,16 @@ export enum GameCategory {
 	Episode = 6,
 }
 
+export enum GameStatus {
+	Released = 0,
+	Alpha = 2,
+	Beta = 3,
+	EarlyAccess = 4,
+	Offline = 5,
+	Cancelled = 6,
+	Rumored = 7,
+}
+
 export type Image = {
 	alpha_channel?: boolean,
 	animated?: boolean,
@@ -97,6 +107,7 @@ export type Game = {
 	release_dates?: Array<ReleaseDate>,
 	screenshots: Array<Image>,
 	slug: string,
+	status: GameStatus,
 	storyline?: string,
 	summary?: string,
 	aggregated_rating?: number,

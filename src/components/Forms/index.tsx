@@ -23,7 +23,7 @@ type Props = {
 	initialValues?: object,
 	persistState?: string | boolean,
 	persistStateOnSubmit?: boolean,
-	destroyStateOnUnmount?: boolean,
+	destroyStateOnUnMount?: boolean,
 	renderFormOnStateUpdate?: boolean,
 	resetFormOnSubmitSuccess?: boolean,
 	onSubmit: (values: any, form: FormApi<any>) => void | SubmissionErrors | Promise<any>,
@@ -31,7 +31,7 @@ type Props = {
 
 export const Form = ({
 	form: formName, onSubmit, initialValues, children, persistState, persistStateOnSubmit,
-	renderFormOnStateUpdate, destroyStateOnUnmount, resetFormOnSubmitSuccess, ...props
+	renderFormOnStateUpdate, destroyStateOnUnMount, resetFormOnSubmitSuccess, ...props
 }: Props) => {
 	const [initialStateValues, setInitialStateValues] = useState(null)
 	const [formsState, setFormsState] = useGlobalState('forms')
@@ -45,9 +45,9 @@ export const Form = ({
 			setInitialStateValues(formState)
 		}
 
-		// Reset the form state if destroyStateOnUnmount is set
+		// Reset the form state if destroyStateOnUnMount is set
 		return () => {
-			if (destroyStateOnUnmount && formState) {
+			if (destroyStateOnUnMount && formState) {
 				setFormsState({ ...formsState, [formName]: null })
 			}
 		}
