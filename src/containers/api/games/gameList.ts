@@ -9,17 +9,18 @@ import type { SimpleGame } from 'types/Games'
 import { ApiError } from '../errors/ApiError'
 import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
-import { igdbFetcher, igdbImageUrl } from '../igdb'
+import { igdbFetcher, igdbImageUrl, mapStatus } from '../igdb'
 
 const mapGames = (games: Array<IGDBGame>, followedGames: Array<string>) => {
 	if (games.length > 0) {
-		const mappedGames = games.map<SimpleGame>((game: IGDBGame) => {
+		const mappedGames = games.map<SimpleGame>((game) => {
 			const following = followedGames?.includes(game.slug) ?? false
 			return ({
 				cover: game.cover?.image_id ? `${igdbImageUrl}/t_cover_small_2x/${game.cover.image_id}.jpg` : null,
 				id: game.slug ?? null,
 				name: game.name ?? null,
 				releaseDate: game.first_release_date * 1000 ?? null,
+				status: mapStatus(game.status),
 				following,
 			})
 		})
@@ -35,7 +36,7 @@ export const gameList = async (req: NextApiRequest, res: NextApiResponse) => {
 	const token = authenticate(req, res, { optional: true })
 	switch (method) {
 		case 'POST': {
-			const commonFields = 'fields name, release_dates, cover.image_id, first_release_date, slug;'
+			const commonFields = 'fields name, release_dates, cover.image_id, first_release_date, slug, status;'
 			let following = [] as Array<string>
 			let mappedGames = null as Array<SimpleGame>
 			let mappedGamesFollowed = null as Array<SimpleGame>

@@ -17,6 +17,7 @@ import { BackgroundWrapper } from './Header/BackgroundWrapper'
 import { Developer } from './Header/Developer'
 import { ReleaseDate } from './Header/ReleaseDate'
 import { Title } from './Header/Title'
+import { TitleWrapper } from './Header/TitleWrapper'
 
 import { MainContent } from './MainContent'
 import { Wrapper } from './Wrapper'
@@ -59,29 +60,36 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 							/>
 						</Tooltip>
 					</div>
-					<div>
-						<Title>
-							<Placeholder isLoading={isLoading} width='55%'>
-								{game?.name ?? 'Loading'}
-							</Placeholder>
-						</Title>
-						<ReleaseDate>
-							<Placeholder isLoading={isLoading} width='30%'>
-								{dateOrYear(game?.releaseDate)}
-							</Placeholder>
-						</ReleaseDate>
-						<Developer>
-							<Placeholder isLoading={isLoading} width='25%'>
-								By {game?.developer?.name}
-							</Placeholder>
-						</Developer>
-					</div>
+					<TitleWrapper>
+						<div>
+							<Title>
+								<Placeholder isLoading={isLoading} width='55%'>
+									{game?.name ?? 'Loading'}
+								</Placeholder>
+							</Title>
+							<ReleaseDate>
+								<Placeholder isLoading={isLoading} width='30%'>
+									{dateOrYear(game?.releaseDate)}
+								</Placeholder>
+							</ReleaseDate>
+							<Developer>
+								<Placeholder isLoading={isLoading} width='25%'>
+									By {game?.developer?.name}
+								</Placeholder>
+							</Developer>
+						</div>
+						{groupedReleaseDates?.map(({ date, platforms }) => (
+							<div key={date}>
+								<p>{dateOrYear(date)}: {platforms.join(', ')}</p>
+							</div>
+						))}
+					</TitleWrapper>
 				</div>
 				{game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
 				{game?.platforms?.length > 0 && <p>Platforms: {game?.platforms.map(({ name }) => name).join(', ')}</p>}
-				{game?.summary && <h3>Summary</h3>}
+				{game?.summary && <h2>Summary</h2>}
 				{game?.summary && <p>{game?.summary}</p>}
-				{groupedReleaseDates?.length > 0 && <h3>Later release dates:</h3>}
+				{groupedReleaseDates?.length > 0 && <h2>Later release dates:</h2>}
 				{groupedReleaseDates?.map(({ date, platforms }) => (
 					<div key={date}>
 						<p>{dateOrYear(date)}: {platforms.join(', ')}</p>

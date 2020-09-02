@@ -14,8 +14,8 @@ export const Solid = ({ color, backgroundColor, ...rest }: Props) => (
 			color: color ? theme.color.textInverted : theme.color.black,
 
 			'&:disabled': {
-				color: theme.color.grayLight,
-				backgroundColor: theme.color.gray,
+				color: theme.color.gray040,
+				backgroundColor: theme.color.gray020,
 			},
 
 			'&:hover:enabled': {

@@ -2,6 +2,9 @@ import { NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
+import { GameStatus } from 'types/IGDB'
+import { Status } from 'types/Games'
+
 import { ApiError } from './errors/ApiError'
 
 type Options = {
@@ -30,3 +33,15 @@ export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { b
 }
 
 export const igdbImageUrl = 'https://images.igdb.com/igdb/image/upload'
+
+export const mapStatus = (status: GameStatus): Status | null => {
+	switch (status) {
+		case GameStatus.Released: return Status.Released
+		case GameStatus.Alpha: return Status.Alpha
+		case GameStatus.Beta: return Status.Beta
+		case GameStatus.EarlyAccess: return Status.EarlyAccess
+		case GameStatus.Offline: return Status.Offline
+		case GameStatus.Rumored: return Status.Rumored
+		default: return null
+	}
+}

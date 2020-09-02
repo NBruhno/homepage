@@ -5,6 +5,7 @@ export const Text = (props: React.ComponentProps<'span'>) => (
 			overflow: 'hidden',
 			textOverflow: 'ellipsis',
 			whiteSpace: 'nowrap',
+			color: 'currentColor',
 		}}
 		{...props}
 	/>

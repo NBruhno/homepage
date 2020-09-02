@@ -17,5 +17,5 @@ module.exports = {
 	testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/public/', '<rootDir>/.storybook/'],
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
 	moduleDirectories: ['node_modules', 'src'],
-	collectCoverage: true,
+	collectCoverage: false,
 }
