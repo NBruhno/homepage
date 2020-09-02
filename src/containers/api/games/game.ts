@@ -9,7 +9,7 @@ import type { Game as IGDBGame, Company } from 'types/IGDB'
 import { ApiError } from '../errors/ApiError'
 import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
-import { igdbFetcher, igdbImageUrl } from '../igdb'
+import { igdbFetcher, igdbImageUrl, mapStatus } from '../igdb'
 
 const resolveCompany = (involvedCompany: Company) => {
 	if (!involvedCompany) return null
@@ -20,7 +20,7 @@ const resolveCompany = (involvedCompany: Company) => {
 
 const root = [
 	'aggregated_rating_count', 'aggregated_rating', 'first_release_date',
-	'id', 'name', 'slug', 'storyline', 'summary',
+	'id', 'name', 'slug', 'storyline', 'summary', 'status',
 ]
 const companies = [
 	'involved_companies.company.description', 'involved_companies.company.logo.alpha_channel', 'involved_companies.company.logo.image_id',
@@ -72,8 +72,9 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 
 			const {
 				slug, aggregated_rating, aggregated_rating_count, genres, storyline, summary, involved_companies,
-				name, platforms, first_release_date, release_dates, game_engines, screenshots, cover,
+				name, platforms, first_release_date, release_dates, game_engines, screenshots, cover, status,
 			} = igdbGame
+
 			const screenshotUrls = screenshots?.length > 0
 				? screenshots.map(({ image_id }: { width: number, image_id: string }) => `${igdbImageUrl}/t_screenshot_med/${image_id}.jpg`).filter(Boolean)
 				: []
@@ -95,6 +96,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 				rating: aggregated_rating,
 				ratingCount: aggregated_rating_count,
 				screenshot: sample(screenshotUrls),
+				status: mapStatus(status),
 				supporting: resolveCompany(involved_companies?.find(({ supporting }) => supporting)),
 				genres: genres ? genres.map(({ name }) => name) : [],
 				platforms: platforms?.map(({ platform_logo, abbreviation, name }) => ({

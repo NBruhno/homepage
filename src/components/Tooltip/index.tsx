@@ -89,7 +89,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 
 	const sharedStyles = css({
 		position: 'absolute',
-		zIndex: 4,
+		zIndex: 10,
 		visibility: 'hidden',
 		opacity: 0,
 		left: getLeft(),

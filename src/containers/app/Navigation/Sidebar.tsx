@@ -37,7 +37,7 @@ export const DesktopSidebar = ({ collapsed, ...rest }: Props) => (
 					visibility: 'visible',
 					width: collapsed ? '70px' : '250px',
 
-					'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
+					'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
 						backdropFilter: 'none',
 						backgroundColor: transparentize(1, theme.color.background),
 					},
@@ -64,9 +64,9 @@ export const MobileSidebar = ({ show, ...rest }: Props & { show: boolean }) => (
 					visibility: 'visible',
 					width: '250px',
 
-					'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
+					'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
 						backdropFilter: 'saturate(150%) blur(5px)',
-						backgroundColor: transparentize(0.2, theme.color.background),
+						backgroundColor: transparentize(0.1, theme.color.background),
 					},
 				},
 			},

@@ -11,7 +11,7 @@ export const Icon = (props: AsyncProps) => (
 			padding: '5px 8px',
 
 			'&:disabled': {
-				color: theme.color.grayLight,
+				color: theme.color.gray040,
 			},
 
 			'&:hover:enabled, &:focus:enabled': {

@@ -162,7 +162,7 @@ module.exports = {
 
 		'react/prefer-stateless-function': 'off',
 		'react/sort-comp': 'off',
-		'react/jsx-filename-extension': 'off',
+		'react/jsx-filename-extension': ['error', { extensions: ['.tsx', '.mdx'] }],
 		'react/no-array-index-key': 'off',
 		'react/jsx-one-expression-per-line': 'off',
 		'react/destructuring-assignment': 'off',

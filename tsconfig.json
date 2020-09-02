@@ -1,5 +1,5 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
@@ -37,9 +37,12 @@
     "**/*.spec.tsx",
   ],
   "include": [
+    "mdx.d.ts",
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
+    "**/*.mdx",
     "**/.*.tsx",
+    "**/.*.mdx",
   ]
 }

@@ -1,18 +1,46 @@
+import { GitHubIcon, GitLabIcon, EmailIcon, LinkedInIcon } from 'components/Icons'
+import { Tooltip } from 'components/Tooltip'
+
 import { Container } from './Container'
+import { SocialList } from './SocialList'
+import { ListItem } from './ListItem'
 import { Link } from './Link'
 
 export const Footer = (props: React.ComponentProps<'footer'>) => (
 	<Container {...props}>
-		<Link href='mailto: mail@bruhno.com'>Email</Link>
-		<span css={{ opacity: 0.7 }}> • </span>
-		<Link href='https://www.linkedin.com/in/bruhno'>LinkedIn</Link>
-		<span css={{ opacity: 0.7 }}> • </span>
-		<Link href='https://github.com/NBruhno'>GitHub</Link>
-		<span css={{ opacity: 0.7 }}> • </span>
-		<Link href='https://gitlab.com/Bruhno'>GitLab</Link>
+		<SocialList>
+			<ListItem>
+				<Tooltip tip='mail@bruhno.com'>
+					<Link href='mailto:mail@bruhno.com'>
+						<EmailIcon size={22} />
+					</Link>
+				</Tooltip>
+			</ListItem>
+			<ListItem>
+				<Tooltip tip='linkedin.com/in/bruhno'>
+					<Link href='https://www.linkedin.com/in/bruhno'>
+						<LinkedInIcon size={22} />
+					</Link>
+				</Tooltip>
+			</ListItem>
+			<ListItem>
+				<Tooltip tip='github.com/NBruhno'>
+					<Link href='https://github.com/NBruhno'>
+						<GitHubIcon size={22} />
+					</Link>
+				</Tooltip>
+			</ListItem>
+			<ListItem>
+				<Tooltip tip='gitlab.com/Bruhno'>
+					<Link href='https://gitlab.com/Bruhno'>
+						<GitLabIcon size={22} />
+					</Link>
+				</Tooltip>
+			</ListItem>
+		</SocialList>
 		<div css={{ opacity: 0.7 }}>
 			<small>
-				© 2010-{new Date().toLocaleString('en-DK', { year: 'numeric' })} Bruhno, All rights reserved.
+				Copyright © 2010 Bruhno. All rights reserved.
 			</small>
 		</div>
 	</Container>

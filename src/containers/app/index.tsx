@@ -5,6 +5,7 @@ import { GlobalStyling } from 'styles/global'
 import { theme as siteTheme } from 'styles/theme'
 
 import { useDarkMode } from 'states/darkMode'
+import { useRefresh } from 'states/refresh'
 
 import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 
@@ -21,6 +22,7 @@ type Props = {
 export const App = ({ children }: Props) => {
 	const [browserIsNotSupported, setBrowserIsNotSupported] = useState(false)
 	const { globalTheme } = useDarkMode()
+	useRefresh()
 
 	useIsomorphicLayoutEffect(() => {
 		setBrowserIsNotSupported(/Trident\/|MSIE/.test(window.navigator.userAgent))

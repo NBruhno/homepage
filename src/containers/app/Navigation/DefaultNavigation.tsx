@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useAuth } from 'states/auth'
-import { useRefresh } from 'states/refresh'
 
 import { LoginIcon, PencilRulerIcon, TestTubeIcon, ControllerIcon, AccountIcon, LogoutIcon, InfoIcon, ToolsIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
@@ -35,9 +34,8 @@ type Props = {
 }
 
 export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar, updateResponsive, showLogin }: Props) => {
-	const { logout } = useAuth()
+	const { user, logout } = useAuth()
 	const { pathname } = useRouter()
-	const { user } = useRefresh()
 
 	return (
 		<Content css={{ paddingTop: '12px' }}>

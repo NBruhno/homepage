@@ -1,4 +1,8 @@
-import { mdiAlertCircle, mdiWindowClose, mdiThemeLightDark, mdiLogin, mdiPencilRuler, mdiTestTube, mdiGhost, mdiAccount, mdiAccountOff, mdiMenu, mdiLogout, mdiInformation, mdiGoogleController, mdiTools } from '@mdi/js'
+import {
+	mdiAlertCircle, mdiWindowClose, mdiThemeLightDark, mdiLogin, mdiPencilRuler, mdiTestTube, mdiGhost,
+	mdiAccount, mdiAccountOff, mdiMenu, mdiLogout, mdiInformation, mdiGoogleController, mdiTools, mdiGithub,
+	mdiGitlab, mdiLinkedin, mdiEmail,
+} from '@mdi/js'
 
 type Props = {
 	x?: number,
@@ -119,5 +123,33 @@ export const ToolsIcon = (props: Props) => (
 	<Svg {...props}>
 		<path fill='currentColor' d={mdiTools} />
 		<title>Projects</title>
+	</Svg>
+)
+
+export const GitHubIcon = (props: Props) => (
+	<Svg {...props}>
+		<path fill='currentColor' d={mdiGithub} />
+		<title>GitHub</title>
+	</Svg>
+)
+
+export const GitLabIcon = (props: Props) => (
+	<Svg {...props}>
+		<path fill='currentColor' d={mdiGitlab} />
+		<title>GitLab</title>
+	</Svg>
+)
+
+export const LinkedInIcon = (props: Props) => (
+	<Svg {...props}>
+		<path fill='currentColor' d={mdiLinkedin} />
+		<title>LinkedIn</title>
+	</Svg>
+)
+
+export const EmailIcon = (props: Props) => (
+	<Svg {...props}>
+		<path fill='currentColor' d={mdiEmail} />
+		<title>Email</title>
 	</Svg>
 )
