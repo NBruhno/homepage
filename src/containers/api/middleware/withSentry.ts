@@ -11,6 +11,13 @@ if (config.sentry.dsn) {
 }
 
 export const withSentry = (apiHandler: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
+<<<<<<< Updated upstream
+=======
+	const transaction = startTransaction({
+		name: `${req.method} - ${req.url}`,
+	})
+
+>>>>>>> Stashed changes
 	try {
 		return await apiHandler(req, res)
 	} catch (error) {

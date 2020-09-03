@@ -5,7 +5,7 @@
   "author": "Nicolai Bruhn Lauritsen <mail@bruhno.com> (https://bruhno.dev)",
   "license": "MIT",
   "private": false,
-  "version": "2.3.1",
+  "version": "2.3.2",
   "engines": {
     "node": "^12"
   },
