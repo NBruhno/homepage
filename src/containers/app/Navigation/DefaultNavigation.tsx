@@ -55,6 +55,7 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar, up
 				<ButtonTextStyled onClick={() => {
 					window.scrollTo(0, 0)
 					updateResponsive({ showLogin: !showLogin })
+					closeMenuOnInteraction()
 				}}
 				>
 					<LoginIcon css={{ marginRight: '6px' }} />Login
