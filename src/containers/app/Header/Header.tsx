@@ -19,7 +19,7 @@ export const Header = (props: React.ComponentProps<'header'>) => {
 				position: 'sticky',
 				top: 0,
 				transition: !theme.darkTheme && scrollY > 10 ? `box-shadow 300ms ${theme.animation.default}` : 'none',
-				zIndex: 5,
+				zIndex: 10,
 
 				'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
 					backdropFilter: 'saturate(150%) blur(5px)',
