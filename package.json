@@ -5,7 +5,7 @@
   "author": "Nicolai Bruhn Lauritsen <mail@bruhno.com> (https://bruhno.dev)",
   "license": "MIT",
   "private": false,
-  "version": "2.3.3",
+  "version": "2.3.4",
   "engines": {
     "node": "^12"
   },
@@ -57,7 +57,7 @@
     "ts-custom-error": "3.2.0"
   },
   "devDependencies": {
-    "@babel/core": "7.11.5",
+    "@babel/core": "7.11.6",
     "@emotion/babel-preset-css-prop": "10.0.27",
     "@next/bundle-analyzer": "9.5.3",
     "@storybook/addon-actions": "6.0.21",
@@ -68,7 +68,7 @@
     "@storybook/addons": "6.0.21",
     "@storybook/react": "6.0.21",
     "@storybook/theming": "6.0.21",
-    "@testing-library/react": "11.0.1",
+    "@testing-library/react": "11.0.2",
     "@types/cookie": "0.4.0",
     "@types/jest": "26.0.13",
     "@types/lodash-es": "4.17.3",
