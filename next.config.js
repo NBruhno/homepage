@@ -8,6 +8,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const withTranspileModules = require('next-transpile-modules')(['lodash-es'])
 
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
+const packageJson = require('./package.json')
 
 const {
 	NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
@@ -69,7 +70,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 					ignore: ['node_modules'],
 					stripPrefix: ['webpack://_N_E/'],
 					urlPrefix: `~${basePath}/_next`,
-					release: COMMIT_SHA,
+					release: packageJson.version || COMMIT_SHA,
 				}),
 			)
 		}
