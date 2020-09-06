@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 
 import { parseJson, parseHeaders, expectStatusCode, accessTokenMatch, refreshTokenMatch, testingCredentials, expectSpecificObject } from 'test/utils'
@@ -9,9 +10,9 @@ import { login } from './login'
 
 let refreshToken = null as string
 
-describe('/api/auth/refresh', () => {
+describe('/api/users/refresh', () => {
 	beforeAll(async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				email: 'mail+test@bruhno.dev',
@@ -20,11 +21,12 @@ describe('/api/auth/refresh', () => {
 		})
 
 		await login(req, res)
+		// @ts-expect-error it does not return a string[] in this case
 		refreshToken = parseHeaders(res)['set-cookie']
 	})
 
 	test('GET › Refresh token', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			cookies: {
 				refreshToken: refreshToken.split('refreshToken=')[1].split(';')[0],
@@ -38,7 +40,7 @@ describe('/api/auth/refresh', () => {
 	})
 
 	test('GET › Unauthorized', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 		})
 
@@ -48,7 +50,7 @@ describe('/api/auth/refresh', () => {
 	})
 
 	test('Invalid method', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 		})
 

@@ -9,8 +9,15 @@ import { authenticate, setRefreshCookie } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { getJwtToken } from '../getJwtToken'
 
-export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { method, body: { secret, otp } } = req
+interface Request extends NextApiRequest {
+	body: {
+		otp: string,
+		secret: string,
+	}
+}
+
+export const twoFactorAuthentication = async (req: Request, res: NextApiResponse, userId: string) => {
+	const { method } = req
 
 	switch (method) {
 		case 'GET': {
@@ -22,7 +29,8 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 		}
 
 		case 'PATCH': {
-			const token = authenticate(req, res)
+			const { body: { secret, otp } } = req
+			const { secret: tokenSecret } = authenticate(req, res)
 
 			if (!secret || !otp) {
 				const error = ApiError.fromCode(400)
@@ -36,8 +44,8 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 				throw error
 			}
 
-			await faunaClient(token.secret).query(
-				q.Update(q.Select(['ref'], q.Get(q.Identity())), {
+			await faunaClient(tokenSecret).query(
+				q.Update(q.Ref(q.Collection('users'), userId), {
 					data: { twoFactorSecret: secret },
 				}),
 			)
@@ -50,7 +58,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 			const token = authenticate(req, res)
 
 			await faunaClient(token.secret).query(
-				q.Update(q.Select(['ref'], q.Get(q.Identity())), {
+				q.Update(q.Ref(q.Collection('users'), userId), {
 					data: { twoFactorSecret: null },
 				}),
 			)
@@ -60,7 +68,8 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 		}
 
 		case 'POST': {
-			const token = authenticate(req, res, { type: TokenTypes.Intermediate })
+			const { body: { otp } } = req
+			const { secret, sub, displayName, role, userId } = authenticate(req, res, { type: TokenTypes.Intermediate })
 
 			if (!otp) {
 				const error = ApiError.fromCode(400)
@@ -68,7 +77,7 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 				throw error
 			}
 
-			const user: { data: Record<string, any> } = await faunaClient(token.secret).query(
+			const user: { data: Record<string, any> } = await faunaClient(secret).query(
 				q.Get(q.Identity()),
 			)
 
@@ -78,8 +87,8 @@ export const twoFactorAuthentication = async (req: NextApiRequest, res: NextApiR
 				throw error
 			}
 
-			const accessToken = getJwtToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role })
-			const refreshToken = getJwtToken(token.secret, { sub: token.sub, displayName: token.displayName, role: token.role }, TokenTypes.Refresh)
+			const accessToken = getJwtToken(secret, { sub, displayName, role, userId })
+			const refreshToken = getJwtToken(secret, { sub, displayName, role, userId }, TokenTypes.Refresh)
 
 			setRefreshCookie(res, refreshToken)
 

@@ -9,7 +9,15 @@ import { getJwtToken } from '../getJwtToken'
 import { serverClient } from '../faunaClient'
 import { setRefreshCookie } from '../middleware'
 
-export const register = async (req: NextApiRequest, res: NextApiResponse) => {
+interface Request extends NextApiRequest {
+	body: {
+		email: string,
+		password: string,
+		displayName: string,
+	}
+}
+
+export const users = async (req: Request, res: NextApiResponse) => {
 	const { method, body: { email, password, displayName } } = req
 
 	switch (method) {
@@ -20,7 +28,7 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 				throw error
 			}
 
-			const user = await serverClient.query<User>(
+			const { ref } = await serverClient.query<User>(
 				q.Create(q.Collection('users'), {
 					credentials: { password },
 					data: { email, role: 'user', twoFactorSecret: null, displayName },
@@ -35,19 +43,21 @@ export const register = async (req: NextApiRequest, res: NextApiResponse) => {
 				if (error instanceof errors.BadRequest) {
 					const apiError = ApiError.fromCode(400)
 					res.status(apiError.statusCode).json({ error: 'Email is already in use' })
-					return null
-				} else throw error
+					throw apiError
+				}
+				throw error
 			})
-			if (!user) break
 
 			const loginRes: { secret: string } = await serverClient.query(
-				q.Login(user.ref, {
+				q.Login(ref, {
 					password,
 				}),
 			)
 
-			const accessToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user' })
-			const refreshToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user' }, TokenTypes.Refresh)
+			const userId = ref.toString().split(',')[1].replace(/[") ]/gi, '')
+
+			const accessToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user', userId })
+			const refreshToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user', userId }, TokenTypes.Refresh)
 
 			setRefreshCookie(res, refreshToken)
 

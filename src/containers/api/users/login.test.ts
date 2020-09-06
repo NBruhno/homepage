@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 
 import { testingCredentials, parseJson, parseHeaders, expectStatusCode, expectSpecificObject, accessTokenMatch, intermediateTokenMatch, refreshTokenMatch } from 'test/utils'
@@ -6,9 +7,9 @@ import { ApiError } from '../errors/ApiError'
 
 import { login } from './login'
 
-describe('/api/auth/login', () => {
+describe('/api/users/login', () => {
 	test('POST › Successful login', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				email: 'mail+test@bruhno.dev',
@@ -23,7 +24,7 @@ describe('/api/auth/login', () => {
 	})
 
 	test('POST › Successful 2FA login', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				email: 'mail+test2fa@bruhno.dev',
@@ -37,7 +38,7 @@ describe('/api/auth/login', () => {
 	})
 
 	test('POST › Invalid login', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				email: 'something',
@@ -51,7 +52,7 @@ describe('/api/auth/login', () => {
 	})
 
 	test('POST › Invalid body', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 		})
 
@@ -61,7 +62,7 @@ describe('/api/auth/login', () => {
 	})
 
 	test('Invalid method', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 		})
 

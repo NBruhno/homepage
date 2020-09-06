@@ -1,3 +1,4 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 import { errors } from 'faunadb'
 
@@ -9,9 +10,9 @@ import { logout } from './logout'
 import { login } from './login'
 
 let accessToken = null as string
-describe('/api/auth/logout', () => {
+describe('/api/users/logout', () => {
 	beforeAll(async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				email: 'mail+test@bruhno.dev',
@@ -24,7 +25,7 @@ describe('/api/auth/logout', () => {
 	})
 
 	test('POST › Logout', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			headers: {
 				authorization: `Bearer ${accessToken}`,
@@ -37,7 +38,7 @@ describe('/api/auth/logout', () => {
 	})
 
 	test('POST › Logout already logged out session', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			headers: {
 				authorization: `Bearer ${accessToken}`,
@@ -50,7 +51,7 @@ describe('/api/auth/logout', () => {
 	})
 
 	test('POST › Unauthorized', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 		})
 
@@ -60,7 +61,7 @@ describe('/api/auth/logout', () => {
 	})
 
 	test('Invalid method', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 		})
 

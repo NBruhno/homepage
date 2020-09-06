@@ -1,17 +1,23 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 
-import { parseJson, parseHeaders, testingCredentials, expectStatusCode, expectSpecificObject, accessTokenMatch, refreshTokenMatch } from 'test/utils'
+import {
+	parseJson, parseHeaders, testingCredentials, expectStatusCode, expectSpecificObject, accessTokenMatch,
+	refreshTokenMatch,
+} from 'test/utils'
+
 import { logger } from 'lib/logger'
+import { decodeJwtToken } from 'lib/decodeJwtToken'
 
 import { ApiError } from '../errors/ApiError'
 
-import { deleteUser } from './delete'
+import { user } from './user'
 import { login } from './login'
-import { register } from './register'
+import { users } from './users'
 
-describe('/api/auth/register', () => {
+describe('/api/users', () => {
 	beforeAll(async () => {
-		const { req: loginReq, res: loginRes } = createMocks({
+		const { req: loginReq, res: loginRes } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				email: 'mail+testregister@bruhno.dev',
@@ -20,8 +26,9 @@ describe('/api/auth/register', () => {
 		})
 
 		await login(loginReq, loginRes).then(async () => {
-			const { req: deleteReq, res: deleteRes } = createMocks({
-				method: 'POST',
+			const { userId } = decodeJwtToken(parseJson(loginRes).accessToken)
+			const { req: deleteReq, res: deleteRes } = createMocks<NextApiRequest, NextApiResponse>({
+				method: 'DELETE',
 				headers: {
 					authorization: `Bearer ${parseJson(loginRes).accessToken}`,
 				},
@@ -31,12 +38,12 @@ describe('/api/auth/register', () => {
 				},
 			})
 
-			await deleteUser(deleteReq, deleteRes).catch((error) => logger.debug(error))
+			await user(deleteReq, deleteRes, userId).catch((error: unknown) => logger.debug(error))
 		}).catch((error) => logger.debug(error))
 	})
 
 	test('POST › Register successfully', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				email: 'mail+testregister@bruhno.dev',
@@ -45,14 +52,14 @@ describe('/api/auth/register', () => {
 			},
 		})
 
-		await register(req, res)
+		await users(req, res)
 		expectStatusCode(res, 200)
 		expect(parseJson(res).accessToken).toMatch(accessTokenMatch)
 		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
 	})
 
 	test('POST › Register already existing email', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				email: 'mail+test@bruhno.dev',
@@ -61,27 +68,27 @@ describe('/api/auth/register', () => {
 			},
 		})
 
-		await register(req, res)
+		await expect(users(req, res)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 		expectSpecificObject(res, { error: 'Email is already in use' })
 	})
 
 	test('POST › Invalid body', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 		})
 
-		await expect(register(req, res)).rejects.toThrow(ApiError)
+		await expect(users(req, res)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
 
 	test('Invalid method', async () => {
-		const { req, res } = createMocks({
-			method: 'GET',
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
+			method: 'TRACE',
 		})
 
-		await expect(register(req, res)).rejects.toThrow(ApiError)
+		await expect(users(req, res)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 		expectSpecificObject(res, { error: ApiError.fromCode(405).message })
 	})
