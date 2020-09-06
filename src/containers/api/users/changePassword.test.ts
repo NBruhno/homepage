@@ -1,15 +1,16 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 import { randomBytes } from 'crypto'
 
-import { testingToken, expectSpecificObject, expectStatusCode } from 'test/utils'
+import { testingToken, testingUserId, expectSpecificObject, expectStatusCode } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'
 
 import { changePassword } from './changePassword'
 
-describe('/api/auth/changePassword', () => {
+describe('/api/users/{userId}/changePassword', () => {
 	test('POST › Change password', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				newPassword: randomBytes(20).toString('hex'),
@@ -19,37 +20,37 @@ describe('/api/auth/changePassword', () => {
 			},
 		})
 
-		await changePassword(req, res)
+		await changePassword(req, res, testingUserId)
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Your password has been updated' })
 	})
 
 	test('POST › Invalid body', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			headers: {
 				authorization: `Bearer ${testingToken}`,
 			},
 		})
 
-		await expect(changePassword(req, res)).rejects.toThrow(ApiError)
+		await expect(changePassword(req, res, testingUserId)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 	})
 
 	test('POST   › Not authenticated', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {
 				newPassword: randomBytes(20).toString('hex'),
 			},
 		})
 
-		await expect(changePassword(req, res)).rejects.toThrow(ApiError)
+		await expect(changePassword(req, res, testingUserId)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 	})
 
 	test('Invalid method', async () => {
-		const { req, res } = createMocks({
+		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'GET',
 			body: {
 				newPassword: randomBytes(20).toString('hex'),
@@ -59,7 +60,7 @@ describe('/api/auth/changePassword', () => {
 			},
 		})
 
-		await expect(changePassword(req, res)).rejects.toThrow(ApiError)
+		await expect(changePassword(req, res, testingUserId)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 	})
 })

@@ -11,7 +11,6 @@ export type Token = {
 	displayName: string,
 	exp: number,
 	iat: number,
-	id: string,
 	iss: string,
 	nbf: number,
 	ref: string,
@@ -19,4 +18,5 @@ export type Token = {
 	secret: string,
 	sub: string,
 	typ: TokenTypes,
+	userId: string,
 }

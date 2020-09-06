@@ -18,7 +18,7 @@ export type Options = {
 	type?: TokenTypes,
 }
 
-const resolveError = (error: any, res: NextApiResponse) => {
+const resolveError = (error: unknown, res: NextApiResponse) => {
 	if (error instanceof errors.JOSEError) {
 		const apiError = ApiError.fromCode(401)
 		res.status(apiError.statusCode).json({ error: apiError.message })
@@ -49,7 +49,7 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse, { option
 		})
 
 		return { ...decodedToken, secret: decrypt(decodedToken.secret) }
-	} catch (error) {
+	} catch (error: unknown) {
 		if (!optional) {
 			resolveError(error, res)
 		}
