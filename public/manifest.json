@@ -11,6 +11,12 @@
   "lang": "en-DK",
   "icons": [
     {
+      "src": "icons/maskable-icon-1024x1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "icons/icon-2000x2000.png",
       "sizes": "2000x2000",
       "type": "image/png"
