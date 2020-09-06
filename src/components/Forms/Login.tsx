@@ -17,9 +17,26 @@ export const FormLogin = () => {
 				<Form form={currentFlow} onSubmit={async (fields) => { await login(fields) }}>
 					<Input label='Email' name='email' type='email' id={`${currentFlow}-email`} required autoComplete='email' />
 					<Input label='Password' name='password' type='password' id={`${currentFlow}-password`} required autoComplete='password' />
-					<div css={{ display: 'flex', justifyContent: 'space-between' }}>
-						<ButtonBorder label='I want to sign up' onClick={() => setCurrentFlow('register')} />
-						<ButtonSolid label='Login' submit />
+					<div css={(theme: Theme) => ({
+						display: 'flex',
+						justifyContent: 'space-between',
+
+						[theme.mediaQueries.maxMobile]: {
+							flexDirection: 'column-reverse',
+						},
+					})}
+					>
+						<ButtonBorder label='Sign up instead' onClick={() => setCurrentFlow('register')} />
+						<ButtonSolid
+							label='Login'
+							submit
+							css={(theme: Theme) => ({
+								[theme.mediaQueries.maxMobile]: {
+									width: '100%',
+									marginBottom: '12px',
+								},
+							})}
+						/>
 					</div>
 				</Form>
 			</>
@@ -31,9 +48,26 @@ export const FormLogin = () => {
 					<Input label='Email' name='email' type='email' id={`${currentFlow}-email`} required autoComplete='email' />
 					<Input label='Display name' name='displayName' id={`${currentFlow}-displayName`} required autoComplete='username' />
 					<Input label='Password' name='password' type='password' id={`${currentFlow}-password`} required autoComplete='password' />
-					<div css={{ display: 'flex', justifyContent: 'space-between' }}>
+					<div css={(theme: Theme) => ({
+						display: 'flex',
+						justifyContent: 'space-between',
+
+						[theme.mediaQueries.maxMobile]: {
+							flexDirection: 'column-reverse',
+						},
+					})}
+					>
 						<ButtonBorder label='Go back' onClick={() => setCurrentFlow('login')} />
-						<ButtonSolid label='Sign up' submit />
+						<ButtonSolid
+							label='Sign up'
+							submit
+							css={(theme: Theme) => ({
+								[theme.mediaQueries.maxMobile]: {
+									width: '100%',
+									marginBottom: '12px',
+								},
+							})}
+						/>
 					</div>
 				</Form>
 			</>
