@@ -11,12 +11,6 @@
   "lang": "en-DK",
   "icons": [
     {
-      "src": "icons/icon-12596x12596.png",
-      "sizes": "12596x12596",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
       "src": "icons/icon-2000x2000.png",
       "sizes": "2000x2000",
       "type": "image/png"
