@@ -9,7 +9,14 @@ import { getJwtToken } from '../getJwtToken'
 import { serverClient } from '../faunaClient'
 import { setRefreshCookie } from '../middleware'
 
-export const login = async (req: NextApiRequest, res: NextApiResponse) => {
+interface Request extends NextApiRequest {
+	body: {
+		email: string,
+		password: string,
+	}
+}
+
+export const login = async (req: Request, res: NextApiResponse) => {
 	const { method, body: { email, password } } = req
 
 	switch (method) {
@@ -20,7 +27,7 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 				throw error
 			}
 
-			const { data, secret } = await serverClient.query<User>(q.Merge(
+			const { data: { displayName, role, twoFactorSecret }, secret, ref } = await serverClient.query<User>(q.Merge(
 				q.Login(q.Match(q.Index('usersByEmail'), email), { password }),
 				q.Get(q.Match(q.Index('usersByEmail'), email)),
 			)).catch((error) => {
@@ -31,14 +38,16 @@ export const login = async (req: NextApiRequest, res: NextApiResponse) => {
 				} else throw error
 			})
 
-			if (data?.twoFactorSecret) {
-				const intermediateToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: data.role }, TokenTypes.Intermediate)
+			const userId = ref.toString().split(',')[1].replace(/[") ]/gi, '')
+
+			if (twoFactorSecret) {
+				const intermediateToken = getJwtToken(secret, { sub: email, displayName, role, userId }, TokenTypes.Intermediate)
 
 				res.status(200).json({ intermediateToken })
 				break
 			} else {
-				const accessToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: data.role })
-				const refreshToken = getJwtToken(secret, { sub: email, displayName: data.displayName, role: data.role }, TokenTypes.Refresh)
+				const accessToken = getJwtToken(secret, { sub: email, displayName, role, userId })
+				const refreshToken = getJwtToken(secret, { sub: email, displayName, role, userId }, TokenTypes.Refresh)
 
 				setRefreshCookie(res, refreshToken)
 

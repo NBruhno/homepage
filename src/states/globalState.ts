@@ -19,6 +19,7 @@ type User = {
 	secret?: string,
 	shouldRefresh: boolean,
 	twoFactorSecret?: string,
+	userId: string,
 }
 
 export type State = {
@@ -49,6 +50,7 @@ export const { useGlobalState } = createGlobalState<State>({
 		isStateKnown: false,
 		accessToken: undefined,
 		shouldRefresh: false,
+		userId: null,
 	},
 
 })

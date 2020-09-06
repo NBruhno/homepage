@@ -16,9 +16,9 @@ export const useRefresh = () => {
 
 	const refresh = useCallback(async () => {
 		try {
-			const { accessToken } = await fetcher<{ accessToken: string }>('/auth/refresh', { cacheControl: 'no-cache' })
-			const { sub, displayName, role } = decodeJwtToken(accessToken)
-			setUser({ ...user, accessToken, email: sub, displayName, role, shouldRefresh: true, isStateKnown: true })
+			const { accessToken } = await fetcher<{ accessToken: string }>('/users/refresh', { cacheControl: 'no-cache' })
+			const { sub, displayName, role, userId } = decodeJwtToken(accessToken)
+			setUser({ ...user, accessToken, email: sub, displayName, role, userId, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
 			logger.error(error)
 		}

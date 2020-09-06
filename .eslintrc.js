@@ -29,12 +29,16 @@ module.exports = {
 	},
 	rules: {
 		'tsdoc/syntax': 'warn',
+
 		'react/prop-types': 'off',
 		'react/react-in-jsx-scope': 'off',
-		'space-infix-ops': 'off',
+
 		'import/namespace': 'off',
 		'import/named': 'off',
+
+		'space-infix-ops': 'off',
 		'no-undef': 'off',
+		'no-shadow': 'off',
 
 		'@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
 		'@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
@@ -71,6 +75,7 @@ module.exports = {
 		}],
 		'@typescript-eslint/prefer-function-type': ['error'],
 		'@typescript-eslint/no-non-null-assertion': ['warn'],
+		'@typescript-eslint/no-shadow': ['warn'],
 
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
@@ -85,7 +90,6 @@ module.exports = {
 		'quote-props': ['error', 'as-needed'],
 		'jsx-quotes': ['error', 'prefer-single'],
 		'function-paren-newline': ['error', 'consistent'],
-		'no-shadow': ['warn'],
 		'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
 		quotes: ['error', 'single', { allowTemplateLiterals: true }],
 		'no-implied-eval': ['error'],

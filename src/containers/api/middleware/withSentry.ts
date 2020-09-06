@@ -5,7 +5,7 @@ import { config } from 'config.server'
 
 if (config.sentry.dsn) {
 	init({
-		enabled: true, // config.environment === 'production'
+		enabled: config.environment === 'production',
 		dsn: config.sentry.dsn,
 		tracesSampleRate: 0.5,
 	})

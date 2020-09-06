@@ -1,11 +1,17 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { query as q } from 'faunadb'
+import { errors, query as q } from 'faunadb'
 
 import { ApiError } from '../errors/ApiError'
 import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
 
-export const changePassword = async (req: NextApiRequest, res: NextApiResponse) => {
+interface Request extends NextApiRequest {
+	body: {
+		newPassword: string,
+	}
+}
+
+export const changePassword = async (req: Request, res: NextApiResponse, userId: string) => {
 	const { method, body: { newPassword } } = req
 	const token = authenticate(req, res)
 
@@ -17,7 +23,16 @@ export const changePassword = async (req: NextApiRequest, res: NextApiResponse) 
 				throw error
 			}
 
-			await faunaClient(token.secret).query(q.Update(q.Identity(), { credentials: { password: newPassword } }))
+			await faunaClient(token.secret).query(
+				q.Update(q.Ref(q.Collection('users', userId)), { credentials: { password: newPassword } }),
+			)
+				.catch((error: unknown) => {
+					if (error instanceof errors.Unauthorized) {
+						const apiError = ApiError.fromCode(401)
+						res.status(apiError.statusCode).json({ error: 'Unauthorized' })
+						throw apiError
+					}
+				})
 			res.status(200).json({ message: 'Your password has been updated' })
 			break
 		}
