@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { useAuth } from 'states/auth'
 
-import { LoginIcon, PencilRulerIcon, TestTubeIcon, ControllerIcon, AccountIcon, LogoutIcon, InfoIcon, ToolsIcon } from 'components/Icons'
+import { LoginIcon, PencilRulerIcon, ControllerIcon, AccountIcon, LogoutIcon, InfoIcon, ToolsIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
 import { ButtonText } from 'components/Buttons'
 
@@ -66,18 +66,13 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar, up
 					<ControllerIcon css={{ marginRight: '6px' }} size={22} /><Text>Games</Text>
 				</NavLink>
 			</Link>
-			<Link href='/404' passHref>
-				<NavLink active={pathname.includes('/test')} onClick={() => closeMenuOnInteraction()}>
-					<TestTubeIcon css={{ marginRight: '6px' }} size={22} /><Text>Test</Text>
-				</NavLink>
-			</Link>
 			<Link href='/storybook' passHref>
 				<NavLink active={pathname.includes('/storybook')} onClick={() => closeMenuOnInteraction()}>
 					<PencilRulerIcon css={{ marginRight: '6px' }} size={22} /><Text>Storybook</Text>
 				</NavLink>
 			</Link>
 			<Separator collapsed={collapsedSidebar}>Site</Separator>
-			<Link href='/404' passHref>
+			<Link href='/projects' passHref>
 				<NavLink active={pathname.includes('/projects')} onClick={() => closeMenuOnInteraction()}>
 					<ToolsIcon css={{ marginRight: '6px' }} size={22} /><Text>Projects</Text>
 				</NavLink>
