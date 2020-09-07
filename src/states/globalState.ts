@@ -22,11 +22,20 @@ type User = {
 	userId: string,
 }
 
+type Modal = {
+	allowClosure?: boolean,
+	showModal: boolean,
+	modalContent: React.ReactNode,
+	noWrapper?: boolean,
+	onClose?: () => void,
+}
+
 export type State = {
 	forms: Record<string, any>,
 	games: {
 		currentList: ListTypes,
 	},
+	modal: Modal,
 	theme: string,
 	responsive: Responsive,
 	user: User,
@@ -42,6 +51,13 @@ export const { useGlobalState } = createGlobalState<State>({
 		showMenu: false,
 		collapsedSidebar: false,
 		isMobile: false,
+	},
+	modal: {
+		allowClosure: true,
+		showModal: false,
+		modalContent: null,
+		noWrapper: false,
+		onClose: null,
 	},
 	theme: 'dark',
 	user: {

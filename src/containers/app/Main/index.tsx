@@ -6,12 +6,13 @@ import Link from 'next/link'
 
 import { useAuth } from 'states/auth'
 import { useResponsive } from 'states/responsive'
+import { useModal } from 'states/modal'
 
 import { screenSizes } from 'styles/theme'
 
 import { Footer } from '../Footer'
 
-import { AuthGuard } from './AuthGuard'
+import { Modal } from './Modal'
 import { MainContent } from './MainContent'
 import { Shade } from './Shade'
 
@@ -30,6 +31,7 @@ const roleProtectedRoutes = [
 
 export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	const { showLogin, updateResponsive } = useResponsive()
+	const { openModal } = useModal()
 	const { user } = useAuth()
 	const isMobile = useMediaQuery({ maxWidth: screenSizes.mobile - 1 })
 	const collapsedSidebar = useMediaQuery({ maxWidth: screenSizes.laptop - 1 })
@@ -56,26 +58,31 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 		updateResponsive({ isMobile, collapsedSidebar })
 	}, [isMobile, collapsedSidebar])
 
+	useEffect(() => {
+		if (protectRoute || roleProtectRoute || showLogin) {
+			openModal((
+				<>
+					{!user.accessToken ? (
+						<>
+							{show && <FormLogin />}
+						</>
+					) : (
+						<>
+							<h1 css={{ margin: '0 0 24px', fontSize: '1.5em' }}>You are not authorized to access this resource</h1>
+							<Link href='/' passHref><a css={(theme: Theme) => ({ color: theme.color.text })}>Home</a></Link>
+						</>
+					)}
+				</>
+			), { allowClosure: !protectRoute || !roleProtectRoute, onClose: () => updateResponsive({ showLogin: !showLogin }) })
+		}
+	}, [protectRoute, roleProtectRoute, showLogin])
+
 	const show = (protectRoute || roleProtectRoute || showLogin) ?? false
 
 	return (
 		<MainContent>
 			{children}
-			<AuthGuard
-				allowClosure={(!protectRoute || !roleProtectRoute)}
-				show={show}
-			>
-				{!user.accessToken ? (
-					<>
-						{show && <FormLogin />}
-					</>
-				) : (
-					<>
-						<h1 css={{ margin: '0 0 24px', fontSize: '1.5em' }}>You are not authorized to access this resource</h1>
-						<Link href='/' passHref><a css={(theme: Theme) => ({ color: theme.color.text })}>Home</a></Link>
-					</>
-				)}
-			</AuthGuard>
+			<Modal />
 			<Shade />
 			<Footer />
 		</MainContent>

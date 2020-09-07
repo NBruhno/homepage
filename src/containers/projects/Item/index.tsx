@@ -11,10 +11,12 @@ type Props = {
 	id: string,
 	subtitle: string,
 	title: string,
+	url?: string,
+	as?: string,
 }
 
-export const ProjectItem = ({ title, subtitle, coverUrl, id }: Props) => (
-	<Link href='/projects/[id]' as={`/projects/${id}`} passHref>
+export const ProjectItem = ({ title, subtitle, coverUrl, id, url, as }: Props) => (
+	<Link href={url ?? '/projects/[id]'} as={as ?? `/projects/${id}`} passHref>
 		<Container>
 			<Cover coverUrl={coverUrl} size='small' />
 			<div css={{ padding: '12px' }}>
