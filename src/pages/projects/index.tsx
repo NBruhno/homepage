@@ -22,6 +22,14 @@ const Projects: NextPage = () => (
 				<div>
 					<ProjectList>
 						<ProjectItem
+							id='angular'
+							title='Old Angular website'
+							subtitle='This is my old portfolio created using Angular. This was something I worked on before I started at Subaio'
+							coverUrl='./images/projects/angular/cover.png'
+							url='https://angular.bruhno.com'
+							as=''
+						/>
+						<ProjectItem
 							id='qfdCenter'
 							title='QFDCenter'
 							subtitle='Website to create and publish questionnaires and automate statistical data generation. Hired work December 2017'
