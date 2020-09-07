@@ -25,28 +25,27 @@ export const ProjectImage = ({ id, coverId, url, title, ...rest }: Props) => {
 
 	return (
 		<div
-			{...rest}
 			onClick={() => {
 				openModal((
 					<div
 						css={{
-							width: '100%',
+							alignItems: 'center',
 							display: 'fixed',
 							justifyContent: 'center',
-							alignItems: 'center',
 							padding: '24px',
+							width: '100%',
 						}}
 					>
 						<img
 							src={url ?? placeholderImage}
 							alt={title}
-							css={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'cover' }}
+							css={{ maxWidth: '100%', maxHeight: '90vh', objectFit: 'cover' }}
 						/>
 					</div>
 				), { noWrapper: true })
 			}}
 		>
-			<Image src={url ?? placeholderImage} title={title} />
+			<Image src={url ?? placeholderImage} title={title} {...rest} />
 		</div>
 	)
 }

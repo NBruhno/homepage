@@ -18,7 +18,7 @@ const Home: NextPage<Props> = () => (
 				<Logo css={{ height: '37vh' }} />
 				<h1 css={{ fontWeight: 400, fontSize: '3em', marginBottom: '14px' }}>Bruhno</h1>
 				<p css={(theme: Theme) => ({ fontWeight: 400, fontSize: theme.fontSize.s100, margin: 0, fontFamily: theme.fontFamily.poppins })}>Personal portfolio of Nicolai Bruhn Lauritsen</p>
-				<p css={(theme: Theme) => ({ fontWeight: 400, fontSize: theme.fontSize.s80, marginTop: '4px', opacity: 0.6, fontFamily: theme.fontFamily.poppins })}>(Work in progress. Some resources are unavailable.)</p>
+				<p css={(theme: Theme) => ({ fontWeight: 400, fontSize: theme.fontSize.s80, marginTop: '4px', opacity: 0.6, fontFamily: theme.fontFamily.poppins })}>Work in progress</p>
 			</div>
 		</Page>
 	</>

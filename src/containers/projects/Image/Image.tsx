@@ -5,10 +5,10 @@ type Props = {
 export const Image = ({ loading = 'lazy', title, ...rest }: Props) => (
 	<img
 		css={{
+			cursor: 'zoom-in',
 			height: '100%',
-			objectFit: 'cover',
+			objectFit: 'contain',
 			width: '100%',
-			marginTop: '12px',
 		}}
 		alt={title}
 		loading={loading}

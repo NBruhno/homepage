@@ -32,7 +32,11 @@ const QfdCenter: NextPage = () => (
 					conceptualize a way for their customers to catch up on these untold stories of the jackets that
 					other people have rented with a platform dedicated to the jackets as profiles, not people.
 				</p>
-				<ProjectImage url='./images/projects/betterWorldFashion/bwfLogo.png' title='Better World Fashion logo' />
+				<ProjectImage
+					url='./images/projects/betterWorldFashion/bwfLogo.png'
+					title='Better World Fashion logo'
+					css={{ height: '350px' }}
+				/>
 				<Caption>Logo of Better World Fashion</Caption>
 				<p>
 					A semester project in Medialogy consist of creating and prototyping from the very start.
@@ -42,7 +46,11 @@ const QfdCenter: NextPage = () => (
 					behaviour that BWF promotes with their circular business model and how communities are defined
 					and how to create and/or enlarge these communities.
 				</p>
-				<ProjectImage url='./images/projects/betterWorldFashion/bwfJacketAndTheEnvironment.png' title='Illustration of how much a BWF jacket saves the environment' />
+				<ProjectImage
+					url='./images/projects/betterWorldFashion/bwfJacketAndTheEnvironment.png'
+					title='Illustration of how much a BWF jacket saves the environment'
+					css={{ height: '350px' }}
+				/>
 				<Caption>Visual presentation on how much a recycled jacket saves the environment</Caption>
 				<p>
 					Once we have this knowledge down and we feel ready to continue in the process, we evaluate the goals of
@@ -64,7 +72,11 @@ const QfdCenter: NextPage = () => (
 					application development. The implementation that was created was intended to allow us to create and evaluate
 					tests to fulfil our success criteria and the criteria of a university semester project at AAU.
 				</p>
-				<ProjectImage url='./images/projects/betterWorldFashion/phonePage1.png' title='Hi-Fi prototype' />
+				<ProjectImage
+					url='./images/projects/betterWorldFashion/phonePage1.png'
+					title='Hi-Fi prototype'
+					css={{ height: '600px' }}
+				/>
 				<Caption>Visual illustration of the prototype images on a phone</Caption>
 				<p>
 					If you are interested to learn what it is exactly we set out to test and what we concluded, you are more than welcome
