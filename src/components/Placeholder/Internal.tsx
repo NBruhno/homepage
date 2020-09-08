@@ -1,4 +1,3 @@
-import React from 'react'
 import { times } from 'lodash-es'
 
 import { Fill } from './Fill'

@@ -40,7 +40,7 @@ module.exports = {
 		'no-undef': 'off',
 		'no-shadow': 'off',
 
-		'@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
+		'@typescript-eslint/no-unused-vars': ['error'],
 		'@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
 		'@typescript-eslint/indent': ['error', 'tab', {
 			SwitchCase: 1,

@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Tooltip, Location } from '.'
 
 export default {
