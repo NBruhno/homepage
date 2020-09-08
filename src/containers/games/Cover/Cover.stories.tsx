@@ -17,6 +17,6 @@ storiesOf('Games/Cover', module)
 	))
 	.add('Default', () => (
 		<>
-			<Cover id='' coverId='' />
+			<Cover />
 		</>
 	))
