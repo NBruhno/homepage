@@ -5,7 +5,6 @@ import { fetcher, Method } from 'lib/fetcher'
 import { logger } from 'lib/logger'
 
 import { useGlobalState } from './globalState'
-import { useResponsive } from './responsive'
 import { useModal } from './modal'
 
 export const useAuth = () => {
