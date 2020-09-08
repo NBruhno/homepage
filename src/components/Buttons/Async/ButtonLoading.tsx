@@ -19,7 +19,6 @@ export const ButtonLoading = ({
 	isVisible = false,
 	label,
 	onClick,
-	ref,
 	submit = false,
 	...rest
 }: Props) => (
@@ -32,7 +31,6 @@ export const ButtonLoading = ({
 		{...rest}
 	>
 		<LoaderWrapper isVisible={isLoading}>{isLoading && <ActivityIndicator />}</LoaderWrapper>
-
 		{isVisible && <Label isVisible={!isLoading}>{label}</Label>}
 	</Button>
 )

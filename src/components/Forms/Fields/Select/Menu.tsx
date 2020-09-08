@@ -2,10 +2,9 @@ import { forwardRef } from 'react'
 
 type Props = {
 	isOpen: boolean,
-	hasError: boolean,
 } & React.ComponentPropsWithRef<'div'>
 
-export const Menu: React.FC<Props> = forwardRef(({ isOpen, hasError, ...rest }, ref) => (
+export const Menu: React.FC<Props> = forwardRef(({ isOpen, ...rest }, ref) => (
 	<div
 		ref={ref}
 		css={(theme: Theme) => ({

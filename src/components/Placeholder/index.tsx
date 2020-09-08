@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { Internal } from './Internal'
 
 type Props = {

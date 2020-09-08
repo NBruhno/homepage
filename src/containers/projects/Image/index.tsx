@@ -8,13 +8,11 @@ import { Placeholder } from './Placeholder'
 const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
 
 type Props = {
-	id?: string,
-	coverId?: string,
 	url: string,
 	title: string,
 } & React.ComponentProps<'img'>
 
-export const ProjectImage = ({ id, coverId, url, title, ...rest }: Props) => {
+export const ProjectImage = ({ url, title, ...rest }: Props) => {
 	const { openModal } = useModal()
 
 	if (!url) {

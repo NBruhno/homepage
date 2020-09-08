@@ -96,6 +96,7 @@ export const theme = (darkTheme = true) => ({
 	mediaQueries,
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare global {
 	type Theme = ReturnType<typeof theme>
 }
