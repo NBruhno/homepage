@@ -5,11 +5,13 @@ import { fetcher, Method } from 'lib/fetcher'
 import { logger } from 'lib/logger'
 
 import { useGlobalState } from './globalState'
+import { useResponsive } from './responsive'
+import { useModal } from './modal'
 
 export const useAuth = () => {
 	const [user, setUser] = useGlobalState('user')
-	const [userInfo, setUserInfo] = useState<{ exists: boolean, email: string } | null>(null)
 	const [currentFlow, setCurrentFlow] = useState<'login' | 'register' | 'loggedIn' | '2fa'>('login')
+	const { closeModal } = useModal()
 
 	const register = async ({ email, password, displayName }: { email: string, password: string, displayName: string }) => {
 		try {
@@ -27,8 +29,9 @@ export const useAuth = () => {
 
 			if (accessToken) {
 				const { sub, displayName, role, userId } = decodeJwtToken(accessToken)
-				setUserInfo(null)
 				setUser({ ...user, accessToken, email: sub, displayName, role, userId, shouldRefresh: true })
+				setCurrentFlow('loggedIn')
+				closeModal()
 				return
 			}
 
@@ -95,12 +98,13 @@ export const useAuth = () => {
 			})
 
 			const { sub, displayName, role, userId } = decodeJwtToken(accessToken)
-			setUserInfo(null)
 			setUser({ ...user, accessToken, email: sub, displayName, role, userId, shouldRefresh: true, intermediateToken: null })
+			setCurrentFlow('loggedIn')
+			closeModal()
 		} catch (error) {
 			logger.error(error)
 		}
 	}
 
-	return { user, userInfo, register, login, logout, initialize2fa, register2fa, verify2fa, setUserInfo, changePassword, currentFlow, setCurrentFlow }
+	return { user, register, login, logout, initialize2fa, register2fa, verify2fa, changePassword, currentFlow, setCurrentFlow }
 }
