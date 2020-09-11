@@ -1,6 +1,9 @@
 import { Meta, Story, Preview } from '@storybook/addon-docs/blocks'
 import { action } from '@storybook/addon-actions'
+import { ThemeProvider } from 'emotion-theming'
+import { storiesOf } from '@storybook/react'
 
+import { theme } from 'styles/theme'
 import { Form } from 'components/Forms'
 import { ButtonSolid } from 'components/Buttons'
 import { PreviewWrapper, StoryWrapper } from 'components/StorybookWrappers'
@@ -84,7 +87,7 @@ This is a text description :)
 	</StoryWrapper>
 </Story>
 
-### Date time
+### Multiline
 
 <Story name='Date time'>
 	<StoryWrapper>

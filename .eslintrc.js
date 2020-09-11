@@ -20,15 +20,6 @@ module.exports = {
 		'react-hooks',
 		'standard',
 	],
-	overrides: [
-		{
-			files: '*.mdx',
-			extends: 'plugin:mdx/recommended',
-			rules: {
-				'react/jsx-indent': 'off',
-			},
-		},
-	],
 	env: {
 		browser: true,
 		'jest/globals': true,

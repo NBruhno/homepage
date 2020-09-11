@@ -13,10 +13,15 @@ export const config = {
 
 	fauna: {
 		secret: process.env.FAUNADB_SECRET,
+		serverKey: process.env.FAUNADB_SERVER_KEY,
 	},
 
 	igdb: {
 		userKey: process.env.IGDB_USER_KEY,
+	},
+
+	sendGrid: {
+		apiKey: process.env.SENDGRID_API_KEY,
 	},
 
 	sentry: {
