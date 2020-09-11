@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+require('dotenv').config()
 const fs = require('fs')
 const format = require('date-fns/format')
 const chalk = require('chalk')
@@ -9,7 +10,7 @@ const domains = ['bruhno.com', 'bruhno.dev']
 const outputLocation = 'public'
 const pagesLocation = 'src/pages/'
 
-log(`Creating sitemaps for ${domains.join(' & ')} in ${outputLocation}...`)
+log(`Creating sitemaps for ${domains.join(' & ')}, outputting to /${outputLocation}...`)
 
 const pages = {}
 const walkSync = (dir) => {
@@ -64,4 +65,4 @@ fs.writeFileSync(`${outputLocation}/sitemap.xml`, `<?xml version="1.0" encoding=
 	${sitemapEntries.join('\n	')}
 </urlset>`)
 
-log(chalk.greenBright(`Created successfully (${outputLocation}/sitemap.xml)`))
+log(chalk.greenBright(`Created successfully (/${outputLocation}/sitemap.xml)`))
