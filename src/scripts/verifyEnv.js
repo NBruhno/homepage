@@ -34,7 +34,6 @@ console.log(`Current environment:      ${chalk.blue(DEPLOY_ENV ? DEPLOY_ENV.char
 verifyVariable('AUTH_IV')
 verifyVariable('AUTH_SECRET')
 verifyVariable('FAUNADB_SECRET')
-verifyVariable('FAUNADB_SERVER_KEY')
 verifyVariable('IGDB_USER_KEY')
 verifyVariable('NEXT_PUBLIC_SENTRY_DSN')
 verifyVariable('SENTRY_AUTH_TOKEN', true)
