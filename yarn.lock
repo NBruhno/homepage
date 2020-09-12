@@ -2991,10 +2991,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.6.3.tgz#cc4f979548ca4d8e7b90bc0180052ab99ee64224"
   integrity sha512-pC/hkcREG6YfDfui1FBmj8e20jFU5Exjw4NYDm8kEdrW+mOh0T1Zve8DWKnS7ZIZvgncrctcNCXF4Q2I+loyww==
 
-"@types/node@14.10.0":
-  version "14.10.0"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.10.0.tgz#15815dff82c8dc30827f6b1286f865902945095a"
-  integrity sha512-SOIyrdADB4cq6eY1F+9iU48iIomFAPltu11LCvA9PKcyEwHadjCFzNVPotAR+oEJA0bCP4Xvvgy+vwu1ZjVh8g==
+"@types/node@14.10.1":
+  version "14.10.1"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-14.10.1.tgz#cc323bad8e8a533d4822f45ce4e5326f36e42177"
+  integrity sha512-aYNbO+FZ/3KGeQCEkNhHFRIzBOUgc7QvcVNKXbfnhDkSfwUv91JsQQa10rDgKSTSLkXZ1UIyPe4FJJNVgw1xWQ==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -12790,10 +12790,10 @@ store2@^2.7.1:
   resolved "https://registry.yarnpkg.com/store2/-/store2-2.12.0.tgz#e1f1b7e1a59b6083b2596a8d067f6ee88fd4d3cf"
   integrity sha512-7t+/wpKLanLzSnQPX8WAcuLCCeuSHoWdQuh9SB3xD0kNOM38DNf+0Oa+wmvxmYueRzkmh6IcdKFtvTa+ecgPDw==
 
-storybook-dark-mode@1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/storybook-dark-mode/-/storybook-dark-mode-1.0.2.tgz#963007e72b628e0efe29bdc5ee8449513bc056b8"
-  integrity sha512-HBeXTUzYaRgdGJ6YbmcJ3RXw47xp2b5kegZwtcqnSvRblNUZlAKSKsD6UQTWA30hPJ+u3O/5OE5bXk8+H4Zdqg==
+storybook-dark-mode@1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/storybook-dark-mode/-/storybook-dark-mode-1.0.3.tgz#8d58a874b6107ff1a7f29ebb0e6726b8036eee08"
+  integrity sha512-mjHLrv/dwtqKmbOoQ2CMtGKDttWSnUybutujsIPxLcEC77EujjWiRBFv46LtXAZEyZLm8sGFUz0s6HJJfJ3tSw==
   dependencies:
     fast-deep-equal "^3.0.0"
     memoizerific "^1.11.3"
