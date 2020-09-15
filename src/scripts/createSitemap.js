@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+require('dotenv').config()
 const fs = require('fs')
 const format = require('date-fns/format')
 const chalk = require('chalk')
@@ -9,7 +10,7 @@ const domains = ['bruhno.com', 'bruhno.dev']
 const outputLocation = 'public'
 const pagesLocation = 'src/pages/'
 
-log(`Creating sitemaps for ${domains.join(' & ')} in ${outputLocation}...`)
+log(`Creating sitemaps for ${domains.join(' & ')}, outputting to /${outputLocation}...`)
 
 const pages = {}
 const walkSync = (dir) => {
@@ -18,14 +19,19 @@ const walkSync = (dir) => {
 		const filePath = `${dir}${file}`
 		const fileStat = fs.statSync(filePath)
 
-		if (fileStat.isDirectory()) {
-			walkSync(`${filePath}/`)
-		} else {
+		if (fileStat.isDirectory()) walkSync(`${filePath}/`)
+		else {
 			const cleanFileName = filePath
 				.substr(0, filePath.lastIndexOf('.'))
 				.replace(pagesLocation, '')
 
-			if (cleanFileName.includes('_document') || cleanFileName.includes('_error') || cleanFileName.includes('_app') || cleanFileName.includes('404') || cleanFileName.includes('api/') || cleanFileName.includes('/[')) return
+			if (cleanFileName.includes('_document')
+				|| cleanFileName.includes('_error')
+				|| cleanFileName.includes('_app')
+				|| cleanFileName.includes('404')
+				|| cleanFileName.includes('api/')
+				|| cleanFileName.includes('/[')) return
+
 			if (cleanFileName.includes('/index')) {
 				pages[cleanFileName.replace('/index', '') || ''] = {
 					page: '',
@@ -33,6 +39,7 @@ const walkSync = (dir) => {
 				}
 				return
 			}
+
 			if (cleanFileName.includes('index')) {
 				pages[''] = {
 					page: '',
@@ -64,4 +71,4 @@ fs.writeFileSync(`${outputLocation}/sitemap.xml`, `<?xml version="1.0" encoding=
 	${sitemapEntries.join('\n	')}
 </urlset>`)
 
-log(chalk.greenBright(`Created successfully (${outputLocation}/sitemap.xml)`))
+log(chalk.greenBright(`Created successfully (/${outputLocation}/sitemap.xml)`))

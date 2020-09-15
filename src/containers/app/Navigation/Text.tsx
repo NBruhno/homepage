@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 export const Text = (props: React.ComponentProps<'span'>) => (
 	<span
 		css={{

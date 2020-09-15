@@ -17,6 +17,7 @@ export enum WebsiteCategory {
 	Itch = 15,
 	EpicGames = 16,
 	GoG = 17,
+	Discord = 18,
 }
 
 export enum GameCategory {
@@ -49,6 +50,7 @@ export type Image = {
 
 export type Website = {
 	category: WebsiteCategory,
+	id: number,
 	trusted: boolean,
 	url: string,
 }
@@ -94,6 +96,8 @@ export type ReleaseDate = {
 }
 
 export type Game = {
+	aggregated_rating_count?: number,
+	aggregated_rating?: number,
 	category: GameCategory,
 	companies: Array<Company>,
 	cover?: Image,
@@ -110,6 +114,5 @@ export type Game = {
 	status: GameStatus,
 	storyline?: string,
 	summary?: string,
-	aggregated_rating?: number,
-	aggregated_rating_count?: number,
+	websites?: Array<Website>,
 }

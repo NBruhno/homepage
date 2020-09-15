@@ -1,21 +1,23 @@
 import { WebsiteCategory } from './IGDB'
 
+export type Website = {
+	category: WebsiteCategory,
+	trusted: boolean,
+	url: string,
+}
+
 export type Company = {
 	description: string,
 	logo?: string,
 	name: string,
 	slug: string,
-	websites: Array<{
-		category: WebsiteCategory,
-		trusted: boolean,
-		url: string,
-	}>,
+	websites: Array<Website>,
 }
 
 export type Platform = {
+	abbreviation: string,
 	logo: string,
 	name: string,
-	abbreviation: string,
 }
 
 export type Engine = {
@@ -30,19 +32,19 @@ export type ReleaseDate = {
 }
 
 export enum Status {
-	Released = 'Released',
 	Alpha = 'Alpha',
 	Beta = 'Beta',
 	EarlyAccess = 'Early access',
 	Offline = 'Offline',
+	Released = 'Released',
 	Rumored = 'Rumored',
 }
 
 export type Game = {
-	following: boolean,
 	cover: string | null,
 	developer: Company,
 	engines: Array<Engine> | null,
+	following: boolean,
 	genres: Array<string>,
 	id: string,
 	name: string,
@@ -58,6 +60,7 @@ export type Game = {
 	storyline: string,
 	summary: string,
 	supporting: Company,
+	websites: Array<Website>,
 }
 
 export type SimpleGame = Pick<Game, 'id' | 'cover' | 'name' | 'releaseDate' | 'status' | 'following'>

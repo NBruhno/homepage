@@ -8,7 +8,13 @@ export const Developer = (props: React.ComponentProps<'h1'>) => (
 			marginBottom: '16px',
 			marginTop: '12px',
 
-			[theme.mediaQueries.maxMobile]: {
+			[theme.mediaQueries.maxWearable]: {
+				fontSize: theme.fontSize.s80,
+				wordBreak: 'break-word',
+				marginTop: '6px',
+			},
+
+			[theme.mediaQueries.wearableToMobile]: {
 				fontSize: theme.fontSize.s90,
 				marginTop: '8px',
 			},

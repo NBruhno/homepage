@@ -20,7 +20,9 @@ import { Title } from './Header/Title'
 import { TitleWrapper } from './Header/TitleWrapper'
 
 import { MainContent } from './MainContent'
+import { SortBy, WebsiteIcons } from './WebsiteIcons'
 import { Wrapper } from './Wrapper'
+import { ActionWrapper } from './ActionWrapper'
 
 type Props = {
 	game: Game | null,
@@ -32,7 +34,7 @@ type Props = {
 
 export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 	const { user } = useAuth()
-	const { isMobile } = useResponsive()
+	const { isMobile, isTablet } = useResponsive()
 	const groupedReleaseDates = game?.releaseDates ? groupByReleaseDate(game.releaseDates, ({ date }) => date, game.releaseDate) : null
 
 	return (
@@ -47,18 +49,9 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 				</BackgroundWrapper>
 			</div>
 			<MainContent>
-				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '18px' }}>
+				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '16px' }}>
 					<div css={{ display: 'grid', gridTemplateRows: 'auto auto', gridRowGap: '12px' }}>
 						<Cover coverUrl={game?.cover ?? null} loading='eager' />
-						<Tooltip tip='You need to be logged in' css={{ display: 'grid' }} show={!user.accessToken} location={isMobile ? Location.Right : Location.Top}>
-							<ButtonSolid
-								label={game?.following ? 'Unfollow' : 'Follow'}
-								onClick={() => game?.following ? onUnfollow() : onFollow()}
-								disabled={!user.accessToken}
-								isLoading={isLoading}
-								css={{ padding: '5px 16px' }}
-							/>
-						</Tooltip>
 					</div>
 					<TitleWrapper>
 						<div>
@@ -78,13 +71,58 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 								</Placeholder>
 							</Developer>
 						</div>
-						{groupedReleaseDates?.map(({ date, platforms }) => (
-							<div key={date}>
-								<p>{dateOrYear(date)}: {platforms.join(', ')}</p>
-							</div>
-						))}
+						{(!isTablet && !isMobile) && (
+							<ActionWrapper>
+								<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top}>
+									<ButtonSolid
+										label={game?.following ? 'Unfollow' : 'Follow'}
+										onClick={() => game?.following ? onUnfollow() : onFollow()}
+										disabled={!user.accessToken}
+										isLoading={isLoading}
+										fullWidth
+									/>
+								</Tooltip>
+								<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top}>
+									<ButtonSolid
+										label={game?.following ? 'Played' : 'Playing'}
+										onClick={() => game?.following ? onUnfollow() : onFollow()}
+										disabled={!user.accessToken}
+										isLoading={isLoading}
+										fullWidth
+									/>
+								</Tooltip>
+								{(!isTablet && !isMobile) && <WebsiteIcons websites={game?.websites} sortBy={SortBy.Stores} />}
+							</ActionWrapper>
+						)}
 					</TitleWrapper>
 				</div>
+				{(isTablet || isMobile) && (
+					<div>
+						<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top} css={{ display: 'grid' }}>
+							<div css={{ display: 'grid', gridTemplateColumns: 'repeat(2, auto)', gridGap: '8px' }}>
+								<ButtonSolid
+									label={game?.following ? 'Unfollow' : 'Follow'}
+									onClick={() => game?.following ? onUnfollow() : onFollow()}
+									disabled={!user.accessToken}
+									isLoading={isLoading}
+									css={{ padding: '5px 16px' }}
+								/>
+								<ButtonSolid
+									label={game?.following ? 'Played' : 'Playing'}
+									onClick={() => game?.following ? onUnfollow() : onFollow()}
+									disabled={!user.accessToken}
+									isLoading={isLoading}
+									css={{ padding: '5px 16px' }}
+								/>
+							</div>
+						</Tooltip>
+					</div>
+				)}
+				{(isTablet || isMobile) && (
+					<div>
+						<WebsiteIcons websites={game?.websites} sortBy={SortBy.Stores} />
+					</div>
+				)}
 				{game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
 				{game?.platforms?.length > 0 && <p>Platforms: {game?.platforms.map(({ name }) => name).join(', ')}</p>}
 				{game?.summary && <h2>Summary</h2>}

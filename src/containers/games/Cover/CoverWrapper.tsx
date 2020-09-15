@@ -19,8 +19,8 @@ export const CoverWrapper = ({ size, ...rest }: Props) => (
 			},
 
 			[theme.mediaQueries.mobileToLaptop]: {
-				height: size === 'big' ? '235px' : '160px',
-				width: size === 'big' ? '176px' : '120px',
+				height: size === 'big' ? '256px' : '160px',
+				width: size === 'big' ? '200px' : '120px',
 			},
 		})}
 		{...rest}

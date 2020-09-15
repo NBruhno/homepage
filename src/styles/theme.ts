@@ -1,4 +1,5 @@
 export const screenSizes = {
+	wearable: 306,
 	mobile: 576,
 	tablet: 768,
 	laptop: 992,
@@ -6,9 +7,13 @@ export const screenSizes = {
 	desktopLarge: 1600,
 }
 
-export const breakpoints = [screenSizes.mobile, screenSizes.tablet, screenSizes.laptop, screenSizes.desktop]
-
 export const mediaQueries = {
+	wearableToMobile: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.mobile -1}px)`,
+	wearableToTablet: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.tablet -1}px)`,
+	wearableToLaptop: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.laptop -1}px)`,
+	wearableToDesktop: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.desktop -1}px)`,
+	wearableToDesktopLarge: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+
 	mobileToTablet: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.tablet -1}px)`,
 	mobileToLaptop: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.laptop -1}px)`,
 	mobileToDesktop: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.desktop -1}px)`,
@@ -23,12 +28,14 @@ export const mediaQueries = {
 
 	desktopToDesktopLarge: `@media only screen and (min-width: ${screenSizes.desktop}px) and (max-width: ${screenSizes.desktopLarge}px)`,
 
+	maxWearable: `@media only screen and (max-width: ${screenSizes.wearable - 1}px)`,
 	maxMobile: `@media only screen and (max-width: ${screenSizes.mobile - 1}px)`,
 	maxTablet: `@media only screen and (max-width: ${screenSizes.tablet - 1}px)`,
 	maxLaptop: `@media only screen and (max-width: ${screenSizes.laptop - 1}px)`,
 	maxDesktop: `@media only screen and (max-width: ${screenSizes.desktop - 1}px)`,
 	maxDesktopLarge: `@media only screen and (max-width: ${screenSizes.desktopLarge - 1}px)`,
 
+	minWearable: `@media only screen and (min-width: ${screenSizes.wearable}px)`,
 	minMobile: `@media only screen and (min-width: ${screenSizes.mobile}px)`,
 	minTablet: `@media only screen and (min-width: ${screenSizes.tablet}px)`,
 	minLaptop: `@media only screen and (min-width: ${screenSizes.laptop}px)`,

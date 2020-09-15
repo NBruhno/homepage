@@ -5,6 +5,7 @@ import { ListTypes } from 'types/Games'
 type Responsive = {
 	collapsedSidebar: boolean,
 	isMobile: boolean,
+	isTablet: boolean,
 	showLogin: boolean,
 	showMenu: boolean,
 }
@@ -24,9 +25,9 @@ type User = {
 
 type Modal = {
 	allowClosure?: boolean,
-	showModal: boolean,
 	modalContent: React.ReactNode,
 	noWrapper?: boolean,
+	showModal: boolean,
 	onClose?: () => void,
 }
 
@@ -36,8 +37,8 @@ export type State = {
 		currentList: ListTypes,
 	},
 	modal: Modal,
-	theme: string,
 	responsive: Responsive,
+	theme: string,
 	user: User,
 }
 
@@ -47,10 +48,11 @@ export const { useGlobalState } = createGlobalState<State>({
 		currentList: ListTypes.Popular,
 	},
 	responsive: {
-		showLogin: false,
-		showMenu: false,
 		collapsedSidebar: false,
 		isMobile: false,
+		isTablet: false,
+		showLogin: false,
+		showMenu: false,
 	},
 	modal: {
 		allowClosure: true,
@@ -68,5 +70,4 @@ export const { useGlobalState } = createGlobalState<State>({
 		shouldRefresh: false,
 		userId: null,
 	},
-
 })

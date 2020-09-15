@@ -14,7 +14,7 @@ import { Input } from 'components/Forms/Fields/Input'
 import { Page, PageContent } from 'components/Layout'
 
 const Games: NextPage = () => {
-	const { games, following, popular, currentList, setCurrentList, error, follow, unfollow } = useGames()
+	const { games, following, popular, currentList, setCurrentList, error } = useGames()
 
 	return (
 		<>
@@ -38,9 +38,9 @@ const Games: NextPage = () => {
 							<ButtonToggle label='Following' active={currentList === ListTypes.Following} onClick={() => setCurrentList(ListTypes.Following)} />
 							<ButtonToggle label='Search' active={currentList === ListTypes.Search} onClick={() => setCurrentList(ListTypes.Search)} />
 						</div>
-						{currentList === ListTypes.Popular && <GameList games={popular} error={error} onFollow={follow} onUnfollow={unfollow} />}
-						{currentList === ListTypes.Following && <GameList games={following} error={error} onFollow={follow} onUnfollow={unfollow} emptyMessage='You are not following any games' />}
-						{currentList === ListTypes.Search && <GameList games={games} error={error} onFollow={follow} onUnfollow={unfollow} />}
+						{currentList === ListTypes.Popular && <GameList games={popular} error={error} />}
+						{currentList === ListTypes.Following && <GameList games={following} error={error} emptyMessage='You are not following any games' />}
+						{currentList === ListTypes.Search && <GameList games={games} error={error} />}
 					</div>
 				</PageContent>
 			</Page>

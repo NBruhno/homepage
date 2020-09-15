@@ -72,7 +72,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 
 			const {
 				slug, aggregated_rating, aggregated_rating_count, genres, storyline, summary, involved_companies,
-				name, platforms, first_release_date, release_dates, game_engines, screenshots, cover, status,
+				name, platforms, first_release_date, release_dates, game_engines, screenshots, cover, status, websites,
 			} = igdbGame
 
 			const screenshotUrls = screenshots?.length > 0
@@ -105,6 +105,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, id: string
 					name,
 				})) ?? null,
 				releaseDate: first_release_date * 1000 ?? null,
+				websites: websites.map(({ category, trusted, url }) => ({ category, trusted, url })),
 				releaseDates: release_dates?.map(({ date, platform: { platform_logo, abbreviation, name } }) => ({
 					date: date * 1000,
 					platform: {

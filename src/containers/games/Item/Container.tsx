@@ -21,21 +21,17 @@ export const Container = forwardRef(({ isLoading, ...rest }: Props, ref) => (
 			overflow: 'hidden',
 			textDecoration: 'none',
 			transition: `
-				transform 200ms ${theme.animation.default},
 				border 200ms ${theme.animation.default},
 				box-shadow 200ms ${theme.animation.default}`,
-			transform: 'none',
 		}, !isLoading ? {
 			'&:hover': {
 				border: `1px solid ${theme.color.primaryLighter}`,
 				boxShadow: `${theme.darkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
-				transform: 'translate3d(0px, -3px, 0px)',
 			},
 
 			'&:active': {
 				border: `1px solid ${theme.color.primary}`,
 				boxShadow: `rgba(0, 0, 0, 0.3) 0px 3px 10px 0px, 0 0 0 1px ${theme.color.primary}`,
-				transform: 'none',
 			},
 		} : null])}
 		ref={ref}
