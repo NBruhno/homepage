@@ -8,7 +8,13 @@ export const ReleaseDate = (props: React.ComponentProps<'h1'>) => (
 			marginBottom: 0,
 			color: theme.color.white,
 
-			[theme.mediaQueries.maxMobile]: {
+			[theme.mediaQueries.maxWearable]: {
+				fontSize: theme.fontSize.s90,
+				wordBreak: 'break-word',
+				marginTop: '6px',
+			},
+
+			[theme.mediaQueries.wearableToMobile]: {
 				fontSize: theme.fontSize.s100,
 				marginTop: '8px',
 			},

@@ -1,4 +1,4 @@
-import { Global } from '@emotion/core'
+import { css, Global } from '@emotion/core'
 import { Story } from '@storybook/react'
 import { ThemeProvider } from 'emotion-theming'
 import { themes } from '@storybook/theming'

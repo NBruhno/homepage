@@ -12,6 +12,7 @@ export const Background = ({ src, ...rest }: Props) => (
 			filter: 'blur(5px) brightness(0.7)',
 			backgroundColor: 'transparent',
 			objectFit: 'cover',
+			objectPosition: 'center',
 			margin: '-15px',
 		}}
 		alt='background'

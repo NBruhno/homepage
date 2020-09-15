@@ -20,7 +20,7 @@ export const useGames = () => {
 	const [games, setGames] = useState<GameList>({ popular: null, games: null, following: null })
 	const { user } = useAuth()
 	const { data, error } = useSWR<GameList>(
-		user?.isStateKnown ? ['/games', forms.games?.search, user.accessToken] : null, (link, search, accessToken) => fetcher(link, { body: { search }, accessToken, method: Method.Post }), { revalidateOnFocus: false },
+		user?.isStateKnown ? ['/games', forms.games?.search, user.shouldRefresh] : null, (link, search, accessToken) => fetcher(link, { body: { search }, accessToken, method: Method.Post }), { revalidateOnFocus: false },
 	)
 
 	const follow = async (id: string) => {

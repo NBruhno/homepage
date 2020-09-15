@@ -1,3 +1,5 @@
+import { logger } from './logger'
+
 export type Metric = {
 	id: string,
 	name: string,
@@ -7,6 +9,5 @@ export type Metric = {
 }
 
 export const reportWebVitals = (metric: Metric) => {
-	// eslint-disable-next-line no-console
-	console.debug(metric)
+	logger.debug(metric)
 }

@@ -6,9 +6,9 @@
 </p>
 
 # What makes up this website
-* [Next.js](https://github.com/vercel/next.js) React framework
-* [Vercel](https://github.com/vercel/vercel) Hosting
-* [Fauna](https://github.com/fauna/faunadb-js) Database
+* [Next.js](https://github.com/vercel/next.js) - React framework
+* [Vercel](https://github.com/vercel/vercel) - Hosting
+* [Fauna](https://github.com/fauna/faunadb-js) - Database
 ### Other important libraries:
   * [Emotion](https://github.com/emotion-js/emotion) - CSS-in-JS
   * [Final Form](https://github.com/final-form/final-form) - Forms

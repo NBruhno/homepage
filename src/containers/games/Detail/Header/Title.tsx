@@ -9,9 +9,17 @@ export const Title = (props: React.ComponentProps<'h1'>) => (
 			margin: '0 0 24px',
 			fontWeight: 500,
 
-			[theme.mediaQueries.maxMobile]: {
+			[theme.mediaQueries.maxWearable]: {
+				fontSize: theme.fontSize.s100,
+				wordBreak: 'break-word',
+				margin: '4px 0 10px',
+				paddingTop: 0,
+			},
+
+			[theme.mediaQueries.wearableToMobile]: {
 				fontSize: theme.fontSize.s125,
 				margin: '4px 0 14px',
+				paddingTop: 0,
 			},
 
 			[theme.mediaQueries.mobileToTablet]: {

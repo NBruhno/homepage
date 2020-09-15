@@ -6,9 +6,6 @@ type Props = {
 	games: Array<Record<string, any>>,
 	emptyMessage?: string,
 	error: string,
-
-	onFollow: (id: string) => Promise<any>,
-	onUnfollow: (id: string) => Promise<any>,
 }
 
 const fadeIn = keyframes`
@@ -21,7 +18,7 @@ const fadeIn = keyframes`
 	}
 `
 
-export const GameList = ({ games, onFollow, onUnfollow, error, emptyMessage = 'No games match the search criteria' }: Props) => {
+export const GameList = ({ games, error, emptyMessage = 'No games match the search criteria' }: Props) => {
 	const isLoading = !games
 	const gamesToRender = !isLoading && !error ? games : [{}, {}, {}, {}, {}, {}, {}]
 
@@ -32,8 +29,6 @@ export const GameList = ({ games, onFollow, onUnfollow, error, emptyMessage = 'N
 					isLoading={isLoading}
 					key={game?.id ?? index}
 					index={index}
-					onFollow={onFollow}
-					onUnfollow={onUnfollow}
 					{...game}
 				/>
 			))}

@@ -31,16 +31,17 @@ const roleProtectedRoutes = [
 
 export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	const { showLogin, updateResponsive } = useResponsive()
-	const { openModal } = useModal()
+	const { openModal, closeModal } = useModal()
 	const { user } = useAuth()
 	const isMobile = useMediaQuery({ maxWidth: screenSizes.mobile - 1 })
+	const isTablet = useMediaQuery({ maxWidth: screenSizes.tablet - 1, minWidth: screenSizes.mobile })
 	const collapsedSidebar = useMediaQuery({ maxWidth: screenSizes.laptop - 1 })
 	const [protectRoute, setProtectRoute] = useState(false)
 	const [roleProtectRoute, setRoleProtectRoute] = useState(false)
 	const { pathname } = useRouter()
 
 	useEffect(() => {
-		updateResponsive({ showLogin: false })
+		closeModal()
 		if (user.isStateKnown) {
 			if (!user.accessToken && (protectedRoutes.includes(pathname) || roleProtectedRoutes.includes(pathname))) {
 				setProtectRoute(true)
@@ -55,7 +56,7 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	}, [pathname, user.isStateKnown, user.role])
 
 	useEffect(() => {
-		updateResponsive({ isMobile, collapsedSidebar })
+		updateResponsive({ isMobile, isTablet, collapsedSidebar })
 	}, [isMobile, collapsedSidebar])
 
 	useEffect(() => {
