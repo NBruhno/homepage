@@ -1,9 +1,12 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { errors, query as q } from 'faunadb'
 
+import type { Options as DefaultOptions } from '../types'
+
 import { ApiError } from '../errors/ApiError'
 import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
+import { monitorAsync } from '../performanceCheck'
 
 interface Request extends NextApiRequest {
 	body: {
@@ -11,9 +14,15 @@ interface Request extends NextApiRequest {
 	}
 }
 
-export const changePassword = async (req: Request, res: NextApiResponse, userId: string) => {
+type Options = {
+	userId: string,
+} & DefaultOptions
+
+export const changePassword = async (req: Request, res: NextApiResponse, options: Options) => {
 	const { method, body: { newPassword } } = req
-	const token = authenticate(req, res)
+	const { userId, transaction } = options
+	transaction.setName(`${method} - api/users/{userId}/changePassword`)
+	const token = authenticate(req, res, { transaction })
 
 	switch (method) {
 		case 'POST': {
@@ -23,18 +32,16 @@ export const changePassword = async (req: Request, res: NextApiResponse, userId:
 				throw error
 			}
 
-			await faunaClient(token.secret).query(
+			await monitorAsync(async () => faunaClient(token.secret).query(
 				q.Update(q.Ref(q.Collection('users', userId)), { credentials: { password: newPassword } }),
-			)
-				.catch((error: unknown) => {
-					if (error instanceof errors.Unauthorized) {
-						const apiError = ApiError.fromCode(401)
-						res.status(apiError.statusCode).json({ error: 'Unauthorized' })
-						throw apiError
-					}
-				})
-			res.status(200).json({ message: 'Your password has been updated' })
-			break
+			).catch((error: unknown) => {
+				if (error instanceof errors.Unauthorized) {
+					const apiError = ApiError.fromCode(401)
+					res.status(apiError.statusCode).json({ error: 'Unauthorized' })
+					throw apiError
+				}
+			}), 'faunadb - Update()', transaction)
+			return res.status(200).json({ message: 'Your password has been updated' })
 		}
 
 		default: {

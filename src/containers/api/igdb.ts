@@ -1,4 +1,5 @@
 import { NextApiResponse } from 'next'
+import { Span } from '@sentry/apm'
 
 import { config } from 'config.server'
 
@@ -6,6 +7,7 @@ import { GameStatus } from 'types/IGDB'
 import { Status } from 'types/Games'
 
 import { ApiError } from './errors/ApiError'
+import { monitorReturn } from './performanceCheck'
 
 type Options = {
 	body?: string,
@@ -34,7 +36,7 @@ export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { b
 
 export const igdbImageUrl = 'https://images.igdb.com/igdb/image/upload'
 
-export const mapStatus = (status: GameStatus): Status | null => {
+export const mapStatus = (status: GameStatus, span: Span): Status | null => monitorReturn(() => {
 	switch (status) {
 		case GameStatus.Released: return Status.Released
 		case GameStatus.Alpha: return Status.Alpha
@@ -44,4 +46,4 @@ export const mapStatus = (status: GameStatus): Status | null => {
 		case GameStatus.Rumored: return Status.Rumored
 		default: return null
 	}
-}
+}, 'mapStatus()', span)

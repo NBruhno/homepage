@@ -3,7 +3,7 @@ import { createMocks } from 'node-mocks-http'
 
 import {
 	parseJson, parseHeaders, testingCredentials, expectStatusCode, expectSpecificObject, accessTokenMatch,
-	refreshTokenMatch,
+	refreshTokenMatch, transaction,
 } from 'test/utils'
 
 import { logger } from 'lib/logger'
@@ -25,7 +25,7 @@ describe('/api/users', () => {
 			},
 		})
 
-		await login(loginReq, loginRes).then(async () => {
+		await login(loginReq, loginRes, { transaction }).then(async () => {
 			const { userId } = decodeJwtToken(parseJson(loginRes).accessToken)
 			const { req: deleteReq, res: deleteRes } = createMocks<NextApiRequest, NextApiResponse>({
 				method: 'DELETE',
@@ -38,7 +38,7 @@ describe('/api/users', () => {
 				},
 			})
 
-			await user(deleteReq, deleteRes, userId).catch((error: unknown) => logger.debug(error))
+			await user(deleteReq, deleteRes, { userId, transaction }).catch((error: unknown) => logger.debug(error))
 		}).catch((error) => logger.debug(error))
 	})
 
@@ -52,7 +52,7 @@ describe('/api/users', () => {
 			},
 		})
 
-		await users(req, res)
+		await users(req, res, { transaction })
 		expectStatusCode(res, 200)
 		expect(parseJson(res).accessToken).toMatch(accessTokenMatch)
 		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
@@ -68,7 +68,7 @@ describe('/api/users', () => {
 			},
 		})
 
-		await expect(users(req, res)).rejects.toThrow(ApiError)
+		await expect(users(req, res, { transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 		expectSpecificObject(res, { error: 'Email is already in use' })
 	})
@@ -78,7 +78,7 @@ describe('/api/users', () => {
 			method: 'POST',
 		})
 
-		await expect(users(req, res)).rejects.toThrow(ApiError)
+		await expect(users(req, res, { transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
@@ -88,7 +88,7 @@ describe('/api/users', () => {
 			method: 'TRACE',
 		})
 
-		await expect(users(req, res)).rejects.toThrow(ApiError)
+		await expect(users(req, res, { transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 		expectSpecificObject(res, { error: ApiError.fromCode(405).message })
 	})

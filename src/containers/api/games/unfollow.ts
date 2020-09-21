@@ -2,24 +2,36 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q, errors } from 'faunadb'
 
 import type { FaunaGame } from 'types/Games'
+import type { Options as DefaultOptions } from '../types'
 
 import { ApiError } from '../errors/ApiError'
 import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
+import { monitorAsync, monitorReturnAsync } from '../performanceCheck'
 
-export const unfollow = async (req: NextApiRequest, res: NextApiResponse, id: string) => {
+type Options = {
+	gameId: string,
+} & DefaultOptions
+
+export const unfollow = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { method } = req
+	const { gameId, transaction } = options
+	transaction.setName(`${method} - api/games/{gameId}/unfollow`)
 
-	const { secret } = authenticate(req, res)
+	const { secret } = authenticate(req, res, { transaction })
 	switch (method) {
 		case 'PATCH': {
-			await faunaClient(secret).query<FaunaGame>(q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesByIdAndOwner'), [id, q.Identity()]))), {
-				data: {
-					following: false,
-				},
-			})).then(async (game) => {
+			await monitorReturnAsync(() => faunaClient(secret).query<FaunaGame>(
+				q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesByIdAndOwner'), [gameId, q.Identity()]))), {
+					data: {
+						following: false,
+					},
+				}),
+			), 'faunadb - Update()', transaction).then(async (game) => {
 				if (!game.data.following) {
-					await faunaClient(secret).query(q.Delete(q.Select(['ref'], q.Get(q.Match(q.Index('gamesByIdAndOwner'), [id, q.Identity()])))))
+					await monitorAsync(() => faunaClient(secret).query(
+						q.Delete(q.Select(['ref'], q.Get(q.Match(q.Index('gamesByIdAndOwner'), [gameId, q.Identity()])))),
+					), 'faunadb - Delete()', transaction)
 				}
 			}).catch((error) => {
 				if (error instanceof errors.NotFound) {

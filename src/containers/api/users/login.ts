@@ -3,11 +3,13 @@ import { query as q, errors } from 'faunadb'
 
 import type { User } from 'types/User'
 import { TokenTypes } from 'types/Token'
+import type { Options } from '../types'
 
 import { ApiError } from '../errors/ApiError'
 import { getJwtToken } from '../getJwtToken'
 import { serverClient } from '../faunaClient'
 import { setRefreshCookie } from '../middleware'
+import { monitorReturn, monitorReturnAsync } from '../performanceCheck'
 
 interface Request extends NextApiRequest {
 	body: {
@@ -16,8 +18,9 @@ interface Request extends NextApiRequest {
 	}
 }
 
-export const login = async (req: Request, res: NextApiResponse) => {
+export const login = async (req: Request, res: NextApiResponse, options: Options) => {
 	const { method, body: { email, password } } = req
+	const { transaction } = options
 
 	switch (method) {
 		case 'POST': {
@@ -27,32 +30,39 @@ export const login = async (req: Request, res: NextApiResponse) => {
 				throw error
 			}
 
-			const { data: { displayName, role, twoFactorSecret }, secret, ref } = await serverClient.query<User>(q.Merge(
-				q.Login(q.Match(q.Index('usersByEmail'), email), { password }),
-				q.Get(q.Match(q.Index('usersByEmail'), email)),
-			)).catch((error) => {
-				if (error instanceof errors.BadRequest) {
-					const apiError = ApiError.fromCode(401)
-					res.status(apiError.statusCode).json({ error: 'Invalid email and/or password' })
-					throw apiError
-				} else throw error
-			})
+			const { data: { displayName, role, twoFactorSecret }, secret, ref } = await monitorReturnAsync(
+				() => serverClient.query<User>(q.Merge(
+					q.Login(q.Match(q.Index('usersByEmail'), email), { password }),
+					q.Get(q.Match(q.Index('usersByEmail'), email)),
+				)).catch((error) => {
+					if (error instanceof errors.BadRequest) {
+						const apiError = ApiError.fromCode(401)
+						res.status(apiError.statusCode).json({ error: 'Invalid email and/or password' })
+						throw apiError
+					} else throw error
+				}), 'fanaudb - Merge(Login(), Get())', transaction,
+			)
 
-			const userId = ref.toString().split(',')[1].replace(/[") ]/gi, '')
+			const userId = monitorReturn(
+				() => ref.toString().split(',')[1].replace(/[") ]/gi, ''),
+				'userId', transaction,
+			)
 
 			if (twoFactorSecret) {
-				const intermediateToken = getJwtToken(secret, { sub: email, displayName, role, userId }, TokenTypes.Intermediate)
+				const intermediateToken = getJwtToken(secret,
+					{ sub: email, displayName, role, userId },
+					{ type: TokenTypes.Intermediate, transaction })
 
-				res.status(200).json({ intermediateToken })
-				break
+				return res.status(200).json({ intermediateToken })
 			} else {
-				const accessToken = getJwtToken(secret, { sub: email, displayName, role, userId })
-				const refreshToken = getJwtToken(secret, { sub: email, displayName, role, userId }, TokenTypes.Refresh)
+				const accessToken = getJwtToken(secret, { sub: email, displayName, role, userId }, { transaction })
+				const refreshToken = getJwtToken(secret, { sub: email, displayName, role, userId }, {
+					type: TokenTypes.Refresh,
+					transaction,
+				})
+				setRefreshCookie(res, refreshToken, transaction)
 
-				setRefreshCookie(res, refreshToken)
-
-				res.status(200).json({ accessToken })
-				break
+				return res.status(200).json({ accessToken })
 			}
 		}
 

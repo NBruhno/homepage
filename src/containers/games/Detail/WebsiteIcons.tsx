@@ -16,24 +16,24 @@ type Props = {
 } & React.ComponentProps<'div'>
 
 export const WebsiteIcons = ({ websites, sortBy, ...rest }: Props) => {
-	const WebsiteLogos = {
-		[WebsiteCategory.Android]: <GooglePlayIcon size={32} />,
-		[WebsiteCategory.Discord]: <DiscordIcon size={32} />,
-		[WebsiteCategory.EpicGames]: <EpicGamesIcon size={32} />,
-		[WebsiteCategory.Facebook]: <FacebookIcon size={32} />,
-		[WebsiteCategory.GoG]: <GogIcon size={32} />,
-		[WebsiteCategory.Instagram]: <InstagramIcon size={32} />,
-		[WebsiteCategory.iPad]: <AppleIcon size={32} />,
-		[WebsiteCategory.iPhone]: <AppleIcon size={32} />,
-		[WebsiteCategory.Itch]: <ItchIoIcon size={32} />,
-		[WebsiteCategory.Official]: <WebsiteIcon size={32} />,
-		[WebsiteCategory.Reddit]: <RedditIcon size={32} />,
-		[WebsiteCategory.Steam]: <SteamIcon size={32} />,
-		[WebsiteCategory.Twitch]: <TwitchIcon size={32} />,
-		[WebsiteCategory.Twitter]: <TwitterIcon size={32} />,
-		[WebsiteCategory.Wiki]: <WikiIcon size={32} />,
-		[WebsiteCategory.Wikipedia]: <WikipediaIcon size={32} />,
-		[WebsiteCategory.YouTube]: <YouTubeIcon size={32} />,
+	const websiteInformation = {
+		[WebsiteCategory.Android]: { logo: <GooglePlayIcon size={32} />, name: 'Google Play store' },
+		[WebsiteCategory.Discord]: { logo: <DiscordIcon size={32} />, name: 'Discord' },
+		[WebsiteCategory.EpicGames]: { logo: <EpicGamesIcon size={32} />, name: 'Epic Games store' },
+		[WebsiteCategory.Facebook]: { logo: <FacebookIcon size={32} />, name: 'Facebook page' },
+		[WebsiteCategory.GoG]: { logo: <GogIcon size={32} />, name: 'Good old Games store' },
+		[WebsiteCategory.Instagram]: { logo: <InstagramIcon size={32} />, name: 'Instagram profile' },
+		[WebsiteCategory.iPad]: { logo: <AppleIcon size={32} />, name: 'iPad site' },
+		[WebsiteCategory.iPhone]: { logo: <AppleIcon size={32} />, name: 'iPhone site' },
+		[WebsiteCategory.Itch]: { logo: <ItchIoIcon size={32} />, name: 'Itch.io website' },
+		[WebsiteCategory.Official]: { logo: <WebsiteIcon size={32} />, name: 'Official website' },
+		[WebsiteCategory.Reddit]: { logo: <RedditIcon size={32} />, name: 'Sub-reddit' },
+		[WebsiteCategory.Steam]: { logo: <SteamIcon size={32} />, name: 'Steam store' },
+		[WebsiteCategory.Twitch]: { logo: <TwitchIcon size={32} />, name: 'Twitch profile' },
+		[WebsiteCategory.Twitter]: { logo: <TwitterIcon size={32} />, name: 'Twitter profile' },
+		[WebsiteCategory.Wiki]: { logo: <WikiIcon size={32} />, name: 'Game wiki' },
+		[WebsiteCategory.Wikipedia]: { logo: <WikipediaIcon size={32} />, name: 'Wikipedia page' },
+		[WebsiteCategory.YouTube]: { logo: <YouTubeIcon size={32} />, name: 'YouTube channel' },
 	}
 
 	if (!websites || websites.length <= 0) return null
@@ -73,7 +73,7 @@ export const WebsiteIcons = ({ websites, sortBy, ...rest }: Props) => {
 				<a
 					href={url}
 					target='_blank'
-					rel='noreferrer'
+					rel='noreferrer noopener'
 					key={index}
 					css={(theme: Theme) => ({
 						color: theme.color.gray070,
@@ -85,8 +85,9 @@ export const WebsiteIcons = ({ websites, sortBy, ...rest }: Props) => {
 							color: theme.color.gray100,
 						},
 					})}
+					aria-label={websiteInformation[category].name}
 				>
-					{WebsiteLogos[category]}
+					{websiteInformation[category].logo}
 				</a>
 			))}
 		</div>

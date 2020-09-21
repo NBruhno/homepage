@@ -6,40 +6,40 @@ export const Title = (props: React.ComponentProps<'h1'>) => (
 			fontSize: '3em',
 			paddingTop: '12px',
 			color: theme.color.white,
-			margin: '0 0 24px',
+			margin: '0 0 8px',
 			fontWeight: 500,
 
 			[theme.mediaQueries.maxWearable]: {
 				fontSize: theme.fontSize.s100,
 				wordBreak: 'break-word',
-				margin: '4px 0 10px',
+				margin: '4px 0 8px',
 				paddingTop: 0,
 			},
 
 			[theme.mediaQueries.wearableToMobile]: {
 				fontSize: theme.fontSize.s125,
-				margin: '4px 0 14px',
+				margin: '4px 0 8px',
 				paddingTop: 0,
 			},
 
 			[theme.mediaQueries.mobileToTablet]: {
 				fontSize: theme.fontSize.s140,
-				margin: '0 0 16px',
+				margin: '0 0 8px',
 			},
 
 			[theme.mediaQueries.tabletToLaptop]: {
 				fontSize: theme.fontSize.s160,
-				margin: '4px 0 18px',
+				margin: '4px 0 8px',
 			},
 
 			[theme.mediaQueries.laptopToDesktop]: {
 				fontSize: theme.fontSize.s180,
-				margin: '4px 0 20px',
+				margin: '4px 0 8px',
 			},
 
 			[theme.mediaQueries.desktopToDesktopLarge]: {
 				fontSize: theme.fontSize.s200,
-				margin: '4px 0 22',
+				margin: '4px 0 8px',
 			},
 		})}
 		{...props}

@@ -1,14 +1,4 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
-
-type Props = {
-	alt?: string,
-} & React.ComponentProps<'a'>
-
-export const LinkTitle = (props: React.ComponentProps<'span'>) => (
-	<span css={{ display: 'none' }} {...props} />
-)
-
-export const Link = ({ alt, children, ...rest }: Props) => (
+export const Link = ({ children, ...rest }: React.ComponentProps<'a'>) => (
 	<a
 		css={(theme: Theme) => ({
 			display: 'flex',
@@ -21,10 +11,9 @@ export const Link = ({ alt, children, ...rest }: Props) => (
 			},
 		})}
 		target='_blank'
-		rel='noreferrer'
+		rel='noreferrer noopener'
 		{...rest}
 	>
 		{children}
-		<LinkTitle>{alt}</LinkTitle>
 	</a>
 )

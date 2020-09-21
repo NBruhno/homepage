@@ -1,9 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 import { NextApiRequest, NextApiResponse } from 'next'
 import { MockRequest, MockResponse } from 'node-mocks-http'
+import { startTransaction } from '@sentry/node'
+import { Transaction } from '@sentry/apm'
 
 type Request = MockRequest<NextApiRequest>
 type Response = MockResponse<NextApiResponse>
+
+export const transaction = startTransaction({
+	op: 'test',
+	name: 'API test',
+	trimEnd: false,
+}) as Transaction
 
 export const testingCredentials = process.env.TESTING_CREDENTIALS
 export const testingToken = process.env.TESTING_TOKEN

@@ -1,3 +1,4 @@
+import { Span, Transaction } from '@sentry/apm'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { JWT, errors } from 'jose'
 
@@ -8,6 +9,7 @@ import { Token, TokenTypes } from 'types/Token'
 import { decrypt } from 'lib/cipher'
 
 import { ApiError } from '../errors/ApiError'
+import { monitorReturn } from '../performanceCheck'
 
 export type Options = {
 	/** Does not error out if authentication fails, but still decodes the token if valid. Only valid for access token. */
@@ -16,6 +18,7 @@ export type Options = {
 	token?: string,
 	/** Switch between authenticating an access, refresh or intermediate token. Defaults to access. */
 	type?: TokenTypes,
+	transaction: Transaction | Span,
 }
 
 const resolveError = (error: unknown, res: NextApiResponse) => {
@@ -26,8 +29,10 @@ const resolveError = (error: unknown, res: NextApiResponse) => {
 	throw error
 }
 
-export const authenticate = (req: NextApiRequest, res: NextApiResponse, { optional = false, token, type }: Options = { type: TokenTypes.Access }): Token => {
+export const authenticate = (req: NextApiRequest, res: NextApiResponse,
+	{ optional = false, token, type = TokenTypes.Access, transaction }: Options): Token => monitorReturn(() => {
 	const { headers: { authorization }, cookies } = req
+
 	const getToken = () => {
 		if (token) return token
 		if (type === TokenTypes.Refresh) return config.environment !== 'development' ? cookies['__Host-refreshToken'] : cookies['refreshToken']
@@ -54,4 +59,4 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse, { option
 			resolveError(error, res)
 		}
 	}
-}
+}, `authenticate() - ${type}`, transaction)

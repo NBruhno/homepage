@@ -11,7 +11,7 @@ type Props = {
 const About: NextPage<Props> = () => (
 	<>
 		<Head>
-			<title>Bruhno</title>
+			<title>About • Bruhno</title>
 		</Head>
 		<Page>
 			<PageContent maxWidth={700}>

@@ -1,3 +1,4 @@
+import { Transaction, Span } from '@sentry/apm'
 import { JWT } from 'jose'
 
 import { TokenTypes } from 'types/Token'
@@ -6,7 +7,13 @@ import { encrypt } from 'lib/cipher'
 
 import { config } from 'config.server'
 
+import { monitorReturn } from './performanceCheck'
+
 type Payload = Record<string, any>
+type Options = {
+	type?: TokenTypes,
+	transaction: Transaction | Span,
+}
 
 const defaultPayload = {
 	aud: ['https://bruhno.com', 'https://bruhno.dev'],
@@ -15,7 +22,10 @@ const defaultPayload = {
 	nbf: Math.floor(Date.now() / 1000) - 30,
 }
 
-export const getJwtToken = (secret: string, payload: Payload, type: TokenTypes = TokenTypes.Access) => {
+export const getJwtToken = (secret: string, payload: Payload, {
+	type = TokenTypes.Access,
+	transaction,
+}: Options) => monitorReturn(() => {
 	const getExpiration = () => {
 		switch (type) {
 			case TokenTypes.Access: return Math.floor(Date.now() / 1000) + (60 * 15) // 15 minutes
@@ -38,4 +48,4 @@ export const getJwtToken = (secret: string, payload: Payload, type: TokenTypes =
 	})
 
 	return signedJwt
-}
+}, `getJwtToken() - ${type}`, transaction)

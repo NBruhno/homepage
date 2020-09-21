@@ -39,20 +39,16 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 
 	return (
 		<Wrapper>
-			<div>
-				<BackgroundWrapper>
-					{isLoading ? (
-						<BackgroundPlaceholder />
-					) : (
-						<Background src={game?.screenshot ?? game?.cover ?? null} />
-					)}
-				</BackgroundWrapper>
-			</div>
+			<BackgroundWrapper>
+				{isLoading ? (
+					<BackgroundPlaceholder />
+				) : (
+					<Background src={game?.screenshot ?? game?.cover ?? null} />
+				)}
+			</BackgroundWrapper>
 			<MainContent>
-				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '16px' }}>
-					<div css={{ display: 'grid', gridTemplateRows: 'auto auto', gridRowGap: '12px' }}>
-						<Cover coverUrl={game?.cover ?? null} loading='eager' />
-					</div>
+				<div css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gridColumnGap: '16px', marginBottom: '12px' }}>
+					<Cover coverUrl={game?.cover ?? null} loading='eager' />
 					<TitleWrapper>
 						<div>
 							<Title>

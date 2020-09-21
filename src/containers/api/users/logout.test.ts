@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 import { errors } from 'faunadb'
 
-import { parseJson, expectStatusCode, expectSpecificObject, testingCredentials } from 'test/utils'
+import { parseJson, expectStatusCode, expectSpecificObject, testingCredentials, transaction } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'
 
@@ -20,7 +20,7 @@ describe('/api/users/logout', () => {
 			},
 		})
 
-		await login(req, res)
+		await login(req, res, { transaction })
 		accessToken = parseJson(res).accessToken
 	})
 
@@ -32,7 +32,7 @@ describe('/api/users/logout', () => {
 			},
 		})
 
-		await logout(req, res)
+		await logout(req, res, { transaction })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'You have been logged out successfully' })
 	})
@@ -45,7 +45,7 @@ describe('/api/users/logout', () => {
 			},
 		})
 
-		await expect(logout(req, res)).rejects.toThrow(errors.Unauthorized)
+		await expect(logout(req, res, { transaction })).rejects.toThrow(errors.Unauthorized)
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'You have been logged out successfully' })
 	})
@@ -55,7 +55,7 @@ describe('/api/users/logout', () => {
 			method: 'POST',
 		})
 
-		await expect(logout(req, res)).rejects.toThrow(ApiError)
+		await expect(logout(req, res, { transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
@@ -65,7 +65,7 @@ describe('/api/users/logout', () => {
 			method: 'GET',
 		})
 
-		await expect(logout(req, res)).rejects.toThrow(ApiError)
+		await expect(logout(req, res, { transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 	})
 })

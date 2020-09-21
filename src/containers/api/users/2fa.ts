@@ -3,11 +3,13 @@ import { query as q } from 'faunadb'
 import { authenticator } from 'otplib'
 
 import { TokenTypes } from 'types/Token'
+import type { Options as DefaultOptions } from '../types'
 
 import { ApiError } from '../errors/ApiError'
 import { authenticate, setRefreshCookie } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { getJwtToken } from '../getJwtToken'
+import { monitor, monitorAsync, monitorReturn, monitorReturnAsync } from '../performanceCheck'
 
 interface Request extends NextApiRequest {
 	body: {
@@ -16,21 +18,26 @@ interface Request extends NextApiRequest {
 	}
 }
 
-export const twoFactorAuthentication = async (req: Request, res: NextApiResponse, userId: string) => {
+type Options = {
+	userId: string,
+} & DefaultOptions
+
+export const twoFactorAuthentication = async (req: Request, res: NextApiResponse, options: Options) => {
 	const { method } = req
+	const { userId, transaction } = options
+	transaction.setName(`${method} - api/users/{userId}/2fa`)
 
 	switch (method) {
 		case 'GET': {
-			authenticate(req, res)
-			const twoFactorSecret = authenticator.generateSecret()
+			authenticate(req, res, { transaction })
+			const twoFactorSecret = monitorReturn(() => authenticator.generateSecret(), 'generateSecret()', transaction)
 
-			res.status(200).json({ twoFactorSecret })
-			break
+			return res.status(200).json({ twoFactorSecret })
 		}
 
 		case 'PATCH': {
 			const { body: { secret, otp } } = req
-			const { secret: tokenSecret } = authenticate(req, res)
+			const { secret: tokenSecret } = authenticate(req, res, { transaction })
 
 			if (!secret || !otp) {
 				const error = ApiError.fromCode(400)
@@ -38,38 +45,38 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 				throw error
 			}
 
-			if (!authenticator.verify({ token: otp, secret })) {
-				const error = ApiError.fromCode(401)
-				res.status(error.statusCode).json({ error: error.message })
-				throw error
-			}
+			monitor(() => {
+				if (!authenticator.verify({ token: otp, secret })) {
+					const error = ApiError.fromCode(401)
+					res.status(error.statusCode).json({ error: error.message })
+					throw error
+				}
+			}, 'verify()', transaction)
 
-			await faunaClient(tokenSecret).query(
+			await monitorAsync(() => faunaClient(tokenSecret).query(
 				q.Update(q.Ref(q.Collection('users'), userId), {
 					data: { twoFactorSecret: secret },
 				}),
-			)
+			), 'faunadb - Update()', transaction)
 
-			res.status(200).json({ message: '2FA has been activated' })
-			break
+			return res.status(200).json({ message: '2FA has been activated' })
 		}
 
 		case 'DELETE': {
-			const token = authenticate(req, res)
+			const token = authenticate(req, res, { transaction })
 
-			await faunaClient(token.secret).query(
+			await monitorAsync(() => faunaClient(token.secret).query(
 				q.Update(q.Ref(q.Collection('users'), userId), {
 					data: { twoFactorSecret: null },
 				}),
-			)
+			), 'faunadb - Update()', transaction)
 
-			res.status(200).json({ message: '2FA has been removed' })
-			break
+			return res.status(200).json({ message: '2FA has been removed' })
 		}
 
 		case 'POST': {
 			const { body: { otp } } = req
-			const { secret, sub, displayName, role, userId } = authenticate(req, res, { type: TokenTypes.Intermediate })
+			const { secret, sub, displayName, role, userId } = authenticate(req, res, { type: TokenTypes.Intermediate, transaction })
 
 			if (!otp) {
 				const error = ApiError.fromCode(400)
@@ -77,23 +84,24 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 				throw error
 			}
 
-			const user: { data: Record<string, any> } = await faunaClient(secret).query(
+			const user = await monitorReturnAsync(() => faunaClient(secret).query<{ data: Record<string, any> }>(
 				q.Get(q.Identity()),
-			)
+			), 'faunadb - Get()', transaction)
 
-			if (!authenticator.verify({ token: otp, secret: user.data.twoFactorSecret })) {
-				const error = ApiError.fromCode(401)
-				res.status(error.statusCode).json({ error: error.message })
-				throw error
-			}
+			monitor(() => {
+				if (!authenticator.verify({ token: otp, secret: user.data.twoFactorSecret })) {
+					const error = ApiError.fromCode(401)
+					res.status(error.statusCode).json({ error: error.message })
+					throw error
+				}
+			}, 'verify()', transaction)
 
-			const accessToken = getJwtToken(secret, { sub, displayName, role, userId })
-			const refreshToken = getJwtToken(secret, { sub, displayName, role, userId }, TokenTypes.Refresh)
+			const accessToken = getJwtToken(secret, { sub, displayName, role, userId }, { transaction })
+			const refreshToken = getJwtToken(secret, { sub, displayName, role, userId }, { type: TokenTypes.Refresh, transaction })
 
-			setRefreshCookie(res, refreshToken)
+			setRefreshCookie(res, refreshToken, transaction)
 
-			res.status(200).json({ accessToken })
-			break
+			return res.status(200).json({ accessToken })
 		}
 
 		default: {

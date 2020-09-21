@@ -1,7 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 
-import { parseJson, parseHeaders, expectStatusCode, accessTokenMatch, refreshTokenMatch, testingCredentials, expectSpecificObject } from 'test/utils'
+import {
+	parseJson, parseHeaders, expectStatusCode, accessTokenMatch, refreshTokenMatch, testingCredentials,
+	expectSpecificObject, transaction,
+} from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'
 
@@ -20,7 +23,7 @@ describe('/api/users/refresh', () => {
 			},
 		})
 
-		await login(req, res)
+		await login(req, res, { transaction })
 		// @ts-expect-error it does not return a string[] in this case
 		refreshToken = parseHeaders(res)['set-cookie']
 	})
@@ -33,7 +36,7 @@ describe('/api/users/refresh', () => {
 			},
 		})
 
-		await refresh(req, res)
+		await refresh(req, res, { transaction })
 		expectStatusCode(res, 200)
 		expect(parseJson(res).accessToken).toMatch(accessTokenMatch)
 		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
@@ -44,7 +47,7 @@ describe('/api/users/refresh', () => {
 			method: 'GET',
 		})
 
-		await expect(refresh(req, res)).rejects.toThrow(ApiError)
+		await expect(refresh(req, res, { transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
@@ -54,7 +57,7 @@ describe('/api/users/refresh', () => {
 			method: 'POST',
 		})
 
-		await expect(refresh(req, res)).rejects.toThrow(ApiError)
+		await expect(refresh(req, res, { transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 	})
 })

@@ -10,7 +10,7 @@ type Props = {
 const Home: NextPage<Props> = () => (
 	<>
 		<Head>
-			<title>Bruhno</title>
+			<title>Storybook • Bruhno</title>
 		</Head>
 		<div css={{ display: 'flex' }}>
 			<iframe css={{ width: '100%' }} frameBorder={0} src={config.environment === 'development' ? 'http://localhost:9000' : `/storybook/index.html`} title='storybook' />
