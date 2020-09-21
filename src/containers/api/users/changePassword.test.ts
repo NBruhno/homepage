@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 import { randomBytes } from 'crypto'
 
-import { testingToken, testingUserId, expectSpecificObject, expectStatusCode } from 'test/utils'
+import { testingToken, testingUserId, expectSpecificObject, expectStatusCode, transaction } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'
 
@@ -20,7 +20,7 @@ describe('/api/users/{userId}/changePassword', () => {
 			},
 		})
 
-		await changePassword(req, res, testingUserId)
+		await changePassword(req, res, { userId: testingUserId, transaction })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Your password has been updated' })
 	})
@@ -33,7 +33,7 @@ describe('/api/users/{userId}/changePassword', () => {
 			},
 		})
 
-		await expect(changePassword(req, res, testingUserId)).rejects.toThrow(ApiError)
+		await expect(changePassword(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 	})
 
@@ -45,7 +45,7 @@ describe('/api/users/{userId}/changePassword', () => {
 			},
 		})
 
-		await expect(changePassword(req, res, testingUserId)).rejects.toThrow(ApiError)
+		await expect(changePassword(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 	})
 
@@ -60,7 +60,7 @@ describe('/api/users/{userId}/changePassword', () => {
 			},
 		})
 
-		await expect(changePassword(req, res, testingUserId)).rejects.toThrow(ApiError)
+		await expect(changePassword(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 	})
 })

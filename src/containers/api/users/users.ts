@@ -3,11 +3,13 @@ import { query as q, errors } from 'faunadb'
 
 import type { User } from 'types/User'
 import { TokenTypes } from 'types/Token'
+import type { Options } from '../types'
 
 import { ApiError } from '../errors/ApiError'
 import { getJwtToken } from '../getJwtToken'
 import { serverClient } from '../faunaClient'
 import { setRefreshCookie } from '../middleware'
+import { monitorReturnAsync, monitorReturn } from '../performanceCheck'
 
 interface Request extends NextApiRequest {
 	body: {
@@ -17,8 +19,9 @@ interface Request extends NextApiRequest {
 	}
 }
 
-export const users = async (req: Request, res: NextApiResponse) => {
+export const users = async (req: Request, res: NextApiResponse, options: Options) => {
 	const { method, body: { email, password, displayName } } = req
+	const { transaction } = options
 
 	switch (method) {
 		case 'POST': {
@@ -28,41 +31,49 @@ export const users = async (req: Request, res: NextApiResponse) => {
 				throw error
 			}
 
-			const { ref } = await serverClient.query<User>(
-				q.Create(q.Collection('users'), {
-					credentials: { password },
-					data: { email, role: 'user', twoFactorSecret: null, displayName },
-				}),
-			).then(async ({ ref }) => serverClient.query<User>(
-				q.Update(ref, {
-					data: {
-						owner: ref,
-					},
-				}),
-			)).catch((error) => {
-				if (error instanceof errors.BadRequest) {
-					const apiError = ApiError.fromCode(400)
-					res.status(apiError.statusCode).json({ error: 'Email is already in use' })
-					throw apiError
-				}
-				throw error
-			})
+			const { ref } = await monitorReturnAsync(() => (
+				serverClient.query<User>(
+					q.Create(q.Collection('users'), {
+						credentials: { password },
+						data: { email, role: 'user', twoFactorSecret: null, displayName },
+					}),
+				).then(async ({ ref }) => serverClient.query<User>(
+					q.Update(ref, {
+						data: {
+							owner: ref,
+						},
+					}),
+				)).catch((error) => {
+					if (error instanceof errors.BadRequest) {
+						const apiError = ApiError.fromCode(400)
+						res.status(apiError.statusCode).json({ error: 'Email is already in use' })
+						throw apiError
+					}
+					throw error
+				})
+			), 'faunadb - Create().then(Update())', transaction)
 
-			const loginRes: { secret: string } = await serverClient.query(
-				q.Login(ref, {
-					password,
-				}),
+			const loginRes = await monitorReturnAsync(() => (
+				serverClient.query<{ secret: string }>(
+					q.Login(ref, {
+						password,
+					}),
+				)
+			), 'faunadb - Login()', transaction)
+
+			const userId = monitorReturn(
+				() => ref.toString().split(',')[1].replace(/[") ]/gi, ''),
+				'userId', transaction,
 			)
 
-			const userId = ref.toString().split(',')[1].replace(/[") ]/gi, '')
+			const accessToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user', userId }, { transaction })
+			const refreshToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user', userId }, {
+				type: TokenTypes.Refresh,
+				transaction,
+			})
+			setRefreshCookie(res, refreshToken, transaction)
 
-			const accessToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user', userId })
-			const refreshToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user', userId }, TokenTypes.Refresh)
-
-			setRefreshCookie(res, refreshToken)
-
-			res.status(200).json({ accessToken })
-			break
+			return res.status(200).json({ accessToken })
 		}
 
 		default: {

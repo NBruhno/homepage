@@ -1,6 +1,6 @@
 import { createMocks } from 'node-mocks-http'
 
-import { expectStatusCode, expectSpecificObject, testingToken } from 'test/utils'
+import { expectStatusCode, expectSpecificObject, testingToken, transaction } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'
 
@@ -16,7 +16,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await follow(req, res, 'stalker-2')
+		await follow(req, res, { gameId: 'stalker-2', transaction })
 	})
 
 	test('PATCH › Unfollow game', async () => {
@@ -27,7 +27,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await unfollow(req, res, 'stalker-2')
+		await unfollow(req, res, { gameId: 'stalker-2', transaction })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Successfully unfollowed the game' })
 	})
@@ -40,7 +40,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await expect(unfollow(req, res, 'atomic-heart')).rejects.toThrow(ApiError)
+		await expect(unfollow(req, res, { gameId: 'atomic-heart', transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 404)
 		expectSpecificObject(res, { error: ApiError.fromCode(404).message })
 	})
@@ -50,7 +50,7 @@ describe('/api/games/follow', () => {
 			method: 'PATCH',
 		})
 
-		await expect(unfollow(req, res, 'stalker-2')).rejects.toThrow(ApiError)
+		await expect(unfollow(req, res, { gameId: 'stalker-2', transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
@@ -63,7 +63,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await expect(unfollow(req, res, 'cyberpunk-2077')).rejects.toThrow(ApiError)
+		await expect(unfollow(req, res, { gameId: 'cyberpunk-2077', transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 	})
 })

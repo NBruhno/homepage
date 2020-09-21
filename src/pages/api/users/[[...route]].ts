@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextApiRequest } from 'next'
 
 import { login, user, users as apiUsers, twoFactorAuthentication, logout, refresh, changePassword } from 'containers/api/users'
 import { withSentry } from 'containers/api/middleware'
@@ -10,20 +10,20 @@ interface Request extends NextApiRequest {
 	}
 }
 
-const users = withSentry(async (req: Request, res: NextApiResponse) => {
+const users = withSentry(async (req: Request, res, transaction) => {
 	const { query: { route } } = req
 
 	if (route) {
 		const [userId, resource] = route
 		switch (userId) {
-			case 'login': return login(req, res)
-			case 'refresh': return refresh(req, res)
+			case 'login': return login(req, res, { transaction })
+			case 'refresh': return refresh(req, res, { transaction })
 			default: {
 				if (resource) {
 					switch (resource) {
-						case '2fa': return twoFactorAuthentication(req, res, userId)
-						case 'changePassword': return changePassword(req, res, userId)
-						case 'logout': return logout(req, res)
+						case '2fa': return twoFactorAuthentication(req, res, { transaction, userId })
+						case 'changePassword': return changePassword(req, res, { transaction, userId })
+						case 'logout': return logout(req, res, { transaction })
 						default: {
 							const error = ApiError.fromCode(404)
 							res.status(error.statusCode).json({ error: error.message })
@@ -32,10 +32,10 @@ const users = withSentry(async (req: Request, res: NextApiResponse) => {
 					}
 				}
 
-				return user(req, res, userId)
+				return user(req, res, { transaction, userId })
 			}
 		}
-	} else return apiUsers(req, res)
+	} else return apiUsers(req, res, { transaction })
 })
 
 export default users

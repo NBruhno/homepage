@@ -1,14 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-
 import { game, gameList, follow, unfollow } from 'containers/api/games'
 import { withSentry } from 'containers/api/middleware'
 import { ApiError } from 'containers/api/errors/ApiError'
 
-const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
+const auth = withSentry(async (req, res, transaction) => {
 	const { query: { route } } = req
 
 	if (!route) { // /games
-		await gameList(req, res)
+		await gameList(req, res, { transaction })
 		return
 	}
 
@@ -16,11 +14,11 @@ const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
 
 	switch (resource) {
 		case 'follow': { // /games/{id}/follow
-			await follow(req, res, gameId)
+			await follow(req, res, { gameId, transaction })
 			break
 		}
 		case 'unfollow': { // /games/{id}/unfollow
-			await unfollow(req, res, gameId)
+			await unfollow(req, res, { gameId, transaction })
 			break
 		}
 		default: { // /games/{id}
@@ -29,7 +27,7 @@ const auth = withSentry(async (req: NextApiRequest, res: NextApiResponse) => {
 				res.status(error.statusCode).json({ error: error.message })
 				throw error
 			} else {
-				await game(req, res, gameId)
+				await game(req, res, { gameId, transaction })
 			}
 		}
 	}

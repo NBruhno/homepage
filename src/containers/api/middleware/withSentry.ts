@@ -1,27 +1,45 @@
-import { init, captureException, flush, startTransaction } from '@sentry/node'
-import { NextApiRequest, NextApiResponse, NextApiHandler } from 'next'
+import { Transaction } from '@sentry/apm'
+import { init, captureException, flush, startTransaction, setUser } from '@sentry/node'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
+import { authenticate } from './authenticate'
 
 if (config.sentry.dsn) {
 	init({
 		enabled: config.environment === 'production',
 		dsn: config.sentry.dsn,
-		tracesSampleRate: 0.5,
+		tracesSampleRate: 1,
 	})
 }
 
-export const withSentry = (apiHandler: NextApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
+type ApiHandler = (req: NextApiRequest, res: NextApiResponse, transaction: Transaction) => void | Promise<void>
+
+export const withSentry = (apiHandler: ApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
 	const transaction = startTransaction({
-		name: `${req.method} - ${req.url}`,
-	})
+		op: 'request',
+		name: `${req.method} - ${req.url.split('?')[0]}`,
+		trimEnd: false,
+		tags: {
+			type: req.url.split('/')[1],
+			resource: req.url.split('/')[2],
+		},
+	}, {
+		query: req.query,
+	}) as Transaction
+	transaction.initSpanRecorder()
 	try {
-		return await apiHandler(req, res)
+		const token = authenticate(req, res, { optional: true, transaction })
+		if (token) setUser({ id: token?.userId })
+		return await apiHandler(req, res, transaction)
 	} catch (error) {
 		captureException(error)
 		await flush(2000)
+		transaction.setHttpStatus(res.statusCode)
 		throw error
 	} finally {
+		transaction.setHttpStatus(res.statusCode)
 		transaction.finish()
+		setUser(null)
 	}
 }

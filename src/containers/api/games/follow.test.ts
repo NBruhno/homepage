@@ -1,6 +1,6 @@
 import { createMocks } from 'node-mocks-http'
 
-import { expectStatusCode, expectSpecificObject, testingToken } from 'test/utils'
+import { expectStatusCode, expectSpecificObject, testingToken, transaction } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'
 
@@ -16,7 +16,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await follow(req, res, 'biomutant')
+		await follow(req, res, { gameId: 'biomutant', transaction })
 	})
 
 	beforeAll(async () => {
@@ -27,7 +27,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await unfollow(req, res, 'cyberpunk-2077').catch()
+		await unfollow(req, res, { gameId: 'cyberpunk-2077', transaction }).catch()
 	})
 
 	test('POST › Follow game', async () => {
@@ -38,7 +38,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await follow(req, res, 'cyberpunk-2077')
+		await follow(req, res, { gameId: 'cyberpunk-2077', transaction })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Successfully followed the game' })
 	})
@@ -51,7 +51,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await follow(req, res, 'biomutant')
+		await follow(req, res, { gameId: 'biomutant', transaction })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Successfully followed the game' })
 	})
@@ -61,7 +61,7 @@ describe('/api/games/follow', () => {
 			method: 'POST',
 		})
 
-		await expect(follow(req, res, 'cyberpunk-2077')).rejects.toThrow(ApiError)
+		await expect(follow(req, res, { gameId: 'cyberpunk-2077', transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
@@ -74,7 +74,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await expect(follow(req, res, 'cyberpunk-2077')).rejects.toThrow(ApiError)
+		await expect(follow(req, res, { gameId: 'cyberpunk-2077', transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 	})
 })
