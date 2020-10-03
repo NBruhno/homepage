@@ -5,7 +5,6 @@ import { Item } from '../Item'
 type Props = {
 	games: Array<Record<string, any>>,
 	emptyMessage?: string,
-	error: string,
 }
 
 const fadeIn = keyframes`
@@ -18,9 +17,9 @@ const fadeIn = keyframes`
 	}
 `
 
-export const GameList = ({ games, error, emptyMessage = 'No games match the search criteria' }: Props) => {
+export const GameList = ({ games, emptyMessage = 'No games match the search criteria' }: Props) => {
 	const isLoading = !games
-	const gamesToRender = !isLoading && !error ? games : [{}, {}, {}, {}, {}, {}, {}]
+	const gamesToRender = !isLoading ? games : [{}, {}, {}, {}, {}, {}, {}]
 
 	return (
 		<div css={(theme: Theme) => ({ animation: `350ms ${theme.animation.default} ${fadeIn} 1` })}>

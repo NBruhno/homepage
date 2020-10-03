@@ -70,9 +70,7 @@ export const Form = ({
 		<FinalForm
 			onSubmit={onSubmit}
 			initialValues={{ ...initialValues, ...initialStateValues }}
-
 			{...props}
-
 			render={({ handleSubmit, form }) => (
 				<form
 					id={formName}
