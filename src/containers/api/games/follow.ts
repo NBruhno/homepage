@@ -23,12 +23,15 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 		case 'GET': {
 			const userData = await monitorReturnAsync(() => faunaClient(secret).query<{ data: { following: boolean } }>(
 				q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.Identity()])),
-			).then((response) => response.data), 'faunadb - Get()', transaction)
-				.catch((error) => {
-					if (error instanceof errors.NotFound) {
-						return res.status(200).json({ following: false })
-					} else throw error
-				})
+			).catch((error) => {
+				if (error instanceof errors.NotFound) {
+					return {
+						data: {
+							following: false,
+						},
+					}
+				} else throw error
+			}).then((response) => response.data), 'faunadb - Get()', transaction)
 			return res.status(200).json({ ...userData })
 		}
 		case 'POST': {
