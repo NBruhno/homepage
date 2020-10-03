@@ -30,6 +30,7 @@ export const GameList = ({ games, error, emptyMessage = 'No games match the sear
 					key={game?.id ?? index}
 					index={index}
 					{...game}
+					ref={null}
 				/>
 			))}
 			{!isLoading && games.length === 0 && (<p>{emptyMessage}</p>)}

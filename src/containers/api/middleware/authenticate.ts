@@ -8,7 +8,7 @@ import { Token, TokenTypes } from 'types/Token'
 
 import { decrypt } from 'lib/cipher'
 
-import { ApiError } from '../errors/ApiError'
+import { ApiError, throwError } from '../errors/ApiError'
 import { monitorReturn } from '../performanceCheck'
 
 export type Options = {
@@ -39,11 +39,7 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 		return authorization?.split('Bearer ')[1]
 	}
 
-	if (!getToken() && !optional) {
-		const error = ApiError.fromCode(401)
-		res.status(error.statusCode).json({ error: error.message })
-		throw error
-	}
+	if (!getToken() && !optional) throwError(401, res)
 
 	try {
 		const decodedToken = <Token>JWT.verify(getToken(), config.auth.publicKey, {
@@ -60,3 +56,10 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 		}
 	}
 }, `authenticate() - ${type}`, transaction)
+
+export const authenticateSystem = (req: NextApiRequest, res: NextApiResponse) => {
+	const { headers: { authorization } } = req
+	if (authorization === `Bearer ${config.auth.systemToken}`) {
+		return true
+	} else throwError(401, res)
+}

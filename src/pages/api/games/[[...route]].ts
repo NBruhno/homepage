@@ -1,36 +1,40 @@
-import { game, gameList, follow, unfollow } from 'containers/api/games'
+import { game, games, follow, follows, unfollow, create, update, updateLibrary } from 'containers/api/games'
 import { withSentry } from 'containers/api/middleware'
-import { ApiError } from 'containers/api/errors/ApiError'
+import { throwError } from 'containers/api/errors/ApiError'
 
-const auth = withSentry(async (req, res, transaction) => {
-	const { query: { route } } = req
+export default withSentry(async (req, res, transaction) => {
+	const { query: { route, following: followingQuery }, method } = req
 
 	if (!route) { // /games
-		await gameList(req, res, { transaction })
-		return
+		if (followingQuery === 'true') return follows(req, res, { transaction })
+		// if (searchQuery) return search(req, res, { transaction, search: searchQuery })
+		switch (method) {
+			case 'GET': return games(req, res, { transaction })
+			case 'POST': return create(req, res, { transaction })
+			default: throwError(405, res)
+		}
 	}
 
 	const [gameId, resource] = route
 
 	switch (resource) {
 		case 'follow': { // /games/{id}/follow
-			await follow(req, res, { gameId, transaction })
-			break
+			return follow(req, res, { gameId, transaction })
 		}
 		case 'unfollow': { // /games/{id}/unfollow
-			await unfollow(req, res, { gameId, transaction })
-			break
+			return unfollow(req, res, { gameId, transaction })
 		}
 		default: { // /games/{id}
-			if (resource) {
-				const error = ApiError.fromCode(404)
-				res.status(error.statusCode).json({ error: error.message })
-				throw error
-			} else {
-				await game(req, res, { gameId, transaction })
+			if (resource) throwError(404, res)
+			if (gameId === 'updateLibrary') return updateLibrary(req, res, { transaction })
+			else {
+				transaction.setName(`${method} - api/games/{gameId}`)
+				switch (method) {
+					case 'GET': return game(req, res, { gameId, transaction })
+					case 'PATCH': return update(req, res, { gameId, transaction })
+					default: throwError(405, res)
+				}
 			}
 		}
 	}
 })
-
-export default auth
