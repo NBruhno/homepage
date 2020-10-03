@@ -9,6 +9,7 @@ export const config = {
 		publicKey: decryptConfig(authPublicKey),
 		privateKey: decryptConfig(authPrivateKey),
 		secret: process.env.AUTH_SECRET,
+		systemToken: process.env.AUTH_SYSTEM_TOKEN,
 	},
 
 	fauna: {
@@ -16,7 +17,8 @@ export const config = {
 	},
 
 	igdb: {
-		userKey: process.env.IGDB_USER_KEY,
+		clientId: process.env.IGDB_CLIENT_ID,
+		token: process.env.IGDB_TOKEN,
 	},
 
 	sentry: {

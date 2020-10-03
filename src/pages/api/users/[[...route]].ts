@@ -1,6 +1,6 @@
 import { NextApiRequest } from 'next'
 
-import { login, user, users as apiUsers, twoFactorAuthentication, logout, refresh, changePassword } from 'containers/api/users'
+import { login, user, users, twoFactorAuthentication, logout, refresh, changePassword } from 'containers/api/users'
 import { withSentry } from 'containers/api/middleware'
 import { ApiError } from 'containers/api/errors/ApiError'
 
@@ -10,7 +10,7 @@ interface Request extends NextApiRequest {
 	}
 }
 
-const users = withSentry(async (req: Request, res, transaction) => {
+export default withSentry(async (req: Request, res, transaction) => {
 	const { query: { route } } = req
 
 	if (route) {
@@ -35,7 +35,5 @@ const users = withSentry(async (req: Request, res, transaction) => {
 				return user(req, res, { transaction, userId })
 			}
 		}
-	} else return apiUsers(req, res, { transaction })
+	} else return users(req, res, { transaction })
 })
-
-export default users

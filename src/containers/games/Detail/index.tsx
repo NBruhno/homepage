@@ -26,13 +26,14 @@ import { ActionWrapper } from './ActionWrapper'
 
 type Props = {
 	game: Game | null,
+	following: boolean,
 	isLoading: boolean,
 
 	onFollow: () => Promise<any>,
 	onUnfollow: () => Promise<any>,
 }
 
-export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
+export const Detail = ({ game, following, onFollow, onUnfollow, isLoading }: Props) => {
 	const { user } = useAuth()
 	const { isMobile, isTablet } = useResponsive()
 	const groupedReleaseDates = game?.releaseDates ? groupByReleaseDate(game.releaseDates, ({ date }) => date, game.releaseDate) : null
@@ -71,18 +72,9 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 							<ActionWrapper>
 								<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top}>
 									<ButtonSolid
-										label={game?.following ? 'Unfollow' : 'Follow'}
-										onClick={() => game?.following ? onUnfollow() : onFollow()}
-										disabled={!user.accessToken}
-										isLoading={isLoading}
-										fullWidth
-									/>
-								</Tooltip>
-								<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top}>
-									<ButtonSolid
-										label={game?.following ? 'Played' : 'Playing'}
-										onClick={() => game?.following ? onUnfollow() : onFollow()}
-										disabled={!user.accessToken}
+										label={following ? 'Unfollow' : 'Follow'}
+										onClick={() => following ? onUnfollow() : onFollow()}
+										disabled={following === undefined}
 										isLoading={isLoading}
 										fullWidth
 									/>
@@ -95,18 +87,11 @@ export const Detail = ({ game, onFollow, onUnfollow, isLoading }: Props) => {
 				{(isTablet || isMobile) && (
 					<div>
 						<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top} css={{ display: 'grid' }}>
-							<div css={{ display: 'grid', gridTemplateColumns: 'repeat(2, auto)', gridGap: '8px' }}>
+							<div css={{ display: 'grid', gridTemplateColumns: 'repeat(1, auto)', gridGap: '8px' }}>
 								<ButtonSolid
-									label={game?.following ? 'Unfollow' : 'Follow'}
-									onClick={() => game?.following ? onUnfollow() : onFollow()}
-									disabled={!user.accessToken}
-									isLoading={isLoading}
-									css={{ padding: '5px 16px' }}
-								/>
-								<ButtonSolid
-									label={game?.following ? 'Played' : 'Playing'}
-									onClick={() => game?.following ? onUnfollow() : onFollow()}
-									disabled={!user.accessToken}
+									label={following ? 'Unfollow' : 'Follow'}
+									onClick={() => following ? onUnfollow() : onFollow()}
+									disabled={following === undefined}
 									isLoading={isLoading}
 									css={{ padding: '5px 16px' }}
 								/>

@@ -104,6 +104,7 @@ export type Game = {
 	first_release_date: number | null,
 	game_engines?: Array<Engine>,
 	genres?: Array<Genre>,
+	hypes: number,
 	id: number,
 	involved_companies?: Array<Company>,
 	name: string,
@@ -114,5 +115,6 @@ export type Game = {
 	status: GameStatus,
 	storyline?: string,
 	summary?: string,
+	updated_at: number,
 	websites?: Array<Website>,
 }

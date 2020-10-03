@@ -1,6 +1,6 @@
 import { Span, Transaction } from '@sentry/apm'
 
-export const monitor =<T>(functionToWatch: (span: Span) => T, operationName: string, transaction: Transaction | Span) => {
+export const monitor = <T>(functionToWatch: (span: Span) => T, operationName: string, transaction: Transaction | Span) => {
 	const span = transaction.startChild({ op: operationName })
 	functionToWatch(span)
 	span.finish()

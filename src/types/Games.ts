@@ -44,9 +44,11 @@ export type Game = {
 	cover: string | null,
 	developer: Company,
 	engines: Array<Engine> | null,
-	following: boolean,
 	genres: Array<string>,
+	hype: number,
 	id: string,
+	igdbId: number,
+	lastChecked: number,
 	name: string,
 	platforms: Array<Platform>,
 	porting: Company,
@@ -60,10 +62,11 @@ export type Game = {
 	storyline: string,
 	summary: string,
 	supporting: Company,
+	updatedAt: number,
 	websites: Array<Website>,
 }
 
-export type SimpleGame = Pick<Game, 'id' | 'cover' | 'name' | 'releaseDate' | 'status' | 'following'>
+export type SimpleGame = Pick<Game, 'id' | 'cover' | 'name' | 'releaseDate' | 'status' | 'updatedAt' | 'lastChecked'>
 
 export type FaunaGame = {
 	ref: string,

@@ -68,7 +68,7 @@ describe('/api/games/follow', () => {
 
 	test('Invalid method', async () => {
 		const { req, res } = createMocks({
-			method: 'GET',
+			method: 'DELETE',
 			headers: {
 				authorization: `Bearer ${testingToken}`,
 			},

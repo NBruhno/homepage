@@ -8,60 +8,21 @@ import type { Game, SimpleGame, ListTypes } from 'types/Games'
 import { fetcher, Method } from 'lib/fetcher'
 import { useGlobalState } from './globalState'
 
-type GameList = {
-	following: Array<SimpleGame>,
-	games: Array<SimpleGame>,
-	popular: Array<SimpleGame>,
-}
-
 export const useGames = () => {
 	const [forms] = useGlobalState('forms')
 	const [gamesState, setGameState] = useGlobalState('games')
-	const [games, setGames] = useState<GameList>({ popular: null, games: null, following: null })
 	const { user } = useAuth()
-	const { data, error } = useSWR<GameList>(
-		user?.isStateKnown ? ['/games', forms.games?.search, user.accessToken] : null, (link, search, accessToken) => fetcher(link, { body: { search }, accessToken, method: Method.Post }), { revalidateOnFocus: false },
-	)
+	const { data: popular } = useSWR<{ popular: Array<SimpleGame> }>(user?.isStateKnown
+		? ['/games']
+		: null, (link) => fetcher(link), { revalidateOnFocus: false })
 
-	const follow = async (id: string) => {
-		const response = await fetcher<{ message?: string }>(`/games/${id}/follow`, { accessToken: user.accessToken, method: Method.Post })
-		if (response.message) {
-			setGames({
-				popular: games.popular.map((game: SimpleGame) => {
-					if (id === game.id) return { ...game, following: true }
-					return game
-				}),
-				games: games.games.map((game: SimpleGame) => {
-					if (id === game.id) return { ...game, following: true }
-					return game
-				}),
-				following: games.following.map((game: SimpleGame) => {
-					if (id === game.id) return { ...game, following: true }
-					return game
-				}),
-			})
-		}
-	}
+	const { data: following } = useSWR<{ following: Array<SimpleGame> }>(user?.accessToken
+		? ['/games?following=true', user.accessToken]
+		: null, (link, accessToken) => fetcher(link, { accessToken }), { revalidateOnFocus: false })
 
-	const unfollow = async (id: string) => {
-		const response = await fetcher<{ message?: string }>(`/games/${id}/unfollow`, { accessToken: user.accessToken, method: Method.Patch })
-		if (response.message) {
-			setGames({
-				popular: games.popular.map((game: SimpleGame) => {
-					if (id === game.id) return { ...game, following: false }
-					return game
-				}),
-				games: games.games.map((game: SimpleGame) => {
-					if (id === game.id) return { ...game, following: false }
-					return game
-				}),
-				following: games.following.map((game: SimpleGame) => {
-					if (id === game.id) return { ...game, following: false }
-					return game
-				}),
-			})
-		}
-	}
+	const { data: search } = useSWR<{ popular: Array<SimpleGame> }>(forms.games?.search
+		? ['/games?search=', forms.games?.search]
+		: null, (link, searchParameter) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
 
 	const setCurrentList = (currentList: ListTypes) => {
 		if (currentList !== gamesState.currentList) {
@@ -69,37 +30,34 @@ export const useGames = () => {
 		}
 	}
 
-	useEffect(() => setGames(data), [data])
+	const games = {
+		...popular,
+		...following,
+		games: search?.popular,
+	}
 
-	return { ...games, error, currentList: gamesState.currentList, setCurrentList, follow, unfollow }
+	return { ...games, currentList: gamesState.currentList, setCurrentList }
 }
 
 export const useGame = (id: string) => {
-	const [game, setGame] = useState(null)
 	const { user } = useAuth()
-	const { data, error } = useSWR<Game>((id && user?.isStateKnown) ? `/games/${id}` : null, (link) => fetcher(link, { accessToken: user?.accessToken }), { revalidateOnFocus: false })
+	const [following, setFollowing] = useState<boolean>(undefined)
+	const { data: game } = useSWR<Game>(id ? `/games/${id}` : null, (link) => fetcher(link), { revalidateOnFocus: false })
+	const { data: followingData } = useSWR<{ following: boolean }>((id && user?.accessToken)
+		? `/games/${id}/follow`
+		: null, (link) => fetcher(link, { accessToken: user?.accessToken }), { revalidateOnFocus: false })
 
 	const follow = async () => {
 		const response = await fetcher<{ message?: string }>(`/games/${id}/follow`, { accessToken: user.accessToken, method: Method.Post })
 
-		if (response.message) {
-			setGame(() => {
-				if (id === game.id) return { ...game, following: true }
-				return game
-			})
-		}
+		if (response.message) setFollowing(true)
 	}
 
 	const unfollow = async () => {
 		const response = await fetcher<{ message?: string }>(`/games/${id}/unfollow`, { accessToken: user.accessToken, method: Method.Patch })
-		if (response.message) {
-			setGame(() => {
-				if (id === game.id) return { ...game, following: false }
-				return game
-			})
-		}
+		if (response.message) setFollowing(false)
 	}
-	useEffect(() => setGame(data), [data])
+	useEffect(() => setFollowing(followingData?.following), [followingData?.following])
 
-	return { game, error, follow: async () => follow(), unfollow: async () => unfollow() }
+	return { game, following, follow: async () => follow(), unfollow: async () => unfollow() }
 }
