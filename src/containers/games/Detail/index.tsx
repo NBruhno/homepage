@@ -109,9 +109,9 @@ export const Detail = ({ game, following, onFollow, onUnfollow, isLoading }: Pro
 				{game?.summary && <h2>Summary</h2>}
 				{game?.summary && <p>{game?.summary}</p>}
 				{groupedReleaseDates?.length > 0 && <h2>Later release dates:</h2>}
-				{groupedReleaseDates?.map(({ date, platforms }) => (
-					<div key={date}>
-						<p>{dateOrYear(date)}: {platforms.join(', ')}</p>
+				{groupedReleaseDates?.map(({ date, platforms }, index) => (
+					<div key={index}>
+						<p>{date ? dateOrYear(date) : 'Unknown date'}: {platforms.join(', ')}</p>
 					</div>
 				))}
 			</MainContent>
