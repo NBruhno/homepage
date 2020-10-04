@@ -1943,7 +1943,7 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@sentry/apm@^5.24.2":
+"@sentry/apm@5.24.2":
   version "5.24.2"
   resolved "https://registry.yarnpkg.com/@sentry/apm/-/apm-5.24.2.tgz#971272cdb26e6708cb07131a69ba1be141fdb47b"
   integrity sha512-NX44liywBDWieCmRvY67PfMc6Lx31wzs0SrUITJo8oD4syQjDWOPUA8rI74U9OKYdBFHU3EGGnlFDxdZmvlX8g==
@@ -8721,7 +8721,7 @@ isobject@^4.0.0:
   resolved "https://registry.yarnpkg.com/isobject/-/isobject-4.0.0.tgz#3f1c9155e73b192022a80819bacd0343711697b0"
   integrity sha512-S/2fF5wH8SJA/kmwr6HYhK/RI/OkhD84k8ntalo0iJjZikgq1XFvR5M8NPT1x5F7fBwCG3qHfnzeP/Vh/ZxCUA==
 
-isomorphic-fetch@^3.0.0:
+isomorphic-fetch@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-3.0.0.tgz#0267b005049046d2421207215d45d6a262b8b8b4"
   integrity sha512-qvUtwJ3j6qwsF3jLxkZ72qCgjMysPzDfeV240JHiGZsANBYd+EEuu35v7dfrJ9Up0Ak07D7GGSkGhCHTqg/5wA==
@@ -11006,10 +11006,10 @@ pnp-webpack-plugin@1.6.4:
   dependencies:
     ts-pnp "^1.1.6"
 
-polished@3.6.7:
-  version "3.6.7"
-  resolved "https://registry.yarnpkg.com/polished/-/polished-3.6.7.tgz#44cbd0047f3187d83db0c479ef0c7d5583af5fb6"
-  integrity sha512-b4OViUOihwV0icb9PHmWbR+vPqaSzSAEbgLskvb7ANPATVXGiYv/TQFHQo65S53WU9i5EQ1I03YDOJW7K0bmYg==
+polished@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/polished/-/polished-4.0.1.tgz#7aa7075bd3e4745e4ac59f0279e91100a20c4bcb"
+  integrity sha512-wsACmaPErslm30ZafPK6meKVh33h969O945jnP1nDw3xmfJTCPu9VHVfYVoH1kuE97dmTSDkXmCI/NsxN+U6Gg==
   dependencies:
     "@babel/runtime" "^7.9.2"
 
