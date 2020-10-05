@@ -36,16 +36,19 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 	generateInDevMode: false,
 	workboxOpts: {
 		swDest: 'static/service-worker.js',
-		exclude: [/\.(?:png|jpg|jpeg|svg)$/],
 		runtimeCaching: [
 			{
-				urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
-				handler: 'CacheFirst',
+				urlPattern: /^https?.*/,
+				handler: 'NetworkFirst',
 				options: {
-					cacheName: 'images',
+					cacheName: 'https-calls',
+					networkTimeoutSeconds: 15,
 					expiration: {
-						maxEntries: 50,
+						maxEntries: 70,
 						maxAgeSeconds: 30 * 24 * 60 * 60, // 1 month
+					},
+					cacheableResponse: {
+						statuses: [0, 200],
 					},
 				},
 			},
