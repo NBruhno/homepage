@@ -11,11 +11,10 @@ const createEnv = async () => {
 		try {
 			const token = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${IGDB_CLIENT_ID}&client_secret=${IGDB_CLIENT_SECRET}&grant_type=client_credentials`, {
 				method: 'POST',
+			}).then(async (response) => {
+				const json = await response.json()
+				return json.access_token
 			})
-				.then(async (response) => {
-					const json = await response.json()
-					return json.access_token
-				})
 
 			fs.appendFile('.env', `IGDB_TOKEN="${token}"`, (error) => {
 				if (error) throw error
