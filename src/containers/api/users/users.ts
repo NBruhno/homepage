@@ -5,7 +5,7 @@ import type { User } from 'types/User'
 import { TokenTypes } from 'types/Token'
 import type { Options } from '../types'
 
-import { ApiError } from '../errors/ApiError'
+import { throwError } from '../errors/ApiError'
 import { getJwtToken } from '../getJwtToken'
 import { serverClient } from '../faunaClient'
 import { setRefreshCookie } from '../middleware'
@@ -25,11 +25,7 @@ export const users = async (req: Request, res: NextApiResponse, options: Options
 
 	switch (method) {
 		case 'POST': {
-			if (!email || !password || !displayName) {
-				const error = ApiError.fromCode(400)
-				res.status(error.statusCode).json({ error: error.message })
-				throw error
-			}
+			if (!email || !password || !displayName) throwError(400, res)
 
 			const { ref } = await monitorReturnAsync(() => (
 				serverClient.query<User>(
@@ -44,11 +40,7 @@ export const users = async (req: Request, res: NextApiResponse, options: Options
 						},
 					}),
 				)).catch((error) => {
-					if (error instanceof errors.BadRequest) {
-						const apiError = ApiError.fromCode(400)
-						res.status(apiError.statusCode).json({ error: 'Email is already in use' })
-						throw apiError
-					}
+					if (error instanceof errors.BadRequest) throwError(400, res)
 					throw error
 				})
 			), 'faunadb - Create().then(Update())', transaction)
@@ -76,10 +68,6 @@ export const users = async (req: Request, res: NextApiResponse, options: Options
 			return res.status(200).json({ accessToken })
 		}
 
-		default: {
-			const error = ApiError.fromCode(405)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
-		}
+		default: throwError(405, res)
 	}
 }

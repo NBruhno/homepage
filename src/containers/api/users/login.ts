@@ -5,7 +5,7 @@ import type { User } from 'types/User'
 import { TokenTypes } from 'types/Token'
 import type { Options } from '../types'
 
-import { ApiError } from '../errors/ApiError'
+import { throwError } from '../errors/ApiError'
 import { getJwtToken } from '../getJwtToken'
 import { serverClient } from '../faunaClient'
 import { setRefreshCookie } from '../middleware'
@@ -24,22 +24,15 @@ export const login = async (req: Request, res: NextApiResponse, options: Options
 
 	switch (method) {
 		case 'POST': {
-			if (!email || !password) {
-				const error = ApiError.fromCode(400)
-				res.status(error.statusCode).json({ error: error.message })
-				throw error
-			}
+			if (!email || !password) throwError(400, res)
 
 			const { data: { displayName, role, twoFactorSecret }, secret, ref } = await monitorReturnAsync(
 				() => serverClient.query<User>(q.Merge(
 					q.Login(q.Match(q.Index('usersByEmail'), email), { password }),
 					q.Get(q.Match(q.Index('usersByEmail'), email)),
 				)).catch((error) => {
-					if (error instanceof errors.BadRequest) {
-						const apiError = ApiError.fromCode(401)
-						res.status(apiError.statusCode).json({ error: 'Invalid email and/or password' })
-						throw apiError
-					} else throw error
+					if (error instanceof errors.BadRequest) throwError(401, res)
+					throw error
 				}), 'fanaudb - Merge(Login(), Get())', transaction,
 			)
 
@@ -66,10 +59,6 @@ export const login = async (req: Request, res: NextApiResponse, options: Options
 			}
 		}
 
-		default: {
-			const error = ApiError.fromCode(405)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
-		}
+		default: throwError(405, res)
 	}
 }
