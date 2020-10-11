@@ -33,7 +33,7 @@ export const changePassword = async (req: Request, res: NextApiResponse, options
 			}
 
 			await monitorAsync(async () => faunaClient(token.secret).query(
-				q.Update(q.Ref(q.Collection('users', userId)), { credentials: { password: newPassword } }),
+				q.Update(q.Ref(q.Collection('users'), userId), { credentials: { password: newPassword } }),
 			).catch((error: unknown) => {
 				if (error instanceof errors.Unauthorized) {
 					const apiError = ApiError.fromCode(401)
