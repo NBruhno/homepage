@@ -10,11 +10,12 @@ const withTranspileModules = require('next-transpile-modules')(['lodash-es'])
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
 
 const {
+	NEXT_EXPORT,
 	NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
+	NODE_ENV,
+	SENTRY_AUTH_TOKEN,
 	SENTRY_ORG,
 	SENTRY_PROJECT,
-	SENTRY_AUTH_TOKEN,
-	NODE_ENV,
 	VERCEL_GITHUB_COMMIT_SHA: COMMIT_SHA,
 } = process.env
 
@@ -36,7 +37,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	workboxOpts: {
-		swDest: process.env.NEXT_EXPORT
+		swDest: NEXT_EXPORT
 			? 'service-worker.js'
 			: 'static/service-worker.js',
 		runtimeCaching: [
