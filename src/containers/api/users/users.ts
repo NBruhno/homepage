@@ -40,7 +40,7 @@ export const users = async (req: Request, res: NextApiResponse, options: Options
 						},
 					}),
 				)).catch((error) => {
-					if (error instanceof errors.BadRequest) throwError(400, res)
+					if (error instanceof errors.BadRequest) throwError(400, res, 'Email is already in use')
 					throw error
 				})
 			), 'faunadb - Create().then(Update())', transaction)
