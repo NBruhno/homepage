@@ -4,7 +4,7 @@ import { query as q, errors } from 'faunadb'
 import type { FaunaGame } from 'types/Games'
 import type { Options as DefaultOptions } from '../types'
 
-import { ApiError } from '../errors/ApiError'
+import { throwError } from '../errors/ApiError'
 import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { monitorAsync, monitorReturnAsync } from '../performanceCheck'
@@ -34,21 +34,14 @@ export const unfollow = async (req: NextApiRequest, res: NextApiResponse, option
 					), 'faunadb - Delete()', transaction)
 				}
 			}).catch((error) => {
-				if (error instanceof errors.NotFound) {
-					const apiError = ApiError.fromCode(404)
-					res.status(apiError.statusCode).json({ error: apiError.message })
-					throw apiError
-				} else throw error
+				if (error instanceof errors.NotFound) throwError(404, res)
+				throw error
 			})
 
 			res.status(200).json({ message: 'Successfully unfollowed the game' })
 			break
 		}
 
-		default: {
-			const error = ApiError.fromCode(405)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
-		}
+		default: throwError(405, res)
 	}
 }

@@ -3,7 +3,7 @@ import { errors, query as q } from 'faunadb'
 
 import type { Options as DefaultOptions } from '../types'
 
-import { ApiError } from '../errors/ApiError'
+import { throwError } from '../errors/ApiError'
 import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { monitorAsync } from '../performanceCheck'
@@ -26,28 +26,17 @@ export const changePassword = async (req: Request, res: NextApiResponse, options
 
 	switch (method) {
 		case 'POST': {
-			if (!newPassword) {
-				const error = ApiError.fromCode(400)
-				res.status(error.statusCode).json({ error: error.message })
-				throw error
-			}
+			if (!newPassword) throwError(400, res)
 
 			await monitorAsync(async () => faunaClient(token.secret).query(
-				q.Update(q.Ref(q.Collection('users', userId)), { credentials: { password: newPassword } }),
+				q.Update(q.Ref(q.Collection('users'), userId), { credentials: { password: newPassword } }),
 			).catch((error: unknown) => {
-				if (error instanceof errors.Unauthorized) {
-					const apiError = ApiError.fromCode(401)
-					res.status(apiError.statusCode).json({ error: 'Unauthorized' })
-					throw apiError
-				}
+				if (error instanceof errors.Unauthorized) throwError(401, res)
+				throw error
 			}), 'faunadb - Update()', transaction)
 			return res.status(200).json({ message: 'Your password has been updated' })
 		}
 
-		default: {
-			const error = ApiError.fromCode(405)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
-		}
+		default: throwError(405, res)
 	}
 }

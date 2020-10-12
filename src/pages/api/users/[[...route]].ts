@@ -2,7 +2,7 @@ import { NextApiRequest } from 'next'
 
 import { login, user, users, twoFactorAuthentication, logout, refresh, changePassword } from 'containers/api/users'
 import { withSentry } from 'containers/api/middleware'
-import { ApiError } from 'containers/api/errors/ApiError'
+import { throwError } from 'containers/api/errors/ApiError'
 
 interface Request extends NextApiRequest {
 	query: {
@@ -24,11 +24,7 @@ export default withSentry(async (req: Request, res, transaction) => {
 						case '2fa': return twoFactorAuthentication(req, res, { transaction, userId })
 						case 'changePassword': return changePassword(req, res, { transaction, userId })
 						case 'logout': return logout(req, res, { transaction })
-						default: {
-							const error = ApiError.fromCode(404)
-							res.status(error.statusCode).json({ error: error.message })
-							throw error
-						}
+						default: throwError(404, res)
 					}
 				}
 

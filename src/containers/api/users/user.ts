@@ -3,7 +3,7 @@ import { query as q } from 'faunadb'
 
 import type { Options as DefaultOptions } from '../types'
 
-import { ApiError } from '../errors/ApiError'
+import { throwError } from '../errors/ApiError'
 import { authenticate, removeRefreshCookie } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { monitorAsync } from '../performanceCheck'
@@ -29,10 +29,6 @@ export const user = async (req: NextApiRequest, res: NextApiResponse, options: O
 			return res.status(200).json({ message: 'Your user has been deleted' })
 		}
 
-		default: {
-			const error = ApiError.fromCode(405)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
-		}
+		default: throwError(405, res)
 	}
 }

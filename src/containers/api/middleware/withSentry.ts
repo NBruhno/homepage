@@ -35,7 +35,6 @@ export const withSentry = (apiHandler: ApiHandler) => async (req: NextApiRequest
 	} catch (error) {
 		captureException(error)
 		await flush(2000)
-		transaction.setHttpStatus(res.statusCode)
 		throw error
 	} finally {
 		transaction.setHttpStatus(res.statusCode)

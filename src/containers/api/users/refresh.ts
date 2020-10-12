@@ -4,7 +4,7 @@ import { TokenTypes } from 'types/Token'
 
 import type { Options } from '../types'
 
-import { ApiError } from '../errors/ApiError'
+import { throwError } from '../errors/ApiError'
 import { authenticate, setRefreshCookie } from '../middleware'
 import { getJwtToken } from '../getJwtToken'
 
@@ -29,10 +29,6 @@ export const refresh = async (req: NextApiRequest, res: NextApiResponse, options
 			return res.status(200).json({ accessToken })
 		}
 
-		default: {
-			const error = ApiError.fromCode(405)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
-		}
+		default: throwError(405, res)
 	}
 }

@@ -5,7 +5,7 @@ import { authenticator } from 'otplib'
 import { TokenTypes } from 'types/Token'
 import type { Options as DefaultOptions } from '../types'
 
-import { ApiError } from '../errors/ApiError'
+import { throwError } from '../errors/ApiError'
 import { authenticate, setRefreshCookie } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { getJwtToken } from '../getJwtToken'
@@ -39,18 +39,10 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 			const { body: { secret, otp } } = req
 			const { secret: tokenSecret } = authenticate(req, res, { transaction })
 
-			if (!secret || !otp) {
-				const error = ApiError.fromCode(400)
-				res.status(error.statusCode).json({ error: error.message })
-				throw error
-			}
+			if (!secret || !otp) throwError(400, res)
 
 			monitor(() => {
-				if (!authenticator.verify({ token: otp, secret })) {
-					const error = ApiError.fromCode(401)
-					res.status(error.statusCode).json({ error: error.message })
-					throw error
-				}
+				if (!authenticator.verify({ token: otp, secret })) throwError(401, res)
 			}, 'verify()', transaction)
 
 			await monitorAsync(() => faunaClient(tokenSecret).query(
@@ -78,22 +70,14 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 			const { body: { otp } } = req
 			const { secret, sub, displayName, role, userId } = authenticate(req, res, { type: TokenTypes.Intermediate, transaction })
 
-			if (!otp) {
-				const error = ApiError.fromCode(400)
-				res.status(error.statusCode).json({ error: error.message })
-				throw error
-			}
+			if (!otp) throwError(400, res)
 
 			const user = await monitorReturnAsync(() => faunaClient(secret).query<{ data: Record<string, any> }>(
 				q.Get(q.Identity()),
 			), 'faunadb - Get()', transaction)
 
 			monitor(() => {
-				if (!authenticator.verify({ token: otp, secret: user.data.twoFactorSecret })) {
-					const error = ApiError.fromCode(401)
-					res.status(error.statusCode).json({ error: error.message })
-					throw error
-				}
+				if (!authenticator.verify({ token: otp, secret: user.data.twoFactorSecret })) throwError(401, res)
 			}, 'verify()', transaction)
 
 			const accessToken = getJwtToken(secret, { sub, displayName, role, userId }, { transaction })
@@ -104,10 +88,6 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 			return res.status(200).json({ accessToken })
 		}
 
-		default: {
-			const error = ApiError.fromCode(405)
-			res.status(error.statusCode).json({ error: error.message })
-			throw error
-		}
+		default: throwError(405, res)
 	}
 }

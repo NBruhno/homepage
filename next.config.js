@@ -10,11 +10,12 @@ const withTranspileModules = require('next-transpile-modules')(['lodash-es'])
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
 
 const {
+	NEXT_EXPORT,
 	NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
+	NODE_ENV,
+	SENTRY_AUTH_TOKEN,
 	SENTRY_ORG,
 	SENTRY_PROJECT,
-	SENTRY_AUTH_TOKEN,
-	NODE_ENV,
 	VERCEL_GITHUB_COMMIT_SHA: COMMIT_SHA,
 } = process.env
 
@@ -24,6 +25,7 @@ const basePath = ''
 module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModules({
 	reactStrictMode: true,
 
+	target: 'experimental-serverless-trace',
 	devIndicators: {
 		autoPrerender: false,
 	},
@@ -35,27 +37,31 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	workboxOpts: {
-		swDest: 'static/service-worker.js',
+		swDest: NEXT_EXPORT
+			? 'service-worker.js'
+			: 'static/service-worker.js',
 		runtimeCaching: [
 			{
 				urlPattern: /^https?.*/,
 				handler: 'NetworkFirst',
 				options: {
-					cacheName: 'https-calls',
-					networkTimeoutSeconds: 15,
+					cacheName: 'offlineCache',
 					expiration: {
-						maxEntries: 70,
-						maxAgeSeconds: 30 * 24 * 60 * 60, // 1 month
-					},
-					cacheableResponse: {
-						statuses: [0, 200],
+						maxEntries: 200,
 					},
 				},
 			},
 		],
 	},
 
-	target: 'experimental-serverless-trace',
+	async rewrites() {
+		return [
+			{
+				source: '/service-worker.js',
+				destination: '/_next/static/service-worker.js',
+			},
+		]
+	},
 
 	webpack: (config, options) => {
 		if (!options.isServer) {
