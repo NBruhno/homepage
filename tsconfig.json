@@ -34,7 +34,7 @@
   "exclude": [
     "node_modules",
     "**/*.spec.ts",
-    "**/*.spec.tsx",
+    "**/*.spec.tsx"
   ],
   "include": [
     "mdx.d.ts",
@@ -44,5 +44,6 @@
     "**/*.mdx",
     "**/.*.tsx",
     "**/.*.mdx",
+    ".storybook/testDarkMode/Storyshots.test.ts"
   ]
 }
