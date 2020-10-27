@@ -4,13 +4,13 @@ import { query as q, errors } from 'faunadb'
 import type { FaunaGame } from 'types/Games'
 import type { Options as DefaultOptions } from '../types'
 
-import { throwError } from '../errors/ApiError'
+import { sendError } from '../errors/ApiError'
 import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
 import { monitorAsync, monitorReturnAsync } from '../performanceCheck'
 
 type Options = {
-	gameId: string,
+	gameId: number,
 } & DefaultOptions
 
 export const unfollow = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
@@ -34,7 +34,7 @@ export const unfollow = async (req: NextApiRequest, res: NextApiResponse, option
 					), 'faunadb - Delete()', transaction)
 				}
 			}).catch((error) => {
-				if (error instanceof errors.NotFound) throwError(404, res)
+				if (error instanceof errors.NotFound) sendError(404, res)
 				throw error
 			})
 
@@ -42,6 +42,6 @@ export const unfollow = async (req: NextApiRequest, res: NextApiResponse, option
 			break
 		}
 
-		default: throwError(405, res)
+		default: sendError(405, res)
 	}
 }

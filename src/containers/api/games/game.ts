@@ -15,7 +15,7 @@ import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
 import { monitorReturnAsync } from '../performanceCheck'
 
 type Options = {
-	gameId: string,
+	gameId: number,
 } & DefaultOptions
 
 export const game = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
@@ -24,11 +24,11 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, options: O
 
 	const game = await monitorReturnAsync((span) => serverClient.query<{ data: Game }>(q.Get(q.Match(q.Index('gamesById'), gameId)))
 		.then((response) => response.data)
-		.catch((error) => {
+		.catch(async (error) => {
 			if (error instanceof errors.NotFound) {
 				fromIgdb = true
 				return igdbFetcher<IGDBGame>('/games', res, {
-					body: `${fields}; where slug = "${gameId}";`,
+					body: `${fields}; where id = ${gameId};`,
 					single: true,
 					span,
 				}).then(mapIgdbGame)
@@ -39,7 +39,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, options: O
 		fetcher(`/games`, {
 			absoluteUrl: absoluteUrl(req).origin,
 			accessToken: config.auth.systemToken,
-			body: game,
+			body: { gamesToCreate: [game] },
 			method: Method.Post,
 		})
 	}

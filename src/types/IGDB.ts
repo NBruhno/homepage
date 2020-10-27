@@ -111,7 +111,6 @@ export type Game = {
 	platforms?: Array<Platform>,
 	release_dates?: Array<ReleaseDate>,
 	screenshots: Array<Image>,
-	slug: string,
 	status: GameStatus,
 	storyline?: string,
 	summary?: string,

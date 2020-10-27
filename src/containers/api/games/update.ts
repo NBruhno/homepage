@@ -12,7 +12,7 @@ import { monitorAsync } from '../performanceCheck'
 import { serverClient } from '../faunaClient'
 
 type Options = {
-	gameId: string,
+	gameId: number,
 } & DefaultOptions
 
 export const update = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
@@ -21,7 +21,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse, options:
 	authenticateSystem(req, res)
 
 	const game = body ?? await igdbFetcher<IGDBGame>('/games', res, {
-		body: `${fields}; where slug = "${gameId}";`,
+		body: `${fields}; where id = ${gameId};`,
 		single: true,
 		span: transaction,
 	}).then(mapIgdbGame)

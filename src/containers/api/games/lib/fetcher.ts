@@ -1,5 +1,5 @@
 import { NextApiResponse } from 'next'
-import { Span } from '@sentry/apm'
+import { Span } from '@sentry/types'
 
 import { config } from 'config.server'
 

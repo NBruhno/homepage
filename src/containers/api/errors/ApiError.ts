@@ -1,7 +1,7 @@
 import { NextApiResponse } from 'next'
 import { CustomError } from 'ts-custom-error'
 
-const statusCodes = {
+export const statusCodes = {
 	400: 'Bad Request',
 	401: 'Unauthorized', // RFC 7235
 	402: 'Payment Required',
@@ -55,4 +55,9 @@ export const throwError = (statusCode: keyof typeof statusCodes, res: NextApiRes
 	const error = ApiError.fromCode(statusCode)
 	res.status(error.statusCode).json({ error: message ?? error.message })
 	throw error
+}
+
+export const sendError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, message?: string) => {
+	const error = ApiError.fromCode(statusCode)
+	res.status(error.statusCode).json({ error: message ?? error.message })
 }

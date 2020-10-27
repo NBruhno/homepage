@@ -31,36 +31,26 @@ export const follows = async (req: NextApiRequest, res: NextApiResponse, options
 				['releaseDate', 'hype', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
 				{
 					id: q.Var('id'),
-					name: q.Var('name'),
 					cover: q.Var('cover'),
-					releaseDate: q.Var('releaseDate'),
 					hype: q.Var('hype'),
-					status: q.Var('status'),
 					lastChecked: q.Var('lastChecked'),
-					updatedAt: q.Var('updatedAt'),
+					name: q.Var('name'),
 					ref: q.Var('ref'),
+					releaseDate: q.Var('releaseDate'),
+					status: q.Var('status'),
+					updatedAt: q.Var('updatedAt'),
 				},
 			),
 		),
 	).then(({ data }) => data), 'faunadb - Map(Paginate(), Lambda())', transaction)
 
-	if (games.some(shouldUpdate)) {
-		const gamesToUpdate = games.filter(shouldUpdate)
-
-		gamesToUpdate.forEach((game) => {
-			fetcher(`/games/${game.id}`, {
-				absoluteUrl: absoluteUrl(req).origin,
-				accessToken: config.auth.systemToken,
-				method: Method.Patch,
-			})
-		})
-	}
-
-	if (games.some((game) => shouldUpdate(game, 72))) {
-		fetcher(`/games/updateLibrary`, {
+	const gamesToUpdate = games.filter((game) => shouldUpdate(game))
+	if (gamesToUpdate.length > 0) {
+		fetcher(`/games`, {
 			absoluteUrl: absoluteUrl(req).origin,
 			accessToken: config.auth.systemToken,
-			method: Method.Post,
+			body: { gamesToUpdate: gamesToUpdate.map(({ id }) => id) },
+			method: Method.Put,
 		})
 	}
 

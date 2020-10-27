@@ -1,6 +1,6 @@
 const root = [
 	'aggregated_rating_count', 'aggregated_rating', 'first_release_date',
-	'id', 'name', 'slug', 'storyline', 'summary', 'status', 'updated_at', 'hypes',
+	'id', 'name', 'storyline', 'summary', 'status', 'updated_at', 'hypes',
 ]
 const companies = [
 	'involved_companies.company.description', 'involved_companies.company.logo.alpha_channel', 'involved_companies.company.logo.image_id',
