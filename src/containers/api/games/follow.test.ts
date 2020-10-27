@@ -16,7 +16,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await follow(req, res, { gameId: 'biomutant', transaction })
+		await follow(req, res, { gameId: 54842, transaction })
 	})
 
 	beforeAll(async () => {
@@ -27,7 +27,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await unfollow(req, res, { gameId: 'cyberpunk-2077', transaction }).catch()
+		await unfollow(req, res, { gameId: 1877, transaction }).catch()
 	})
 
 	test('POST › Follow game', async () => {
@@ -38,7 +38,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await follow(req, res, { gameId: 'cyberpunk-2077', transaction })
+		await follow(req, res, { gameId: 1877, transaction })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Successfully followed the game' })
 	})
@@ -51,7 +51,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await follow(req, res, { gameId: 'biomutant', transaction })
+		await follow(req, res, { gameId: 54842, transaction })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Successfully followed the game' })
 	})
@@ -61,7 +61,7 @@ describe('/api/games/{id}/follow', () => {
 			method: 'POST',
 		})
 
-		await follow(req, res, { gameId: 'cyberpunk-2077', transaction })
+		await expect(follow(req, res, { gameId: 1877, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
@@ -74,7 +74,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await follow(req, res, { gameId: 'cyberpunk-2077', transaction })
+		await follow(req, res, { gameId: 1877, transaction })
 		expectStatusCode(res, 405)
 	})
 })

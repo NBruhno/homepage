@@ -7,6 +7,8 @@ import type { Game as IGDBGame } from 'types/IGDB'
 import type { Options } from '../types'
 import type { SimpleGame, Game } from 'types/Games'
 
+import { logger } from 'lib/logger'
+
 import { igdbFetcher, fields, mapIgdbGame } from './lib'
 
 import { authenticateSystem } from '../middleware'
@@ -21,7 +23,6 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 
 	let gamesToUpdate: Array<Array<Game>> = [[]]
 	let gamesToCreate: Array<Array<Game>> = [[]]
-	const gamesToDelete: Array<Array<Game>> = [[]]
 
 	switch (method) {
 		case 'POST': {
@@ -33,7 +34,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 		case 'PUT': {
 			if (body?.gamesToUpdate?.length > 0) {
 				gamesToUpdate = await igdbFetcher<Array<IGDBGame>>('/games', res, {
-					body: `${fields}; where slug = ("${body.gamesToUpdate.join('","')}"); limit 500;`,
+					body: `${fields}; where id = (${body.gamesToUpdate.join(',')}); limit 500;`,
 					span: transaction,
 				}).then((igdbGames) => chunk(igdbGames.map(mapIgdbGame), 200))
 				break
@@ -45,7 +46,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 					q.Map(
 						q.Paginate(
 							q.Range(
-								q.Match(q.Index('gamesSortByHypesDescReleaseDateAsc')),
+								q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')),
 								['', getUnixTime(sub(Date.now(), { months: 2 }))], [],
 							), { size: 100000 }, // This is the limit for Paginate()
 						),
@@ -55,14 +56,14 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 							['hype', 'releaseDate', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
 							{
 								id: q.Var('id'),
-								name: q.Var('name'),
 								cover: q.Var('cover'),
-								releaseDate: q.Var('releaseDate'),
 								hype: q.Var('hype'),
-								status: q.Var('status'),
 								lastChecked: q.Var('lastChecked'),
-								updatedAt: q.Var('updatedAt'),
+								name: q.Var('name'),
 								ref: q.Var('ref'),
+								releaseDate: q.Var('releaseDate'),
+								status: q.Var('status'),
+								updatedAt: q.Var('updatedAt'),
 							},
 						),
 					),
@@ -96,7 +97,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 			if (flatten(otherOutdatedGames).length > 0) {
 				const outdatedGames = await monitorReturnAsync((span) => Promise.all(
 					otherOutdatedGames.map((listOfGames) => monitorReturnAsync(() => igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: `${fields}; where slug = ("${listOfGames.join('","')}"); limit 500;`,
+						body: `${fields}; where id = (${listOfGames.join(',')}); limit 500;`,
 						nickname: `${listOfGames.length} outdated games`,
 						span,
 					}).then((igdbGames) => igdbGames.map(mapIgdbGame)), '', span)),
@@ -109,35 +110,33 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 		default: return sendError(405, res)
 	}
 
-	console.log(flatten(gamesToUpdate).filter(({ id }) => id === 'baldurs-gate-3'))
+	logger.info(`Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`)
 
-	console.log(`Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`)
-
-	// if (gamesToUpdate.length > 0 || gamesToCreate.length > 0) {
-	// 	// Collect all the update & create query chunks into one request towards FaunaDB to reduce connections and avoid payload limits.
-	// 	await monitorAsync((span) => Promise.all([
-	// 		...gamesToUpdate.map((listOfGames) => monitorAsync(() => serverClient.query(
-	// 			q.Do(
-	// 				...listOfGames.map((game) => q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), game.id))), {
-	// 					data: {
-	// 						...game,
-	// 						lastChecked: Date.now(),
-	// 					},
-	// 				})),
-	// 			),
-	// 		), `faunadb - Do(Update() * ${listOfGames.length})`, span)),
-	// 		...gamesToCreate.map((listOfGames) => monitorAsync(() => serverClient.query(
-	// 			q.Do(
-	// 				...listOfGames.map((game) => q.Create(q.Collection('games'), {
-	// 					data: {
-	// 						...game,
-	// 						lastChecked: Date.now(),
-	// 					},
-	// 				})),
-	// 			),
-	// 		), `faunadb - Do(Create() * ${listOfGames.length})`, span)),
-	// 	]), 'Promise.all()', transaction)
-	// }
+	if (gamesToUpdate.length > 0 || gamesToCreate.length > 0) {
+		// Collect all the update & create query chunks into one request towards FaunaDB to reduce connections and avoid payload limits.
+		await monitorAsync((span) => Promise.all([
+			...gamesToUpdate.map((listOfGames) => monitorAsync(() => serverClient.query(
+				q.Do(
+					listOfGames.map((game) => q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), game.id))), {
+						data: {
+							...game,
+							lastChecked: Date.now(),
+						},
+					})),
+				),
+			), `faunadb - Do(Update() * ${listOfGames.length})`, span)),
+			...gamesToCreate.map((listOfGames) => monitorAsync(() => serverClient.query(
+				q.Do(
+					listOfGames.map((game) => q.Create(q.Collection('games'), {
+						data: {
+							...game,
+							lastChecked: Date.now(),
+						},
+					})),
+				),
+			), `faunadb - Do(Create() * ${listOfGames.length})`, span)),
+		]), 'Promise.all()', transaction)
+	}
 
 	return res.status(200).json({
 		message: `Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`,

@@ -9,7 +9,7 @@ import { Token, TokenTypes } from 'types/Token'
 
 import { decrypt } from 'lib/cipher'
 
-import { throwError } from '../errors/ApiError'
+import { sendError, throwError } from '../errors/ApiError'
 import { monitorReturn } from '../performanceCheck'
 
 export type Options = {
@@ -24,8 +24,10 @@ export type Options = {
 }
 
 const resolveError = (error: unknown, res: NextApiResponse) => {
-	if (error instanceof errors.JOSEError) throwError(401, res)
-	else throw error
+	if (error instanceof errors.JOSEError) {
+		sendError(401, res)
+	}
+	throw error
 }
 
 /**

@@ -10,7 +10,7 @@ import { faunaClient } from '../faunaClient'
 import { monitorAsync, monitorReturnAsync } from '../performanceCheck'
 
 type Options = {
-	gameId: string,
+	gameId: number,
 } & DefaultOptions
 
 export const unfollow = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {

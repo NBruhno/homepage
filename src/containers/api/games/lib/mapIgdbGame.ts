@@ -27,7 +27,7 @@ const resolveCompany = (involvedCompany: Company) => {
 
 export const mapIgdbGame = (game: IgdbGame): Game => {
 	const {
-		id: igdbId, slug, aggregated_rating: rating, aggregated_rating_count: ratingCount, genres, storyline, summary,
+		id, aggregated_rating: rating, aggregated_rating_count: ratingCount, genres, storyline, summary,
 		involved_companies: companies, updated_at: updatedAt, name, platforms, first_release_date: releaseDate,
 		release_dates: releaseDates, game_engines: engines, screenshots, cover, status, websites, hypes: hype,
 	} = game
@@ -37,7 +37,7 @@ export const mapIgdbGame = (game: IgdbGame): Game => {
 		: []
 
 	return {
-		id: slug ?? null,
+		id,
 		name,
 		cover: cover?.image_id ? `${igdbImageUrl}/t_cover_big/${cover.image_id}.jpg` : null,
 		developer: resolveCompany(companies?.find(({ developer }) => developer)),
@@ -48,7 +48,6 @@ export const mapIgdbGame = (game: IgdbGame): Game => {
 		})) ?? null,
 		genres: genres ? genres.map(({ name }) => name) : [],
 		hype,
-		igdbId,
 		lastChecked: Date.now(),
 		platforms: platforms?.map(({ platform_logo: platformLogo, abbreviation, name }) => ({
 			abbreviation,

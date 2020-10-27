@@ -32,7 +32,7 @@ export const withSentry = (apiHandler: ApiHandler) => async (req: NextApiRequest
 	}, {
 		query: req.query,
 	})
-	if (config.environment === 'development') logger.debug(transaction.name)
+	if (config.environment === 'development') logger.debug(`${req.method} - ${req.url}`)
 	try {
 		return await apiHandler(req, res, transaction)
 	} catch (error) {

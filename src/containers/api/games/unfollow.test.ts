@@ -16,7 +16,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await follow(req, res, { gameId: 'stalker-2', transaction })
+		await follow(req, res, { gameId: 101440, transaction })
 	})
 
 	test('PATCH › Unfollow game', async () => {
@@ -27,7 +27,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await unfollow(req, res, { gameId: 'stalker-2', transaction })
+		await unfollow(req, res, { gameId: 101440, transaction })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Successfully unfollowed the game' })
 	})
@@ -40,7 +40,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await unfollow(req, res, { gameId: 'atomic-heart', transaction })
+		await expect(unfollow(req, res, { gameId: 76747, transaction })).rejects.toThrow()
 		expectStatusCode(res, 404)
 		expectSpecificObject(res, { error: ApiError.fromCode(404).message })
 	})
@@ -50,7 +50,7 @@ describe('/api/games/follow', () => {
 			method: 'PATCH',
 		})
 
-		await expect(unfollow(req, res, { gameId: 'stalker-2', transaction })).rejects.toThrow(ApiError)
+		await expect(unfollow(req, res, { gameId: 101440, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
@@ -63,7 +63,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await unfollow(req, res, { gameId: 'cyberpunk-2077', transaction })
+		await unfollow(req, res, { gameId: 1877, transaction })
 		expectStatusCode(res, 405)
 	})
 })

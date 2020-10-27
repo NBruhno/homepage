@@ -16,7 +16,8 @@ export default withSentry(async (req, res, transaction) => {
 		}
 	}
 
-	const [gameId, resource] = route
+	const [id, resource] = route
+	const gameId = parseInt(id, 10)
 
 	switch (resource) {
 		case 'follow': { // /games/{id}/follow

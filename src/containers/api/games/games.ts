@@ -27,19 +27,19 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 		}).then((igdbGames) => igdbGames.map(mapIgdbGame))
 		: await monitorReturnAsync(() => serverClient.query<{ data: Array<SimpleGame> }>(
 			q.Map(
-				q.Paginate(q.Range(q.Match(q.Index('gamesSortByHypesDescReleaseDateAsc')), ['', getUnixTime(sub(Date.now(), { months: 2 }))], []), { size: 50 }),
+				q.Paginate(q.Range(q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')), ['', getUnixTime(sub(Date.now(), { months: 2 }))], []), { size: 50 }),
 				q.Lambda(
 					['hype', 'releaseDate', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
 					{
 						id: q.Var('id'),
-						name: q.Var('name'),
 						cover: q.Var('cover'),
-						releaseDate: q.Var('releaseDate'),
 						hype: q.Var('hype'),
-						status: q.Var('status'),
 						lastChecked: q.Var('lastChecked'),
-						updatedAt: q.Var('updatedAt'),
+						name: q.Var('name'),
 						ref: q.Var('ref'),
+						releaseDate: q.Var('releaseDate'),
+						status: q.Var('status'),
+						updatedAt: q.Var('updatedAt'),
 					},
 				),
 			),
@@ -57,7 +57,6 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 		// }
 
 		if (games.some((game) => shouldUpdate(game))) {
-			console.log(games.filter((game) => shouldUpdate(game)))
 			fetcher(`/games`, {
 				absoluteUrl: absoluteUrl(req).origin,
 				accessToken: config.auth.systemToken,

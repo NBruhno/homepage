@@ -15,7 +15,7 @@ import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
 import { monitorReturnAsync } from '../performanceCheck'
 
 type Options = {
-	gameId: string,
+	gameId: number,
 } & DefaultOptions
 
 export const game = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
@@ -28,7 +28,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, options: O
 			if (error instanceof errors.NotFound) {
 				fromIgdb = true
 				return igdbFetcher<IGDBGame>('/games', res, {
-					body: `${fields}; where slug = "${gameId}";`,
+					body: `${fields}; where id = ${gameId};`,
 					single: true,
 					span,
 				}).then(mapIgdbGame)
