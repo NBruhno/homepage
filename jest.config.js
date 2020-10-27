@@ -6,7 +6,8 @@ module.exports = {
 	setupFiles: ['<rootDir>/jest.setup.js'],
 	testRegex: TEST_REGEX,
 	transform: {
-		'^.+\\.tsx?$': 'babel-jest',
+		'^.+\\.[tj]sx?$': 'babel-jest',
+		'^.+\\.mdx?$': '@storybook/addon-docs/jest-transform-mdx',
 	},
 	transformIgnorePatterns: [
 		'<rootDir>/node_modules/(?!lodash-es)',
@@ -14,8 +15,8 @@ module.exports = {
 	moduleNameMapper: {
 		'^lodash-es$': 'lodash',
 	},
-	testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/public/', '<rootDir>/.storybook/'],
-	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+	testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/public/'],
+	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
 	moduleDirectories: ['node_modules', 'src'],
 	collectCoverage: false,
 }

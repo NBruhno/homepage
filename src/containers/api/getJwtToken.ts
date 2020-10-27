@@ -1,4 +1,4 @@
-import { Transaction, Span } from '@sentry/apm'
+import { Transaction, Span } from '@sentry/types'
 import { JWT } from 'jose'
 
 import { TokenTypes } from 'types/Token'

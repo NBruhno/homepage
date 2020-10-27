@@ -7,7 +7,7 @@ import { ApiError } from '../errors/ApiError'
 import { follow } from './follow'
 import { unfollow } from './unfollow'
 
-describe('/api/games/follow', () => {
+describe('/api/games/{id}/follow', () => {
 	beforeAll(async () => {
 		const { req, res } = createMocks({
 			method: 'POST',
@@ -61,7 +61,7 @@ describe('/api/games/follow', () => {
 			method: 'POST',
 		})
 
-		await expect(follow(req, res, { gameId: 'cyberpunk-2077', transaction })).rejects.toThrow(ApiError)
+		await follow(req, res, { gameId: 'cyberpunk-2077', transaction })
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
@@ -74,7 +74,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await expect(follow(req, res, { gameId: 'cyberpunk-2077', transaction })).rejects.toThrow(ApiError)
+		await follow(req, res, { gameId: 'cyberpunk-2077', transaction })
 		expectStatusCode(res, 405)
 	})
 })

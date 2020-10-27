@@ -1,9 +1,10 @@
-import { Transaction } from '@sentry/apm'
-import { init, captureException, flush, startTransaction, setUser } from '@sentry/node'
+import { init, captureException, flush, startTransaction } from '@sentry/node'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { Transaction } from '@sentry/types'
 
 import { config } from 'config.server'
-import { authenticate } from './authenticate'
+
+import { logger } from 'lib/logger'
 
 if (config.sentry.dsn) {
 	init({
@@ -15,6 +16,10 @@ if (config.sentry.dsn) {
 
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse, transaction: Transaction) => void | Promise<void>
 
+/**
+ * Middleware attached at the root to enable Sentry monitoring and exception capturing
+ * @param apiHandler - The next ApiHandler
+ */
 export const withSentry = (apiHandler: ApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
 	const transaction = startTransaction({
 		op: 'request',
@@ -26,11 +31,9 @@ export const withSentry = (apiHandler: ApiHandler) => async (req: NextApiRequest
 		},
 	}, {
 		query: req.query,
-	}) as Transaction
-	transaction.initSpanRecorder()
+	})
+	if (config.environment === 'development') logger.debug(transaction.name)
 	try {
-		const token = authenticate(req, res, { optional: true, transaction })
-		if (token) setUser({ id: token?.userId })
 		return await apiHandler(req, res, transaction)
 	} catch (error) {
 		captureException(error)
@@ -39,6 +42,5 @@ export const withSentry = (apiHandler: ApiHandler) => async (req: NextApiRequest
 	} finally {
 		transaction.setHttpStatus(res.statusCode)
 		transaction.finish()
-		setUser(null)
 	}
 }

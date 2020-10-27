@@ -19,7 +19,7 @@
     "removeComments": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "strict": false,
     "target": "esnext",
     "typeRoots": [
@@ -43,7 +43,6 @@
     "**/*.tsx",
     "**/*.mdx",
     "**/.*.tsx",
-    "**/.*.mdx",
-    ".storybook/testDarkMode/Storyshots.test.ts"
+    "**/.*.mdx"
   ]
 }

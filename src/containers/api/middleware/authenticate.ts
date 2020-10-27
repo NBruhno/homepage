@@ -1,6 +1,7 @@
-import { Span, Transaction } from '@sentry/apm'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { JWT, errors } from 'jose'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { setUser } from '@sentry/node'
+import { Span, Transaction } from '@sentry/types'
 
 import { config } from 'config.server'
 
@@ -8,7 +9,7 @@ import { Token, TokenTypes } from 'types/Token'
 
 import { decrypt } from 'lib/cipher'
 
-import { ApiError, throwError } from '../errors/ApiError'
+import { throwError } from '../errors/ApiError'
 import { monitorReturn } from '../performanceCheck'
 
 export type Options = {
@@ -18,24 +19,37 @@ export type Options = {
 	token?: string,
 	/** Switch between authenticating an access, refresh or intermediate token. Defaults to access. */
 	type?: TokenTypes,
+	/** The Sentry transaction or span used for performance monitoring */
 	transaction: Transaction | Span,
 }
 
 const resolveError = (error: unknown, res: NextApiResponse) => {
-	if (error instanceof errors.JOSEError) {
-		const apiError = ApiError.fromCode(401)
-		res.status(apiError.statusCode).json({ error: apiError.message })
-	}
-	throw error
+	if (error instanceof errors.JOSEError) throwError(401, res)
+	else throw error
 }
 
+/**
+ * An authenticator for JWT tokens created by getJwtToken(). It's possible to further configure the function by supplying
+ * the available options as the third parameter. This function can check both access, refresh and intermediate tokens.
+ * @param req - The request object
+ * @param res - The response object
+ * @param options - A set options for the authenticator. This is optional
+ * @example
+ * ```tsx
+ * const token = authenticate(req, res, { transaction })
+ * ```
+ */
 export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 	{ optional = false, token, type = TokenTypes.Access, transaction }: Options): Token => monitorReturn(() => {
 	const { headers: { authorization }, cookies } = req
 
 	const getToken = () => {
 		if (token) return token
-		if (type === TokenTypes.Refresh) return config.environment !== 'development' ? cookies['__Host-refreshToken'] : cookies['refreshToken']
+		if (type === TokenTypes.Refresh) {
+			return config.environment !== 'development'
+				? cookies['__Host-refreshToken']
+				: cookies['refreshToken']
+		}
 		return authorization?.split('Bearer ')[1]
 	}
 
@@ -49,17 +63,26 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 			typ: type,
 		})
 
+		setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
 		return { ...decodedToken, secret: decrypt(decodedToken.secret) }
 	} catch (error: unknown) {
-		if (!optional) {
-			resolveError(error, res)
-		}
+		if (!optional) resolveError(error, res)
 	}
 }, `authenticate() - ${type}`, transaction)
 
+/**
+ * Authenticator for the system token. This is a simple check to see if the known value matches the supplied value.
+ * @param req - The request object
+ * @param res - The response object
+ * @example
+ * ```tsx
+ * authenticateSystem(req, res)
+ * ```
+ */
 export const authenticateSystem = (req: NextApiRequest, res: NextApiResponse) => {
 	const { headers: { authorization } } = req
 	if (authorization === `Bearer ${config.auth.systemToken}`) {
+		setUser({ username: 'System' })
 		return true
 	} else throwError(401, res)
 }

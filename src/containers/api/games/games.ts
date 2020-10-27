@@ -1,3 +1,4 @@
+import { getUnixTime, sub } from 'date-fns'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q } from 'faunadb'
 
@@ -10,8 +11,8 @@ import type { Options } from '../types'
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
 
-import { serverClient } from '../faunaClient'
 import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
+import { serverClient } from '../faunaClient'
 import { monitorReturnAsync } from '../performanceCheck'
 
 export const games = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
@@ -26,7 +27,7 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 		}).then((igdbGames) => igdbGames.map(mapIgdbGame))
 		: await monitorReturnAsync(() => serverClient.query<{ data: Array<SimpleGame> }>(
 			q.Map(
-				q.Paginate(q.Range(q.Match(q.Index('gamesSortByHypesDescReleaseDateAsc')), ['', 1597708800000], []), { size: 50 }),
+				q.Paginate(q.Range(q.Match(q.Index('gamesSortByHypesDescReleaseDateAsc')), ['', getUnixTime(sub(Date.now(), { months: 2 }))], []), { size: 50 }),
 				q.Lambda(
 					['hype', 'releaseDate', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
 					{
@@ -45,23 +46,22 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 		).then(({ data }) => data), 'faunadb - Map(Paginate(), Lambda())', transaction)
 
 	if (!search) {
-		if (games.some(shouldUpdate)) {
-			const gamesToUpdate = games.filter(shouldUpdate)
+		// const gamesToUpdate = games.filter((game) => shouldUpdate(game))
+		// if (gamesToUpdate.length > 0) {
+		// 	fetcher(`/games`, {
+		// 		absoluteUrl: absoluteUrl(req).origin,
+		// 		accessToken: config.auth.systemToken,
+		// 		body: { gamesToUpdate: gamesToUpdate.map(({ id }) => id) },
+		// 		method: Method.Put,
+		// 	})
+		// }
 
-			gamesToUpdate.forEach((game) => {
-				fetcher(`/games/${game.id}`, {
-					absoluteUrl: absoluteUrl(req).origin,
-					accessToken: config.auth.systemToken,
-					method: Method.Patch,
-				})
-			})
-		}
-
-		if (games.some((game) => shouldUpdate(game, 72))) {
-			fetcher(`/games/updateLibrary`, {
+		if (games.some((game) => shouldUpdate(game))) {
+			console.log(games.filter((game) => shouldUpdate(game)))
+			fetcher(`/games`, {
 				absoluteUrl: absoluteUrl(req).origin,
 				accessToken: config.auth.systemToken,
-				method: Method.Post,
+				method: Method.Patch,
 			})
 		}
 	}

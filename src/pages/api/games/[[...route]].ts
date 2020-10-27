@@ -1,17 +1,18 @@
-import { game, games, follow, follows, unfollow, create, update, updateLibrary } from 'containers/api/games'
+import { game, games, follow, follows, unfollow, update, updateLibrary } from 'containers/api/games'
+import { sendError } from 'containers/api/errors/ApiError'
 import { withSentry } from 'containers/api/middleware'
-import { throwError } from 'containers/api/errors/ApiError'
 
 export default withSentry(async (req, res, transaction) => {
 	const { query: { route, following: followingQuery }, method } = req
 
 	if (!route) { // /games
 		if (followingQuery === 'true') return follows(req, res, { transaction })
-		// if (searchQuery) return search(req, res, { transaction, search: searchQuery })
 		switch (method) {
 			case 'GET': return games(req, res, { transaction })
-			case 'POST': return create(req, res, { transaction })
-			default: throwError(405, res)
+			case 'PATCH':
+			case 'PUT':
+			case 'POST': return updateLibrary(req, res, { transaction })
+			default: sendError(405, res)
 		}
 	}
 
@@ -25,14 +26,13 @@ export default withSentry(async (req, res, transaction) => {
 			return unfollow(req, res, { gameId, transaction })
 		}
 		default: { // /games/{id}
-			if (resource) throwError(404, res)
-			if (gameId === 'updateLibrary') return updateLibrary(req, res, { transaction })
+			if (resource) sendError(404, res)
 			else {
 				transaction.setName(`${method} - api/games/{gameId}`)
 				switch (method) {
 					case 'GET': return game(req, res, { gameId, transaction })
 					case 'PATCH': return update(req, res, { gameId, transaction })
-					default: throwError(405, res)
+					default: sendError(405, res)
 				}
 			}
 		}

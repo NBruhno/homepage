@@ -1,5 +1,5 @@
 import { useField } from 'react-final-form'
-import matchSorter from 'match-sorter'
+import { matchSorter } from 'match-sorter'
 import { useEffect } from 'react'
 import Downshift from 'downshift'
 

@@ -40,7 +40,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await expect(unfollow(req, res, { gameId: 'atomic-heart', transaction })).rejects.toThrow(ApiError)
+		await unfollow(req, res, { gameId: 'atomic-heart', transaction })
 		expectStatusCode(res, 404)
 		expectSpecificObject(res, { error: ApiError.fromCode(404).message })
 	})
@@ -63,7 +63,7 @@ describe('/api/games/follow', () => {
 			},
 		})
 
-		await expect(unfollow(req, res, { gameId: 'cyberpunk-2077', transaction })).rejects.toThrow(ApiError)
+		await unfollow(req, res, { gameId: 'cyberpunk-2077', transaction })
 		expectStatusCode(res, 405)
 	})
 })

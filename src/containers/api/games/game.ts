@@ -24,7 +24,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, options: O
 
 	const game = await monitorReturnAsync((span) => serverClient.query<{ data: Game }>(q.Get(q.Match(q.Index('gamesById'), gameId)))
 		.then((response) => response.data)
-		.catch((error) => {
+		.catch(async (error) => {
 			if (error instanceof errors.NotFound) {
 				fromIgdb = true
 				return igdbFetcher<IGDBGame>('/games', res, {
@@ -39,7 +39,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, options: O
 		fetcher(`/games`, {
 			absoluteUrl: absoluteUrl(req).origin,
 			accessToken: config.auth.systemToken,
-			body: game,
+			body: { gamesToCreate: [game] },
 			method: Method.Post,
 		})
 	}
