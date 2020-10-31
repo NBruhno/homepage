@@ -7,18 +7,17 @@ import { Subtitle } from './Subtitle'
 import { Title } from './Title'
 
 type Props = {
-	coverUrl?: string,
+	coverSrc?: string,
 	id: string,
 	subtitle: string,
 	title: string,
 	url?: string,
-	as?: string,
 }
 
-export const ProjectItem = ({ title, subtitle, coverUrl, id, url, as }: Props) => (
-	<Link href={url ?? `/projects/${id}`} as={as ?? `/projects/${id}`} passHref>
+export const ProjectItem = ({ title, subtitle, coverSrc, id, url }: Props) => (
+	<Link href={url ?? `/projects/${id}`} passHref>
 		<Container>
-			<Cover coverUrl={coverUrl} size='small' />
+			<Cover coverSrc={coverSrc} size='small' />
 			<div css={{ padding: '12px' }}>
 				<Title>
 					{title}

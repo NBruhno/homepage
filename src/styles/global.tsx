@@ -37,6 +37,10 @@ export const globalCss = (theme: Theme) => css([
 			fontWeight: 400,
 			fontFamily: theme.fontFamily.poppins,
 		},
+
+		a: {
+			color: theme.color.link,
+		},
 	},
 ])
 

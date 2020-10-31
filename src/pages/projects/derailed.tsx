@@ -30,7 +30,13 @@ const Derailed: NextPage = () => (
 					opportunity. We consist of a group of six people from Medialogy just like every other ordinary semester
 					project.
 				</p>
-				<ProjectImage url='./images/projects/derailed/perceptionNeuron.png' title='Image from our motion capture' />
+				<ProjectImage
+					src='/./images/projects/derailed/perceptionNeuron.png'
+					title='Image from our motion capture'
+					width={1285}
+					height={723}
+					divider={2}
+				/>
 				<Caption>
 					An image of us recording animations with the Perception Neuron.
 					Not required for the project, but we thought it would be fun to try it out.
@@ -45,7 +51,13 @@ const Derailed: NextPage = () => (
 					where the goal was to keep a train going from one station to another, without the train destroying itself
 					by completing assigned or shared tasks in form of mini-games completed on the phone screen.
 				</p>
-				<ProjectImage url='./images/projects/derailed/screenshot1.png' title='Ready check' />
+				<ProjectImage
+					src='/./images/projects/derailed/screenshot1.png'
+					title='Ready check'
+					width={1388}
+					height={731}
+					divider={2}
+				/>
 				<Caption>Screenshot from the games ready check</Caption>
 				<p>
 					If you are interested to know more about this project you are more than welcome to

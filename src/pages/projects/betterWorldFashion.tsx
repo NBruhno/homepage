@@ -33,9 +33,11 @@ const QfdCenter: NextPage = () => (
 					other people have rented with a platform dedicated to the jackets as profiles, not people.
 				</p>
 				<ProjectImage
-					url='./images/projects/betterWorldFashion/bwfLogo.png'
+					src='/./images/projects/betterWorldFashion/bwfLogo.png'
 					title='Better World Fashion logo'
-					css={{ height: '350px' }}
+					width={2000}
+					height={2000}
+					divider={5}
 				/>
 				<Caption>Logo of Better World Fashion</Caption>
 				<p>
@@ -47,9 +49,11 @@ const QfdCenter: NextPage = () => (
 					and how to create and/or enlarge these communities.
 				</p>
 				<ProjectImage
-					url='./images/projects/betterWorldFashion/bwfJacketAndTheEnvironment.png'
+					src='/./images/projects/betterWorldFashion/bwfJacketAndTheEnvironment.png'
 					title='Illustration of how much a BWF jacket saves the environment'
-					css={{ height: '350px' }}
+					width={1101}
+					height={595}
+					divider={1.8}
 				/>
 				<Caption>Visual presentation on how much a recycled jacket saves the environment</Caption>
 				<p>
@@ -61,7 +65,13 @@ const QfdCenter: NextPage = () => (
 					a good UX (User Experience) and apply several game elements to motivate the users to continue updating
 					their story as mentioned earlier.
 				</p>
-				<ProjectImage url='./images/projects/betterWorldFashion/hiFi.png' title='Hi-Fi prototype' />
+				<ProjectImage
+					src='/./images/projects/betterWorldFashion/hiFi.png'
+					title='Hi-Fi prototype'
+					width={1754}
+					height={1000}
+					divider={2.2}
+				/>
 				<Caption>Screen layouts from the Hi-Fi prototype</Caption>
 				<p>
 					Once the tests have been concluded and the feedback has been gathered from the several stages of testing
@@ -73,16 +83,18 @@ const QfdCenter: NextPage = () => (
 					tests to fulfil our success criteria and the criteria of a university semester project at AAU.
 				</p>
 				<ProjectImage
-					url='./images/projects/betterWorldFashion/phonePage1.png'
+					src='/./images/projects/betterWorldFashion/phonePage1.png'
 					title='Hi-Fi prototype'
-					css={{ height: '600px' }}
+					width={2480}
+					height={3508}
+					divider={4}
 				/>
 				<Caption>Visual illustration of the prototype images on a phone</Caption>
 				<p>
 					If you are interested to learn what it is exactly we set out to test and what we concluded, you are more than welcome
 					{' '}<a href='https://firebasestorage.googleapis.com/v0/b/bruhno-afb29.appspot.com/o/projects%2FMTA17643%20-%20Report.pdf?alt=media&token=4767477f-74a0-4413-81e6-bb630d4e27e9'>to read our semester project report</a>
 					. This is not your typical scientific report,
-					I personally put a lot of work and effort to create illustrations, graphics and layout changes and
+					I personally put a lot of work and effort to create illustrations, graphics, layout changes and
 					modifications to make this report more enjoyable to read and more interesting. (All illustrations and
 					graphical representations in this article is my work but I do not own the brand of BWF.)
 					We also created an AV production of the project as required by a semester project which you can watch
