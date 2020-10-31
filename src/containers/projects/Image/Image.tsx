@@ -1,17 +1,30 @@
-type Props = {
-	loading?: string,
-} & React.ComponentProps<'img'>
+import Image from 'next/image'
 
-export const Image = ({ loading = 'lazy', title, ...rest }: Props) => (
-	<img
+type Props = {
+	height: string | number,
+	loading?: 'lazy' | 'eager',
+	quality?: number,
+	src: string,
+	title: string,
+	width: string | number,
+}
+
+export const ImageComponent = ({ loading = 'lazy', title, width, height, src, quality, ...rest }: Props) => (
+	<div
 		css={{
 			cursor: 'zoom-in',
-			height: '100%',
-			objectFit: 'contain',
-			width: '100%',
+			display: 'flex',
+			justifyContent: 'center',
 		}}
-		alt={title}
-		loading={loading}
-		{...rest}
-	/>
+	>
+		<Image
+			alt={title}
+			height={height}
+			loading={loading}
+			quality={quality}
+			src={src}
+			width={width}
+			{...rest}
+		/>
+	</div>
 )

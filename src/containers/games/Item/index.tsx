@@ -18,7 +18,7 @@ type Props = {
 } & SimpleGame
 
 export const Item = ({ id, name, releaseDate, index = 0, cover, status, isLoading }: Props) => (
-	<Link href='/games/[id]' as={`/games/${id}`} passHref>
+	<Link href={`/games/${id}`} passHref>
 		<Container isLoading={isLoading}>
 			<Cover coverUrl={cover} size='small' />
 			<div css={{ padding: '12px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>

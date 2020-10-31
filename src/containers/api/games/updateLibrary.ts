@@ -120,7 +120,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 					listOfGames.map((game) => q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), game.id))), {
 						data: {
 							...game,
-							lastChecked: Date.now(),
+							lastChecked: getUnixTime(new Date()),
 						},
 					})),
 				),
@@ -130,7 +130,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 					listOfGames.map((game) => q.Create(q.Collection('games'), {
 						data: {
 							...game,
-							lastChecked: Date.now(),
+							lastChecked: getUnixTime(new Date()),
 						},
 					})),
 				),

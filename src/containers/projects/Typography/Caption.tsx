@@ -4,7 +4,7 @@ export const Caption = (props: React.ComponentProps<'p'>) => (
 			opacity: 0.7,
 			fontSize: theme.fontSize.s90,
 			textAlign: 'center',
-			margin: '0 0 42px',
+			margin: '6px 0 42px',
 		})}
 		{...props}
 	/>

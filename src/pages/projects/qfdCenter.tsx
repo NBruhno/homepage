@@ -33,7 +33,13 @@ const QfdCenter: NextPage = () => (
 					His customers are companies who are looking for people to taste and provide feedback for their food products.
 					They are interested in data explaining to them whether their current product is bad or good and what that is.
 				</p>
-				<ProjectImage url='./images/projects/qfdCenter/screenshot1.png' title='Screenshot of test results' />
+				<ProjectImage
+					src='/images/projects/qfdCenter/screenshot1.png'
+					title='Screenshot of test results'
+					width={1365}
+					height={705}
+					divider={2}
+				/>
 				<Caption>Screenshot of the results of one question from a demo questionnaire</Caption>
 				<p>
 					Some of these companies include airline companies who wants to get feedback on their food served on the planes.
@@ -55,7 +61,13 @@ const QfdCenter: NextPage = () => (
 					select when the test is open for answers. These are all options part of the prototype and not necessarily a
 					presentation of the final product.
 				</p>
-				<ProjectImage url='./images/projects/qfdCenter/screenshot2.png' title='Screenshot of questionnaire' />
+				<ProjectImage
+					src='/images/projects/qfdCenter/screenshot2.png'
+					title='Screenshot of questionnaire'
+					width={1351}
+					height={815}
+					divider={2}
+				/>
 				<Caption>Screenshot of the creation of a questionnaire</Caption>
 				<p>
 					But creation and maintenance of questionnaires are of no use if there is no way to collect the data.
@@ -64,14 +76,26 @@ const QfdCenter: NextPage = () => (
 					in the questionnaire. The questions are separated so that it does not fatigue the user with possibly
 					100s of options.
 				</p>
-				<ProjectImage url='./images/projects/qfdCenter/screenshot3.png' title='Screenshot of questionnaire on desktop' />
+				<ProjectImage
+					src='/images/projects/qfdCenter/screenshot3.png'
+					title='Screenshot of questionnaire on desktop'
+					width={1306}
+					height={633}
+					divider={2}
+				/>
 				<Caption>Screenshot of the users page for answering the questionnaire on desktop</Caption>
 				<p>
 					As mentioned earlier it was important for us to make sure that the website runs on all modern devices,
 					which means that the website is responsive (as to be expected of modern websites) and so content scales
 					and changes depending on the device used.
 				</p>
-				<ProjectImage url='./images/projects/qfdCenter/screenshot4.png' title='Screenshot of mobile layouts' />
+				<ProjectImage
+					src='/images/projects/qfdCenter/screenshot4.png'
+					title='Screenshot of mobile layouts'
+					width={1224}
+					height={832}
+					divider={2}
+				/>
 				<Caption>Screenshot of some of the layouts for mobile devices</Caption>
 				<p>
 					The page is designed in a way so that all functions and layout is recognizable and easily understandable
@@ -80,7 +104,13 @@ const QfdCenter: NextPage = () => (
 					for the mobile devices to not destroy precious screen space, but we are able to show it all on wider screens
 					to make sure getting around on the page is fast and efficient.
 				</p>
-				<ProjectImage url='./images/projects/qfdCenter/screenshot5.png' title='Screenshot of tests page' />
+				<ProjectImage
+					src='/images/projects/qfdCenter/screenshot5.png'
+					title='Screenshot of tests page'
+					width={1918}
+					height={949}
+					divider={2.5}
+				/>
 				<Caption>Screenshot of the whole page under &quot;tests&quot;</Caption>
 				<p>
 					The website is made with Angular and is using Firebase for the back-end, handling authentication,

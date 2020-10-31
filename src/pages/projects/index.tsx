@@ -25,39 +25,38 @@ const Projects: NextPage = () => (
 							id='angular'
 							title='Old Angular website'
 							subtitle='This is my old portfolio created using Angular. This was something I worked on before I started at Subaio'
-							coverUrl='./images/projects/angular/cover.png'
+							coverSrc='./images/projects/angular/cover.png'
 							url='https://angular.bruhno.com'
-							as=''
 						/>
 						<ProjectItem
 							id='qfdCenter'
 							title='QFDCenter'
 							subtitle='Website to create and publish questionnaires and automate statistical data generation. Hired work December 2017'
-							coverUrl='./images/projects/qfdCenter/cover.png'
+							coverSrc='./images/projects/qfdCenter/cover.png'
 						/>
 						<ProjectItem
 							id='betterWorldFashion'
 							title='Better World Fashion'
 							subtitle='Conceptualization of a social platform with gamification. Student project from 6th semester of B.Sc Medialogy, 2017'
-							coverUrl='./images/projects/betterWorldFashion/cover.png'
+							coverSrc='./images/projects/betterWorldFashion/cover.png'
 						/>
 						<ProjectItem
 							id='derailed'
 							title='Derailed'
 							subtitle='Mobile controlled desktop co-op experience. Student project from 5th semester of B.Sc Medialogy, 2016'
-							coverUrl='./images/projects/derailed/cover.png'
+							coverSrc='./images/projects/derailed/cover.png'
 						/>
 						<ProjectItem
 							id='drummute'
 							title='Drummute'
 							subtitle='Interactive physical mobile drumkit for experienced drummers. Student project from 4th semester of B.Sc Medialogy, 2016'
-							coverUrl='./images/projects/drummute/cover.png'
+							coverSrc='./images/projects/drummute/cover.png'
 						/>
 						<ProjectItem
 							id='imageProcessing'
 							title='Music creation through image processing'
 							subtitle='Hand tracking using image processing to control a music node tool. Student project from 3rd semester of B.Sc Medialogy, 2015'
-							coverUrl='./images/projects/imageProcessing/cover.png'
+							coverSrc='./images/projects/imageProcessing/cover.png'
 						/>
 					</ProjectList>
 				</div>

@@ -27,7 +27,13 @@ const ImageProcessing: NextPage = () => (
 					could create your own simple tunes. To control this program, we created a piece of software capable of tracking
 					your hands position on camera, assuming you were wearing a green glove.
 				</p>
-				<ProjectImage url='./images/projects/imageProcessing/defect.png' title='Illustration of defect' />
+				<ProjectImage
+					src='/images/projects/imageProcessing/defect.png'
+					title='Illustration of defect'
+					width={2333}
+					height={1140}
+					divider={2}
+				/>
 				<Caption>Illustration of both contour and convexity hull with the orange arrow representing convexity defect</Caption>
 				<p>
 					The program was able to be adjusted during use to calibrate the tracking of the hand and the precision of
@@ -35,7 +41,13 @@ const ImageProcessing: NextPage = () => (
 					buttons for the audio program. The program ended up working very well and there were several different
 					methods to count the number of fingers present for the gestures to be accurate.
 				</p>
-				<ProjectImage url='./images/projects/imageProcessing/screenshot1.png' title='UI presentation' />
+				<ProjectImage
+					src='/images/projects/imageProcessing/screenshot1.png'
+					title='UI presentation'
+					width={1283}
+					height={993}
+					divider={2}
+				/>
 				<Caption>An image of the early version of the program before more measures were implemented to increase accuracy post evaluation</Caption>
 				<p>
 					If you are interested in learning more about this project, what it aimed to study and the results of

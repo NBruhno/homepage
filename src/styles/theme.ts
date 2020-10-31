@@ -66,6 +66,7 @@ export const theme = (darkTheme = true) => ({
 		grayLighter: darkTheme ? 'hsl(0, 0%, 80%)' : 'hsl(0, 0%, 10%)',
 		white: 'white',
 		black: 'black',
+		link: darkTheme ? 'hsl(230, 80%, 65%)' : 'hsl(230, 80%, 50%)',
 		error: darkTheme ? 'hsl(0, 65%, 50%)' : 'hsl(0, 80%, 51%)',
 		errorBackground: darkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
 		errorBackgroundHover: darkTheme ? 'hsl(0, 65%, 20%)' : 'hsl(0, 80%, 85%)',

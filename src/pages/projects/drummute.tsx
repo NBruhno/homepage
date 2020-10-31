@@ -27,7 +27,13 @@ const Drummute: NextPage = () => (
 					with said prototype. We decided to create a portable drumkit using pressure sensors to locate and measure
 					the strikes on a set rubber pads.
 				</p>
-				<ProjectImage url='./images/projects/drummute/circuitLayout.png' title='Circuit layout' />
+				<ProjectImage
+					src='/images/projects/drummute/circuitLayout.png'
+					title='Circuit layout'
+					width={1240}
+					height={822}
+					divider={2}
+				/>
 				<Caption>Visual illustration/schematic of the circuit of our prototype</Caption>
 				<p>
 					The prototype was programmed using Processing and PureData gathering data from an Arduino connected to a
@@ -35,7 +41,13 @@ const Drummute: NextPage = () => (
 					the strike was, using four pressure sensors spread out on each side. This way, a different sound could
 					be made depending on strike location and force.
 				</p>
-				<ProjectImage url='./images/projects/drummute/sensorLayout.png' title='Sensor layout' />
+				<ProjectImage
+					src='/images/projects/drummute/sensorLayout.png'
+					title='Sensor layout'
+					width={1529}
+					height={672}
+					divider={2}
+				/>
 				<Caption>A visual illustration of our sensor layout for the drumpads and pedal</Caption>
 				<p>
 					If you are interested to know more about the project,

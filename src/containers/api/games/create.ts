@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getUnixTime } from 'date-fns'
 import { query as q } from 'faunadb'
 
 import type { Options } from '../types'
@@ -16,7 +17,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse, options:
 	await monitorAsync(() => serverClient.query(q.Create(q.Collection('games'), {
 		data: {
 			...body,
-			lastChecked: Date.now(),
+			lastChecked: getUnixTime(new Date()),
 		},
 	})), 'faunadb - Create()', transaction)
 

@@ -1,23 +1,31 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+import Image from 'next/image'
+
 import { useModal } from 'states/modal'
 
-import { Image } from './Image'
+import { ImageComponent } from './Image'
 import { Placeholder } from './Placeholder'
 
 const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
 
 type Props = {
-	url: string,
+	src: string,
 	title: string,
+	width: number,
+	height: number,
+	divider?: number,
 } & React.ComponentProps<'img'>
 
-export const ProjectImage = ({ url, title, ...rest }: Props) => {
+export const ProjectImage = ({ src, title, width, height, divider, ...rest }: Props) => {
 	const { openModal } = useModal()
 
-	if (!url) {
+	if (!src) {
 		return (
-			<Placeholder />
+			<Placeholder
+				width={divider ? width / divider : width}
+				height={divider ? height / divider : height}
+			/>
 		)
 	}
 
@@ -34,16 +42,24 @@ export const ProjectImage = ({ url, title, ...rest }: Props) => {
 							width: '100%',
 						}}
 					>
-						<img
-							src={url ?? placeholderImage}
+						<Image
+							src={src ?? placeholderImage}
 							alt={title}
+							unsized
+							unoptimized
 							css={{ maxWidth: '100%', maxHeight: '90vh', objectFit: 'cover' }}
 						/>
 					</div>
 				), { noWrapper: true })
 			}}
 		>
-			<Image src={url ?? placeholderImage} title={title} {...rest} />
+			<ImageComponent
+				src={src}
+				title={title}
+				width={divider ? width / divider : width}
+				height={divider ? height / divider : height}
+				{...rest}
+			/>
 		</div>
 	)
 }

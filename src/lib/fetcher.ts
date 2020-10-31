@@ -38,7 +38,7 @@ export type Options = {
 export const fetcher = async <T>(
 	url: RequestInfo, {
 		accessToken, body, method = Method.Get, contentType = ContentType.JSON, absoluteUrl,
-		credentials = 'same-origin', mode = 'cors', cacheControl = 's-maxage=60, stale-while-revalidate',
+		credentials = 'same-origin', mode = 'cors', cacheControl,
 	}: Options = {}): Promise<T> => {
 	// Create headers object and remove undefined variables to exclude them from call
 	const headers = ({
