@@ -58,9 +58,9 @@ export const mapIgdbGame = (game: IgdbGame): Game => {
 		publisher: resolveCompany(companies?.find(({ publisher }) => publisher)),
 		rating,
 		ratingCount,
-		releaseDate: releaseDate * 1000 ?? null,
+		releaseDate: releaseDate ?? null,
 		releaseDates: releaseDates?.map(({ date, platform: { platform_logo: platformLogo, abbreviation, name } }) => ({
-			date: date * 1000,
+			date,
 			platform: {
 				abbreviation,
 				logo: platformLogo?.image_id ? `${igdbImageUrl}/t_thumb/${platformLogo.image_id}.jpg` : null,

@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
+import { getUnixTime } from 'date-fns'
 import { query as q } from 'faunadb'
 
 import type { Game } from 'types/Games'
@@ -29,7 +30,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse, options:
 	await monitorAsync(() => serverClient.query(q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), gameId))), {
 		data: {
 			...game,
-			lastChecked: Date.now(),
+			lastChecked: getUnixTime(new Date()),
 		},
 	})), 'faunadb - Update()', transaction)
 
