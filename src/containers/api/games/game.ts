@@ -52,5 +52,6 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, options: O
 		})
 	}
 
+	res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
 	return res.status(200).json({ ...game })
 }

@@ -34,7 +34,7 @@ const QfdCenter: NextPage = () => (
 					They are interested in data explaining to them whether their current product is bad or good and what that is.
 				</p>
 				<ProjectImage
-					src='/./images/projects/qfdCenter/screenshot1.png'
+					src='/images/projects/qfdCenter/screenshot1.png'
 					title='Screenshot of test results'
 					width={1365}
 					height={705}
@@ -62,7 +62,7 @@ const QfdCenter: NextPage = () => (
 					presentation of the final product.
 				</p>
 				<ProjectImage
-					src='/./images/projects/qfdCenter/screenshot2.png'
+					src='/images/projects/qfdCenter/screenshot2.png'
 					title='Screenshot of questionnaire'
 					width={1351}
 					height={815}
@@ -77,7 +77,7 @@ const QfdCenter: NextPage = () => (
 					100s of options.
 				</p>
 				<ProjectImage
-					src='/./images/projects/qfdCenter/screenshot3.png'
+					src='/images/projects/qfdCenter/screenshot3.png'
 					title='Screenshot of questionnaire on desktop'
 					width={1306}
 					height={633}
@@ -90,7 +90,7 @@ const QfdCenter: NextPage = () => (
 					and changes depending on the device used.
 				</p>
 				<ProjectImage
-					src='/./images/projects/qfdCenter/screenshot4.png'
+					src='/images/projects/qfdCenter/screenshot4.png'
 					title='Screenshot of mobile layouts'
 					width={1224}
 					height={832}
@@ -105,7 +105,7 @@ const QfdCenter: NextPage = () => (
 					to make sure getting around on the page is fast and efficient.
 				</p>
 				<ProjectImage
-					src='/./images/projects/qfdCenter/screenshot5.png'
+					src='/images/projects/qfdCenter/screenshot5.png'
 					title='Screenshot of tests page'
 					width={1918}
 					height={949}

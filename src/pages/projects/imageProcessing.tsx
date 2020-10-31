@@ -28,7 +28,7 @@ const ImageProcessing: NextPage = () => (
 					your hands position on camera, assuming you were wearing a green glove.
 				</p>
 				<ProjectImage
-					src='/./images/projects/imageProcessing/defect.png'
+					src='/images/projects/imageProcessing/defect.png'
 					title='Illustration of defect'
 					width={2333}
 					height={1140}
@@ -42,7 +42,7 @@ const ImageProcessing: NextPage = () => (
 					methods to count the number of fingers present for the gestures to be accurate.
 				</p>
 				<ProjectImage
-					src='/./images/projects/imageProcessing/screenshot1.png'
+					src='/images/projects/imageProcessing/screenshot1.png'
 					title='UI presentation'
 					width={1283}
 					height={993}

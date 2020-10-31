@@ -31,7 +31,7 @@ const Derailed: NextPage = () => (
 					project.
 				</p>
 				<ProjectImage
-					src='/./images/projects/derailed/perceptionNeuron.png'
+					src='/images/projects/derailed/perceptionNeuron.png'
 					title='Image from our motion capture'
 					width={1285}
 					height={723}
@@ -52,7 +52,7 @@ const Derailed: NextPage = () => (
 					by completing assigned or shared tasks in form of mini-games completed on the phone screen.
 				</p>
 				<ProjectImage
-					src='/./images/projects/derailed/screenshot1.png'
+					src='/images/projects/derailed/screenshot1.png'
 					title='Ready check'
 					width={1388}
 					height={731}

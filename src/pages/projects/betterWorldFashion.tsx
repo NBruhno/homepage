@@ -33,7 +33,7 @@ const QfdCenter: NextPage = () => (
 					other people have rented with a platform dedicated to the jackets as profiles, not people.
 				</p>
 				<ProjectImage
-					src='/./images/projects/betterWorldFashion/bwfLogo.png'
+					src='/images/projects/betterWorldFashion/bwfLogo.png'
 					title='Better World Fashion logo'
 					width={2000}
 					height={2000}
@@ -49,7 +49,7 @@ const QfdCenter: NextPage = () => (
 					and how to create and/or enlarge these communities.
 				</p>
 				<ProjectImage
-					src='/./images/projects/betterWorldFashion/bwfJacketAndTheEnvironment.png'
+					src='/images/projects/betterWorldFashion/bwfJacketAndTheEnvironment.png'
 					title='Illustration of how much a BWF jacket saves the environment'
 					width={1101}
 					height={595}
@@ -66,7 +66,7 @@ const QfdCenter: NextPage = () => (
 					their story as mentioned earlier.
 				</p>
 				<ProjectImage
-					src='/./images/projects/betterWorldFashion/hiFi.png'
+					src='/images/projects/betterWorldFashion/hiFi.png'
 					title='Hi-Fi prototype'
 					width={1754}
 					height={1000}
@@ -83,7 +83,7 @@ const QfdCenter: NextPage = () => (
 					tests to fulfil our success criteria and the criteria of a university semester project at AAU.
 				</p>
 				<ProjectImage
-					src='/./images/projects/betterWorldFashion/phonePage1.png'
+					src='/images/projects/betterWorldFashion/phonePage1.png'
 					title='Hi-Fi prototype'
 					width={2480}
 					height={3508}

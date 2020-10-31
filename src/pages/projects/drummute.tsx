@@ -28,7 +28,7 @@ const Drummute: NextPage = () => (
 					the strikes on a set rubber pads.
 				</p>
 				<ProjectImage
-					src='/./images/projects/drummute/circuitLayout.png'
+					src='/images/projects/drummute/circuitLayout.png'
 					title='Circuit layout'
 					width={1240}
 					height={822}
@@ -42,7 +42,7 @@ const Drummute: NextPage = () => (
 					be made depending on strike location and force.
 				</p>
 				<ProjectImage
-					src='/./images/projects/drummute/sensorLayout.png'
+					src='/images/projects/drummute/sensorLayout.png'
 					title='Sensor layout'
 					width={1529}
 					height={672}

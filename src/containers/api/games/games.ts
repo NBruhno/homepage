@@ -65,5 +65,6 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 		}
 	}
 
+	res.setHeader('Cache-Control', 's-maxage=30, stale-while-revalidate')
 	return res.status(200).json({ popular: games })
 }
