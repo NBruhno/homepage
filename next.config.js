@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 const withOffline = require('next-offline')
 const withSourceMaps = require('@zeit/next-source-maps')({
 	devtool: process.env.NODE_ENV !== 'development' ? 'hidden-source-map' : 'source-map',
@@ -67,6 +69,13 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 		if (!options.isServer) {
 			config.resolve.alias['@sentry/node'] = '@sentry/browser'
 		}
+
+		// FIXME: Temporary fix for the JSX runtime with React 17 + NextJS + EmotionJS
+		config.plugins.push(
+			new webpack.ProvidePlugin({
+				React: 'react',
+			}),
+		)
 
 		if (SENTRY_DSN && SENTRY_ORG && SENTRY_PROJECT && SENTRY_AUTH_TOKEN && COMMIT_SHA && NODE_ENV === 'production') {
 			config.plugins.push(
