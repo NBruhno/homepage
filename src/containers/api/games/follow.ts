@@ -16,6 +16,7 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 	const { method } = req
 	const { gameId, transaction } = options
 	transaction.setName(`${method} - api/games/{gameId}/follow`)
+	res.setHeader('Cache-Control', 'no-cache')
 
 	const { secret } = authenticate(req, res, { transaction })
 
