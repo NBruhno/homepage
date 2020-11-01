@@ -13,6 +13,8 @@ interface Request extends NextApiRequest {
 export default withSentry(async (req: Request, res, transaction) => {
 	const { query: { route } } = req
 
+	res.setHeader('Cache-Control', 'no-cache')
+
 	if (route) {
 		const [userId, resource] = route
 		switch (userId) {
