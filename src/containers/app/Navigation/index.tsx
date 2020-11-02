@@ -51,7 +51,7 @@ export const Navigation = () => {
 					<ButtonIcon
 						css={{ margin: '6px 12px', height: '35px' }}
 						onClick={() => updateResponsive({ collapsedSidebar: !collapsedSidebar })}
-						title='Collapse sidebar'
+						title={collapsedSidebar ? 'Expand sidebar' : 'Collapse sidebar'}
 						label={(
 							<div css={(theme: Theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', color: theme.color.text, marginTop: '2px' })}>
 								<ChevronFlip horizontal isActive={collapsedSidebar} />

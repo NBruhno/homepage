@@ -1,4 +1,5 @@
-export { igdbFetcher } from './fetcher'
+export { itadFetcher } from './itadFetcher'
+export { igdbFetcher } from './igdbFetcher'
 export { fields } from './fields'
 export { shouldUpdate } from './shouldUpdate'
 export { mapIgdbGame, igdbImageUrl, mapStatus } from './mapIgdbGame'

@@ -21,6 +21,10 @@ export const config = {
 		token: process.env.IGDB_TOKEN,
 	},
 
+	itad: {
+		apiKey: process.env.ITAD_TOKEN,
+	},
+
 	sentry: {
 		dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 	},

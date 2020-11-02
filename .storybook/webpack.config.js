@@ -22,13 +22,6 @@ module.exports = ({ config }) => {
 	
 	config.node = { fs: 'empty' }
 
-	// FIXME: Temporary fix for the JSX runtime with React 17 + NextJS + EmotionJS
-	config.plugins.push(
-		new webpack.ProvidePlugin({
-			React: 'react',
-		}),
-	)
-
 	config.resolve.alias['components'] = path.join(__dirname, '../src/components')
 	config.resolve.alias['hooks'] = path.join(__dirname, '../src/hooks')
 	config.resolve.alias['lib'] = path.join(__dirname, '../src/lib')

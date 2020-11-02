@@ -10,7 +10,7 @@ import { Detail } from 'containers/games/Detail'
 const GamePage: NextPage = () => {
 	const router = useRouter()
 	const { id } = router.query
-	const { game, following, follow, unfollow } = useGame(id as string)
+	const { game, prices, following, follow, unfollow } = useGame(id as string)
 	const isLoading = !game
 
 	return (
@@ -19,7 +19,7 @@ const GamePage: NextPage = () => {
 				<title>{game?.name ?? 'Game'} • Bruhno</title>
 			</Head>
 			<Page>
-				<Detail game={game} following={following} isLoading={isLoading} onFollow={follow} onUnfollow={unfollow} />
+				<Detail game={game} prices={prices} following={following} isLoading={isLoading} onFollow={follow} onUnfollow={unfollow} />
 			</Page>
 		</>
 	)

@@ -1,4 +1,4 @@
-import { game, games, follow, follows, unfollow, update, updateLibrary } from 'containers/api/games'
+import { game, games, follow, follows, unfollow, update, updateLibrary, prices } from 'containers/api/games'
 import { sendError } from 'containers/api/errors/ApiError'
 import { withSentry } from 'containers/api/middleware'
 
@@ -25,6 +25,9 @@ export default withSentry(async (req, res, transaction) => {
 		}
 		case 'unfollow': { // /games/{id}/unfollow
 			return unfollow(req, res, { gameId, transaction })
+		}
+		case 'prices': {
+			return prices(req, res, { gameId, transaction })
 		}
 		default: { // /games/{id}
 			if (resource) sendError(404, res)
