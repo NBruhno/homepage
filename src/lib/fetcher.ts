@@ -12,14 +12,15 @@ export enum Method {
 }
 
 export type Options = {
+	absoluteUrl?: string,
 	accessToken?: string,
 	body?: Record<string, any>,
-	contentType?: ContentType,
-	method?: Method,
-	credentials?: RequestCredentials,
-	mode?: RequestMode,
 	cacheControl?: string,
-	absoluteUrl?: string,
+	contentType?: ContentType,
+	credentials?: RequestCredentials,
+	customHeaders?: Record<string, any>,
+	method?: Method,
+	mode?: RequestMode,
 }
 
 /**
@@ -38,13 +39,14 @@ export type Options = {
 export const fetcher = async <T>(
 	url: RequestInfo, {
 		accessToken, body, method = Method.Get, contentType = ContentType.JSON, absoluteUrl,
-		credentials = 'same-origin', mode = 'cors', cacheControl,
+		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
 	}: Options = {}): Promise<T> => {
 	// Create headers object and remove undefined variables to exclude them from call
 	const headers = ({
 		'Content-Type': contentType,
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
+		...customHeaders,
 	})
 	Object.keys(headers).forEach((key: keyof typeof headers) => headers[key] === undefined && delete headers[key])
 

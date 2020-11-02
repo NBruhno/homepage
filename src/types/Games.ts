@@ -1,5 +1,20 @@
 import { WebsiteCategory } from './IGDB'
 
+export enum ListTypes {
+	Popular = 'popular',
+	Search = 'search',
+	Following = 'following',
+}
+
+export enum Status {
+	Alpha = 'Alpha',
+	Beta = 'Beta',
+	EarlyAccess = 'Early access',
+	Offline = 'Offline',
+	Released = 'Released',
+	Rumored = 'Rumored',
+}
+
 export type Website = {
 	category: WebsiteCategory,
 	trusted: boolean,
@@ -29,15 +44,6 @@ export type Engine = {
 export type ReleaseDate = {
 	date: number,
 	platform: Platform,
-}
-
-export enum Status {
-	Alpha = 'Alpha',
-	Beta = 'Beta',
-	EarlyAccess = 'Early access',
-	Offline = 'Offline',
-	Released = 'Released',
-	Rumored = 'Rumored',
 }
 
 export type Game = {
@@ -83,8 +89,11 @@ export type GameList = {
 	popular: Array<SimpleGame>,
 }
 
-export enum ListTypes {
-	Popular = 'popular',
-	Search = 'search',
-	Following = 'following',
+export type Price = {
+	currency: string,
+	current: number,
+	difference: number,
+	id: string,
+	name: string,
+	url: string,
 }

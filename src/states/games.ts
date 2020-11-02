@@ -1,9 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import useSWR from 'swr'
 
 import { useAuth } from 'states/auth'
 
-import type { Game, SimpleGame, ListTypes } from 'types/Games'
+import { Game, SimpleGame, ListTypes, Price } from 'types/Games'
 
 import { fetcher, Method } from 'lib/fetcher'
 import { useGlobalState } from './globalState'
@@ -42,7 +42,7 @@ export const useGames = () => {
 export const useGame = (id: string) => {
 	const { user } = useAuth()
 	const [following, setFollowing] = useState<boolean>(undefined)
-	const { data: game } = useSWR<Game>(id ? `/games/${id}` : null, (link) => fetcher(link), { revalidateOnFocus: false })
+	const { data: game, error } = useSWR<Game>(id ? `/games/${id}` : null, (link) => fetcher(link), { revalidateOnFocus: false })
 	const { data: followingData } = useSWR<{ following: boolean }>((id && user?.accessToken)
 		? `/games/${id}/follow`
 		: null, (link) => fetcher(link, { accessToken: user?.accessToken }), { revalidateOnFocus: false })
@@ -53,11 +53,16 @@ export const useGame = (id: string) => {
 		if (response.message) setFollowing(true)
 	}
 
+	const canGetPrices = useMemo(() => id && game?.name && !error, [id, game?.name, error])
+	const { data: prices } = useSWR<{ prices: Array<Price> }>(canGetPrices
+		? `/games/${id}/prices?name=${game.name}`
+		: null, (link) => fetcher(link), { revalidateOnFocus: false })
+
 	const unfollow = async () => {
 		const response = await fetcher<{ message?: string }>(`/games/${id}/unfollow`, { accessToken: user.accessToken, method: Method.Patch })
 		if (response.message) setFollowing(false)
 	}
 	useEffect(() => setFollowing(followingData?.following), [followingData?.following])
 
-	return { game, following, follow: async () => follow(), unfollow: async () => unfollow() }
+	return { game, following, ...prices, follow: async () => follow(), unfollow: async () => unfollow() }
 }

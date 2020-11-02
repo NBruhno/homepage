@@ -35,6 +35,7 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	const { user } = useAuth()
 	const isMobile = useMediaQuery({ maxWidth: screenSizes.mobile - 1 })
 	const isTablet = useMediaQuery({ maxWidth: screenSizes.tablet - 1, minWidth: screenSizes.mobile })
+	const isLaptop = useMediaQuery({ maxWidth: screenSizes.laptop - 1, minWidth: screenSizes.tablet })
 	const collapsedSidebar = useMediaQuery({ maxWidth: screenSizes.laptop - 1 })
 	const [protectRoute, setProtectRoute] = useState(false)
 	const [roleProtectRoute, setRoleProtectRoute] = useState(false)
@@ -56,7 +57,7 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	}, [pathname, user.isStateKnown, user.role])
 
 	useEffect(() => {
-		updateResponsive({ isMobile, isTablet, collapsedSidebar })
+		updateResponsive({ isMobile, isTablet, isLaptop, collapsedSidebar })
 	}, [isMobile, collapsedSidebar])
 
 	useEffect(() => {

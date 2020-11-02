@@ -1,4 +1,4 @@
-import type { Game } from 'types/Games'
+import type { Game, Price } from 'types/Games'
 
 import { useAuth } from 'states/auth'
 import { useResponsive } from 'states/responsive'
@@ -19,13 +19,15 @@ import { ReleaseDate } from './Header/ReleaseDate'
 import { Title } from './Header/Title'
 import { TitleWrapper } from './Header/TitleWrapper'
 
+import { ActionWrapper } from './ActionWrapper'
 import { MainContent } from './MainContent'
+import { PriceTable } from './PriceTable'
 import { SortBy, WebsiteIcons } from './WebsiteIcons'
 import { Wrapper } from './Wrapper'
-import { ActionWrapper } from './ActionWrapper'
 
 type Props = {
 	game: Game | null,
+	prices: Array<Price>,
 	following: boolean,
 	isLoading: boolean,
 
@@ -33,9 +35,9 @@ type Props = {
 	onUnfollow: () => Promise<any>,
 }
 
-export const Detail = ({ game, following, onFollow, onUnfollow, isLoading }: Props) => {
+export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoading }: Props) => {
 	const { user } = useAuth()
-	const { isMobile, isTablet } = useResponsive()
+	const { isMobile, isTablet, isLaptop } = useResponsive()
 	const groupedReleaseDates = game?.releaseDates ? groupByReleaseDate(game.releaseDates, ({ date }) => date, game.releaseDate) : null
 
 	return (
@@ -69,18 +71,23 @@ export const Detail = ({ game, following, onFollow, onUnfollow, isLoading }: Pro
 							</Developer>
 						</div>
 						{(!isTablet && !isMobile) && (
-							<ActionWrapper>
-								<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top}>
-									<ButtonSolid
-										label={following ? 'Unfollow' : 'Follow'}
-										onClick={() => following ? onUnfollow() : onFollow()}
-										disabled={following === undefined}
-										isLoading={isLoading}
-										fullWidth
-									/>
-								</Tooltip>
-								{(!isTablet && !isMobile) && <WebsiteIcons websites={game?.websites} sortBy={SortBy.Stores} />}
-							</ActionWrapper>
+							<>
+								<ActionWrapper>
+									<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top}>
+										<ButtonSolid
+											label={following ? 'Unfollow' : 'Follow'}
+											onClick={() => following ? onUnfollow() : onFollow()}
+											disabled={following === undefined}
+											isLoading={isLoading}
+											fullWidth
+										/>
+									</Tooltip>
+									{(!isTablet && !isMobile) && <WebsiteIcons websites={game?.websites} sortBy={SortBy.Stores} />}
+								</ActionWrapper>
+								{(!isLaptop) && (
+									<PriceTable prices={prices} isLoading={isLoading} />
+								)}
+							</>
 						)}
 					</TitleWrapper>
 				</div>
@@ -100,9 +107,10 @@ export const Detail = ({ game, following, onFollow, onUnfollow, isLoading }: Pro
 					</div>
 				)}
 				{(isTablet || isMobile) && (
-					<div>
-						<WebsiteIcons websites={game?.websites} sortBy={SortBy.Stores} />
-					</div>
+					<WebsiteIcons websites={game?.websites} sortBy={SortBy.Stores} />
+				)}
+				{(isTablet || isMobile || isLaptop) && (
+					<PriceTable prices={prices} isLoading={isLoading} />
 				)}
 				{game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
 				{game?.platforms?.length > 0 && <p>Platforms: {game?.platforms.map(({ name }) => name).join(', ')}</p>}

@@ -6,6 +6,7 @@ type Responsive = {
 	collapsedSidebar: boolean,
 	isMobile: boolean,
 	isTablet: boolean,
+	isLaptop: boolean,
 	showLogin: boolean,
 	showMenu: boolean,
 }
@@ -51,6 +52,7 @@ export const { useGlobalState } = createGlobalState<State>({
 		collapsedSidebar: false,
 		isMobile: false,
 		isTablet: false,
+		isLaptop: false,
 		showLogin: false,
 		showMenu: false,
 	},
