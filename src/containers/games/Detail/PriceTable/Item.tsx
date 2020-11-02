@@ -19,11 +19,6 @@ export const Item = ({ first, ...rest }: Props) => (
 			textDecoration: 'none',
 			transition: `background-color 135ms ${theme.animation.default}`,
 
-			'&:last-child': {
-				borderBottomLeftRadius: '4px',
-				borderBottomRightRadius: '4px',
-			},
-
 			'&:hover': {
 				backgroundColor: theme.color.gray020,
 			},
