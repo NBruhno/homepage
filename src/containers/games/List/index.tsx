@@ -1,38 +1,68 @@
-import { keyframes } from '@emotion/core'
+import { SimpleGame } from 'types/Games'
 
 import { Item } from '../Item'
 
+import { Container } from './Container'
+import { Subtitle } from './Subtitle'
+
 type Props = {
-	games: Array<Record<string, any>>,
+	games: Array<SimpleGame>,
+	isLoading: boolean,
+	undefinedMessage?: string,
 	emptyMessage?: string,
 }
 
-const fadeIn = keyframes`
-	0% {
-		opacity: 0;
+export const GameList = ({
+	isLoading, games,
+	undefinedMessage = 'You can use the search field above to look for a game',
+	emptyMessage = 'No games match the search criteria',
+}: Props) => {
+	if (isLoading) {
+		return (
+			<Container>
+				{[{}, {}, {}, {}, {}, {}, {}].map((game: SimpleGame, index: number) => (
+					<Item
+						{...game}
+						index={index}
+						isLoading={isLoading}
+						key={index}
+					/>
+				))}
+			</Container>
+		)
 	}
 
-	100% {
-		opacity: 1;
+	if (!games) {
+		return (
+			<Container>
+				<Subtitle>{undefinedMessage}</Subtitle>
+			</Container>
+		)
 	}
-`
 
-export const GameList = ({ games, emptyMessage = 'No games match the search criteria' }: Props) => {
-	const isLoading = !games
-	const gamesToRender = !isLoading ? games : [{}, {}, {}, {}, {}, {}, {}]
+	if (games.length === 0) {
+		return (
+			<Container>
+				{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
+			</Container>
+		)
+	}
 
 	return (
-		<div css={(theme: Theme) => ({ animation: `350ms ${theme.animation.default} ${fadeIn} 1` })}>
-			{gamesToRender.map((game: any, index: number) => (
+		<Container>
+			{games.map(({ id, cover, name, releaseDate, status }, index: number) => (
 				<Item
-					isLoading={isLoading}
-					key={game?.id ?? index}
+					id={id}
+					cover={cover}
+					name={name}
+					releaseDate={releaseDate}
+					status={status}
 					index={index}
-					{...game}
-					ref={null}
+					isLoading={isLoading}
+					key={id ?? index}
 				/>
 			))}
-			{!isLoading && games.length === 0 && (<p>{emptyMessage}</p>)}
-		</div>
+			{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
+		</Container>
 	)
 }

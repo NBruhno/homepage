@@ -15,9 +15,9 @@ import { Title } from './Title'
 type Props = {
 	index?: number,
 	isLoading: boolean,
-} & SimpleGame
+} & Pick<SimpleGame, 'id' | 'name' | 'releaseDate' | 'cover' | 'status'>
 
-export const Item = ({ id, name, releaseDate, index = 0, cover, status, isLoading }: Props) => (
+export const Item = ({ id, name, releaseDate, cover, status, isLoading, index = 0 }: Props) => (
 	<Link href={`/games/${id}`} passHref>
 		<Container isLoading={isLoading}>
 			<Cover coverUrl={cover} size='small' />
