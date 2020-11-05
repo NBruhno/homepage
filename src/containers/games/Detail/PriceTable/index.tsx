@@ -50,10 +50,10 @@ export const PriceTable = ({ prices, isLoading }: Props) => {
 								title={isExpanded ? 'Show less prices' : 'Show more prices'}
 							/>
 						</>
-					) : <Muted css={{ padding: '3px 10px 6px' }}>Found no other prices</Muted>}
+					) : <Muted css={{ padding: '3px 10px 6px' }}>There are no other known prices</Muted>}
 				</Container>
 			) : (
-				<Muted>Found no known prices for this product</Muted>
+				<Muted>There are no known prices for this product</Muted>
 			)}
 		</>
 	)
