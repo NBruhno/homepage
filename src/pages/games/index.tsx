@@ -5,6 +5,7 @@ import { FormSpy } from 'react-final-form'
 import { ListTypes } from 'types/Games'
 
 import { useGames } from 'states/games'
+import { useAuth } from 'states/auth'
 
 import { GameList } from 'containers/games/List'
 
@@ -14,7 +15,8 @@ import { Input } from 'components/Forms/Fields/Input'
 import { Page, PageContent } from 'components/Layout'
 
 const Games: NextPage = () => {
-	const { games, following, popular, currentList, setCurrentList } = useGames()
+	const { games, following, popular, gamesSearch, currentList, setCurrentList } = useGames()
+	const { user } = useAuth()
 
 	return (
 		<>
@@ -38,9 +40,23 @@ const Games: NextPage = () => {
 							<ButtonToggle label='Following' active={currentList === ListTypes.Following} onClick={() => setCurrentList(ListTypes.Following)} />
 							<ButtonToggle label='Search' active={currentList === ListTypes.Search} onClick={() => setCurrentList(ListTypes.Search)} />
 						</div>
-						{currentList === ListTypes.Popular && <GameList games={popular} />}
-						{currentList === ListTypes.Following && <GameList games={following} emptyMessage='You are not following any games' />}
-						{currentList === ListTypes.Search && <GameList games={games} />}
+						{currentList === ListTypes.Popular && (
+							<GameList
+								games={popular}
+								isLoading={!popular}
+								undefinedMessage='There appears to be an issue with games list'
+								emptyMessage='Could not find any popular games at the moment'
+							/>
+						)}
+						{currentList === ListTypes.Following && (
+							<GameList
+								games={following}
+								isLoading={Boolean(!following && user?.accessToken)}
+								undefinedMessage='You need to be logged in to see what games you are following'
+								emptyMessage='You have not following any games yet'
+							/>
+						)}
+						{currentList === ListTypes.Search && <GameList games={games} isLoading={!games && Boolean(gamesSearch?.search)} />}
 					</div>
 				</PageContent>
 			</Page>

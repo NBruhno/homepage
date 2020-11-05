@@ -9,19 +9,19 @@ import { fetcher, Method } from 'lib/fetcher'
 import { useGlobalState } from './globalState'
 
 export const useGames = () => {
-	const [forms] = useGlobalState('forms')
+	const [{ games: gamesSearch }] = useGlobalState('forms')
 	const [gamesState, setGameState] = useGlobalState('games')
 	const { user } = useAuth()
-	const { data: popular } = useSWR<{ popular: Array<SimpleGame> }>(user?.isStateKnown
+	const { data: popular } = useSWR<{ games: Array<SimpleGame> }>(user?.isStateKnown
 		? ['/games']
 		: null, (link) => fetcher(link), { revalidateOnFocus: false })
 
-	const { data: following } = useSWR<{ following: Array<SimpleGame> }>(user?.accessToken
+	const { data: following } = useSWR<{ games: Array<SimpleGame> }>(user?.accessToken
 		? ['/games?following=true', user.accessToken]
 		: null, (link, accessToken) => fetcher(link, { accessToken }), { revalidateOnFocus: false })
 
-	const { data: search } = useSWR<{ popular: Array<SimpleGame> }>(forms.games?.search
-		? ['/games?search=', forms.games?.search]
+	const { data: search } = useSWR<{ games: Array<SimpleGame> }>(gamesSearch?.search
+		? ['/games?search=', gamesSearch?.search]
 		: null, (link, searchParameter) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
 
 	const setCurrentList = (currentList: ListTypes) => {
@@ -31,12 +31,12 @@ export const useGames = () => {
 	}
 
 	const games = {
-		...popular,
-		...following,
-		games: search?.popular,
+		popular: popular?.games,
+		following: following?.games,
+		games: search?.games,
 	}
 
-	return { ...games, currentList: gamesState.currentList, setCurrentList }
+	return { ...games, currentList: gamesState.currentList, gamesSearch, setCurrentList }
 }
 
 export const useGame = (id: string) => {

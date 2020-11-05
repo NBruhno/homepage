@@ -59,7 +59,7 @@ export const follows = async (req: NextApiRequest, res: NextApiResponse, options
 				})
 			}
 
-			return res.status(200).json({ following: games })
+			return res.status(200).json({ games })
 		}
 		default: return sendError(405, res)
 	}
