@@ -62,6 +62,28 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 		]
 	},
 
+	async Headers() {
+		return [
+			{
+				source: '*',
+				headers: [
+					{
+						key: 'Content-Security-Policy',
+						value: `default-src 'self'; img-src *; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'self'; frame-src ${NODE_ENV === 'development' ? 'localhost:9000' : 'self'}`,
+					},
+					{
+						key: 'X-Frame-Options',
+						value: 'SAMEORIGIN',
+					},
+					{
+						key: 'X-Content-Type-Options',
+						value: 'nosniff',
+					},
+				],
+			},
+		]
+	},
+
 	webpack: (config, options) => {
 		if (!options.isServer) {
 			config.resolve.alias['@sentry/node'] = '@sentry/browser'
