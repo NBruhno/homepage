@@ -1,9 +1,8 @@
+import { decrypt } from 'lib/cipher'
+import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch, transaction } from 'test/utils'
 
 import { TokenTypes } from 'types/Token'
-
-import { decodeJwtToken } from 'lib/decodeJwtToken'
-import { decrypt } from 'lib/cipher'
 
 import { getJwtToken } from './getJwtToken'
 
@@ -46,7 +45,7 @@ describe('/api/getJwtToken', () => {
 
 describe('/api/getJwtToken', () => {
 	test('Token › Invalid type', async () => {
-		// @ts-expect-error
+		// @ts-expect-error: We expect an error here because we are testing an invalid type
 		expect(() => getJwtToken('secret', defaultPayload, { type: 'invalid', transaction })).toThrow('Invalid type supplied')
 	})
 })

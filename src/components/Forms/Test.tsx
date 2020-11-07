@@ -1,13 +1,13 @@
 import { logger } from 'lib/logger'
 
-import { Form } from '.'
-
 import { Checkbox } from './Fields/Checkbox'
 import { Input } from './Fields/Input'
 import { Radio } from './Fields/Radio'
 import { Select } from './Fields/Select'
 import { Static } from './Fields/Static'
 import { Toggle } from './Fields/Toggle'
+
+import { Form } from '.'
 
 export const FormTest = () => (
 	<div css={{ maxWidth: '500px' }}>

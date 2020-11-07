@@ -1,7 +1,7 @@
-import { ReactNode, useState, useEffect } from 'react'
-import { isFunction } from 'lodash-es'
-
 import { delay } from 'lib/delay'
+import { isFunction } from 'lodash-es'
+import type { ReactNode } from 'react'
+import { useState, useEffect } from 'react'
 
 import { ButtonLoading } from './ButtonLoading'
 import { SubmitWrapper } from './SubmitWrapper'

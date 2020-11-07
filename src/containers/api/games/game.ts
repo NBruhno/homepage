@@ -1,18 +1,17 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { query as q, errors } from 'faunadb'
-
 import { config } from 'config.server'
+import { query as q, errors } from 'faunadb'
+import { absoluteUrl } from 'lib/absoluteUrl'
+import { fetcher, Method } from 'lib/fetcher'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 import type { Game } from 'types/Games'
 import type { Game as IGDBGame } from 'types/IGDB'
-import type { Options as DefaultOptions } from '../types'
-
-import { absoluteUrl } from 'lib/absoluteUrl'
-import { fetcher, Method } from 'lib/fetcher'
 
 import { serverClient } from '../faunaClient'
-import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
 import { monitorReturnAsync } from '../performanceCheck'
+import type { Options as DefaultOptions } from '../types'
+
+import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
 
 type Options = {
 	gameId: number,

@@ -1,10 +1,9 @@
-import { useEffect, useCallback } from 'react'
-
 import { config } from 'config.client'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher } from 'lib/fetcher'
 import { logger } from 'lib/logger'
+import { useEffect, useCallback } from 'react'
 
 import { useGlobalState } from './globalState'
 

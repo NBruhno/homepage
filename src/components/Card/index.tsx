@@ -2,8 +2,8 @@ import Collapse from 'components/Collapse'
 
 import { Container } from './Container'
 import { Content } from './Content'
-import { Loader } from './Loader'
 import { Error } from './Error'
+import { Loader } from './Loader'
 
 type Props = {
 	children: React.ReactNode,

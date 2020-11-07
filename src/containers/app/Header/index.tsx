@@ -1,10 +1,8 @@
-import Link from 'next/link'
-
-import { useResponsive } from 'states/responsive'
-
 import { ButtonIcon } from 'components/Buttons'
 import { MenuIcon } from 'components/Icons'
 import { Logo } from 'components/Logo'
+import Link from 'next/link'
+import { useResponsive } from 'states/responsive'
 
 import { NavLink } from '../NavLink'
 

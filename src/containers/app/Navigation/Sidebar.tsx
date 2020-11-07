@@ -1,5 +1,5 @@
-import { transparentize } from 'polished'
 import { css } from '@emotion/core'
+import { transparentize } from 'polished'
 
 type Props = {
 	collapsed?: boolean,

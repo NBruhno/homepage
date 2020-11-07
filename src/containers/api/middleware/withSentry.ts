@@ -1,10 +1,10 @@
 import { init, captureException, flush, startTransaction } from '@sentry/node'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { Transaction } from '@sentry/types'
+import type { Transaction } from '@sentry/types'
 
 import { config } from 'config.server'
 
 import { logger } from 'lib/logger'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 if (config.sentry.dsn) {
 	init({

@@ -2,8 +2,9 @@
 
 require('dotenv').config()
 const fs = require('fs')
-const format = require('date-fns/format')
+
 const chalk = require('chalk')
+const format = require('date-fns/format')
 
 const { log } = console
 const domains = ['bruhno.com', 'bruhno.dev']

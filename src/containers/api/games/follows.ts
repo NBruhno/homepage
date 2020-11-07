@@ -1,20 +1,18 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { query as q } from 'faunadb'
-
 import { config } from 'config.server'
-
-import type { SimpleGame } from 'types/Games'
-import type { Options } from '../types'
-
+import { query as q } from 'faunadb'
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
+import type { NextApiRequest, NextApiResponse } from 'next'
+
+import type { SimpleGame } from 'types/Games'
+
+import { sendError } from '../errors/ApiError'
+import { faunaClient } from '../faunaClient'
+import { authenticate } from '../middleware'
+import { monitorReturnAsync } from '../performanceCheck'
+import type { Options } from '../types'
 
 import { shouldUpdate } from './lib'
-
-import { authenticate } from '../middleware'
-import { faunaClient } from '../faunaClient'
-import { monitorReturnAsync } from '../performanceCheck'
-import { sendError } from '../errors/ApiError'
 
 export const follows = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { method } = req

@@ -1,15 +1,15 @@
 import { useField } from 'react-final-form'
 
-import { LabelContainer } from '../LabelContainer'
-import { FieldWrapper } from '../FieldWrapper'
 import { ColumnLabel } from '../ColumnLabel'
-import { InputError } from '../InputError'
+import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
+import { InputError } from '../InputError'
+import { LabelContainer } from '../LabelContainer'
 
 import { HintContainer } from './HintContainer'
-import { validators } from './validators'
-import { Textarea } from './Textarea'
 import { InputComponent } from './InputComponent'
+import { Textarea } from './Textarea'
+import { validators } from './validators'
 
 type InputProps = {
 	name: string,

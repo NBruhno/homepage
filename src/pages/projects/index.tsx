@@ -1,10 +1,8 @@
-import { NextPage } from 'next'
-import Head from 'next/head'
-
-import { ProjectList } from 'containers/projects/List'
-import { ProjectItem } from 'containers/projects/Item'
-
 import { Page, PageContent } from 'components/Layout'
+import { ProjectItem } from 'containers/projects/Item'
+import { ProjectList } from 'containers/projects/List'
+import type { NextPage } from 'next'
+import Head from 'next/head'
 
 const Projects: NextPage = () => (
 	<>

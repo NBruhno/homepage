@@ -1,16 +1,16 @@
+import type { Option } from 'lib/formatToOptions'
+import { formatToOptions } from 'lib/formatToOptions'
 import { isString, isNumber } from 'lodash-es'
 import { useField } from 'react-final-form'
 
-import { formatToOptions, Option } from 'lib/formatToOptions'
-
 import { FieldWrapper } from '../FieldWrapper'
+import { Hint } from '../Hint'
 import { InputError } from '../InputError'
 import { RowLabel } from '../RowLabel'
-import { Hint } from '../Hint'
 
 import { RadioCircle } from './RadioCircle'
-import { validators } from './validators'
 import { RadioComponent } from './RadioComponent'
+import { validators } from './validators'
 
 type Props = {
 	name: string,
@@ -59,7 +59,7 @@ export const Radio = ({
 
 	return (
 		<FieldWrapper fullWidth={fullWidth} minWidth={170}>
-			{formattedOptions.map(({ value, label, hint, disabled }: { value: any, label: string, hint: string, disabled: boolean }, index: number) => {
+			{formattedOptions.map(({ value, label, hint, disabled }, index: number) => {
 				const checked = value === input.value
 				return (
 					<RowLabel htmlFor={`${index}-${id}`} css={{ paddingBottom: '12px', marginBottom: 0 }} key={index}>

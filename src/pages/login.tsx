@@ -1,10 +1,9 @@
-import { NextPage } from 'next'
-import Head from 'next/head'
-
-import { Page } from 'components/Layout/Page'
 import { Card } from 'components/Card'
 import { FormLogin } from 'components/Forms/Login'
 import { PageContent } from 'components/Layout'
+import { Page } from 'components/Layout/Page'
+import type { NextPage } from 'next'
+import Head from 'next/head'
 
 const Login: NextPage = () => (
 	<Page>

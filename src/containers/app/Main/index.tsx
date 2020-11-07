@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
-import { useMediaQuery } from 'react-responsive'
-import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 import { useAuth } from 'states/auth'
-import { useResponsive } from 'states/responsive'
 import { useModal } from 'states/modal'
+import { useResponsive } from 'states/responsive'
 
 import { screenSizes } from 'styles/theme'
 
 import { Footer } from '../Footer'
 
-import { Modal } from './Modal'
 import { MainContent } from './MainContent'
+import { Modal } from './Modal'
 import { Shade } from './Shade'
 
 const FormLogin = dynamic(async () => {

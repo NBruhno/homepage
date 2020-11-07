@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 import { sample } from 'lodash-es'
 
-import { GameStatus, Game as IgdbGame, Company } from 'types/IGDB'
-import { Status, Game } from 'types/Games'
+import type { Game } from 'types/Games'
+import { Status } from 'types/Games'
+import type { Game as IgdbGame, Company } from 'types/IGDB'
+import { GameStatus } from 'types/IGDB'
 
 export const igdbImageUrl = 'https://images.igdb.com/igdb/image/upload'
 

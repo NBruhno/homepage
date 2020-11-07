@@ -1,7 +1,7 @@
 import { ActivityIndicator } from 'components/ActivityIndicator'
 
-import { Label } from './Label'
 import { Button } from './Button'
+import { Label } from './Label'
 import { LoaderWrapper } from './LoaderWrapper'
 
 type Props = {

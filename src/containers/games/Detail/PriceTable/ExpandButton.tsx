@@ -1,4 +1,5 @@
-import { ButtonAsync, Props as AsyncProps } from 'components/Buttons/Async'
+import type { Props as AsyncProps } from 'components/Buttons/Async'
+import { ButtonAsync } from 'components/Buttons/Async'
 
 export const ExpandButton = (props: AsyncProps) => (
 	<ButtonAsync

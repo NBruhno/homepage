@@ -37,20 +37,21 @@ module.exports = {
 		React: 'writeable',
 	},
 	rules: {
-		'tsdoc/syntax': 'warn',
+		/* ******************************************** */
+		/* ************* TypeScript rules ************* */
+		/* ******************************************** */
 
-		'react/prop-types': 'off',
-		'react/react-in-jsx-scope': 'off',
-
-		'import/namespace': 'off',
-		'import/named': 'off',
-
-		'space-infix-ops': 'off',
-		'no-undef': 'off',
-		'no-shadow': 'off',
-
-		'@typescript-eslint/no-unused-vars': ['error'],
-		'@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
+		'@typescript-eslint/array-type': ['error', { default: 'generic' }],
+		'@typescript-eslint/ban-ts-comment': ['error', {
+			'ts-expect-error': 'allow-with-description',
+			'ts-ignore': 'allow-with-description',
+			'ts-nocheck': 'allow-with-description',
+			'ts-check': 'allow-with-description',
+		}],
+		'@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
+		'@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+		'@typescript-eslint/explicit-function-return-type': 'off',
+		'@typescript-eslint/explicit-member-accessibility': 'off',
 		'@typescript-eslint/indent': ['error', 'tab', {
 			SwitchCase: 1,
 			MemberExpression: 1,
@@ -82,31 +83,55 @@ module.exports = {
 				},
 			},
 		}],
-		'@typescript-eslint/prefer-function-type': ['error'],
+		'@typescript-eslint/method-signature-style': ['error'],
+		'@typescript-eslint/no-empty-interface': ['error'],
+		'@typescript-eslint/no-explicit-any': 'off',
+		'@typescript-eslint/no-extraneous-class': ['error'],
+		'@typescript-eslint/no-misused-new': 'off',
 		'@typescript-eslint/no-non-null-assertion': ['warn'],
 		'@typescript-eslint/no-shadow': ['warn'],
-
-		'@typescript-eslint/explicit-function-return-type': 'off',
-		'@typescript-eslint/no-explicit-any': 'off',
-		'@typescript-eslint/no-misused-new': 'off',
+		'@typescript-eslint/no-unused-vars': ['error'],
+		'@typescript-eslint/no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
+		'@typescript-eslint/prefer-function-type': ['error'],
 		'@typescript-eslint/prefer-interface': 'off',
-		'@typescript-eslint/explicit-member-accessibility': 'off',
 
-		'space-before-function-paren': ['error', { anonymous: 'always', named: 'never' }],
-		semi: ['error', 'never'],
-		'generator-star-spacing': ['error', 'both'],
+		/* ******************************************** */
+		/* ************* JavaScript rules ************* */
+		/* ******************************************** */
+
 		'arrow-parens': ['error', 'always'],
-		'quote-props': ['error', 'as-needed'],
-		'jsx-quotes': ['error', 'prefer-single'],
+		'class-methods-use-this': 'off',
+		'comma-dangle': ['error', {
+			arrays: 'always-multiline',
+			exports: 'always-multiline',
+			functions: 'always-multiline',
+			imports: 'always-multiline',
+			objects: 'always-multiline',
+		}],
+		'consistent-return': 'off',
+		'default-case': 'off',
+		'dot-notation': 'off',
+		'func-names': 'off',
+		'func-style': ['error', 'expression'],
 		'function-paren-newline': ['error', 'consistent'],
-		'no-use-before-define': ['error', { functions: false, classes: false, variables: false }],
-		quotes: ['error', 'single', { allowTemplateLiterals: true }],
+		'generator-star-spacing': ['error', 'both'],
+		indent: ['error', 'tab', {
+			CallExpression: { arguments: 1 },
+			FunctionExpression: { body: 1, parameters: 1 },
+			MemberExpression: 1,
+			SwitchCase: 1,
+			ignoredNodes: [
+				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
+			],
+		}],
+		'jsx-quotes': ['error', 'prefer-single'],
+		'lines-between-class-members': 'off',
+		'max-len': 'off',
+		'no-await-in-loop': 'off',
+		'no-confusing-arrow': 'off',
+		'no-console': ['error'],
+		'no-else-return': 'off',
 		'no-implied-eval': ['error'],
-		'no-restricted-syntax': ['error',
-			{ selector: 'ForInStatement', message: 'for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.' },
-			{ selector: 'LabeledStatement', message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.' },
-			{ selector: 'WithStatement', message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.' },
-		],
 		'no-mixed-operators': [
 			'error',
 			{
@@ -118,87 +143,81 @@ module.exports = {
 				],
 			},
 		],
-		indent: ['error', 'tab', {
-			SwitchCase: 1,
-			MemberExpression: 1,
-			FunctionExpression: { body: 1, parameters: 1 },
-			CallExpression: { arguments: 1 },
-			ignoredNodes: [
-				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
-			],
-		}],
-		'comma-dangle': ['error', {
-			arrays: 'always-multiline',
-			objects: 'always-multiline',
-			imports: 'always-multiline',
-			exports: 'always-multiline',
-			functions: 'always-multiline',
-		}],
-		'func-style': ['error', 'expression'],
+		'no-param-reassign': 'off',
+		'no-plusplus': 'off',
+		'no-shadow': 'off',
+		'no-tabs': 'off',
+		'no-undef': 'off',
 		'no-unused-vars': 'off',
+		'no-use-before-define': ['error', { classes: false, functions: false, variables: false }],
+		'object-curly-newline': ['error', { consistent: true, multiline: true }],
 		'object-curly-spacing': ['error', 'always'],
-		'object-curly-newline': ['error', { multiline: true, consistent: true }],
 		'prefer-destructuring': ['error', {
-			VariableDeclarator: {
-				array: true,
-				object: true,
-			},
 			AssignmentExpression: {
 				array: false,
 				object: false,
 			},
+			VariableDeclarator: {
+				array: true,
+				object: true,
+			},
 		}],
-
-		'no-tabs': 'off',
-		'max-len': 'off',
-		'consistent-return': 'off',
-		'no-else-return': 'off',
-		'dot-notation': 'off',
 		'prefer-template': 'off',
-		'no-plusplus': 'off',
-		'default-case': 'off',
-		'func-names': 'off',
-		'no-confusing-arrow': 'off',
-		'class-methods-use-this': 'off',
-		'no-param-reassign': 'off',
-		'lines-between-class-members': 'off',
-		'no-await-in-loop': 'off',
+		'quote-props': ['error', 'as-needed'],
+		'space-before-function-paren': ['error', { anonymous: 'always', named: 'never' }],
+		'space-infix-ops': 'off',
+		semi: ['error', 'never'],
+		quotes: ['error', 'single', { allowTemplateLiterals: true }],
 
-		'react/jsx-indent': ['error', 'tab'],
+		/* ******************************************** */
+		/* **************** React rules *************** */
+		/* ******************************************** */
+
+		'react-hooks/exhaustive-deps': 'warn',
+		'react-hooks/rules-of-hooks': 'error',
+		'react/destructuring-assignment': 'off',
+		'react/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: false }],
+		'react/jsx-filename-extension': ['error', { extensions: ['.tsx', '.mdx'] }],
 		'react/jsx-indent-props': ['error', 'tab'],
+		'react/jsx-indent': ['error', 'tab'],
 		'react/jsx-no-bind': ['error', {
 			ignoreRefs: false,
 			allowArrowFunctions: true,
 			allowBind: false,
 		}],
-		'react/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: false }],
-
-		'react/prefer-stateless-function': 'off',
-		'react/sort-comp': 'off',
-		'react/jsx-filename-extension': ['error', { extensions: ['.tsx', '.mdx'] }],
-		'react/no-array-index-key': 'off',
 		'react/jsx-one-expression-per-line': 'off',
-		'react/destructuring-assignment': 'off',
-		'react/require-default-props': 0,
-
-		'import/prefer-default-export': 'off',
-		'import/extensions': 'off',
-		'import/no-unresolved': 'off',
-		'import/no-extraneous-dependencies': ['error', { devDependencies: true, optionalDependencies: false, peerDependencies: false }],
-		'import/order': ['off', {
-			'newlines-between': 'always-and-inside-groups',
-			groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-		}],
-
-		'jsx-a11y/label-has-for': 'off',
-		'jsx-a11y/anchor-is-valid': 'off',
-
-		'react-hooks/rules-of-hooks': 'error',
-		'react-hooks/exhaustive-deps': 'warn',
 		'react/jsx-props-no-spreading': 'off',
+		'react/no-array-index-key': 'off',
+		'react/prefer-stateless-function': 'off',
+		'react/prop-types': 'off',
+		'react/react-in-jsx-scope': 'off',
+		'react/require-default-props': 0,
+		'react/sort-comp': 'off',
+
+		/* ******************************************** */
+		/* ************ Other plugin rules ************ */
+		/* ******************************************** */
+
+		'import/extensions': 'off',
+		'import/named': 'off',
+		'import/namespace': 'off',
+		'import/no-extraneous-dependencies': ['error', { devDependencies: true, optionalDependencies: false, peerDependencies: false }],
+		'import/no-unresolved': 'off',
+		'import/order': ['error', {
+			alphabetize: {
+				caseInsensitive: true, /* ignore case. Options: [true, false] */
+				order: 'asc', /* sort in ascending order. Options: ['ignore', 'asc', 'desc'] */
+			},
+			groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+			'newlines-between': 'always-and-inside-groups',
+		}],
+		'import/prefer-default-export': 'off',
+
+		'tsdoc/syntax': 'warn',
+
+		'jsx-a11y/anchor-is-valid': 'off',
+		'jsx-a11y/label-has-for': 'off',
 
 		'emotion/syntax-preference': [2, 'object'],
-
-		'no-console': ['error'],
 	},
 }

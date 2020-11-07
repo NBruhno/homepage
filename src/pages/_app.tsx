@@ -1,12 +1,10 @@
 import { RewriteFrames } from '@sentry/integrations'
 import { init } from '@sentry/node'
+import { config } from 'config.client'
+import { App } from 'containers/app'
+import NextApp from 'next/app'
 import getConfig from 'next/config'
 import Head from 'next/head'
-import NextApp from 'next/app'
-
-import { config } from 'config.client'
-
-import { App } from 'containers/app'
 
 if (config.sentry.dsn) {
 	const nextConfig = getConfig()
@@ -27,7 +25,7 @@ if (config.sentry.dsn) {
 
 export default class MyApp extends NextApp {
 	render() {
-		// @ts-expect-error
+		// @ts-expect-error: Because of the current limitations of implementing Sentry with Next
 		const { Component, pageProps, err } = this.props
 
 		return (

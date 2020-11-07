@@ -1,5 +1,7 @@
-import { ButtonAsync, Props as AsyncProps } from './Async'
 import { shade } from 'polished'
+
+import type { Props as AsyncProps } from './Async'
+import { ButtonAsync } from './Async'
 
 type Props = {
 	backgroundColor?: keyof Theme['color'],

@@ -1,19 +1,18 @@
-import { getUnixTime, sub } from 'date-fns'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { query as q } from 'faunadb'
-
 import { config } from 'config.server'
-
-import type { Game as IGDBGame } from 'types/IGDB'
-import type { SimpleGame } from 'types/Games'
-import type { Options } from '../types'
-
+import { getUnixTime, sub } from 'date-fns'
+import { query as q } from 'faunadb'
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
+import type { SimpleGame } from 'types/Games'
+import type { Game as IGDBGame } from 'types/IGDB'
+
 import { serverClient } from '../faunaClient'
 import { monitorReturnAsync } from '../performanceCheck'
+import type { Options } from '../types'
+
+import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
 
 export const games = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { transaction } = options

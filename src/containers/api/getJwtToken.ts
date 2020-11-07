@@ -1,11 +1,9 @@
-import { Transaction, Span } from '@sentry/types'
+import type { Transaction, Span } from '@sentry/types'
+import { config } from 'config.server'
 import { JWT } from 'jose'
 
-import { TokenTypes } from 'types/Token'
-
 import { encrypt } from 'lib/cipher'
-
-import { config } from 'config.server'
+import { TokenTypes } from 'types/Token'
 
 import { monitorReturn } from './performanceCheck'
 

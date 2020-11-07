@@ -1,16 +1,15 @@
-import type { Game, Price } from 'types/Games'
-
+import { ButtonSolid } from 'components/Buttons'
+import { Placeholder } from 'components/Placeholder'
+import { Tooltip, Location } from 'components/Tooltip'
 import { useAuth } from 'states/auth'
 import { useResponsive } from 'states/responsive'
-
-import { Placeholder } from 'components/Placeholder'
-import { ButtonSolid } from 'components/Buttons'
-import { Tooltip, Location } from 'components/Tooltip'
+import type { Game, Price } from 'types/Games'
 
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
 import { groupByReleaseDate } from '../groupByReleaseDate'
 
+import { ActionWrapper } from './ActionWrapper'
 import { Background } from './Header/Background'
 import { BackgroundPlaceholder } from './Header/BackgroundPlaceholder'
 import { BackgroundWrapper } from './Header/BackgroundWrapper'
@@ -19,7 +18,6 @@ import { ReleaseDate } from './Header/ReleaseDate'
 import { Title } from './Header/Title'
 import { TitleWrapper } from './Header/TitleWrapper'
 
-import { ActionWrapper } from './ActionWrapper'
 import { MainContent } from './MainContent'
 import { PriceTable } from './PriceTable'
 import { SortBy, WebsiteIcons } from './WebsiteIcons'

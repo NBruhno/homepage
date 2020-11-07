@@ -1,4 +1,4 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 
 import {
@@ -8,8 +8,8 @@ import {
 
 import { ApiError } from '../errors/ApiError'
 
-import { refresh } from './refresh'
 import { login } from './login'
+import { refresh } from './refresh'
 
 let refreshToken = null as string
 

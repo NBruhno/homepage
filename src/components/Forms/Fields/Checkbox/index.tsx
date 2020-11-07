@@ -1,10 +1,10 @@
 import { useEffect } from 'react'
 import { useField } from 'react-final-form'
 
-import { LabelContainer } from '../LabelContainer'
 import { FieldWrapper } from '../FieldWrapper'
-import { RowLabel } from '../RowLabel'
 import { Hint } from '../Hint'
+import { LabelContainer } from '../LabelContainer'
+import { RowLabel } from '../RowLabel'
 
 import { CheckboxComponent } from './CheckboxComponent'
 import { CheckMark } from './CheckMark'

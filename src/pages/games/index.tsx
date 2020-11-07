@@ -1,18 +1,15 @@
-import { NextPage } from 'next'
-import Head from 'next/head'
-import { FormSpy } from 'react-final-form'
-
-import { ListTypes } from 'types/Games'
-
-import { useGames } from 'states/games'
-import { useAuth } from 'states/auth'
-
-import { GameList } from 'containers/games/List'
-
 import { ButtonToggle } from 'components/Buttons'
 import { Form } from 'components/Forms'
 import { Input } from 'components/Forms/Fields/Input'
 import { Page, PageContent } from 'components/Layout'
+import { GameList } from 'containers/games/List'
+import type { NextPage } from 'next'
+import Head from 'next/head'
+import { FormSpy } from 'react-final-form'
+
+import { useAuth } from 'states/auth'
+import { useGames } from 'states/games'
+import { ListTypes } from 'types/Games'
 
 const Games: NextPage = () => {
 	const { games, following, popular, gamesSearch, currentList, setCurrentList } = useGames()

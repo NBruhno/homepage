@@ -1,6 +1,5 @@
-import { useModal } from 'states/modal'
-
 import { Card } from 'components/Card'
+import { useModal } from 'states/modal'
 
 import { Container } from './Container'
 import { Shade } from './Shade'

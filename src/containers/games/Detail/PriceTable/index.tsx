@@ -1,15 +1,14 @@
-import { useState } from 'react'
+import { ChevronFlip } from 'components/ChevronFlip'
+import Collapse from 'components/Collapse'
 import { sortBy } from 'lodash-es'
+import { useState } from 'react'
 
 import type { Price } from 'types/Games'
 
-import Collapse from 'components/Collapse'
-import { ChevronFlip } from 'components/ChevronFlip'
-
 import { Container } from './Container'
+import { ExpandButton } from './ExpandButton'
 import { Item } from './Item'
 import { Muted } from './Muted'
-import { ExpandButton } from './ExpandButton'
 
 type Props = {
 	prices: Array<Price>,

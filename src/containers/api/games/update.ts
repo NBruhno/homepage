@@ -1,16 +1,16 @@
-import { NextApiRequest, NextApiResponse } from 'next'
 import { getUnixTime } from 'date-fns'
 import { query as q } from 'faunadb'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 import type { Game } from 'types/Games'
 import type { Game as IGDBGame } from 'types/IGDB'
+
+import { serverClient } from '../faunaClient'
+import { authenticateSystem } from '../middleware'
+import { monitorAsync } from '../performanceCheck'
 import type { Options as DefaultOptions } from '../types'
 
 import { igdbFetcher, fields, mapIgdbGame } from './lib'
-
-import { authenticateSystem } from '../middleware'
-import { monitorAsync } from '../performanceCheck'
-import { serverClient } from '../faunaClient'
 
 type Options = {
 	gameId: number,

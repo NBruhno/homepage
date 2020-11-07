@@ -1,4 +1,4 @@
-import { Span, Transaction } from '@sentry/types'
+import type { Span, Transaction } from '@sentry/types'
 
 export const monitor = <T>(functionToWatch: (span: Span) => T, operationName: string, transaction: Transaction | Span) => {
 	const span = transaction.startChild({ op: operationName })

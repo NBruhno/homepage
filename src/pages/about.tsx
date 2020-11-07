@@ -1,8 +1,7 @@
-import { NextPage } from 'next'
-import Head from 'next/head'
-
 import { Page } from 'components/Layout/Page'
 import { PageContent } from 'components/Layout/PageContent'
+import type { NextPage } from 'next'
+import Head from 'next/head'
 
 type Props = {
 	userAgent?: string,

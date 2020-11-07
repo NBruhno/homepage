@@ -1,5 +1,5 @@
-import { useMediaQuery } from 'react-responsive'
 import { useEffect } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
 import { useGlobalState } from './globalState'
 

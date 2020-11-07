@@ -1,10 +1,10 @@
-import { NextApiResponse } from 'next'
-import { Span } from '@sentry/types'
+import type { Span } from '@sentry/types'
 
 import { config } from 'config.server'
 
 import { delay } from 'lib/delay'
 import { logger } from 'lib/logger'
+import type { NextApiResponse } from 'next'
 
 import { ApiError } from '../../errors/ApiError'
 import { monitorReturnAsync } from '../../performanceCheck'

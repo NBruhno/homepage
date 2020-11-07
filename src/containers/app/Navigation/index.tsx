@@ -1,17 +1,16 @@
-import Link from 'next/link'
-import { useResponsive } from 'states/responsive'
-import { useDarkMode } from 'states/darkMode'
-
-import { ChevronFlip } from 'components/ChevronFlip'
 import { ButtonText, ButtonIcon } from 'components/Buttons'
+import { ChevronFlip } from 'components/ChevronFlip'
 import { LightDarkModeIcon } from 'components/Icons'
 import { Logo } from 'components/Logo'
+import Link from 'next/link'
+import { useDarkMode } from 'states/darkMode'
+import { useResponsive } from 'states/responsive'
 
 import { Content } from './Content'
 import { DefaultNavigation } from './DefaultNavigation'
-import { DesktopSidebar, MobileSidebar } from './Sidebar'
 import { Header } from './Header'
 import { Separator } from './Separator'
+import { DesktopSidebar, MobileSidebar } from './Sidebar'
 import { Text } from './Text'
 
 export const Navigation = () => {

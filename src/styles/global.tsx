@@ -1,7 +1,7 @@
 import { css, Global } from '@emotion/core'
 
-import { normalize } from 'styles/normalize'
 import { fonts } from 'styles/fonts'
+import { normalize } from 'styles/normalize'
 
 export const globalCss = (theme: Theme) => css([
 	normalize,

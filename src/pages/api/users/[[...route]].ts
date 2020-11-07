@@ -1,16 +1,8 @@
-import { NextApiRequest } from 'next'
-
-import { login, user, users, twoFactorAuthentication, logout, refresh, changePassword } from 'containers/api/users'
-import { withSentry } from 'containers/api/middleware'
 import { throwError } from 'containers/api/errors/ApiError'
+import { withSentry } from 'containers/api/middleware'
+import { login, user, users, twoFactorAuthentication, logout, refresh, changePassword } from 'containers/api/users'
 
-interface Request extends NextApiRequest {
-	query: {
-		route: [userId: string, resource: string],
-	}
-}
-
-export default withSentry(async (req: Request, res, transaction) => {
+export default withSentry(async (req, res, transaction) => {
 	const { query: { route } } = req
 
 	res.setHeader('Cache-Control', 'no-cache')

@@ -1,5 +1,5 @@
-import { game, games, follow, follows, unfollow, update, updateLibrary, prices } from 'containers/api/games'
 import { sendError } from 'containers/api/errors/ApiError'
+import { game, games, follow, follows, unfollow, update, updateLibrary, prices } from 'containers/api/games'
 import { withSentry } from 'containers/api/middleware'
 
 export default withSentry(async (req, res, transaction) => {

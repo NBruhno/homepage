@@ -1,9 +1,8 @@
-import { NextPage } from 'next'
-import Head from 'next/head'
-
 import { Card } from 'components/Card'
 import { FormChangePassword } from 'components/Forms/ChangePassword'
 import { Page } from 'components/Layout/Page'
+import type { NextPage } from 'next'
+import Head from 'next/head'
 
 const Profile: NextPage = () => (
 	<Page>

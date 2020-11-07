@@ -1,11 +1,10 @@
+import { fetcher, Method } from 'lib/fetcher'
 import { useState, useEffect, useMemo } from 'react'
+import { useAuth } from 'states/auth'
 import useSWR from 'swr'
 
-import { useAuth } from 'states/auth'
+import type { Game, SimpleGame, ListTypes, Price } from 'types/Games'
 
-import { Game, SimpleGame, ListTypes, Price } from 'types/Games'
-
-import { fetcher, Method } from 'lib/fetcher'
 import { useGlobalState } from './globalState'
 
 export const useGames = () => {
