@@ -1,10 +1,12 @@
 import { RewriteFrames } from '@sentry/integrations'
 import { init } from '@sentry/node'
-import { config } from 'config.client'
-import { App } from 'containers/app'
 import NextApp from 'next/app'
 import getConfig from 'next/config'
 import Head from 'next/head'
+
+import { config } from 'config.client'
+
+import { App } from 'containers/app'
 
 if (config.sentry.dsn) {
 	const nextConfig = getConfig()

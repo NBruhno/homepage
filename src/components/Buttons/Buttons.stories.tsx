@@ -1,8 +1,8 @@
 import { action } from '@storybook/addon-actions'
+import { useState } from 'react'
 
 import { delay } from 'lib/delay'
 import { logger } from 'lib/logger'
-import { useState } from 'react'
 
 import { ButtonSolid, ButtonText, ButtonBorder, ButtonToggle } from '.'
 

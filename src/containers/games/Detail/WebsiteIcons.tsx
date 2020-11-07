@@ -1,9 +1,10 @@
+import type { Website } from 'types/Games'
+import { WebsiteCategory } from 'types/IGDB'
+
 import {
 	SteamIcon, GooglePlayIcon, FacebookIcon, GogIcon, InstagramIcon, RedditIcon, AppleIcon, WebsiteIcon,
 	TwitterIcon, WikiIcon, YouTubeIcon, WikipediaIcon, EpicGamesIcon, ItchIoIcon, DiscordIcon, TwitchIcon,
 } from 'components/Icons'
-import type { Website } from 'types/Games'
-import { WebsiteCategory } from 'types/IGDB'
 
 export enum SortBy {
 	Stores = 'stores',

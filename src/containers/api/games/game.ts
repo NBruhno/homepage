@@ -1,11 +1,13 @@
-import { config } from 'config.server'
 import { query as q, errors } from 'faunadb'
-import { absoluteUrl } from 'lib/absoluteUrl'
-import { fetcher, Method } from 'lib/fetcher'
 import type { NextApiRequest, NextApiResponse } from 'next'
+
+import { config } from 'config.server'
 
 import type { Game } from 'types/Games'
 import type { Game as IGDBGame } from 'types/IGDB'
+
+import { absoluteUrl } from 'lib/absoluteUrl'
+import { fetcher, Method } from 'lib/fetcher'
 
 import { serverClient } from '../faunaClient'
 import { monitorReturnAsync } from '../performanceCheck'

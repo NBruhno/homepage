@@ -1,9 +1,11 @@
-import { fetcher, Method } from 'lib/fetcher'
 import { useState, useEffect, useMemo } from 'react'
-import { useAuth } from 'states/auth'
 import useSWR from 'swr'
 
 import type { Game, SimpleGame, ListTypes, Price } from 'types/Games'
+
+import { useAuth } from 'states/auth'
+
+import { fetcher, Method } from 'lib/fetcher'
 
 import { useGlobalState } from './globalState'
 

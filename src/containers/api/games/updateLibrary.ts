@@ -1,11 +1,12 @@
 import { getUnixTime, sub } from 'date-fns'
 import { query as q } from 'faunadb'
-import { logger } from 'lib/logger'
 import { chunk, flatten } from 'lodash-es'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import type { SimpleGame, Game } from 'types/Games'
 import type { Game as IGDBGame } from 'types/IGDB'
+
+import { logger } from 'lib/logger'
 
 import { sendError } from '../errors/ApiError'
 import { serverClient } from '../faunaClient'

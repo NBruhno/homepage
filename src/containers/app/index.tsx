@@ -1,11 +1,13 @@
 import { ThemeProvider } from 'emotion-theming'
-import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 import { useState } from 'react'
 
 import { useDarkMode } from 'states/darkMode'
 import { useRefresh } from 'states/refresh'
+
 import { GlobalStyling } from 'styles/global'
 import { theme as siteTheme } from 'styles/theme'
+
+import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 
 import { BlockWrapper } from './BlockWrapper'
 import { Grid } from './Grid'

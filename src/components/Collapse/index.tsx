@@ -1,5 +1,6 @@
-import { useSize } from 'lib/useSize'
 import { useState, useContext, useEffect, useCallback } from 'react'
+
+import { useSize } from 'lib/useSize'
 
 import { Container } from './Container'
 import { context } from './context'

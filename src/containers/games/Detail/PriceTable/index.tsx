@@ -1,9 +1,10 @@
-import { ChevronFlip } from 'components/ChevronFlip'
-import Collapse from 'components/Collapse'
 import { sortBy } from 'lodash-es'
 import { useState } from 'react'
 
 import type { Price } from 'types/Games'
+
+import { ChevronFlip } from 'components/ChevronFlip'
+import Collapse from 'components/Collapse'
 
 import { Container } from './Container'
 import { ExpandButton } from './ExpandButton'

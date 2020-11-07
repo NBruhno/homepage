@@ -1,7 +1,8 @@
 import type { Span, Transaction } from '@sentry/types'
-import { config } from 'config.server'
 import { serialize } from 'cookie'
 import type { NextApiResponse } from 'next'
+
+import { config } from 'config.server'
 
 import { monitorReturn } from '../performanceCheck'
 

@@ -1,7 +1,8 @@
-import { Placeholder } from 'components/Placeholder'
 import Link from 'next/link'
 
 import type { SimpleGame } from 'types/Games'
+
+import { Placeholder } from 'components/Placeholder'
 
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'

@@ -1,7 +1,8 @@
-import type { Option } from 'lib/formatToOptions'
-import { formatToOptions } from 'lib/formatToOptions'
 import { isString, isNumber } from 'lodash-es'
 import { useField } from 'react-final-form'
+
+import type { Option } from 'lib/formatToOptions'
+import { formatToOptions } from 'lib/formatToOptions'
 
 import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'

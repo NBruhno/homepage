@@ -1,12 +1,12 @@
-import { decodeJwtToken } from 'lib/decodeJwtToken'
-import { logger } from 'lib/logger'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
-
 import {
 	parseJson, parseHeaders, testingCredentials, expectStatusCode, expectSpecificObject, accessTokenMatch,
 	refreshTokenMatch, transaction,
 } from 'test/utils'
+
+import { decodeJwtToken } from 'lib/decodeJwtToken'
+import { logger } from 'lib/logger'
 
 import { ApiError } from '../errors/ApiError'
 

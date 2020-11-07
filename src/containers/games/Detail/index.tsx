@@ -1,9 +1,11 @@
+import type { Game, Price } from 'types/Games'
+
+import { useAuth } from 'states/auth'
+import { useResponsive } from 'states/responsive'
+
 import { ButtonSolid } from 'components/Buttons'
 import { Placeholder } from 'components/Placeholder'
 import { Tooltip, Location } from 'components/Tooltip'
-import { useAuth } from 'states/auth'
-import { useResponsive } from 'states/responsive'
-import type { Game, Price } from 'types/Games'
 
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
@@ -17,7 +19,6 @@ import { Developer } from './Header/Developer'
 import { ReleaseDate } from './Header/ReleaseDate'
 import { Title } from './Header/Title'
 import { TitleWrapper } from './Header/TitleWrapper'
-
 import { MainContent } from './MainContent'
 import { PriceTable } from './PriceTable'
 import { SortBy, WebsiteIcons } from './WebsiteIcons'

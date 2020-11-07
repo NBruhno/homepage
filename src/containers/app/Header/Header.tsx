@@ -1,5 +1,6 @@
-import { useScroll } from 'lib/useScroll'
 import { transparentize } from 'polished'
+
+import { useScroll } from 'lib/useScroll'
 
 export const Header = (props: React.ComponentProps<'header'>) => {
 	const { scrollY } = useScroll()

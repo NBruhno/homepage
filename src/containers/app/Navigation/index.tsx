@@ -1,10 +1,12 @@
+import Link from 'next/link'
+
+import { useDarkMode } from 'states/darkMode'
+import { useResponsive } from 'states/responsive'
+
 import { ButtonText, ButtonIcon } from 'components/Buttons'
 import { ChevronFlip } from 'components/ChevronFlip'
 import { LightDarkModeIcon } from 'components/Icons'
 import { Logo } from 'components/Logo'
-import Link from 'next/link'
-import { useDarkMode } from 'states/darkMode'
-import { useResponsive } from 'states/responsive'
 
 import { Content } from './Content'
 import { DefaultNavigation } from './DefaultNavigation'

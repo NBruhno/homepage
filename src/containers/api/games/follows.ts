@@ -1,10 +1,12 @@
-import { config } from 'config.server'
 import { query as q } from 'faunadb'
-import { absoluteUrl } from 'lib/absoluteUrl'
-import { fetcher, Method } from 'lib/fetcher'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { config } from 'config.server'
+
 import type { SimpleGame } from 'types/Games'
+
+import { absoluteUrl } from 'lib/absoluteUrl'
+import { fetcher, Method } from 'lib/fetcher'
 
 import { sendError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'

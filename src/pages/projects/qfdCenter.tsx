@@ -1,8 +1,10 @@
-import { Page, PageContent } from 'components/Layout'
-import { ProjectImage } from 'containers/projects/Image'
-import { Title, Subtitle, Summary, Caption } from 'containers/projects/Typography'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+
+import { ProjectImage } from 'containers/projects/Image'
+import { Title, Subtitle, Summary, Caption } from 'containers/projects/Typography'
+
+import { Page, PageContent } from 'components/Layout'
 
 const QfdCenter: NextPage = () => (
 	<>

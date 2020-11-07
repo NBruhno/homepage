@@ -1,13 +1,14 @@
 import { setUser } from '@sentry/node'
 import type { Span, Transaction } from '@sentry/types'
+import { JWT, errors } from 'jose'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
-import { JWT, errors } from 'jose'
 
-import { decrypt } from 'lib/cipher'
-import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Token } from 'types/Token'
 import { TokenTypes } from 'types/Token'
+
+import { decrypt } from 'lib/cipher'
 
 import { sendError, throwError } from '../errors/ApiError'
 import { monitorReturn } from '../performanceCheck'

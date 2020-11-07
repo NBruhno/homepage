@@ -1,7 +1,6 @@
 import { errors } from 'faunadb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
-
 import { parseJson, expectStatusCode, expectSpecificObject, testingCredentials, transaction } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'

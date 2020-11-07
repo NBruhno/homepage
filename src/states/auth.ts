@@ -1,7 +1,8 @@
+import { useState } from 'react'
+
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher, Method } from 'lib/fetcher'
 import { logger } from 'lib/logger'
-import { useState } from 'react'
 
 import { useGlobalState } from './globalState'
 import { useModal } from './modal'

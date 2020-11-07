@@ -1,6 +1,7 @@
-import { config } from 'config.client'
 import type { NextPage } from 'next'
 import Head from 'next/head'
+
+import { config } from 'config.client'
 
 type Props = {
 	userAgent?: string,

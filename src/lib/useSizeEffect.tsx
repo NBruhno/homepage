@@ -1,6 +1,7 @@
-import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 import { useMemo, useRef, useCallback } from 'react'
 import ResizeObserver from 'resize-observer-polyfill'
+
+import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 
 type Callback = (contentRect: DOMRectReadOnly) => void
 

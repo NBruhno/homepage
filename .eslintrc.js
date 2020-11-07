@@ -204,12 +204,23 @@ module.exports = {
 		'import/no-extraneous-dependencies': ['error', { devDependencies: true, optionalDependencies: false, peerDependencies: false }],
 		'import/no-unresolved': 'off',
 		'import/order': ['error', {
-			alphabetize: {
-				caseInsensitive: true, /* ignore case. Options: [true, false] */
-				order: 'asc', /* sort in ascending order. Options: ['ignore', 'asc', 'desc'] */
-			},
 			groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
-			'newlines-between': 'always-and-inside-groups',
+			pathGroups: [
+				{ pattern: 'config.client', group: 'internal', position: 'after' },
+				{ pattern: 'config.server', group: 'internal', position: 'after' },
+				{ pattern: 'types/**', group: 'internal', position: 'after' },
+				{ pattern: 'states/**', group: 'internal', position: 'after' },
+				{ pattern: 'styles/**', group: 'internal', position: 'after' },
+				{ pattern: 'lib/**', group: 'internal', position: 'after' },
+				{ pattern: 'containers/**', group: 'internal', position: 'after' },
+				{ pattern: 'components/**', group: 'internal', position: 'after' },
+			],
+			pathGroupsExcludedImportTypes: ['builtin'],
+			alphabetize: {
+				caseInsensitive: true,
+				order: 'asc',
+			},
+			'newlines-between': 'always',
 		}],
 		'import/prefer-default-export': 'off',
 
