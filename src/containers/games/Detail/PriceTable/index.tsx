@@ -27,8 +27,8 @@ export const PriceTable = ({ prices, isLoading }: Props) => {
 		<>
 			{prices?.length > 0 ? (
 				<Container>
-					{sortedPrices.slice(0, 1).map(({ name, current, currency, url }) => (
-						<Item href={url} first>
+					{sortedPrices.slice(0, 1).map(({ name, current, currency, url }, index) => (
+						<Item href={url} first key={`1-${index}`}>
 							<h2 css={{ margin: 0 }}>{name}</h2>
 							<span>{current} {currency}</span>
 						</Item>
@@ -36,8 +36,8 @@ export const PriceTable = ({ prices, isLoading }: Props) => {
 					{prices?.length > 1 ? (
 						<>
 							<Collapse isOpen={isExpanded} transitionTime={0.2}>
-								{sortedPrices.slice(1).map(({ name, current, currency, url }) => (
-									<Item href={url}>
+								{sortedPrices.slice(1).map(({ name, current, currency, url }, index) => (
+									<Item href={url} key={`2-${index}`}>
 										<span css={{ margin: 0 }}>{name}</span>
 										<span>{current} {currency}</span>
 									</Item>

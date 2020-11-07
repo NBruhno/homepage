@@ -1,10 +1,10 @@
+import { useMediaQuery } from '@react-hook/media-query'
 import { useEffect } from 'react'
-import { useMediaQuery } from 'react-responsive'
 
 import { useGlobalState } from './globalState'
 
 export const useDarkMode = () => {
-	const systemPrefersDark = useMediaQuery({ query: '(prefers-color-scheme: dark)' }, undefined)
+	const systemPrefersDark = useMediaQuery('(prefers-color-scheme: dark)')
 	const [globalTheme, setTheme] = useGlobalState('theme')
 
 	const setMode = (mode: string) => {

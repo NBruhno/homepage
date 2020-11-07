@@ -32,6 +32,7 @@
     "@emotion/babel-preset-css-prop": "10.1.0",
     "@emotion/core": "10.1.1",
     "@mdi/js": "5.8.55",
+    "@react-hook/media-query": "1.1.1",
     "@sentry/browser": "5.27.3",
     "@sentry/integrations": "5.27.3",
     "@sentry/node": "5.27.3",
@@ -59,7 +60,6 @@
     "react-dom": "17.0.1",
     "react-final-form": "6.5.2",
     "react-hooks-global-state": "1.0.1",
-    "react-responsive": "8.1.0",
     "resize-observer-polyfill": "1.5.1",
     "swr": "0.3.8",
     "ts-custom-error": "3.2.0"
