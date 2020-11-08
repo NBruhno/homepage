@@ -1,6 +1,5 @@
-import { createMocks } from 'node-mocks-http'
 import { errors } from 'jose'
-
+import { createMocks } from 'node-mocks-http'
 import { transaction } from 'test/utils'
 
 import { getJwtToken } from '../getJwtToken'

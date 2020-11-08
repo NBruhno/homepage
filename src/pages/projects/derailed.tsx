@@ -1,10 +1,10 @@
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import { Page, PageContent } from 'components/Layout'
-
-import { Title, Subtitle, Summary, Caption } from 'containers/projects/Typography'
 import { ProjectImage } from 'containers/projects/Image'
+import { Title, Subtitle, Summary, Caption } from 'containers/projects/Typography'
+
+import { Page, PageContent } from 'components/Layout'
 
 const Derailed: NextPage = () => (
 	<>

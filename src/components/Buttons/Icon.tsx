@@ -1,6 +1,7 @@
 import { transparentize } from 'polished'
 
-import { ButtonAsync, Props as AsyncProps } from './Async'
+import type { Props as AsyncProps } from './Async'
+import { ButtonAsync } from './Async'
 
 export const Icon = (props: AsyncProps) => (
 	<ButtonAsync

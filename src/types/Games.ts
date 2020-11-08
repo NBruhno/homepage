@@ -1,4 +1,4 @@
-import { WebsiteCategory } from './IGDB'
+import type { WebsiteCategory } from './IGDB'
 
 export enum ListTypes {
 	Popular = 'popular',

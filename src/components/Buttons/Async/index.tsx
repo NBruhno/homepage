@@ -1,5 +1,6 @@
-import { ReactNode, useState, useEffect } from 'react'
 import { isFunction } from 'lodash-es'
+import type { ReactNode } from 'react'
+import { useState, useEffect } from 'react'
 
 import { delay } from 'lib/delay'
 

@@ -2,9 +2,9 @@ import { GitHubIcon, GitLabIcon, EmailIcon, LinkedInIcon } from 'components/Icon
 import { Tooltip } from 'components/Tooltip'
 
 import { Container } from './Container'
-import { SocialList } from './SocialList'
-import { ListItem } from './ListItem'
 import { Link } from './Link'
+import { ListItem } from './ListItem'
+import { SocialList } from './SocialList'
 
 export const Footer = (props: React.ComponentProps<'footer'>) => (
 	<Container {...props}>

@@ -2,8 +2,8 @@ import { useState, useContext, useEffect, useCallback } from 'react'
 
 import { useSize } from 'lib/useSize'
 
-import { context } from './context'
 import { Container } from './Container'
+import { context } from './context'
 
 type Props = {
 	children: React.ReactNode,

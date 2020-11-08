@@ -1,10 +1,11 @@
-import { ButtonSolid } from 'components/Buttons'
+import { useAuth } from 'states/auth'
 
 import { Title, Subtitle } from 'containers/login'
 
-import { useAuth } from 'states/auth'
+import { ButtonSolid } from 'components/Buttons'
 
 import { Input } from './Fields/Input'
+
 import { Form } from '.'
 
 export const FormChangePassword = () => {

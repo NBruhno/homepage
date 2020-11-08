@@ -1,4 +1,4 @@
-import { Span } from '@sentry/types'
+import type { Span } from '@sentry/types'
 
 import { config } from 'config.server'
 

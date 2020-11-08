@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import { forwardRef } from 'react'
 import { transparentize } from 'polished'
+import { forwardRef } from 'react'
 
 type Props = {
 	active?: boolean,

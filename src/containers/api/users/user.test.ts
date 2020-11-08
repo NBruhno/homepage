@@ -1,15 +1,14 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
-
 import { parseJson, testingCredentials, expectSpecificObject, expectStatusCode, transaction } from 'test/utils'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 
 import { ApiError } from '../errors/ApiError'
 
+import { login } from './login'
 import { user } from './user'
 import { users } from './users'
-import { login } from './login'
 
 let accessToken = null as string
 let userId = null as string

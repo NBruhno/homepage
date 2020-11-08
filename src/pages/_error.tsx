@@ -1,6 +1,6 @@
-import NextErrorComponent from 'next/error'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { captureException, flush } from '@sentry/node'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import NextErrorComponent from 'next/error'
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }: { statusCode: number, hasGetInitialPropsRun: boolean, err: Error }) => {
 	if (!hasGetInitialPropsRun && err) {
@@ -14,12 +14,12 @@ const MyError = ({ statusCode, hasGetInitialPropsRun, err }: { statusCode: numbe
 }
 
 MyError.getInitialProps = async ({ res, err, asPath }: { res: NextApiResponse, err: NextApiRequest, asPath: string }) => {
-	// @ts-ignore
+	// @ts-ignore: Because of the current limitations of implementing Sentry with Next
 	const errorInitialProps = await NextErrorComponent.getInitialProps({ res, err })
 
 	// Workaround for https://github.com/vercel/next.js/issues/8592, mark when
 	// getInitialProps has run
-	// @ts-ignore
+	// @ts-ignore: Because of the current limitations of implementing Sentry with Next
 	errorInitialProps.hasGetInitialPropsRun = true
 
 	// Running on the server, the response object (`res`) is available.

@@ -17,7 +17,7 @@ const validateRequired = (value: any) => value ? undefined : messages.required
 
 const wrapRegex = (regex: RegExp, message = messages.generic) => (value: any) => !value || regex.test(value) ? undefined : message
 
-const wrapFunction = (func: (value: any, allValues: any[], props: any) => any) => (value: any, allValues: any[], props: any) => {
+const wrapFunction = (func: (value: any, allValues: Array<any>, props: any) => any) => (value: any, allValues: Array<any>, props: any) => {
 	if (!value) {
 		return undefined
 	}
@@ -38,7 +38,7 @@ const typeValidators = {
 	number: wrapRegex(/^[0-9]*$/, messages.type.number),
 }
 
-const composeValidators = (...validators: any[]) => (value: any) => validators.reduce((error, validator) => error || validator(value), undefined)
+const composeValidators = (...validators: Array<any>) => (value: any) => validators.reduce((error, validator) => error || validator(value), undefined)
 
 export const validators = ({ required, validate, type }: { required: boolean, validate: boolean, type: string }) => composeValidators(
 	required ? validateRequired : returnUndefined,

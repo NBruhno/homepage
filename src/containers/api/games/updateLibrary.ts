@@ -1,20 +1,20 @@
 import { getUnixTime, sub } from 'date-fns'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { chunk, flatten } from 'lodash-es'
 import { query as q } from 'faunadb'
+import { chunk, flatten } from 'lodash-es'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-import type { Game as IGDBGame } from 'types/IGDB'
-import type { Options } from '../types'
 import type { SimpleGame, Game } from 'types/Games'
+import type { Game as IGDBGame } from 'types/IGDB'
 
 import { logger } from 'lib/logger'
 
-import { igdbFetcher, fields, mapIgdbGame } from './lib'
-
+import { sendError } from '../errors/ApiError'
+import { serverClient } from '../faunaClient'
 import { authenticateSystem } from '../middleware'
 import { monitorReturnAsync, monitorAsync } from '../performanceCheck'
-import { serverClient } from '../faunaClient'
-import { sendError } from '../errors/ApiError'
+import type { Options } from '../types'
+
+import { igdbFetcher, fields, mapIgdbGame } from './lib'
 
 export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { transaction } = options

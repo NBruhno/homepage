@@ -47,8 +47,8 @@ export const fetcher = async <T>(
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
 		...customHeaders,
-	})
-	Object.keys(headers).forEach((key: keyof typeof headers) => headers[key] === undefined && delete headers[key])
+	}) as Record<string, any>
+	Object.keys(headers).forEach((key) => headers[key] === undefined && delete headers[key])
 
 	return fetch(url ? `${absoluteUrl ?? ''}/api${url}` : null, {
 		method,

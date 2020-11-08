@@ -1,4 +1,4 @@
-import { Role } from './User'
+import type { Role } from './User'
 
 export enum TokenTypes {
 	Refresh = 'refresh',

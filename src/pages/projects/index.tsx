@@ -1,8 +1,8 @@
-import { NextPage } from 'next'
+import type { NextPage } from 'next'
 import Head from 'next/head'
 
-import { ProjectList } from 'containers/projects/List'
 import { ProjectItem } from 'containers/projects/Item'
+import { ProjectList } from 'containers/projects/List'
 
 import { Page, PageContent } from 'components/Layout'
 

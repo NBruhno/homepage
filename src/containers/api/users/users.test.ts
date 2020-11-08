@@ -1,18 +1,17 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
-
 import {
 	parseJson, parseHeaders, testingCredentials, expectStatusCode, expectSpecificObject, accessTokenMatch,
 	refreshTokenMatch, transaction,
 } from 'test/utils'
 
-import { logger } from 'lib/logger'
 import { decodeJwtToken } from 'lib/decodeJwtToken'
+import { logger } from 'lib/logger'
 
 import { ApiError } from '../errors/ApiError'
 
-import { user } from './user'
 import { login } from './login'
+import { user } from './user'
 import { users } from './users'
 
 describe('/api/users', () => {

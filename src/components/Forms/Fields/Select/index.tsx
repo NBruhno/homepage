@@ -1,22 +1,22 @@
-import { useField } from 'react-final-form'
+import Downshift from 'downshift'
 import { matchSorter } from 'match-sorter'
 import { useEffect } from 'react'
-import Downshift from 'downshift'
+import { useField } from 'react-final-form'
 
-import { LabelContainer } from '../LabelContainer'
 import { FieldWrapper } from '../FieldWrapper'
-import { InputError } from '../InputError'
 import { Hint } from '../Hint'
+import { InputError } from '../InputError'
+import { LabelContainer } from '../LabelContainer'
 
+import { Menu } from './Menu'
 import { MenuAnchor } from './MenuAnchor'
-import { validators } from './validators'
 import { MenuItem } from './MenuItem'
 import { SelectComponent } from './SelectComponent'
-import { Menu } from './Menu'
+import { validators } from './validators'
 
 type Props = {
 	name: string,
-	options: { label: string, value: any, disabled?: boolean }[],
+	options: Array<{ label: string, value: any, disabled?: boolean }>,
 
 	disabled?: boolean,
 	enableValidate?: boolean,

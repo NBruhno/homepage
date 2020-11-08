@@ -5,8 +5,8 @@ import type { SimpleGame } from 'types/Games'
 import { Placeholder } from 'components/Placeholder'
 
 import { Cover } from '../Cover'
-import { Status } from '../Status'
 import { dateOrYear } from '../dateOrYear'
+import { Status } from '../Status'
 
 import { Container } from './Container'
 import { Subtitle } from './Subtitle'

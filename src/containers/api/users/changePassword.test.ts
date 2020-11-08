@@ -1,7 +1,7 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { createMocks } from 'node-mocks-http'
 import { randomBytes } from 'crypto'
 
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { createMocks } from 'node-mocks-http'
 import { testingToken, testingUserId, expectSpecificObject, expectStatusCode, transaction } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'

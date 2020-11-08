@@ -1,4 +1,5 @@
-import { useLayoutEffect, useEffect, EffectCallback, DependencyList } from 'react'
+import type { EffectCallback, DependencyList } from 'react'
+import { useLayoutEffect, useEffect } from 'react'
 
 /**
  * Uses either useEffect or useLayoutEffect based on wether this is being computed on the server or client.

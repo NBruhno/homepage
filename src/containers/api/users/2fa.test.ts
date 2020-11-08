@@ -1,7 +1,6 @@
-import { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest, NextApiResponse } from 'next'
 import { createMocks } from 'node-mocks-http'
 import { authenticator } from 'otplib'
-
 import {
 	parseJson, parseHeaders, testingToken, testingCredentials, testingUserId, expectStatusCode, expectSpecificObject,
 	accessTokenMatch, refreshTokenMatch, retryFunction, transaction,

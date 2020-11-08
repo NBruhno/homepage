@@ -1,4 +1,4 @@
-import { SimpleGame } from 'types/Games'
+import type { SimpleGame } from 'types/Games'
 
 import { Item } from '../Item'
 
@@ -20,11 +20,15 @@ export const GameList = ({
 	if (isLoading) {
 		return (
 			<Container>
-				{[{}, {}, {}, {}, {}, {}, {}].map((game: SimpleGame, index: number) => (
+				{[{}, {}, {}, {}, {}, {}, {}].map((_, index: number) => (
 					<Item
-						{...game}
+						id={null}
+						cover={null}
+						name={null}
+						releaseDate={null}
+						status={null}
 						index={index}
-						isLoading={isLoading}
+						isLoading
 						key={index}
 					/>
 				))}

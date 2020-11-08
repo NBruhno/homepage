@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react'
-import { useMediaQuery } from 'react-responsive'
-import { useRouter } from 'next/router'
+import { useMediaQuery } from '@react-hook/media-query'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
 
 import { useAuth } from 'states/auth'
-import { useResponsive } from 'states/responsive'
 import { useModal } from 'states/modal'
+import { useResponsive } from 'states/responsive'
 
-import { screenSizes } from 'styles/theme'
+import { mediaQueries } from 'styles/theme'
 
 import { Footer } from '../Footer'
 
-import { Modal } from './Modal'
 import { MainContent } from './MainContent'
+import { Modal } from './Modal'
 import { Shade } from './Shade'
 
 const FormLogin = dynamic(async () => {
@@ -33,10 +33,10 @@ export const Main = ({ children }: React.ComponentProps<'main'>) => {
 	const { showLogin, updateResponsive } = useResponsive()
 	const { openModal, closeModal } = useModal()
 	const { user } = useAuth()
-	const isMobile = useMediaQuery({ maxWidth: screenSizes.mobile - 1 })
-	const isTablet = useMediaQuery({ maxWidth: screenSizes.tablet - 1, minWidth: screenSizes.mobile })
-	const isLaptop = useMediaQuery({ maxWidth: screenSizes.laptop - 1, minWidth: screenSizes.tablet })
-	const collapsedSidebar = useMediaQuery({ maxWidth: screenSizes.laptop - 1 })
+	const isMobile = useMediaQuery(mediaQueries.maxMobile.replace('@media ', ''))
+	const isTablet = useMediaQuery(mediaQueries.mobileToTablet.replace('@media ', ''))
+	const isLaptop = useMediaQuery(mediaQueries.tabletToLaptop.replace('@media ', ''))
+	const collapsedSidebar = useMediaQuery(mediaQueries.maxLaptop.replace('@media ', ''))
 	const [protectRoute, setProtectRoute] = useState(false)
 	const [roleProtectRoute, setRoleProtectRoute] = useState(false)
 	const { pathname } = useRouter()

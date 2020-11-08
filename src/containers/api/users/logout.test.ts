@@ -1,13 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { createMocks } from 'node-mocks-http'
 import { errors } from 'faunadb'
-
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { createMocks } from 'node-mocks-http'
 import { parseJson, expectStatusCode, expectSpecificObject, testingCredentials, transaction } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'
 
-import { logout } from './logout'
 import { login } from './login'
+import { logout } from './logout'
 
 let accessToken = null as string
 describe('/api/users/logout', () => {

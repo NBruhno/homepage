@@ -1,11 +1,12 @@
-import { render, RenderOptions } from '@testing-library/react'
-import { ThemeProvider } from 'emotion-theming'
 import { Global } from '@emotion/core'
+import type { RenderOptions } from '@testing-library/react'
+import { render } from '@testing-library/react'
+import { ThemeProvider } from 'emotion-theming'
 
 import { globalCss } from 'styles/global'
 import { theme } from 'styles/theme'
 
-const Providers = ({ children }: { children: React.ReactNode }) => (
+const Providers = ({ children }: { children?: React.ReactNode }) => (
 	<ThemeProvider theme={theme(true)}>
 		<Global styles={globalCss} />
 		{children}

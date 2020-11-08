@@ -1,13 +1,12 @@
-const withOffline = require('next-offline')
-const withSourceMaps = require('@zeit/next-source-maps')({
-	devtool: process.env.NODE_ENV !== 'development' ? 'hidden-source-map' : 'source-map',
-})
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
 	enabled: process.env.ANALYZE_BUILD === 'true',
 })
-const withTranspileModules = require('next-transpile-modules')(['lodash-es'])
-
 const SentryWebpackPlugin = require('@sentry/webpack-plugin')
+const withSourceMaps = require('@zeit/next-source-maps')({
+	devtool: process.env.NODE_ENV !== 'development' ? 'hidden-source-map' : 'source-map',
+})
+const withOffline = require('next-offline')
+const withTranspileModules = require('next-transpile-modules')(['lodash-es'])
 
 const {
 	NEXT_EXPORT,
@@ -21,6 +20,21 @@ const {
 
 process.env.SENTRY_DSN = SENTRY_DSN
 const basePath = ''
+
+const securityHeaders = [
+	{
+		key: 'Content-Security-Policy',
+		value: `default-src 'self'; img-src 'self' https: data:; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'self'; frame-src ${NODE_ENV === 'development' ? 'localhost:9000' : 'self'}`,
+	},
+	{
+		key: 'X-Frame-Options',
+		value: 'SAMEORIGIN',
+	},
+	{
+		key: 'X-Content-Type-Options',
+		value: 'nosniff',
+	},
+]
 
 module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModules({
 	reactStrictMode: true,
@@ -59,6 +73,19 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 			{
 				source: '/service-worker.js',
 				destination: '/_next/static/service-worker.js',
+			},
+		]
+	},
+
+	async headers() {
+		return [
+			{
+				source: '/:path*',
+				headers: securityHeaders,
+			},
+			{
+				source: '/',
+				headers: securityHeaders,
 			},
 		]
 	},

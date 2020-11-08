@@ -1,11 +1,12 @@
-import { JWT, errors } from 'jose'
-import { NextApiRequest, NextApiResponse } from 'next'
 import { setUser } from '@sentry/node'
-import { Span, Transaction } from '@sentry/types'
+import type { Span, Transaction } from '@sentry/types'
+import { JWT, errors } from 'jose'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
-import { Token, TokenTypes } from 'types/Token'
+import type { Token } from 'types/Token'
+import { TokenTypes } from 'types/Token'
 
 import { decrypt } from 'lib/cipher'
 

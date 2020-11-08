@@ -1,7 +1,7 @@
-import { LabelContainer } from '../LabelContainer'
-import { FieldWrapper } from '../FieldWrapper'
 import { ColumnLabel } from '../ColumnLabel'
+import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
+import { LabelContainer } from '../LabelContainer'
 
 import { Textarea } from './Textarea'
 

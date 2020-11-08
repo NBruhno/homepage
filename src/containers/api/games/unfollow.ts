@@ -1,13 +1,13 @@
-import { NextApiRequest, NextApiResponse } from 'next'
 import { query as q, errors } from 'faunadb'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 import type { FaunaGame } from 'types/Games'
-import type { Options as DefaultOptions } from '../types'
 
 import { sendError } from '../errors/ApiError'
-import { authenticate } from '../middleware'
 import { faunaClient } from '../faunaClient'
+import { authenticate } from '../middleware'
 import { monitorAsync, monitorReturnAsync } from '../performanceCheck'
+import type { Options as DefaultOptions } from '../types'
 
 type Options = {
 	gameId: number,

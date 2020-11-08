@@ -1,6 +1,6 @@
+import type { SubmissionErrors, FormApi } from 'final-form'
 import { useEffect, useState } from 'react'
 import { Form as FinalForm, FormSpy } from 'react-final-form'
-import { SubmissionErrors, FormApi } from 'final-form'
 
 import { useGlobalState } from 'states/globalState'
 

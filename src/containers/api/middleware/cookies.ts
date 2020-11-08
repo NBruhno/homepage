@@ -1,6 +1,6 @@
-import { Span, Transaction } from '@sentry/types'
+import type { Span, Transaction } from '@sentry/types'
 import { serialize } from 'cookie'
-import { NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
