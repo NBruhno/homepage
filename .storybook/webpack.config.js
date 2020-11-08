@@ -7,12 +7,11 @@ module.exports = ({ config }) => {
 		loader: require.resolve('babel-loader'),
 		options: {
 			presets: [
-				['react-app', { flow: false, typescript: true }],
+				['next/babel', { 'preset-react': { runtime: 'classic', importSource: '@emotion/core' } }],
 				require.resolve("@emotion/babel-preset-css-prop"),
 			],
 			plugins: [
 				['emotion'],
-				['react-require'],
 				['polished'],
 			],
 			babelrc: false,

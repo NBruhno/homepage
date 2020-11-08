@@ -1,20 +1,9 @@
 module.exports = {
 	presets: [
-		['next/babel', { 'preset-react': { importSource: '@emotion/core' } }],
+		['next/babel', { 'preset-react': { runtime: 'automatic', importSource: '@emotion/core' } }],
 	],
 	plugins: [
+		['emotion'],
 		['polished'],
 	],
-	env: {
-		production: {
-			plugins: [
-				['emotion'],
-			],
-		},
-		development: {
-			plugins: [
-				['emotion', { sourceMap: true }],
-			],
-		},
-	},
 }

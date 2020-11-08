@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import NextImage from 'next/image'
 
 type Props = {
 	height: string | number,
@@ -9,7 +9,7 @@ type Props = {
 	width: string | number,
 }
 
-export const ImageComponent = ({ loading = 'lazy', title, width, height, src, quality, ...rest }: Props) => (
+export const Image = ({ loading = 'lazy', title, width, height, src, quality, ...rest }: Props) => (
 	<div
 		css={{
 			cursor: 'zoom-in',
@@ -17,7 +17,7 @@ export const ImageComponent = ({ loading = 'lazy', title, width, height, src, qu
 			justifyContent: 'center',
 		}}
 	>
-		<Image
+		<NextImage
 			alt={title}
 			height={height}
 			loading={loading}

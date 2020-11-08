@@ -21,6 +21,21 @@ const {
 process.env.SENTRY_DSN = SENTRY_DSN
 const basePath = ''
 
+const securityHeaders = [
+	{
+		key: 'Content-Security-Policy',
+		value: `default-src 'self'; img-src 'self' https: data:; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'self'; frame-src ${NODE_ENV === 'development' ? 'localhost:9000' : 'self'}`,
+	},
+	{
+		key: 'X-Frame-Options',
+		value: 'SAMEORIGIN',
+	},
+	{
+		key: 'X-Content-Type-Options',
+		value: 'nosniff',
+	},
+]
+
 module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModules({
 	reactStrictMode: true,
 
@@ -62,24 +77,15 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 		]
 	},
 
-	async Headers() {
+	async headers() {
 		return [
 			{
-				source: '*',
-				headers: [
-					{
-						key: 'Content-Security-Policy',
-						value: `default-src 'self'; img-src *; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'self'; frame-src ${NODE_ENV === 'development' ? 'localhost:9000' : 'self'}`,
-					},
-					{
-						key: 'X-Frame-Options',
-						value: 'SAMEORIGIN',
-					},
-					{
-						key: 'X-Content-Type-Options',
-						value: 'nosniff',
-					},
-				],
+				source: '/:path*',
+				headers: securityHeaders,
+			},
+			{
+				source: '/',
+				headers: securityHeaders,
 			},
 		]
 	},

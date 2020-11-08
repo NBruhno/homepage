@@ -1,10 +1,8 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import Image from 'next/image'
-
 import { useModal } from 'states/modal'
 
-import { ImageComponent } from './Image'
+import { Image } from './Image'
 import { Placeholder } from './Placeholder'
 
 const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
@@ -36,24 +34,22 @@ export const ProjectImage = ({ src, title, width, height, divider, ...rest }: Pr
 					<div
 						css={{
 							alignItems: 'center',
-							display: 'fixed',
+							display: 'flex',
 							justifyContent: 'center',
 							padding: '24px',
 							width: '100%',
 						}}
 					>
-						<Image
+						<img
 							src={src ?? placeholderImage}
 							alt={title}
-							unsized
-							unoptimized
 							css={{ maxWidth: '100%', maxHeight: '90vh', objectFit: 'cover' }}
 						/>
 					</div>
 				), { noWrapper: true })
 			}}
 		>
-			<ImageComponent
+			<Image
 				src={src}
 				title={title}
 				width={divider ? width / divider : width}
