@@ -89,7 +89,10 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 			},
 			{
 				source: '/service-worker.js',
-				headers: 'connect-src *;',
+				headers: [{
+					key: 'Content-Security-Policy',
+					value: 'connect-src *;',
+				}],
 			},
 		]
 	},
