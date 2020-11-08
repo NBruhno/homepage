@@ -24,7 +24,7 @@ const basePath = ''
 const securityHeaders = [
 	{
 		key: 'Content-Security-Policy',
-		value: `default-src 'self'; img-src 'self' https: data:; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'self'; frame-src ${NODE_ENV === 'development' ? 'localhost:9000' : 'self'}`,
+		value: `default-src 'self' ${NODE_ENV === 'development' && 'localhost:9000 localhost:3000'} https://*.bruhno.com https://*.bruhno.dev https://*.vercel-analytics.com; img-src 'self' https: data:; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'self'`,
 	},
 	{
 		key: 'X-Frame-Options',
