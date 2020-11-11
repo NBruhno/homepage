@@ -23,10 +23,6 @@ const basePath = ''
 
 const securityHeaders = [
 	{
-		key: 'Content-Security-Policy',
-		value: `default-src 'self' ${NODE_ENV === 'development' ? 'localhost:9000 localhost:3000' : '*.bruhno.com *.bruhno.dev *.vercel-analytics.com'}; img-src 'self' https: data:; script-src 'self'; style-src 'self' 'unsafe-inline'; frame-ancestors 'self';`,
-	},
-	{
 		key: 'X-Frame-Options',
 		value: 'SAMEORIGIN',
 	},
@@ -86,13 +82,6 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 			{
 				source: '/',
 				headers: securityHeaders,
-			},
-			{
-				source: '/service-worker.js',
-				headers: [{
-					key: 'Content-Security-Policy',
-					value: 'connect-src *;',
-				}],
 			},
 		]
 	},
