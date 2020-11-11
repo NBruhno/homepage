@@ -2,19 +2,20 @@ import { getUnixTime, sub } from 'date-fns'
 import { query as q } from 'faunadb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { config } from 'config.server'
+// import { config } from 'config.server'
 
 import type { SimpleGame } from 'types/Games'
 import type { Game as IGDBGame } from 'types/IGDB'
 
-import { absoluteUrl } from 'lib/absoluteUrl'
-import { fetcher, Method } from 'lib/fetcher'
+// import { absoluteUrl } from 'lib/absoluteUrl'
+// import { fetcher, Method } from 'lib/fetcher'
 
 import { serverClient } from '../faunaClient'
 import { monitorReturnAsync } from '../performanceCheck'
 import type { Options } from '../types'
 
-import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
+// import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
+import { igdbFetcher, fields, mapIgdbGame } from './lib'
 
 export const games = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { transaction } = options
@@ -46,25 +47,25 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 			),
 		).then(({ data }) => data), 'faunadb - Map(Paginate(), Lambda())', transaction)
 
-	if (!search) {
-		const gamesToUpdate = games.filter((game) => shouldUpdate(game))
-		if (gamesToUpdate.length > 0) {
-			fetcher(`/games`, {
-				absoluteUrl: absoluteUrl(req).origin,
-				accessToken: config.auth.systemToken,
-				body: { gamesToUpdate: gamesToUpdate.map(({ id }) => id) },
-				method: Method.Put,
-			})
-		}
+	// if (!search) {
+	// 	const gamesToUpdate = games.filter((game) => shouldUpdate(game))
+	// 	if (gamesToUpdate.length > 0) {
+	// 		fetcher(`/games`, {
+	// 			absoluteUrl: absoluteUrl(req).origin,
+	// 			accessToken: config.auth.systemToken,
+	// 			body: { gamesToUpdate: gamesToUpdate.map(({ id }) => id) },
+	// 			method: Method.Put,
+	// 		})
+	// 	}
 
-		if (games.some((game) => shouldUpdate(game))) {
-			fetcher(`/games`, {
-				absoluteUrl: absoluteUrl(req).origin,
-				accessToken: config.auth.systemToken,
-				method: Method.Patch,
-			})
-		}
-	}
+	// 	if (games.some((game) => shouldUpdate(game))) {
+	// 		fetcher(`/games`, {
+	// 			absoluteUrl: absoluteUrl(req).origin,
+	// 			accessToken: config.auth.systemToken,
+	// 			method: Method.Patch,
+	// 		})
+	// 	}
+	// }
 
 	res.setHeader('Cache-Control', `s-maxage=${60 * 60}, stale-while-revalidate`)
 	return res.status(200).json({ games })
