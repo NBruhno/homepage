@@ -1,4 +1,5 @@
-import { init, captureException, flush, startTransaction } from '@sentry/node'
+// import { init, captureException, flush, startTransaction } from '@sentry/node'
+import { init, startTransaction } from '@sentry/node'
 import type { Transaction } from '@sentry/types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
@@ -33,14 +34,16 @@ export const withSentry = (apiHandler: ApiHandler) => async (req: NextApiRequest
 		query: req.query,
 	})
 	if (config.environment === 'development') logger.debug(`${req.method} - ${req.url}`)
-	try {
-		return await apiHandler(req, res, transaction)
-	} catch (error) {
-		captureException(error)
-		await flush(2000)
-		throw error
-	} finally {
-		transaction.setHttpStatus(res.statusCode)
-		transaction.finish()
-	}
+
+	await apiHandler(req, res, transaction)
+	// try {
+	// 	return await apiHandler(req, res, transaction)
+	// } catch (error) {
+	// 	captureException(error)
+	// 	await flush(2000)
+	// 	throw error
+	// } finally {
+	// 	transaction.setHttpStatus(res.statusCode)
+	// 	transaction.finish()
+	// }
 }
