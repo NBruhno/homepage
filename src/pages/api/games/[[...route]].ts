@@ -8,7 +8,7 @@ export default withSentry(async (req, res, transaction) => {
 	if (!route) { // /games
 		if (followingQuery === 'true') return follows(req, res, { transaction })
 		switch (method) {
-			case 'GET': return games(req, res)
+			case 'GET': return games(res)
 			case 'PATCH':
 			case 'PUT':
 			case 'POST': return updateLibrary(req, res, { transaction })

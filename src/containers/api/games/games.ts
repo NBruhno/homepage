@@ -1,6 +1,6 @@
 import { getUnixTime, sub } from 'date-fns'
 import { query as q } from 'faunadb'
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiResponse } from 'next'
 
 // import { config } from 'config.server'
 
@@ -17,7 +17,7 @@ import { serverClient } from '../faunaClient'
 // import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
 // import { igdbFetcher, fields, mapIgdbGame } from './lib'
 
-export const games = async (req: NextApiRequest, res: NextApiResponse) => {
+export const games = async (res: NextApiResponse) => {
 	// const { transaction } = options
 	// const { query: { search } } = req
 
