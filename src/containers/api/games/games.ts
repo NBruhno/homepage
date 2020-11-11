@@ -23,7 +23,7 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 
 	let games = null
 
-	if (search) {
+	if (false) {
 		console.log(search, `Found a search query ${search}`)
 		games = await igdbFetcher<Array<IGDBGame>>('/games', res, {
 			body: `${fields}; limit 50; search "${search}";`,
