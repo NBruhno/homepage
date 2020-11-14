@@ -1,6 +1,5 @@
-import { Global } from '@emotion/core'
+import { Global, ThemeProvider } from '@emotion/react'
 import { Story } from '@storybook/react'
-import { ThemeProvider } from 'emotion-theming'
 import { themes } from '@storybook/theming'
 import { useDarkMode } from 'storybook-dark-mode'
 

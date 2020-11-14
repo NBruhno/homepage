@@ -14,7 +14,6 @@ type Options = {
 export const prices = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { method, query: { store, id, name } } = req
 	const { transaction } = options
-	transaction.setName(`${method} - api/games/{gameId}/prices`)
 
 	switch (method) {
 		case 'GET': {

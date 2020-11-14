@@ -1,4 +1,4 @@
-import { keyframes } from '@emotion/core'
+import { keyframes } from '@emotion/react'
 
 const fadeIn = keyframes`
 	0% { opacity: 0; }
@@ -6,7 +6,7 @@ const fadeIn = keyframes`
 
 export const Error = (props: React.ComponentProps<'div'>) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			alignItems: 'center',
 			animation: `${fadeIn} 0.2s`,
 			display: 'flex',

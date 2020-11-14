@@ -1,7 +1,6 @@
-import { Global } from '@emotion/core'
+import { Global, ThemeProvider } from '@emotion/react'
 import type { RenderOptions } from '@testing-library/react'
 import { render } from '@testing-library/react'
-import { ThemeProvider } from 'emotion-theming'
 
 import { globalCss } from 'styles/global'
 import { theme } from 'styles/theme'
