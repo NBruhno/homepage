@@ -1,6 +1,6 @@
 import { setUser } from '@sentry/node'
 import type { Span, Transaction } from '@sentry/types'
-import { JWT, errors } from 'jose'
+import jwt from 'jsonwebtoken'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
@@ -25,9 +25,7 @@ export type Options = {
 }
 
 const resolveError = (error: unknown, res: NextApiResponse) => {
-	if (error instanceof errors.JOSEError) {
-		sendError(401, res)
-	}
+	sendError(401, res)
 	throw error
 }
 
@@ -59,12 +57,23 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 	if (!getToken() && !optional) throwError(401, res)
 
 	try {
-		const decodedToken = <Token>JWT.verify(getToken(), config.auth.publicKey, {
-			algorithms: ['RS256'],
-			audience: ['https://bruhno.com', 'https://bruhno.dev'],
-			issuer: 'https://bruhno.dev',
-			typ: type,
-		})
+		const { header, payload } = <{ header: { typ: TokenTypes }, payload: Omit<Token, 'typ'> }>jwt.verify(
+			getToken(),
+			config.auth.publicKey,
+			{
+				algorithms: ['RS256'],
+				audience: ['https://bruhno.com', 'https://bruhno.dev'],
+				issuer: 'https://bruhno.dev',
+				complete: true,
+			},
+		)
+
+		const decodedToken: Token = {
+			...payload,
+			typ: header.typ,
+		}
+
+		if (header.typ !== type && !optional) resolveError(new Error('Invalid type for JWT'), res)
 
 		setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
 		return { ...decodedToken, secret: decrypt(decodedToken.secret) }

@@ -1,4 +1,4 @@
-import { errors } from 'jose'
+import { TokenExpiredError, JsonWebTokenError } from 'jsonwebtoken'
 import { createMocks } from 'node-mocks-http'
 import { transaction } from 'test/utils'
 
@@ -37,7 +37,7 @@ describe('/api/middleware/authenticate', () => {
 			},
 		})
 
-		expect(() => authenticate(req, res, { transaction })).toThrow(errors.JWTExpired)
+		expect(() => authenticate(req, res, { transaction })).toThrow(TokenExpiredError)
 	})
 
 	test('Authenticate › Invalid issuer', async () => {
@@ -48,7 +48,7 @@ describe('/api/middleware/authenticate', () => {
 			},
 		})
 
-		expect(() => authenticate(req, res, { transaction })).toThrow(errors.JWTClaimInvalid)
+		expect(() => authenticate(req, res, { transaction })).toThrow(JsonWebTokenError)
 	})
 
 	test('Authenticate › Invalid audience', async () => {
@@ -59,7 +59,7 @@ describe('/api/middleware/authenticate', () => {
 			},
 		})
 
-		expect(() => authenticate(req, res, { transaction })).toThrow(errors.JWTClaimInvalid)
+		expect(() => authenticate(req, res, { transaction })).toThrow(JsonWebTokenError)
 	})
 
 	test('Authenticate › Tampered token', async () => {
@@ -70,7 +70,7 @@ describe('/api/middleware/authenticate', () => {
 			},
 		})
 
-		expect(() => authenticate(req, res, { transaction })).toThrow(errors.JWTMalformed)
+		expect(() => authenticate(req, res, { transaction })).toThrow(JsonWebTokenError)
 	})
 
 	test('Authenticate › Optional', async () => {

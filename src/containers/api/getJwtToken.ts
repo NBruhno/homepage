@@ -1,5 +1,5 @@
 import type { Transaction, Span } from '@sentry/types'
-import { JWT } from 'jose'
+import jwt from 'jsonwebtoken'
 
 import { config } from 'config.server'
 
@@ -35,7 +35,7 @@ export const getJwtToken = (secret: string, payload: Payload, {
 		}
 	}
 
-	const signedJwt = JWT.sign({
+	const signedJwt = jwt.sign({
 		exp: getExpiration(),
 		secret: secret ? encrypt(secret) : null,
 		...defaultPayload,
