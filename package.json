@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@babel/core": "7.12.3",
-    "@emotion/react": "11.0.0",
+    "@emotion/react": "11.1.1",
     "@mdi/js": "5.8.55",
     "@react-hook/media-query": "1.1.1",
     "@sentry/browser": "5.27.4",
@@ -57,7 +57,7 @@
     "react-final-form": "6.5.2",
     "react-hooks-global-state": "1.0.1",
     "resize-observer-polyfill": "1.5.1",
-    "swr": "0.3.8",
+    "swr": "0.3.9",
     "ts-custom-error": "3.2.0"
   },
   "devDependencies": {
@@ -84,8 +84,8 @@
     "@types/match-sorter": "5.0.0",
     "@types/node": "14.14.7",
     "@types/react": "16.9.56",
-    "@typescript-eslint/eslint-plugin": "4.7.0",
-    "@typescript-eslint/parser": "4.7.0",
+    "@typescript-eslint/eslint-plugin": "4.8.1",
+    "@typescript-eslint/parser": "4.8.1",
     "babel-jest": "26.6.3",
     "babel-loader": "8.2.1",
     "babel-plugin-polished": "1.1.0",
