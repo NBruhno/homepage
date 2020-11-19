@@ -28,7 +28,13 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 		}).then((igdbGames) => igdbGames.map(mapIgdbGame))
 		: await monitorReturnAsync(() => serverClient.query<{ data: Array<SimpleGame> }>(
 			q.Map(
-				q.Paginate(q.Range(q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')), ['', getUnixTime(sub(new Date(), { months: 2 }))], [0, '']), { size: 50 }),
+				q.Paginate(q.Filter(
+					q.Range(q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')), '', 0),
+					q.Lambda(
+						['hype', 'releaseDate', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
+						q.GTE(q.Var('releaseDate'), getUnixTime(sub(new Date(), { months: 2 }))),
+					),
+				), { size: 100 }),
 				q.Lambda(
 					['hype', 'releaseDate', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
 					{
