@@ -73,7 +73,7 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 			if (!otp) throwError(400, res)
 
 			const user = await monitorReturnAsync(() => faunaClient(secret).query<{ data: Record<string, any> }>(
-				q.Get(q.Identity()),
+				q.Get(q.CurrentIdentity()),
 			), 'faunadb - Get()', transaction)
 
 			monitor(() => {
