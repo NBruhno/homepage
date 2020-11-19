@@ -1,4 +1,4 @@
-import { css, keyframes } from '@emotion/core'
+import { css, keyframes } from '@emotion/react'
 
 const loadingFrames = keyframes`
 	0%,
@@ -25,8 +25,8 @@ const dotStyle = (offset: number) => css({
 
 export const ActivityIndicator = (props: React.ComponentProps<'div'>) => (
 	<div css={{ display: 'inline-flex' }} {...props}>
-		<span key={0} css={dotStyle(0)} />
-		<span key={1} css={dotStyle(1)} />
-		<span key={2} css={dotStyle(2)} />
+		<span key={0} css={{ ...dotStyle(0) }} />
+		<span key={1} css={{ ...dotStyle(1) }} />
+		<span key={2} css={{ ...dotStyle(2) }} />
 	</div>
 )

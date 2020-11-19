@@ -9,7 +9,7 @@ module.exports = {
 		'@typescript-eslint',
 		'eslint-plugin-tsdoc',
 		'babel',
-		'emotion',
+		'@emotion',
 		'filenames',
 		'import',
 		'jest',
@@ -229,6 +229,6 @@ module.exports = {
 		'jsx-a11y/anchor-is-valid': 'off',
 		'jsx-a11y/label-has-for': 'off',
 
-		'emotion/syntax-preference': [2, 'object'],
+		'@emotion/syntax-preference': [2, 'object'],
 	},
 }

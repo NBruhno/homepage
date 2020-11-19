@@ -1,11 +1,11 @@
-import { ThemeProvider } from 'emotion-theming'
+import { ThemeProvider } from '@emotion/react'
 import { useState } from 'react'
 
 import { useDarkMode } from 'states/darkMode'
 import { useRefresh } from 'states/refresh'
 
 import { GlobalStyling } from 'styles/global'
-import { theme as siteTheme } from 'styles/theme'
+import { theme } from 'styles/theme'
 
 import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 
@@ -29,7 +29,7 @@ export const App = ({ children }: Props) => {
 	}, [])
 
 	return (
-		<ThemeProvider<Theme> theme={siteTheme(globalTheme === 'dark')}>
+		<ThemeProvider theme={theme(globalTheme === 'dark')}>
 			<GlobalStyling>
 				{browserIsNotSupported ? (
 					<BlockWrapper>

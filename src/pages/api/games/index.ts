@@ -7,10 +7,16 @@ export default withSentry(async (req, res, transaction) => {
 
 	if (followingQuery === 'true') return follows(req, res, { transaction })
 	switch (method) {
-		case 'GET': return games(req, res, { transaction })
+		case 'GET': {
+			await games(req, res, { transaction })
+			break
+		}
 		case 'PATCH':
 		case 'PUT':
-		case 'POST': return updateLibrary(req, res, { transaction })
+		case 'POST': {
+			await updateLibrary(req, res, { transaction })
+			break
+		}
 		default: sendError(405, res)
 	}
 })

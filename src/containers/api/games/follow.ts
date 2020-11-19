@@ -22,7 +22,7 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 	switch (method) {
 		case 'GET': {
 			const userData = await monitorReturnAsync(() => faunaClient(secret).query<{ data: { following: boolean } }>(
-				q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.Identity()])),
+				q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.CurrentIdentity()])),
 			).catch((error) => {
 				if (error instanceof errors.NotFound) {
 					return {
@@ -39,14 +39,14 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 				q.Create(q.Collection('gamesUserData'), {
 					data: {
 						id: gameId,
-						owner: q.Identity(),
+						owner: q.CurrentIdentity(),
 						following: true,
 					},
 				}),
 			), 'faunadb - Create()', transaction).catch(async (error) => {
 				if (error.description.includes('unique') && error instanceof errors.BadRequest) {
 					await monitorAsync(() => faunaClient(secret).query(
-						q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.Identity()]))), {
+						q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.CurrentIdentity()]))), {
 							data: {
 								following: true,
 							},

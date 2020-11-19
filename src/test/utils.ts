@@ -16,9 +16,9 @@ export const transaction = startTransaction({
 export const testingCredentials = process.env.TESTING_CREDENTIALS
 export const testingToken = process.env.TESTING_TOKEN
 export const testingUserId = '273823504333275653'
-export const accessTokenMatch = /eyJ0eXAiOiJhY2Nlc3MiLCJhbGciOiJSUzI1NiIsImtpZCI6IjF4eDdEamNWeVl0UWtmcTJvbFBrTnRKaWJMN2VhVmVtVXAyM3NabW5ISmsifQ/i
-export const intermediateTokenMatch = /eyJ0eXAiOiJpbnRlcm1lZGlhdGUiLCJhbGciOiJSUzI1NiIsImtpZCI6IjF4eDdEamNWeVl0UWtmcTJvbFBrTnRKaWJMN2VhVmVtVXAyM3NabW5ISmsifQ/i
-export const refreshTokenMatch = /eyJ0eXAiOiJyZWZyZXNoIiwiYWxnIjoiUlMyNTYiLCJraWQiOiIxeHg3RGpjVnlZdFFrZnEyb2xQa050SmliTDdlYVZlbVVwMjNzWm1uSEprIn0/i
+export const accessTokenMatch = /eyJhbGciOiJSUzI1NiIsInR5cCI6ImFjY2VzcyJ9/i
+export const intermediateTokenMatch = /eyJhbGciOiJSUzI1NiIsInR5cCI6ImludGVybWVkaWF0ZSJ9/i
+export const refreshTokenMatch = /eyJhbGciOiJSUzI1NiIsInR5cCI6InJlZnJlc2gifQ/i
 
 export const parseJson = (res: Response) => res._getJSONData()
 export const parseHeaders = (res: Response) => res._getHeaders()

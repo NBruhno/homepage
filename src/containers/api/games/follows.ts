@@ -28,7 +28,7 @@ export const follows = async (req: NextApiRequest, res: NextApiResponse, options
 				q.Map(
 					q.Paginate(
 						q.Join(
-							q.Match(q.Index('gamesUserDataByOwnerSortByIdAsc'), q.Identity()),
+							q.Match(q.Index('gamesUserDataByOwnerSortByIdAsc'), q.CurrentIdentity()),
 							q.Index('gamesByIdSortByReleaseDateAsc'),
 						),
 					),

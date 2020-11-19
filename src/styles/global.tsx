@@ -1,11 +1,11 @@
-import { css, Global } from '@emotion/core'
+import { css, Global } from '@emotion/react'
 
 import { fonts } from 'styles/fonts'
 import { normalize } from 'styles/normalize'
 
 export const globalCss = (theme: Theme) => css([
-	normalize,
 	fonts,
+	normalize,
 	{
 		'*::-webkit-scrollbar': {
 			backgroundColor: theme.color.background,
@@ -46,7 +46,7 @@ export const globalCss = (theme: Theme) => css([
 
 export const GlobalStyling = ({ children }: { children: React.ReactNode }) => (
 	<>
-		<Global styles={(theme: Theme) => globalCss(theme)} />
+		<Global styles={(theme) => globalCss(theme)} />
 		{children}
 	</>
 )

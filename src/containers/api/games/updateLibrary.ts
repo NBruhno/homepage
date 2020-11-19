@@ -112,9 +112,15 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 
 	logger.info(`Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`)
 
+	const updateQueries = []
+
+	if (gamesToUpdate.length > 0) {
+		updateQueries.push()
+	}
+
 	if (gamesToUpdate.length > 0 || gamesToCreate.length > 0) {
 		// Collect all the update & create query chunks into one request towards FaunaDB to reduce connections and avoid payload limits.
-		await monitorAsync((span) => Promise.all([
+		await monitorAsync(async (span) => Promise.all([
 			...gamesToUpdate.map((listOfGames) => monitorAsync(() => serverClient.query(
 				q.Do(
 					listOfGames.map((game) => q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), game.id))), {
@@ -138,7 +144,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 		]), 'Promise.all()', transaction)
 	}
 
-	return res.status(200).json({
+	res.status(200).json({
 		message: `Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`,
 	})
 }
