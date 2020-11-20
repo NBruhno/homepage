@@ -1,13 +1,6 @@
 import { RewriteFrames } from '@sentry/integrations'
 import { init } from '@sentry/node'
 
-const {
-	NEXT_IS_SERVER,
-	NEXT_PUBLIC_COMMIT_SHA,
-	NEXT_PUBLIC_SENTRY_DSN, NODE_ENV,
-	NEXT_PUBLIC_SENTRY_SERVER_ROOT_DIR,
-} = process.env
-
 /**
  * Function to initialize Sentry exception capturing. This function supports both client and server usage.
  * @example
@@ -16,14 +9,14 @@ const {
  * ```
  */
 export const sentryInit = () => {
-	if (NEXT_PUBLIC_SENTRY_DSN) {
+	if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
 		const integrations = []
 
-		if (NEXT_IS_SERVER === 'true' && NEXT_PUBLIC_SENTRY_SERVER_ROOT_DIR) {
+		if (process.env.NEXT_IS_SERVER === 'true' && process.env.NEXT_PUBLIC_SENTRY_SERVER_ROOT_DIR) {
 			integrations.push(
 				new RewriteFrames({
 					iteratee: (frame) => {
-						frame.filename = frame.filename.replace(NEXT_PUBLIC_SENTRY_SERVER_ROOT_DIR, 'app:///')
+						frame.filename = frame.filename.replace(process.env.NEXT_PUBLIC_SENTRY_SERVER_ROOT_DIR, 'app:///')
 						frame.filename = frame.filename.replace('.next', '_next')
 						return frame
 					},
@@ -32,11 +25,11 @@ export const sentryInit = () => {
 		}
 
 		init({
-			enabled: NODE_ENV === 'production',
+			enabled: process.env.NODE_ENV === 'production',
 			integrations,
-			dsn: NEXT_PUBLIC_SENTRY_DSN,
-			release: NEXT_PUBLIC_COMMIT_SHA,
-			tracesSampleRate: NEXT_IS_SERVER ? 1 : undefined,
+			dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+			release: process.env.NEXT_PUBLIC_COMMIT_SHA,
+			tracesSampleRate: process.env.NEXT_IS_SERVER ? 1 : undefined,
 		})
 	}
 }
