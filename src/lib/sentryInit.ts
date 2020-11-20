@@ -24,7 +24,6 @@ export const sentryInit = () => {
 				new RewriteFrames({
 					iteratee: (frame) => {
 						frame.filename = frame.filename.replace(NEXT_PUBLIC_SENTRY_SERVER_ROOT_DIR, 'app:///')
-
 						frame.filename = frame.filename.replace('.next', '_next')
 						return frame
 					},

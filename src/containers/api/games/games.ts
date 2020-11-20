@@ -36,6 +36,8 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 					),
 				), { size: 100 }),
 				q.Lambda(
+					// The Page returns a tuple of SimpleGame, which is then mapped out as an object.
+					// When done like this, we only use 1 read operation to get all of the games.
 					['hype', 'releaseDate', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
 					{
 						id: q.Var('id'),

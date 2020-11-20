@@ -1,9 +1,7 @@
 import { css, keyframes } from '@emotion/react'
 
 const loadingFrames = keyframes`
-	0%,
-	40%,
-	100% {
+	0%, 40%, 100% {
 		transform: scale(0);
 	}
 

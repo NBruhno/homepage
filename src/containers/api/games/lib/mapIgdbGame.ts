@@ -31,7 +31,7 @@ export const mapIgdbGame = (game: IgdbGame): Game => {
 	const {
 		id, aggregated_rating: rating, aggregated_rating_count: ratingCount, genres, storyline, summary,
 		involved_companies: companies, updated_at: updatedAt, name, platforms, first_release_date: releaseDate,
-		release_dates: releaseDates, game_engines: engines, screenshots, cover, status, websites, hypes: hype,
+		release_dates: releaseDates, game_engines: engines, screenshots, cover, status, websites, hypes: hype, follows,
 	} = game
 
 	const screenshotUrls = screenshots?.length > 0
@@ -49,7 +49,7 @@ export const mapIgdbGame = (game: IgdbGame): Game => {
 			name,
 		})) ?? null,
 		genres: genres ? genres.map(({ name }) => name) : [],
-		hype,
+		hype: hype + follows,
 		lastChecked: Date.now(),
 		platforms: platforms?.map(({ platform_logo: platformLogo, abbreviation, name }) => ({
 			abbreviation,
