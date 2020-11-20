@@ -8,11 +8,16 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
-    "noImplicitAny": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "preserveConstEnums": true,
@@ -25,26 +30,21 @@
     "target": "esnext",
     "typeRoots": [
       "./node_modules/@types"
-    ],
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
     ]
   },
   "exclude": [
-    "node_modules",
     "**/*.spec.ts",
-    "**/*.spec.tsx"
+    "**/*.spec.tsx",
+    "node_modules"
   ],
   "include": [
-    "mdx.d.ts",
-    "next-env.d.ts",
-    "emotion.d.ts",
+    "**/.*.mdx",
+    "**/.*.tsx",
+    "**/*.mdx",
     "**/*.ts",
     "**/*.tsx",
-    "**/*.mdx",
-    "**/.*.tsx",
-    "**/.*.mdx"
+    "emotion.d.ts",
+    "mdx.d.ts",
+    "next-env.d.ts"
   ]
 }
