@@ -1,7 +1,14 @@
+import type { Environment } from 'types/Environment'
+
+const {
+	NODE_ENV,
+	NEXT_PUBLIC_SENTRY_DSN,
+} = process.env
+
 export const config = {
 	sentry: {
-		dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
+		dsn: NEXT_PUBLIC_SENTRY_DSN,
 	},
 
-	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV,
+	environment: NODE_ENV === 'test' ? 'development' : NODE_ENV as Environment,
 }

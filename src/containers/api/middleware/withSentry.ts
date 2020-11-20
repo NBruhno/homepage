@@ -1,18 +1,13 @@
-import { init, captureException, flush, startTransaction } from '@sentry/node'
+import { captureException, flush, startTransaction } from '@sentry/node'
 import type { Transaction } from '@sentry/types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
 import { logger } from 'lib/logger'
+import { sentryInit } from 'lib/sentryInit'
 
-if (config.sentry.dsn) {
-	init({
-		enabled: config.environment === 'production',
-		dsn: config.sentry.dsn,
-		tracesSampleRate: 1,
-	})
-}
+sentryInit()
 
 type ApiHandler = (req: NextApiRequest, res: NextApiResponse, transaction: Transaction) => void | Promise<void>
 
