@@ -10,8 +10,8 @@ import { login } from './login'
 import { user } from './user'
 import { users } from './users'
 
-let accessToken = null as string
-let userId = null as string
+let accessToken = null as unknown as string
+let userId = null as unknown as string
 
 describe('/api/users/{userId}', () => {
 	beforeAll(async () => {

@@ -41,7 +41,7 @@ const resolveError = (error: unknown, res: NextApiResponse) => {
  * ```
  */
 export const authenticate = (req: NextApiRequest, res: NextApiResponse,
-	{ optional = false, token, type = TokenTypes.Access, transaction }: Options): Token => monitorReturn(() => {
+	{ optional = false, token, type = TokenTypes.Access, transaction }: Options) => monitorReturn(() => {
 	const { headers: { authorization }, cookies } = req
 
 	const getToken = () => {
@@ -51,7 +51,8 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 				? cookies['__Host-refreshToken']
 				: cookies['refreshToken']
 		}
-		return authorization?.split('Bearer ')[1]
+		if (authorization) return authorization?.split('Bearer ')[1]
+		throw new Error('No token was specified or found in the request')
 	}
 
 	if (!getToken() && !optional) throwError(401, res)

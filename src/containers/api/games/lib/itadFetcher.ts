@@ -13,6 +13,8 @@ type Options = {
 }
 
 export const itadFetcher = async <T>(url: RequestInfo, { body, span, nickname, query, version }: Options): Promise<T> => {
+	if (config.itad.apiKey === undefined) throw new Error('ITAD API key needs to be set')
+
 	const params = new URLSearchParams({
 		key: config.itad.apiKey,
 		...query,
@@ -22,8 +24,6 @@ export const itadFetcher = async <T>(url: RequestInfo, { body, span, nickname, q
 		method: 'GET',
 		body,
 		headers: new Headers({
-			Authorization: `Bearer ${config.igdb.token}`,
-			'Client-ID': config.igdb.clientId,
 			'Content-Type': 'text/plain',
 			accept: 'application/json',
 		}),

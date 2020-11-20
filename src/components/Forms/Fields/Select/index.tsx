@@ -41,7 +41,7 @@ const itemToString = (item: any) => (item || '')
 export const Select = ({
 	optionalHint = true, fullWidth = true, required = false, enableValidate = true,
 	disabled, name, format, parse = (value) => value || null, label,
-	hint, placeholder, multiple, options, id = name,
+	hint, placeholder, multiple = false, options, id = name,
 }: Props) => {
 	const parseDefault = (value: any) => value || (multiple ? [] : null)
 
@@ -52,7 +52,7 @@ export const Select = ({
 			parse: parse || parseDefault,
 			format,
 			allowNull: true,
-			validate: (!disabled && enableValidate && validators) ? validators({ required, multiple }) : null,
+			validate: (!disabled && enableValidate && validators) ? validators({ required, multiple }) : undefined,
 		},
 	)
 
@@ -62,7 +62,7 @@ export const Select = ({
 		}
 	})
 
-	const hasError = meta.submitFailed && Boolean(meta.error)
+	const hasError = Boolean(meta.submitFailed) && Boolean(meta.error)
 
 	return (
 		<Downshift
@@ -74,8 +74,8 @@ export const Select = ({
 				input.onChange(inputValue)
 			}}
 		>
-			{({ getInputProps, getItemProps, getMenuProps, getRootProps, getLabelProps, isOpen, inputValue, highlightedIndex, selectedItem }) => {
-				const filteredOptions = matchSorter(options, inputValue, { keys: ['label'] })
+			{({ getInputProps, getItemProps, getMenuProps, getRootProps, getLabelProps, isOpen, inputValue = '', highlightedIndex, selectedItem }) => {
+				const filteredOptions = matchSorter(options, inputValue!, { keys: ['label'] })
 				return (
 					<FieldWrapper fullWidth={fullWidth} minWidth={170} {...getRootProps()}>
 						<LabelContainer {...getLabelProps()}>

@@ -29,7 +29,7 @@ type Props = {
 
 export const Radio = ({
 	parse = (value) => value || null, required = false, fullWidth = true, enableValidate = true,
-	options, disabled, name, format, id = name,
+	options, disabled = false, name, format, id = name,
 }: Props) => {
 	const { input, meta } = useField(
 		name,
@@ -38,7 +38,7 @@ export const Radio = ({
 			parse,
 			format,
 			allowNull: true,
-			validate: (!disabled && enableValidate && validators) ? validators({ required }) : null,
+			validate: (!disabled && enableValidate && validators) ? validators({ required }) : undefined,
 		},
 	)
 
@@ -54,13 +54,13 @@ export const Radio = ({
 		input.onBlur(value)
 	}
 
-	const hasError = meta.submitFailed && Boolean(meta.error)
+	const hasError = Boolean(meta.submitFailed) && Boolean(meta.error)
 	const formattedOptions = options ? formatToOptions(options) : []
 	const globallyDisabled = disabled
 
 	return (
 		<FieldWrapper fullWidth={fullWidth} minWidth={170}>
-			{formattedOptions.map(({ value, label, hint, disabled }, index: number) => {
+			{formattedOptions.map(({ value, label, hint, disabled = false }, index: number) => {
 				const checked = value === input.value
 				return (
 					<RowLabel htmlFor={`${index}-${id}`} css={{ paddingBottom: '12px', marginBottom: 0 }} key={index}>
@@ -78,7 +78,7 @@ export const Radio = ({
 						<RadioCircle
 							checked={checked}
 							disabled={globallyDisabled || disabled}
-							focus={meta.active && (checked || (input.value === '' && index === 0))}
+							focus={Boolean(meta.active) && (checked || (input.value === '' && index === 0))}
 							hasError={hasError}
 						/>
 						<div>

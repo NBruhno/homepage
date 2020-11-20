@@ -50,7 +50,7 @@ export const fetcher = async <T>(
 	}) as Record<string, any>
 	Object.keys(headers).forEach((key) => headers[key] === undefined && delete headers[key])
 
-	return fetch(url ? `${absoluteUrl ?? ''}/api${url}` : null, {
+	return fetch(`${absoluteUrl ?? ''}/api${url}`, {
 		method,
 		body: body ? JSON.stringify(body) : undefined,
 		headers,

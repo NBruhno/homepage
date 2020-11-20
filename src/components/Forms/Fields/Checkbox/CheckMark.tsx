@@ -26,7 +26,7 @@ export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
 				backgroundColor: backgroundColor(theme),
 				outline: 0,
 				flexShrink: 0,
-				margin: '1px 7px 1px 0',
+				margin: 'auto',
 
 				transition: 'box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out, background-color 0.15s ease-in-out',
 
@@ -45,7 +45,7 @@ export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
 				},
 
 				'&:hover': {
-					borderColor: !disabled && theme.color.primary,
+					borderColor: disabled ? undefined : theme.color.primary,
 				},
 			})}
 			{...rest}

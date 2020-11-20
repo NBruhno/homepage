@@ -19,12 +19,12 @@ import { shouldUpdate } from './lib'
 export const follows = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { method } = req
 	const { transaction } = options
-	const token = authenticate(req, res, { transaction })
+	const { secret } = authenticate(req, res, { transaction })!
 	res.setHeader('Cache-Control', 'no-cache')
 
 	switch (method) {
 		case 'GET': {
-			const games = await monitorReturnAsync(() => faunaClient(token.secret).query<{ data: Array<SimpleGame> }>(
+			const games = await monitorReturnAsync(() => faunaClient(secret).query<{ data: Array<SimpleGame> }>(
 				q.Map(
 					q.Paginate(
 						q.Join(

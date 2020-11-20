@@ -18,11 +18,11 @@ type ApiHandler = (req: NextApiRequest, res: NextApiResponse, transaction: Trans
 export const withSentry = (apiHandler: ApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
 	const transaction = startTransaction({
 		op: 'request',
-		name: `${req.method} - ${req.url.split('?')[0]}`,
+		name: `${req.method} - ${req.url?.split('?')[0]}`,
 		trimEnd: false,
 		tags: {
-			type: req.url.split('/')[1],
-			resource: req.url.split('/')[2],
+			type: req.url?.split('/')[1] ?? 'Unspecified',
+			resource: req.url?.split('/')[2] ?? 'Unspecified',
 		},
 	}, {
 		query: req.query,

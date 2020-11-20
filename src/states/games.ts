@@ -42,7 +42,7 @@ export const useGames = () => {
 
 export const useGame = (id: string) => {
 	const { user } = useAuth()
-	const [following, setFollowing] = useState<boolean>(undefined)
+	const [following, setFollowing] = useState<boolean | undefined>(undefined)
 	const { data: game, error } = useSWR<Game>(id ? `/games/${id}` : null, (link) => fetcher(link), { revalidateOnFocus: false })
 	const { data: followingData } = useSWR<{ following: boolean }>((id && user?.accessToken)
 		? `/games/${id}/follows`
@@ -56,7 +56,7 @@ export const useGame = (id: string) => {
 
 	const canGetPrices = useMemo(() => id && game?.name && !error, [id, game?.name, error])
 	const { data: prices } = useSWR<{ prices: Array<Price> }>(canGetPrices
-		? `/games/${id}/prices?name=${game.name}`
+		? `/games/${id}/prices?name=${game?.name}`
 		: null, (link) => fetcher(link), { revalidateOnFocus: false })
 
 	const unfollow = async () => {

@@ -18,7 +18,8 @@ export const unfollow = async (req: NextApiRequest, res: NextApiResponse, option
 	const { gameId, transaction } = options
 	transaction.setName(`${method} - api/games/{gameId}/unfollow`)
 
-	const { secret } = authenticate(req, res, { transaction })
+	const { secret } = authenticate(req, res, { transaction })!
+
 	switch (method) {
 		case 'PATCH': {
 			await monitorReturnAsync(() => faunaClient(secret).query<FaunaGame>(

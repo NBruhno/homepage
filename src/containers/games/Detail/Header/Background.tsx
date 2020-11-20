@@ -1,6 +1,6 @@
 type Props = {
-	src: string,
-} & React.ComponentProps<'img'>
+	src: string | null,
+}
 
 const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
 

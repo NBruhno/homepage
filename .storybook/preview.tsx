@@ -3,8 +3,8 @@ import { Story } from '@storybook/react'
 import { themes } from '@storybook/theming'
 import { useDarkMode } from 'storybook-dark-mode'
 
-import { globalCss } from 'styles/global'
-import { theme } from 'styles/theme'
+import { globalCss } from '../src/styles/global'
+import { theme } from '../src/styles/theme'
 
 const MainDecorator = (Story: Story) => {
 	const darkMode = useDarkMode()

@@ -3,7 +3,7 @@ import { useGlobalState } from './globalState'
 type Options = {
 	allowClosure?: boolean,
 	noWrapper?: boolean,
-	onClose?: () => void,
+	onClose?: (() => void) | null,
 }
 
 export const useModal = () => {

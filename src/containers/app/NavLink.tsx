@@ -5,28 +5,31 @@ import { forwardRef } from 'react'
 type Props = {
 	active?: boolean,
 	currentColor?: boolean,
-	ref: ((instance: unknown) => void) | React.MutableRefObject<unknown>,
-} & React.ComponentPropsWithRef<'a'>
+} & React.ComponentProps<'a'>
 
-export const NavLink = forwardRef(({ active, currentColor = false, ...rest }: Props, ref) => (
-	<a
-		ref={ref}
-		css={(theme: Theme) => ({
-			padding: '6px 12px',
-			color: currentColor ? 'currentColor' : theme.color.textFaded,
-			textDecoration: 'none',
-			backgroundColor: active ? transparentize(0.5, theme.color.primary) : 'transparent',
-			borderRadius: '4px',
-			margin: '4px 12px',
-			transition: `color 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}`,
-			fontFamily: theme.fontFamily.poppins,
-			fontSize: theme.fontSize.s90,
-			display: 'flex',
+export const NavLink = forwardRef(({ active, currentColor = false, ...rest }: Props, ref) => {
+	const forwardRef = ref as React.RefObject<HTMLAnchorElement>
 
-			'&:hover, &:focus': {
-				backgroundColor: transparentize(0.3, theme.color.primary),
-			},
-		})}
-		{...rest}
-	/>
-))
+	return (
+		<a
+			css={(theme: Theme) => ({
+				padding: '6px 12px',
+				color: currentColor ? 'currentColor' : theme.color.textFaded,
+				textDecoration: 'none',
+				backgroundColor: active ? transparentize(0.5, theme.color.primary) : 'transparent',
+				borderRadius: '4px',
+				margin: '4px 12px',
+				transition: `color 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}`,
+				fontFamily: theme.fontFamily.poppins,
+				fontSize: theme.fontSize.s90,
+				display: 'flex',
+
+				'&:hover, &:focus': {
+					backgroundColor: transparentize(0.3, theme.color.primary),
+				},
+			})}
+			{...rest}
+			ref={forwardRef}
+		/>
+	)
+})

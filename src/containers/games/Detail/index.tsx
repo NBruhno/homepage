@@ -81,7 +81,7 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 											fullWidth
 										/>
 									</Tooltip>
-									{(!isTablet && !isMobile) && <WebsiteIcons websites={game?.websites} sortBy={SortBy.Stores} />}
+									{(!isTablet && !isMobile) && <WebsiteIcons websites={game?.websites ?? null} sortBy={SortBy.Stores} />}
 								</ActionWrapper>
 								{(!isLaptop) && (
 									<PriceTable prices={prices} isLoading={isLoading} />
@@ -106,16 +106,16 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 					</div>
 				)}
 				{(isTablet || isMobile) && (
-					<WebsiteIcons websites={game?.websites} sortBy={SortBy.Stores} />
+					<WebsiteIcons websites={game?.websites ?? null} sortBy={SortBy.Stores} />
 				)}
 				{(isTablet || isMobile || isLaptop) && (
 					<PriceTable prices={prices} isLoading={isLoading} />
 				)}
-				{game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
-				{game?.platforms?.length > 0 && <p>Platforms: {game?.platforms.map(({ name }) => name).join(', ')}</p>}
+				{game?.genres && game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
+				{game?.platforms && game?.platforms?.length > 0 && <p>Platforms: {game?.platforms?.map(({ name }) => name).join(', ') ?? 'No known platforms'}</p>}
 				{game?.summary && <h2>Summary</h2>}
 				{game?.summary && <p>{game?.summary}</p>}
-				{groupedReleaseDates?.length > 0 && <h2>Later release dates:</h2>}
+				{groupedReleaseDates && groupedReleaseDates?.length > 0 && <h2>Later release dates:</h2>}
 				{groupedReleaseDates?.map(({ date, platforms }, index) => (
 					<div key={index}>
 						<p>{dateOrYear(date)}: {platforms.join(', ')}</p>

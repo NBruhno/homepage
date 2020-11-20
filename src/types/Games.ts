@@ -23,21 +23,21 @@ export type Website = {
 
 export type Company = {
 	description: string,
-	logo?: string,
+	logo: string | null,
 	name: string,
 	slug: string,
 	websites: Array<Website>,
 }
 
 export type Platform = {
-	abbreviation: string,
-	logo: string,
+	abbreviation: string | null,
+	logo: string | null,
 	name: string,
 }
 
 export type Engine = {
-	description?: string,
-	logo?: string,
+	description: string | null,
+	logo: string | null,
 	name: string,
 }
 
@@ -48,25 +48,25 @@ export type ReleaseDate = {
 
 export type Game = {
 	cover: string | null,
-	developer: Company,
+	developer: Company | null,
 	engines: Array<Engine> | null,
 	genres: Array<string>,
 	hype: number,
 	id: number,
 	lastChecked: number,
 	name: string,
-	platforms: Array<Platform>,
-	porting: Company,
-	publisher: Company,
-	rating: number,
-	ratingCount: number,
+	platforms: Array<Platform> | null,
+	porting: Company | null,
+	publisher: Company | null,
+	rating: number | null,
+	ratingCount: number | null,
 	releaseDate: number | null,
 	releaseDates: Array<ReleaseDate> | null,
 	screenshot: string | null,
 	status: Status | null,
-	storyline: string,
-	summary: string,
-	supporting: Company,
+	storyline: string | null,
+	summary: string | null,
+	supporting: Company | null,
 	updatedAt: number,
 	websites: Array<Website>,
 }

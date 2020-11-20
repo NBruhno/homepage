@@ -22,7 +22,7 @@ const defaultCss = (theme: Theme, collapsed: boolean) => css({
 	},
 })
 
-export const DesktopSidebar = ({ collapsed, ...rest }: Props) => (
+export const DesktopSidebar = ({ collapsed = false, ...rest }: Props) => (
 	<nav
 		css={(theme: Theme) => ([
 			defaultCss(theme, collapsed),

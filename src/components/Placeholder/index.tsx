@@ -7,7 +7,7 @@ type Props = {
 	width?: number | string,
 }
 
-export const Placeholder = ({ children, isLoading, lines, width }: Props) => {
+export const Placeholder = ({ children, isLoading, lines = 1, width = '80%' }: Props) => {
 	if (isLoading) {
 		return <Internal lines={lines} width={width} />
 	} else {

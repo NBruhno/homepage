@@ -33,7 +33,7 @@ export const Form = ({
 	form: formName, onSubmit, initialValues, children, persistState, persistStateOnSubmit,
 	renderFormOnStateUpdate, destroyStateOnUnMount, resetFormOnSubmitSuccess, ...props
 }: Props) => {
-	const [initialStateValues, setInitialStateValues] = useState(null)
+	const [initialStateValues, setInitialStateValues] = useState<Record<string, any> | null>(null)
 	const [formsState, setFormsState] = useGlobalState('forms')
 	const updateFormsState = (form: Record<string, any>) => setFormsState({ ...formsState, [formName]: form })
 

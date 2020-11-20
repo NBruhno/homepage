@@ -18,7 +18,7 @@ const Collapse = ({ children, isOpen = true, fill, transitionTime = 0.2 }: Props
 	// Size of content
 	const [ref, { height = null }] = useSize()
 	// Track when child transitions should be expected to end
-	const [childTransitionEnd, setChildTransitionEnd] = useState(null)
+	const [childTransitionEnd, setChildTransitionEnd] = useState<null | number>(null)
 	// Notify parent Collapse elements about own transition
 	const onTransitionStart = useContext(context)
 	// Tracks if height was null last render

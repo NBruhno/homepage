@@ -6,4 +6,4 @@ export const config = {
 	},
 
 	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV as Environment,
-}
+} as const

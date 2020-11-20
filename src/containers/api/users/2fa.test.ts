@@ -13,7 +13,7 @@ import { login } from './login'
 
 const userId = '273772907449025029'
 const twoFactorSecret = 'NBYTGTYQOVQCWHDA'
-let intermediateToken = null as string
+let intermediateToken = null as unknown as string
 
 describe('/api/users/{userId}/2fa', () => {
 	beforeAll(async () => {

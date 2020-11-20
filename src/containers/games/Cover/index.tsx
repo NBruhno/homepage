@@ -5,7 +5,7 @@ import { Placeholder } from './Placeholder'
 const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
 
 type Props = {
-	coverUrl?: string,
+	coverUrl?: string | null,
 	size?: string,
 } & React.ComponentProps<'img'>
 
