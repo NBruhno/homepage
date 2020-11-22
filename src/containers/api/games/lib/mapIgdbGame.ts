@@ -49,7 +49,7 @@ export const mapIgdbGame = (game: IgdbGame): Game => {
 			name,
 		})) ?? null,
 		genres: genres ? genres.map(({ name }) => name) : [],
-		hype: hype + follows,
+		hype: ((hype !== null && hype !== undefined) && (follows !== null && follows !== undefined)) ? hype + follows : (hype ?? follows ?? 0),
 		lastChecked: Date.now(),
 		platforms: platforms?.map(({ platform_logo: platformLogo, abbreviation = null, name }) => ({
 			abbreviation,

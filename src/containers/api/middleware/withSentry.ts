@@ -31,11 +31,15 @@ export const withSentry = (apiHandler: ApiHandler) => async (req: NextApiRequest
 	try {
 		return await apiHandler(req, res, transaction)
 	} catch (error) {
-		captureException(error)
-		await flush(2000)
+		if (config.environment === 'production') {
+			captureException(error)
+			await flush(2000)
+		}
 		throw error
 	} finally {
-		transaction.setHttpStatus(res.statusCode)
-		transaction.finish()
+		if (config.environment === 'production') {
+			transaction.setHttpStatus(res.statusCode)
+			transaction.finish()
+		}
 	}
 }
