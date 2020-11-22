@@ -35,6 +35,7 @@ console.log(`Current environment:${new Array(characterSpacing - 18).join(' ')}${
 verifyVariable('AUTH_IV')
 verifyVariable('AUTH_SECRET')
 verifyVariable('AUTH_SYSTEM_TOKEN')
+verifyVariable('COMMIT_SHA', true)
 verifyVariable('FAUNADB_SECRET')
 verifyVariable('IGDB_CLIENT_ID')
 verifyVariable('IGDB_CLIENT_SECRET')
@@ -45,7 +46,6 @@ verifyVariable('NEXT_PUBLIC_SENTRY_SERVER_ROOT_DIR', true)
 verifyVariable('SENTRY_AUTH_TOKEN', true)
 verifyVariable('SENTRY_ORG', true)
 verifyVariable('SENTRY_PROJECT', true)
-verifyVariable('VERCEL_GITHUB_COMMIT_SHA', true)
 
 if (missingAValue) {
 	throw new Error('Missing the above mentioned env variable(s)')
