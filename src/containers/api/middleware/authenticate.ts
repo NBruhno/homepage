@@ -51,15 +51,14 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 				? cookies['__Host-refreshToken']
 				: cookies['refreshToken']
 		}
-		if (authorization) return authorization?.split('Bearer ')[1]
-		throw new Error('No token was specified or found in the request')
+		return authorization?.split('Bearer ')[1]
 	}
 
 	if (!getToken() && !optional) throwError(401, res)
 
 	try {
 		const { header, payload } = <{ header: { typ: TokenTypes }, payload: Omit<Token, 'typ'> }>jwt.verify(
-			getToken(),
+			getToken()!,
 			config.auth.publicKey,
 			{
 				algorithms: ['RS256'],
