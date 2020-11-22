@@ -52,7 +52,7 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 					},
 				),
 			),
-		).then(({ data }) => data), 'faunadb - Map(Paginate(), Lambda())', transaction)
+		).then(({ data }) => data), 'faunadb - Map(Paginate(Filter(Range(), Lambda())), Lambda())', transaction)
 
 	if (!search) {
 		const gamesToUpdate = games.filter((game) => shouldUpdate(game))

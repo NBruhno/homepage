@@ -4,6 +4,7 @@ const chalk = require('chalk')
 
 const { DEPLOY_ENV } = process.env
 
+const characterSpacing = 37
 let missingAValue = false
 
 const log = (value, result) => {
@@ -14,7 +15,7 @@ const log = (value, result) => {
 			case 'production': return chalk.yellow('Production only')
 		}
 	}
-	console.log(`${value}:${new Array(25 - value.length).join(' ')} ${ending()}`)
+	console.log(`${value}:${new Array(characterSpacing - value.length).join(' ')} ${ending()}`)
 }
 
 const verifyVariable = (value, productionOnly = false) => {
@@ -30,7 +31,7 @@ const verifyVariable = (value, productionOnly = false) => {
 	}
 }
 
-console.log(`Current environment:      ${chalk.blue(DEPLOY_ENV ? DEPLOY_ENV.charAt(0).toUpperCase() + DEPLOY_ENV.slice(1) : 'Undefined')}`)
+console.log(`Current environment:${new Array(characterSpacing - 18).join(' ')}${chalk.blue(DEPLOY_ENV ? DEPLOY_ENV.charAt(0).toUpperCase() + DEPLOY_ENV.slice(1) : 'Undefined')}`)
 verifyVariable('AUTH_IV')
 verifyVariable('AUTH_SECRET')
 verifyVariable('AUTH_SYSTEM_TOKEN')
@@ -38,7 +39,9 @@ verifyVariable('FAUNADB_SECRET')
 verifyVariable('IGDB_CLIENT_ID')
 verifyVariable('IGDB_CLIENT_SECRET')
 verifyVariable('IGDB_TOKEN')
-verifyVariable('NEXT_PUBLIC_SENTRY_DSN')
+verifyVariable('ITAD_TOKEN')
+verifyVariable('NEXT_PUBLIC_SENTRY_DSN', true)
+verifyVariable('NEXT_PUBLIC_SENTRY_SERVER_ROOT_DIR', true)
 verifyVariable('SENTRY_AUTH_TOKEN', true)
 verifyVariable('SENTRY_ORG', true)
 verifyVariable('SENTRY_PROJECT', true)
