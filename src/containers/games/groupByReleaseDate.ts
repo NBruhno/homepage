@@ -1,6 +1,6 @@
 import type { ReleaseDate } from 'types/Games'
 
-export const groupByReleaseDate = (releaseDates: Array<ReleaseDate>, keyGetter: ({ date }: ReleaseDate) => number, firstReleaseDate: number) => {
+export const groupByReleaseDate = (releaseDates: Array<ReleaseDate>, keyGetter: ({ date }: ReleaseDate) => number, firstReleaseDate: number | null) => {
 	const map = new Map()
 	releaseDates.forEach((item) => {
 		const key = keyGetter(item)

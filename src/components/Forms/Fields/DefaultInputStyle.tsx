@@ -28,13 +28,13 @@ export const DefaultInputStyle = ({ theme, hasError, disabled }: Props) => css({
 	},
 
 	'&:hover': {
-		backgroundColor: !disabled && hasError ? theme.color.errorBackgroundHover : theme.color.inputBackgroundHover,
-		borderColor: !hasError && !disabled && theme.color.inputBorderHover,
+		backgroundColor: (!disabled && hasError) ? theme.color.errorBackgroundHover : theme.color.inputBackgroundHover,
+		borderColor: (!hasError && !disabled) ? theme.color.inputBorderHover : undefined,
 	},
 
 	'&:focus': {
-		backgroundColor: !disabled && hasError ? theme.color.errorBackgroundHover : theme.color.inputBackgroundHover,
-		borderColor: !hasError && theme.color.primary,
+		backgroundColor: (!disabled && hasError) ? theme.color.errorBackgroundHover : theme.color.inputBackgroundHover,
+		borderColor: !hasError ? theme.color.primary : undefined,
 		boxShadow: `0 0 0 1px ${hasError ? theme.color.error : theme.color.primary}`,
 	},
 

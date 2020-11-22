@@ -20,7 +20,7 @@ export const mapStatus = (status: GameStatus): Status | null => {
 	}
 }
 
-const resolveCompany = (involvedCompany: Company) => {
+const resolveCompany = (involvedCompany: Company | null) => {
 	if (!involvedCompany) return null
 
 	const { description, logo, name, slug, websites } = involvedCompany.company
@@ -29,9 +29,9 @@ const resolveCompany = (involvedCompany: Company) => {
 
 export const mapIgdbGame = (game: IgdbGame): Game => {
 	const {
-		id, aggregated_rating: rating, aggregated_rating_count: ratingCount, genres, storyline, summary,
+		id, aggregated_rating: rating = null, aggregated_rating_count: ratingCount = null, genres, storyline = null, summary = null,
 		involved_companies: companies, updated_at: updatedAt, name, platforms, first_release_date: releaseDate,
-		release_dates: releaseDates, game_engines: engines, screenshots, cover, status, websites, hypes: hype,
+		release_dates: releaseDates, game_engines: engines, screenshots, cover, status, websites, hypes: hype, follows,
 	} = game
 
 	const screenshotUrls = screenshots?.length > 0
@@ -42,26 +42,26 @@ export const mapIgdbGame = (game: IgdbGame): Game => {
 		id,
 		name,
 		cover: cover?.image_id ? `${igdbImageUrl}/t_cover_big/${cover.image_id}.jpg` : null,
-		developer: resolveCompany(companies?.find(({ developer }) => developer)),
-		engines: engines?.map(({ description, logo, name }) => ({
+		developer: resolveCompany(companies?.find(({ developer }) => developer) ?? null),
+		engines: engines?.map(({ description = null, logo, name }) => ({
 			description,
 			logo: logo?.image_id ? `${igdbImageUrl}/t_thumb/${logo.image_id}.jpg` : null,
 			name,
 		})) ?? null,
 		genres: genres ? genres.map(({ name }) => name) : [],
-		hype,
+		hype: ((hype !== null && hype !== undefined) && (follows !== null && follows !== undefined)) ? hype + follows : (hype ?? follows ?? 0),
 		lastChecked: Date.now(),
-		platforms: platforms?.map(({ platform_logo: platformLogo, abbreviation, name }) => ({
+		platforms: platforms?.map(({ platform_logo: platformLogo, abbreviation = null, name }) => ({
 			abbreviation,
 			logo: platformLogo?.image_id ? `${igdbImageUrl}/t_thumb/${platformLogo.image_id}.jpg` : null,
 			name,
 		})) ?? null,
-		porting: resolveCompany(companies?.find(({ porting }) => porting)),
-		publisher: resolveCompany(companies?.find(({ publisher }) => publisher)),
+		porting: resolveCompany(companies?.find(({ porting }) => porting) ?? null),
+		publisher: resolveCompany(companies?.find(({ publisher }) => publisher) ?? null),
 		rating,
 		ratingCount,
 		releaseDate: releaseDate ?? null,
-		releaseDates: releaseDates?.map(({ date, platform: { platform_logo: platformLogo, abbreviation, name } }) => ({
+		releaseDates: releaseDates?.map(({ date, platform: { platform_logo: platformLogo, abbreviation = null, name } }) => ({
 			date,
 			platform: {
 				abbreviation,
@@ -69,13 +69,13 @@ export const mapIgdbGame = (game: IgdbGame): Game => {
 				name,
 			},
 		})) ?? null,
-		screenshot: sample(screenshotUrls),
+		screenshot: sample(screenshotUrls) ?? null,
 		status: mapStatus(status),
 		storyline,
 		summary,
-		supporting: resolveCompany(companies?.find(({ supporting }) => supporting)),
+		supporting: resolveCompany(companies?.find(({ supporting }) => supporting) ?? null),
 		updatedAt,
-		websites: websites?.length > 0
+		websites: websites && websites?.length > 0
 			? websites.map(({ category, trusted, url }) => ({ category, trusted, url }))
 			: [],
 	}

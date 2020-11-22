@@ -102,6 +102,7 @@ export type Game = {
 	companies: Array<Company>,
 	cover?: Image,
 	first_release_date: number | null,
+	follows: number,
 	game_engines?: Array<Engine>,
 	genres?: Array<Genre>,
 	hypes: number,

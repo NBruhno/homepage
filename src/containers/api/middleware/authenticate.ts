@@ -41,7 +41,7 @@ const resolveError = (error: unknown, res: NextApiResponse) => {
  * ```
  */
 export const authenticate = (req: NextApiRequest, res: NextApiResponse,
-	{ optional = false, token, type = TokenTypes.Access, transaction }: Options): Token => monitorReturn(() => {
+	{ optional = false, token, type = TokenTypes.Access, transaction }: Options) => monitorReturn(() => {
 	const { headers: { authorization }, cookies } = req
 
 	const getToken = () => {
@@ -58,7 +58,7 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 
 	try {
 		const { header, payload } = <{ header: { typ: TokenTypes }, payload: Omit<Token, 'typ'> }>jwt.verify(
-			getToken(),
+			getToken()!,
 			config.auth.publicKey,
 			{
 				algorithms: ['RS256'],

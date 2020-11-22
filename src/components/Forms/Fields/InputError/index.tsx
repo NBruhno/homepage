@@ -8,7 +8,7 @@ type Props = {
 	errorMessage?: string,
 }
 
-export const InputError = ({ hasError, isFocus, errorMessage }: Props) => (
+export const InputError = ({ hasError, isFocus = false, errorMessage }: Props) => (
 	<Container isVisible={hasError} isFocus={isFocus}>
 		{hasError && (
 			<>

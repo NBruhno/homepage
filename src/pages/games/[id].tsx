@@ -20,7 +20,7 @@ const GamePage: NextPage = () => {
 				<title>{game?.name ?? 'Game'} • Bruhno</title>
 			</Head>
 			<Page>
-				<Detail game={game} prices={prices} following={following} isLoading={isLoading} onFollow={follow} onUnfollow={unfollow} />
+				<Detail game={game ?? null} prices={prices} following={Boolean(following)} isLoading={isLoading} onFollow={follow} onUnfollow={unfollow} />
 			</Page>
 		</>
 	)

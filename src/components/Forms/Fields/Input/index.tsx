@@ -40,7 +40,7 @@ type InputProps = {
 
 export const Input = ({
 	optionalHint = true, fullWidth = true, required = false, rows = 3, enableValidate = true, type = 'text',
-	disabled, maxRows, minLength, maxLength, name, format, validate, autoComplete = 'off', id= name, hidden,
+	disabled = false, maxRows = 8, minLength, maxLength, name, format, validate = true, autoComplete = 'off', id= name, hidden,
 	parse = (value) => value || null, label, hint, placeholder, autofocus, pattern,
 }: InputProps) => {
 	const { input, meta } = useField(
@@ -50,11 +50,11 @@ export const Input = ({
 			parse,
 			format,
 			allowNull: true,
-			validate: (!disabled && enableValidate && validators) ? validators({ required, validate, type }) : null,
+			validate: (!disabled && enableValidate && validators) ? validators({ required, validate, type }) : undefined,
 		},
 	)
 
-	const hasError = meta.submitFailed && Boolean(meta.error)
+	const hasError = Boolean(meta.submitFailed) && Boolean(meta.error)
 
 	const defaultProps = {
 		autoComplete,

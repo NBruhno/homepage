@@ -24,6 +24,8 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 	let gamesToUpdate: Array<Array<Game>> = [[]]
 	let gamesToCreate: Array<Array<Game>> = [[]]
 
+	const twoMonthsBackTimestamp = getUnixTime(sub(Date.now(), { months: 2 }))
+
 	switch (method) {
 		case 'POST': {
 			if (body?.gamesToCreate?.length > 0) {
@@ -36,6 +38,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 				gamesToUpdate = await igdbFetcher<Array<IGDBGame>>('/games', res, {
 					body: `${fields}; where id = (${body.gamesToUpdate.join(',')}); limit 500;`,
 					span: transaction,
+					nickname: 'gamesToUpdate',
 				}).then((igdbGames) => chunk(igdbGames.map(mapIgdbGame), 200))
 				break
 			} else return sendError(400, res)
@@ -70,12 +73,12 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 				).then(({ data }) => data), 'faunadb - Map(Paginate(), Lambda())', span),
 				monitorReturnAsync((igdbSpan) => Promise.all([
 					igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: `${fields}; sort first_release_date asc; limit 500; where first_release_date > ${getUnixTime(sub(Date.now(), { months: 2 }))} & hypes >= 0; sort hypes desc;`,
+						body: `${fields}; limit 500; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
 						nickname: 'popular, 0-500',
 						span: igdbSpan,
 					}).then((igdbGames) => igdbGames.map(mapIgdbGame)),
 					igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: `${fields}; sort first_release_date asc; limit 500; offset 500; where first_release_date > ${getUnixTime(sub(Date.now(), { months: 2 }))} & hypes >= 0; sort hypes desc;`,
+						body: `${fields}; limit 500; offset 500; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
 						nickname: 'popular, 500-1000',
 						span: igdbSpan,
 					}).then((igdbGames) => igdbGames.map(mapIgdbGame)),
@@ -90,32 +93,9 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 			gamesToCreate = chunk(games
 				.filter((newGame) => !knownGames
 					.some((knownGame) => knownGame.id === newGame.id)), 200)
-
-			const otherOutdatedGames = chunk(knownGames.filter((knownGame) => !games.some((newGame) => knownGame.id === newGame.id))
-				.map(({ id }) => id), 200)
-
-			if (flatten(otherOutdatedGames).length > 0) {
-				const outdatedGames = await monitorReturnAsync((span) => Promise.all(
-					otherOutdatedGames.map((listOfGames) => monitorReturnAsync(() => igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: `${fields}; where id = (${listOfGames.join(',')}); limit 500;`,
-						nickname: `${listOfGames.length} outdated games`,
-						span,
-					}).then((igdbGames) => igdbGames.map(mapIgdbGame)), '', span)),
-				), '', transaction)
-
-				gamesToUpdate.push(...outdatedGames)
-			}
 			break
 		}
 		default: return sendError(405, res)
-	}
-
-	logger.info(`Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`)
-
-	const updateQueries = []
-
-	if (gamesToUpdate.length > 0) {
-		updateQueries.push()
 	}
 
 	if (gamesToUpdate.length > 0 || gamesToCreate.length > 0) {
@@ -143,6 +123,8 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 			), `faunadb - Do(Create() * ${listOfGames.length})`, span)),
 		]), 'Promise.all()', transaction)
 	}
+
+	logger.info(`Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`)
 
 	res.status(200).json({
 		message: `Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`,

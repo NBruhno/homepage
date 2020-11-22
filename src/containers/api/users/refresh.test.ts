@@ -10,7 +10,7 @@ import { ApiError } from '../errors/ApiError'
 import { login } from './login'
 import { refresh } from './refresh'
 
-let refreshToken = null as string
+let refreshToken = null as unknown as string
 
 describe('/api/users/refresh', () => {
 	beforeAll(async () => {

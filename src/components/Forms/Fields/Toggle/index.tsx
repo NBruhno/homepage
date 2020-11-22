@@ -44,6 +44,11 @@ export const Toggle = ({
 	return (
 		<FieldWrapper fullWidth={fullWidth}>
 			<RowLabel htmlFor={id}>
+				<ToggleComponent checked={input.value} disabled={disabled} focus={meta.active} />
+				<LabelContainer css={{ margin: '0 0 0 6px' }}>
+					<div>{label}</div>
+					{hint && <Hint>{hint}</Hint>}
+				</LabelContainer>
 				<Checkbox
 					{...input}
 					id={id}
@@ -51,11 +56,6 @@ export const Toggle = ({
 					disabled={disabled}
 					checked={input.value}
 				/>
-				<ToggleComponent checked={input.value} disabled={disabled} focus={meta.active} />
-				<LabelContainer>
-					<div>{label}</div>
-					{hint && <Hint>{hint}</Hint>}
-				</LabelContainer>
 			</RowLabel>
 		</FieldWrapper>
 	)

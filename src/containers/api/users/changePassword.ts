@@ -21,13 +21,13 @@ export const changePassword = async (req: Request, res: NextApiResponse, options
 	const { method, body: { newPassword } } = req
 	const { userId, transaction } = options
 	transaction.setName(`${method} - api/users/{userId}/changePassword`)
-	const token = authenticate(req, res, { transaction })
+	const { secret } = authenticate(req, res, { transaction })!
 
 	switch (method) {
 		case 'POST': {
 			if (!newPassword) throwError(400, res)
 
-			await monitorAsync(async () => faunaClient(token.secret).query(
+			await monitorAsync(async () => faunaClient(secret).query(
 				q.Update(q.Ref(q.Collection('users'), userId), { credentials: { password: newPassword } }),
 			).catch((error: unknown) => {
 				if (error instanceof errors.Unauthorized) throwError(401, res)

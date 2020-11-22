@@ -13,15 +13,15 @@ type Responsive = {
 
 type User = {
 	accessToken?: string,
-	displayName: string,
-	email: string,
+	displayName: string | null,
+	email: string | null,
 	intermediateToken?: string,
 	isStateKnown: boolean,
 	role?: string,
 	secret?: string,
 	shouldRefresh: boolean,
 	twoFactorSecret?: string,
-	userId: string,
+	userId: string | null,
 }
 
 type Modal = {
@@ -29,7 +29,7 @@ type Modal = {
 	modalContent: React.ReactNode,
 	noWrapper?: boolean,
 	showModal: boolean,
-	onClose?: () => void,
+	onClose?: (() => void) | null,
 }
 
 export type State = {
@@ -65,8 +65,8 @@ export const { useGlobalState } = createGlobalState<State>({
 	},
 	theme: 'dark',
 	user: {
-		displayName: undefined,
-		email: undefined,
+		displayName: null,
+		email: null,
 		isStateKnown: false,
 		accessToken: undefined,
 		shouldRefresh: false,

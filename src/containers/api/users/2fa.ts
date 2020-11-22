@@ -37,7 +37,7 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 
 		case 'PATCH': {
 			const { body: { secret, otp } } = req
-			const { secret: tokenSecret } = authenticate(req, res, { transaction })
+			const { secret: tokenSecret } = authenticate(req, res, { transaction })!
 
 			if (!secret || !otp) throwError(400, res)
 
@@ -55,9 +55,9 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 		}
 
 		case 'DELETE': {
-			const token = authenticate(req, res, { transaction })
+			const { secret } = authenticate(req, res, { transaction })!
 
-			await monitorAsync(() => faunaClient(token.secret).query(
+			await monitorAsync(() => faunaClient(secret).query(
 				q.Update(q.Ref(q.Collection('users'), userId), {
 					data: { twoFactorSecret: null },
 				}),
@@ -68,7 +68,7 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 
 		case 'POST': {
 			const { body: { otp } } = req
-			const { secret, sub, displayName, role, userId } = authenticate(req, res, { type: TokenTypes.Intermediate, transaction })
+			const { secret, sub, displayName, role, userId } = authenticate(req, res, { type: TokenTypes.Intermediate, transaction })!
 
 			if (!otp) throwError(400, res)
 

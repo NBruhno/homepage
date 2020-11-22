@@ -15,4 +15,5 @@ storiesOf('Fields/Checkbox', module)
 			</Form>
 		</div>
 	))
-	.add('Default', () => (<Checkbox name='Checkbox' label='Checkbox' />))
+	.add('Default', () => (<Checkbox name='default' label='Checkbox' />))
+	.add('Disabled', () => (<Checkbox name='disabled' label='Checkbox' disabled />))

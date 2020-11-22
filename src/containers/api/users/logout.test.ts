@@ -8,7 +8,7 @@ import { ApiError } from '../errors/ApiError'
 import { login } from './login'
 import { logout } from './logout'
 
-let accessToken = null as string
+let accessToken = null as unknown as string
 describe('/api/users/logout', () => {
 	beforeAll(async () => {
 		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({

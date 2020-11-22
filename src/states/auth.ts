@@ -50,7 +50,7 @@ export const useAuth = () => {
 	const logout = async () => {
 		try {
 			await fetcher(`/users/${user.userId}/logout`, { method: Method.Post, accessToken: user.accessToken, cacheControl: 'no-cache' })
-			setUser({ ...user, accessToken: null, email: null, displayName: null, role: null, userId: null, shouldRefresh: false })
+			setUser({ ...user, accessToken: undefined, role: undefined, shouldRefresh: false })
 			setCurrentFlow('login')
 		} catch (error) {
 			logger.error(error)
@@ -97,7 +97,7 @@ export const useAuth = () => {
 			})
 
 			const { sub, displayName, role, userId } = decodeJwtToken(accessToken)
-			setUser({ ...user, accessToken, email: sub, displayName, role, userId, shouldRefresh: true, intermediateToken: null })
+			setUser({ ...user, accessToken, email: sub, displayName, role, userId, shouldRefresh: true, intermediateToken: undefined })
 			setCurrentFlow('loggedIn')
 			closeModal()
 		} catch (error) {

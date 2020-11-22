@@ -9,13 +9,12 @@ const withOffline = require('next-offline')
 const withTranspileModules = require('next-transpile-modules')(['lodash-es'])
 
 const {
-	NEXT_EXPORT,
 	NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
 	NODE_ENV,
 	SENTRY_AUTH_TOKEN,
 	SENTRY_ORG,
 	SENTRY_PROJECT,
-	VERCEL_GITHUB_COMMIT_SHA: COMMIT_SHA,
+	COMMIT_SHA,
 } = process.env
 
 process.env.SENTRY_DSN = SENTRY_DSN
@@ -44,12 +43,14 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 		rootDir: __dirname,
 	},
 
+	env: {
+		NEXT_PUBLIC_COMMIT_SHA: COMMIT_SHA,
+	},
+
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	workboxOpts: {
-		swDest: NEXT_EXPORT
-			? 'service-worker.js'
-			: 'static/service-worker.js',
+		swDest: 'static/service-worker.js',
 		runtimeCaching: [
 			{
 				urlPattern: /^https?.*/,
@@ -87,11 +88,13 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 	},
 
 	webpack: (config, options) => {
-		if (!options.isServer) {
-			config.resolve.alias['@sentry/node'] = '@sentry/browser'
-		}
-
+		if (!options.isServer) config.resolve.alias['@sentry/node'] = '@sentry/browser'
 		if (SENTRY_DSN && SENTRY_ORG && SENTRY_PROJECT && SENTRY_AUTH_TOKEN && COMMIT_SHA && NODE_ENV === 'production') {
+			config.plugins.push(
+				new options.webpack.DefinePlugin({
+					'process.env.NEXT_IS_SERVER': JSON.stringify(options.isServer.toString()),
+				}),
+			)
 			config.plugins.push(
 				new SentryWebpackPlugin({
 					include: '.next',

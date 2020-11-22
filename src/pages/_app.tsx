@@ -1,29 +1,11 @@
-import { RewriteFrames } from '@sentry/integrations'
-import { init } from '@sentry/node'
 import NextApp from 'next/app'
-import getConfig from 'next/config'
 import Head from 'next/head'
 
-import { config } from 'config.client'
+import { sentryInit } from 'lib/sentryInit'
 
 import { App } from 'containers/app'
 
-if (config.sentry.dsn) {
-	const nextConfig = getConfig()
-	const distDir = `${nextConfig.serverRuntimeConfig.rootDir}/.next`
-	init({
-		enabled: config.environment === 'production',
-		integrations: [
-			new RewriteFrames({
-				iteratee: (frame) => {
-					frame.filename = frame.filename.replace(distDir, 'app:///_next')
-					return frame
-				},
-			}),
-		],
-		dsn: config.sentry.dsn,
-	})
-}
+sentryInit()
 
 export default class MyApp extends NextApp {
 	render() {

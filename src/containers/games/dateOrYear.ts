@@ -1,6 +1,6 @@
 import { lastDayOfYear, isSameDay, fromUnixTime } from 'date-fns'
 
-export const dateOrYear = (timestamp: number) => {
+export const dateOrYear = (timestamp?: number | null) => {
 	if (!timestamp) return 'TBA'
 	const date = new Date(fromUnixTime(timestamp))
 	if (isSameDay(lastDayOfYear(date), date)) {

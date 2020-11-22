@@ -6,7 +6,7 @@ import { Container } from './Container'
 import { Shade } from './Shade'
 
 export const Modal = (props: React.ComponentProps<'div'>) => {
-	const { allowClosure, showModal, modalContent, closeModal, onClose, noWrapper } = useModal()
+	const { allowClosure, showModal, modalContent, closeModal, onClose, noWrapper = false } = useModal()
 
 	return (
 		<>

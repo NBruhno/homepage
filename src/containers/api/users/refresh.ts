@@ -13,7 +13,7 @@ export const refresh = async (req: NextApiRequest, res: NextApiResponse, options
 
 	switch (method) {
 		case 'GET': {
-			const { secret, sub, displayName, role, userId } = authenticate(req, res, { type: TokenTypes.Refresh, transaction })
+			const { secret, sub, displayName, role, userId } = authenticate(req, res, { type: TokenTypes.Refresh, transaction })!
 
 			const [accessToken, newRefreshToken] = await Promise.all([
 				getJwtToken(secret, { sub, displayName, role, userId }, { transaction }),

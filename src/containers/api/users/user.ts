@@ -15,12 +15,12 @@ export const user = async (req: NextApiRequest, res: NextApiResponse, options: O
 	const { method } = req
 	const { userId, transaction } = options
 	transaction.setName(`${method} - api/users/{userId}`)
-	const token = authenticate(req, res, { transaction })
+	const { secret } = authenticate(req, res, { transaction })!
 
 	switch (method) {
 		case 'DELETE': {
 			await monitorAsync(
-				() => faunaClient(token.secret).query(q.Delete(q.Ref(q.Collection('users'), userId))),
+				() => faunaClient(secret).query(q.Delete(q.Ref(q.Collection('users'), userId))),
 				'faunadb - Delete()', transaction,
 			)
 

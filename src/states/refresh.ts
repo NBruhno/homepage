@@ -25,7 +25,7 @@ export const useRefresh = () => {
 	}, [user, setUser])
 
 	useEffect(() => {
-		let refreshInterval = null as NodeJS.Timeout
+		let refreshInterval = null as unknown as NodeJS.Timeout
 
 		// Attempt to create a cookie with exactly the same name as the one meant to refresh, which is a http cookie
 		// If the cookie can be read afterwards, there is no refresh cookie, otherwise, refresh with the http cookie

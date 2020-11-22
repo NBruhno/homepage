@@ -26,7 +26,7 @@ const Games: NextPage = () => {
 			<Page>
 				<PageContent maxWidth={700}>
 					<div>
-						<Form form='games' onSubmit={() => null} persistStateOnSubmit>
+						<Form form='games' onSubmit={() => undefined} persistStateOnSubmit>
 							<Input label='Find a game' name='search' />
 							<FormSpy
 								subscription={{ submitSucceeded: true, dirtySinceLastSubmit: true }}
@@ -42,7 +42,7 @@ const Games: NextPage = () => {
 						</div>
 						{currentList === ListTypes.Popular && (
 							<GameList
-								games={popular}
+								games={popular ?? null}
 								isLoading={!popular}
 								undefinedMessage='There appears to be an issue with games list'
 								emptyMessage='Could not find any popular games at the moment'
@@ -50,13 +50,18 @@ const Games: NextPage = () => {
 						)}
 						{currentList === ListTypes.Following && (
 							<GameList
-								games={following}
+								games={following ?? null}
 								isLoading={Boolean(!following && user?.accessToken)}
 								undefinedMessage='You need to be logged in to see what games you are following'
 								emptyMessage='You have not following any games yet'
 							/>
 						)}
-						{currentList === ListTypes.Search && <GameList games={games} isLoading={!games && Boolean(gamesSearch?.search)} />}
+						{currentList === ListTypes.Search && (
+							<GameList
+								games={games ?? null}
+								isLoading={!games && Boolean(gamesSearch?.search)}
+							/>
+						)}
 					</div>
 				</PageContent>
 			</Page>

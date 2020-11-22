@@ -34,7 +34,7 @@ export const ToggleComponent = ({ checked, disabled, focus }: Props) => {
 				boxShadow: boxShadow(theme),
 				outline: 0,
 				flexShrink: 0,
-				margin: '1px 7px 1px 0',
+				margin: 'auto',
 				cursor: disabled ? 'auto' : 'pointer',
 
 				transition: 'boxShadow 0.15s ease-in-out, background-color 0.15s ease-in-out',

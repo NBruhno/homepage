@@ -1,3 +1,5 @@
+import type { Environment } from 'types/Environment'
+
 import { decryptConfig } from 'lib/cipher'
 
 const authPublicKey = 'qT39COgi6m/yts8+5J77wmtq2jvigEJQ9OUfYNvWnfNe1gRTIuYuA2w8NQPw0LwiUfrObyBQPoM4ePWNUxmt/vEh62YHYBc1jCLvT1oaN4YK332rHO16c+dLTt03kmog8A/cQYhNAr0hyOEDQObbwFaoCbzj6iQUat7anAFKnPNCHVqwwqagKuddRCjwnmc1dSg7kR2YzlmqAA9WMD77VkLMj8MCl7tfuvKVqhdSYv0UsLuJAlcWRSSj/HUrdWw3hudNRmIHZhewAZDwcF0VuUuZ+uLBa2YuMdXDw7+fJbL/dvxaAooTG4FBlAjHuL4xGPQjmyR4R1SScl5/FypWm2avf47efFxYneoMqubgz0sRXlrmyodh6qxtacjnyewHEt8aBCbZDaRk6mfQSWcAWfx4UtN024zaXPiFc9wL1/V87iIZi0sJY/HV8a3dzqOhpBwQPd6CjCxEH+OY3Ffk/LzxHA1lxyVVKoWiHe887EnmtNeLuiWaSXV+VVBMAo4vqTcp32xZVzGhg/eVtYBou20w+OsPmjiwq8lHy/oF44AzERC9NBZ+h5jTYHotCc3+LCJnG8ZuYk7htym4AmlY+Cfw9EFpLI2k620A47GHdKaamt1kNUqLSAdSzh2gn4u2yxBHAFIJgVE06nhGKIm/COwoMrr9do387BUvYvlRiobBcSVPsMhi3CieixfkvnqtHEr8p8aEV7Jybv2Ijwu8oP6sIYWZ56dtZU3Il56AEVH5GWeoKngdLnwouDEfHEWwrHE7pnZJJkRNbWWFmaHRtmJF3Ba8v8QB3bohTIvkyqOvdnbwYFHEOEz0UpdEbDHmUpg2fBqffN4yI804JgGQJ2tcV00dVdbBS6AaDYpJNSL+LqwSaE99rwuKBdJ6mZ659PkBbIzh3pUlCm1TgHzUD9MkDoxhNYVdxTPWZQ1Pf7qlhEEAkScLQBPzkcUn90ivUrMFrg2ohTLDsb6AVRO3OhTq5gaHmumrZEGK/IIiogQQ8nEyM23c4b9915CpeG/RSo6FgPyft3VXWe41TzZNDdxlUEOeuqYMSbOB5BlE4MDaBvW59/MWeq49JKfM29jg'
@@ -29,5 +31,5 @@ export const config = {
 		dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
 	},
 
-	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV,
-}
+	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV as Environment,
+} as const

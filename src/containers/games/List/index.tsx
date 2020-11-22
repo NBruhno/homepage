@@ -6,7 +6,7 @@ import { Container } from './Container'
 import { Subtitle } from './Subtitle'
 
 type Props = {
-	games: Array<SimpleGame>,
+	games: Array<SimpleGame> | null,
 	isLoading: boolean,
 	undefinedMessage?: string,
 	emptyMessage?: string,
@@ -22,9 +22,9 @@ export const GameList = ({
 			<Container>
 				{[{}, {}, {}, {}, {}, {}, {}].map((_, index: number) => (
 					<Item
-						id={null}
+						id={index}
 						cover={null}
-						name={null}
+						name=''
 						releaseDate={null}
 						status={null}
 						index={index}

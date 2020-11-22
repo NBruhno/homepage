@@ -24,7 +24,7 @@ type Props = {
 
 export const Checkbox = ({
 	parse = (value) => value || false, fullWidth = true,
-	label, hint, disabled, name, format, id = name,
+	label, hint, disabled = false, name, format, id = name,
 }: Props) => {
 	const { input, meta } = useField(
 		name,
@@ -44,6 +44,11 @@ export const Checkbox = ({
 	return (
 		<FieldWrapper fullWidth={fullWidth}>
 			<RowLabel htmlFor={id}>
+				<CheckMark checked={input.value} disabled={disabled} focus={Boolean(meta?.active)} />
+				<LabelContainer css={{ margin: '0 0 0 6px' }}>
+					<div>{label}</div>
+					{hint && <Hint>{hint}</Hint>}
+				</LabelContainer>
 				<CheckboxComponent
 					{...input}
 					checked={input.value || false}
@@ -51,11 +56,6 @@ export const Checkbox = ({
 					type='checkbox'
 					disabled={disabled}
 				/>
-				<CheckMark checked={input.value} disabled={disabled} focus={meta.active} />
-				<LabelContainer css={{ marginTop: '4px' }}>
-					<div>{label}</div>
-					{hint && <Hint>{hint}</Hint>}
-				</LabelContainer>
 			</RowLabel>
 		</FieldWrapper>
 	)

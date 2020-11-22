@@ -35,12 +35,14 @@ type Options = {
 }
 
 export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { body, single, span, nickname }: Options): Promise<T> => {
+	if (config.igdb.token === undefined || config.igdb.clientId === undefined) throw new Error('Both IGDB Token and Client ID needs to be set')
+
 	const data = await monitorReturnAsync(() => retry(() => fetch(`https://api.igdb.com/v4${url}`, {
 		method: 'POST',
 		body,
 		headers: new Headers({
-			Authorization: `Bearer ${config.igdb.token}`,
-			'Client-ID': config.igdb.clientId,
+			Authorization: `Bearer ${config.igdb.token!}`,
+			'Client-ID': config.igdb.clientId!,
 			'Content-Type': 'text/plain',
 			accept: 'application/json',
 		}),
