@@ -5,8 +5,8 @@ const SentryWebpackPlugin = require('@sentry/webpack-plugin')
 const withSourceMaps = require('@zeit/next-source-maps')({
 	devtool: process.env.NODE_ENV !== 'development' ? 'hidden-source-map' : 'source-map',
 })
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const withOffline = require('next-offline')
-const withTranspileModules = require('next-transpile-modules')(['lodash-es'])
 
 const {
 	NEXT_PUBLIC_SENTRY_DSN: SENTRY_DSN,
@@ -31,7 +31,7 @@ const securityHeaders = [
 	},
 ]
 
-module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModules({
+module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 	reactStrictMode: true,
 
 	target: 'experimental-serverless-trace',
@@ -106,10 +106,14 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps(withTranspileModu
 			)
 		}
 
+		config.plugins.push(
+			new LodashModuleReplacementPlugin(),
+		)
+
 		// Fixes npm packages that depend on `fs` module
 		config.node = { fs: 'empty' }
 
 		return config
 	},
 	basePath,
-}))))
+})))

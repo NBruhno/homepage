@@ -1,4 +1,4 @@
-import { isFunction } from 'lodash-es'
+import { isFunction } from 'lodash'
 import type { ReactNode } from 'react'
 import { useState, useEffect } from 'react'
 

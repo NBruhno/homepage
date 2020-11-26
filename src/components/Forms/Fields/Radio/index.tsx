@@ -1,4 +1,4 @@
-import { isString, isNumber } from 'lodash-es'
+import { isString, isNumber } from 'lodash'
 import { useField } from 'react-final-form'
 
 import type { Option } from 'lib/formatToOptions'

@@ -1,4 +1,4 @@
-import { isRegExp, isFunction, isBoolean } from 'lodash-es'
+import { isRegExp, isFunction, isBoolean } from 'lodash'
 
 const messages = {
 	required: 'This field is required',

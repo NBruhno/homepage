@@ -1,6 +1,6 @@
 import { getUnixTime, sub } from 'date-fns'
 import { query as q } from 'faunadb'
-import { chunk, flatten } from 'lodash-es'
+import { chunk, differenceBy, intersectionBy } from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import type { SimpleGame, Game } from 'types/Games'
@@ -48,10 +48,8 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 				monitorReturnAsync(() => serverClient.query<{ data: Array<SimpleGame> }>(
 					q.Map(
 						q.Paginate(
-							q.Range(
-								q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')),
-								['', getUnixTime(sub(Date.now(), { months: 2 }))], [],
-							), { size: 100000 }, // This is the limit for Paginate()
+							q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')),
+							{ size: 100000 }, // This is the limit for Paginate()
 						),
 						q.Lambda(
 							// The Page returns a tuple of SimpleGame, which is then mapped out as an object.
@@ -71,28 +69,19 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 						),
 					),
 				).then(({ data }) => data), 'faunadb - Map(Paginate(), Lambda())', span),
-				monitorReturnAsync((igdbSpan) => Promise.all([
-					igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: `${fields}; limit 500; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
-						nickname: 'popular, 0-500',
-						span: igdbSpan,
-					}).then((igdbGames) => igdbGames.map(mapIgdbGame)),
-					igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: `${fields}; limit 500; offset 500; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
-						nickname: 'popular, 500-1000',
-						span: igdbSpan,
-					}).then((igdbGames) => igdbGames.map(mapIgdbGame)),
-				]), 'Promise.all()', span).then(flatten),
+				igdbFetcher<Array<IGDBGame>>('/games', res, {
+					body: `${fields}; limit 500; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
+					nickname: 'popular, 0-500',
+					span,
+				}).then((igdbGames) => igdbGames.map(mapIgdbGame)),
 			]), 'Promise.all()', transaction)
 
-			// Finds games that are possibly outdated. Results are chunked to prevent big payload sizes. AWS Lambda constraint.
-			gamesToUpdate = chunk(games
-				.filter((newGame) => knownGames
-					.some((knownGame) => knownGame.id === newGame.id)), 200)
-			// Only interested in creating new unique games. Results are chunked to prevent big payload sizes. AWS Lambda constraint.
-			gamesToCreate = chunk(games
-				.filter((newGame) => !knownGames
-					.some((knownGame) => knownGame.id === newGame.id)), 200)
+			const outdatedGames = intersectionBy(games, knownGames, 'id') // Finds games that are possibly outdated.
+			const newGames = differenceBy(games, knownGames, 'id') // Only interested in creating new unique games.
+
+			// Results are chunked to prevent big payload sizes. AWS Lambda constraint.
+			gamesToUpdate = chunk(outdatedGames, 200)
+			gamesToCreate = chunk(newGames, 200)
 			break
 		}
 		default: return sendError(405, res)
@@ -124,9 +113,9 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 		]), 'Promise.all()', transaction)
 	}
 
-	logger.info(`Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`)
+	logger.info(`Library update completed. ${gamesToUpdate.flat().length} games updated & ${gamesToCreate.flat().length} games created.`)
 
 	res.status(200).json({
-		message: `Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`,
+		message: `Library update completed. ${gamesToUpdate.flat().length} games updated & ${gamesToCreate.flat().length} games created.`,
 	})
 }
