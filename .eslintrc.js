@@ -18,7 +18,6 @@ module.exports = {
 		'promise',
 		'react',
 		'react-hooks',
-		'standard',
 	],
 	overrides: [
 		{

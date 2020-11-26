@@ -1,6 +1,6 @@
 import { getUnixTime, sub } from 'date-fns'
 import { query as q } from 'faunadb'
-import { chunk, flatten } from 'lodash'
+import { chunk, flatten, differenceBy, intersectionBy } from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import type { SimpleGame, Game } from 'types/Games'
@@ -48,10 +48,8 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 				monitorReturnAsync(() => serverClient.query<{ data: Array<SimpleGame> }>(
 					q.Map(
 						q.Paginate(
-							q.Range(
-								q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')),
-								['', getUnixTime(sub(Date.now(), { months: 2 }))], [],
-							), { size: 100000 }, // This is the limit for Paginate()
+							q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')),
+							{ size: 100000 }, // This is the limit for Paginate()
 						),
 						q.Lambda(
 							// The Page returns a tuple of SimpleGame, which is then mapped out as an object.
@@ -85,14 +83,12 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 				]), 'Promise.all()', span).then(flatten),
 			]), 'Promise.all()', transaction)
 
-			// Finds games that are possibly outdated. Results are chunked to prevent big payload sizes. AWS Lambda constraint.
-			gamesToUpdate = chunk(games
-				.filter((newGame) => knownGames
-					.some((knownGame) => knownGame.id === newGame.id)), 200)
-			// Only interested in creating new unique games. Results are chunked to prevent big payload sizes. AWS Lambda constraint.
-			gamesToCreate = chunk(games
-				.filter((newGame) => !knownGames
-					.some((knownGame) => knownGame.id === newGame.id)), 200)
+			const outdatedGames = intersectionBy(games, knownGames, 'id') // Finds games that are possibly outdated.
+			const newGames = differenceBy(games, knownGames, 'id') // Only interested in creating new unique games.
+
+			// Results are chunked to prevent big payload sizes. AWS Lambda constraint.
+			gamesToUpdate = chunk(outdatedGames, 200)
+			gamesToCreate = chunk(newGames, 200)
 			break
 		}
 		default: return sendError(405, res)

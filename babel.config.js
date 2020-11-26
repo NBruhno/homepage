@@ -5,6 +5,6 @@ module.exports = {
 	plugins: [
 		['@emotion/babel-plugin'],
 		['polished'],
-		['lodash']
+		['lodash'],
 	],
 }
