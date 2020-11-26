@@ -1,4 +1,4 @@
-import { isString, isNumber, has, lowerCase, upperFirst } from 'lodash-es'
+import { isString, isNumber, has, lowerCase, upperFirst } from 'lodash'
 
 export type Option = {
 	title?: string,

@@ -1,6 +1,6 @@
 import { getUnixTime, sub } from 'date-fns'
 import { query as q } from 'faunadb'
-import { chunk, flatten } from 'lodash-es'
+import { chunk, flatten } from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import type { SimpleGame, Game } from 'types/Games'

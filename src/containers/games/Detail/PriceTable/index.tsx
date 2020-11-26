@@ -1,4 +1,4 @@
-import { sortBy } from 'lodash-es'
+import { sortBy } from 'lodash'
 import { useState } from 'react'
 
 import type { Price } from 'types/Games'

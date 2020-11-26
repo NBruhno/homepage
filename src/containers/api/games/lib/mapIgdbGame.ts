@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { sample } from 'lodash-es'
+import { sample } from 'lodash'
 
 import type { Game } from 'types/Games'
 import { Status } from 'types/Games'
