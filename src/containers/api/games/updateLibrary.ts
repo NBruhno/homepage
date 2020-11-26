@@ -1,6 +1,6 @@
 import { getUnixTime, sub } from 'date-fns'
 import { query as q } from 'faunadb'
-import { chunk, flatten, differenceBy, intersectionBy } from 'lodash'
+import { chunk, differenceBy, intersectionBy } from 'lodash'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import type { SimpleGame, Game } from 'types/Games'
@@ -69,18 +69,11 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 						),
 					),
 				).then(({ data }) => data), 'faunadb - Map(Paginate(), Lambda())', span),
-				monitorReturnAsync((igdbSpan) => Promise.all([
-					igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: `${fields}; limit 500; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
-						nickname: 'popular, 0-500',
-						span: igdbSpan,
-					}).then((igdbGames) => igdbGames.map(mapIgdbGame)),
-					igdbFetcher<Array<IGDBGame>>('/games', res, {
-						body: `${fields}; limit 500; offset 500; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
-						nickname: 'popular, 500-1000',
-						span: igdbSpan,
-					}).then((igdbGames) => igdbGames.map(mapIgdbGame)),
-				]), 'Promise.all()', span).then(flatten),
+				igdbFetcher<Array<IGDBGame>>('/games', res, {
+					body: `${fields}; limit 500; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
+					nickname: 'popular, 0-500',
+					span,
+				}).then((igdbGames) => igdbGames.map(mapIgdbGame)),
 			]), 'Promise.all()', transaction)
 
 			const outdatedGames = intersectionBy(games, knownGames, 'id') // Finds games that are possibly outdated.
@@ -120,9 +113,9 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 		]), 'Promise.all()', transaction)
 	}
 
-	logger.info(`Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`)
+	logger.info(`Library update completed. ${gamesToUpdate.flat().length} games updated & ${gamesToCreate.flat().length} games created.`)
 
 	res.status(200).json({
-		message: `Library update completed. ${flatten(gamesToUpdate).length} games updated & ${flatten(gamesToCreate).length} games created.`,
+		message: `Library update completed. ${gamesToUpdate.flat().length} games updated & ${gamesToCreate.flat().length} games created.`,
 	})
 }

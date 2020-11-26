@@ -22,7 +22,7 @@ export const PriceTable = ({ prices, isLoading }: Props) => {
 	if (isLoading) return null
 	if (!prices) return <Muted>Looking for prices...</Muted>
 
-	const sortedPrices = sortBy(prices, ['current'])
+	const sortedPrices = sortBy(prices, [({ current }) => current])
 
 	return (
 		<>
