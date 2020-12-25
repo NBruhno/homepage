@@ -27,7 +27,7 @@ export const itadFetcher = async <T>(url: RequestInfo, { body, span, nickname, q
 			'Content-Type': 'text/plain',
 			accept: 'application/json',
 		}),
-	}), `igdbFetcher() ${url}${nickname && ` - ${nickname}`}`, span)
+	}), `itadFetcher()${nickname ? ` - ${nickname}` : ''}`, span)
 
 	return data.json()
 }
