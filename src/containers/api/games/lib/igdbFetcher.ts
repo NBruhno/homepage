@@ -46,7 +46,7 @@ export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { b
 			'Content-Type': 'text/plain',
 			accept: 'application/json',
 		}),
-	}), 3, res), `igdbFetcher() ${url}${nickname && ` - ${nickname}`}`, span)
+	}), 3, res), `igdbFetcher()${nickname ? ` - ${nickname}` : ''}`, span)
 
 	return single ? data[0] : data
 }

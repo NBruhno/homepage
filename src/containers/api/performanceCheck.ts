@@ -1,5 +1,11 @@
 import type { Span, Transaction } from '@sentry/types'
 
+/**
+ * How is this to type on? I'd say it's pretty good!
+ * @param functionToWatch
+ * @param operationName
+ * @param transaction
+ */
 export const monitor = <T>(functionToWatch: (span: Span) => T, operationName: string, transaction: Transaction | Span) => {
 	const span = transaction.startChild({ op: operationName })
 	functionToWatch(span)
