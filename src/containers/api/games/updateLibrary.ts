@@ -48,23 +48,16 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 				monitorReturnAsync(() => serverClient.query<{ data: Array<SimpleGame> }>(
 					q.Map(
 						q.Paginate(
-							q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')),
+							q.Match(q.Index('gamesIdRef')),
 							{ size: 100000 }, // This is the limit for Paginate()
 						),
 						q.Lambda(
 							// The Page returns a tuple of SimpleGame, which is then mapped out as an object.
 							// When done like this, we only use 1 read operation to get all of the games.
-							['hype', 'releaseDate', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
+							['id', 'ref'],
 							{
 								id: q.Var('id'),
-								cover: q.Var('cover'),
-								hype: q.Var('hype'),
-								lastChecked: q.Var('lastChecked'),
-								name: q.Var('name'),
 								ref: q.Var('ref'),
-								releaseDate: q.Var('releaseDate'),
-								status: q.Var('status'),
-								updatedAt: q.Var('updatedAt'),
 							},
 						),
 					),

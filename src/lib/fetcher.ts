@@ -36,18 +36,18 @@ export type Options = {
  * fetcher('/tests', { method: Method.Post })
  * ```
  */
-export const fetcher = async <T>(
+export const fetcher = async <ReturnType>(
 	url: RequestInfo, {
 		accessToken, body, method = Method.Get, contentType = ContentType.JSON, absoluteUrl,
 		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
-	}: Options = {}): Promise<T> => {
+	}: Options = {}): Promise<ReturnType> => {
 	// Create headers object and remove undefined variables to exclude them from call
 	const headers = ({
 		'Content-Type': contentType,
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
 		...customHeaders,
-	}) as Record<string, any>
+	}) as Record<string, string>
 	Object.keys(headers).forEach((key) => headers[key] === undefined && delete headers[key])
 
 	return fetch(`${absoluteUrl ?? ''}/api${url}`, {
