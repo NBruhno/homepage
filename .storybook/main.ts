@@ -6,5 +6,8 @@ export default {
 		'@storybook/addon-toolbars',
 		'@storybook/addon-viewport',
 		'storybook-dark-mode',
-	]
+	],
+	reactOptions: {
+		fastRefresh: true,
+	}
 }
