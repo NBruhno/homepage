@@ -23,7 +23,7 @@ export const useSizeEffect = (callback: Callback) => {
 	}, [callback])
 
 	const internalRef = useRef<Element | null>(null)
-	const observer = useMemo(() => new ResizeObserver(([{ contentRect }]) => {
+	const observer = useMemo(() => new ResizeObserver(([{ contentRect }]: Array<{ contentRect: DOMRectReadOnly }>) => {
 		// Handle cases where persistent reference hasn't been set yet
 		const current = persistedCallback.current || callback
 		current(contentRect as DOMRectReadOnly)

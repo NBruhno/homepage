@@ -26,7 +26,7 @@ import { Wrapper } from './Wrapper'
 
 type Props = {
 	game: Game | null,
-	prices: Array<Price>,
+	prices: Array<Price> | undefined,
 	following: boolean,
 	isLoading: boolean,
 

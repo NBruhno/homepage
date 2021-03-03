@@ -12,7 +12,7 @@ import { Item } from './Item'
 import { Muted } from './Muted'
 
 type Props = {
-	prices: Array<Price>,
+	prices: Array<Price> | undefined,
 	isLoading: boolean,
 }
 
