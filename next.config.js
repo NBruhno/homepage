@@ -32,6 +32,10 @@ const securityHeaders = [
 ]
 
 module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
+	future: {
+		webpack5: true,
+	},
+
 	reactStrictMode: true,
 
 	target: 'experimental-serverless-trace',
@@ -109,9 +113,6 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 		config.plugins.push(
 			new LodashModuleReplacementPlugin(),
 		)
-
-		// Fixes npm packages that depend on `fs` module
-		config.node = { fs: 'empty' }
 
 		return config
 	},

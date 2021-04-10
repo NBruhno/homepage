@@ -18,8 +18,6 @@ module.exports = ({ config }) => {
 		},
 	});
 	config.resolve.extensions.push('.ts', '.tsx');
-	
-	config.node = { fs: 'empty' }
 
 	config.resolve.alias['components'] = path.join(__dirname, '../src/components')
 	config.resolve.alias['lib'] = path.join(__dirname, '../src/lib')
