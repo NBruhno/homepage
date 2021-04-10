@@ -7,7 +7,7 @@ export default {
 		'@storybook/addon-viewport',
 		'storybook-dark-mode',
 	],
-	reactOptions: {
-		fastRefresh: true,
-	}
+	core: {
+    builder: "webpack5",
+  },
 }
