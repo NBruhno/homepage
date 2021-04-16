@@ -58,7 +58,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 		exclude: [/\.(?:png|jpg|jpeg|svg|json)$/, /_buildManifest\.js/, /\/autostatic\//],
 		runtimeCaching: [
 			{
-				urlPattern: /^https?.*/,
+				urlPattern: /^(?!.*autostatic)^https:?.*$/,
 				handler: 'NetworkFirst',
 				options: {
 					cacheName: 'offlineCache',
