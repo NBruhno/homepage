@@ -55,16 +55,17 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 	generateInDevMode: false,
 	workboxOpts: {
 		swDest: 'static/service-worker.js',
-		exclude: [/\.(?:png|jpg|jpeg|svg|json)$/, /.*_buildManifest\.js/, /.*\/autostatic\/.*/],
+		modifyURLPrefix: { 'autostatic/': '_next/static/' },
+		exclude: [/\.(?:png|jpg|jpeg|svg)$/],
 		runtimeCaching: [
 			{
-				urlPattern: /^(?!.*\/autostatic\/.*)^https:?.*$/,
+				urlPattern: /^https:?.*$/,
 				handler: 'NetworkFirst',
 				options: {
 					cacheName: 'offlineCache',
 					networkTimeoutSeconds: 15,
 					expiration: {
-						maxEntries: 150,
+						maxEntries: 100,
 						maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
 					},
 					cacheableResponse: {
