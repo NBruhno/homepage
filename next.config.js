@@ -55,10 +55,10 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 	generateInDevMode: false,
 	workboxOpts: {
 		swDest: 'static/service-worker.js',
-		exclude: [/\.(?:png|jpg|jpeg|svg|json)$/, /_buildManifest\.js/, /\/autostatic\//],
+		exclude: [/\.(?:png|jpg|jpeg|svg|json)$/, /.*_buildManifest\.js/, /.*\/autostatic\/.*/],
 		runtimeCaching: [
 			{
-				urlPattern: /^(?!.*autostatic)^https:?.*$/,
+				urlPattern: /^(?!.*\/autostatic\/.*)^https:?.*$/,
 				handler: 'NetworkFirst',
 				options: {
 					cacheName: 'offlineCache',
