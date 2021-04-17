@@ -56,7 +56,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 	workboxOpts: {
 		swDest: 'static/service-worker.js',
 		modifyURLPrefix: { 'autostatic/': '_next/static/' },
-		exclude: [/\.(?:png|jpg|jpeg|svg)$/, /autobuild-manifest\.json/],
+		exclude: [/\.(?:png|jpg|jpeg|svg.json)$/],
 		runtimeCaching: [
 			{
 				urlPattern: /^https:?.*$/,
