@@ -58,7 +58,7 @@ module.exports = withBundleAnalyzer(withOffline(withSourceMaps({
 		modifyURLPrefix: {
 			'autostatic/': '_next/static/',
 		},
-		exclude: [/\.(?:png|jpg|jpeg|svg.json)$/, /.*autoreact-loadable-manifest\.json/, /.*autobuild-manifest\.json/],
+		exclude: [/\.(?:png|jpg|jpeg|svg.json)$/, 'react-loadable-manifest.json', 'build-manifest.json'],
 		runtimeCaching: [
 			{
 				urlPattern: /^https:?.*$/,
