@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
-import type { SimpleGame } from 'types/Games'
+import type { Game } from 'types/Games'
 
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
@@ -24,30 +24,17 @@ export const follows = async (req: NextApiRequest, res: NextApiResponse, options
 
 	switch (method) {
 		case 'GET': {
-			const games = await monitorReturnAsync(() => faunaClient(secret).query<{ data: Array<SimpleGame> }>(
+			const games = await monitorReturnAsync(() => faunaClient(secret).query<{ data: Array<{ data: Game }> }>(
 				q.Map(
 					q.Paginate(
 						q.Join(
-							q.Match(q.Index('gamesUserDataByOwnerSortByIdAsc'), q.CurrentIdentity()),
-							q.Index('gamesByIdSortByReleaseDateAsc'),
+							q.Match(q.Index('gamesUserData_by_owner_sortBy_id_asc'), q.CurrentIdentity()),
+							q.Index('games_by_id_sortBy_releaseDate_asc'),
 						),
 					),
-					q.Lambda(
-						['releaseDate', 'hype', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
-						{
-							id: q.Var('id'),
-							cover: q.Var('cover'),
-							hype: q.Var('hype'),
-							lastChecked: q.Var('lastChecked'),
-							name: q.Var('name'),
-							ref: q.Var('ref'),
-							releaseDate: q.Var('releaseDate'),
-							status: q.Var('status'),
-							updatedAt: q.Var('updatedAt'),
-						},
-					),
+					q.Lambda(['releaseDate', 'ref'], q.Get(q.Var('ref'))),
 				),
-			).then(({ data }) => data), 'faunadb - Map(Paginate(), Lambda())', transaction)
+			).then(({ data }) => data.map(({ data }) => data)), 'faunadb - Map(Paginate(), Lambda())', transaction)
 
 			const gamesToUpdate = games.filter((game) => shouldUpdate(game))
 			if (gamesToUpdate.length > 0) {

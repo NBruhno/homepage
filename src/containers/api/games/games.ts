@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { config } from 'config.server'
 
-import type { SimpleGame } from 'types/Games'
+import type { Game } from 'types/Games'
 import type { Game as IGDBGame } from 'types/IGDB'
 
 import { absoluteUrl } from 'lib/absoluteUrl'
@@ -20,39 +20,29 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 	const { transaction } = options
 	const { query: { search } } = req
 
+	// We are using IGDB for looking up games, since we do not keep a complete library
 	const games = search
 		? await igdbFetcher<Array<IGDBGame>>('/games', res, {
 			body: `${fields}; limit 50; search "${search}";`,
 			nickname: 'popular',
 			span: transaction,
 		}).then((igdbGames) => igdbGames.map(mapIgdbGame))
-		: await monitorReturnAsync(() => serverClient.query<{ data: Array<SimpleGame> }>(
+		: await monitorReturnAsync(() => serverClient.query<{ data: Array<{ data: Game }> }>(
 			q.Map(
 				q.Paginate(q.Filter(
-					q.Range(q.Match(q.Index('gamesSortByHypeDescReleaseDateAsc')), '', 0),
+					// Index returns a tuple of [hype, releaseDate, ref]
+					q.Range(q.Match(q.Index('games_sortBy_hype_desc_releaseDate_asc_ref')), '', 0),
 					q.Lambda(
-						['hype', 'releaseDate', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
+						['hype', 'releaseDate', 'ref'],
 						q.GTE(q.Var('releaseDate'), getUnixTime(sub(new Date(), { months: 2 }))),
 					),
-				), { size: 50 }),
+				), { size: 30 }),
 				q.Lambda(
-					// The Page returns a tuple of SimpleGame, which is then mapped out as an object.
-					// When done like this, we only use 1 read operation to get all of the games.
-					['hype', 'releaseDate', 'name', 'id', 'cover', 'status', 'lastChecked', 'updatedAt', 'ref'],
-					{
-						id: q.Var('id'),
-						cover: q.Var('cover'),
-						hype: q.Var('hype'),
-						lastChecked: q.Var('lastChecked'),
-						name: q.Var('name'),
-						ref: q.Var('ref'),
-						releaseDate: q.Var('releaseDate'),
-						status: q.Var('status'),
-						updatedAt: q.Var('updatedAt'),
-					},
+					['hype', 'releaseDate', 'ref'],
+					q.Get(q.Var('ref')),
 				),
 			),
-		).then(({ data }) => data), 'faunadb - Map(Paginate(Filter(Range(), Lambda())), Lambda())', transaction)
+		).then(({ data }) => data.map(({ data }) => data)), 'faunadb - Map(Paginate(Filter(Range(), Lambda())), Lambda())', transaction)
 
 	if (!search) {
 		const gamesToUpdate = games.filter((game) => shouldUpdate(game))
