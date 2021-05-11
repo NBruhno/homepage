@@ -18,8 +18,8 @@ export const useGames = () => {
 		: null, (link) => fetcher(link), { revalidateOnFocus: false })
 
 	const { data: following } = useSWR<{ games: Array<SimpleGame> }>(user?.accessToken
-		? ['/games?following=true', user.accessToken]
-		: null, (link, accessToken) => fetcher(link, { accessToken }), { revalidateOnFocus: false })
+		? ['/games?user=', user.accessToken]
+		: null, (link, accessToken) => fetcher(`${link}${user.userId}`, { accessToken }), { revalidateOnFocus: false })
 
 	const { data: search } = useSWR<{ games: Array<SimpleGame> }>(gamesSearch?.search
 		? ['/games?search=', gamesSearch?.search]
