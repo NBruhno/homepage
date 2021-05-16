@@ -10,9 +10,8 @@ export const Header = (props: React.ComponentProps<'header'>) => {
 			css={(theme: Theme) => ({
 				alignItems: 'center',
 				backdropFilter: 'saturate(150%) blur(5px)',
-				backgroundColor: theme.darkTheme ? theme.color.gray000 : theme.color.gray000,
+				backgroundColor: theme.darkTheme ? theme.color.text : theme.color.sidebarBackground,
 				boxShadow: !theme.darkTheme && scrollY > 10 ? '0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
-				color: theme.darkTheme ? theme.color.text : theme.color.gray100,
 				display: 'flex',
 				height: '30px',
 				padding: '12px',
@@ -23,7 +22,7 @@ export const Header = (props: React.ComponentProps<'header'>) => {
 
 				'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
 					backdropFilter: 'saturate(150%) blur(5px)',
-					backgroundColor: transparentize(0.1, theme.color.gray000),
+					backgroundColor: transparentize(0.1, theme.darkTheme ? theme.color.inputBackgroundHover : theme.color.sidebarBackground),
 				},
 
 				[theme.mediaQueries.minMobile]: {

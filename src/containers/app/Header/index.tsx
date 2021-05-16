@@ -16,7 +16,7 @@ export const Header = (props: React.ComponentProps<'nav'>) => {
 	return (
 		<HeaderComponent {...props}>
 			<ButtonIcon
-				label={<MenuIcon css={(theme: Theme) => ({ color: theme.color.text })} />}
+				label={<MenuIcon css={(theme: Theme) => ({ color: theme.darkTheme ? theme.color.text : theme.color.textInverted })} />}
 				onClick={() => updateResponsive({ showMenu: !showMenu })}
 			/>
 			<Link href='/' passHref>

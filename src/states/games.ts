@@ -31,13 +31,19 @@ export const useGames = () => {
 		}
 	}
 
+	const setHasSearch = (hasSearch: boolean) => {
+		if (hasSearch !== gamesState.hasSearch) {
+			setGameState({ ...gamesState, hasSearch })
+		}
+	}
+
 	const games = {
 		popular: popular?.games,
 		following: following?.games,
 		games: search?.games,
 	}
 
-	return { ...games, currentList: gamesState.currentList, gamesSearch, setCurrentList }
+	return { ...games, currentList: gamesState.currentList, gamesSearch, setCurrentList, hasSearch: gamesState.hasSearch, setHasSearch }
 }
 
 export const useGame = (id: string) => {

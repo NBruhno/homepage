@@ -53,7 +53,7 @@ export const Jsx = () => (
 		<Tooltip
 			tip={(
 				<>
-					<h3 css={{ margin: '6px 0' }}>This is html</h3>
+					<h3 css={(theme: Theme) => ({ margin: '6px 0', color: theme.color.primary })}>This is HTML</h3>
 					Ain&apos;t that nice
 				</>
 			)}

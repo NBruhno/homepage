@@ -6,20 +6,17 @@ type Props = {
 export const Separator = ({ slim = false, collapsed = false, children, ...rest }: Props) => {
 	const padding = () => {
 		if (slim) return '0 24px'
-		if (collapsed) return '4px 24px 12px'
-		return '12px 24px'
+		if (collapsed) return '4px 25px 12px'
+		return '12px 25px'
 	}
 
 	return (
 		<div
 			css={(theme: Theme) => ({
 				borderTop: `1px solid ${theme.color.sidebarBorder}`,
-				color: theme.color.text,
-				fontFamily: theme.fontFamily.poppins,
-				fontSize: theme.fontSize.s100,
-				height: ((slim || collapsed)) ? '0px' : '26px',
+				height: ((slim || collapsed)) ? '0px' : '18px',
 				margin: slim ? 0 : '18px 0 2px',
-				minHeight: ((slim || collapsed)) ? '0px' : '26px',
+				minHeight: ((slim || collapsed)) ? '0px' : '18px',
 				overflow: 'hidden',
 				padding: padding(),
 				textOverflow: 'ellipsis',
@@ -35,7 +32,17 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 			})}
 			{...rest}
 		>
-			<span css={(theme: Theme) => ({ opacity: collapsed ? 0 : 1, transition: `opacity 300ms ${theme.animation.default}` })}>
+			<span
+				css={(theme: Theme) => ({
+					opacity: collapsed ? 0 : 0.6,
+					transition: `opacity 300ms ${theme.animation.default}`,
+					color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
+					fontFamily: theme.fontFamily.poppins,
+					fontSize: theme.fontSize.s80,
+					display: 'flex',
+					alignContent: 'center',
+				})}
+			>
 				{children}
 			</span>
 		</div>

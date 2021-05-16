@@ -35,6 +35,7 @@ type Modal = {
 export type State = {
 	forms: Record<string, any>,
 	games: {
+		hasSearch: boolean,
 		currentList: ListTypes,
 	},
 	modal: Modal,
@@ -46,6 +47,7 @@ export type State = {
 export const { useGlobalState } = createGlobalState<State>({
 	forms: {},
 	games: {
+		hasSearch: false,
 		currentList: ListTypes.Popular,
 	},
 	responsive: {

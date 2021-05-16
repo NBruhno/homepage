@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { useAuth } from 'states/auth'
 
-import { HomeIcon, NotebookIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, GamepadIcon } from 'components/Icons'
+import { HomeIcon, NotebookIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
 
 import { NavLink } from '../NavLink'
@@ -26,7 +26,7 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar }: 
 	return (
 		<Content css={{ paddingTop: '12px' }}>
 			<Link href='/' passHref>
-				<NavLink active={pathname.includes('/')} onClick={() => closeMenuOnInteraction()}>
+				<NavLink active={pathname === '/'} onClick={() => closeMenuOnInteraction()}>
 					<HomeIcon title='Home' css={{ marginRight: '12px' }} size={22} /><Text>Home</Text>
 				</NavLink>
 			</Link>
@@ -41,12 +41,27 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar }: 
 				</NavLink>
 			</Link>
 			<ButtonAuthenticate />
-			<Separator collapsed={collapsedSidebar} />
-			<Link href='/games' passHref>
-				<NavLink active={pathname.includes('/games')} onClick={() => closeMenuOnInteraction()}>
-					<GamepadIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Games</Text>
+			<Separator collapsed={collapsedSidebar}>
+				Games
+			</Separator>
+			<Link href='/games/popular' passHref>
+				<NavLink active={pathname.includes('/games/popular')} onClick={() => closeMenuOnInteraction()}>
+					<ListNumberIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Popular</Text>
 				</NavLink>
 			</Link>
+			<Link href='/games/following' passHref>
+				<NavLink active={pathname.includes('/games/following')} onClick={() => closeMenuOnInteraction()}>
+					<ListCheckIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Following</Text>
+				</NavLink>
+			</Link>
+			<Link href='/games/search' passHref>
+				<NavLink active={pathname.includes('/games/search')} onClick={() => closeMenuOnInteraction()}>
+					<ListSearchIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Search</Text>
+				</NavLink>
+			</Link>
+			<Separator collapsed={collapsedSidebar}>
+				Other
+			</Separator>
 			<Link href='/storybook' passHref>
 				<NavLink active={pathname.includes('/storybook')} onClick={() => closeMenuOnInteraction()}>
 					<NotebookIcon title='Storybook' css={{ marginRight: '12px' }} size={22} /><Text>Storybook</Text>

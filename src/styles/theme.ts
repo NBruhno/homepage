@@ -74,6 +74,7 @@ export const theme = (darkTheme = true) => Object.freeze({
 		backgroundHover: darkTheme ? 'hsl(216, 28%, 10%)' : 'hsl(0, 0%, 100%)',
 		text: darkTheme ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)',
 		textFaded: darkTheme ? 'hsl(0, 0%, 85%)' : 'hsl(0, 0%, 20%)',
+		textSubtitle: darkTheme ? 'hsl(215, 28%, 65%)' : 'hsl(0, 0%, 20%)',
 		textInverted: darkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 95%)',
 		border: darkTheme ? 'hsl(215, 15%, 15%)' : 'hsl(0, 0%, 90%)',
 
