@@ -1,6 +1,7 @@
+import type { Props as AsyncProps } from './Async'
+
 import { transparentize } from 'polished'
 
-import type { Props as AsyncProps } from './Async'
 import { ButtonAsync } from './Async'
 
 type Props = {

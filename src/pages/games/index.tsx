@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
+import { ListTypes } from 'types/Games'
+
 import Head from 'next/head'
 import { FormSpy } from 'react-final-form'
-
-import { ListTypes } from 'types/Games'
 
 import { useAuth } from 'states/auth'
 import { useGames } from 'states/games'

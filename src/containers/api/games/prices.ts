@@ -1,9 +1,8 @@
+import type { Options as DefaultOptions } from '../types'
 import type { NextApiRequest, NextApiResponse } from 'next'
-
 import type { Plain, Prices } from 'types/ITAD'
 
 import { sendError, throwError } from '../errors/ApiError'
-import type { Options as DefaultOptions } from '../types'
 
 import { itadFetcher } from './lib'
 

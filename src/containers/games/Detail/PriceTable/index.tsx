@@ -1,7 +1,7 @@
+import type { Price } from 'types/Games'
+
 import { sortBy } from 'lodash'
 import { useState } from 'react'
-
-import type { Price } from 'types/Games'
 
 import { ChevronFlip } from 'components/ChevronFlip'
 import Collapse from 'components/Collapse'

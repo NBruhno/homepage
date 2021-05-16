@@ -1,6 +1,6 @@
-import { createGlobalState } from 'react-hooks-global-state'
-
 import { ListTypes } from 'types/Games'
+
+import { createGlobalState } from 'react-hooks-global-state'
 
 type Responsive = {
 	collapsedSidebar: boolean,

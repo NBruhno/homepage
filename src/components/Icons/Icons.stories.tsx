@@ -1,6 +1,6 @@
 import { ellipsis } from 'polished'
 
-import * as icons from '.'
+import * as allIcons from '.'
 
 export default {
 	title: 'Icons',
@@ -8,11 +8,11 @@ export default {
 
 export const All = () => (
 	<div css={{ display: 'flex', flexWrap: 'wrap' }}>
-		{Object.entries(icons).map(([key, Icon]) => (
+		{Object.entries(allIcons).map(([key, Icon]) => (
 			<div
 				css={(theme: Theme) => ({
 					color: theme.color.text,
-					fontSize: '12px',
+					fontSize: '11px',
 					padding: '8px 8px 4px',
 					textAlign: 'center',
 					width: '80px',
@@ -20,10 +20,10 @@ export const All = () => (
 				key={key}
 			>
 				<div>
-					<Icon size={42} />
+					<Icon title={`<${key} />`} size={42} />
 				</div>
 				<span css={{ marginTop: '4px', ...ellipsis('80px') }} title={key}>
-					{key}
+					{`<${key} />`}
 				</span>
 			</div>
 		))}

@@ -1,11 +1,12 @@
-import { query as q } from 'faunadb'
+import type { Options as DefaultOptions } from '../types'
 import type { NextApiRequest, NextApiResponse } from 'next'
+
+import { query as q } from 'faunadb'
 
 import { throwError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'
 import { authenticate, removeRefreshCookie } from '../middleware'
 import { monitorAsync } from '../performanceCheck'
-import type { Options as DefaultOptions } from '../types'
 
 type Options = {
 	userId: string,

@@ -1,9 +1,9 @@
 import type { Transaction, Span } from '@sentry/types'
+import { TokenTypes } from 'types/Token'
+
 import jwt from 'jsonwebtoken'
 
 import { config } from 'config.server'
-
-import { TokenTypes } from 'types/Token'
 
 import { encrypt } from 'lib/cipher'
 

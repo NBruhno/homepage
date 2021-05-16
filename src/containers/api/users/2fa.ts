@@ -1,15 +1,15 @@
-import { query as q } from 'faunadb'
+import type { Options as DefaultOptions } from '../types'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { authenticator } from 'otplib'
-
 import { TokenTypes } from 'types/Token'
+
+import { query as q } from 'faunadb'
+import { authenticator } from 'otplib'
 
 import { throwError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'
 import { getJwtToken } from '../getJwtToken'
 import { authenticate, setRefreshCookie } from '../middleware'
 import { monitor, monitorAsync, monitorReturn, monitorReturnAsync } from '../performanceCheck'
-import type { Options as DefaultOptions } from '../types'
 
 interface Request extends NextApiRequest {
 	body: {

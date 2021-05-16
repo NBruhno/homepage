@@ -203,11 +203,13 @@ module.exports = {
 		'import/no-extraneous-dependencies': ['error', { devDependencies: true, optionalDependencies: false, peerDependencies: false }],
 		'import/no-unresolved': 'off',
 		'import/order': ['error', {
-			groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+			groups: ['type', 'builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
 			pathGroups: [
+				// We want types to always be at the top of a file (including enums)
+				{ pattern: 'types/**', group: 'type' },
+				{ pattern: '~/**', group: 'type' },
 				{ pattern: 'config.client', group: 'internal', position: 'after' },
 				{ pattern: 'config.server', group: 'internal', position: 'after' },
-				{ pattern: 'types/**', group: 'internal', position: 'after' },
 				{ pattern: 'states/**', group: 'internal', position: 'after' },
 				{ pattern: 'styles/**', group: 'internal', position: 'after' },
 				{ pattern: 'lib/**', group: 'internal', position: 'after' },

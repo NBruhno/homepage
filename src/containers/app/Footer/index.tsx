@@ -1,4 +1,4 @@
-import { GitHubIcon, GitLabIcon, EmailIcon, LinkedInIcon } from 'components/Icons'
+import { GitHubIcon, GitLabIcon, MailIcon, LinkedInIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
 import { Container } from './Container'
@@ -12,7 +12,7 @@ export const Footer = (props: React.ComponentProps<'footer'>) => (
 			<ListItem>
 				<Tooltip tip='mail@bruhno.com'>
 					<Link href='mailto:mail@bruhno.com' target={undefined} aria-label='Send an email to mail@bruhno.com'>
-						<EmailIcon size={22} />
+						<MailIcon size={22} />
 					</Link>
 				</Tooltip>
 			</ListItem>

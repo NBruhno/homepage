@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 import { useAuth } from 'states/auth'
 
 import { ButtonText } from 'components/Buttons'
-import { LoginIcon, PencilRulerIcon, ControllerIcon, AccountIcon, LogoutIcon, InfoIcon, ToolsIcon } from 'components/Icons'
+import { HomeIcon, NotebookIcon, UserIcon, UserOffIcon, LoginIcon, LogoutIcon, InfoIcon, AppsIcon, GamepadIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
 
 import { NavLink } from '../NavLink'
@@ -27,9 +27,10 @@ const ButtonTextStyled = ({ children, onClick }: { children: React.ReactNode, on
 )
 
 type Props = {
-	closeMenuOnInteraction: () => void,
 	collapsedSidebar: boolean,
 	showLogin: boolean,
+
+	closeMenuOnInteraction: () => void,
 	updateResponsive: (payload: any) => void,
 }
 
@@ -39,43 +40,50 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar, up
 
 	return (
 		<Content css={{ paddingTop: '12px' }}>
+			<Link href='/' passHref>
+				<NavLink active={pathname.includes('/')} onClick={() => closeMenuOnInteraction()}>
+					<HomeIcon title='Home' css={{ marginRight: '12px' }} size={22} /><Text>Home</Text>
+				</NavLink>
+			</Link>
 			<Link href='/users/profile' passHref>
 				<NavLink active={pathname.includes('/users/profile')} onClick={() => closeMenuOnInteraction()}>
-					<AccountIcon css={{ marginRight: '6px' }} size={22} />
+					{user.accessToken
+						? <UserIcon title='Profile' css={{ marginRight: '12px' }} size={22} />
+						: <UserOffIcon title='Unauthorized' css={{ marginRight: '12px' }} size={22} />}
 					<Placeholder isLoading={!user.isStateKnown}>
-						{user.accessToken ? <Text>{user.displayName}</Text> : <Text>Not logged in</Text>}
+						<Text>{user.accessToken ? user.displayName : 'Not logged in'}</Text>
 					</Placeholder>
 				</NavLink>
 			</Link>
 			{user.accessToken ? (
 				<ButtonTextStyled onClick={async () => { await logout() }}>
-					<LogoutIcon css={{ marginRight: '6px' }} />Logout
+					<LogoutIcon css={{ marginRight: '12px' }} />Logout
 				</ButtonTextStyled>
 			) : (
 				<ButtonTextStyled onClick={() => updateResponsive({ showLogin: !showLogin, showMenu: false })}>
-					<LoginIcon css={{ marginRight: '6px' }} />Login
+					<LoginIcon css={{ marginRight: '12px' }} />Login
 				</ButtonTextStyled>
 			)}
-			<Separator collapsed={collapsedSidebar}>Tools</Separator>
+			<Separator collapsed={collapsedSidebar} />
 			<Link href='/games' passHref>
 				<NavLink active={pathname.includes('/games')} onClick={() => closeMenuOnInteraction()}>
-					<ControllerIcon css={{ marginRight: '6px' }} size={22} /><Text>Games</Text>
+					<GamepadIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Games</Text>
 				</NavLink>
 			</Link>
 			<Link href='/storybook' passHref>
 				<NavLink active={pathname.includes('/storybook')} onClick={() => closeMenuOnInteraction()}>
-					<PencilRulerIcon css={{ marginRight: '6px' }} size={22} /><Text>Storybook</Text>
+					<NotebookIcon title='Storybook' css={{ marginRight: '12px' }} size={22} /><Text>Storybook</Text>
 				</NavLink>
 			</Link>
-			<Separator collapsed={collapsedSidebar}>Site</Separator>
+			{/* <Separator collapsed={collapsedSidebar}>Site</Separator> */}
 			<Link href='/projects' passHref>
 				<NavLink active={pathname.includes('/projects')} onClick={() => closeMenuOnInteraction()}>
-					<ToolsIcon css={{ marginRight: '6px' }} size={22} /><Text>Projects</Text>
+					<AppsIcon title='Projects' css={{ marginRight: '12px' }} size={22} /><Text>Projects</Text>
 				</NavLink>
 			</Link>
 			<Link href='/about' passHref>
 				<NavLink active={pathname.includes('/about')} onClick={() => closeMenuOnInteraction()}>
-					<InfoIcon css={{ marginRight: '6px' }} size={22} /><Text>About</Text>
+					<InfoIcon title='About' css={{ marginRight: '12px' }} size={22} /><Text>About</Text>
 				</NavLink>
 			</Link>
 		</Content>

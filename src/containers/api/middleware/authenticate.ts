@@ -1,12 +1,12 @@
-import { setUser } from '@sentry/node'
 import type { Span, Transaction } from '@sentry/types'
-import jwt from 'jsonwebtoken'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { TokenTypes } from 'types/Token'
+import type { Token } from 'types/Token'
+
+import { setUser } from '@sentry/node'
+import jwt from 'jsonwebtoken'
 
 import { config } from 'config.server'
-
-import type { Token } from 'types/Token'
-import { TokenTypes } from 'types/Token'
 
 import { decrypt } from 'lib/cipher'
 

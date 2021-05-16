@@ -1,4 +1,5 @@
 import type { NextApiResponse } from 'next'
+
 import { CustomError } from 'ts-custom-error'
 
 export const statusCodes = {

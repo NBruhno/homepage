@@ -1,9 +1,10 @@
-import { query as q } from 'faunadb'
+import type { Options } from '../types'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import type { Game } from 'types/Games'
+
+import { query as q } from 'faunadb'
 
 import { config } from 'config.server'
-
-import type { Game } from 'types/Games'
 
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
@@ -11,7 +12,6 @@ import { fetcher, Method } from 'lib/fetcher'
 import { faunaClient } from '../faunaClient'
 import { authenticate } from '../middleware'
 import { monitorReturnAsync } from '../performanceCheck'
-import type { Options } from '../types'
 
 import { shouldUpdate } from './lib'
 

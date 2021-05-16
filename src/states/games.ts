@@ -1,7 +1,7 @@
+import type { Game, SimpleGame, ListTypes, Price } from 'types/Games'
+
 import { useState, useEffect, useMemo } from 'react'
 import useSWR from 'swr'
-
-import type { Game, SimpleGame, ListTypes, Price } from 'types/Games'
 
 import { useAuth } from 'states/auth'
 

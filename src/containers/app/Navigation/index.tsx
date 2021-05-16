@@ -5,7 +5,7 @@ import { useResponsive } from 'states/responsive'
 
 import { ButtonText, ButtonIcon } from 'components/Buttons'
 import { ChevronFlip } from 'components/ChevronFlip'
-import { LightDarkModeIcon } from 'components/Icons'
+import { SunIcon, MoonIcon } from 'components/Icons'
 import { Logo } from 'components/Logo'
 
 import { Content } from './Content'
@@ -19,6 +19,23 @@ export const Navigation = () => {
 	const { isMobile, collapsedSidebar, updateResponsive, showMenu, showLogin } = useResponsive()
 	const { globalTheme, toggleTheme } = useDarkMode()
 	const closeMenuOnInteraction = () => { if (isMobile) updateResponsive({ showMenu: false }) }
+
+	const ThemeButton = () => (
+		<>
+			<Separator slim />
+			<ButtonText
+				css={{ margin: '6px 12px 7px', height: '35px' }}
+				slim
+				label={(
+					<div css={{ display: 'flex', alignItems: 'center', height: '20px' }}>
+						{globalTheme === 'light' ? <MoonIcon css={{ marginRight: '12px' }} /> : <SunIcon css={{ marginRight: '12px' }} />}
+						{globalTheme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
+					</div>
+				)}
+				onClick={() => toggleTheme()}
+			/>
+		</>
+	)
 
 	return (
 		<>
@@ -36,18 +53,7 @@ export const Navigation = () => {
 					updateResponsive={updateResponsive}
 				/>
 				<Content css={{ marginTop: 'auto' }}>
-					<Separator slim />
-					<ButtonText
-						css={{ margin: '6px 12px 7px', height: '35px' }}
-						slim
-						label={(
-							<div css={{ display: 'flex', alignItems: 'center', height: '20px' }}>
-								<LightDarkModeIcon css={{ marginRight: '6px' }} />
-								{globalTheme === 'light' ? 'Light theme' : 'Dark theme'}
-							</div>
-						)}
-						onClick={() => toggleTheme()}
-					/>
+					<ThemeButton />
 					<div css={(theme: Theme) => ({ borderTop: `1px solid ${theme.color.border}` })} />
 					<ButtonIcon
 						css={{ margin: '6px 12px', height: '35px' }}
@@ -55,7 +61,7 @@ export const Navigation = () => {
 						title={collapsedSidebar ? 'Expand sidebar' : 'Collapse sidebar'}
 						label={(
 							<div css={(theme: Theme) => ({ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', color: theme.color.text, marginTop: '2px' })}>
-								<ChevronFlip horizontal isActive={collapsedSidebar} />
+								<ChevronFlip slim horizontal isActive={collapsedSidebar} />
 							</div>
 						)}
 					/>
@@ -70,18 +76,7 @@ export const Navigation = () => {
 					updateResponsive={updateResponsive}
 				/>
 				<Content css={{ marginTop: 'auto' }}>
-					<Separator slim />
-					<ButtonText
-						css={{ margin: '6px 12px 7px', height: '35px' }}
-						slim
-						label={(
-							<div css={{ display: 'flex', alignItems: 'center', height: '20px' }}>
-								<LightDarkModeIcon css={{ marginRight: '6px' }} />
-								{globalTheme === 'light' ? 'Light theme' : 'Dark theme'}
-							</div>
-						)}
-						onClick={() => toggleTheme()}
-					/>
+					<ThemeButton />
 				</Content>
 			</MobileSidebar>
 		</>

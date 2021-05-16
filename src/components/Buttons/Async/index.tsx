@@ -1,5 +1,6 @@
-import { isFunction } from 'lodash'
 import type { ReactNode } from 'react'
+
+import { isFunction } from 'lodash'
 import { useState, useEffect } from 'react'
 
 import { delay } from 'lib/delay'
