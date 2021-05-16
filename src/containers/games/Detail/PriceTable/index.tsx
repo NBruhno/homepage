@@ -1,7 +1,7 @@
+import type { Price } from 'types/Games'
+
 import { sortBy } from 'lodash'
 import { useState } from 'react'
-
-import type { Price } from 'types/Games'
 
 import { ChevronFlip } from 'components/ChevronFlip'
 import Collapse from 'components/Collapse'
@@ -15,6 +15,10 @@ type Props = {
 	prices: Array<Price> | undefined,
 	isLoading: boolean,
 }
+
+const priceWithCurrency = (price: number, currency: string) => (
+	new Intl.NumberFormat('en-DK', { style: 'currency', currency }).format(price)
+)
 
 export const PriceTable = ({ prices, isLoading }: Props) => {
 	const [isExpanded, setIsExpanded] = useState(false)
@@ -31,7 +35,7 @@ export const PriceTable = ({ prices, isLoading }: Props) => {
 					{sortedPrices.slice(0, 1).map(({ name, current, currency, url }, index) => (
 						<Item href={url} first key={`1-${index}`}>
 							<h2 css={{ margin: 0 }}>{name}</h2>
-							<span>{current} {currency}</span>
+							<span>{priceWithCurrency(current, currency)}</span>
 						</Item>
 					))}
 					{prices?.length > 1 ? (
@@ -40,7 +44,7 @@ export const PriceTable = ({ prices, isLoading }: Props) => {
 								{sortedPrices.slice(1).map(({ name, current, currency, url }, index) => (
 									<Item href={url} key={`2-${index}`}>
 										<span css={{ margin: 0 }}>{name}</span>
-										<span>{current} {currency}</span>
+										<span>{priceWithCurrency(current, currency)}</span>
 									</Item>
 								))}
 							</Collapse>

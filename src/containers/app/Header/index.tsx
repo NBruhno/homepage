@@ -16,12 +16,11 @@ export const Header = (props: React.ComponentProps<'nav'>) => {
 	return (
 		<HeaderComponent {...props}>
 			<ButtonIcon
-				title='Menu'
-				label={<MenuIcon css={(theme: Theme) => ({ color: theme.color.text })} />}
+				label={<MenuIcon css={(theme: Theme) => ({ color: theme.darkTheme ? theme.color.text : theme.color.textInverted })} />}
 				onClick={() => updateResponsive({ showMenu: !showMenu })}
 			/>
 			<Link href='/' passHref>
-				<NavLink currentColor css={{ alignItems: 'center' }} onClick={() => updateResponsive({ showMenu: false })}>
+				<NavLink css={{ alignItems: 'center' }} onClick={() => updateResponsive({ showMenu: false })}>
 					<Logo
 						css={(theme: Theme) => ({
 							width: '32px',

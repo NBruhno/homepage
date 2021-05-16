@@ -1,11 +1,12 @@
-import { query } from 'faunadb'
+import type { Options } from '../types'
 import type { NextApiRequest, NextApiResponse } from 'next'
+
+import { query } from 'faunadb'
 
 import { throwError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'
 import { authenticate, removeRefreshCookie } from '../middleware'
 import { monitorAsync } from '../performanceCheck'
-import type { Options } from '../types'
 
 export const logout = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { method } = req

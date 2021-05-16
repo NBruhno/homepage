@@ -2,7 +2,7 @@ export const Text = (props: React.ComponentProps<'span'>) => (
 	<span
 		css={{
 			overflow: 'hidden',
-			textOverflow: 'ellipsis',
+			textOverflow: 'clip',
 			whiteSpace: 'nowrap',
 			color: 'currentColor',
 		}}

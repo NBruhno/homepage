@@ -1,11 +1,12 @@
-import { errors, query as q } from 'faunadb'
+import type { Options as DefaultOptions } from '../types'
 import type { NextApiRequest, NextApiResponse } from 'next'
+
+import { errors, query as q } from 'faunadb'
 
 import { throwError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'
 import { authenticate } from '../middleware'
 import { monitorAsync } from '../performanceCheck'
-import type { Options as DefaultOptions } from '../types'
 
 interface Request extends NextApiRequest {
 	body: {

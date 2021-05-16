@@ -2,8 +2,8 @@ import type { Website } from 'types/Games'
 import { WebsiteCategory } from 'types/IGDB'
 
 import {
-	SteamIcon, GooglePlayIcon, FacebookIcon, GogIcon, InstagramIcon, RedditIcon, AppleIcon, WebsiteIcon,
-	TwitterIcon, WikiIcon, YouTubeIcon, WikipediaIcon, EpicGamesIcon, ItchIoIcon, DiscordIcon, TwitchIcon,
+	SteamIcon, GooglePlayIcon, GoGIcon, RedditIcon, AppleIcon, TwitterIcon, YouTubeIcon,
+	EpicGamesIcon, ItchIoIcon, DiscordIcon, TwitchIcon, WorldIcon,
 } from 'components/Icons'
 
 export enum SortBy {
@@ -20,19 +20,19 @@ export const WebsiteIcons = ({ websites, sortBy, ...rest }: Props) => {
 		[WebsiteCategory.Android]: { logo: <GooglePlayIcon size={32} />, name: 'Google Play store' },
 		[WebsiteCategory.Discord]: { logo: <DiscordIcon size={32} />, name: 'Discord' },
 		[WebsiteCategory.EpicGames]: { logo: <EpicGamesIcon size={32} />, name: 'Epic Games store' },
-		[WebsiteCategory.Facebook]: { logo: <FacebookIcon size={32} />, name: 'Facebook page' },
-		[WebsiteCategory.GoG]: { logo: <GogIcon size={32} />, name: 'Good old Games store' },
-		[WebsiteCategory.Instagram]: { logo: <InstagramIcon size={32} />, name: 'Instagram profile' },
+		[WebsiteCategory.Facebook]: { logo: null, name: 'Deprecated' },
+		[WebsiteCategory.GoG]: { logo: <GoGIcon size={32} />, name: 'Good old Games store' },
+		[WebsiteCategory.Instagram]: { logo: null, name: 'Deprecated' },
 		[WebsiteCategory.iPad]: { logo: <AppleIcon size={32} />, name: 'iPad site' },
 		[WebsiteCategory.iPhone]: { logo: <AppleIcon size={32} />, name: 'iPhone site' },
 		[WebsiteCategory.Itch]: { logo: <ItchIoIcon size={32} />, name: 'Itch.io website' },
-		[WebsiteCategory.Official]: { logo: <WebsiteIcon size={32} />, name: 'Official website' },
+		[WebsiteCategory.Official]: { logo: <WorldIcon size={32} />, name: 'Official website' },
 		[WebsiteCategory.Reddit]: { logo: <RedditIcon size={32} />, name: 'Sub-reddit' },
 		[WebsiteCategory.Steam]: { logo: <SteamIcon size={32} />, name: 'Steam store' },
 		[WebsiteCategory.Twitch]: { logo: <TwitchIcon size={32} />, name: 'Twitch profile' },
 		[WebsiteCategory.Twitter]: { logo: <TwitterIcon size={32} />, name: 'Twitter profile' },
-		[WebsiteCategory.Wiki]: { logo: <WikiIcon size={32} />, name: 'Game wiki' },
-		[WebsiteCategory.Wikipedia]: { logo: <WikipediaIcon size={32} />, name: 'Wikipedia page' },
+		[WebsiteCategory.Wiki]: { logo: null, name: 'Deprecated' },
+		[WebsiteCategory.Wikipedia]: { logo: null, name: 'Deprecated' },
 		[WebsiteCategory.YouTube]: { logo: <YouTubeIcon size={32} />, name: 'YouTube channel' },
 	}
 

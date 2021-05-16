@@ -1,8 +1,10 @@
 /* eslint-disable no-underscore-dangle */
-import { startTransaction } from '@sentry/node'
+
 import type { Transaction } from '@sentry/types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { MockRequest, MockResponse } from 'node-mocks-http'
+
+import { startTransaction } from '@sentry/node'
 
 type Request = MockRequest<NextApiRequest>
 type Response = MockResponse<NextApiResponse>

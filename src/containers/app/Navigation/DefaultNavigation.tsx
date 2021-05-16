@@ -3,79 +3,79 @@ import { useRouter } from 'next/router'
 
 import { useAuth } from 'states/auth'
 
-import { ButtonText } from 'components/Buttons'
-import { LoginIcon, PencilRulerIcon, ControllerIcon, AccountIcon, LogoutIcon, InfoIcon, ToolsIcon } from 'components/Icons'
+import { HomeIcon, NotebookIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
 
 import { NavLink } from '../NavLink'
 
+import { ButtonAuthenticate } from './Buttons/Authenticate'
 import { Content } from './Content'
 import { Separator } from './Separator'
 import { Text } from './Text'
 
-const ButtonTextStyled = ({ children, onClick }: { children: React.ReactNode, onClick: () => void }) => (
-	<ButtonText
-		css={{ margin: '4px 12px', height: '35px' }}
-		slim
-		label={(
-			<div css={{ display: 'flex', alignItems: 'center', height: '20px' }}>
-				{children}
-			</div>
-		)}
-		onClick={onClick}
-	/>
-)
-
 type Props = {
-	closeMenuOnInteraction: () => void,
 	collapsedSidebar: boolean,
-	showLogin: boolean,
-	updateResponsive: (payload: any) => void,
+
+	closeMenuOnInteraction: () => void,
 }
 
-export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar, updateResponsive, showLogin }: Props) => {
-	const { user, logout } = useAuth()
+export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar }: Props) => {
+	const { user } = useAuth()
 	const { pathname } = useRouter()
 
 	return (
 		<Content css={{ paddingTop: '12px' }}>
+			<Link href='/' passHref>
+				<NavLink active={pathname === '/'} onClick={() => closeMenuOnInteraction()}>
+					<HomeIcon title='Home' css={{ marginRight: '12px' }} size={22} /><Text>Home</Text>
+				</NavLink>
+			</Link>
 			<Link href='/users/profile' passHref>
 				<NavLink active={pathname.includes('/users/profile')} onClick={() => closeMenuOnInteraction()}>
-					<AccountIcon css={{ marginRight: '6px' }} size={22} />
+					{user.accessToken
+						? <UserIcon title='Profile' css={{ marginRight: '12px' }} size={22} />
+						: <UserOffIcon title='Unauthorized' css={{ marginRight: '12px' }} size={22} />}
 					<Placeholder isLoading={!user.isStateKnown}>
-						{user.accessToken ? <Text>{user.displayName}</Text> : <Text>Not logged in</Text>}
+						<Text>{user.accessToken ? user.displayName : 'Not logged in'}</Text>
 					</Placeholder>
 				</NavLink>
 			</Link>
-			{user.accessToken ? (
-				<ButtonTextStyled onClick={async () => { await logout() }}>
-					<LogoutIcon css={{ marginRight: '6px' }} />Logout
-				</ButtonTextStyled>
-			) : (
-				<ButtonTextStyled onClick={() => updateResponsive({ showLogin: !showLogin, showMenu: false })}>
-					<LoginIcon css={{ marginRight: '6px' }} />Login
-				</ButtonTextStyled>
-			)}
-			<Separator collapsed={collapsedSidebar}>Tools</Separator>
-			<Link href='/games' passHref>
-				<NavLink active={pathname.includes('/games')} onClick={() => closeMenuOnInteraction()}>
-					<ControllerIcon css={{ marginRight: '6px' }} size={22} /><Text>Games</Text>
+			<ButtonAuthenticate />
+			<Separator collapsed={collapsedSidebar}>
+				Games
+			</Separator>
+			<Link href='/games/popular' passHref>
+				<NavLink active={pathname.includes('/games/popular')} onClick={() => closeMenuOnInteraction()}>
+					<ListNumberIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Popular</Text>
 				</NavLink>
 			</Link>
+			<Link href='/games/following' passHref>
+				<NavLink active={pathname.includes('/games/following')} onClick={() => closeMenuOnInteraction()}>
+					<ListCheckIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Following</Text>
+				</NavLink>
+			</Link>
+			<Link href='/games/search' passHref>
+				<NavLink active={pathname.includes('/games/search')} onClick={() => closeMenuOnInteraction()}>
+					<ListSearchIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Search</Text>
+				</NavLink>
+			</Link>
+			<Separator collapsed={collapsedSidebar}>
+				Other
+			</Separator>
 			<Link href='/storybook' passHref>
 				<NavLink active={pathname.includes('/storybook')} onClick={() => closeMenuOnInteraction()}>
-					<PencilRulerIcon css={{ marginRight: '6px' }} size={22} /><Text>Storybook</Text>
+					<NotebookIcon title='Storybook' css={{ marginRight: '12px' }} size={22} /><Text>Storybook</Text>
 				</NavLink>
 			</Link>
-			<Separator collapsed={collapsedSidebar}>Site</Separator>
+			{/* <Separator collapsed={collapsedSidebar}>Site</Separator> */}
 			<Link href='/projects' passHref>
 				<NavLink active={pathname.includes('/projects')} onClick={() => closeMenuOnInteraction()}>
-					<ToolsIcon css={{ marginRight: '6px' }} size={22} /><Text>Projects</Text>
+					<AppsIcon title='Projects' css={{ marginRight: '12px' }} size={22} /><Text>Projects</Text>
 				</NavLink>
 			</Link>
 			<Link href='/about' passHref>
 				<NavLink active={pathname.includes('/about')} onClick={() => closeMenuOnInteraction()}>
-					<InfoIcon css={{ marginRight: '6px' }} size={22} /><Text>About</Text>
+					<InfoIcon title='About' css={{ marginRight: '12px' }} size={22} /><Text>About</Text>
 				</NavLink>
 			</Link>
 		</Content>

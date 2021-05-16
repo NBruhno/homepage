@@ -1,11 +1,12 @@
+import type { Options } from '../types'
+import type { NextApiRequest, NextApiResponse } from 'next'
+
 import { getUnixTime } from 'date-fns'
 import { query as q } from 'faunadb'
-import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { serverClient } from '../faunaClient'
 import { authenticateSystem } from '../middleware'
 import { monitorAsync } from '../performanceCheck'
-import type { Options } from '../types'
 
 export const create = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { body } = req

@@ -1,10 +1,11 @@
+import type { Options } from '../types'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import type { SimpleGame, Game } from 'types/Games'
+import type { Game as IGDBGame } from 'types/IGDB'
+
 import { getUnixTime, sub } from 'date-fns'
 import { query as q } from 'faunadb'
 import { chunk, differenceBy, intersectionBy } from 'lodash'
-import type { NextApiRequest, NextApiResponse } from 'next'
-
-import type { SimpleGame, Game } from 'types/Games'
-import type { Game as IGDBGame } from 'types/IGDB'
 
 import { logger } from 'lib/logger'
 
@@ -12,7 +13,6 @@ import { sendError } from '../errors/ApiError'
 import { serverClient } from '../faunaClient'
 import { authenticateSystem } from '../middleware'
 import { monitorReturnAsync, monitorAsync } from '../performanceCheck'
-import type { Options } from '../types'
 
 import { igdbFetcher, fields, mapIgdbGame } from './lib'
 

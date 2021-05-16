@@ -1,6 +1,7 @@
-import { captureException, flush, startTransaction } from '@sentry/node'
 import type { Transaction } from '@sentry/types'
 import type { NextApiRequest, NextApiResponse } from 'next'
+
+import { captureException, flush, startTransaction } from '@sentry/node'
 
 import { config } from 'config.server'
 

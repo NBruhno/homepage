@@ -1,5 +1,6 @@
-import { errors } from 'faunadb'
 import type { NextApiRequest, NextApiResponse } from 'next'
+
+import { errors } from 'faunadb'
 import { createMocks } from 'node-mocks-http'
 import { parseJson, expectStatusCode, expectSpecificObject, testingCredentials, transaction } from 'test/utils'
 

@@ -1,5 +1,6 @@
-import { Global, ThemeProvider } from '@emotion/react'
 import type { RenderOptions } from '@testing-library/react'
+
+import { Global, ThemeProvider } from '@emotion/react'
 import { render } from '@testing-library/react'
 
 import { globalCss } from 'styles/global'

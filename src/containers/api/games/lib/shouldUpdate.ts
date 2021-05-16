@@ -1,6 +1,6 @@
-import { differenceInHours, fromUnixTime } from 'date-fns'
-
 import type { Game, SimpleGame } from 'types/Games'
+
+import { differenceInHours, fromUnixTime } from 'date-fns'
 
 export const shouldUpdate = (game: Game | SimpleGame, hourInterval: number = 20) => {
 	const { lastChecked, updatedAt } = game

@@ -7,8 +7,7 @@ type Props = {
 
 const defaultCss = (theme: Theme, collapsed: boolean) => css({
 	alignItems: 'stretch',
-	backgroundColor: theme.color.background,
-	borderRight: `1px solid ${theme.color.border}`,
+	backgroundColor: theme.color.sidebarBackground,
 	flexDirection: 'column',
 	justifyContent: 'space-between',
 	padding: '0',
@@ -36,11 +35,6 @@ export const DesktopSidebar = ({ collapsed = false, ...rest }: Props) => (
 					transition: `width 300ms ${theme.animation.default}`,
 					visibility: 'visible',
 					width: collapsed ? '70px' : '250px',
-
-					'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
-						backdropFilter: 'none',
-						backgroundColor: transparentize(1, theme.color.background),
-					},
 				},
 			},
 		])}
@@ -66,7 +60,7 @@ export const MobileSidebar = ({ show, ...rest }: Props & { show: boolean }) => (
 
 					'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
 						backdropFilter: 'saturate(150%) blur(5px)',
-						backgroundColor: transparentize(0.1, theme.color.background),
+						backgroundColor: transparentize(0.1, theme.color.sidebarBackground),
 					},
 				},
 			},

@@ -1,5 +1,6 @@
-import { captureException, flush } from '@sentry/node'
 import type { NextApiRequest, NextApiResponse } from 'next'
+
+import { captureException, flush } from '@sentry/node'
 import NextErrorComponent from 'next/error'
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }: { statusCode: number, hasGetInitialPropsRun: boolean, err: Error }) => {

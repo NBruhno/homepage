@@ -1,44 +1,13 @@
+import type { Game, SimpleGame, Price } from 'types/Games'
+
 import { useState, useEffect, useMemo } from 'react'
 import useSWR from 'swr'
-
-import type { Game, SimpleGame, ListTypes, Price } from 'types/Games'
 
 import { useAuth } from 'states/auth'
 
 import { fetcher, Method } from 'lib/fetcher'
 
 import { useGlobalState } from './globalState'
-
-export const useGames = () => {
-	const [{ games: gamesSearch }] = useGlobalState('forms')
-	const [gamesState, setGameState] = useGlobalState('games')
-	const { user } = useAuth()
-	const { data: popular } = useSWR<{ games: Array<SimpleGame> }>(user?.isStateKnown
-		? ['/games']
-		: null, (link) => fetcher(link), { revalidateOnFocus: false })
-
-	const { data: following } = useSWR<{ games: Array<SimpleGame> }>(user?.accessToken
-		? ['/games?following=true', user.accessToken]
-		: null, (link, accessToken) => fetcher(link, { accessToken }), { revalidateOnFocus: false })
-
-	const { data: search } = useSWR<{ games: Array<SimpleGame> }>(gamesSearch?.search
-		? ['/games?search=', gamesSearch?.search]
-		: null, (link, searchParameter) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
-
-	const setCurrentList = (currentList: ListTypes) => {
-		if (currentList !== gamesState.currentList) {
-			setGameState({ ...gamesState, currentList })
-		}
-	}
-
-	const games = {
-		popular: popular?.games,
-		following: following?.games,
-		games: search?.games,
-	}
-
-	return { ...games, currentList: gamesState.currentList, gamesSearch, setCurrentList }
-}
 
 export const useGame = (id: string) => {
 	const { user } = useAuth()
@@ -66,4 +35,34 @@ export const useGame = (id: string) => {
 	useEffect(() => setFollowing(followingData?.following), [followingData?.following])
 
 	return { game, following, ...prices, follow: async () => follow(), unfollow: async () => unfollow() }
+}
+
+export const useSearchGames = () => {
+	const [{ games: gamesSearch }] = useGlobalState('forms')
+	const [gamesState, setGameState] = useGlobalState('games')
+	const { data } = useSWR<{ games: Array<SimpleGame> }>(gamesSearch?.search
+		? ['/games?search=', gamesSearch?.search]
+		: null, (link, searchParameter) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
+
+	const setHasSearch = (hasSearch: boolean) => {
+		if (hasSearch !== gamesState.hasSearch) {
+			setGameState({ ...gamesState, hasSearch })
+		}
+	}
+
+	return { games: data?.games, gamesSearch, hasSearch: gamesState.hasSearch, setHasSearch }
+}
+
+export const usePopularGames = () => {
+	const { data } = useSWR<{ games: Array<SimpleGame> }>(['/games'], (link) => fetcher(link), { revalidateOnFocus: false })
+	return { games: data?.games }
+}
+
+export const useFollowingGames = ({ followedGamesUser }: { followedGamesUser?: string | Array<string> } = {}) => {
+	const { user } = useAuth()
+	const { data } = useSWR<{ games: Array<SimpleGame> }>((user?.isStateKnown && (followedGamesUser || user.userId))
+		? ['/games?user=', followedGamesUser]
+		: null, (link, followedGamesUser) => fetcher(`${link}${followedGamesUser ?? user.userId}`), { revalidateOnFocus: false })
+
+	return { games: data?.games }
 }

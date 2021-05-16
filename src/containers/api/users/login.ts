@@ -1,15 +1,15 @@
-import { query as q, errors } from 'faunadb'
+import type { Options } from '../types'
 import type { NextApiRequest, NextApiResponse } from 'next'
-
 import { TokenTypes } from 'types/Token'
 import type { User } from 'types/User'
+
+import { query as q, errors } from 'faunadb'
 
 import { throwError } from '../errors/ApiError'
 import { serverClient } from '../faunaClient'
 import { getJwtToken } from '../getJwtToken'
 import { setRefreshCookie } from '../middleware'
 import { monitorReturn, monitorReturnAsync } from '../performanceCheck'
-import type { Options } from '../types'
 
 interface Request extends NextApiRequest {
 	body: {

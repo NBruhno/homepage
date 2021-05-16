@@ -1,6 +1,6 @@
-import Link from 'next/link'
-
 import type { SimpleGame } from 'types/Games'
+
+import Link from 'next/link'
 
 import { Placeholder } from 'components/Placeholder'
 

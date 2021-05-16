@@ -3,11 +3,11 @@ import { games, follows, updateLibrary } from 'containers/api/games'
 import { withSentry } from 'containers/api/middleware'
 
 export default withSentry(async (req, res, transaction) => {
-	const { query: { following: followingQuery }, method } = req
+	const { query: { user }, method } = req
 
-	if (followingQuery === 'true') return follows(req, res, { transaction })
 	switch (method) {
 		case 'GET': {
+			if (user) return follows(req, res, { transaction })
 			await games(req, res, { transaction })
 			break
 		}
