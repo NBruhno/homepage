@@ -10,7 +10,7 @@ export const Header = (props: React.ComponentProps<'header'>) => {
 			css={(theme: Theme) => ({
 				alignItems: 'center',
 				backdropFilter: 'saturate(150%) blur(5px)',
-				backgroundColor: theme.darkTheme ? theme.color.text : theme.color.sidebarBackground,
+				backgroundColor: theme.darkTheme ? theme.color.inputBackgroundHover : theme.color.sidebarBackground,
 				boxShadow: !theme.darkTheme && scrollY > 10 ? '0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
 				display: 'flex',
 				height: '30px',
