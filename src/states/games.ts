@@ -54,7 +54,7 @@ export const useSearchGames = () => {
 }
 
 export const usePopularGames = () => {
-	const { data } = useSWR<{ games: Array<SimpleGame> }>('/games', { revalidateOnFocus: false })
+	const { data } = useSWR<{ games: Array<SimpleGame> }>(['/games'], (link) => fetcher(link), { revalidateOnFocus: false })
 	return { games: data?.games }
 }
 
