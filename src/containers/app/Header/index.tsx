@@ -20,7 +20,7 @@ export const Header = (props: React.ComponentProps<'nav'>) => {
 				onClick={() => updateResponsive({ showMenu: !showMenu })}
 			/>
 			<Link href='/' passHref>
-				<NavLink currentColor css={{ alignItems: 'center' }} onClick={() => updateResponsive({ showMenu: false })}>
+				<NavLink css={{ alignItems: 'center' }} onClick={() => updateResponsive({ showMenu: false })}>
 					<Logo
 						css={(theme: Theme) => ({
 							width: '32px',

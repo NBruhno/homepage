@@ -4,17 +4,16 @@ import { forwardRef } from 'react'
 
 type Props = {
 	active?: boolean,
-	currentColor?: boolean,
 } & React.ComponentProps<'a'>
 
-export const NavLink = forwardRef(({ active, currentColor = false, ...rest }: Props, ref) => {
+export const NavLink = forwardRef(({ active, ...rest }: Props, ref) => {
 	const forwardRef = ref as React.RefObject<HTMLAnchorElement>
 
 	return (
 		<a
 			css={(theme: Theme) => ({
 				padding: '6px 12px',
-				color: currentColor ? 'currentColor' : theme.color.textFaded,
+				color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
 				textDecoration: 'none',
 				backgroundColor: active ? transparentize(0.5, theme.color.primary) : 'transparent',
 				borderRadius: '4px',

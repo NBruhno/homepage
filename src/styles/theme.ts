@@ -5,9 +5,9 @@ export const screenSizes = {
 	laptop: 992,
 	desktop: 1200,
 	desktopLarge: 1600,
-}
+} as const
 
-export const mediaQueries = {
+export const mediaQueries = Object.freeze({
 	wearableToMobile: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.mobile -1}px)`,
 	wearableToTablet: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.tablet -1}px)`,
 	wearableToLaptop: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.laptop -1}px)`,
@@ -41,27 +41,27 @@ export const mediaQueries = {
 	minLaptop: `@media only screen and (min-width: ${screenSizes.laptop}px)`,
 	minDesktop: `@media only screen and (min-width: ${screenSizes.desktop}px)`,
 	minDesktopLarge: `@media only screen and (min-width: ${screenSizes.desktopLarge}px)`,
-}
+} as const)
 
-export const theme = (darkTheme = true) => ({
+export const theme = (darkTheme = true) => Object.freeze({
 	color: {
 		primary: 'hsl(21, 80%, 51%)',
 		primaryLight: 'hsl(21, 80%, 56%)',
 		primaryLighter: 'hsl(21, 80%, 61%)',
 		grayDarker: darkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 80%)',
 		grayDark: darkTheme ? 'hsl(0, 0%, 15%)' : 'hsl(0, 0%, 50%)',
-		gray: 'hsl(0, 0%, 30%)',
-		gray100: darkTheme ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)',
-		gray090: darkTheme ? 'hsl(0, 0%, 90%)' : 'hsl(0, 0%, 10%)',
-		gray080: darkTheme ? 'hsl(0, 0%, 80%)' : 'hsl(0, 0%, 20%)',
-		gray070: darkTheme ? 'hsl(0, 0%, 70%)' : 'hsl(0, 0%, 30%)',
-		gray060: darkTheme ? 'hsl(0, 0%, 60%)' : 'hsl(0, 0%, 40%)',
-		gray050: darkTheme ? 'hsl(0, 0%, 50%)' : 'hsl(0, 0%, 50%)',
-		gray040: darkTheme ? 'hsl(0, 0%, 40%)' : 'hsl(0, 0%, 60%)',
-		gray030: darkTheme ? 'hsl(0, 0%, 30%)' : 'hsl(0, 0%, 70%)',
-		gray020: darkTheme ? 'hsl(0, 0%, 20%)' : 'hsl(0, 0%, 80%)',
-		gray010: darkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 90%)',
-		gray000: darkTheme ? 'hsl(0, 0%, 0%)' : 'hsl(0, 0%, 100%)',
+		gray: 'hsl(215, 15%, 30%)',
+		gray100: darkTheme ? 'hsl(215,  28%, 100%)' : 'hsl(0, 0%, 0%)',
+		gray090: darkTheme ? 'hsl(215,  28%, 90%)' : 'hsl(0, 0%, 10%)',
+		gray080: darkTheme ? 'hsl(215, 28%, 80%)' : 'hsl(0, 0%, 20%)',
+		gray070: darkTheme ? 'hsl(215, 28%, 70%)' : 'hsl(0, 0%, 30%)',
+		gray060: darkTheme ? 'hsl(215, 28%, 60%)' : 'hsl(0, 0%, 40%)',
+		gray050: darkTheme ? 'hsl(215, 28%, 50%)' : 'hsl(0, 0%, 50%)',
+		gray040: darkTheme ? 'hsl(215, 28%, 40%)' : 'hsl(0, 0%, 60%)',
+		gray030: darkTheme ? 'hsl(215, 28%, 30%)' : 'hsl(0, 0%, 70%)',
+		gray020: darkTheme ? 'hsl(215, 28%, 20%)' : 'hsl(0, 0%, 80%)',
+		gray010: darkTheme ? 'hsl(215, 28%, 10%)' : 'hsl(0, 0%, 90%)',
+		gray000: darkTheme ? 'hsl(215, 28%, 0%)' : 'hsl(0, 0%, 100%)',
 		grayLight: darkTheme ? 'hsl(0, 0%, 50%)' : 'hsl(0, 0%, 15%)',
 		grayLighter: darkTheme ? 'hsl(0, 0%, 80%)' : 'hsl(0, 0%, 10%)',
 		white: 'white',
@@ -70,16 +70,20 @@ export const theme = (darkTheme = true) => ({
 		error: darkTheme ? 'hsl(0, 65%, 50%)' : 'hsl(0, 80%, 51%)',
 		errorBackground: darkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
 		errorBackgroundHover: darkTheme ? 'hsl(0, 65%, 20%)' : 'hsl(0, 80%, 85%)',
-		background: darkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 100%)',
+		background: darkTheme ? 'hsl(216, 28%, 7%)' : 'hsl(0, 0%, 100%)',
+		backgroundHover: darkTheme ? 'hsl(216, 28%, 10%)' : 'hsl(0, 0%, 100%)',
 		text: darkTheme ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)',
 		textFaded: darkTheme ? 'hsl(0, 0%, 85%)' : 'hsl(0, 0%, 20%)',
 		textInverted: darkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 95%)',
-		border: darkTheme ? 'hsl(0, 0%, 15%)' : 'hsl(0, 0%, 90%)',
+		border: darkTheme ? 'hsl(215, 15%, 15%)' : 'hsl(0, 0%, 90%)',
 
-		inputBackground: darkTheme ? 'hsl(0, 0%, 12%)' : 'hsl(0, 0%, 98%)',
-		inputBackgroundHover: darkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 100%)',
-		inputBorder: darkTheme ? 'hsl(0, 0%, 20%)' : 'hsl(0, 0%, 90%)',
-		inputBorderHover: darkTheme ? 'hsl(0, 0%, 40%)' : 'hsl(0, 0%, 75%)',
+		sidebarBackground: darkTheme ? 'hsl(215, 21%, 11%)' : 'hsl(210, 12%, 16%)',
+		sidebarBorder: darkTheme ? 'hsl(215, 15%, 18%)' : 'hsl(215, 15%, 25%)',
+
+		inputBackground: darkTheme ? 'hsl(216, 28%, 7%)' : 'hsl(0, 0%, 98%)',
+		inputBackgroundHover: darkTheme ? 'hsl(216, 28%, 10%)' : 'hsl(0, 0%, 100%)',
+		inputBorder: darkTheme ? 'hsl(215, 15%, 18%)' : 'hsl(0, 0%, 90%)',
+		inputBorderHover: darkTheme ? 'hsl(215, 15%, 35%)' : 'hsl(0, 0%, 75%)',
 	},
 	fontSize: {
 		s200: '2em',
@@ -102,7 +106,7 @@ export const theme = (darkTheme = true) => ({
 	},
 	darkTheme,
 	mediaQueries,
-})
+} as const)
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare module '@emotion/react' {

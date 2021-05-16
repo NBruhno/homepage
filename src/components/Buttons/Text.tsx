@@ -13,7 +13,7 @@ export const Text = ({ slim, ...rest }: Props) => (
 		css={(theme: Theme) => ({
 			backgroundColor: 'transparent',
 			borderRadius: '4px',
-			color: slim ? theme.color.textFaded : theme.color.text,
+
 			padding: '6px 12px',
 			margin: '4px 0',
 			minWidth: '0px',

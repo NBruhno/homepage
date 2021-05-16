@@ -3,39 +3,24 @@ import { useRouter } from 'next/router'
 
 import { useAuth } from 'states/auth'
 
-import { ButtonText } from 'components/Buttons'
-import { HomeIcon, NotebookIcon, UserIcon, UserOffIcon, LoginIcon, LogoutIcon, InfoIcon, AppsIcon, GamepadIcon } from 'components/Icons'
+import { HomeIcon, NotebookIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, GamepadIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
 
 import { NavLink } from '../NavLink'
 
+import { ButtonAuthenticate } from './Buttons/Authenticate'
 import { Content } from './Content'
 import { Separator } from './Separator'
 import { Text } from './Text'
 
-const ButtonTextStyled = ({ children, onClick }: { children: React.ReactNode, onClick: () => void }) => (
-	<ButtonText
-		css={{ margin: '4px 12px', height: '35px' }}
-		slim
-		label={(
-			<div css={{ display: 'flex', alignItems: 'center', height: '20px' }}>
-				{children}
-			</div>
-		)}
-		onClick={onClick}
-	/>
-)
-
 type Props = {
 	collapsedSidebar: boolean,
-	showLogin: boolean,
 
 	closeMenuOnInteraction: () => void,
-	updateResponsive: (payload: any) => void,
 }
 
-export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar, updateResponsive, showLogin }: Props) => {
-	const { user, logout } = useAuth()
+export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar }: Props) => {
+	const { user } = useAuth()
 	const { pathname } = useRouter()
 
 	return (
@@ -55,15 +40,7 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar, up
 					</Placeholder>
 				</NavLink>
 			</Link>
-			{user.accessToken ? (
-				<ButtonTextStyled onClick={async () => { await logout() }}>
-					<LogoutIcon css={{ marginRight: '12px' }} />Logout
-				</ButtonTextStyled>
-			) : (
-				<ButtonTextStyled onClick={() => updateResponsive({ showLogin: !showLogin, showMenu: false })}>
-					<LoginIcon css={{ marginRight: '12px' }} />Login
-				</ButtonTextStyled>
-			)}
+			<ButtonAuthenticate />
 			<Separator collapsed={collapsedSidebar} />
 			<Link href='/games' passHref>
 				<NavLink active={pathname.includes('/games')} onClick={() => closeMenuOnInteraction()}>

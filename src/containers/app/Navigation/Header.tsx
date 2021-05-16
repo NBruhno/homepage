@@ -8,8 +8,8 @@ export const Header = forwardRef((props: React.ComponentPropsWithRef<'a'>, ref) 
 		<a
 			css={(theme: Theme) => ({
 				alignItems: 'center',
-				backgroundColor: theme.darkTheme ? theme.color.gray010 : theme.color.gray000,
-				color: theme.darkTheme ? theme.color.text : theme.color.text,
+				backgroundColor: theme.color.sidebarBackground,
+				color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
 				display: 'flex',
 				flexShrink: 0,
 				fontFamily: theme.fontFamily.poppins,

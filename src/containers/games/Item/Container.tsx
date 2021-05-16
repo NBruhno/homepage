@@ -24,10 +24,12 @@ export const Container = forwardRef(({ isLoading, ...rest }: Props, ref) => {
 				textDecoration: 'none',
 				transition: `
 					border 200ms ${theme.animation.default},
-					box-shadow 200ms ${theme.animation.default}`,
+					box-shadow 200ms ${theme.animation.default},
+					background-color 200ms ${theme.animation.default}`,
 			}, !isLoading ? {
 				'&:hover': {
 					border: `1px solid ${theme.color.primaryLighter}`,
+					backgroundColor: theme.color.backgroundHover,
 					boxShadow: `${theme.darkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
 				},
 

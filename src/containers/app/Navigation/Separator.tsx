@@ -13,7 +13,7 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 	return (
 		<div
 			css={(theme: Theme) => ({
-				borderTop: `1px solid ${theme.color.border}`,
+				borderTop: `1px solid ${theme.color.sidebarBorder}`,
 				color: theme.color.text,
 				fontFamily: theme.fontFamily.poppins,
 				fontSize: theme.fontSize.s100,
