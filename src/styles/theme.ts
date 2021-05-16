@@ -1,11 +1,11 @@
-export const screenSizes = {
+export const screenSizes = Object.freeze({
 	wearable: 306,
 	mobile: 576,
 	tablet: 768,
 	laptop: 992,
 	desktop: 1200,
 	desktopLarge: 1600,
-} as const
+} as const)
 
 export const mediaQueries = Object.freeze({
 	wearableToMobile: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.mobile -1}px)`,

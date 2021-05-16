@@ -9,8 +9,7 @@ import { config } from 'config.server'
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
 
-import { faunaClient } from '../faunaClient'
-import { authenticate } from '../middleware'
+import { serverClient } from '../faunaClient'
 import { monitorReturnAsync } from '../performanceCheck'
 
 import { shouldUpdate } from './lib'
@@ -18,10 +17,9 @@ import { shouldUpdate } from './lib'
 export const follows = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { query: { user } } = req
 	const { transaction } = options
-	const { secret } = authenticate(req, res, { transaction })!
 	res.setHeader('Cache-Control', 'no-cache')
 
-	const games = await monitorReturnAsync(() => faunaClient(secret).query<{ data: Array<{ data: Game }> }>(
+	const games = await monitorReturnAsync(() => serverClient.query<{ data: Array<{ data: Game }> }>(
 		q.Map(
 			q.Paginate(
 				q.Join(

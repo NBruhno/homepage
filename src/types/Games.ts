@@ -1,11 +1,5 @@
 import type { WebsiteCategory } from './IGDB'
 
-export enum ListTypes {
-	Popular = 'popular',
-	Search = 'search',
-	Following = 'following',
-}
-
 export enum Status {
 	Alpha = 'Alpha',
 	Beta = 'Beta',

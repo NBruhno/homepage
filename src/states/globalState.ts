@@ -1,5 +1,3 @@
-import { ListTypes } from 'types/Games'
-
 import { createGlobalState } from 'react-hooks-global-state'
 
 type Responsive = {
@@ -36,7 +34,6 @@ export type State = {
 	forms: Record<string, any>,
 	games: {
 		hasSearch: boolean,
-		currentList: ListTypes,
 	},
 	modal: Modal,
 	responsive: Responsive,
@@ -48,7 +45,6 @@ export const { useGlobalState } = createGlobalState<State>({
 	forms: {},
 	games: {
 		hasSearch: false,
-		currentList: ListTypes.Popular,
 	},
 	responsive: {
 		collapsedSidebar: false,

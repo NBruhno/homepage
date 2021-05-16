@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { FormSpy } from 'react-final-form'
 
-import { useGames } from 'states/games'
+import { useSearchGames } from 'states/games'
 
 import { GameList } from 'containers/games/List'
 
@@ -12,7 +12,7 @@ import { Input } from 'components/Forms/Fields/Input'
 import { Page, PageContent } from 'components/Layout'
 
 const Games: NextPage = () => {
-	const { games, gamesSearch, hasSearch, setHasSearch } = useGames()
+	const { games, gamesSearch, hasSearch, setHasSearch } = useSearchGames()
 
 	return (
 		<>
