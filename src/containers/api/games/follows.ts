@@ -17,7 +17,6 @@ import { shouldUpdate } from './lib'
 export const follows = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { query: { user } } = req
 	const { transaction } = options
-	res.setHeader('Cache-Control', 'no-cache')
 
 	const games = await monitorReturnAsync(() => serverClient.query<{ data: Array<{ data: Game }> }>(
 		q.Map(
@@ -41,5 +40,6 @@ export const follows = async (req: NextApiRequest, res: NextApiResponse, options
 		})
 	}
 
+	res.setHeader('Cache-Control', `s-maxage=${60 * 5}, stale-while-revalidate`)
 	return res.status(200).json({ games })
 }
