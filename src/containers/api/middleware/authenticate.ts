@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { TokenTypes } from 'types/Token'
 import type { Token } from 'types/Token'
 
-import { setUser } from '@sentry/node'
+import { setUser } from '@sentry/nextjs'
 import jwt from 'jsonwebtoken'
 
 import { config } from 'config.server'

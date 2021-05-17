@@ -1,8 +1,10 @@
+import { withSentry } from '@sentry/nextjs'
+
 import { throwError } from 'containers/api/errors/ApiError'
-import { withSentry } from 'containers/api/middleware'
+import { withSentryTracking } from 'containers/api/middleware'
 import { login, user, users, twoFactorAuthentication, logout, refresh, changePassword } from 'containers/api/users'
 
-export default withSentry(async (req, res, transaction) => {
+const handler = withSentryTracking(async (req, res, transaction) => {
 	const { query: { route } } = req
 
 	res.setHeader('Cache-Control', 'no-cache')
@@ -27,3 +29,5 @@ export default withSentry(async (req, res, transaction) => {
 		}
 	} else return users(req, res, { transaction })
 })
+
+export default withSentry(handler)

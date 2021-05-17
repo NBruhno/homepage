@@ -7,7 +7,6 @@ module.exports = {
 	testRegex: TEST_REGEX,
 	transform: {
 		'^.+\\.[tj]sx?$': 'babel-jest',
-		'^.+\\.mdx?$': '@storybook/addon-docs/jest-transform-mdx',
 	},
 	transformIgnorePatterns: [
 		'<rootDir>/node_modules/(?!lodash-es)',
