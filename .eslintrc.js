@@ -19,15 +19,6 @@ module.exports = {
 		'react',
 		'react-hooks',
 	],
-	overrides: [
-		{
-			files: '*.mdx',
-			extends: 'plugin:mdx/recommended',
-			rules: {
-				'react/jsx-indent': 'off',
-			},
-		},
-	],
 	env: {
 		browser: true,
 		'jest/globals': true,
@@ -176,7 +167,7 @@ module.exports = {
 		'react-hooks/rules-of-hooks': 'error',
 		'react/destructuring-assignment': 'off',
 		'react/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: false }],
-		'react/jsx-filename-extension': ['error', { extensions: ['.tsx', '.mdx'] }],
+		'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
 		'react/jsx-indent-props': ['error', 'tab'],
 		'react/jsx-indent': ['error', 'tab'],
 		'react/jsx-no-bind': ['error', {

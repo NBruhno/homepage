@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { captureException, flush } from '@sentry/node'
+import { captureException, flush } from '@sentry/nextjs'
 import NextErrorComponent from 'next/error'
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }: { statusCode: number, hasGetInitialPropsRun: boolean, err: Error }) => {
@@ -36,9 +36,10 @@ MyError.getInitialProps = async ({ res, err, asPath }: { res: NextApiResponse, e
 	//    Boundary. Read more about what types of exceptions are caught by Error
 	//    Boundaries: https://reactjs.org/docs/error-boundaries.html
 
-	if (res?.statusCode === 404) return { statusCode: 404 }
 	if (err) {
 		captureException(err)
+		// Flushing before returning is necessary if deploying to Vercel, see
+		// https://vercel.com/docs/platform/limits#streaming-responses
 		await flush(2000)
 		return errorInitialProps
 	}

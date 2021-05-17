@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 
 import { useAuth } from 'states/auth'
 
-import { HomeIcon, NotebookIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon } from 'components/Icons'
+import { HomeIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
 
 import { NavLink } from '../NavLink'
@@ -62,12 +62,6 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar }: 
 			<Separator collapsed={collapsedSidebar}>
 				Other
 			</Separator>
-			<Link href='/storybook' passHref>
-				<NavLink active={pathname.includes('/storybook')} onClick={() => closeMenuOnInteraction()}>
-					<NotebookIcon title='Storybook' css={{ marginRight: '12px' }} size={22} /><Text>Storybook</Text>
-				</NavLink>
-			</Link>
-			{/* <Separator collapsed={collapsedSidebar}>Site</Separator> */}
 			<Link href='/projects' passHref>
 				<NavLink active={pathname.includes('/projects')} onClick={() => closeMenuOnInteraction()}>
 					<AppsIcon title='Projects' css={{ marginRight: '12px' }} size={22} /><Text>Projects</Text>

@@ -1,3 +1,5 @@
+import type { Interpolation } from '@emotion/serialize'
+
 import Collapse from 'components/Collapse'
 
 import { Container } from './Container'
@@ -12,6 +14,7 @@ type Props = {
 	isExpanded?: boolean,
 	isLoading?: boolean,
 	shouldAnimate?: boolean,
+	css?: Interpolation<Theme>,
 }
 
 export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, shouldAnimate = true, ...rest }: Props) => (

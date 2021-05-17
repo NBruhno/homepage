@@ -1,8 +1,10 @@
+import { withSentry } from '@sentry/nextjs'
+
 import { sendError } from 'containers/api/errors/ApiError'
 import { game, update } from 'containers/api/games'
-import { withSentry } from 'containers/api/middleware'
+import { withSentryTracking } from 'containers/api/middleware'
 
-export default withSentry(async (req, res, transaction) => {
+const handler = withSentryTracking(async (req, res, transaction) => {
 	const { query: { id }, method } = req
 	const gameId = parseInt(id as string, 10)
 
@@ -19,3 +21,5 @@ export default withSentry(async (req, res, transaction) => {
 		default: sendError(405, res)
 	}
 })
+
+export default withSentry(handler)
