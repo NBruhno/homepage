@@ -1,11 +1,7 @@
 import NextApp from 'next/app'
 import Head from 'next/head'
 
-import { sentryInit } from 'lib/sentryInit'
-
 import { App } from 'containers/app'
-
-sentryInit()
 
 export default class MyApp extends NextApp {
 	render() {

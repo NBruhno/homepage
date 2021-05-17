@@ -4,7 +4,7 @@ import type { Transaction } from '@sentry/types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { MockRequest, MockResponse } from 'node-mocks-http'
 
-import { startTransaction } from '@sentry/node'
+import { startTransaction } from '@sentry/nextjs'
 
 type Request = MockRequest<NextApiRequest>
 type Response = MockResponse<NextApiResponse>

@@ -36,7 +36,6 @@ The code is publicly available to serve as inspiration/proof of concept, and is 
 * `IGDB_TOKEN` - OAuth token generated through the Twitch developer API
 * `ITAD_TOKEN` - Token from Is There Any Deal to get game prices
 * `NEXT_PUBLIC_SENTRY_DSN` - Project DSN for the Sentry project
-* `NEXT_PUBLIC_SENTRY_SERVER_ROOT_DIR` - Server root directory where it is deployed
 
 You can verify that you have the required env variables by running `yarn verify:env`.
 If any of the ones required in the script is missing, it will error out.

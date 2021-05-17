@@ -8,6 +8,7 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
+    "jsxImportSource": "@emotion/react",
     "lib": [
       "dom",
       "dom.iterable",
@@ -38,13 +39,10 @@
     "node_modules"
   ],
   "include": [
-    "**/.*.mdx",
     "**/.*.tsx",
-    "**/*.mdx",
     "**/*.ts",
     "**/*.tsx",
     "emotion.d.ts",
-    "mdx.d.ts",
     "next-env.d.ts"
   ]
 }
