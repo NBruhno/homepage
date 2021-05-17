@@ -18,11 +18,12 @@ const securityHeaders = [
 	},
 ]
 
+const GIT_COMMIT_MESSAGE = process.env.VERCEL_GIT_COMMIT_MESSAGE
 const SentryWebpackPluginOptions = {
 	silent: process.env.VERCEL_ENV === 'development',
 	deploy: {
 		env: process.env.VERCEL_ENV,
-		name: process.env.VERCEL_GIT_COMMIT_MESSAGE,
+		name: GIT_COMMIT_MESSAGE.length > 60 ? GIT_COMMIT_MESSAGE.substring(0, 60 - 3) + '...' : GIT_COMMIT_MESSAGE,
 		url: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
 	},
 }
