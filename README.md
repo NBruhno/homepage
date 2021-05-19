@@ -13,7 +13,6 @@
   * [Emotion](https://github.com/emotion-js/emotion) - CSS-in-JS
   * [Final Form](https://github.com/final-form/final-form) - Forms
   * [Sentry](https://github.com/getsentry/sentry-javascript) - Error tracking
-  * [Storybook](https://github.com/storybookjs/storybook/issues) - Design and component development environment
 ### Obvious additions
   * [Babel](https://github.com/babel/babel) - Compiler
   * [Jest](https://github.com/facebook/jest) - Testing
@@ -35,7 +34,6 @@ The code is publicly available to serve as inspiration/proof of concept, and is 
 * `IGDB_CLIENT_SECRET` - Personal secret acquired from the Twitch developer portal
 * `IGDB_TOKEN` - OAuth token generated through the Twitch developer API
 * `ITAD_TOKEN` - Token from Is There Any Deal to get game prices
-* `NEXT_PUBLIC_SENTRY_DSN` - Project DSN for the Sentry project
 
 You can verify that you have the required env variables by running `yarn verify:env`.
 If any of the ones required in the script is missing, it will error out.
@@ -47,16 +45,15 @@ They are encrypted inside this file because Vercel has a 4KB total limit on env 
 Make sure to have yarn installed, and run `yarn` before starting to download the required packages.
 
 To run the application locally, run `yarn dev`.
-This will start both Next and Storybook. If you want to start any of them up individually, use `yarn dev:next` or `yarn dev:storybook`.
+This will start Next.
 
 If you want to run the application as it would on Vercel, you can install Vercel `npm i -g vercel` and run `vercel dev`.
 
 You can find the website at `http://localhost:3000` and you can access the API at `http://localhost:3000/api` once running.
 
 ## Building the application
-To build the application, run `yarn build`. If you want to build Next and Storybook individually, run `yarn build:next` or `yarn build:storybook`.
+To build the application, run `yarn build`.
 Once build, the application can be run with `yarn start`.
-Storybook is put into `/public` and is a static build.
 
 ## Linting and testing
 To lint the application, run `yarn lint`. If you want to run eslint and tsc individually, run `yarn lint:eslint` or `yarn lint:tsc`
