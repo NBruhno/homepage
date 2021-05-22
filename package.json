@@ -31,6 +31,7 @@
     "@mdi/js": "5.9.55",
     "@react-hook/media-query": "1.1.1",
     "@sentry/nextjs": "6.4.1",
+    "@sentry/node": "^6.4.1",
     "@sentry/tracing": "^6.4.1",
     "cookie": "0.4.1",
     "date-fns": "2.21.3",
