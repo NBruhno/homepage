@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
 					<meta name='mobile-web-app-capable' content='yes' />
 					<meta name='apple-mobile-web-app-capable' content='yes' />
 					<meta name='msapplication-starturl' content='/' />
-					<meta name='theme-color' content='hsl(0, 0%, 10%)' />
+					<meta name='theme-color' content='hsl(216, 28%, 7%)' />
 
 					{/* Twitter */}
 					<meta name='twitter:card' content="This is Nicolai Bruhn Lauritsen or more commonly known as Bruhno's personal website which functions as a portfolio and a playground." />

@@ -12,6 +12,7 @@ export default class MyApp extends NextApp {
 			<>
 				<Head>
 					<meta name='viewport' content='width=device-width, initial-scale=1' />
+					<meta name='sentry-trace' content='{{ span.toSentryTrace() }}' />
 				</Head>
 				<App>
 					<Component {...pageProps} err={err} />
