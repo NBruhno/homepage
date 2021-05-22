@@ -44,9 +44,13 @@ export const fetcher = async <ReturnType>(
 		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
 	}: Options = {}): Promise<ReturnType> => {
 	const transaction = startTransaction({
-		op: 'request',
+		op: 'fetcher',
 		name: `${method} - ${url}`,
 		trimEnd: false,
+	}, {
+		http: {
+			method,
+		},
 	})
 
 	// Create headers object and remove undefined variables to exclude them from call
@@ -54,7 +58,7 @@ export const fetcher = async <ReturnType>(
 		'Content-Type': contentType,
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-		'sentry-trace': transaction.toTraceparent(),
+		'sentry-trace': transaction.traceId,
 		...customHeaders,
 	}) as Record<string, string>
 	Object.keys(headers).forEach((key) => headers[key] === undefined && delete headers[key])
