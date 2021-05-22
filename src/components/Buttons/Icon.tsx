@@ -1,6 +1,6 @@
 import type { Props as AsyncProps } from './Async'
 
-import { transparentize } from 'polished'
+import { adjustHsl } from 'lib/adjustHsl'
 
 import { ButtonAsync } from './Async'
 
@@ -17,7 +17,7 @@ export const Icon = (props: AsyncProps) => (
 			},
 
 			'&:hover:enabled, &:focus:enabled': {
-				backgroundColor: transparentize(0.5, theme.color.primary),
+				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.2 }),
 			},
 		})}
 		{...props}

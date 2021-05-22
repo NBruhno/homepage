@@ -1,4 +1,4 @@
-import { lighten, transparentize } from 'polished'
+import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
 	focus: boolean,
@@ -10,7 +10,7 @@ type Props = {
 export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Props) => {
 	const boxShadow = (theme: Theme) => {
 		if (focus) {
-			return hasError ? `0 0 0 2px ${theme.color.error}` : `0 0 0 2px ${transparentize(0.8, theme.color.primary)}`
+			return hasError ? `0 0 0 2px ${theme.color.error}` : `0 0 0 2px ${adjustHsl(theme.color.primary, { alpha: 0.8 })}`
 		} else {
 			return 'none'
 		}
@@ -18,7 +18,7 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 
 	const border = (theme: Theme) => {
 		if (disabled && checked) {
-			return lighten(0.2, theme.color.primary)
+			return adjustHsl(theme.color.primary, { light: '60%' })
 		} else if (checked || focus) {
 			return theme.color.primary
 		} else if (hasError) {
@@ -30,9 +30,9 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 
 	const backgroundColor = (theme: Theme) => {
 		if (disabled) {
-			return hasError ? lighten(0.33, theme.color.error) : theme.color.grayLight
+			return hasError ? adjustHsl(theme.color.error, { light: '60%' }) : theme.color.grayLight
 		} else {
-			return hasError ? lighten(0.33, theme.color.error) : theme.color.white
+			return hasError ? adjustHsl(theme.color.error, { light: '60%' }) : theme.color.white
 		}
 	}
 
@@ -69,7 +69,7 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 					transform: `translate(5px, 5px) ${checked ? 'scale(1)' : 'scale(0)'}`,
 					width: '12px',
 					height: '12px',
-					backgroundColor: disabled ? lighten(0.2, theme.color.primary) : theme.color.primary,
+					backgroundColor: disabled ? adjustHsl(theme.color.primary, { light: '60%' }) : theme.color.primary,
 					borderRadius: '100%',
 					transition: 'transform 0.15s ease-in-out',
 				},

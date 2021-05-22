@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 
 import Head from 'next/head'
 
+import { ButtonSolid } from 'components/Buttons'
 import { Page } from 'components/Layout/Page'
 import { PageContent } from 'components/Layout/PageContent'
 
@@ -30,6 +31,7 @@ const About: NextPage<Props> = () => (
 					<li>Database</li>
 					<li>Third party API&apos;s</li>
 				</ul>
+				<ButtonSolid label='Test' />
 			</PageContent>
 		</Page>
 	</>

@@ -1,5 +1,4 @@
-import { transparentize } from 'polished'
-
+import { adjustHsl } from 'lib/adjustHsl'
 import { useScroll } from 'lib/useScroll'
 
 export const Header = (props: React.ComponentProps<'header'>) => {
@@ -22,7 +21,7 @@ export const Header = (props: React.ComponentProps<'header'>) => {
 
 				'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
 					backdropFilter: 'saturate(150%) blur(5px)',
-					backgroundColor: transparentize(0.1, theme.darkTheme ? theme.color.inputBackgroundHover : theme.color.sidebarBackground),
+					backgroundColor: adjustHsl(theme.darkTheme ? theme.color.inputBackgroundHover : theme.color.sidebarBackground, { alpha: 0.9 }),
 				},
 
 				[theme.mediaQueries.minMobile]: {

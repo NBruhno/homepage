@@ -1,5 +1,6 @@
 import { css } from '@emotion/react'
-import { transparentize } from 'polished'
+
+import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
 	collapsed?: boolean,
@@ -60,7 +61,7 @@ export const MobileSidebar = ({ show, ...rest }: Props & { show: boolean }) => (
 
 					'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
 						backdropFilter: 'saturate(150%) blur(5px)',
-						backgroundColor: transparentize(0.1, theme.color.sidebarBackground),
+						backgroundColor: adjustHsl(theme.color.sidebarBackground, { alpha: 0.9 }),
 					},
 				},
 			},
