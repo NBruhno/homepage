@@ -1,4 +1,4 @@
-import { startTransaction } from '@sentry/nextjs'
+// import { startTransaction } from '@sentry/nextjs'
 
 export enum ContentType {
 	Text = 'text/plain',
@@ -43,18 +43,18 @@ export const fetcher = async <ReturnType>(
 		accessToken, body, method = Method.Get, contentType = ContentType.JSON, absoluteUrl,
 		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
 	}: Options = {}): Promise<ReturnType> => {
-	const transaction = startTransaction({
-		op: 'request',
-		name: `${method} - ${url}`,
-		trimEnd: false,
-	})
+	// const transaction = startTransaction({
+	// 	op: 'request',
+	// 	name: `${method} - ${url}`,
+	// 	trimEnd: false,
+	// })
 
 	// Create headers object and remove undefined variables to exclude them from call
 	const headers = ({
 		'Content-Type': contentType,
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-		'sentry-trace': transaction.traceId,
+		// 'sentry-trace': transaction.traceId,
 		...customHeaders,
 	}) as Record<string, string>
 	Object.keys(headers).forEach((key) => headers[key] === undefined && delete headers[key])
@@ -77,8 +77,8 @@ export const fetcher = async <ReturnType>(
 
 			return response.json()
 		} finally {
-			transaction.setHttpStatus(response.status)
-			transaction.finish()
+			// transaction.setHttpStatus(response.status)
+			// transaction.finish()
 		}
 	})
 }
