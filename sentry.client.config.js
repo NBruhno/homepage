@@ -7,5 +7,7 @@ Sentry.init({
 	dsn: SENTRY_DSN,
 	tracesSampleRate: 1,
 	environment: process.env.VERCEL_ENV,
-	integrations: [new TracingIntegrations.BrowserTracing()],
+	integrations: [new TracingIntegrations.BrowserTracing({
+		tracingOrigins: ['localhost', /(?:(?:\w*\.)?(?:bruhno(?:\.com|\.dev))|(?:\w*-)+(?:bruhno\.vercel\.app))/g],
+	})],
 })
