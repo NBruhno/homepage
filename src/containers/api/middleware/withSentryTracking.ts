@@ -14,18 +14,21 @@ type ApiHandler = (req: NextApiRequest, res: NextApiResponse, transaction: Trans
  * @param apiHandler - The next ApiHandler
  */
 export const withSentryTracking = (apiHandler: ApiHandler) => async (req: NextApiRequest, res: NextApiResponse) => {
-	// const { 'sentry-trace': traceId } = req.headers
+	const { 'sentry-trace': traceId } = req.headers
 	const transaction = startTransaction({
 		op: 'request',
 		name: `${req.method} - ${req.url?.split('?')[0]}`,
 		trimEnd: false,
-		// traceId: traceId as string | undefined,
+		traceId: traceId as string | undefined,
 		tags: {
 			type: req.url?.split('/')[1] ?? 'Unspecified',
 			resource: req.url?.split('/')[2] ?? 'Unspecified',
 		},
 	}, {
 		query: req.query,
+		http: {
+			method: req.method,
+		},
 	})
 	res.setHeader('sentry-trace', transaction.traceId)
 	if (config.environment === 'development') logger.debug(`${req.method} - ${req.url}`)
