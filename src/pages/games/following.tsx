@@ -2,33 +2,51 @@ import type { NextPage } from 'next'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import { useMemo } from 'react'
 
-import { useAuth } from 'states/auth'
-import { useFollowingGames } from 'states/games'
+import { useGlobalState } from 'states/globalState'
 
-import { GameList } from 'containers/games/List'
+import { FollowingGames } from 'containers/games/Lists'
 
+import { ButtonBorder } from 'components/Buttons'
 import { Page, PageContent } from 'components/Layout'
+import { Tooltip } from 'components/Tooltip'
 
 const Games: NextPage = () => {
+	const [{ afters, numberOfPages }, setState] = useGlobalState('followingGames')
 	const { query } = useRouter()
-	const { games } = useFollowingGames({ followedGamesUser: query.user ?? undefined })
-	const { user } = useAuth()
+	const disablePagination = afters[afters.length - 1] === undefined
 
 	return (
 		<>
 			<Head>
-				<title>Games • Bruhno</title>
+				<title>Followed games • Bruhno</title>
 			</Head>
 			<Page>
 				<PageContent maxWidth={700}>
 					<h2>Followed games</h2>
-					<GameList
-						games={games ?? null}
-						isLoading={Boolean(!games && ((user?.isStateKnown && user?.accessToken) || query.user))}
-						undefinedMessage='You need to be logged in to see what games you are following'
-						emptyMessage='You have not following any games yet'
-					/>
+					{useMemo(() => {
+						const pagesToRender = []
+						for (let index = 0; index < numberOfPages; index++) {
+							pagesToRender.push(<FollowingGames after={afters[index]} key={index} />)
+						}
+						return pagesToRender
+					}, [numberOfPages])}
+					{query.user && (
+						<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
+							<Tooltip tip="That's all of your followed games" show={disablePagination}>
+								<ButtonBorder
+									label='Show more'
+									disabled={disablePagination}
+									onClick={() => {
+										if (!disablePagination) {
+											setState({ afters, numberOfPages: numberOfPages + 1 })
+										}
+									}}
+								/>
+							</Tooltip>
+						</div>
+					)}
 				</PageContent>
 			</Page>
 		</>

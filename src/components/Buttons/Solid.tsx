@@ -1,6 +1,6 @@
 import type { Props as AsyncProps } from './Async'
 
-import { shade } from 'polished'
+import { adjustHsl } from 'lib/adjustHsl'
 
 import { ButtonAsync } from './Async'
 
@@ -22,7 +22,7 @@ export const Solid = ({ color, backgroundColor, ...rest }: Props) => (
 			},
 
 			'&:hover:enabled': {
-				backgroundColor: backgroundColor ? shade(0.5, theme.color[backgroundColor]) : theme.color.primaryLight,
+				backgroundColor: adjustHsl(theme.color.primary, { light: '60%' }),
 			},
 		})}
 		{...rest}

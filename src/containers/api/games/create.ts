@@ -13,7 +13,7 @@ export const create = async (req: NextApiRequest, res: NextApiResponse, options:
 	const { transaction } = options
 	authenticateSystem(req, res)
 
-	await monitorAsync(() => serverClient.query(q.Create(q.Collection('games'), {
+	await monitorAsync(() => serverClient(transaction).query(q.Create(q.Collection('games'), {
 		data: {
 			...body,
 			lastChecked: getUnixTime(new Date()),

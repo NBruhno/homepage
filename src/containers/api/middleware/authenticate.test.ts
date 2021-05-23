@@ -72,11 +72,4 @@ describe('/api/middleware/authenticate', () => {
 
 		expect(() => authenticate(req, res, { transaction })).toThrow(JsonWebTokenError)
 	})
-
-	test('Authenticate › Optional', async () => {
-		const { req, res } = createMocks()
-
-		const token = authenticate(req, res, { optional: true, transaction })
-		expect(token).toBe(undefined)
-	})
 })

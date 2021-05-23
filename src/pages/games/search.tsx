@@ -17,7 +17,7 @@ const Games: NextPage = () => {
 	return (
 		<>
 			<Head>
-				<title>Games • Bruhno</title>
+				<title>Search for a game • Bruhno</title>
 			</Head>
 			<Page>
 				<PageContent maxWidth={700}>

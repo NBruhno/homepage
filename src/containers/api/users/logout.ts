@@ -15,9 +15,9 @@ export const logout = async (req: NextApiRequest, res: NextApiResponse, options:
 
 	switch (method) {
 		case 'POST': {
-			const { secret } = authenticate(req, res, { transaction })!
+			const { secret } = authenticate(req, res, { transaction })
 
-			await monitorAsync(() => faunaClient(secret).query(query.Logout(false)).catch((error) => {
+			await monitorAsync(() => faunaClient(secret, transaction).query(query.Logout(false)).catch((error) => {
 				removeRefreshCookie(res, transaction)
 				res.status(200).json({ message: 'You have been logged out successfully' })
 				throw error

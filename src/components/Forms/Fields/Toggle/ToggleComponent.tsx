@@ -1,4 +1,4 @@
-import { lighten } from 'polished'
+import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
 	checked?: boolean,
@@ -9,7 +9,7 @@ type Props = {
 export const ToggleComponent = ({ checked, disabled, focus }: Props) => {
 	const backgroundColor = (theme: Theme) => {
 		if (disabled) {
-			return checked ? theme.color.primaryLight : lighten(0.075, theme.color.gray)
+			return checked ? theme.color.primaryLight : adjustHsl(theme.color.gray, { light: '34%' })
 		} else {
 			return checked ? theme.color.primary : theme.color.gray
 		}

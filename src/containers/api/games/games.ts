@@ -4,7 +4,8 @@ import type { Game } from 'types/Games'
 import type { Game as IGDBGame } from 'types/IGDB'
 
 import { getUnixTime, sub } from 'date-fns'
-import { query as q } from 'faunadb'
+// @ts-expect-error Missing type for parseJson.
+import { query as q, parseJSON } from 'faunadb'
 
 import { config } from 'config.server'
 
@@ -18,16 +19,16 @@ import { igdbFetcher, fields, mapIgdbGame, shouldUpdate } from './lib'
 
 export const games = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { transaction } = options
-	const { query: { search } } = req
+	const { query: { search, take = 15, after, before } } = req
 
 	// We are using IGDB for looking up games, since we do not keep a complete library
-	const games = search
+	const data = search
 		? await igdbFetcher<Array<IGDBGame>>('/games', res, {
-			body: `${fields}; limit 50; search "${search}";`,
+			body: `${fields}; limit ${take}; search "${search}";`,
 			nickname: 'popular',
 			span: transaction,
-		}).then((igdbGames) => igdbGames.map(mapIgdbGame))
-		: await monitorReturnAsync(() => serverClient.query<{ data: Array<{ data: Game }> }>(
+		}).then((igdbGames) => ({ games: igdbGames.map(mapIgdbGame) }))
+		: await monitorReturnAsync(() => serverClient(transaction).query<{ data: Array<{ data: Game }>, after: string, before: string }>(
 			q.Map(
 				q.Paginate(q.Filter(
 					// Index returns a tuple of [hype, releaseDate, ref]
@@ -36,16 +37,20 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 						['hype', 'releaseDate', 'ref'],
 						q.GTE(q.Var('releaseDate'), getUnixTime(sub(new Date(), { months: 2 }))),
 					),
-				), { size: 30 }),
+				), { size: take, after: after ? parseJSON(after) : undefined, before: before ? parseJSON(before) : undefined }),
 				q.Lambda(
 					['hype', 'releaseDate', 'ref'],
 					q.Get(q.Var('ref')),
 				),
 			),
-		).then(({ data }) => data.map(({ data }) => data)), 'faunadb - Map(Paginate(Filter(Range(), Lambda())), Lambda())', transaction)
+		).then(({ data, before, after }) => ({
+			games: data.map(({ data }) => data),
+			before: before ? JSON.stringify(before as string) : undefined,
+			after: after ? JSON.stringify(after as string) : undefined,
+		})), 'faunadb - Map(Paginate(Filter(Range(), Lambda())), Lambda())', transaction)
 
 	if (!search) {
-		const gamesToUpdate = games.filter((game) => shouldUpdate(game))
+		const gamesToUpdate = data.games.filter((game) => shouldUpdate(game))
 		if (gamesToUpdate.length > 0) {
 			fetcher(`/games`, {
 				absoluteUrl: absoluteUrl(req).origin,
@@ -55,7 +60,7 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 			})
 		}
 
-		if (games.some((game) => shouldUpdate(game))) {
+		if (!after && data.games.some((game) => shouldUpdate(game))) {
 			fetcher(`/games`, {
 				absoluteUrl: absoluteUrl(req).origin,
 				accessToken: config.auth.systemToken,
@@ -65,5 +70,5 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 	}
 
 	res.setHeader('Cache-Control', `s-maxage=${60 * 60}, stale-while-revalidate`)
-	return res.status(200).json({ games })
+	return res.status(200).json(data)
 }

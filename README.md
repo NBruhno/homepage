@@ -12,7 +12,7 @@
 ### Other important libraries:
   * [Emotion](https://github.com/emotion-js/emotion) - CSS-in-JS
   * [Final Form](https://github.com/final-form/final-form) - Forms
-  * [Sentry](https://github.com/getsentry/sentry-javascript) - Error tracking
+  * [Sentry](https://github.com/getsentry/sentry-javascript) - Error tracking and performance monitoring
 ### Obvious additions
   * [Babel](https://github.com/babel/babel) - Compiler
   * [Jest](https://github.com/facebook/jest) - Testing

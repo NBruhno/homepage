@@ -27,7 +27,7 @@ export const update = async (req: NextApiRequest, res: NextApiResponse, options:
 		span: transaction,
 	}).then(mapIgdbGame)
 
-	await monitorAsync(() => serverClient.query(q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), gameId))), {
+	await monitorAsync(() => serverClient(transaction).query(q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), gameId))), {
 		data: {
 			...game,
 			lastChecked: getUnixTime(new Date()),

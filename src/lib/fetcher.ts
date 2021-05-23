@@ -1,3 +1,5 @@
+import { startTransaction } from '@sentry/nextjs'
+
 export enum ContentType {
 	Text = 'text/plain',
 	JSON = 'application/json',
@@ -41,11 +43,22 @@ export const fetcher = async <ReturnType>(
 		accessToken, body, method = Method.Get, contentType = ContentType.JSON, absoluteUrl,
 		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
 	}: Options = {}): Promise<ReturnType> => {
+	const transaction = startTransaction({
+		op: 'fetcher',
+		name: `${method} - ${url}`,
+		trimEnd: false,
+	}, {
+		http: {
+			method,
+		},
+	})
+
 	// Create headers object and remove undefined variables to exclude them from call
 	const headers = ({
 		'Content-Type': contentType,
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
+		'sentry-trace': transaction.traceId,
 		...customHeaders,
 	}) as Record<string, string>
 	Object.keys(headers).forEach((key) => headers[key] === undefined && delete headers[key])
@@ -57,14 +70,19 @@ export const fetcher = async <ReturnType>(
 		credentials,
 		mode,
 	}).then((response) => {
-		const responseContentType = response.headers.get('content-type')
-		if (response.status >= 400) {
-			throw new Error(response.statusText)
-		}
-		if (responseContentType === ContentType.Text) {
-			return response.text()
-		}
+		try {
+			const responseContentType = response.headers.get('content-type')
+			if (response.status >= 400) {
+				throw new Error(response.statusText)
+			}
+			if (responseContentType === ContentType.Text) {
+				return response.text()
+			}
 
-		return response.json()
+			return response.json()
+		} finally {
+			transaction.setHttpStatus(response.status)
+			transaction.finish()
+		}
 	})
 }

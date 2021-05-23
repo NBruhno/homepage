@@ -26,6 +26,8 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "src/",
     "strict": true,
     "strictFunctionTypes": true,
     "target": "esnext",

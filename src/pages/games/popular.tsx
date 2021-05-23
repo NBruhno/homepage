@@ -1,30 +1,48 @@
 import type { NextPage } from 'next'
 
 import Head from 'next/head'
+import { useMemo } from 'react'
 
-import { usePopularGames } from 'states/games'
+import { useGlobalState } from 'states/globalState'
 
-import { GameList } from 'containers/games/List'
+import { PopularGames } from 'containers/games/Lists'
 
+import { ButtonBorder } from 'components/Buttons'
 import { Page, PageContent } from 'components/Layout'
+import { Tooltip } from 'components/Tooltip'
 
 const Games: NextPage = () => {
-	const { games } = usePopularGames()
+	const [{ afters, numberOfPages }, setState] = useGlobalState('popularGames')
+	const disablePagination = numberOfPages >= 4
 
 	return (
 		<>
 			<Head>
-				<title>Games • Bruhno</title>
+				<title>Popular games • Bruhno</title>
 			</Head>
 			<Page>
 				<PageContent maxWidth={700}>
 					<h2>Popular games</h2>
-					<GameList
-						games={games ?? null}
-						isLoading={!games}
-						undefinedMessage='There appears to be an issue with games list'
-						emptyMessage='Could not find any popular games at the moment'
-					/>
+					{useMemo(() => {
+						const pagesToRender = []
+						for (let index = 0; index < numberOfPages; index++) {
+							pagesToRender.push(<PopularGames after={afters[index]} key={index} />)
+						}
+						return pagesToRender
+					}, [numberOfPages])}
+					<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
+						<Tooltip tip="That's all the popular games" show={disablePagination}>
+							<ButtonBorder
+								label='Show more'
+								disabled={disablePagination}
+								onClick={() => {
+									if (!disablePagination) {
+										setState({ afters, numberOfPages: numberOfPages + 1 })
+									}
+								}}
+							/>
+						</Tooltip>
+					</div>
 				</PageContent>
 			</Page>
 		</>

@@ -10,23 +10,16 @@ import { config } from 'config.server'
 
 import { decrypt } from 'lib/cipher'
 
-import { sendError, throwError } from '../errors/ApiError'
+import { throwError } from '../errors/ApiError'
 import { monitorReturn } from '../performanceCheck'
 
 export type Options = {
-	/** Does not error out if authentication fails, but still decodes the token if valid. Only valid for access token. */
-	optional?: boolean,
 	/** A token is automatically supplied through the request, but can be supplied manually here. */
 	token?: string,
 	/** Switch between authenticating an access, refresh or intermediate token. Defaults to access. */
 	type?: TokenTypes,
 	/** The Sentry transaction or span used for performance monitoring */
 	transaction: Transaction | Span,
-}
-
-const resolveError = (error: unknown, res: NextApiResponse) => {
-	sendError(401, res)
-	throw error
 }
 
 /**
@@ -41,45 +34,41 @@ const resolveError = (error: unknown, res: NextApiResponse) => {
  * ```
  */
 export const authenticate = (req: NextApiRequest, res: NextApiResponse,
-	{ optional = false, token, type = TokenTypes.Access, transaction }: Options) => monitorReturn(() => {
+	{ token, type = TokenTypes.Access, transaction }: Options) => monitorReturn(() => {
 	const { headers: { authorization }, cookies } = req
 
-	const getToken = () => {
+	const tokenToUse = (() => {
 		if (token) return token
 		if (type === TokenTypes.Refresh) {
 			return config.environment !== 'development'
 				? cookies['__Host-refreshToken']
 				: cookies['refreshToken']
 		}
-		return authorization?.split('Bearer ')[1]
+		if (authorization) return authorization.split('Bearer ')[1]
+	})()
+
+	if (!tokenToUse) throwError(401, res)
+
+	const { header, payload } = <{ header: { typ: TokenTypes }, payload: Omit<Token, 'typ'> }>jwt.verify(
+		tokenToUse as string,
+		config.auth.publicKey,
+		{
+			algorithms: ['RS256'],
+			audience: ['https://bruhno.com', 'https://bruhno.dev'],
+			issuer: 'https://bruhno.dev',
+			complete: true,
+		},
+	)
+
+	const decodedToken: Token = {
+		...payload,
+		typ: header.typ,
 	}
 
-	if (!getToken() && !optional) throwError(401, res)
+	if (header.typ !== type) throwError(401, res)
 
-	try {
-		const { header, payload } = <{ header: { typ: TokenTypes }, payload: Omit<Token, 'typ'> }>jwt.verify(
-			getToken()!,
-			config.auth.publicKey,
-			{
-				algorithms: ['RS256'],
-				audience: ['https://bruhno.com', 'https://bruhno.dev'],
-				issuer: 'https://bruhno.dev',
-				complete: true,
-			},
-		)
-
-		const decodedToken: Token = {
-			...payload,
-			typ: header.typ,
-		}
-
-		if (header.typ !== type && !optional) resolveError(new Error('Invalid type for JWT'), res)
-
-		setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
-		return { ...decodedToken, secret: decrypt(decodedToken.secret) }
-	} catch (error: unknown) {
-		if (!optional) resolveError(error, res)
-	}
+	setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
+	return { ...decodedToken, secret: decrypt(decodedToken.secret) }
 }, `authenticate() - ${type}`, transaction)
 
 /**

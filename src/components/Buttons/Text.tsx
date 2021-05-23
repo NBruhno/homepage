@@ -1,6 +1,6 @@
 import type { Props as AsyncProps } from './Async'
 
-import { transparentize } from 'polished'
+import { adjustHsl } from 'lib/adjustHsl'
 
 import { ButtonAsync } from './Async'
 
@@ -21,12 +21,12 @@ export const Text = ({ slim, ...rest }: Props) => (
 			fontSize: slim ? theme.fontSize.s90 : theme.fontSize.s100,
 
 			'&:disabled': {
-				color: transparentize(0.3, theme.color.white),
+				color: adjustHsl(theme.color.white, { alpha: 0.3 }),
 				backgroundColor: theme.color.gray,
 			},
 
 			'&:hover:enabled, &:focus:enabled': {
-				backgroundColor: transparentize(0.3, theme.color.primary),
+				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.4 }),
 			},
 		})}
 		{...rest}

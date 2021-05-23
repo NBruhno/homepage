@@ -27,7 +27,7 @@ export const login = async (req: Request, res: NextApiResponse, options: Options
 			if (!email || !password) throwError(400, res)
 
 			const { data: { displayName, role, twoFactorSecret }, secret, ref } = await monitorReturnAsync(
-				() => serverClient.query<User>(q.Merge(
+				() => serverClient(transaction).query<User>(q.Merge(
 					q.Login(q.Match(q.Index('usersByEmail'), email), { password }),
 					q.Get(q.Match(q.Index('usersByEmail'), email)),
 				)).catch((error) => {

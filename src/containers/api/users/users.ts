@@ -28,12 +28,12 @@ export const users = async (req: Request, res: NextApiResponse, options: Options
 			if (!email || !password || !displayName) throwError(400, res)
 
 			const { ref } = await monitorReturnAsync(() => (
-				serverClient.query<User>(
+				serverClient(transaction).query<User>(
 					q.Create(q.Collection('users'), {
 						credentials: { password },
 						data: { email, role: 'user', twoFactorSecret: null, displayName },
 					}),
-				).then(async ({ ref }) => serverClient.query<User>(
+				).then(async ({ ref }) => serverClient(transaction).query<User>(
 					q.Update(ref, {
 						data: {
 							owner: ref,
@@ -46,7 +46,7 @@ export const users = async (req: Request, res: NextApiResponse, options: Options
 			), 'faunadb - Create().then(Update())', transaction)
 
 			const loginRes = await monitorReturnAsync(() => (
-				serverClient.query<{ secret: string }>(
+				serverClient(transaction).query<{ secret: string }>(
 					q.Login(ref, {
 						password,
 					}),

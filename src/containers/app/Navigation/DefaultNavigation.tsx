@@ -46,17 +46,17 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, collapsedSidebar }: 
 			</Separator>
 			<Link href='/games/popular' passHref>
 				<NavLink active={pathname.includes('/games/popular')} onClick={() => closeMenuOnInteraction()}>
-					<ListNumberIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Popular</Text>
+					<ListNumberIcon title='Popular games' css={{ marginRight: '12px' }} size={22} /><Text>Popular</Text>
 				</NavLink>
 			</Link>
-			<Link href='/games/following' passHref>
+			<Link href={user.userId ? `/games/following?user=${user.userId}` : '/games/following'} passHref>
 				<NavLink active={pathname.includes('/games/following')} onClick={() => closeMenuOnInteraction()}>
-					<ListCheckIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Following</Text>
+					<ListCheckIcon title='Followed games' css={{ marginRight: '12px' }} size={22} /><Text>Following</Text>
 				</NavLink>
 			</Link>
 			<Link href='/games/search' passHref>
 				<NavLink active={pathname.includes('/games/search')} onClick={() => closeMenuOnInteraction()}>
-					<ListSearchIcon title='Games' css={{ marginRight: '12px' }} size={22} /><Text>Search</Text>
+					<ListSearchIcon title='Search for games' css={{ marginRight: '12px' }} size={22} /><Text>Search</Text>
 				</NavLink>
 			</Link>
 			<Separator collapsed={collapsedSidebar}>

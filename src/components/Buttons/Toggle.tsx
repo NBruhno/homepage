@@ -1,6 +1,6 @@
 import type { Props as AsyncProps } from './Async'
 
-import { transparentize } from 'polished'
+import { adjustHsl } from 'lib/adjustHsl'
 
 import { ButtonAsync } from './Async'
 
@@ -11,7 +11,7 @@ type Props = {
 export const Toggle = ({ active, ...rest }: Props) => (
 	<ButtonAsync
 		css={(theme: Theme) => ({
-			backgroundColor: active ? transparentize(0.1, theme.color.text) : 'transparent',
+			backgroundColor: active ? adjustHsl(theme.color.primary, { alpha: 0.4 }) : 'transparent',
 			color: active ? theme.color.textInverted : theme.color.text,
 			borderRadius: '4px',
 			border: `1px solid ${theme.color.text}`,
