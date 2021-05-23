@@ -45,12 +45,12 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 				: cookies['refreshToken']
 		}
 		if (authorization) return authorization.split('Bearer ')[1]
-		throwError(401, res)
-		return ''
 	})()
 
+	if (!tokenToUse) throwError(401, res)
+
 	const { header, payload } = <{ header: { typ: TokenTypes }, payload: Omit<Token, 'typ'> }>jwt.verify(
-		tokenToUse,
+		tokenToUse as string,
 		config.auth.publicKey,
 		{
 			algorithms: ['RS256'],

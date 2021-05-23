@@ -21,7 +21,7 @@ const createObserver = (transaction: Transaction | Span) => (res: RequestResult)
 	transaction.setData('queryTime', headers['x-query-time'])
 	transaction.setData('readOps', headers['x-byte-read-ops'])
 	transaction.setData('writeOps', headers['x-write-ops'])
-	if (config.environment === 'development') {
+	if (process.env.NODE_ENV === 'development') {
 		logger.debug(`TCOs: ${headers['x-compute-ops']} | TROs: ${headers['x-byte-read-ops']} | TWOs: ${headers['x-write-ops']}`)
 	}
 }

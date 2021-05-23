@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 
-import type { Transaction } from '@sentry/types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { MockRequest, MockResponse } from 'node-mocks-http'
 
@@ -13,7 +12,7 @@ export const transaction = startTransaction({
 	op: 'test',
 	name: 'API test',
 	trimEnd: false,
-}) as Transaction
+})
 
 export const testingCredentials = process.env.TESTING_CREDENTIALS
 export const testingToken = process.env.TESTING_TOKEN
