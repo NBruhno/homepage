@@ -32,6 +32,14 @@ type Modal = {
 
 export type State = {
 	forms: Record<string, any>,
+	popularGames: {
+		afters: Array<string>,
+		numberOfPages: number,
+	},
+	followingGames: {
+		afters: Array<string>,
+		numberOfPages: number,
+	},
 	games: {
 		hasSearch: boolean,
 	},
@@ -43,6 +51,14 @@ export type State = {
 
 export const { useGlobalState } = createGlobalState<State>({
 	forms: {},
+	popularGames: {
+		afters: [''],
+		numberOfPages: 1,
+	},
+	followingGames: {
+		afters: [''],
+		numberOfPages: 1,
+	},
 	games: {
 		hasSearch: false,
 	},

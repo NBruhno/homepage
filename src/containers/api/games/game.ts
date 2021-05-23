@@ -23,7 +23,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, options: O
 	const { gameId, transaction } = options
 	let fromIgdb = false
 
-	const game = await monitorReturnAsync((span) => serverClient.query<{ data: Game }>(q.Get(q.Match(q.Index('gamesById'), gameId)))
+	const game = await monitorReturnAsync((span) => serverClient(transaction).query<{ data: Game }>(q.Get(q.Match(q.Index('gamesById'), gameId)))
 		.then((response) => response.data)
 		.catch(async (error) => {
 			if (error instanceof errors.NotFound) {

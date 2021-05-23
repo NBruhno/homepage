@@ -18,11 +18,11 @@ export const unfollow = async (req: NextApiRequest, res: NextApiResponse, option
 	const { gameId, transaction } = options
 	transaction.setName(`${method} - api/games/{gameId}/unfollow`)
 
-	const { secret } = authenticate(req, res, { transaction })!
+	const { secret } = authenticate(req, res, { transaction })
 
 	switch (method) {
 		case 'PATCH': {
-			await monitorReturnAsync(() => faunaClient(secret).query<FaunaGame>(
+			await monitorReturnAsync(() => faunaClient(secret, transaction).query<FaunaGame>(
 				q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.CurrentIdentity()]))), {
 					data: {
 						following: false,
@@ -30,7 +30,7 @@ export const unfollow = async (req: NextApiRequest, res: NextApiResponse, option
 				}),
 			), 'faunadb - Update()', transaction).then(async (game) => {
 				if (!game.data.following) {
-					await monitorAsync(() => faunaClient(secret).query(
+					await monitorAsync(() => faunaClient(secret, transaction).query(
 						q.Delete(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.CurrentIdentity()])))),
 					), 'faunadb - Delete()', transaction)
 				}

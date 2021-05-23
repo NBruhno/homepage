@@ -10,9 +10,8 @@ import { Detail } from 'containers/games/Detail'
 import { Page } from 'components/Layout/Page'
 
 const GamePage: NextPage = () => {
-	const router = useRouter()
-	const { id } = router.query
-	const { game, prices, following, follow, unfollow } = useGame(id as string)
+	const { query } = useRouter()
+	const { game, prices, following, follow, unfollow } = useGame(query.id as string)
 	const isLoading = !game
 
 	return (

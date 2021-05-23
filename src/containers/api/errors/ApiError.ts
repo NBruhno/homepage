@@ -52,7 +52,7 @@ export class ApiError extends CustomError {
 	}
 }
 
-export const throwError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, message?: string) => {
+export const throwError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, message?: string): never => {
 	const error = ApiError.fromCode(statusCode)
 	res.status(error.statusCode).json({ error: message ?? error.message })
 	throw error

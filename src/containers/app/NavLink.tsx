@@ -16,7 +16,7 @@ export const NavLink = forwardRef(({ active, ...rest }: Props, ref) => {
 				padding: '6px 12px',
 				color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
 				textDecoration: 'none',
-				backgroundColor: active ? adjustHsl(theme.color.primary, { alpha: 0.3 }) : 'transparent',
+				backgroundColor: active ? adjustHsl(theme.color.primary, { alpha: 0.4 }) : 'transparent',
 				borderRadius: '4px',
 				margin: '4px 12px',
 				transition: `color 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}`,
@@ -25,7 +25,7 @@ export const NavLink = forwardRef(({ active, ...rest }: Props, ref) => {
 				display: 'flex',
 
 				'&:hover, &:focus': {
-					backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.8 }),
+					backgroundColor: active ? adjustHsl(theme.color.primary, { alpha: 0.8 }) : adjustHsl(theme.color.primary, { alpha: 0.4 }),
 				},
 			})}
 			{...rest}

@@ -17,7 +17,7 @@ export const Icon = (props: AsyncProps) => (
 			},
 
 			'&:hover:enabled, &:focus:enabled': {
-				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.2 }),
+				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.4 }),
 			},
 		})}
 		{...props}

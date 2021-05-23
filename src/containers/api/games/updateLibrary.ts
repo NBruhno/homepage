@@ -45,7 +45,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 		}
 		case 'PATCH': {
 			const [knownGames, games] = await monitorReturnAsync((span) => Promise.all([
-				monitorReturnAsync(() => serverClient.query<{ data: Array<SimpleGame> }>(
+				monitorReturnAsync(() => serverClient(transaction).query<{ data: Array<SimpleGame> }>(
 					q.Map(
 						q.Paginate(
 							q.Match(q.Index('gamesIdRef')),
@@ -83,7 +83,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 	if (gamesToUpdate.length > 0 || gamesToCreate.length > 0) {
 		// Collect all the update & create query chunks into one request towards FaunaDB to reduce connections and avoid payload limits.
 		await monitorAsync(async (span) => Promise.all([
-			...gamesToUpdate.map((listOfGames) => monitorAsync(() => serverClient.query(
+			...gamesToUpdate.map((listOfGames) => monitorAsync(() => serverClient(transaction).query(
 				q.Do(
 					listOfGames.map((game) => q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), game.id))), {
 						data: {
@@ -93,7 +93,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 					})),
 				),
 			), `faunadb - Do(Update() * ${listOfGames.length})`, span)),
-			...gamesToCreate.map((listOfGames) => monitorAsync(() => serverClient.query(
+			...gamesToCreate.map((listOfGames) => monitorAsync(() => serverClient(transaction).query(
 				q.Do(
 					listOfGames.map((game) => q.Create(q.Collection('games'), {
 						data: {

@@ -18,11 +18,11 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 	transaction.setName(`${method} - api/games/{gameId}/follow`)
 	res.setHeader('Cache-Control', 'no-cache')
 
-	const { secret } = authenticate(req, res, { transaction })!
+	const { secret } = authenticate(req, res, { transaction })
 
 	switch (method) {
 		case 'GET': {
-			const userData = await monitorReturnAsync(() => faunaClient(secret).query<{ data: { following: boolean } }>(
+			const userData = await monitorReturnAsync(() => faunaClient(secret, transaction).query<{ data: { following: boolean } }>(
 				q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.CurrentIdentity()])),
 			).catch((error) => {
 				if (error instanceof errors.NotFound) {
@@ -36,7 +36,7 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 			return res.status(200).json({ ...userData })
 		}
 		case 'POST': {
-			await monitorAsync(() => faunaClient(secret).query(
+			await monitorAsync(() => faunaClient(secret, transaction).query(
 				q.Create(q.Collection('gamesUserData'), {
 					data: {
 						id: gameId,
@@ -46,7 +46,7 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 				}),
 			), 'faunadb - Create()', transaction).catch(async (error) => {
 				if (error.description.includes('unique') && error instanceof errors.BadRequest) {
-					await monitorAsync(() => faunaClient(secret).query(
+					await monitorAsync(() => faunaClient(secret, transaction).query(
 						q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.CurrentIdentity()]))), {
 							data: {
 								following: true,

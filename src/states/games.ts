@@ -1,4 +1,4 @@
-import type { Game, SimpleGame, Price } from 'types/Games'
+import type { Game, Price } from 'types/Games'
 
 import { useState, useEffect, useMemo } from 'react'
 import useSWR from 'swr'
@@ -40,7 +40,7 @@ export const useGame = (id: string) => {
 export const useSearchGames = () => {
 	const [{ games: gamesSearch }] = useGlobalState('forms')
 	const [gamesState, setGameState] = useGlobalState('games')
-	const { data } = useSWR<{ games: Array<SimpleGame> }>(gamesSearch?.search
+	const { data } = useSWR<{ games: Array<Game> }>(gamesSearch?.search
 		? ['/games?search=', gamesSearch?.search]
 		: null, (link, searchParameter) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
 
@@ -51,18 +51,4 @@ export const useSearchGames = () => {
 	}
 
 	return { games: data?.games, gamesSearch, hasSearch: gamesState.hasSearch, setHasSearch }
-}
-
-export const usePopularGames = () => {
-	const { data } = useSWR<{ games: Array<SimpleGame> }>(['/games'], (link) => fetcher(link), { revalidateOnFocus: false })
-	return { games: data?.games }
-}
-
-export const useFollowingGames = ({ followedGamesUser }: { followedGamesUser?: string | Array<string> } = {}) => {
-	const { user } = useAuth()
-	const { data } = useSWR<{ games: Array<SimpleGame> }>((user?.isStateKnown && (followedGamesUser || user.userId))
-		? ['/games?user=', followedGamesUser]
-		: null, (link, followedGamesUser) => fetcher(`${link}${followedGamesUser ?? user.userId}`), { revalidateOnFocus: false })
-
-	return { games: data?.games }
 }

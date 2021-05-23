@@ -19,7 +19,7 @@ export const Border = (props: AsyncProps) => (
 			},
 
 			'&:hover:enabled': {
-				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.2 }),
+				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.4 }),
 			},
 
 			'&:after': {

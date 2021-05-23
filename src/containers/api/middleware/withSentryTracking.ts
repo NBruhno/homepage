@@ -33,12 +33,17 @@ export const withSentryTracking = (apiHandler: ApiHandler) => async (req: NextAp
 	})
 	res.setHeader('sentry-trace', transaction.traceId)
 	if (config.environment === 'development') logger.debug(`${req.method} - ${req.url}`)
+
+	res.on('close', () => {
+		transaction.setHttpStatus(res.statusCode)
+		transaction.finish()
+	})
+
 	try {
 		return await apiHandler(req, res, transaction)
-	} finally {
-		if (config.environment === 'production') {
-			transaction.setHttpStatus(res.statusCode)
-			transaction.finish()
-		}
+	} catch (error) {
+		transaction.setHttpStatus(error.statusCode)
+		transaction.finish()
+		throw error
 	}
 }

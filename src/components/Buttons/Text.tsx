@@ -26,7 +26,7 @@ export const Text = ({ slim, ...rest }: Props) => (
 			},
 
 			'&:hover:enabled, &:focus:enabled': {
-				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.5 }),
+				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.4 }),
 			},
 		})}
 		{...rest}

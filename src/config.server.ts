@@ -7,24 +7,24 @@ const authPrivateKey = 'TpROinam5LnGmiVazWPHZeXDHSjAV450ZGf1WIFCjxGH/SjCRv4Dpjt4
 
 export const config = Object.freeze({
 	auth: {
-		iv: process.env.AUTH_IV,
+		iv: process.env.AUTH_IV as string,
 		publicKey: decryptConfig(authPublicKey),
 		privateKey: decryptConfig(authPrivateKey),
-		secret: process.env.AUTH_SECRET,
-		systemToken: process.env.AUTH_SYSTEM_TOKEN,
+		secret: process.env.AUTH_SECRET as string,
+		systemToken: process.env.AUTH_SYSTEM_TOKEN as string,
 	},
 
 	fauna: {
-		secret: process.env.FAUNADB_SECRET,
+		secret: process.env.FAUNADB_SECRET as string,
 	},
 
 	igdb: {
-		clientId: process.env.IGDB_CLIENT_ID,
-		token: process.env.IGDB_TOKEN,
+		clientId: process.env.IGDB_CLIENT_ID as string,
+		token: process.env.IGDB_TOKEN as string,
 	},
 
 	itad: {
-		apiKey: process.env.ITAD_TOKEN,
+		apiKey: process.env.ITAD_TOKEN as string,
 	},
 
 	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV as Environment,
