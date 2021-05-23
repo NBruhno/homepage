@@ -11,7 +11,7 @@ const undefinedMessage = 'You need to be logged in to see what games you are fol
 const emptyMessage = 'You are not following any games'
 
 type Props = {
-	after: string,
+	after: string | undefined,
 }
 
 export const Following = ({ after }: Props) => {

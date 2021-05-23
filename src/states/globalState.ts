@@ -37,7 +37,7 @@ export type State = {
 		numberOfPages: number,
 	},
 	followingGames: {
-		afters: Array<string>,
+		afters: Array<string | undefined>,
 		numberOfPages: number,
 	},
 	games: {

@@ -15,9 +15,7 @@ export const useFollowingGames = (query: ParsedUrlQuery, after?: string) => {
 			: null, (link, followedGamesUser, after) => fetcher(`${link}?user=${followedGamesUser}${after ? `&after=${after}` : ''}`), {
 			revalidateOnFocus: false,
 			onSuccess: (data) => {
-				if (data?.after) {
-					setGameState({ afters: [...afters, data?.after], numberOfPages })
-				}
+				setGameState({ afters: [...afters, data?.after ?? undefined], numberOfPages })
 			},
 		},
 	)

@@ -15,7 +15,8 @@ import { Tooltip } from 'components/Tooltip'
 const Games: NextPage = () => {
 	const [{ afters, numberOfPages }, setState] = useGlobalState('followingGames')
 	const { query } = useRouter()
-	const disablePagination = afters[afters.length] === undefined
+	const disablePagination = afters[afters.length - 1] === undefined
+
 	return (
 		<>
 			<Head>
