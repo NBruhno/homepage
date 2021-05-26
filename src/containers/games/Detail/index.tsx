@@ -97,7 +97,7 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 								<ButtonSolid
 									label={following ? 'Unfollow' : 'Follow'}
 									onClick={() => following ? onUnfollow() : onFollow()}
-									disabled={following === undefined}
+									disabled={!user.accessToken || following === undefined}
 									isLoading={isLoading}
 									css={{ padding: '5px 16px' }}
 								/>
