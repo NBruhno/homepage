@@ -14,6 +14,7 @@ module.exports = {
 	moduleNameMapper: {
 		'^lodash-es$': 'lodash',
 	},
+	testEnvironment: 'jsdom',
 	testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/public/'],
 	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
 	moduleDirectories: ['node_modules', 'src'],
