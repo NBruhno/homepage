@@ -3,8 +3,9 @@ export const ActionWrapper = (props: React.ComponentProps<'div'>) => (
 		css={{
 			marginTop: '16px',
 			display: 'grid',
-			gridTemplateColumns: 'repeat(auto-fit, minmax(130px, max-content))',
+			gridTemplateColumns: '140px 88px repeat(auto-fit, minmax(120px, max-content))',
 			gridGap: '8px',
+			alignItems: 'center',
 		}}
 		{...props}
 	/>

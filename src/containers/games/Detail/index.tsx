@@ -21,6 +21,7 @@ import { Title } from './Header/Title'
 import { TitleWrapper } from './Header/TitleWrapper'
 import { MainContent } from './MainContent'
 import { PriceTable } from './PriceTable'
+import { Rating } from './Rating'
 import { SortBy, WebsiteIcons } from './WebsiteIcons'
 import { Wrapper } from './Wrapper'
 
@@ -55,7 +56,7 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 						<div>
 							<Title>
 								<Placeholder isLoading={isLoading} width='55%'>
-									{game?.name ?? 'Loading'}
+									{game?.name}
 								</Placeholder>
 							</Title>
 							<ReleaseDate>
@@ -68,6 +69,9 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 									By {game?.developer?.name}
 								</Placeholder>
 							</Developer>
+							{(isTablet || isMobile) && (
+								<Rating rating={game?.rating ?? null} isLoading={isLoading} />
+							)}
 						</div>
 						{(!isTablet && !isMobile) && (
 							<>
@@ -81,6 +85,7 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 											fullWidth
 										/>
 									</Tooltip>
+									<Rating rating={game?.rating ?? null} isLoading={isLoading} />
 									{(!isTablet && !isMobile) && <WebsiteIcons websites={game?.websites ?? null} sortBy={SortBy.Stores} />}
 								</ActionWrapper>
 								{(!isLaptop) && (
