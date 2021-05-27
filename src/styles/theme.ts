@@ -76,15 +76,15 @@ export const theme = (darkTheme = true) => Object.freeze({
 		textFaded: darkTheme ? 'hsl(0, 0%, 85%)' : 'hsl(0, 0%, 20%)',
 		textSubtitle: darkTheme ? 'hsl(215, 28%, 65%)' : 'hsl(0, 0%, 20%)',
 		textInverted: darkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 95%)',
-		border: darkTheme ? 'hsl(215, 15%, 15%)' : 'hsl(0, 0%, 90%)',
+		border: darkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(0, 0%, 90%)',
+		success: 'hsl(151, 65%, 37%)',
 
 		sidebarBackground: darkTheme ? 'hsl(215, 21%, 11%)' : 'hsl(210, 12%, 16%)',
-		sidebarBorder: darkTheme ? 'hsl(215, 15%, 18%)' : 'hsl(215, 15%, 25%)',
-
-		inputBackground: darkTheme ? 'hsl(216, 28%, 7%)' : 'hsl(0, 0%, 98%)',
-		inputBackgroundHover: darkTheme ? 'hsl(216, 28%, 10%)' : 'hsl(0, 0%, 100%)',
-		inputBorder: darkTheme ? 'hsl(215, 15%, 18%)' : 'hsl(0, 0%, 90%)',
-		inputBorderHover: darkTheme ? 'hsl(215, 15%, 35%)' : 'hsl(0, 0%, 75%)',
+		sidebarBorder: darkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(215, 15%, 25%)',
+		inputBackground: darkTheme ? 'hsl(214, 28%, 5%)' : 'hsl(0, 0%, 98%)',
+		inputBackgroundHover: darkTheme ? 'hsl(214, 28%, 7%)' : 'hsl(0, 0%, 100%)',
+		inputBorder: darkTheme ? 'hsl(215, 15%, 18%)' : 'hsl(0, 0%, 80%)',
+		inputBorderHover: darkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(0, 0%, 70%)',
 	},
 	fontSize: {
 		s200: '2em',
