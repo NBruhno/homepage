@@ -7,12 +7,14 @@ import { useAuth } from 'states/auth'
 
 import { fetcher, Method } from 'lib/fetcher'
 
+import type { ApiError } from 'containers/api/errors/ApiError'
+
 import { useGlobalState } from './globalState'
 
 export const useGame = (id: string) => {
 	const { user } = useAuth()
 	const [following, setFollowing] = useState<boolean | undefined>(undefined)
-	const { data: game, error } = useSWR<Game>(id ? `/games/${id}` : null, (link) => fetcher(link), { revalidateOnFocus: false })
+	const { data: game, error } = useSWR<Game, ApiError>(id ? `/games/${id}` : null, (link) => fetcher(link), { revalidateOnFocus: false })
 	const { data: followingData } = useSWR<{ following: boolean }>((id && user?.accessToken)
 		? `/games/${id}/follows`
 		: null, (link) => fetcher(link, { accessToken: user?.accessToken }), { revalidateOnFocus: false })

@@ -52,13 +52,15 @@ export class ApiError extends CustomError {
 	}
 }
 
-export const throwError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, message?: string): never => {
+/**
+ * Attaches the status code and message to the response and returns a ApiError class to throw
+ * @param statusCode
+ * @param res
+ * @param message
+ * @returns ApiError
+ */
+export const createAndAttachError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, message?: string) => {
 	const error = ApiError.fromCode(statusCode)
 	res.status(error.statusCode).json({ error: message ?? error.message })
-	throw error
-}
-
-export const sendError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, message?: string) => {
-	const error = ApiError.fromCode(statusCode)
-	res.status(error.statusCode).json({ error: message ?? error.message })
+	return error
 }

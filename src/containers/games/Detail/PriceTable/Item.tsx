@@ -23,6 +23,8 @@ export const Item = ({ first, ...rest }: Props) => (
 				backgroundColor: theme.color.gray020,
 			},
 		})}
+		target='_blank'
+		rel='noreferrer noopener'
 		{...rest}
 	/>
 )

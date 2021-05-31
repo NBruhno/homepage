@@ -5,7 +5,7 @@ import type { User } from 'types/User'
 
 import { query as q, errors } from 'faunadb'
 
-import { throwError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { serverClient } from '../faunaClient'
 import { getJwtToken } from '../getJwtToken'
 import { setRefreshCookie } from '../middleware'
@@ -24,14 +24,14 @@ export const login = async (req: Request, res: NextApiResponse, options: Options
 
 	switch (method) {
 		case 'POST': {
-			if (!email || !password) throwError(400, res)
+			if (!email || !password) throw createAndAttachError(400, res)
 
 			const { data: { displayName, role, twoFactorSecret }, secret, ref } = await monitorReturnAsync(
 				() => serverClient(transaction).query<User>(q.Merge(
 					q.Login(q.Match(q.Index('usersByEmail'), email), { password }),
 					q.Get(q.Match(q.Index('usersByEmail'), email)),
 				)).catch((error) => {
-					if (error instanceof errors.BadRequest) throwError(401, res, 'Invalid email and/or password')
+					if (error instanceof errors.BadRequest) throw createAndAttachError(401, res, 'Invalid email and/or password')
 					throw error
 				}), 'fanaudb - Merge(Login(), Get())', transaction,
 			)
@@ -59,6 +59,6 @@ export const login = async (req: Request, res: NextApiResponse, options: Options
 			}
 		}
 
-		default: throwError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 }

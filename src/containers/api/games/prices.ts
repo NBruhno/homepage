@@ -2,7 +2,7 @@ import type { Options as DefaultOptions } from '../types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Plain, Prices } from 'types/ITAD'
 
-import { sendError, throwError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 
 import { itadFetcher } from './lib'
 
@@ -51,9 +51,9 @@ export const prices = async (req: NextApiRequest, res: NextApiResponse, options:
 				res.setHeader('Cache-Control', 's-maxage=60')
 				return res.status(200).json({ prices })
 			} catch (error) {
-				return throwError(error.statusCode, res)
+				throw createAndAttachError(error.statusCode, res, error)
 			}
 		}
-		default: sendError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 }

@@ -5,7 +5,7 @@ import { TokenTypes } from 'types/Token'
 import { query as q } from 'faunadb'
 import { authenticator } from 'otplib'
 
-import { throwError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'
 import { getJwtToken } from '../getJwtToken'
 import { authenticate, setRefreshCookie } from '../middleware'
@@ -39,10 +39,10 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 			const { body: { secret, otp } } = req
 			const { secret: tokenSecret } = authenticate(req, res, { transaction })
 
-			if (!secret || !otp) throwError(400, res)
+			if (!secret || !otp) throw createAndAttachError(400, res)
 
 			monitor(() => {
-				if (!authenticator.verify({ token: otp, secret })) throwError(401, res)
+				if (!authenticator.verify({ token: otp, secret })) throw createAndAttachError(401, res)
 			}, 'verify()', transaction)
 
 			await monitorAsync(() => faunaClient(tokenSecret, transaction).query(
@@ -70,14 +70,14 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 			const { body: { otp } } = req
 			const { secret, sub, displayName, role, userId } = authenticate(req, res, { type: TokenTypes.Intermediate, transaction })
 
-			if (!otp) throwError(400, res)
+			if (!otp) throw createAndAttachError(400, res)
 
 			const user = await monitorReturnAsync(() => faunaClient(secret, transaction).query<{ data: Record<string, any> }>(
 				q.Get(q.CurrentIdentity()),
 			), 'faunadb - Get()', transaction)
 
 			monitor(() => {
-				if (!authenticator.verify({ token: otp, secret: user.data.twoFactorSecret })) throwError(401, res)
+				if (!authenticator.verify({ token: otp, secret: user.data.twoFactorSecret })) throw createAndAttachError(401, res)
 			}, 'verify()', transaction)
 
 			const accessToken = getJwtToken(secret, { sub, displayName, role, userId }, { transaction })
@@ -88,6 +88,6 @@ export const twoFactorAuthentication = async (req: Request, res: NextApiResponse
 			return res.status(200).json({ accessToken })
 		}
 
-		default: throwError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 }

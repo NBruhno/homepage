@@ -10,7 +10,7 @@ import { config } from 'config.server'
 
 import { decrypt } from 'lib/cipher'
 
-import { throwError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { monitorReturn } from '../performanceCheck'
 
 export type Options = {
@@ -45,9 +45,8 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 				: cookies['refreshToken']
 		}
 		if (authorization) return authorization.split('Bearer ')[1]
+		throw createAndAttachError(401, res)
 	})()
-
-	if (!tokenToUse) throwError(401, res)
 
 	const { header, payload } = <{ header: { typ: TokenTypes }, payload: Omit<Token, 'typ'> }>jwt.verify(
 		tokenToUse as string,
@@ -60,12 +59,12 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 		},
 	)
 
+	if (header.typ !== type) throw createAndAttachError(401, res)
+
 	const decodedToken: Token = {
 		...payload,
 		typ: header.typ,
 	}
-
-	if (header.typ !== type) throwError(401, res)
 
 	setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
 	return { ...decodedToken, secret: decrypt(decodedToken.secret) }
@@ -85,5 +84,5 @@ export const authenticateSystem = (req: NextApiRequest, res: NextApiResponse) =>
 	if (authorization === `Bearer ${config.auth.systemToken}`) {
 		setUser({ username: 'System' })
 		return true
-	} else throwError(401, res)
+	} else throw createAndAttachError(401, res)
 }
