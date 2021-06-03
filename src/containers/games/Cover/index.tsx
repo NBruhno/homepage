@@ -9,7 +9,7 @@ type Props = {
 	size?: string,
 } & React.ComponentProps<'img'>
 
-export const Cover = ({ size = 'big', coverUrl, ...rest }: Props) => {
+export const Cover = ({ size = 'big', coverUrl, alt, ...rest }: Props) => {
 	if (!coverUrl) {
 		return (
 			<CoverWrapper size={size} {...rest}>
@@ -20,7 +20,7 @@ export const Cover = ({ size = 'big', coverUrl, ...rest }: Props) => {
 
 	return (
 		<CoverWrapper size={size} {...rest}>
-			<Image src={coverUrl ?? placeholderImage} />
+			<Image alt={alt} src={coverUrl ?? placeholderImage} />
 		</CoverWrapper>
 	)
 }
