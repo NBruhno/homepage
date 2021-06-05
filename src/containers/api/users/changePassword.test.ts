@@ -38,7 +38,7 @@ describe('/api/users/{userId}/changePassword', () => {
 		expectStatusCode(res, 400)
 	})
 
-	test('POST   › Not authenticated', async () => {
+	test('POST › Not authenticated', async () => {
 		const { req, res } = createMocks<NextApiRequest, NextApiResponse>({
 			method: 'POST',
 			body: {

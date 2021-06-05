@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 
+import { useFollowingGames } from 'states/games'
+
 import { Item } from 'containers/games/Item'
 
 import { Container } from '../Common/Container'
 import { Subtitle } from '../Common/Subtitle'
-
-import { useFollowingGames } from './useFollowingGames'
 
 const undefinedMessage = 'You need to be logged in to see what games you are following'
 const emptyMessage = 'You are not following any games'

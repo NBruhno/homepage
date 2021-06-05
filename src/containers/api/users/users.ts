@@ -5,7 +5,7 @@ import type { User } from 'types/User'
 
 import { query as q, errors } from 'faunadb'
 
-import { throwError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { serverClient } from '../faunaClient'
 import { getJwtToken } from '../getJwtToken'
 import { setRefreshCookie } from '../middleware'
@@ -25,7 +25,7 @@ export const users = async (req: Request, res: NextApiResponse, options: Options
 
 	switch (method) {
 		case 'POST': {
-			if (!email || !password || !displayName) throwError(400, res)
+			if (!email || !password || !displayName) throw createAndAttachError(400, res)
 
 			const { ref } = await monitorReturnAsync(() => (
 				serverClient(transaction).query<User>(
@@ -40,7 +40,7 @@ export const users = async (req: Request, res: NextApiResponse, options: Options
 						},
 					}),
 				)).catch((error) => {
-					if (error instanceof errors.BadRequest) throwError(400, res, 'Email is already in use')
+					if (error instanceof errors.BadRequest) throw createAndAttachError(400, res, new Error('Email is already in use'))
 					throw error
 				})
 			), 'faunadb - Create().then(Update())', transaction)
@@ -68,6 +68,6 @@ export const users = async (req: Request, res: NextApiResponse, options: Options
 			return res.status(200).json({ accessToken })
 		}
 
-		default: throwError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 }

@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { query } from 'faunadb'
 
-import { throwError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'
 import { authenticate, removeRefreshCookie } from '../middleware'
 import { monitorAsync } from '../performanceCheck'
@@ -27,6 +27,6 @@ export const logout = async (req: NextApiRequest, res: NextApiResponse, options:
 			return res.status(200).json({ message: 'You have been logged out successfully' })
 		}
 
-		default: throwError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 }

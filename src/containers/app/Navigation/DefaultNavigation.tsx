@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import { useAuth } from 'states/auth'
+import { useAuth } from 'states/users'
 
 import { HomeIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'

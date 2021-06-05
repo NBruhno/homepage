@@ -3,7 +3,7 @@ import type { SubmissionErrors, FormApi } from 'final-form'
 import { useEffect, useState } from 'react'
 import { Form as FinalForm, FormSpy } from 'react-final-form'
 
-import { useGlobalState } from 'states/globalState'
+import { useGlobalState } from 'states/global'
 
 const onPersistState = (
 	values: object, valid: boolean, persistState: string | boolean,
@@ -49,7 +49,7 @@ export const Form = ({
 		// Reset the form state if destroyStateOnUnMount is set
 		return () => {
 			if (destroyStateOnUnMount && formState) {
-				setFormsState({ ...formsState, [formName]: null })
+				setFormsState({ ...formsState, [formName]: {} })
 			}
 		}
 	// The effect is intended to only run on mount and dismount
@@ -61,10 +61,7 @@ export const Form = ({
 		if (renderFormOnStateUpdate && formState) {
 			setInitialStateValues(formState)
 		}
-	}, [persistState, persistStateOnSubmit, formState, renderFormOnStateUpdate])
-
-	useEffect(() => {
-	}, [])
+	}, [persistState, persistStateOnSubmit, formState, renderFormOnStateUpdate, formsState])
 
 	return (
 

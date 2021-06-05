@@ -1,4 +1,13 @@
-import { useGlobalState } from './globalState'
+import { useGlobalState } from 'states/global'
+
+export type Responsive = {
+	collapsedSidebar: boolean,
+	isMobile: boolean,
+	isTablet: boolean,
+	isLaptop: boolean,
+	showLogin: boolean,
+	showMenu: boolean,
+}
 
 export const useResponsive = () => {
 	const [responsive, setResponsive] = useGlobalState('responsive')

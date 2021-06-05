@@ -1,6 +1,6 @@
 import { withSentry } from '@sentry/nextjs'
 
-import { sendError } from 'containers/api/errors/ApiError'
+import { createAndAttachError } from 'containers/api/errors/ApiError'
 import { unfollow, follow } from 'containers/api/games'
 import { withSentryTracking } from 'containers/api/middleware'
 
@@ -19,7 +19,7 @@ const handler = withSentryTracking(async (req, res, transaction) => {
 			await unfollow(req, res, { gameId, transaction })
 			break
 		}
-		default: sendError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 })
 

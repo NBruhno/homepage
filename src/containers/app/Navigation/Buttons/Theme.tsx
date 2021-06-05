@@ -1,4 +1,4 @@
-import { useDarkMode } from 'states/darkMode'
+import { useDarkMode } from 'states/theme'
 
 import { ButtonText } from 'components/Buttons'
 import { SunIcon, MoonIcon } from 'components/Icons'

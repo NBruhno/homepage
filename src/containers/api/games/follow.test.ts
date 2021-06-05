@@ -62,7 +62,6 @@ describe('/api/games/{id}/follow', () => {
 
 		await expect(follow(req, res, { gameId: 1877, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
-		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
 	test('Invalid method', async () => {
@@ -73,7 +72,8 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await follow(req, res, { gameId: 1877, transaction })
+		await expect(unfollow(req, res, { gameId: 1877, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
+		expectSpecificObject(res, { error: ApiError.fromCode(405).message })
 	})
 })

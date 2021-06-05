@@ -117,3 +117,4 @@ const nextConfig = {
 }
 
 module.exports = withBundleAnalyzer(withOffline(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
+// module.exports = withBundleAnalyzer(withOffline(nextConfig))

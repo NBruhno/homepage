@@ -9,7 +9,7 @@ import { chunk, differenceBy, intersectionBy } from 'lodash'
 
 import { logger } from 'lib/logger'
 
-import { sendError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { serverClient } from '../faunaClient'
 import { authenticateSystem } from '../middleware'
 import { monitorReturnAsync, monitorAsync } from '../performanceCheck'
@@ -31,7 +31,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 			if (body?.gamesToCreate?.length > 0) {
 				gamesToCreate = chunk(body?.gamesToCreate, 200)
 				break
-			} else return sendError(400, res)
+			} else throw createAndAttachError(400, res)
 		}
 		case 'PUT': {
 			if (body?.gamesToUpdate?.length > 0) {
@@ -41,7 +41,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 					nickname: 'gamesToUpdate',
 				}).then((igdbGames) => chunk(igdbGames.map(mapIgdbGame), 200))
 				break
-			} else return sendError(400, res)
+			} else throw createAndAttachError(400, res)
 		}
 		case 'PATCH': {
 			const [knownGames, games] = await monitorReturnAsync((span) => Promise.all([
@@ -77,7 +77,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 			gamesToCreate = chunk(newGames, 200)
 			break
 		}
-		default: return sendError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 
 	if (gamesToUpdate.length > 0 || gamesToCreate.length > 0) {

@@ -2,7 +2,7 @@ import type { Options } from '../types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { TokenTypes } from 'types/Token'
 
-import { throwError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { getJwtToken } from '../getJwtToken'
 import { authenticate, setRefreshCookie } from '../middleware'
 
@@ -27,6 +27,6 @@ export const refresh = async (req: NextApiRequest, res: NextApiResponse, options
 			return res.status(200).json({ accessToken })
 		}
 
-		default: throwError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 }

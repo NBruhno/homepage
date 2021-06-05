@@ -1,15 +1,15 @@
+import { usePopularGames } from 'states/games'
+
 import { Item } from 'containers/games/Item'
 
 import { Container } from '../Common/Container'
 import { Subtitle } from '../Common/Subtitle'
 
-import { usePopularGames } from './usePopularGames'
-
 const undefinedMessage = 'There appears to be an issue with games list'
 const emptyMessage = 'Could not find any popular games at the moment'
 
 type Props = {
-	after: string,
+	after: string | undefined,
 }
 
 export const Popular = ({ after }: Props) => {

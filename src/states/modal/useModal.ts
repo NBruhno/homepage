@@ -1,4 +1,12 @@
-import { useGlobalState } from './globalState'
+import { useGlobalState } from 'states/global'
+
+export type Modal = {
+	allowClosure?: boolean,
+	modalContent: React.ReactNode,
+	noWrapper?: boolean,
+	showModal: boolean,
+	onClose?: (() => void) | null,
+}
 
 type Options = {
 	allowClosure?: boolean,

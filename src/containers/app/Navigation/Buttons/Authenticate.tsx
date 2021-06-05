@@ -1,5 +1,5 @@
-import { useAuth } from 'states/auth'
 import { useResponsive } from 'states/responsive'
+import { useAuth } from 'states/users'
 
 import { ButtonText as DefaultButtonText } from 'components/Buttons'
 import { LoginIcon, LogoutIcon } from 'components/Icons'

@@ -1,11 +1,24 @@
 import { useState } from 'react'
 
+import { useGlobalState } from 'states/global'
+import { useModal } from 'states/modal'
+
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher, Method } from 'lib/fetcher'
 import { logger } from 'lib/logger'
 
-import { useGlobalState } from './globalState'
-import { useModal } from './modal'
+export type User = {
+	accessToken?: string,
+	displayName: string | null,
+	email: string | null,
+	intermediateToken?: string,
+	isStateKnown: boolean,
+	role?: string,
+	secret?: string,
+	shouldRefresh: boolean,
+	twoFactorSecret?: string,
+	userId: string | null,
+}
 
 export const useAuth = () => {
 	const [user, setUser] = useGlobalState('user')

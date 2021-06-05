@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { query as q } from 'faunadb'
 
-import { throwError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'
 import { authenticate, removeRefreshCookie } from '../middleware'
 import { monitorAsync } from '../performanceCheck'
@@ -29,6 +29,6 @@ export const user = async (req: NextApiRequest, res: NextApiResponse, options: O
 			return res.status(200).json({ message: 'Your user has been deleted' })
 		}
 
-		default: throwError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 }

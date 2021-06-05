@@ -10,6 +10,7 @@ import { config } from 'config.server'
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
 
+import { createAndAttachError } from '../errors/ApiError'
 import { serverClient } from '../faunaClient'
 import { monitorReturnAsync } from '../performanceCheck'
 
@@ -32,7 +33,10 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, options: O
 					body: `${fields}; where id = ${gameId};`,
 					single: true,
 					span,
-				}).then(mapIgdbGame)
+				}).then((game) => {
+					if (game) return mapIgdbGame(game)
+					throw createAndAttachError(404, res)
+				})
 			} else throw error
 		}), 'faunadb - Get()', transaction)
 

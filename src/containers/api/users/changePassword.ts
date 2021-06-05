@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { errors, query as q } from 'faunadb'
 
-import { throwError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'
 import { authenticate } from '../middleware'
 import { monitorAsync } from '../performanceCheck'
@@ -26,17 +26,17 @@ export const changePassword = async (req: Request, res: NextApiResponse, options
 
 	switch (method) {
 		case 'POST': {
-			if (!newPassword) throwError(400, res)
+			if (!newPassword) throw createAndAttachError(400, res)
 
 			await monitorAsync(async () => faunaClient(secret, transaction).query(
 				q.Update(q.Ref(q.Collection('users'), userId), { credentials: { password: newPassword } }),
 			).catch((error: unknown) => {
-				if (error instanceof errors.Unauthorized) throwError(401, res)
+				if (error instanceof errors.Unauthorized) throw createAndAttachError(401, res)
 				throw error
 			}), 'faunadb - Update()', transaction)
 			return res.status(200).json({ message: 'Your password has been updated' })
 		}
 
-		default: throwError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 }

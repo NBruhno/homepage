@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { query as q, errors } from 'faunadb'
 
-import { sendError } from '../errors/ApiError'
+import { createAndAttachError } from '../errors/ApiError'
 import { faunaClient } from '../faunaClient'
 import { authenticate } from '../middleware'
 import { monitorAsync, monitorReturnAsync } from '../performanceCheck'
@@ -59,6 +59,6 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 			return res.status(200).json({ message: 'Successfully followed the game' })
 		}
 
-		default: sendError(405, res)
+		default: throw createAndAttachError(405, res)
 	}
 }

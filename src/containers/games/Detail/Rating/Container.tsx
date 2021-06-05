@@ -26,11 +26,11 @@ export const Container = ({ ratingLevel, ...rest }: Props) => (
 				textAlign: 'center',
 				width: '21px',
 
-				'&:first-child': {
+				'&:first-of-type': {
 					paddingLeft: '12px',
 				},
 
-				'&:last-child': {
+				'&:last-of-type': {
 					paddingRight: '12px',
 				},
 			},
