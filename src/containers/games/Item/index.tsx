@@ -1,4 +1,4 @@
-import type { SimpleGame } from 'types/Games'
+import type { GameSimple } from 'types'
 
 import Link from 'next/link'
 
@@ -15,7 +15,7 @@ import { Title } from './Title'
 type Props = {
 	index?: number,
 	isLoading: boolean,
-} & Pick<SimpleGame, 'id' | 'name' | 'releaseDate' | 'cover' | 'status'>
+} & Pick<GameSimple, 'id' | 'name' | 'releaseDate' | 'cover' | 'status'>
 
 export const Item = ({ id, name, releaseDate, cover, status, isLoading, index = 0 }: Props) => (
 	<Link href={`/games/${id}`} passHref>

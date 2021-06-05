@@ -1,5 +1,6 @@
-import type { Website } from 'types/Games'
-import { WebsiteCategory } from 'types/IGDB'
+import type { GameWebsite } from 'types'
+
+import { IgdbWebsiteCategory } from 'types'
 
 import {
 	SteamIcon, GooglePlayIcon, GoGIcon, RedditIcon, AppleIcon, TwitterIcon, YouTubeIcon,
@@ -11,29 +12,29 @@ export enum SortBy {
 }
 
 type Props = {
-	websites: Array<Website> | null,
+	websites: Array<GameWebsite> | null,
 	sortBy?: SortBy,
 } & React.ComponentProps<'div'>
 
 export const WebsiteIcons = ({ websites, sortBy, ...rest }: Props) => {
 	const websiteInformation = {
-		[WebsiteCategory.Android]: { logo: <GooglePlayIcon size={32} />, name: 'Google Play store' },
-		[WebsiteCategory.Discord]: { logo: <DiscordIcon size={32} />, name: 'Discord' },
-		[WebsiteCategory.EpicGames]: { logo: <EpicGamesIcon size={32} />, name: 'Epic Games store' },
-		[WebsiteCategory.Facebook]: { logo: null, name: 'Deprecated' },
-		[WebsiteCategory.GoG]: { logo: <GoGIcon size={32} />, name: 'Good old Games store' },
-		[WebsiteCategory.Instagram]: { logo: null, name: 'Deprecated' },
-		[WebsiteCategory.iPad]: { logo: <AppleIcon size={32} />, name: 'iPad site' },
-		[WebsiteCategory.iPhone]: { logo: <AppleIcon size={32} />, name: 'iPhone site' },
-		[WebsiteCategory.Itch]: { logo: <ItchIoIcon size={32} />, name: 'Itch.io website' },
-		[WebsiteCategory.Official]: { logo: <WorldIcon size={32} />, name: 'Official website' },
-		[WebsiteCategory.Reddit]: { logo: <RedditIcon size={32} />, name: 'Sub-reddit' },
-		[WebsiteCategory.Steam]: { logo: <SteamIcon size={32} />, name: 'Steam store' },
-		[WebsiteCategory.Twitch]: { logo: <TwitchIcon size={32} />, name: 'Twitch profile' },
-		[WebsiteCategory.Twitter]: { logo: <TwitterIcon size={32} />, name: 'Twitter profile' },
-		[WebsiteCategory.Wiki]: { logo: null, name: 'Deprecated' },
-		[WebsiteCategory.Wikipedia]: { logo: null, name: 'Deprecated' },
-		[WebsiteCategory.YouTube]: { logo: <YouTubeIcon size={32} />, name: 'YouTube channel' },
+		[IgdbWebsiteCategory.Android]: { logo: <GooglePlayIcon size={32} />, name: 'Google Play store' },
+		[IgdbWebsiteCategory.Discord]: { logo: <DiscordIcon size={32} />, name: 'Discord' },
+		[IgdbWebsiteCategory.EpicGames]: { logo: <EpicGamesIcon size={32} />, name: 'Epic Games store' },
+		[IgdbWebsiteCategory.Facebook]: { logo: null, name: 'Deprecated' },
+		[IgdbWebsiteCategory.GoG]: { logo: <GoGIcon size={32} />, name: 'Good old Games store' },
+		[IgdbWebsiteCategory.Instagram]: { logo: null, name: 'Deprecated' },
+		[IgdbWebsiteCategory.iPad]: { logo: <AppleIcon size={32} />, name: 'iPad site' },
+		[IgdbWebsiteCategory.iPhone]: { logo: <AppleIcon size={32} />, name: 'iPhone site' },
+		[IgdbWebsiteCategory.Itch]: { logo: <ItchIoIcon size={32} />, name: 'Itch.io website' },
+		[IgdbWebsiteCategory.Official]: { logo: <WorldIcon size={32} />, name: 'Official website' },
+		[IgdbWebsiteCategory.Reddit]: { logo: <RedditIcon size={32} />, name: 'Sub-reddit' },
+		[IgdbWebsiteCategory.Steam]: { logo: <SteamIcon size={32} />, name: 'Steam store' },
+		[IgdbWebsiteCategory.Twitch]: { logo: <TwitchIcon size={32} />, name: 'Twitch profile' },
+		[IgdbWebsiteCategory.Twitter]: { logo: <TwitterIcon size={32} />, name: 'Twitter profile' },
+		[IgdbWebsiteCategory.Wiki]: { logo: null, name: 'Deprecated' },
+		[IgdbWebsiteCategory.Wikipedia]: { logo: null, name: 'Deprecated' },
+		[IgdbWebsiteCategory.YouTube]: { logo: <YouTubeIcon size={32} />, name: 'YouTube channel' },
 	}
 
 	if (!websites || websites.length <= 0) return null
@@ -41,14 +42,14 @@ export const WebsiteIcons = ({ websites, sortBy, ...rest }: Props) => {
 	const sortedList = () => {
 		switch (sortBy) {
 			case SortBy.Stores: return websites.filter(({ category }) => (
-				category === WebsiteCategory.Official
-				|| category === WebsiteCategory.Android
-				|| category === WebsiteCategory.iPad
-				|| category === WebsiteCategory.iPhone
-				|| category === WebsiteCategory.Itch
-				|| category === WebsiteCategory.GoG
-				|| category === WebsiteCategory.EpicGames
-				|| category === WebsiteCategory.Steam
+				category === IgdbWebsiteCategory.Official
+				|| category === IgdbWebsiteCategory.Android
+				|| category === IgdbWebsiteCategory.iPad
+				|| category === IgdbWebsiteCategory.iPhone
+				|| category === IgdbWebsiteCategory.Itch
+				|| category === IgdbWebsiteCategory.GoG
+				|| category === IgdbWebsiteCategory.EpicGames
+				|| category === IgdbWebsiteCategory.Steam
 			))
 			default: return websites
 		}

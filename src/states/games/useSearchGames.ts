@@ -1,4 +1,4 @@
-import type { Game } from 'types/Games'
+import type { Game } from 'types'
 
 import { toLower } from 'lodash'
 import { useRouter } from 'next/router'

@@ -1,7 +1,7 @@
 import { withSentry } from '@sentry/nextjs'
 
-import { prices } from 'containers/api/games'
-import { withSentryTracking } from 'containers/api/middleware'
+import { prices } from 'api/games'
+import { withSentryTracking } from 'api/middleware'
 
 const handler = withSentryTracking(async (req, res, transaction) => {
 	const { query: { id }, method } = req

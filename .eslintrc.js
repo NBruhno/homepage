@@ -204,6 +204,7 @@ module.exports = {
 				{ pattern: 'states/**', group: 'internal', position: 'after' },
 				{ pattern: 'styles/**', group: 'internal', position: 'after' },
 				{ pattern: 'lib/**', group: 'internal', position: 'after' },
+				{ pattern: 'api/**', group: 'internal', position: 'after' },
 				{ pattern: 'containers/**', group: 'internal', position: 'after' },
 				{ pattern: 'components/**', group: 'internal', position: 'after' },
 			],

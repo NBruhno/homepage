@@ -1,4 +1,4 @@
-import type { Game, Price } from 'types/Games'
+import type { Game, GamePrice } from 'types'
 
 import { useState, useEffect, useMemo } from 'react'
 import useSWR from 'swr'
@@ -7,7 +7,7 @@ import { useGlobalState } from 'states/global'
 
 import { fetcher, Method } from 'lib/fetcher'
 
-import type { ApiError } from 'containers/api/errors/ApiError'
+import type { ApiError } from 'api/errors'
 
 export const useGame = (id: string) => {
 	const [user] = useGlobalState('user')
@@ -24,7 +24,7 @@ export const useGame = (id: string) => {
 	}
 
 	const canGetPrices = useMemo(() => id && game?.name && !error, [id, game?.name, error])
-	const { data: prices } = useSWR<{ prices: Array<Price> }>(canGetPrices
+	const { data: prices } = useSWR<{ prices: Array<GamePrice> }>(canGetPrices
 		? `/games/${id}/prices?name=${game?.name}`
 		: null, (link) => fetcher(link), { revalidateOnFocus: false })
 

@@ -1,4 +1,4 @@
-import type { Game, Price } from 'types/Games'
+import type { Game, GamePrice } from 'types'
 
 import { useResponsive } from 'states/responsive'
 import { useAuth } from 'states/users'
@@ -27,7 +27,7 @@ import { Wrapper } from './Wrapper'
 
 type Props = {
 	game: Game | null,
-	prices: Array<Price> | undefined,
+	prices: Array<GamePrice> | undefined,
 	following: boolean,
 	isLoading: boolean,
 
