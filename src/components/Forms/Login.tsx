@@ -1,4 +1,4 @@
-import { useAuth } from 'states/auth'
+import { useAuth } from 'states/users'
 
 import { Title, Subtitle } from 'containers/login'
 
@@ -90,5 +90,6 @@ export const FormLogin = () => {
 				<ButtonSolid label='Logout' onClick={async () => { await logout() }} fullWidth />
 			</div>
 		)
+		default: return null
 	}
 }

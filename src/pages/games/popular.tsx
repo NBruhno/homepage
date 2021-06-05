@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useMemo } from 'react'
 
-import { useGlobalState } from 'states/globalState'
+import { useGlobalState } from 'states/global'
 
 import { PopularGames } from 'containers/games/Lists'
 

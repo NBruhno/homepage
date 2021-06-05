@@ -1,4 +1,4 @@
-import { useAuth } from 'states/auth'
+import { useAuth } from 'states/users'
 
 import { Title, Subtitle } from 'containers/login'
 

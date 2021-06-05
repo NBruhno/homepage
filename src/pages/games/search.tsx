@@ -27,7 +27,7 @@ const Games: NextPage = () => {
 					})}
 					>
 						<div>
-							<Form form='games' onSubmit={() => undefined} persistStateOnSubmit>
+							<Form form='games' onSubmit={() => undefined} persistStateOnSubmit renderFormOnStateUpdate>
 								<Input label='Find a game' name='search' optionalHint={false} />
 								<FormSpy
 									subscription={{ values: true, submitSucceeded: true }}

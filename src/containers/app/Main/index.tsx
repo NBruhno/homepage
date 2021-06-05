@@ -4,9 +4,9 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 
-import { useAuth } from 'states/auth'
 import { useModal } from 'states/modal'
 import { useResponsive } from 'states/responsive'
+import { useAuth } from 'states/users'
 
 import { mediaQueries } from 'styles/theme'
 

@@ -3,9 +3,14 @@ import type { Game } from 'types/Games'
 
 import useSWR from 'swr'
 
-import { useGlobalState } from 'states/globalState'
+import { useGlobalState } from 'states/global'
 
 import { fetcher } from 'lib/fetcher'
+
+export type FollowingGames = {
+	afters: Array<string | undefined>,
+	numberOfPages: number,
+}
 
 export const useFollowingGames = (query: ParsedUrlQuery, after?: string) => {
 	const [{ afters, numberOfPages }, setGameState] = useGlobalState('followingGames')

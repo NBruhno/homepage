@@ -2,12 +2,12 @@ import { useEffect, useCallback } from 'react'
 
 import { config } from 'config.client'
 
+import { useGlobalState } from 'states/global'
+
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher } from 'lib/fetcher'
 import { getCookie } from 'lib/getCookie'
 import { logger } from 'lib/logger'
-
-import { useGlobalState } from './globalState'
 
 const isProduction = config.environment !== 'development'
 

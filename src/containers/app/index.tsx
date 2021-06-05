@@ -1,8 +1,8 @@
 import { ThemeProvider } from '@emotion/react'
 import { useState } from 'react'
 
-import { useDarkMode } from 'states/darkMode'
-import { useRefresh } from 'states/refresh'
+import { useDarkMode } from 'states/theme'
+import { useRefresh } from 'states/users'
 
 import { GlobalStyling } from 'styles/global'
 import { theme } from 'styles/theme'
