@@ -31,7 +31,7 @@ export const login = async (req: Request, res: NextApiResponse, options: Options
 					q.Login(q.Match(q.Index('usersByEmail'), email), { password }),
 					q.Get(q.Match(q.Index('usersByEmail'), email)),
 				)).catch((error) => {
-					if (error instanceof errors.BadRequest) throw createAndAttachError(401, res, 'Invalid email and/or password')
+					if (error instanceof errors.BadRequest) throw createAndAttachError(401, res, new Error('Invalid email and/or password'))
 					throw error
 				}), 'fanaudb - Merge(Login(), Get())', transaction,
 			)

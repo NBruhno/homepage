@@ -57,7 +57,6 @@ describe('/api/users/logout', () => {
 
 		await expect(logout(req, res, { transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
-		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
 	test('Invalid method', async () => {

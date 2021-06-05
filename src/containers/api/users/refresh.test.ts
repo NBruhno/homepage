@@ -1,10 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { createMocks } from 'node-mocks-http'
-import {
-	parseJson, parseHeaders, expectStatusCode, accessTokenMatch, refreshTokenMatch, testingCredentials,
-	expectSpecificObject, transaction,
-} from 'test/utils'
+import { parseJson, parseHeaders, expectStatusCode, accessTokenMatch, refreshTokenMatch, testingCredentials, transaction } from 'test/utils'
 
 import { ApiError } from '../errors/ApiError'
 
@@ -25,7 +22,7 @@ describe('/api/users/refresh', () => {
 
 		await login(req, res, { transaction })
 		// @ts-expect-error it does not return a string[] in this case
-		refreshToken = parseHeaders(res)['set-cookie']
+		refreshToken = parseHeaders(res)['set-cookie']?.[0]
 	})
 
 	test('GET › Refresh token', async () => {
@@ -39,7 +36,8 @@ describe('/api/users/refresh', () => {
 		await refresh(req, res, { transaction })
 		expectStatusCode(res, 200)
 		expect(parseJson(res).accessToken).toMatch(accessTokenMatch)
-		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
+		expect(parseHeaders(res)['set-cookie']?.[0]).toMatch(refreshTokenMatch)
+		expect(parseHeaders(res)['set-cookie']?.[1]).toMatch('true')
 	})
 
 	test('GET › Unauthorized', async () => {
@@ -49,7 +47,6 @@ describe('/api/users/refresh', () => {
 
 		await expect(refresh(req, res, { transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
-		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
 	test('Invalid method', async () => {

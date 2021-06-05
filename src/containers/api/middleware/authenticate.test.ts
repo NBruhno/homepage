@@ -1,7 +1,7 @@
-import { TokenExpiredError, JsonWebTokenError } from 'jsonwebtoken'
 import { createMocks } from 'node-mocks-http'
-import { transaction } from 'test/utils'
+import { expectSpecificObject, expectStatusCode, transaction } from 'test/utils'
 
+import { ApiError } from '../errors/ApiError'
 import { getJwtToken } from '../getJwtToken'
 
 import { authenticate } from './authenticate'
@@ -37,7 +37,9 @@ describe('/api/middleware/authenticate', () => {
 			},
 		})
 
-		expect(() => authenticate(req, res, { transaction })).toThrow(TokenExpiredError)
+		expect(() => authenticate(req, res, { transaction })).toThrow(ApiError)
+		expectStatusCode(res, 401)
+		expectSpecificObject(res, { error: 'jwt expired' })
 	})
 
 	test('Authenticate › Invalid issuer', async () => {
@@ -48,7 +50,9 @@ describe('/api/middleware/authenticate', () => {
 			},
 		})
 
-		expect(() => authenticate(req, res, { transaction })).toThrow(JsonWebTokenError)
+		expect(() => authenticate(req, res, { transaction })).toThrow(ApiError)
+		expectStatusCode(res, 401)
+		expectSpecificObject(res, { error: 'jwt issuer invalid. expected: https://bruhno.dev' })
 	})
 
 	test('Authenticate › Invalid audience', async () => {
@@ -59,7 +63,9 @@ describe('/api/middleware/authenticate', () => {
 			},
 		})
 
-		expect(() => authenticate(req, res, { transaction })).toThrow(JsonWebTokenError)
+		expect(() => authenticate(req, res, { transaction })).toThrow(ApiError)
+		expectStatusCode(res, 401)
+		expectSpecificObject(res, { error: 'jwt audience invalid. expected: https://bruhno.com or https://bruhno.dev' })
 	})
 
 	test('Authenticate › Tampered token', async () => {
@@ -70,6 +76,8 @@ describe('/api/middleware/authenticate', () => {
 			},
 		})
 
-		expect(() => authenticate(req, res, { transaction })).toThrow(JsonWebTokenError)
+		expect(() => authenticate(req, res, { transaction })).toThrow(ApiError)
+		expectStatusCode(res, 401)
+		expectSpecificObject(res, { error: 'invalid signature' })
 	})
 })

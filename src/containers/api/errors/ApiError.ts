@@ -41,26 +41,33 @@ export const statusCodes = {
 
 export class ApiError extends CustomError {
 	public statusCode: number
+	public error?: Error
 
-	public constructor(code: number, message: string) {
+	public constructor(code: number, message: string, error?: Error) {
 		super(message)
+
+		this.error = error
 		this.statusCode = code
 	}
 
 	public static fromCode(code: keyof typeof statusCodes) {
 		return new ApiError(code, statusCodes[code])
 	}
+
+	public static fromCodeWithError(code: keyof typeof statusCodes, error?: Error) {
+		return new ApiError(code, statusCodes[code], error)
+	}
 }
 
 /**
- * Attaches the status code and message to the response and returns a ApiError class to throw
- * @param statusCode
- * @param res
- * @param message
+ *
+ * @param statusCode - Any HTTP status code
+ * @param res - The Next.js response object
+ * @param error - Any Error class
  * @returns ApiError
  */
-export const createAndAttachError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, message?: string) => {
-	const error = ApiError.fromCode(statusCode)
-	res.status(error.statusCode).json({ error: message ?? error.message })
-	return error
+export const createAndAttachError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, error?: Error) => {
+	const apiError = ApiError.fromCodeWithError(statusCode, error)
+	res.status(apiError.statusCode).json({ error: error?.message ?? apiError.message })
+	return apiError
 }

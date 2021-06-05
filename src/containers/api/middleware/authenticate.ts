@@ -35,39 +35,43 @@ export type Options = {
  */
 export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 	{ token, type = TokenTypes.Access, transaction }: Options) => monitorReturn(() => {
-	const { headers: { authorization }, cookies } = req
+	try {
+		const { headers: { authorization }, cookies } = req
 
-	const tokenToUse = (() => {
-		if (token) return token
-		if (type === TokenTypes.Refresh) {
-			return config.environment !== 'development'
-				? cookies['__Host-refreshToken']
-				: cookies['refreshToken']
+		const tokenToUse = (() => {
+			if (token) return token
+			if (type === TokenTypes.Refresh) {
+				return config.environment !== 'development'
+					? cookies['__Host-refreshToken']
+					: cookies['refreshToken']
+			}
+			if (authorization) return authorization.split('Bearer ')[1]
+			throw createAndAttachError(401, res)
+		})()
+
+		const { header, payload } = <{ header: { typ: TokenTypes }, payload: Omit<Token, 'typ'> }>jwt.verify(
+			tokenToUse as string,
+			config.auth.publicKey,
+			{
+				algorithms: ['RS256'],
+				audience: ['https://bruhno.com', 'https://bruhno.dev'],
+				issuer: 'https://bruhno.dev',
+				complete: true,
+			},
+		)
+
+		if (header.typ !== type) throw createAndAttachError(401, res)
+
+		const decodedToken: Token = {
+			...payload,
+			typ: header.typ,
 		}
-		if (authorization) return authorization.split('Bearer ')[1]
-		throw createAndAttachError(401, res)
-	})()
 
-	const { header, payload } = <{ header: { typ: TokenTypes }, payload: Omit<Token, 'typ'> }>jwt.verify(
-		tokenToUse as string,
-		config.auth.publicKey,
-		{
-			algorithms: ['RS256'],
-			audience: ['https://bruhno.com', 'https://bruhno.dev'],
-			issuer: 'https://bruhno.dev',
-			complete: true,
-		},
-	)
-
-	if (header.typ !== type) throw createAndAttachError(401, res)
-
-	const decodedToken: Token = {
-		...payload,
-		typ: header.typ,
+		setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
+		return { ...decodedToken, secret: decrypt(decodedToken.secret) }
+	} catch (error) {
+		throw createAndAttachError(401, res, error)
 	}
-
-	setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
-	return { ...decodedToken, secret: decrypt(decodedToken.secret) }
 }, `authenticate() - ${type}`, transaction)
 
 /**

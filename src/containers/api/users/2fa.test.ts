@@ -51,7 +51,6 @@ describe('/api/users/{userId}/2fa', () => {
 
 		await expect(twoFactorAuthentication(req, res, { userId, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
-		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
 	/** ------- PATCH method ------- */
@@ -113,7 +112,6 @@ describe('/api/users/{userId}/2fa', () => {
 
 		await expect(twoFactorAuthentication(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
-		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
 	/** ------- POST method ------- */
@@ -131,7 +129,8 @@ describe('/api/users/{userId}/2fa', () => {
 		await retryFunction(twoFactorAuthentication, req, res, 3, { userId: testingUserId, transaction })
 		expectStatusCode(res, 200)
 		expect(parseJson(res).accessToken).toMatch(accessTokenMatch)
-		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
+		expect(parseHeaders(res)['set-cookie']?.[0]).toMatch(refreshTokenMatch)
+		expect(parseHeaders(res)['set-cookie']?.[1]).toMatch('true')
 	})
 
 	test('POST › Invalid OTP', async () => {
@@ -170,7 +169,6 @@ describe('/api/users/{userId}/2fa', () => {
 
 		await expect(twoFactorAuthentication(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
-		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
 	/** ------- DELETE method ------- */
@@ -194,7 +192,6 @@ describe('/api/users/{userId}/2fa', () => {
 
 		await expect(twoFactorAuthentication(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
-		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
 
 	/** ------- others ------- */

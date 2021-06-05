@@ -23,7 +23,8 @@ describe('/api/users/login', () => {
 		await login(req, res, { transaction })
 		expectStatusCode(res, 200)
 		expect(parseJson(res).accessToken).toMatch(accessTokenMatch)
-		expect(parseHeaders(res)['set-cookie']).toMatch(refreshTokenMatch)
+		expect(parseHeaders(res)['set-cookie']?.[0]).toMatch(refreshTokenMatch)
+		expect(parseHeaders(res)['set-cookie']?.[1]).toMatch('true')
 	})
 
 	test('POST › Successful 2FA login', async () => {
