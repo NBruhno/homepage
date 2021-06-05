@@ -4,6 +4,7 @@ import { config } from 'config.client'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher } from 'lib/fetcher'
+import { getCookie } from 'lib/getCookie'
 import { logger } from 'lib/logger'
 
 import { useGlobalState } from './globalState'
@@ -26,15 +27,7 @@ export const useRefresh = () => {
 
 	useEffect(() => {
 		let refreshInterval = null as unknown as NodeJS.Timeout
-
-		// Attempt to create a cookie with exactly the same name as the one meant to refresh, which is a http cookie
-		// If the cookie can be read afterwards, there is no refresh cookie, otherwise, refresh with the http cookie
-		const date = new Date()
-		date.setTime(date.getTime() + 1000)
-		const expires = `expires=${date.toUTCString()}`
-
-		document.cookie = `${isProduction ? '__Host-refreshToken' : 'refreshToken'}=;path=/;${expires};${isProduction ? 'secure' : ''}`
-		const hasRefreshToken = document.cookie.indexOf(isProduction ? '__Host-refreshToken' : 'refreshToken') === -1
+		const hasRefreshToken = getCookie(isProduction ? '__Host-refreshTokenExists' : 'refreshTokenExists') === 'true'
 
 		if (!hasRefreshToken && !user.accessToken) {
 			setUser({ ...user, isStateKnown: true })

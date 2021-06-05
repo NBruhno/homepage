@@ -22,7 +22,7 @@ const isProduction = config.environment !== 'development'
 export const setRefreshCookie = (res: NextApiResponse, token: string, transaction: Transaction | Span) => monitorReturn(() => {
 	const expiration = Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3)
 
-	const cookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', token, {
+	const refreshCookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', token, {
 		expires: new Date(expiration * 1000),
 		httpOnly: true,
 		maxAge: 60 * 60 * 24 * 3,
@@ -30,7 +30,16 @@ export const setRefreshCookie = (res: NextApiResponse, token: string, transactio
 		sameSite: 'strict',
 		secure: isProduction,
 	})
-	res.setHeader('Set-Cookie', cookie)
+
+	const refreshCookieCheck = serialize(isProduction ? '__Host-refreshTokenExists' : 'refreshTokenExists', 'true', {
+		expires: new Date(expiration * 1000),
+		httpOnly: false,
+		maxAge: 60 * 60 * 24 * 3,
+		path: '/',
+		sameSite: 'strict',
+		secure: isProduction,
+	})
+	res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
 }, 'setRefreshCookie()', transaction)
 
 /**
@@ -43,7 +52,7 @@ export const setRefreshCookie = (res: NextApiResponse, token: string, transactio
  * ```
  */
 export const removeRefreshCookie = (res: NextApiResponse, transaction: Transaction | Span) => monitorReturn(() => {
-	const cookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', '', {
+	const refreshCookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', '', {
 		httpOnly: true,
 		maxAge: -1,
 		path: '/',
@@ -51,6 +60,15 @@ export const removeRefreshCookie = (res: NextApiResponse, transaction: Transacti
 		expires: new Date('1970'),
 		secure: isProduction,
 	})
+	res.setHeader('Set-Cookie', refreshCookie)
 
-	res.setHeader('Set-Cookie', cookie)
+	const refreshCookieCheck = serialize(isProduction ? '__Host-refreshTokenExists' : 'refreshTokenExists', '', {
+		httpOnly: false,
+		maxAge: -1,
+		path: '/',
+		sameSite: 'strict',
+		expires: new Date('1970'),
+		secure: isProduction,
+	})
+	res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
 }, 'removeRefreshCookie()', transaction)
