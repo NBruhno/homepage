@@ -35,7 +35,8 @@ export const unfollow = async (req: NextApiRequest, res: NextApiResponse, option
 					), 'faunadb - Delete()', transaction)
 				}
 			}).catch((error) => {
-				if (error instanceof errors.NotFound) throw createAndAttachError(404, res, new Error(error.message))
+				if (error instanceof errors.NotFound) throw createAndAttachError(404, res)
+				else throw error
 			})
 
 			res.status(200).json({ message: 'Successfully unfollowed the game' })
