@@ -15,7 +15,6 @@ export type Game = {
 	lastChecked: number,
 	name: string,
 	platforms: Array<GamePlatform> | null,
-	porting: GameCompany | null,
 	publisher: GameCompany | null,
 	rating: number | null,
 	ratingCount: number | null,
@@ -23,9 +22,7 @@ export type Game = {
 	releaseDates: Array<GameReleaseDate> | null,
 	screenshot: string | null,
 	status: GameStatus | null,
-	storyline: string | null,
 	summary: string | null,
-	supporting: GameCompany | null,
 	updatedAt: number,
 	websites: Array<GameWebsite>,
 }

@@ -1,7 +1,6 @@
-import type { IgdbWebsiteCategory } from './IgdbWebsiteCategory'
+import type { GameWebsiteType } from './GameWebsiteType'
 
 export type GameWebsite = {
-	category: IgdbWebsiteCategory,
-	trusted: boolean,
+	type: GameWebsiteType,
 	url: string,
 }

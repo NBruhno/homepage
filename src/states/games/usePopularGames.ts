@@ -17,11 +17,7 @@ export const usePopularGames = (after?: string) => {
 		['/games', after],
 		(link) => fetcher(`${link}${after ? `?after=${after}` : ''}`), {
 			revalidateOnFocus: false,
-			onSuccess: (data) => {
-				if (data?.after) {
-					setGameState({ afters: [...afters, data?.after], numberOfPages })
-				}
-			},
+			onSuccess: (data) => data?.after && setGameState({ afters: [...afters, data?.after], numberOfPages }),
 		},
 	)
 

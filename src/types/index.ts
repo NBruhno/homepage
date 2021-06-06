@@ -7,6 +7,7 @@ export type { Token } from './Token'
 export type { FaunaUser } from './FaunaUser'
 
 export { GameStatus } from './GameStatus'
+export { GameWebsiteType } from './GameWebsiteType'
 export type { Game } from './Game'
 export type { GameCompany } from './GameCompany'
 export type { GameEngine } from './GameEngine'
