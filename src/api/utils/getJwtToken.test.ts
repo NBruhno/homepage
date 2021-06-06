@@ -1,5 +1,6 @@
-import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch, transaction } from 'test/utils'
 import { TokenType } from 'types'
+
+import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch, transaction } from 'test/utils'
 
 import { decrypt } from 'lib/cipher'
 import { decodeJwtToken } from 'lib/decodeJwtToken'

@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { ApiOptions, FaunaUser } from 'types'
+import { TokenType } from 'types'
 
 import { query as q, errors } from 'faunadb'
-import { TokenType } from 'types'
 
 import { createAndAttachError } from 'api/errors'
 import { setRefreshCookie } from 'api/middleware'

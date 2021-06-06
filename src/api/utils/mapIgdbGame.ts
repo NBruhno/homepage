@@ -1,8 +1,8 @@
 /* eslint-disable camelcase */
 import type { Game, IgdbGame, IgdbCompany } from 'types'
+import { IgdbGameStatus, GameStatus } from 'types'
 
 import { sample } from 'lodash'
-import { IgdbGameStatus, GameStatus } from 'types'
 
 export const igdbImageUrl = 'https://images.igdb.com/igdb/image/upload'
 

@@ -197,7 +197,7 @@ module.exports = {
 			groups: ['type', 'builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
 			pathGroups: [
 				// We want types to always be at the top of a file (including enums)
-				{ pattern: 'types/**', group: 'type' },
+				{ pattern: 'types', group: 'type' },
 				{ pattern: '~/**', group: 'type' },
 				{ pattern: 'config.client', group: 'internal', position: 'after' },
 				{ pattern: 'config.server', group: 'internal', position: 'after' },

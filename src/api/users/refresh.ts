@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { ApiOptions } from 'types'
-
 import { TokenType } from 'types'
 
 import { createAndAttachError } from 'api/errors'

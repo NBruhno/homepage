@@ -1,10 +1,10 @@
 import type { Span, Transaction } from '@sentry/types'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Token } from 'types'
+import { TokenType } from 'types'
 
 import { setUser } from '@sentry/nextjs'
 import jwt from 'jsonwebtoken'
-import { TokenType } from 'types'
 
 import { config } from 'config.server'
 

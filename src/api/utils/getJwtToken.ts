@@ -1,7 +1,7 @@
 import type { Transaction, Span } from '@sentry/types'
+import { TokenType } from 'types'
 
 import jwt from 'jsonwebtoken'
-import { TokenType } from 'types'
 
 import { config } from 'config.server'
 
