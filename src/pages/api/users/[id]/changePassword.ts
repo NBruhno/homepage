@@ -1,7 +1,7 @@
 import { withSentry } from '@sentry/nextjs'
 
-import { withSentryTracking } from 'containers/api/middleware'
-import { changePassword } from 'containers/api/users'
+import { withSentryTracking } from 'api/middleware'
+import { changePassword } from 'api/users'
 
 const handler = withSentryTracking(async (req, res, transaction) => {
 	const { query: { id } } = req

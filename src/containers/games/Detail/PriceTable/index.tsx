@@ -1,4 +1,4 @@
-import type { Price } from 'types/Games'
+import type { GamePrice } from 'types'
 
 import { sortBy } from 'lodash'
 import { useState } from 'react'
@@ -12,7 +12,7 @@ import { Item } from './Item'
 import { Muted } from './Muted'
 
 type Props = {
-	prices: Array<Price> | undefined,
+	prices: Array<GamePrice> | undefined,
 	isLoading: boolean,
 }
 

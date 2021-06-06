@@ -15,8 +15,11 @@ export const Shade = (props: React.ComponentProps<'div'>) => {
 				pointerEvents: 'none',
 				position: 'fixed',
 				zIndex: 9,
+				display: 'none',
 
 				[theme.mediaQueries.maxMobile]: {
+					display: 'inline',
+					visibility: showMenu ? 'visible' : 'hidden',
 					opacity: showMenu ? 0.4 : 0,
 					transition: `opacity 300ms ${theme.animation.default}`,
 					pointerEvents: showMenu ? 'auto' : 'none',

@@ -1,5 +1,5 @@
 import type { ParsedUrlQuery } from 'querystring'
-import type { Game } from 'types/Games'
+import type { Game } from 'types'
 
 import useSWR from 'swr'
 

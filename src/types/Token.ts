@@ -1,10 +1,5 @@
-import type { Role } from './User'
-
-export enum TokenTypes {
-	Refresh = 'refresh',
-	Intermediate = 'intermediate',
-	Access = 'access',
-}
+import type { Role } from './Role'
+import type { TokenType } from './TokenType'
 
 export type Token = {
 	aud: Array<string>,
@@ -17,6 +12,6 @@ export type Token = {
 	role: Role,
 	secret: string,
 	sub: string,
-	typ: TokenTypes,
+	typ: TokenType,
 	userId: string,
 }

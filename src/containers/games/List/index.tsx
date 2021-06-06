@@ -1,4 +1,4 @@
-import type { SimpleGame } from 'types/Games'
+import type { GameSimple } from 'types'
 
 import { Item } from '../Item'
 
@@ -6,7 +6,7 @@ import { Container } from './Container'
 import { Subtitle } from './Subtitle'
 
 type Props = {
-	games: Array<SimpleGame> | null,
+	games: Array<GameSimple> | null,
 	isLoading: boolean,
 	undefinedMessage?: string,
 	emptyMessage?: string,

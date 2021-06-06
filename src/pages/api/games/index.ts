@@ -1,8 +1,8 @@
 import { withSentry } from '@sentry/nextjs'
 
-import { createAndAttachError } from 'containers/api/errors/ApiError'
-import { games, follows, updateLibrary } from 'containers/api/games'
-import { withSentryTracking } from 'containers/api/middleware'
+import { createAndAttachError } from 'api/errors/ApiError'
+import { games, follows, updateLibrary } from 'api/games'
+import { withSentryTracking } from 'api/middleware'
 
 const handler = withSentryTracking(async (req, res, transaction) => {
 	const { query: { user }, method } = req

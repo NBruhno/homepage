@@ -1,9 +1,9 @@
-import type { Website } from 'types/Games'
-import { WebsiteCategory } from 'types/IGDB'
+import type { GameWebsite } from 'types'
+import { GameWebsiteType } from 'types'
 
 import {
-	SteamIcon, GooglePlayIcon, GoGIcon, RedditIcon, AppleIcon, TwitterIcon, YouTubeIcon,
-	EpicGamesIcon, ItchIoIcon, DiscordIcon, TwitchIcon, WorldIcon,
+	SteamIcon, GooglePlayIcon, GoGIcon, RedditIcon, AppleIcon, TwitterIcon,
+	EpicGamesIcon, ItchIoIcon, DiscordIcon, WorldIcon, QuestionMarkIcon,
 } from 'components/Icons'
 
 export enum SortBy {
@@ -11,55 +11,33 @@ export enum SortBy {
 }
 
 type Props = {
-	websites: Array<Website> | null,
+	websites: Array<GameWebsite> | null,
 	sortBy?: SortBy,
 } & React.ComponentProps<'div'>
 
-export const WebsiteIcons = ({ websites, sortBy, ...rest }: Props) => {
+export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 	const websiteInformation = {
-		[WebsiteCategory.Android]: { logo: <GooglePlayIcon size={32} />, name: 'Google Play store' },
-		[WebsiteCategory.Discord]: { logo: <DiscordIcon size={32} />, name: 'Discord' },
-		[WebsiteCategory.EpicGames]: { logo: <EpicGamesIcon size={32} />, name: 'Epic Games store' },
-		[WebsiteCategory.Facebook]: { logo: null, name: 'Deprecated' },
-		[WebsiteCategory.GoG]: { logo: <GoGIcon size={32} />, name: 'Good old Games store' },
-		[WebsiteCategory.Instagram]: { logo: null, name: 'Deprecated' },
-		[WebsiteCategory.iPad]: { logo: <AppleIcon size={32} />, name: 'iPad site' },
-		[WebsiteCategory.iPhone]: { logo: <AppleIcon size={32} />, name: 'iPhone site' },
-		[WebsiteCategory.Itch]: { logo: <ItchIoIcon size={32} />, name: 'Itch.io website' },
-		[WebsiteCategory.Official]: { logo: <WorldIcon size={32} />, name: 'Official website' },
-		[WebsiteCategory.Reddit]: { logo: <RedditIcon size={32} />, name: 'Sub-reddit' },
-		[WebsiteCategory.Steam]: { logo: <SteamIcon size={32} />, name: 'Steam store' },
-		[WebsiteCategory.Twitch]: { logo: <TwitchIcon size={32} />, name: 'Twitch profile' },
-		[WebsiteCategory.Twitter]: { logo: <TwitterIcon size={32} />, name: 'Twitter profile' },
-		[WebsiteCategory.Wiki]: { logo: null, name: 'Deprecated' },
-		[WebsiteCategory.Wikipedia]: { logo: null, name: 'Deprecated' },
-		[WebsiteCategory.YouTube]: { logo: <YouTubeIcon size={32} />, name: 'YouTube channel' },
+		[GameWebsiteType.GooglePlayStore]: { logo: <GooglePlayIcon size={32} />, name: 'Google Play store' },
+		[GameWebsiteType.Discord]: { logo: <DiscordIcon size={32} />, name: 'Discord server' },
+		[GameWebsiteType.EpicGames]: { logo: <EpicGamesIcon size={32} />, name: 'Epic Games store' },
+		[GameWebsiteType.GoG]: { logo: <GoGIcon size={32} />, name: 'Good old Games store' },
+		[GameWebsiteType.AppStore]: { logo: <AppleIcon size={32} />, name: 'App Store' },
+		[GameWebsiteType.Itch]: { logo: <ItchIoIcon size={32} />, name: 'Itch.io website' },
+		[GameWebsiteType.Official]: { logo: <WorldIcon size={32} />, name: 'Official website' },
+		[GameWebsiteType.Reddit]: { logo: <RedditIcon size={32} />, name: 'Sub-reddit' },
+		[GameWebsiteType.Steam]: { logo: <SteamIcon size={32} />, name: 'Steam store' },
+		[GameWebsiteType.Twitter]: { logo: <TwitterIcon size={32} />, name: 'Twitter profile' },
+		[GameWebsiteType.Unknown]: { logo: <QuestionMarkIcon size={32} />, name: 'Unknown website' },
 	}
 
 	if (!websites || websites.length <= 0) return null
-
-	const sortedList = () => {
-		switch (sortBy) {
-			case SortBy.Stores: return websites.filter(({ category }) => (
-				category === WebsiteCategory.Official
-				|| category === WebsiteCategory.Android
-				|| category === WebsiteCategory.iPad
-				|| category === WebsiteCategory.iPhone
-				|| category === WebsiteCategory.Itch
-				|| category === WebsiteCategory.GoG
-				|| category === WebsiteCategory.EpicGames
-				|| category === WebsiteCategory.Steam
-			))
-			default: return websites
-		}
-	}
 
 	return (
 		<div
 			css={(theme: Theme) => ({
 				gridGap: '6px',
 				display: 'grid',
-				gridTemplateColumns: `repeat(${sortedList().length}, 34px)`,
+				gridTemplateColumns: `repeat(${websites.length}, 34px)`,
 				maxWidth: '100%',
 
 				[theme.mediaQueries.maxMobile]: {
@@ -69,7 +47,7 @@ export const WebsiteIcons = ({ websites, sortBy, ...rest }: Props) => {
 			})}
 			{...rest}
 		>
-			{sortedList().map(({ url, category }, index) => (
+			{websites.map(({ url, type }, index) => (
 				<a
 					href={url}
 					target='_blank'
@@ -85,9 +63,9 @@ export const WebsiteIcons = ({ websites, sortBy, ...rest }: Props) => {
 							color: theme.color.gray100,
 						},
 					})}
-					aria-label={websiteInformation[category].name}
+					aria-label={websiteInformation[type].name}
 				>
-					{websiteInformation[category].logo}
+					{websiteInformation[type].logo}
 				</a>
 			))}
 		</div>
