@@ -66,7 +66,7 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 							</ReleaseDate>
 							<Developer>
 								<Placeholder isLoading={isLoading} width='25%'>
-									By {game?.developer?.name}
+									{game?.developer?.name && `By ${game.developer.name}`}
 								</Placeholder>
 							</Developer>
 							{(isTablet || isMobile) && (
