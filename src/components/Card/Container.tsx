@@ -1,4 +1,6 @@
-export const Container = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const Container = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			backgroundColor: theme.color.background,

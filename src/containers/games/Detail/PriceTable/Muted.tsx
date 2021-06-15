@@ -1,4 +1,6 @@
-export const Muted = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const Muted = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			color: theme.color.text,

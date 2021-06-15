@@ -1,4 +1,6 @@
-export const BackgroundWrapper = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const BackgroundWrapper = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			position: 'absolute',

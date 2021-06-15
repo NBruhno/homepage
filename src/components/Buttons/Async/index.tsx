@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactNode, MouseEvent, ComponentProps } from 'react'
 
 import { isFunction } from 'lodash'
 import { useState, useEffect } from 'react'
@@ -15,8 +15,8 @@ export type Props = {
 	label: ReactNode,
 	minDelay?: number,
 	submit?: boolean,
-	onClick?: (event: React.MouseEvent<HTMLButtonElement>) => any,
-} & React.ComponentProps<'button'>
+	onClick?: (event: MouseEvent<HTMLButtonElement>) => any,
+} & ComponentProps<'button'>
 
 export const ButtonAsync = ({
 	isLoading = false,
@@ -31,7 +31,7 @@ export const ButtonAsync = ({
 	const [isLoadingInternal, setInternalLoading] = useState(false)
 	const [isMounted, setMounted] = useState(false)
 
-	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation()
 		if (submit) {
 			return

@@ -1,13 +1,15 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 
+import type { ComponentPropsWithRef, RefObject } from 'react'
+
 import { forwardRef } from 'react'
 
 type Props = {
 	isLoading?: boolean,
-} & React.ComponentPropsWithRef<'a'>
+} & ComponentPropsWithRef<'a'>
 
 export const Container = forwardRef(({ isLoading, ...rest }: Props, ref) => {
-	const forwardRef = ref as React.RefObject<HTMLAnchorElement>
+	const forwardRef = ref as RefObject<HTMLAnchorElement>
 
 	return (
 		<a

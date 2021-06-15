@@ -1,4 +1,6 @@
-export const Text = (props: React.ComponentProps<'span'>) => (
+import type { ComponentProps } from 'react'
+
+export const Text = (props: ComponentProps<'span'>) => (
 	<span
 		css={{
 			overflow: 'hidden',

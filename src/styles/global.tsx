@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { css, Global } from '@emotion/react'
 
 import { fonts } from 'styles/fonts'
@@ -44,7 +46,7 @@ export const globalCss = (theme: Theme) => css([
 	},
 ])
 
-export const GlobalStyling = ({ children }: { children: React.ReactNode }) => (
+export const GlobalStyling = ({ children }: { children: ReactNode }) => (
 	<>
 		<Global styles={(theme) => globalCss(theme)} />
 		{children}

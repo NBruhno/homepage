@@ -1,4 +1,6 @@
-export const Page = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const Page = (props: ComponentProps<'div'>) => (
 	<div
 		css={{
 			padding: '24px',

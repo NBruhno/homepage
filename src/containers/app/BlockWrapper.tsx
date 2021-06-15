@@ -1,4 +1,6 @@
-export const BlockWrapper = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const BlockWrapper = (props: ComponentProps<'div'>) => (
 	<div
 		css={{
 			height: '100vh',

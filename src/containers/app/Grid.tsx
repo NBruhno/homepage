@@ -1,4 +1,6 @@
-export const Grid = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const Grid = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			backgroundColor: theme.color.background,

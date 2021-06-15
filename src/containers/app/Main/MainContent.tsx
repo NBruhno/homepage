@@ -1,4 +1,6 @@
-export const MainContent = (props: React.ComponentProps<'main'>) => (
+import type { ComponentProps } from 'react'
+
+export const MainContent = (props: ComponentProps<'main'>) => (
 	<main
 		css={(theme: Theme) => ({
 			color: theme.color.text,

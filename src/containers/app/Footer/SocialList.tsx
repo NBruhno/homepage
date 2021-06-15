@@ -1,4 +1,6 @@
-export const SocialList = (props: React.ComponentProps<'ul'>) => (
+import type { ComponentProps } from 'react'
+
+export const SocialList = (props: ComponentProps<'ul'>) => (
 	<ul
 		css={{
 			display: 'inline-flex',

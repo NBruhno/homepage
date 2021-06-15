@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { keyframes } from '@emotion/react'
 
 const fadeIn = keyframes`
@@ -11,7 +13,7 @@ const fadeIn = keyframes`
 `
 
 type Props = {
-	children: React.ReactNode,
+	children: ReactNode,
 }
 
 export const ProjectList = ({ children }: Props) => (

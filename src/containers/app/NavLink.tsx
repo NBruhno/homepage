@@ -1,14 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
+import type { ComponentProps, RefObject } from 'react'
+
 import { forwardRef } from 'react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
 	active?: boolean,
-} & React.ComponentProps<'a'>
+} & ComponentProps<'a'>
 
 export const NavLink = forwardRef(({ active, ...rest }: Props, ref) => {
-	const forwardRef = ref as React.RefObject<HTMLAnchorElement>
+	const forwardRef = ref as RefObject<HTMLAnchorElement>
 
 	return (
 		<a

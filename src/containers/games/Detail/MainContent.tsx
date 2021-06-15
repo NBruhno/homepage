@@ -1,4 +1,6 @@
-export const MainContent = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const MainContent = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			margin: '272px auto 0',

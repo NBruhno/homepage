@@ -1,4 +1,6 @@
-export const Placeholder = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const Placeholder = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			borderRadius: '4px',

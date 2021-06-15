@@ -1,4 +1,6 @@
-export const ColumnLabel = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const ColumnLabel = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			display: 'block',

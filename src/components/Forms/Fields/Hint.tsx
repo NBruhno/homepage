@@ -1,6 +1,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-export const Hint = (props: React.ComponentProps<'label'>) => (
+import type { ComponentProps } from 'react'
+
+export const Hint = (props: ComponentProps<'label'>) => (
 	<label
 		css={(theme: Theme) => ({
 			color: theme.color.textFaded,

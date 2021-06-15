@@ -1,5 +1,7 @@
+import type { ComponentProps } from 'react'
+
 /* eslint-disable jsx-a11y/heading-has-content */
-export const ReleaseDate = (props: React.ComponentProps<'h1'>) => (
+export const ReleaseDate = (props: ComponentProps<'h1'>) => (
 	<h1
 		css={(theme: Theme) => ({
 			textShadow: '1px 1px 5px hsla(0, 0%, 0%, 0.5), 0 0 12px hsla(0, 0%, 0%, 0.5)',

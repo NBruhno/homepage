@@ -1,4 +1,6 @@
-export const ListItem = (props: React.ComponentProps<'li'>) => (
+import type { ComponentProps } from 'react'
+
+export const ListItem = (props: ComponentProps<'li'>) => (
 	<li
 		css={(theme: Theme) => ({
 			marginRight: '12px',

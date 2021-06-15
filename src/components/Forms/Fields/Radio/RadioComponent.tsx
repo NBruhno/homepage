@@ -1,4 +1,6 @@
-export const RadioComponent = (props: React.ComponentProps<'input'>) => (
+import type { ComponentProps } from 'react'
+
+export const RadioComponent = (props: ComponentProps<'input'>) => (
 	<input
 		css={{
 			position: 'absolute',

@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 
+import type { ComponentProps } from 'react'
+
 type Props = {
 	first?: boolean,
-} & React.ComponentProps<'a'>
+} & ComponentProps<'a'>
 
 export const Item = ({ first, ...rest }: Props) => (
 	<a

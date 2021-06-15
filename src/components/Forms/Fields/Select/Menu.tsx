@@ -1,10 +1,12 @@
+import type { ComponentPropsWithRef, FunctionComponent } from 'react'
+
 import { forwardRef } from 'react'
 
 type Props = {
 	isOpen: boolean,
-} & React.ComponentPropsWithRef<'div'>
+} & ComponentPropsWithRef<'div'>
 
-export const Menu: React.FC<Props> = forwardRef(({ isOpen, ...rest }, ref) => (
+export const Menu: FunctionComponent<Props> = forwardRef(({ isOpen, ...rest }, ref) => (
 	<div
 		ref={ref}
 		css={(theme: Theme) => ({

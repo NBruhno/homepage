@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import Downshift from 'downshift'
 import { matchSorter } from 'match-sorter'
 import { useEffect } from 'react'
@@ -28,7 +30,7 @@ type Props = {
 	optionalHint?: boolean,
 	optionsLimit?: number,
 	placeholder?: string,
-	renderLabel?: React.ReactNode,
+	renderLabel?: ReactNode,
 	required?: boolean,
 	validate?: boolean,
 

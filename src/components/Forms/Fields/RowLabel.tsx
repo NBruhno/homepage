@@ -1,5 +1,7 @@
+import type { ComponentProps } from 'react'
+
 /* eslint-disable jsx-a11y/label-has-associated-control */
-export const RowLabel = (props: React.ComponentProps<'label'>) => (
+export const RowLabel = (props: ComponentProps<'label'>) => (
 	<label
 		css={(theme: Theme) => ({
 			display: 'grid',

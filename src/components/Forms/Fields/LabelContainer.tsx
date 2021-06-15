@@ -1,4 +1,6 @@
-export const LabelContainer = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const LabelContainer = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			color: theme.color.textFaded,

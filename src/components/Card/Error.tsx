@@ -1,10 +1,12 @@
+import type { ComponentProps } from 'react'
+
 import { keyframes } from '@emotion/react'
 
 const fadeIn = keyframes`
 	0% { opacity: 0; }
 `
 
-export const Error = (props: React.ComponentProps<'div'>) => (
+export const Error = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme) => ({
 			alignItems: 'center',

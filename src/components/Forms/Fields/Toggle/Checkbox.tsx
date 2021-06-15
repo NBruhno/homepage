@@ -1,4 +1,6 @@
-export const Checkbox = (props: React.ComponentProps<'input'>) => (
+import type { ComponentProps } from 'react'
+
+export const Checkbox = (props: ComponentProps<'input'>) => (
 	<input
 		css={{
 			position: 'absolute',

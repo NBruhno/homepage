@@ -1,8 +1,10 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	checked: boolean,
 	disabled: boolean,
 	focus: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
 	const backgroundColor = (theme: Theme) => {

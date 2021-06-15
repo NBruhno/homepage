@@ -1,7 +1,9 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	slim?: boolean,
 	collapsed?: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Separator = ({ slim = false, collapsed = false, children, ...rest }: Props) => {
 	const padding = () => {

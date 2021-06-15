@@ -1,10 +1,12 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	bold?: boolean,
 	isActive?: boolean,
 	mirror?: boolean,
 	horizontal: boolean,
 	slim?: boolean,
-} & React.ComponentProps<'span'>
+} & ComponentProps<'span'>
 
 export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Props) => {
 	let size = 0.1

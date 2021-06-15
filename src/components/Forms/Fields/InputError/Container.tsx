@@ -1,7 +1,9 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	isVisible: boolean,
 	isFocus: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Container = ({ isVisible, isFocus, ...rest }: Props) => (
 	<div

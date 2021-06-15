@@ -1,10 +1,12 @@
+import type { ComponentProps } from 'react'
+
 import { css } from '@emotion/react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
 	collapsed?: boolean,
-} & React.ComponentProps<'nav'>
+} & ComponentProps<'nav'>
 
 const defaultCss = (theme: Theme, collapsed: boolean) => css({
 	alignItems: 'stretch',

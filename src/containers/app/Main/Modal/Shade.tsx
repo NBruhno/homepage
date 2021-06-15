@@ -1,8 +1,10 @@
+import type { ComponentProps } from 'react'
+
 import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
 	show?: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Shade = ({ show, ...rest }: Props) => (
 	<div

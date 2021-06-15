@@ -1,15 +1,15 @@
-import type { SVGProps } from 'react'
+import type { SVGProps, ReactNode, ComponentProps } from 'react'
 
 import { useMemo } from 'react'
 
 export type Props = {
 	x?: number,
 	y?: number,
-	children?: React.ReactNode,
+	children?: ReactNode,
 	size?: number,
 	title: string,
 	type?: 'tabler' | 'mdi' | 'custom',
-} & React.ComponentProps<'svg'>
+} & ComponentProps<'svg'>
 
 export const Svg = ({ size = 24, x = 24, y = x, title, children, type = 'tabler', ...props }: Props) => {
 	const typeProps = useMemo((): SVGProps<SVGSVGElement> => {

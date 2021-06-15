@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react'
 import type { GameWebsite } from 'types'
 import { GameWebsiteType } from 'types'
 
@@ -13,7 +14,7 @@ export enum SortBy {
 type Props = {
 	websites: Array<GameWebsite> | null,
 	sortBy?: SortBy,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 	const websiteInformation = {

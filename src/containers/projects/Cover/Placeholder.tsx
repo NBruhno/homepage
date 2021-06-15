@@ -1,4 +1,6 @@
-export const Placeholder = ({ ...rest }: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const Placeholder = ({ ...rest }: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			flexShrink: 0,

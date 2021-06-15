@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react'
+
 import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
@@ -5,7 +7,7 @@ type Props = {
 	hasError: boolean,
 	checked: boolean,
 	disabled: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Props) => {
 	const boxShadow = (theme: Theme) => {

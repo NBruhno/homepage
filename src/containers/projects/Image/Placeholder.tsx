@@ -1,7 +1,9 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	width: string | number,
 	height: string | number,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Placeholder = ({ height, width, ...rest }: Props) => (
 	<div

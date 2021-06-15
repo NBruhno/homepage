@@ -1,6 +1,8 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	error: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Snackbar = ({ error, ...rest }: Props) => (
 	<div

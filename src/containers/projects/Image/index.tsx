@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
+import type { ComponentProps } from 'react'
+
 import { useModal } from 'states/modal'
 
 import { Image } from './Image'
@@ -13,7 +15,7 @@ type Props = {
 	width: number,
 	height: number,
 	divider?: number,
-} & React.ComponentProps<'img'>
+} & ComponentProps<'img'>
 
 export const ProjectImage = ({ src, title, width, height, divider, ...rest }: Props) => {
 	const { openModal } = useModal()

@@ -1,4 +1,6 @@
-export const ActionWrapper = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const ActionWrapper = (props: ComponentProps<'div'>) => (
 	<div
 		css={{
 			marginTop: '16px',

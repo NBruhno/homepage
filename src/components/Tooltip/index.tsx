@@ -1,3 +1,5 @@
+import type { ReactNode, ComponentProps } from 'react'
+
 import { css } from '@emotion/react'
 
 export enum Location {
@@ -8,11 +10,11 @@ export enum Location {
 }
 
 type Props = {
-	children: React.ReactNode,
+	children: ReactNode,
 	location?: Location,
 	show?: boolean,
-	tip: React.ReactNode,
-} & React.ComponentProps<'div'>
+	tip: ReactNode,
+} & ComponentProps<'div'>
 
 export const Tooltip = ({ tip, show = true, location = Location.Top, children, ...rest }: Props) => {
 	const getLeft = () => {

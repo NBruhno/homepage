@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react'
+
 import { useMediaQuery } from '@react-hook/media-query'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -29,7 +31,7 @@ const roleProtectedRoutes = [
 	'/users',
 ]
 
-export const Main = ({ children }: React.ComponentProps<'main'>) => {
+export const Main = ({ children }: ComponentProps<'main'>) => {
 	const { showLogin, updateResponsive } = useResponsive()
 	const { openModal, closeModal } = useModal()
 	const { user } = useAuth()

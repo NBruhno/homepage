@@ -1,8 +1,10 @@
+import type { ReactNode, ReactElement } from 'react'
+
 import { cloneElement } from 'react'
 import { useFormState } from 'react-final-form'
 
 type Props = {
-	children: React.ReactNode,
+	children: ReactNode,
 }
 
 export const SubmitWrapper = ({ children }: Props) => {
@@ -10,7 +12,7 @@ export const SubmitWrapper = ({ children }: Props) => {
 
 	return (
 		<div>
-			{cloneElement(children as React.ReactElement<any>, { isLoading: submitting })}
+			{cloneElement(children as ReactElement<any>, { isLoading: submitting })}
 		</div>
 	)
 }

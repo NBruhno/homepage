@@ -1,4 +1,6 @@
-export const Status = (props: React.ComponentProps<'span'>) => (
+import type { ComponentProps } from 'react'
+
+export const Status = (props: ComponentProps<'span'>) => (
 	<span
 		css={(theme: Theme) => ({
 			backgroundColor: theme.darkTheme ? theme.color.grayDark : theme.color.grayDarker,

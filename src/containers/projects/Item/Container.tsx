@@ -1,9 +1,10 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
+import type { ComponentPropsWithRef, RefObject } from 'react'
 
 import { forwardRef } from 'react'
 
-export const Container = forwardRef((props: React.ComponentPropsWithRef<'a'>, ref) => {
-	const forwardRef = ref as React.RefObject<HTMLAnchorElement>
+export const Container = forwardRef((props: ComponentPropsWithRef<'a'>, ref) => {
+	const forwardRef = ref as RefObject<HTMLAnchorElement>
 
 	return (
 		<a

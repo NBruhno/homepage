@@ -1,4 +1,6 @@
-export const Caption = (props: React.ComponentProps<'p'>) => (
+import type { ComponentProps } from 'react'
+
+export const Caption = (props: ComponentProps<'p'>) => (
 	<p
 		css={(theme: Theme) => ({
 			opacity: 0.7,

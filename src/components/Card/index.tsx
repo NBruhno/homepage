@@ -1,4 +1,5 @@
 import type { Interpolation } from '@emotion/serialize'
+import type { ReactNode } from 'react'
 
 import Collapse from 'components/Collapse'
 
@@ -8,9 +9,9 @@ import { Error } from './Error'
 import { Loader } from './Loader'
 
 type Props = {
-	children: React.ReactNode,
+	children: ReactNode,
 	hasError?: boolean,
-	header?: React.ReactNode,
+	header?: ReactNode,
 	isExpanded?: boolean,
 	isLoading?: boolean,
 	shouldAnimate?: boolean,

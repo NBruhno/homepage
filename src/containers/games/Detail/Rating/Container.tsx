@@ -1,6 +1,8 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	ratingLevel: 'high' | 'normal' | 'low' | null,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Container = ({ ratingLevel, ...rest }: Props) => (
 	<div

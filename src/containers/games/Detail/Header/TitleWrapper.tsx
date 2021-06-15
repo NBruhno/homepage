@@ -1,4 +1,6 @@
-export const TitleWrapper = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const TitleWrapper = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme: Theme) => ({
 			display: 'grid',

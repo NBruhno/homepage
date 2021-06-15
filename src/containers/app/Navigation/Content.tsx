@@ -1,4 +1,6 @@
-export const Content = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const Content = (props: ComponentProps<'div'>) => (
 	<div
 		css={{
 			display: 'flex',

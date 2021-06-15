@@ -1,7 +1,9 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	size: string,
 	loading?: string,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const CoverWrapper = ({ size, ...rest }: Props) => (
 	<div

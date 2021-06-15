@@ -1,6 +1,8 @@
+import type { ComponentProps } from 'react'
+
 import { ActivityIndicator } from 'components/ActivityIndicator'
 
-export const Loader = (props: React.ComponentProps<'div'>) => (
+export const Loader = (props: ComponentProps<'div'>) => (
 	<div
 		css={{
 			alignItems: 'center',

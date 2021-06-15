@@ -1,7 +1,9 @@
+import type { ReactNode } from 'react'
+
 import { Internal } from './Internal'
 
 type Props = {
-	children: React.ReactNode,
+	children: ReactNode,
 	isLoading: boolean,
 	lines?: number,
 	width?: number | string,

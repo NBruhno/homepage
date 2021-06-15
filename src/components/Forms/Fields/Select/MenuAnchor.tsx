@@ -1,3 +1,5 @@
-export const MenuAnchor = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const MenuAnchor = (props: ComponentProps<'div'>) => (
 	<div css={{ position: 'relative' }} {...props} />
 )

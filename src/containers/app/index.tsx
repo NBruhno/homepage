@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { ThemeProvider } from '@emotion/react'
 import { useState } from 'react'
 
@@ -16,7 +18,7 @@ import { Main } from './Main'
 import { Navigation } from './Navigation'
 
 type Props = {
-	children: React.ReactNode,
+	children: ReactNode,
 }
 
 export const App = ({ children }: Props) => {

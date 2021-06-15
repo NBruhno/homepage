@@ -1,4 +1,6 @@
-export const Line = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const Line = (props: ComponentProps<'div'>) => (
 	<span
 		css={{
 			display: 'block',

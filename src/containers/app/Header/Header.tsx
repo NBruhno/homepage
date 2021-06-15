@@ -1,7 +1,9 @@
+import type { ComponentProps } from 'react'
+
 import { adjustHsl } from 'lib/adjustHsl'
 import { useScroll } from 'lib/useScroll'
 
-export const Header = (props: React.ComponentProps<'header'>) => {
+export const Header = (props: ComponentProps<'header'>) => {
 	const { scrollY } = useScroll()
 
 	return (
