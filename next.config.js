@@ -65,10 +65,6 @@ const workboxOpts = {
 }
 
 const nextConfig = {
-	future: {
-		webpack5: true,
-	},
-
 	reactStrictMode: true,
 
 	target: 'experimental-serverless-trace',

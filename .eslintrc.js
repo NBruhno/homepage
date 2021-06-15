@@ -4,6 +4,7 @@ module.exports = {
 		'airbnb',
 		'plugin:import/errors',
 		'plugin:import/warnings',
+		'next',
 	],
 	plugins: [
 		'@typescript-eslint',

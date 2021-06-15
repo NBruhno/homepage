@@ -13,6 +13,6 @@ const testBars = [
 
 export const Snackbars = ({ snackbars = testBars }: Props) => (
 	<>
-		{snackbars.map(({ text, error }) => <Snackbar error={Boolean(error)}>{text}</Snackbar>)}
+		{snackbars.map(({ text, error }, index) => <Snackbar error={Boolean(error)} key={index}>{text}</Snackbar>)}
 	</>
 )

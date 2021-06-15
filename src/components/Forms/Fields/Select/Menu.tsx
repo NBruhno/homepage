@@ -1,12 +1,12 @@
-import type { ComponentPropsWithRef, FunctionComponent } from 'react'
+import type { ComponentProps, LegacyRef } from 'react'
 
 import { forwardRef } from 'react'
 
 type Props = {
 	isOpen: boolean,
-} & ComponentPropsWithRef<'div'>
+} & ComponentProps<'div'>
 
-export const Menu: FunctionComponent<Props> = forwardRef(({ isOpen, ...rest }, ref) => (
+const Component =({ isOpen, ...rest }: Props, ref: LegacyRef<HTMLDivElement>) => (
 	<div
 		ref={ref}
 		css={(theme: Theme) => ({
@@ -27,4 +27,6 @@ export const Menu: FunctionComponent<Props> = forwardRef(({ isOpen, ...rest }, r
 		})}
 		{...rest}
 	/>
-))
+)
+
+export const Menu = forwardRef(Component)

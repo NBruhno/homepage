@@ -1,4 +1,4 @@
-import type { JSXElementConstructor, ComponentPropsWithRef } from 'react'
+import type { ComponentProps, LegacyRef } from 'react'
 
 import { forwardRef } from 'react'
 
@@ -6,9 +6,9 @@ type Props = {
 	hidden?: boolean,
 	fullWidth?: boolean,
 	minWidth?: number,
-} & ComponentPropsWithRef<'div'>
+} & ComponentProps<'div'>
 
-export const FieldWrapper: JSXElementConstructor<Props> = forwardRef(({ hidden, fullWidth, minWidth, ...rest }, ref) => (
+const Component = ({ hidden, fullWidth, minWidth, ...rest }: Props, ref: LegacyRef<HTMLDivElement>) => (
 	<div
 		css={{
 			display: fullWidth ? 'block' : 'inline-block',
@@ -20,4 +20,6 @@ export const FieldWrapper: JSXElementConstructor<Props> = forwardRef(({ hidden, 
 		ref={ref}
 		{...rest}
 	/>
-))
+)
+
+export const FieldWrapper = forwardRef(Component)
