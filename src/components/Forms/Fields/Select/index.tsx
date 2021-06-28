@@ -77,7 +77,7 @@ export const Select = ({
 			}}
 		>
 			{({ getInputProps, getItemProps, getMenuProps, getRootProps, getLabelProps, isOpen, inputValue = '', highlightedIndex, selectedItem }) => {
-				const filteredOptions = matchSorter(options, inputValue!, { keys: ['label'] })
+				const filteredOptions = matchSorter(options, inputValue ?? '', { keys: ['label'] })
 				return (
 					<FieldWrapper fullWidth={fullWidth} minWidth={170} {...getRootProps()}>
 						<LabelContainer {...getLabelProps()}>

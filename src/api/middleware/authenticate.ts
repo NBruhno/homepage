@@ -49,7 +49,7 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 			throw createAndAttachError(401, res)
 		})()
 
-		const { header, payload } = <{ header: { typ: TokenType }, payload: Omit<Token, 'typ'> }>jwt.verify(
+		const { header, payload } = <{ header: { typ: TokenType }, payload: Omit<Token, 'typ'> }><unknown>jwt.verify(
 			tokenToUse as string,
 			config.auth.publicKey,
 			{

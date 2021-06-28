@@ -43,6 +43,7 @@ export const getJwtToken = (secret: string, payload: Payload, {
 	}, config.auth.privateKey, {
 		algorithm: 'RS256',
 		header: {
+			alg: 'RS256',
 			typ: type,
 		},
 	})
