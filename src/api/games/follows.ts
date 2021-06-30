@@ -3,6 +3,7 @@ import type { ApiOptions, Game } from 'types'
 
 // @ts-expect-error Missing type for parseJson.
 import { query as q, parseJSON } from 'faunadb'
+import { optional, string, object, create, pattern, coerce, number, size } from 'superstruct'
 
 import { config } from 'config.server'
 
@@ -11,9 +12,18 @@ import { fetcher, Method } from 'lib/fetcher'
 
 import { serverClient, monitorReturnAsync, gameShouldUpdate } from 'api/utils'
 
+const Query = object({
+	take: optional(coerce(number(), pattern(string(), /[0-50]/), (value) => parseInt(value, 10))),
+	user: optional(size(pattern(string(), /\d+/), 18)),
+	after: optional(string()),
+	before: optional(string()),
+})
+
 export const follows = async (req: NextApiRequest, res: NextApiResponse, options: ApiOptions) => {
-	const { query: { user, take = 15, after, before } } = req
+	const { query } = req
 	const { transaction } = options
+
+	const { user, take = 15, after, before } = create(query, Query)
 
 	const data = await monitorReturnAsync(() => serverClient(transaction).query<{ data: Array<{ data: Game }>, after: string, before: string }>(
 		q.Map(
