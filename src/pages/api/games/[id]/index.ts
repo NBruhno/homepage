@@ -2,9 +2,9 @@ import { withSentry } from '@sentry/nextjs'
 
 import { createAndAttachError } from 'api/errors'
 import { game, update } from 'api/games'
-import { withSentryTracking } from 'api/middleware'
+import { withTracking } from 'api/middleware'
 
-const handler = withSentryTracking(async (req, res, transaction) => {
+const handler = withTracking(async (req, res, transaction) => {
 	const { query: { id }, method } = req
 	const gameId = parseInt(id as string, 10)
 

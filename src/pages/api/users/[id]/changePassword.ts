@@ -1,9 +1,9 @@
 import { withSentry } from '@sentry/nextjs'
 
-import { withSentryTracking } from 'api/middleware'
+import { withTracking } from 'api/middleware'
 import { changePassword } from 'api/users'
 
-const handler = withSentryTracking(async (req, res, transaction) => {
+const handler = withTracking(async (req, res, transaction) => {
 	const { query: { id } } = req
 
 	res.setHeader('Cache-Control', 'no-cache')
