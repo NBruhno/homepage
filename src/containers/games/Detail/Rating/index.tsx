@@ -23,8 +23,12 @@ export const Rating = ({ rating, ratingCount, isLoading }: Props) => {
 
 	return (
 		<Tooltip
-			tip={<span>Based on {ratingCount} <b>critic rating{ratingCount && ratingCount > 1 && 's'}</b></span>}
-			show={Boolean(ratingCount)}
+			tip={ratingCount ? (
+				<span>Based on {ratingCount} different <b>critic rating{ratingCount && ratingCount > 1 && 's'}</b></span>
+			) : (
+				<span>The amount of critic ratings is unknown</span>
+			)}
+			show={Boolean(rating)}
 		>
 			<Container ratingLevel={ratingLevel}>
 				{rating ? (

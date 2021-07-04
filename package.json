@@ -9,6 +9,12 @@
   "engines": {
     "node": "^14"
   },
+  "browserslist": [
+    ">0.3%",
+    "not ie 11",
+    "not dead",
+    "not op_mini all"
+  ],
   "scripts": {
     "dev": "concurrently -p \"[{name}]\" -n \"next\" -c \"blue\" -s \"all\" -k \"true\" \"yarn dev:next\"",
     "dev:next": "next",
@@ -61,10 +67,10 @@
     "@testing-library/react": "12.0.0",
     "@types/cookie": "0.4.0",
     "@types/jest": "26.0.23",
-    "@types/jsonwebtoken": "8.5.2",
+    "@types/jsonwebtoken": "8.5.3",
     "@types/lodash": "4.14.170",
-    "@types/node": "15.12.5",
-    "@types/react": "17.0.11",
+    "@types/node": "16.0.0",
+    "@types/react": "17.0.13",
     "@typescript-eslint/eslint-plugin": "4.28.1",
     "@typescript-eslint/parser": "4.28.1",
     "babel-jest": "27.0.6",
@@ -76,7 +82,7 @@
     "dotenv": "10.0.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.6",
-    "eslint": "7.29.0",
+    "eslint": "7.30.0",
     "eslint-config-airbnb": "18.2.1",
     "eslint-config-next": "11.0.1",
     "eslint-plugin-babel": "5.3.1",
@@ -96,7 +102,7 @@
     "react-addons-test-utils": "15.6.2",
     "react-is": "17.0.2",
     "react-test-renderer": "17.0.2",
-    "typescript": "4.3.4",
-    "webpack": "5.41.1"
+    "typescript": "4.3.5",
+    "webpack": "5.42.0"
   }
 }
