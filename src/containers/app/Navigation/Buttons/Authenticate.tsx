@@ -11,7 +11,7 @@ const ButtonText = ({ children, onClick }: { children: ReactNode, onClick: () =>
 		css={{ margin: '4px 12px', height: '35px' }}
 		slim
 		label={(
-			<div css={(theme: Theme) => ({
+			<div css={(theme) => ({
 				display: 'flex',
 				alignItems: 'center',
 				height: '20px',

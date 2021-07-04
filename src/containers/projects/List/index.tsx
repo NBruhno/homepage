@@ -17,7 +17,7 @@ type Props = {
 }
 
 export const ProjectList = ({ children }: Props) => (
-	<div css={(theme: Theme) => ({ animation: `350ms ${theme.animation.default} ${fadeIn} 1` })}>
+	<div css={(theme) => ({ animation: `350ms ${theme.animation.default} ${fadeIn} 1` })}>
 		{children}
 	</div>
 )

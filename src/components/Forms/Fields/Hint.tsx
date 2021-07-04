@@ -4,7 +4,7 @@ import type { ComponentProps } from 'react'
 
 export const Hint = (props: ComponentProps<'label'>) => (
 	<label
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			color: theme.color.textFaded,
 			flexShrink: 0,
 			fontFamily: theme.fontFamily.roboto,

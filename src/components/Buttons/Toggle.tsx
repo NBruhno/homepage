@@ -10,7 +10,7 @@ type Props = {
 
 export const Toggle = ({ active, ...rest }: Props) => (
 	<ButtonAsync
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: active ? adjustHsl(theme.color.primary, { alpha: 0.4 }) : 'transparent',
 			color: active ? theme.color.textInverted : theme.color.text,
 			borderRadius: '4px',

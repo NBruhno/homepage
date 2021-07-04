@@ -6,7 +6,7 @@ const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB
 
 export const Background = ({ src, ...rest }: Props) => (
 	<img
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			width: 'calc(100% + 25px)',
 			height: 'calc(100% + 25px)',
 			filter: 'blur(5px) brightness(0.7)',

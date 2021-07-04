@@ -11,7 +11,7 @@ type Props = {
 
 const Component = ({ active, ...rest }: Props, ref: LegacyRef<HTMLAnchorElement>) => (
 	<a
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			padding: '6px 12px',
 			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
 			textDecoration: 'none',

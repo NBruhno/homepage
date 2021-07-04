@@ -9,9 +9,9 @@ import jwt from 'jsonwebtoken'
 import { config } from 'config.server'
 
 import { decrypt } from 'lib/cipher'
+import { monitorReturn } from 'lib/sentryMonitor'
 
 import { createAndAttachError } from 'api/errors'
-import { monitorReturn } from 'api/utils'
 
 export type Options = {
 	/** A token is automatically supplied through the request, but can be supplied manually here. */

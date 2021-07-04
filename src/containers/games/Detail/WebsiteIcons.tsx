@@ -36,7 +36,7 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 
 	return (
 		<div
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				gridGap: '6px',
 				display: 'grid',
 				gridTemplateColumns: `repeat(${websites.length}, 34px)`,
@@ -58,7 +58,7 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 							href={url}
 							target='_blank'
 							rel='noreferrer noopener'
-							css={(theme: Theme) => ({
+							css={(theme) => ({
 								color: theme.color.gray070,
 								maxHeight: '32px',
 								maxWidth: '36px',

@@ -8,7 +8,7 @@ type Props = {
 
 export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 	<button
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: '#000',
 			border: 'none',
 			color: '#FFF',

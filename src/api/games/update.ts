@@ -4,8 +4,10 @@ import type { ApiOptions, Game, IgdbGame } from 'types'
 import { getUnixTime } from 'date-fns'
 import { query as q } from 'faunadb'
 
+import { monitorAsync } from 'lib/sentryMonitor'
+
 import { authenticateSystem } from 'api/middleware'
-import { serverClient, monitorAsync, igdbFetcher, gameFields, mapIgdbGame } from 'api/utils'
+import { serverClient, igdbFetcher, gameFields, mapIgdbGame } from 'api/utils'
 
 type Options = {
 	gameId: number,

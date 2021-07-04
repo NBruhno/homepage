@@ -6,7 +6,7 @@ import { ButtonAsync } from './Async'
 
 export const Icon = (props: AsyncProps) => (
 	<ButtonAsync
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: 'transparent',
 			borderRadius: '4px',
 			minWidth: '36px',

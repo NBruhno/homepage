@@ -7,7 +7,7 @@ type Props = {
 
 export const CoverWrapper = ({ size, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			flexShrink: 0,
 			background: [theme.color.inputBackgroundHover, `linear-gradient(134deg, ${theme.color.inputBorder} 0%, ${theme.color.inputBackgroundHover} 63%, ${theme.color.inputBackground} 100%)`],
 			height: size === 'big' ? '352px' : '160px',

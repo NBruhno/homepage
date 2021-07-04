@@ -18,8 +18,8 @@ const Home: NextPage<Props> = () => (
 			<div css={{ textAlign: 'center' }}>
 				<Logo css={{ height: '37vh' }} />
 				<h1 css={{ fontWeight: 400, fontSize: '3em', marginBottom: '14px' }}>Bruhno</h1>
-				<p css={(theme: Theme) => ({
-					fontWeight: 400,
+				<p css={(theme) => ({
+					fontWeight: theme.font.weight.regular,
 					fontSize: theme.fontSize.s100,
 					margin: 0,
 					fontFamily: theme.fontFamily.poppins,

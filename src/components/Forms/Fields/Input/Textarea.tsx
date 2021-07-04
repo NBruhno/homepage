@@ -13,7 +13,7 @@ type Props = {
 export const Textarea = ({ hasError, disabled, ...rest }: Props) => (
 	<AutosizeTextarea
 		{...rest}
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			...DefaultInputStyle({ theme, hasError, disabled }),
 			minHeight: 'none',
 			resize: 'none',

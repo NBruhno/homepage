@@ -9,7 +9,7 @@ type Props = {
 const Component =({ isOpen, ...rest }: Props, ref: LegacyRef<HTMLDivElement>) => (
 	<div
 		ref={ref}
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			background: theme.color.inputBackground,
 			position: 'absolute',
 			width: '100%',

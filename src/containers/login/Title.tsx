@@ -3,7 +3,7 @@ import type { ComponentProps } from 'react'
 
 export const Title = (props: ComponentProps<'h2'>) => (
 	<h2
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			fontSize: theme.fontSize.s140,
 			textAlign: 'center',
 			margin: '12px 0 8px',

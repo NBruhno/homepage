@@ -5,9 +5,9 @@ import { config } from 'config.server'
 
 import { delay } from 'lib/delay'
 import { logger } from 'lib/logger'
+import { monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
-import { monitorReturnAsync } from 'api/utils'
 
 export const retry = async (functionToRetry: () => Promise<Response>, retries: number, res: NextApiResponse): Promise<any> => {
 	const result = await functionToRetry()

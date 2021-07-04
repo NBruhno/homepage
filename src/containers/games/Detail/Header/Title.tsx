@@ -3,13 +3,13 @@ import type { ComponentProps } from 'react'
 /* eslint-disable jsx-a11y/heading-has-content */
 export const Title = (props: ComponentProps<'h1'>) => (
 	<h1
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			textShadow: '1px 1px 5px hsla(0, 0%, 0%, 0.5), 0 0 12px hsla(0, 0%, 0%, 0.5)',
 			fontSize: '3em',
 			paddingTop: '12px',
 			color: theme.color.white,
 			margin: '0 0 8px',
-			fontWeight: 500,
+			fontWeight: theme.font.weight.medium,
 
 			[theme.mediaQueries.maxWearable]: {
 				fontSize: theme.fontSize.s100,

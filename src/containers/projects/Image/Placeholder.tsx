@@ -7,7 +7,7 @@ type Props = {
 
 export const Placeholder = ({ height, width, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			flexShrink: 0,
 			backgroundColor: theme.color.grayDark,
 			height: `${height}px`,

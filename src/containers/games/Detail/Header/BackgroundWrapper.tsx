@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 export const BackgroundWrapper = (props: ComponentProps<'div'>) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			position: 'absolute',
 			top: 0,
 			left: 0,

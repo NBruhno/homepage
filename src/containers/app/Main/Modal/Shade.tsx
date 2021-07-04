@@ -8,7 +8,7 @@ type Props = {
 
 export const Shade = ({ show, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: show ? adjustHsl(theme.color.background, { alpha: 0.5 }) : 'none',
 			position: 'absolute',
 			top: 0,

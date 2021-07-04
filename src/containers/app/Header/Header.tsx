@@ -8,7 +8,7 @@ export const Header = (props: ComponentProps<'header'>) => {
 
 	return (
 		<header
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				alignItems: 'center',
 				backdropFilter: 'saturate(150%) blur(5px)',
 				backgroundColor: theme.darkTheme ? theme.color.inputBackgroundHover : theme.color.sidebarBackground,

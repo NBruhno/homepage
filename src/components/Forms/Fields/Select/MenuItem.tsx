@@ -9,10 +9,10 @@ type Props = {
 
 export const MenuItem = ({ highlightedIndex, selectedItem, index, value, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: highlightedIndex === index ? theme.color.primary : theme.color.inputBackground,
 			color: theme.color.text,
-			fontWeight: selectedItem === value ? 'bold' : 'normal',
+			fontWeight: selectedItem === value ? theme.font.weight.bold : theme.font.weight.regular,
 			padding: '12px',
 			transition: 'all 0.3s ease',
 			cursor: 'pointer',

@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 export const Container = (props: ComponentProps<'div'>) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: theme.color.background,
 			border: `1px solid ${theme.color.gray020}`,
 			borderRadius: '4px',

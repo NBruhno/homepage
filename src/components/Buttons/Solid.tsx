@@ -11,7 +11,7 @@ type Props = {
 
 export const Solid = ({ color, backgroundColor, ...rest }: Props) => (
 	<ButtonAsync
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: backgroundColor ? theme.color[backgroundColor] : theme.color.primary,
 			borderRadius: '4px',
 			color: color ? theme.color.textInverted : theme.color.black,

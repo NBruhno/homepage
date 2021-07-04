@@ -6,10 +6,11 @@ import { query as q } from 'faunadb'
 import { chunk, differenceBy, intersectionBy } from 'lodash'
 
 import { logger } from 'lib/logger'
+import { monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { createAndAttachError } from 'api/errors'
 import { authenticateSystem } from 'api/middleware'
-import { serverClient, monitorReturnAsync, monitorAsync, igdbFetcher, gameFields, mapIgdbGame } from 'api/utils'
+import { serverClient, igdbFetcher, gameFields, mapIgdbGame } from 'api/utils'
 
 export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, options: ApiOptions) => {
 	const { transaction } = options

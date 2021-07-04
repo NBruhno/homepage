@@ -10,7 +10,7 @@ type Props = {
 
 const Component = ({ isLoading, ...rest }: Props, ref: LegacyRef<HTMLAnchorElement>) => (
 	<a
-		css={(theme: Theme) => ([{
+		css={(theme) => ([{
 			border: `1px solid ${theme.color.gray020}`,
 			borderRadius: '4px',
 			color: theme.color.text,

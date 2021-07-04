@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 export const Grid = (props: ComponentProps<'div'>) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: theme.color.background,
 			display: 'grid',
 			gridTemplateColumns: 'auto 1fr',

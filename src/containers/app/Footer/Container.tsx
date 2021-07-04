@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 export const Container = (props: ComponentProps<'footer'>) => (
 	<footer
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: theme.color.background,
 			borderTop: `1px solid ${theme.color.border}`,
 			bottom: 0,

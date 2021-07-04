@@ -6,7 +6,7 @@ type Props = {
 
 export const Snackbar = ({ error, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: error ? theme.color.error : theme.color.gray,
 			bottom: '24px',
 			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,

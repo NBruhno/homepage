@@ -1,6 +1,7 @@
 import { TokenType } from 'types'
 
 import { createMocks } from 'node-mocks-http'
+
 import { parseHeaders, refreshTokenMatch, transaction } from 'test/utils'
 
 import { getJwtToken } from 'api/utils'

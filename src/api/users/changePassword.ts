@@ -3,9 +3,11 @@ import type { ApiOptions } from 'types'
 
 import { errors, query as q } from 'faunadb'
 
+import { monitorAsync } from 'lib/sentryMonitor'
+
 import { createAndAttachError } from 'api/errors'
 import { authenticate } from 'api/middleware'
-import { monitorAsync, faunaClient } from 'api/utils'
+import { faunaClient } from 'api/utils'
 
 interface Request extends NextApiRequest {
 	body: {

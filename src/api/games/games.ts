@@ -9,8 +9,9 @@ import { config } from 'config.server'
 
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
+import { monitorReturnAsync } from 'lib/sentryMonitor'
 
-import { serverClient, monitorReturnAsync, igdbFetcher, gameFields, mapIgdbGame, gameShouldUpdate } from 'api/utils'
+import { serverClient, igdbFetcher, gameFields, mapIgdbGame, gameShouldUpdate } from 'api/utils'
 
 export const games = async (req: NextApiRequest, res: NextApiResponse, options: ApiOptions) => {
 	const { transaction } = options

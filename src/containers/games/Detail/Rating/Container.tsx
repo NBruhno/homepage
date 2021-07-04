@@ -6,7 +6,7 @@ type Props = {
 
 export const Container = ({ ratingLevel, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			alignItems: 'center',
 			background: (() => {
 				switch (ratingLevel) {

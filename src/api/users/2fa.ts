@@ -5,9 +5,11 @@ import { TokenType } from 'types'
 import { query as q } from 'faunadb'
 import { authenticator } from 'otplib'
 
+import { monitorReturn, monitor, monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
+
 import { createAndAttachError } from 'api/errors'
 import { authenticate, setRefreshCookie } from 'api/middleware'
-import { faunaClient, getJwtToken, monitor, monitorAsync, monitorReturn, monitorReturnAsync } from 'api/utils'
+import { faunaClient, getJwtToken } from 'api/utils'
 
 interface Request extends NextApiRequest {
 	body: {

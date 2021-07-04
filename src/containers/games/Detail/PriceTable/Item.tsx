@@ -8,7 +8,7 @@ type Props = {
 
 export const Item = ({ first, ...rest }: Props) => (
 	<a
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: theme.color.background,
 			borderTopLeftRadius: first ? '4px' : 0,
 			borderTopRightRadius: first ? '4px' : 0,

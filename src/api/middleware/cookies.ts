@@ -5,7 +5,7 @@ import { serialize } from 'cookie'
 
 import { config } from 'config.server'
 
-import { monitorReturn } from 'api/utils'
+import { monitorReturn } from 'lib/sentryMonitor'
 
 const isProduction = config.environment !== 'development'
 

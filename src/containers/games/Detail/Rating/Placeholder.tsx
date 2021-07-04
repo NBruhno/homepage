@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 export const Placeholder = (props: ComponentProps<'div'>) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			borderRadius: '4px',
 			height: '36px',
 			padding: '0 12px',

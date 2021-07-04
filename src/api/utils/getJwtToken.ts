@@ -7,7 +7,7 @@ import { config } from 'config.server'
 
 import { encrypt } from 'lib/cipher'
 
-import { monitorReturn } from './sentryMonitor'
+import { monitorReturn } from '../../lib/sentryMonitor'
 
 type Payload = Record<string, any>
 type Options = {

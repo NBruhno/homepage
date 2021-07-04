@@ -106,7 +106,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 		<div id='tooltip-wrapper' css={{ position: 'relative', display: 'inline-block' }} {...rest}>
 			{show && (
 				<div
-					css={(theme: Theme) => ([sharedStyles, {
+					css={(theme) => ([sharedStyles, {
 						padding: '10px 18px',
 						minWidth: '50px',
 						maxWidth: '300px',
@@ -134,7 +134,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 			{children}
 			{show && (
 				<div
-					css={(theme: Theme) => ([sharedStyles, {
+					css={(theme) => ([sharedStyles, {
 						borderStyle: 'solid',
 						borderWidth: getBorderWidth(),
 						borderColor: getBorderColor(theme),

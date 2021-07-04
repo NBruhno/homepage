@@ -9,8 +9,9 @@ import { config } from 'config.server'
 
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
+import { monitorReturnAsync } from 'lib/sentryMonitor'
 
-import { serverClient, monitorReturnAsync, gameShouldUpdate } from 'api/utils'
+import { serverClient, gameShouldUpdate } from 'api/utils'
 
 const Query = object({
 	take: optional(coerce(number(), pattern(string(), /[0-50]/), (value) => parseInt(value, 10))),

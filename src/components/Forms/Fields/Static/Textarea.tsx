@@ -11,7 +11,7 @@ type Props = {
 
 export const Textarea = (props: Props) => (
 	<AutosizeTextarea
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: theme.color.grayLight,
 			border: `1px solid ${theme.color.gray}`,
 			borderRadius: '4px',

@@ -3,9 +3,11 @@ import type { ApiOptions } from 'types'
 
 import { query as q, errors } from 'faunadb'
 
+import { monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
+
 import { createAndAttachError } from 'api/errors'
 import { authenticate } from 'api/middleware'
-import { faunaClient, monitorAsync, monitorReturnAsync } from 'api/utils'
+import { faunaClient } from 'api/utils'
 
 type Options = {
 	gameId: number,

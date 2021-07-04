@@ -21,7 +21,7 @@ const Games: NextPage = () => {
 			</Head>
 			<Page>
 				<PageContent maxWidth={700}>
-					<div css={(theme: Theme) => ({
+					<div css={(theme) => ({
 						marginTop: hasSearch ? 0 : '30vh',
 						transition: `margin-top 135ms ${theme.animation.default}`,
 					})}

@@ -10,7 +10,7 @@ type Props = {
 
 export const Text = ({ slim, ...rest }: Props) => (
 	<ButtonAsync
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: 'transparent',
 			borderRadius: '4px',
 

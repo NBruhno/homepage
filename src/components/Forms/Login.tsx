@@ -18,7 +18,7 @@ export const FormLogin = () => {
 				<Form form={currentFlow} onSubmit={async (fields) => { await login(fields) }}>
 					<Input label='Email' name='email' type='email' id={`${currentFlow}-email`} required autoComplete='email' />
 					<Input label='Password' name='password' type='password' id={`${currentFlow}-password`} required autoComplete='password' />
-					<div css={(theme: Theme) => ({
+					<div css={(theme) => ({
 						display: 'flex',
 						justifyContent: 'space-between',
 
@@ -31,7 +31,7 @@ export const FormLogin = () => {
 						<ButtonSolid
 							label='Login'
 							submit
-							css={(theme: Theme) => ({
+							css={(theme) => ({
 								[theme.mediaQueries.maxMobile]: {
 									width: '100%',
 									marginBottom: '12px',
@@ -49,7 +49,7 @@ export const FormLogin = () => {
 					<Input label='Email' name='email' type='email' id={`${currentFlow}-email`} required autoComplete='email' />
 					<Input label='Display name' name='displayName' id={`${currentFlow}-displayName`} required autoComplete='username' />
 					<Input label='Password' name='password' type='password' id={`${currentFlow}-password`} required autoComplete='password' />
-					<div css={(theme: Theme) => ({
+					<div css={(theme) => ({
 						display: 'flex',
 						justifyContent: 'space-between',
 
@@ -62,7 +62,7 @@ export const FormLogin = () => {
 						<ButtonSolid
 							label='Sign up'
 							submit
-							css={(theme: Theme) => ({
+							css={(theme) => ({
 								[theme.mediaQueries.maxMobile]: {
 									width: '100%',
 									marginBottom: '12px',

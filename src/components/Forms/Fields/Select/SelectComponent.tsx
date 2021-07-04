@@ -8,7 +8,7 @@ type Props = {
 
 export const SelectComponent = ({ hasError, disabled = false, ...rest }: Props) => (
 	<input
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			...DefaultInputStyle({ hasError, disabled, theme }),
 			zIndex: 5,
 		})}

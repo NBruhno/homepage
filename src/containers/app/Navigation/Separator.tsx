@@ -14,7 +14,7 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 
 	return (
 		<div
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				borderTop: `1px solid ${theme.color.sidebarBorder}`,
 				height: ((slim || collapsed)) ? '0px' : '18px',
 				margin: slim ? 0 : '18px 0 2px',
@@ -35,7 +35,7 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 			{...rest}
 		>
 			<span
-				css={(theme: Theme) => ({
+				css={(theme) => ({
 					opacity: collapsed ? 0 : 0.6,
 					transition: `opacity 300ms ${theme.animation.default}`,
 					color: theme.darkTheme ? theme.color.text : theme.color.textInverted,

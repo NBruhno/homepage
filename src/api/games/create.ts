@@ -4,8 +4,10 @@ import type { ApiOptions } from 'types'
 import { getUnixTime } from 'date-fns'
 import { query as q } from 'faunadb'
 
+import { monitorAsync } from 'lib/sentryMonitor'
+
 import { authenticateSystem } from 'api/middleware'
-import { serverClient, monitorAsync } from 'api/utils'
+import { serverClient } from 'api/utils'
 
 export const create = async (req: NextApiRequest, res: NextApiResponse, options: ApiOptions) => {
 	const { body } = req

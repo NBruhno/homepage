@@ -17,7 +17,7 @@ export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
 
 	return (
 		<div
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				cursor: disabled ? 'auto' : 'pointer',
 				position: 'relative',
 				boxShadow: focus ? `0 0 0 2px ${theme.color.primary}` : 'none',

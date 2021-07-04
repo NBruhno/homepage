@@ -18,13 +18,13 @@ export const Header = (props: ComponentProps<'nav'>) => {
 	return (
 		<HeaderComponent {...props}>
 			<ButtonIcon
-				label={<MenuIcon css={(theme: Theme) => ({ color: theme.darkTheme ? theme.color.text : theme.color.textInverted })} />}
+				label={<MenuIcon css={(theme) => ({ color: theme.darkTheme ? theme.color.text : theme.color.textInverted })} />}
 				onClick={() => updateResponsive({ showMenu: !showMenu })}
 			/>
 			<Link href='/' passHref>
 				<NavLink css={{ alignItems: 'center' }} onClick={() => updateResponsive({ showMenu: false })}>
 					<Logo
-						css={(theme: Theme) => ({
+						css={(theme) => ({
 							width: '32px',
 							height: '32px',
 							margin: '0 8px 0 -6px',

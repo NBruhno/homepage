@@ -6,7 +6,7 @@ type Props = {
 
 export const Label = ({ isVisible, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			opacity: isVisible ? 1 : 0,
 			overflow: 'hidden',
 			textOverflow: 'ellipsis',

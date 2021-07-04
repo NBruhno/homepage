@@ -5,7 +5,7 @@ import { forwardRef } from 'react'
 
 const Component = (props: ComponentProps<'a'>, ref: LegacyRef<HTMLAnchorElement>) => (
 	<a
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			alignItems: 'center',
 			backgroundColor: theme.color.sidebarBackground,
 			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,

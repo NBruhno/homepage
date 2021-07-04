@@ -22,7 +22,7 @@ export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Prop
 
 	return (
 		<span
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				backgroundColor: 'currentColor',
 				borderRadius: `${size / 2}em`,
 				bottom: '0.1em',

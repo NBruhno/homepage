@@ -73,7 +73,7 @@ export const Main = ({ children }: ComponentProps<'main'>) => {
 					) : (
 						<>
 							<h1 css={{ margin: '0 0 24px', fontSize: '1.5em' }}>You are not authorized to access this resource</h1>
-							<Link href='/' passHref><a css={(theme: Theme) => ({ color: theme.color.text })}>Home</a></Link>
+							<Link href='/' passHref><a css={(theme) => ({ color: theme.color.text })}>Home</a></Link>
 						</>
 					)}
 				</>

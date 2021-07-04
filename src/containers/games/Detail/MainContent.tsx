@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 export const MainContent = (props: ComponentProps<'div'>) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			margin: '272px auto 0',
 			zIndex: 1,
 			width: '100%',

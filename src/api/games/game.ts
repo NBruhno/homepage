@@ -7,9 +7,10 @@ import { config } from 'config.server'
 
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
+import { monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { createAndAttachError } from 'api/errors'
-import { serverClient, monitorReturnAsync, igdbFetcher, gameFields, mapIgdbGame, gameShouldUpdate } from 'api/utils'
+import { serverClient, igdbFetcher, gameFields, mapIgdbGame, gameShouldUpdate } from 'api/utils'
 
 type Options = {
 	gameId: number,

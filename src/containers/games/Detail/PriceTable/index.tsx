@@ -3,7 +3,6 @@ import type { GamePrice } from 'types'
 import { sortBy } from 'lodash'
 import { useState } from 'react'
 
-import { ChevronFlip } from 'components/ChevronFlip'
 import Collapse from 'components/Collapse'
 
 import { Container } from './Container'
@@ -50,7 +49,7 @@ export const PriceTable = ({ prices, isLoading }: Props) => {
 							</Collapse>
 							<ExpandButton
 								onClick={() => setIsExpanded(!isExpanded)}
-								label={<ChevronFlip isActive={isExpanded} />}
+								label='Show all known prices'
 								title={isExpanded ? 'Show less prices' : 'Show more prices'}
 							/>
 						</>

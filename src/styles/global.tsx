@@ -36,7 +36,7 @@ export const globalCss = (theme: Theme) => css([
 		'h1, h2, h3, h4, h5': {
 			margin: '2.75rem 0 1.05rem',
 			lineHeight: 1.15,
-			fontWeight: 400,
+			fontWeight: theme.font.weight.regular,
 			fontFamily: theme.fontFamily.poppins,
 		},
 

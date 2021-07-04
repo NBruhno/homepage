@@ -7,7 +7,7 @@ export const Shade = (props: ComponentProps<'div'>) => {
 	return (
 		<div
 			onClick={() => updateResponsive({ showMenu: false })}
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				backgroundColor: theme.color.black,
 				bottom: 0,
 				left: 0,

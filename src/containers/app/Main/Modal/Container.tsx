@@ -12,7 +12,7 @@ export const Container = ({ noWrapper, show, children, ...rest }: Props) => {
 
 	return (
 		<div
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				display: 'flex',
 				left: 0,
 				right: 0,

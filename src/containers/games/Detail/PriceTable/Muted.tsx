@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 export const Muted = (props: ComponentProps<'div'>) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			color: theme.color.text,
 			fontSize: theme.fontSize.s90,
 			padding: '10px 0',

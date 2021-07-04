@@ -7,7 +7,7 @@ export const ButtonToggle = () => {
 	const { collapsedSidebar, updateResponsive } = useResponsive()
 	return (
 		<>
-			<div css={(theme: Theme) => ({ borderTop: `1px solid ${theme.color.sidebarBorder}` })} />
+			<div css={(theme) => ({ borderTop: `1px solid ${theme.color.sidebarBorder}` })} />
 			<ButtonIcon
 				css={{
 					margin: '6px 12px',
@@ -17,7 +17,7 @@ export const ButtonToggle = () => {
 				title={collapsedSidebar ? 'Expand sidebar' : 'Collapse sidebar'}
 				label={(
 					<div
-						css={(theme: Theme) => ({
+						css={(theme) => ({
 							display: 'flex',
 							justifyContent: 'flex-end',
 							alignItems: 'center',
