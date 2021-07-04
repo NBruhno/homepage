@@ -19,8 +19,8 @@ const Component = ({ active, ...rest }: Props, ref: LegacyRef<HTMLAnchorElement>
 			borderRadius: '4px',
 			margin: '4px 12px',
 			transition: `color 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}`,
-			fontFamily: theme.fontFamily.poppins,
-			fontSize: theme.fontSize.s90,
+			fontFamily: theme.font.family.poppins,
+			fontSize: theme.font.size.s90,
 			display: 'flex',
 
 			'&:hover, &:focus': {

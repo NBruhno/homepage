@@ -4,7 +4,7 @@ import type { ComponentProps } from 'react'
 export const Title = (props: ComponentProps<'h2'>) => (
 	<h2
 		css={(theme) => ({
-			fontSize: theme.fontSize.s140,
+			fontSize: theme.font.size.s140,
 			textAlign: 'center',
 			margin: '12px 0 8px',
 		})}

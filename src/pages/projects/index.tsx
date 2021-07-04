@@ -14,10 +14,10 @@ const Projects: NextPage = () => (
 		</Head>
 		<Page>
 			<PageContent maxWidth={700}>
-				<h1 css={(theme) => ({ fontSize: theme.fontSize.s160, margin: 0 })}>
+				<h1 css={(theme) => ({ fontSize: theme.font.size.s160, margin: 0 })}>
 					Past projects
 				</h1>
-				<h2 css={(theme) => ({ fontSize: theme.fontSize.s100, margin: '8px 0 24px', opacity: 0.7 })}>
+				<h2 css={(theme) => ({ fontSize: theme.font.size.s100, margin: '8px 0 24px', opacity: 0.7 })}>
 					A list of things I&apos;ve made over the years
 				</h2>
 				<div>

@@ -14,7 +14,7 @@ export const Item = ({ first, ...rest }: Props) => (
 			borderTopRightRadius: first ? '4px' : 0,
 			color: theme.color.text,
 			display: 'flex',
-			fontFamily: theme.fontFamily.poppins,
+			fontFamily: theme.font.family.poppins,
 			justifyContent: 'space-between',
 			margin: 0,
 			padding: first ? '12px 10px' : '6px 10px',

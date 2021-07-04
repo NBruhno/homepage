@@ -110,22 +110,6 @@ export const theme = (darkTheme = true) => Object.freeze({
 			bold: 700,
 		},
 	},
-	fontSize: {
-		s200: '2em',
-		s180: '1.800em',
-		s160: '1.602em',
-		s140: '1.424em',
-		s125: '1.266em',
-		s115: '1.125em',
-		s100: '1em',
-		s90: '0.889em',
-		s80: '0.79em',
-		s70: '0.702em',
-	},
-	fontFamily: {
-		roboto: `'Roboto', sans-serif`,
-		poppins: `'Poppins', sans-serif`,
-	},
 	animation: {
 		default: 'cubic-bezier(0.4, 0, 0.2, 1)',
 	},

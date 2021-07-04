@@ -39,8 +39,8 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 					opacity: collapsed ? 0 : 0.6,
 					transition: `opacity 300ms ${theme.animation.default}`,
 					color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
-					fontFamily: theme.fontFamily.poppins,
-					fontSize: theme.fontSize.s80,
+					fontFamily: theme.font.family.poppins,
+					fontSize: theme.font.size.s80,
 					display: 'flex',
 					alignContent: 'center',
 				})}

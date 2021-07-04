@@ -18,7 +18,7 @@ export const Text = ({ slim, ...rest }: Props) => (
 			margin: '4px 0',
 			minWidth: '0px',
 			height: slim ? '35px' : 'unset',
-			fontSize: slim ? theme.fontSize.s90 : theme.fontSize.s100,
+			fontSize: slim ? theme.font.size.s90 : theme.font.size.s100,
 
 			'&:disabled': {
 				color: adjustHsl(theme.color.white, { alpha: 0.3 }),

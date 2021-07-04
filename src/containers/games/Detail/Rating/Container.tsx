@@ -19,7 +19,7 @@ export const Container = ({ ratingLevel, ...rest }: Props) => (
 			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
 			borderRadius: '4px',
 			display: 'flex',
-			fontFamily: theme.fontFamily.poppins,
+			fontFamily: theme.font.family.poppins,
 			height: '36px',
 			justifyContent: 'space-between',
 			maxWidth: '88px',

@@ -12,7 +12,7 @@ export const Label = ({ isVisible, ...rest }: Props) => (
 			textOverflow: 'ellipsis',
 			transition: 'opacity 0.4s',
 			whiteSpace: 'nowrap',
-			fontFamily: theme.fontFamily.poppins,
+			fontFamily: theme.font.family.poppins,
 		})}
 		{...rest}
 	/>

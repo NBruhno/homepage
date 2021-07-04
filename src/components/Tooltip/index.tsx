@@ -112,7 +112,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 						maxWidth: '300px',
 						width: 'max-content',
 						borderRadius: '4px',
-						fontSize: theme.fontSize.s90,
+						fontSize: theme.font.size.s90,
 						backgroundColor: theme.color.inputBackgroundHover,
 						boxShadow: '0px 0px 24px rgba(0, 0, 0, 0.2)',
 						color: theme.color.text,

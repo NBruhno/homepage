@@ -37,7 +37,7 @@ export const globalCss = (theme: Theme) => css([
 			margin: '2.75rem 0 1.05rem',
 			lineHeight: 1.15,
 			fontWeight: theme.font.weight.regular,
-			fontFamily: theme.fontFamily.poppins,
+			fontFamily: theme.font.family.poppins,
 		},
 
 		a: {

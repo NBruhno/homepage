@@ -12,35 +12,35 @@ export const Title = (props: ComponentProps<'h1'>) => (
 			fontWeight: theme.font.weight.medium,
 
 			[theme.mediaQueries.maxWearable]: {
-				fontSize: theme.fontSize.s100,
+				fontSize: theme.font.size.s100,
 				wordBreak: 'break-word',
 				margin: '4px 0 8px',
 				paddingTop: 0,
 			},
 
 			[theme.mediaQueries.wearableToMobile]: {
-				fontSize: theme.fontSize.s125,
+				fontSize: theme.font.size.s125,
 				margin: '4px 0 8px',
 				paddingTop: 0,
 			},
 
 			[theme.mediaQueries.mobileToTablet]: {
-				fontSize: theme.fontSize.s140,
+				fontSize: theme.font.size.s140,
 				margin: '0 0 8px',
 			},
 
 			[theme.mediaQueries.tabletToLaptop]: {
-				fontSize: theme.fontSize.s160,
+				fontSize: theme.font.size.s160,
 				margin: '4px 0 8px',
 			},
 
 			[theme.mediaQueries.laptopToDesktop]: {
-				fontSize: theme.fontSize.s180,
+				fontSize: theme.font.size.s180,
 				margin: '4px 0 8px',
 			},
 
 			[theme.mediaQueries.desktopToDesktopLarge]: {
-				fontSize: theme.fontSize.s200,
+				fontSize: theme.font.size.s200,
 				margin: '4px 0 8px',
 			},
 		})}

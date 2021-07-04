@@ -4,7 +4,7 @@ export const ColumnLabel = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme) => ({
 			display: 'block',
-			fontFamily: theme.fontFamily.poppins,
+			fontFamily: theme.font.family.poppins,
 			marginBottom: '25px',
 		})}
 		{...props}

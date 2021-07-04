@@ -13,7 +13,7 @@ export const Error = (props: ComponentProps<'div'>) => (
 			animation: `${fadeIn} 0.2s`,
 			display: 'flex',
 			flexDirection: 'column',
-			fontSize: theme.fontSize.s80,
+			fontSize: theme.font.size.s80,
 			justifyContent: 'center',
 			minHeight: '200px',
 			opacity: 0.6,

@@ -7,8 +7,8 @@ export const RowLabel = (props: ComponentProps<'label'>) => (
 			display: 'grid',
 			gridTemplateColumns: 'min-content 1fr',
 			color: theme.color.text,
-			fontSize: theme.fontSize.s115,
-			fontFamily: theme.fontFamily.poppins,
+			fontSize: theme.font.size.s115,
+			fontFamily: theme.font.family.poppins,
 			fontWeight: theme.font.weight.light,
 			margin: '0 12px 20px 0',
 		})}

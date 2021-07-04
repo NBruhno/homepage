@@ -4,7 +4,7 @@ export const Muted = (props: ComponentProps<'div'>) => (
 	<div
 		css={(theme) => ({
 			color: theme.color.text,
-			fontSize: theme.fontSize.s90,
+			fontSize: theme.font.size.s90,
 			padding: '10px 0',
 			opacity: 0.7,
 
