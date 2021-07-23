@@ -20,7 +20,7 @@
     "dev:next": "next",
     "debug": "cross-env NODE_OPTIONS='--inspect' next dev",
     "prebuild": "node scripts/createEnv.js",
-    "build": "concurrently -p \"[{name}]\" -n \"next,sitemap,env\" -c \"blue,yellow,cyan\" -s \"all\" -k \"yarn build:next\" \"yarn build:sitemap\" \"yarn verify:env\"",
+    "build": "concurrently -p \"[{name}]\" -n \"next,sitemap,env\" -c \"blue,yellow,cyan\" -s \"all\" \"yarn build:next\" \"yarn build:sitemap\" \"yarn verify:env\"",
     "build:next": "next build",
     "build:sitemap": "node scripts/createSitemap.js",
     "build:analyze": "cross-env ANALYZE_BUILD=true next build",
@@ -106,4 +106,3 @@
     "webpack": "5.46.0"
   }
 }
-
