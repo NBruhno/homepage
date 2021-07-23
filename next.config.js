@@ -3,7 +3,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 const { withSentryConfig } = require('@sentry/nextjs')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-const withOffline = require('next-offline')
+const withPWA = require('next-pwa')
 
 const basePath = ''
 
@@ -28,42 +28,6 @@ const SentryWebpackPluginOptions = {
 	}) : undefined,
 }
 
-const workboxOpts = {
-	swDest: 'static/service-worker.js',
-	modifyURLPrefix: {
-		'autostatic/': '_next/static/',
-	},
-	exclude: [/\.(?:png|jpg|jpeg|svg.json)$/, 'react-loadable-manifest.json', 'build-manifest.json'],
-	runtimeCaching: [
-		{
-			urlPattern: /^https:?.*$/,
-			handler: 'NetworkFirst',
-			options: {
-				cacheName: 'offlineCache',
-				networkTimeoutSeconds: 15,
-				expiration: {
-					maxEntries: 100,
-					maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
-				},
-				cacheableResponse: {
-					statuses: [0, 200],
-				},
-			},
-		},
-		{
-			urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-			handler: 'CacheFirst',
-			options: {
-				cacheName: 'images',
-				expiration: {
-					maxEntries: 20,
-					maxAgeSeconds: 7 * 24 * 60 * 60, // 7 days
-				},
-			},
-		},
-	],
-}
-
 const nextConfig = {
 	reactStrictMode: true,
 
@@ -78,7 +42,9 @@ const nextConfig = {
 
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
-	workboxOpts,
+	pwa: {
+		dest: 'public',
+	},
 
 	async rewrites() {
 		return [
@@ -112,4 +78,4 @@ const nextConfig = {
 	basePath,
 }
 
-module.exports = withBundleAnalyzer(withOffline(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
+module.exports = withBundleAnalyzer(withPWA(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
