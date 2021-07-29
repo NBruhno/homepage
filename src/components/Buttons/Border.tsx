@@ -6,7 +6,7 @@ import { ButtonAsync } from './Async'
 
 export const Border = (props: AsyncProps) => (
 	<ButtonAsync
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: 'transparent',
 			border: `1px solid ${theme.color.primary}`,
 			borderRadius: '4px',

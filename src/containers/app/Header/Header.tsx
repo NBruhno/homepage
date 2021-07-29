@@ -1,12 +1,14 @@
+import type { ComponentProps } from 'react'
+
 import { adjustHsl } from 'lib/adjustHsl'
 import { useScroll } from 'lib/useScroll'
 
-export const Header = (props: React.ComponentProps<'header'>) => {
+export const Header = (props: ComponentProps<'header'>) => {
 	const { scrollY } = useScroll()
 
 	return (
 		<header
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				alignItems: 'center',
 				backdropFilter: 'saturate(150%) blur(5px)',
 				backgroundColor: theme.darkTheme ? theme.color.inputBackgroundHover : theme.color.sidebarBackground,

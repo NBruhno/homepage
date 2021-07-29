@@ -1,6 +1,8 @@
-export const Link = ({ children, ...rest }: React.ComponentProps<'a'>) => (
+import type { ComponentProps } from 'react'
+
+export const Link = ({ children, ...rest }: ComponentProps<'a'>) => (
 	<a
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			display: 'flex',
 			color: theme.color.text,
 			opacity: 0.7,

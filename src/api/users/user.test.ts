@@ -1,7 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { createMocks } from 'node-mocks-http'
-import { parseJson, testingCredentials, expectSpecificObject, expectStatusCode, transaction } from 'test/utils'
+
+import { parseJson, testingCredentials, expectSpecificObject, expectStatusCode, testingAccessCode } from 'test/utils'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 
@@ -22,6 +23,7 @@ describe('/api/users/{userId}', () => {
 				email: 'mail+testdelete@bruhno.dev',
 				displayName: 'Test delete',
 				password: testingCredentials,
+				accessCode: testingAccessCode,
 			},
 		})
 
@@ -34,12 +36,12 @@ describe('/api/users/{userId}', () => {
 		})
 
 		try {
-			await users(registerReq, registerRes, { transaction })
+			await users(registerReq, registerRes)
 			accessToken = parseJson(registerRes).accessToken
 			userId = decodeJwtToken(parseJson(registerRes).accessToken).userId
 		} catch (error) {
 			if (error.statusCode === 400) {
-				await login(loginReq, loginRes, { transaction })
+				await login(loginReq, loginRes)
 				accessToken = parseJson(loginRes).accessToken
 				userId = decodeJwtToken(parseJson(loginRes).accessToken).userId
 			}
@@ -54,7 +56,7 @@ describe('/api/users/{userId}', () => {
 			},
 		})
 
-		await user(req, res, { transaction, userId })
+		await user(req, res, { userId })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Your user has been deleted' })
 	})
@@ -64,7 +66,7 @@ describe('/api/users/{userId}', () => {
 			method: 'DELETE',
 		})
 
-		await expect(user(req, res, { transaction, userId })).rejects.toThrow(ApiError)
+		await expect(user(req, res, { userId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 	})
 
@@ -76,7 +78,7 @@ describe('/api/users/{userId}', () => {
 			},
 		})
 
-		await expect(user(req, res, { transaction, userId })).rejects.toThrow(ApiError)
+		await expect(user(req, res, { userId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 	})
 })

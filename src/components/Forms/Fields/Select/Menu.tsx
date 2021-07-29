@@ -1,13 +1,15 @@
+import type { ComponentProps, LegacyRef } from 'react'
+
 import { forwardRef } from 'react'
 
 type Props = {
 	isOpen: boolean,
-} & React.ComponentPropsWithRef<'div'>
+} & ComponentProps<'div'>
 
-export const Menu: React.FC<Props> = forwardRef(({ isOpen, ...rest }, ref) => (
+const Component =({ isOpen, ...rest }: Props, ref: LegacyRef<HTMLDivElement>) => (
 	<div
 		ref={ref}
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			background: theme.color.inputBackground,
 			position: 'absolute',
 			width: '100%',
@@ -25,4 +27,6 @@ export const Menu: React.FC<Props> = forwardRef(({ isOpen, ...rest }, ref) => (
 		})}
 		{...rest}
 	/>
-))
+)
+
+export const Menu = forwardRef(Component)

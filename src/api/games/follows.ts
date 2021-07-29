@@ -1,21 +1,31 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { ApiOptions, Game } from 'types'
+import type { Game } from 'types'
 
 // @ts-expect-error Missing type for parseJson.
 import { query as q, parseJSON } from 'faunadb'
+import { optional, string, object, create, pattern, coerce, number, size } from 'superstruct'
 
 import { config } from 'config.server'
 
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
+import { monitorReturnAsync } from 'lib/sentryMonitor'
 
-import { serverClient, monitorReturnAsync, gameShouldUpdate } from 'api/utils'
+import { serverClient, gameShouldUpdate } from 'api/utils'
 
-export const follows = async (req: NextApiRequest, res: NextApiResponse, options: ApiOptions) => {
-	const { query: { user, take = 15, after, before } } = req
-	const { transaction } = options
+const Query = object({
+	take: optional(coerce(number(), pattern(string(), /[0-50]/), (value) => parseInt(value, 10))),
+	user: optional(size(pattern(string(), /\d+/), 18)),
+	after: optional(string()),
+	before: optional(string()),
+})
 
-	const data = await monitorReturnAsync(() => serverClient(transaction).query<{ data: Array<{ data: Game }>, after: string, before: string }>(
+export const follows = async (req: NextApiRequest, res: NextApiResponse) => {
+	const { query } = req
+
+	const { user, take = 15, after, before } = create(query, Query)
+
+	const data = await monitorReturnAsync(() => serverClient().query<{ data: Array<{ data: Game }>, after: string, before: string }>(
 		q.Map(
 			q.Paginate(
 				q.Join(
@@ -29,7 +39,7 @@ export const follows = async (req: NextApiRequest, res: NextApiResponse, options
 		games: data.map(({ data }) => data),
 		before: before ? JSON.stringify(before as string) : undefined,
 		after: after ? JSON.stringify(after as string) : undefined,
-	})), 'faunadb - Map(Paginate(), Lambda())', transaction)
+	})), 'faunadb - Map(Paginate(), Lambda())')
 
 	const gamesToUpdate = data.games.filter((game) => gameShouldUpdate(game))
 	if (gamesToUpdate.length > 0) {

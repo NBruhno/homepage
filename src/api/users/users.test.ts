@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { createMocks } from 'node-mocks-http'
+import { StructError } from 'superstruct'
+
 import {
-	parseJson, parseHeaders, testingCredentials, expectStatusCode, expectSpecificObject, accessTokenMatch,
-	refreshTokenMatch, transaction,
+	parseJson, parseHeaders, testingCredentials, expectStatusCode, expectSpecificObject, accessTokenMatch, refreshTokenMatch, testingAccessCode,
 } from 'test/utils'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
@@ -25,7 +26,7 @@ describe('/api/users', () => {
 			},
 		})
 
-		await login(loginReq, loginRes, { transaction }).then(async () => {
+		await login(loginReq, loginRes).then(async () => {
 			const { userId } = decodeJwtToken(parseJson(loginRes).accessToken)
 			const { req: deleteReq, res: deleteRes } = createMocks<NextApiRequest, NextApiResponse>({
 				method: 'DELETE',
@@ -38,7 +39,7 @@ describe('/api/users', () => {
 				},
 			})
 
-			await user(deleteReq, deleteRes, { userId, transaction }).catch((error: unknown) => logger.debug(error))
+			await user(deleteReq, deleteRes, { userId }).catch((error: unknown) => logger.debug(error))
 		}).catch((error) => logger.debug(error))
 	})
 
@@ -49,10 +50,11 @@ describe('/api/users', () => {
 				email: 'mail+testregister@bruhno.dev',
 				password: testingCredentials,
 				displayName: 'Test register',
+				accessCode: testingAccessCode,
 			},
 		})
 
-		await users(req, res, { transaction })
+		await users(req, res)
 		expectStatusCode(res, 200)
 		expect(parseJson(res).accessToken).toMatch(accessTokenMatch)
 		expect(parseHeaders(res)['set-cookie']?.[0]).toMatch(refreshTokenMatch)
@@ -66,10 +68,11 @@ describe('/api/users', () => {
 				email: 'mail+test@bruhno.dev',
 				password: testingCredentials,
 				displayName: 'Test already exist register',
+				accessCode: testingAccessCode,
 			},
 		})
 
-		await expect(users(req, res, { transaction })).rejects.toThrow(ApiError)
+		await expect(users(req, res)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 		expectSpecificObject(res, { error: 'Email is already in use' })
 	})
@@ -79,9 +82,8 @@ describe('/api/users', () => {
 			method: 'POST',
 		})
 
-		await expect(users(req, res, { transaction })).rejects.toThrow(ApiError)
+		await expect(users(req, res)).rejects.toThrow(StructError)
 		expectStatusCode(res, 400)
-		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
 
 	test('Invalid method', async () => {
@@ -89,7 +91,7 @@ describe('/api/users', () => {
 			method: 'TRACE',
 		})
 
-		await expect(users(req, res, { transaction })).rejects.toThrow(ApiError)
+		await expect(users(req, res)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 		expectSpecificObject(res, { error: ApiError.fromCode(405).message })
 	})

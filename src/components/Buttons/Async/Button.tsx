@@ -1,12 +1,14 @@
 /* eslint-disable react/button-has-type */
+import type { ComponentProps } from 'react'
+
 type Props = {
 	fullWidth?: boolean,
 	isVisible: boolean,
-} & React.ComponentProps<'button'>
+} & ComponentProps<'button'>
 
 export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 	<button
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: '#000',
 			border: 'none',
 			color: '#FFF',

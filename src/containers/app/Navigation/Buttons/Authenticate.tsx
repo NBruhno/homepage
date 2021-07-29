@@ -1,15 +1,17 @@
+import type { ReactNode } from 'react'
+
 import { useResponsive } from 'states/responsive'
 import { useAuth } from 'states/users'
 
 import { ButtonText as DefaultButtonText } from 'components/Buttons'
 import { LoginIcon, LogoutIcon } from 'components/Icons'
 
-const ButtonText = ({ children, onClick }: { children: React.ReactNode, onClick: () => void }) => (
+const ButtonText = ({ children, onClick }: { children: ReactNode, onClick: () => void }) => (
 	<DefaultButtonText
 		css={{ margin: '4px 12px', height: '35px' }}
 		slim
 		label={(
-			<div css={(theme: Theme) => ({
+			<div css={(theme) => ({
 				display: 'flex',
 				alignItems: 'center',
 				height: '20px',

@@ -1,8 +1,10 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	fill?: boolean,
 	transitionTime?: number,
 	isAnimated?: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Container = ({ isAnimated, transitionTime, fill, ...rest }: Props) => (
 	<div

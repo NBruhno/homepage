@@ -1,10 +1,12 @@
+import type { ComponentProps } from 'react'
+
 import { css } from '@emotion/react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
 	collapsed?: boolean,
-} & React.ComponentProps<'nav'>
+} & ComponentProps<'nav'>
 
 const defaultCss = (theme: Theme, collapsed: boolean) => css({
 	alignItems: 'stretch',
@@ -24,7 +26,7 @@ const defaultCss = (theme: Theme, collapsed: boolean) => css({
 
 export const DesktopSidebar = ({ collapsed = false, ...rest }: Props) => (
 	<nav
-		css={(theme: Theme) => ([
+		css={(theme) => ([
 			defaultCss(theme, collapsed),
 			{
 				[theme.mediaQueries.minMobile]: {
@@ -45,7 +47,7 @@ export const DesktopSidebar = ({ collapsed = false, ...rest }: Props) => (
 
 export const MobileSidebar = ({ show, ...rest }: Props & { show: boolean }) => (
 	<nav
-		css={(theme: Theme) => ([
+		css={(theme) => ([
 			defaultCss(theme, !show),
 			{
 				[theme.mediaQueries.maxMobile]: {

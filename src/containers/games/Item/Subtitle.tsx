@@ -1,7 +1,9 @@
-export const Subtitle = (props: React.ComponentProps<'span'>) => (
+import type { ComponentProps } from 'react'
+
+export const Subtitle = (props: ComponentProps<'span'>) => (
 	<span
-		css={(theme: Theme) => ({
-			fontSize: theme.fontSize.s90,
+		css={(theme) => ({
+			fontSize: theme.font.size.s90,
 			opacity: 0.6,
 		})}
 		{...props}

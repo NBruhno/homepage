@@ -1,11 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { ApiOptions } from 'types'
 
+import { getActiveTransaction } from '@sentry/tracing'
 import { query as q, errors } from 'faunadb'
+
+import { monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { createAndAttachError } from 'api/errors'
 import { authenticate } from 'api/middleware'
-import { faunaClient, monitorAsync, monitorReturnAsync } from 'api/utils'
+import { faunaClient } from 'api/utils'
 
 type Options = {
 	gameId: number,
@@ -13,14 +16,15 @@ type Options = {
 
 export const unfollow = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { method } = req
-	const { gameId, transaction } = options
-	transaction.setName(`${method} - api/games/{gameId}/unfollow`)
+	const { gameId } = options
+	const transaction = getActiveTransaction()
+	if (transaction) transaction.setName(`${method} - api/games/{gameId}/unfollow`)
 
-	const { secret } = authenticate(req, res, { transaction })
+	const { secret } = authenticate(req, res)
 
 	switch (method) {
 		case 'PATCH': {
-			await monitorReturnAsync(() => faunaClient(secret, transaction).query<{
+			await monitorReturnAsync(() => faunaClient(secret).query<{
 				data: {
 					id: string,
 					owner: string,
@@ -32,11 +36,11 @@ export const unfollow = async (req: NextApiRequest, res: NextApiResponse, option
 						following: false,
 					},
 				}),
-			), 'faunadb - Update()', transaction).then(async (game) => {
+			), 'faunadb - Update()').then(async (game) => {
 				if (!game.data.following) {
-					await monitorAsync(() => faunaClient(secret, transaction).query(
+					await monitorAsync(() => faunaClient(secret).query(
 						q.Delete(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.CurrentIdentity()])))),
-					), 'faunadb - Delete()', transaction)
+					), 'faunadb - Delete()')
 				}
 			}).catch((error) => {
 				if (error instanceof errors.NotFound) throw createAndAttachError(404, res)

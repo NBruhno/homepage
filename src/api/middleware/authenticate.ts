@@ -9,9 +9,9 @@ import jwt from 'jsonwebtoken'
 import { config } from 'config.server'
 
 import { decrypt } from 'lib/cipher'
+import { monitorReturn } from 'lib/sentryMonitor'
 
 import { createAndAttachError } from 'api/errors'
-import { monitorReturn } from 'api/utils'
 
 export type Options = {
 	/** A token is automatically supplied through the request, but can be supplied manually here. */
@@ -19,7 +19,7 @@ export type Options = {
 	/** Switch between authenticating an access, refresh or intermediate token. Defaults to access. */
 	type?: TokenType,
 	/** The Sentry transaction or span used for performance monitoring */
-	transaction: Transaction | Span,
+	transaction?: Transaction | Span,
 }
 
 /**
@@ -34,7 +34,7 @@ export type Options = {
  * ```
  */
 export const authenticate = (req: NextApiRequest, res: NextApiResponse,
-	{ token, type = TokenType.Access, transaction }: Options) => monitorReturn(() => {
+	{ token, type = TokenType.Access, transaction }: Options = {}) => monitorReturn(() => {
 	try {
 		const { headers: { authorization }, cookies } = req
 
@@ -49,7 +49,7 @@ export const authenticate = (req: NextApiRequest, res: NextApiResponse,
 			throw createAndAttachError(401, res)
 		})()
 
-		const { header, payload } = <{ header: { typ: TokenType }, payload: Omit<Token, 'typ'> }>jwt.verify(
+		const { header, payload } = <{ header: { typ: TokenType }, payload: Omit<Token, 'typ'> }><unknown>jwt.verify(
 			tokenToUse as string,
 			config.auth.publicKey,
 			{

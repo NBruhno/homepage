@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import Downshift from 'downshift'
 import { matchSorter } from 'match-sorter'
 import { useEffect } from 'react'
@@ -28,7 +30,7 @@ type Props = {
 	optionalHint?: boolean,
 	optionsLimit?: number,
 	placeholder?: string,
-	renderLabel?: React.ReactNode,
+	renderLabel?: ReactNode,
 	required?: boolean,
 	validate?: boolean,
 
@@ -75,7 +77,7 @@ export const Select = ({
 			}}
 		>
 			{({ getInputProps, getItemProps, getMenuProps, getRootProps, getLabelProps, isOpen, inputValue = '', highlightedIndex, selectedItem }) => {
-				const filteredOptions = matchSorter(options, inputValue!, { keys: ['label'] })
+				const filteredOptions = matchSorter(options, inputValue ?? '', { keys: ['label'] })
 				return (
 					<FieldWrapper fullWidth={fullWidth} minWidth={170} {...getRootProps()}>
 						<LabelContainer {...getLabelProps()}>
@@ -86,7 +88,7 @@ export const Select = ({
 							<SelectComponent {...getInputProps({ name: input.name, placeholder })} onFocus={input.onFocus} onBlur={input.onBlur} hasError={hasError} disabled={disabled} id={id} />
 							<Menu hasError={hasError} {...getMenuProps()} isOpen={isOpen && Boolean(filteredOptions.length)}>
 								{filteredOptions.map(({ value, label: optionLabel }, index: number) => (
-									<MenuItem {...getItemProps({ key: value, index, item: value })} highlightedIndex={highlightedIndex} selectedItem={selectedItem}>
+									<MenuItem {...getItemProps({ key: value, index, item: value })} highlightedIndex={highlightedIndex} selectedItem={selectedItem} key={index}>
 										{optionLabel}
 									</MenuItem>
 								))}

@@ -1,3 +1,5 @@
+import type { ReactNode, ComponentProps } from 'react'
+
 import { css } from '@emotion/react'
 
 export enum Location {
@@ -8,11 +10,11 @@ export enum Location {
 }
 
 type Props = {
-	children: React.ReactNode,
+	children: ReactNode,
 	location?: Location,
 	show?: boolean,
-	tip: React.ReactNode,
-} & React.ComponentProps<'div'>
+	tip: ReactNode,
+} & ComponentProps<'div'>
 
 export const Tooltip = ({ tip, show = true, location = Location.Top, children, ...rest }: Props) => {
 	const getLeft = () => {
@@ -104,13 +106,13 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 		<div id='tooltip-wrapper' css={{ position: 'relative', display: 'inline-block' }} {...rest}>
 			{show && (
 				<div
-					css={(theme: Theme) => ([sharedStyles, {
+					css={(theme) => ([sharedStyles, {
 						padding: '10px 18px',
 						minWidth: '50px',
 						maxWidth: '300px',
 						width: 'max-content',
 						borderRadius: '4px',
-						fontSize: theme.fontSize.s90,
+						fontSize: theme.font.size.s90,
 						backgroundColor: theme.color.inputBackgroundHover,
 						boxShadow: '0px 0px 24px rgba(0, 0, 0, 0.2)',
 						color: theme.color.text,
@@ -132,7 +134,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 			{children}
 			{show && (
 				<div
-					css={(theme: Theme) => ([sharedStyles, {
+					css={(theme) => ([sharedStyles, {
 						borderStyle: 'solid',
 						borderWidth: getBorderWidth(),
 						borderColor: getBorderColor(theme),

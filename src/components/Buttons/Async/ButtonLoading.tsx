@@ -1,3 +1,5 @@
+import type { ReactNode, ComponentProps } from 'react'
+
 import { ActivityIndicator } from 'components/ActivityIndicator'
 
 import { Button } from './Button'
@@ -8,9 +10,9 @@ type Props = {
 	fullWidth?: boolean,
 	isLoading?: boolean,
 	isVisible?: boolean,
-	label: React.ReactNode,
+	label: ReactNode,
 	submit?: boolean,
-} & React.ComponentProps<'button'>
+} & ComponentProps<'button'>
 
 export const ButtonLoading = ({
 	disabled = false,

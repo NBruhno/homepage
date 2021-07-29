@@ -1,10 +1,12 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	bold?: boolean,
 	isActive?: boolean,
 	mirror?: boolean,
 	horizontal: boolean,
 	slim?: boolean,
-} & React.ComponentProps<'span'>
+} & ComponentProps<'span'>
 
 export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Props) => {
 	let size = 0.1
@@ -20,7 +22,7 @@ export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Prop
 
 	return (
 		<span
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				backgroundColor: 'currentColor',
 				borderRadius: `${size / 2}em`,
 				bottom: '0.1em',

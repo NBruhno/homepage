@@ -66,11 +66,11 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 							</ReleaseDate>
 							<Developer>
 								<Placeholder isLoading={isLoading} width='25%'>
-									By {game?.developer?.name}
+									{game?.developer?.name && `By ${game.developer.name}`}
 								</Placeholder>
 							</Developer>
 							{(isTablet || isMobile) && (
-								<Rating rating={game?.rating ?? null} isLoading={isLoading} />
+								<Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} isLoading={isLoading} />
 							)}
 						</div>
 						{(!isTablet && !isMobile) && (
@@ -85,7 +85,7 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 											fullWidth
 										/>
 									</Tooltip>
-									<Rating rating={game?.rating ?? null} isLoading={isLoading} />
+									<Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} isLoading={isLoading} />
 									{(!isTablet && !isMobile) && <WebsiteIcons websites={game?.websites ?? null} sortBy={SortBy.Stores} />}
 								</ActionWrapper>
 								{(!isLaptop) && (

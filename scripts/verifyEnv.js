@@ -5,7 +5,7 @@ const chalk = require('chalk')
 const { VERCEL_ENV } = process.env
 
 const characterSpacing = 37
-let missingAValue = false
+const missingValues = []
 
 const log = (value, result) => {
 	const ending = () => {
@@ -22,7 +22,7 @@ const verifyVariable = (value, deployOnly = false) => {
 	if (process.env[value] === undefined) {
 		if (deployOnly && VERCEL_ENV !== 'development') {
 			log(value, 'missing')
-			missingAValue = true
+			missingValues.push(value)
 		} else {
 			log(value, 'deploy')
 		}
@@ -32,6 +32,7 @@ const verifyVariable = (value, deployOnly = false) => {
 }
 
 console.log(`Current environment:${new Array(characterSpacing - 18).join(' ')}${chalk.blue(VERCEL_ENV ? VERCEL_ENV.charAt(0).toUpperCase() + VERCEL_ENV.slice(1) : 'Undefined')}`)
+verifyVariable('ACCESS_CODE')
 verifyVariable('AUTH_IV')
 verifyVariable('AUTH_SECRET')
 verifyVariable('AUTH_SYSTEM_TOKEN')
@@ -47,6 +48,9 @@ verifyVariable('SENTRY_ORG', true)
 verifyVariable('SENTRY_PROJECT', true)
 verifyVariable('SENTRY_URL', true)
 
-if (missingAValue) {
-	throw new Error('Missing the above mentioned env variable(s)')
+if (missingValues.length > 0) {
+	console.log(chalk.red('Error: Missing the above mentioned env variables'))
+	process.exit(1)
+} else {
+	console.log(chalk.green('All required env variables are available'))
 }

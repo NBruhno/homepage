@@ -1,16 +1,18 @@
+import type { ComponentProps } from 'react'
+
 import { useResponsive } from 'states/responsive'
 
 type Props = {
 	noWrapper: boolean,
 	show: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Container = ({ noWrapper, show, children, ...rest }: Props) => {
 	const { collapsedSidebar } = useResponsive()
 
 	return (
 		<div
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				display: 'flex',
 				left: 0,
 				right: 0,

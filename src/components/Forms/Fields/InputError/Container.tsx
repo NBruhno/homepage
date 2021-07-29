@@ -1,11 +1,13 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	isVisible: boolean,
 	isFocus: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Container = ({ isVisible, isFocus, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: theme.color.error,
 			height: `${isVisible ? '33' : '0'}px`,
 			transition: 'height 0.3s ease, box-shadow 0.3s ease',

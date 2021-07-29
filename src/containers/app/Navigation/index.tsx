@@ -21,7 +21,7 @@ export const Navigation = () => {
 			<DesktopSidebar collapsed={collapsedSidebar}>
 				<Link href='/' passHref>
 					<Header onClick={() => closeMenuOnInteraction()}>
-						<Logo css={(theme: Theme) => ({ width: '32px', height: '32px', margin: collapsedSidebar ? '0 8px 0 -1px' : '0 6px 0 42px', transition: `margin 300ms ${theme.animation.default}` })} />
+						<Logo css={(theme) => ({ width: '32px', height: '32px', margin: collapsedSidebar ? '0 8px 0 -1px' : '0 6px 0 42px', transition: `margin 300ms ${theme.animation.default}` })} />
 						<Text>Bruhno</Text>
 					</Header>
 				</Link>

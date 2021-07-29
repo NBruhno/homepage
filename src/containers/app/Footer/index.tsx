@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react'
+
 import { GitHubIcon, GitLabIcon, MailIcon, LinkedInIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
@@ -6,7 +8,7 @@ import { Link } from './Link'
 import { ListItem } from './ListItem'
 import { SocialList } from './SocialList'
 
-export const Footer = (props: React.ComponentProps<'footer'>) => (
+export const Footer = (props: ComponentProps<'footer'>) => (
 	<Container {...props}>
 		<SocialList>
 			<ListItem>

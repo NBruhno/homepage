@@ -1,10 +1,12 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	error: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Snackbar = ({ error, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: error ? theme.color.error : theme.color.gray,
 			bottom: '24px',
 			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,

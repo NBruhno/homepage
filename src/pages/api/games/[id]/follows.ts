@@ -1,26 +1,30 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+
 import { withSentry } from '@sentry/nextjs'
+import { getActiveTransaction } from '@sentry/tracing'
 
 import { createAndAttachError } from 'api/errors'
 import { unfollow, follow } from 'api/games'
-import { withSentryTracking } from 'api/middleware'
 
-const handler = withSentryTracking(async (req, res, transaction) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { query: { id }, method } = req
 	const gameId = parseInt(id as string, 10)
 
-	transaction.setName(`${method} - api/games/{gameId}/follow`)
+	const transaction = getActiveTransaction()
+	if (transaction) transaction.setName(`${method} - api/games/{gameId}/follow`)
+
 	switch (method) {
 		case 'GET':
 		case 'POST': {
-			await follow(req, res, { gameId, transaction })
+			await follow(req, res, { gameId })
 			break
 		}
 		case 'PATCH': {
-			await unfollow(req, res, { gameId, transaction })
+			await unfollow(req, res, { gameId })
 			break
 		}
 		default: throw createAndAttachError(405, res)
 	}
-})
+}
 
 export default withSentry(handler)

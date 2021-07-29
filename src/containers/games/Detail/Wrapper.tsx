@@ -1,4 +1,6 @@
-export const Wrapper = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const Wrapper = (props: ComponentProps<'div'>) => (
 	<div
 		css={() => ({
 			display: 'flex',

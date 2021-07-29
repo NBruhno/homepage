@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { useState, useContext, useEffect, useCallback } from 'react'
 
 import { useSize } from 'lib/useSize'
@@ -6,7 +8,7 @@ import { Container } from './Container'
 import { context } from './context'
 
 type Props = {
-	children: React.ReactNode,
+	children: ReactNode,
 	fill?: boolean,
 	isOpen?: boolean,
 	transitionTime?: number,

@@ -1,4 +1,6 @@
-export const HintContainer = (props: React.ComponentProps<'div'>) => (
+import type { ComponentProps } from 'react'
+
+export const HintContainer = (props: ComponentProps<'div'>) => (
 	<div
 		css={{
 			display: 'flex',

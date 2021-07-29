@@ -1,4 +1,6 @@
-export const Spacer = (props: React.ComponentProps<'span'>) => (
+import type { ComponentProps } from 'react'
+
+export const Spacer = (props: ComponentProps<'span'>) => (
 	<span
 		css={{
 			position: 'absolute',

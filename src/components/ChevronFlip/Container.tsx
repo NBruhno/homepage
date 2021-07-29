@@ -1,4 +1,6 @@
-export const Container = (props: React.ComponentProps<'span'>) => (
+import type { ComponentProps } from 'react'
+
+export const Container = (props: ComponentProps<'span'>) => (
 	<span
 		css={{
 			display: 'inline-block',

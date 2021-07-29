@@ -1,3 +1,4 @@
+import type { ComponentProps } from 'react'
 import type { GameWebsite } from 'types'
 import { GameWebsiteType } from 'types'
 
@@ -5,6 +6,7 @@ import {
 	SteamIcon, GooglePlayIcon, GoGIcon, RedditIcon, AppleIcon, TwitterIcon,
 	EpicGamesIcon, ItchIoIcon, DiscordIcon, WorldIcon, QuestionMarkIcon,
 } from 'components/Icons'
+import { Tooltip } from 'components/Tooltip'
 
 export enum SortBy {
 	Stores = 'stores',
@@ -13,7 +15,7 @@ export enum SortBy {
 type Props = {
 	websites: Array<GameWebsite> | null,
 	sortBy?: SortBy,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 	const websiteInformation = {
@@ -34,7 +36,7 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 
 	return (
 		<div
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				gridGap: '6px',
 				display: 'grid',
 				gridTemplateColumns: `repeat(${websites.length}, 34px)`,
@@ -47,27 +49,32 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 			})}
 			{...rest}
 		>
-			{websites.map(({ url, type }, index) => (
-				<a
-					href={url}
-					target='_blank'
-					rel='noreferrer noopener'
-					key={index}
-					css={(theme: Theme) => ({
-						color: theme.color.gray070,
-						maxHeight: '32px',
-						maxWidth: '36px',
-						padding: '2px',
+			{websites.map(({ url, type }, index) => {
+				const { logo, name } = websiteInformation[type]
 
-						'&:hover': {
-							color: theme.color.gray100,
-						},
-					})}
-					aria-label={websiteInformation[type].name}
-				>
-					{websiteInformation[type].logo}
-				</a>
-			))}
+				return (
+					<Tooltip tip={name} key={index} show>
+						<a
+							href={url}
+							target='_blank'
+							rel='noreferrer noopener'
+							css={(theme) => ({
+								color: theme.color.gray070,
+								maxHeight: '32px',
+								maxWidth: '36px',
+								padding: '2px',
+
+								'&:hover': {
+									color: theme.color.gray100,
+								},
+							})}
+							aria-label={name}
+						>
+							{logo}
+						</a>
+					</Tooltip>
+				)
+			})}
 		</div>
 	)
 }

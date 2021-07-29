@@ -5,9 +5,9 @@ import { config } from 'config.server'
 
 import { delay } from 'lib/delay'
 import { logger } from 'lib/logger'
+import { monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
-import { monitorReturnAsync } from 'api/utils'
 
 export const retry = async (functionToRetry: () => Promise<Response>, retries: number, res: NextApiResponse): Promise<any> => {
 	const result = await functionToRetry()
@@ -31,7 +31,7 @@ type Options = {
 	body?: string,
 	nickname?: string,
 	single?: boolean,
-	span: Span,
+	span?: Span,
 }
 
 export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { body, single, span, nickname }: Options): Promise<T> => {
@@ -41,8 +41,8 @@ export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { b
 		method: 'POST',
 		body,
 		headers: new Headers({
-			Authorization: `Bearer ${config.igdb.token!}`,
-			'Client-ID': config.igdb.clientId!,
+			Authorization: `Bearer ${config.igdb.token}`,
+			'Client-ID': config.igdb.clientId,
 			'Content-Type': 'text/plain',
 			accept: 'application/json',
 		}),

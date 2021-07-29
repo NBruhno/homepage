@@ -25,9 +25,9 @@ export const useAuth = () => {
 	const [currentFlow, setCurrentFlow] = useState<'login' | 'register' | 'loggedIn' | '2fa'>('login')
 	const { closeModal } = useModal()
 
-	const register = async ({ email, password, displayName }: { email: string, password: string, displayName: string }) => {
+	const register = async ({ email, password, displayName, accessCode }: { email: string, password: string, displayName: string, accessCode: string }) => {
 		try {
-			const { accessToken } = await fetcher<{ accessToken: string }>('/users', { method: Method.Post, body: { email, password, displayName }, cacheControl: 'no-cache' })
+			const { accessToken } = await fetcher<{ accessToken: string }>('/users', { method: Method.Post, body: { email, password, displayName, accessCode }, cacheControl: 'no-cache' })
 			const decodedToken = decodeJwtToken(accessToken)
 			setUser({ ...user, accessToken, email: decodedToken.sub, displayName: decodedToken.displayName, role: decodedToken.role, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {

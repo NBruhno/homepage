@@ -1,8 +1,10 @@
+import type { ReactNode } from 'react'
+
 import { useGlobalState } from 'states/global'
 
 export type Modal = {
 	allowClosure?: boolean,
-	modalContent: React.ReactNode,
+	modalContent: ReactNode,
 	noWrapper?: boolean,
 	showModal: boolean,
 	onClose?: (() => void) | null,
@@ -16,7 +18,7 @@ type Options = {
 
 export const useModal = () => {
 	const [modal, setModal] = useGlobalState('modal')
-	const openModal = (content: React.ReactNode, { allowClosure = true, onClose = null, noWrapper = false }: Options = {}) => {
+	const openModal = (content: ReactNode, { allowClosure = true, onClose = null, noWrapper = false }: Options = {}) => {
 		setModal({ allowClosure, showModal: true, modalContent: content, onClose, noWrapper })
 	}
 

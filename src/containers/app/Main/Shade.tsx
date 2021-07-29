@@ -1,11 +1,13 @@
+import type { ComponentProps } from 'react'
+
 import { useResponsive } from 'states/responsive'
 
-export const Shade = (props: React.ComponentProps<'div'>) => {
+export const Shade = (props: ComponentProps<'div'>) => {
 	const { showMenu, updateResponsive } = useResponsive()
 	return (
 		<div
 			onClick={() => updateResponsive({ showMenu: false })}
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				backgroundColor: theme.color.black,
 				bottom: 0,
 				left: 0,

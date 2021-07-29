@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { keyframes } from '@emotion/react'
 
 const fadeIn = keyframes`
@@ -11,11 +13,11 @@ const fadeIn = keyframes`
 `
 
 type Props = {
-	children: React.ReactNode,
+	children: ReactNode,
 }
 
 export const ProjectList = ({ children }: Props) => (
-	<div css={(theme: Theme) => ({ animation: `350ms ${theme.animation.default} ${fadeIn} 1` })}>
+	<div css={(theme) => ({ animation: `350ms ${theme.animation.default} ${fadeIn} 1` })}>
 		{children}
 	</div>
 )

@@ -25,7 +25,7 @@ export const ToggleComponent = ({ checked, disabled, focus }: Props) => {
 
 	return (
 		<div
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				position: 'relative',
 				borderRadius: '22px',
 				width: '40px',

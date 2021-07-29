@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react'
+
 import { CoverWrapper } from './CoverWrapper'
 import { Image } from './Image'
 import { Placeholder } from './Placeholder'
@@ -7,7 +9,7 @@ const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAB
 type Props = {
 	coverUrl?: string | null,
 	size?: string,
-} & React.ComponentProps<'img'>
+} & ComponentProps<'img'>
 
 export const Cover = ({ size = 'big', coverUrl, alt, ...rest }: Props) => {
 	if (!coverUrl) {

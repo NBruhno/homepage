@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 
 import { useGlobalState } from 'states/global'
 
@@ -14,8 +14,17 @@ import { Tooltip } from 'components/Tooltip'
 
 const Games: NextPage = () => {
 	const [{ afters, numberOfPages }, setState] = useGlobalState('followingGames')
-	const { query } = useRouter()
+	const [{ isStateKnown, userId }] = useGlobalState('user')
+	const router = useRouter()
 	const disablePagination = afters[afters.length - 1] === undefined
+
+	useEffect(() => {
+		if (isStateKnown && userId && !router.query.user) {
+			router.push(`/games/following?user=${userId}`)
+		}
+	// We are only interested in the router query
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isStateKnown, userId, router.query.user])
 
 	return (
 		<>
@@ -32,7 +41,7 @@ const Games: NextPage = () => {
 						}
 						return pagesToRender
 					}, [numberOfPages])}
-					{query.user && (
+					{router.query.user && (
 						<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
 							<Tooltip tip="That's all of your followed games" show={disablePagination}>
 								<ButtonBorder

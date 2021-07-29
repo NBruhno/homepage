@@ -1,8 +1,10 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	checked: boolean,
 	disabled: boolean,
 	focus: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
 	const backgroundColor = (theme: Theme) => {
@@ -15,7 +17,7 @@ export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
 
 	return (
 		<div
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				cursor: disabled ? 'auto' : 'pointer',
 				position: 'relative',
 				boxShadow: focus ? `0 0 0 2px ${theme.color.primary}` : 'none',

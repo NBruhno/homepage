@@ -1,12 +1,14 @@
+import type { ComponentProps } from 'react'
+
 import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
 	show?: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const Shade = ({ show, ...rest }: Props) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			backgroundColor: show ? adjustHsl(theme.color.background, { alpha: 0.5 }) : 'none',
 			position: 'absolute',
 			top: 0,

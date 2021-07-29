@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react'
+
 import { keyframes } from '@emotion/react'
 
 const fadeIn = keyframes`
@@ -10,9 +12,9 @@ const fadeIn = keyframes`
 	}
 `
 
-export const Container = (props: React.ComponentProps<'div'>) => (
+export const Container = (props: ComponentProps<'div'>) => (
 	<div
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			animation: `350ms ${theme.animation.default} ${fadeIn} 1`,
 		})}
 		{...props}

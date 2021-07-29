@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react'
+
 import { useModal } from 'states/modal'
 
 import { Card } from 'components/Card'
@@ -5,7 +7,7 @@ import { Card } from 'components/Card'
 import { Container } from './Container'
 import { Shade } from './Shade'
 
-export const Modal = (props: React.ComponentProps<'div'>) => {
+export const Modal = (props: ComponentProps<'div'>) => {
 	const { allowClosure, showModal, modalContent, closeModal, onClose, noWrapper = false } = useModal()
 
 	return (

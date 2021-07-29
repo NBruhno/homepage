@@ -1,4 +1,5 @@
 import type { SubmissionErrors, FormApi } from 'final-form'
+import type { ReactNode } from 'react'
 
 import { useEffect, useState } from 'react'
 import { Form as FinalForm, FormSpy } from 'react-final-form'
@@ -20,7 +21,7 @@ const onPersistState = (
 
 type Props = {
 	form: string,
-	children: React.ReactNode,
+	children: ReactNode,
 	initialValues?: object,
 	persistState?: string | boolean,
 	persistStateOnSubmit?: boolean,

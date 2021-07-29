@@ -1,6 +1,8 @@
+import type { ComponentProps } from 'react'
+
 type Props = {
 	maxWidth?: number,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const PageContent = ({ maxWidth = 700, ...rest }: Props) => (
 	<div

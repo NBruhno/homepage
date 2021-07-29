@@ -1,3 +1,5 @@
+import type { ComponentProps } from 'react'
+
 import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
@@ -5,7 +7,7 @@ type Props = {
 	hasError: boolean,
 	checked: boolean,
 	disabled: boolean,
-} & React.ComponentProps<'div'>
+} & ComponentProps<'div'>
 
 export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Props) => {
 	const boxShadow = (theme: Theme) => {
@@ -36,7 +38,7 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 		}
 	}
 
-	// const borderColor = (theme: Theme) => {
+	// const borderColor = (theme) => {
 	// 	if (disabled || hasError) {
 	// 		return 'initial'
 	// 	}	else if (checked && focus) {
@@ -48,7 +50,7 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 
 	return (
 		<div
-			css={(theme: Theme) => ({
+			css={(theme) => ({
 				cursor: disabled ? 'auto' : 'pointer',
 				position: 'relative',
 				boxShadow: boxShadow(theme),

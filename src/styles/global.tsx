@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { css, Global } from '@emotion/react'
 
 import { fonts } from 'styles/fonts'
@@ -34,8 +36,8 @@ export const globalCss = (theme: Theme) => css([
 		'h1, h2, h3, h4, h5': {
 			margin: '2.75rem 0 1.05rem',
 			lineHeight: 1.15,
-			fontWeight: 400,
-			fontFamily: theme.fontFamily.poppins,
+			fontWeight: theme.font.weight.regular,
+			fontFamily: theme.font.family.poppins,
 		},
 
 		a: {
@@ -44,7 +46,7 @@ export const globalCss = (theme: Theme) => css([
 	},
 ])
 
-export const GlobalStyling = ({ children }: { children: React.ReactNode }) => (
+export const GlobalStyling = ({ children }: { children: ReactNode }) => (
 	<>
 		<Global styles={(theme) => globalCss(theme)} />
 		{children}

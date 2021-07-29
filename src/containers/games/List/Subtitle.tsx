@@ -1,6 +1,8 @@
-export const Subtitle = (props: React.ComponentProps<'p'>) => (
+import type { ComponentProps } from 'react'
+
+export const Subtitle = (props: ComponentProps<'p'>) => (
 	<p
-		css={(theme: Theme) => ({
+		css={(theme) => ({
 			color: theme.color.text,
 			opacity: 0.6,
 			marginTop: '36px',

@@ -7,19 +7,20 @@ import { config } from 'config.server'
 
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
+import { monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { createAndAttachError } from 'api/errors'
-import { serverClient, monitorReturnAsync, igdbFetcher, gameFields, mapIgdbGame, gameShouldUpdate } from 'api/utils'
+import { serverClient, igdbFetcher, gameFields, mapIgdbGame, gameShouldUpdate } from 'api/utils'
 
 type Options = {
 	gameId: number,
 } & ApiOptions
 
 export const game = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
-	const { gameId, transaction } = options
+	const { gameId } = options
 	let fromIgdb = false
 
-	const game = await monitorReturnAsync((span) => serverClient(transaction).query<{ data: Game }>(q.Get(q.Match(q.Index('gamesById'), gameId)))
+	const game = await monitorReturnAsync((span) => serverClient().query<{ data: Game }>(q.Get(q.Match(q.Index('gamesById'), gameId)))
 		.then((response) => response.data)
 		.catch(async (error) => {
 			if (error instanceof errors.NotFound) {
@@ -33,7 +34,7 @@ export const game = async (req: NextApiRequest, res: NextApiResponse, options: O
 					throw createAndAttachError(404, res)
 				})
 			} else throw error
-		}), 'faunadb - Get()', transaction)
+		}), 'faunadb - Get()')
 
 	if (fromIgdb) {
 		fetcher(`/games`, {

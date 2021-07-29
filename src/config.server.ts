@@ -7,9 +7,10 @@ const authPrivateKey = 'TpROinam5LnGmiVazWPHZeXDHSjAV450ZGf1WIFCjxGH/SjCRv4Dpjt4
 
 export const config = Object.freeze({
 	auth: {
+		accessCode: process.env.ACCESS_CODE as string,
 		iv: process.env.AUTH_IV as string,
-		publicKey: decryptConfig(authPublicKey),
 		privateKey: decryptConfig(authPrivateKey),
+		publicKey: decryptConfig(authPublicKey),
 		secret: process.env.AUTH_SECRET as string,
 		systemToken: process.env.AUTH_SYSTEM_TOKEN as string,
 	},

@@ -1,11 +1,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { ApiOptions } from 'types'
 
+import { getActiveTransaction } from '@sentry/tracing'
 import { query as q, errors } from 'faunadb'
+
+import { monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { createAndAttachError } from 'api/errors'
 import { authenticate } from 'api/middleware'
-import { monitorAsync, monitorReturnAsync, faunaClient } from 'api/utils'
+import { faunaClient } from 'api/utils'
 
 type Options = {
 	gameId: number,
@@ -13,15 +16,17 @@ type Options = {
 
 export const follow = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
 	const { method } = req
-	const { gameId, transaction } = options
-	transaction.setName(`${method} - api/games/{gameId}/follow`)
+	const { gameId } = options
+	const transaction = getActiveTransaction()
+	if (transaction) transaction.setName(`${method} - api/games/{gameId}/follow`)
+
 	res.setHeader('Cache-Control', 'no-cache')
 
-	const { secret } = authenticate(req, res, { transaction })
+	const { secret } = authenticate(req, res)
 
 	switch (method) {
 		case 'GET': {
-			const userData = await monitorReturnAsync(() => faunaClient(secret, transaction).query<{ data: { following: boolean } }>(
+			const userData = await monitorReturnAsync(() => faunaClient(secret).query<{ data: { following: boolean } }>(
 				q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.CurrentIdentity()])),
 			).catch((error) => {
 				if (error instanceof errors.NotFound) {
@@ -31,11 +36,11 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 						},
 					}
 				} else throw error
-			}).then((response) => response.data), 'faunadb - Get()', transaction)
+			}).then((response) => response.data), 'faunadb - Get()')
 			return res.status(200).json({ ...userData })
 		}
 		case 'POST': {
-			await monitorAsync(() => faunaClient(secret, transaction).query(
+			await monitorAsync(() => faunaClient(secret).query(
 				q.Create(q.Collection('gamesUserData'), {
 					data: {
 						id: gameId,
@@ -43,15 +48,15 @@ export const follow = async (req: NextApiRequest, res: NextApiResponse, options:
 						following: true,
 					},
 				}),
-			), 'faunadb - Create()', transaction).catch(async (error) => {
+			), 'faunadb - Create()').catch(async (error) => {
 				if (error.description.includes('unique') && error instanceof errors.BadRequest) {
-					await monitorAsync(() => faunaClient(secret, transaction).query(
+					await monitorAsync(() => faunaClient(secret).query(
 						q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [gameId, q.CurrentIdentity()]))), {
 							data: {
 								following: true,
 							},
 						}),
-					), 'faunadb - Update()', transaction)
+					), 'faunadb - Update()')
 				} else throw error
 			})
 

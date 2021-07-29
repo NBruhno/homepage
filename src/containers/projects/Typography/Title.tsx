@@ -1,8 +1,10 @@
 /* eslint-disable jsx-a11y/heading-has-content */
-export const Title = (props: React.ComponentProps<'h1'>) => (
+import type { ComponentProps } from 'react'
+
+export const Title = (props: ComponentProps<'h1'>) => (
 	<h1
-		css={(theme: Theme) => ({
-			fontSize: theme.fontSize.s200,
+		css={(theme) => ({
+			fontSize: theme.font.size.s200,
 			margin: 0,
 		})}
 		{...props}
