@@ -1,11 +1,12 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+
 import { withSentry } from '@sentry/nextjs'
 
-import { withTracking } from 'api/middleware'
 import { users } from 'api/users'
 
-const handler = withTracking(async (req, res, transaction) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 	res.setHeader('Cache-Control', 'no-cache')
-	return users(req, res, { transaction })
-})
+	return users(req, res)
+}
 
 export default withSentry(handler)

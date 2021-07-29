@@ -19,7 +19,7 @@ export type Options = {
 	/** Switch between authenticating an access, refresh or intermediate token. Defaults to access. */
 	type?: TokenType,
 	/** The Sentry transaction or span used for performance monitoring */
-	transaction: Transaction | Span,
+	transaction?: Transaction | Span,
 }
 
 /**
@@ -34,7 +34,7 @@ export type Options = {
  * ```
  */
 export const authenticate = (req: NextApiRequest, res: NextApiResponse,
-	{ token, type = TokenType.Access, transaction }: Options) => monitorReturn(() => {
+	{ token, type = TokenType.Access, transaction }: Options = {}) => monitorReturn(() => {
 	try {
 		const { headers: { authorization }, cookies } = req
 

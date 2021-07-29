@@ -7,7 +7,7 @@ import { monitorReturnAsync } from 'lib/sentryMonitor'
 type Options = {
 	body?: string,
 	nickname?: string,
-	span: Span,
+	span?: Span,
 	query?: Record<string, any>,
 	version: number,
 }

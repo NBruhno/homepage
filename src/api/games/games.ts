@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { ApiOptions, Game, IgdbGame } from 'types'
+import type { Game, IgdbGame } from 'types'
 
 import { getUnixTime, sub } from 'date-fns'
 // @ts-expect-error Missing type for parseJson.
@@ -13,8 +13,7 @@ import { monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { serverClient, igdbFetcher, gameFields, mapIgdbGame, gameShouldUpdate } from 'api/utils'
 
-export const games = async (req: NextApiRequest, res: NextApiResponse, options: ApiOptions) => {
-	const { transaction } = options
+export const games = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { query: { search, take = 15, after, before } } = req
 
 	// We are using IGDB for looking up games, since we do not keep a complete library
@@ -22,9 +21,8 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 		? await igdbFetcher<Array<IgdbGame>>('/games', res, {
 			body: `${gameFields}; limit ${take}; search "${search}";`,
 			nickname: 'popular',
-			span: transaction,
 		}).then((igdbGames) => ({ games: igdbGames.map(mapIgdbGame) }))
-		: await monitorReturnAsync(() => serverClient(transaction).query<{ data: Array<{ data: Game }>, after: string, before: string }>(
+		: await monitorReturnAsync(() => serverClient().query<{ data: Array<{ data: Game }>, after: string, before: string }>(
 			q.Map(
 				q.Paginate(q.Filter(
 					// Index returns a tuple of [hype, releaseDate, ref]
@@ -43,7 +41,7 @@ export const games = async (req: NextApiRequest, res: NextApiResponse, options: 
 			games: data.map(({ data }) => data),
 			before: before ? JSON.stringify(before as string) : undefined,
 			after: after ? JSON.stringify(after as string) : undefined,
-		})), 'faunadb - Map(Paginate(Filter(Range(), Lambda())), Lambda())', transaction)
+		})), 'faunadb - Map(Paginate(Filter(Range(), Lambda())), Lambda())')
 
 	if (!search) {
 		const gamesToUpdate = data.games.filter((game) => gameShouldUpdate(game))

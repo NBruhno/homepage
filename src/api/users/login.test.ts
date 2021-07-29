@@ -4,7 +4,7 @@ import { createMocks } from 'node-mocks-http'
 
 import {
 	testingCredentials, parseJson, parseHeaders, expectStatusCode, expectSpecificObject, accessTokenMatch,
-	intermediateTokenMatch, refreshTokenMatch, transaction,
+	intermediateTokenMatch, refreshTokenMatch,
 } from 'test/utils'
 
 import { ApiError } from 'api/errors'
@@ -21,7 +21,7 @@ describe('/api/users/login', () => {
 			},
 		})
 
-		await login(req, res, { transaction })
+		await login(req, res)
 		expectStatusCode(res, 200)
 		expect(parseJson(res).accessToken).toMatch(accessTokenMatch)
 		expect(parseHeaders(res)['set-cookie']?.[0]).toMatch(refreshTokenMatch)
@@ -37,7 +37,7 @@ describe('/api/users/login', () => {
 			},
 		})
 
-		await login(req, res, { transaction })
+		await login(req, res)
 		expectStatusCode(res, 200)
 		expect(parseJson(res).intermediateToken).toMatch(intermediateTokenMatch)
 	})
@@ -51,7 +51,7 @@ describe('/api/users/login', () => {
 			},
 		})
 
-		await expect(login(req, res, { transaction })).rejects.toThrow(ApiError)
+		await expect(login(req, res)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: 'Invalid email and/or password' })
 	})
@@ -61,7 +61,7 @@ describe('/api/users/login', () => {
 			method: 'POST',
 		})
 
-		await expect(login(req, res, { transaction })).rejects.toThrow(ApiError)
+		await expect(login(req, res)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
@@ -71,7 +71,7 @@ describe('/api/users/login', () => {
 			method: 'GET',
 		})
 
-		await expect(login(req, res, { transaction })).rejects.toThrow(ApiError)
+		await expect(login(req, res)).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 		expectSpecificObject(res, { error: ApiError.fromCode(405).message })
 	})

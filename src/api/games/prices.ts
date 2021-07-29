@@ -1,23 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { ApiOptions, ItadPlain, ItadPrices } from 'types'
+import type { ItadPlain, ItadPrices } from 'types'
 
 import { createAndAttachError } from 'api/errors'
 import { itadFetcher } from 'api/utils'
 
-type Options = {
-	gameId: number,
-} & ApiOptions
-
-export const prices = async (req: NextApiRequest, res: NextApiResponse, options: Options) => {
+export const prices = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { method, query: { store, id, name } } = req
-	const { transaction } = options
 
 	switch (method) {
 		case 'GET': {
 			try {
 				const plain = await itadFetcher<ItadPlain>('/game/plain', {
 					version: 2,
-					span: transaction,
 					query: {
 						gameId: id,
 						shop: store,
@@ -32,7 +26,6 @@ export const prices = async (req: NextApiRequest, res: NextApiResponse, options:
 
 				const prices = await itadFetcher<ItadPrices>('/game/prices', {
 					version: 1,
-					span: transaction,
 					query: {
 						country: 'DK',
 						plains: plain,

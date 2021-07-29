@@ -5,7 +5,7 @@ import { authenticator } from 'otplib'
 
 import {
 	parseJson, parseHeaders, testingToken, testingCredentials, testingUserId, expectStatusCode, expectSpecificObject,
-	accessTokenMatch, refreshTokenMatch, retryFunction, transaction,
+	accessTokenMatch, refreshTokenMatch, retryFunction,
 } from 'test/utils'
 
 import { ApiError } from 'api/errors'
@@ -27,7 +27,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await login(req, res, { transaction })
+		await login(req, res)
 		intermediateToken = parseJson(res).intermediateToken
 	})
 
@@ -40,7 +40,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await twoFactorAuthentication(req, res, { userId: testingUserId, transaction })
+		await twoFactorAuthentication(req, res, { userId: testingUserId })
 		expectStatusCode(res, 200)
 		expect(typeof parseJson(res).twoFactorSecret).toBe('string')
 	})
@@ -50,7 +50,7 @@ describe('/api/users/{userId}/2fa', () => {
 			method: 'GET',
 		})
 
-		await expect(twoFactorAuthentication(req, res, { userId, transaction })).rejects.toThrow(ApiError)
+		await expect(twoFactorAuthentication(req, res, { userId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 	})
 
@@ -67,7 +67,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await retryFunction(twoFactorAuthentication, req, res, 3, { userId: testingUserId, transaction })
+		await retryFunction(twoFactorAuthentication, req, res, 3, { userId: testingUserId })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: '2FA has been activated' })
 	})
@@ -84,7 +84,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await expect(twoFactorAuthentication(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
+		await expect(twoFactorAuthentication(req, res, { userId: testingUserId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
@@ -97,7 +97,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await expect(twoFactorAuthentication(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
+		await expect(twoFactorAuthentication(req, res, { userId: testingUserId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
@@ -111,7 +111,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await expect(twoFactorAuthentication(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
+		await expect(twoFactorAuthentication(req, res, { userId: testingUserId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 	})
 
@@ -127,7 +127,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await retryFunction(twoFactorAuthentication, req, res, 3, { userId: testingUserId, transaction })
+		await retryFunction(twoFactorAuthentication, req, res, 3, { userId: testingUserId })
 		expectStatusCode(res, 200)
 		expect(parseJson(res).accessToken).toMatch(accessTokenMatch)
 		expect(parseHeaders(res)['set-cookie']?.[0]).toMatch(refreshTokenMatch)
@@ -145,7 +145,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await expect(twoFactorAuthentication(req, res, { userId, transaction })).rejects.toThrow(ApiError)
+		await expect(twoFactorAuthentication(req, res, { userId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 		expectSpecificObject(res, { error: ApiError.fromCode(401).message })
 	})
@@ -158,7 +158,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await expect(twoFactorAuthentication(req, res, { userId, transaction })).rejects.toThrow(ApiError)
+		await expect(twoFactorAuthentication(req, res, { userId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 400)
 		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
@@ -168,7 +168,7 @@ describe('/api/users/{userId}/2fa', () => {
 			method: 'POST',
 		})
 
-		await expect(twoFactorAuthentication(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
+		await expect(twoFactorAuthentication(req, res, { userId: testingUserId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 	})
 
@@ -181,7 +181,7 @@ describe('/api/users/{userId}/2fa', () => {
 			},
 		})
 
-		await twoFactorAuthentication(req, res, { userId: testingUserId, transaction })
+		await twoFactorAuthentication(req, res, { userId: testingUserId })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: '2FA has been removed' })
 	})
@@ -191,7 +191,7 @@ describe('/api/users/{userId}/2fa', () => {
 			method: 'DELETE',
 		})
 
-		await expect(twoFactorAuthentication(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
+		await expect(twoFactorAuthentication(req, res, { userId: testingUserId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 	})
 
@@ -201,7 +201,7 @@ describe('/api/users/{userId}/2fa', () => {
 			method: 'CONNECT',
 		})
 
-		await expect(twoFactorAuthentication(req, res, { userId: testingUserId, transaction })).rejects.toThrow(ApiError)
+		await expect(twoFactorAuthentication(req, res, { userId: testingUserId })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 		expectSpecificObject(res, { error: ApiError.fromCode(405).message })
 	})

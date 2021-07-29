@@ -1,6 +1,6 @@
 import { createMocks } from 'node-mocks-http'
 
-import { expectStatusCode, expectSpecificObject, testingToken, transaction } from 'test/utils'
+import { expectStatusCode, expectSpecificObject, testingToken } from 'test/utils'
 
 import { ApiError } from 'api/errors'
 
@@ -16,7 +16,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await follow(req, res, { gameId: 54842, transaction })
+		await follow(req, res, { gameId: 54842 })
 	})
 
 	beforeAll(async () => {
@@ -27,7 +27,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await unfollow(req, res, { gameId: 1877, transaction }).catch()
+		await unfollow(req, res, { gameId: 1877 }).catch()
 	})
 
 	test('POST › Follow game', async () => {
@@ -38,7 +38,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await follow(req, res, { gameId: 1877, transaction })
+		await follow(req, res, { gameId: 1877 })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Successfully followed the game' })
 	})
@@ -51,7 +51,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await follow(req, res, { gameId: 54842, transaction })
+		await follow(req, res, { gameId: 54842 })
 		expectStatusCode(res, 200)
 		expectSpecificObject(res, { message: 'Successfully followed the game' })
 	})
@@ -61,7 +61,7 @@ describe('/api/games/{id}/follow', () => {
 			method: 'POST',
 		})
 
-		await expect(follow(req, res, { gameId: 1877, transaction })).rejects.toThrow(ApiError)
+		await expect(follow(req, res, { gameId: 1877 })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 401)
 	})
 
@@ -73,7 +73,7 @@ describe('/api/games/{id}/follow', () => {
 			},
 		})
 
-		await expect(unfollow(req, res, { gameId: 1877, transaction })).rejects.toThrow(ApiError)
+		await expect(unfollow(req, res, { gameId: 1877 })).rejects.toThrow(ApiError)
 		expectStatusCode(res, 405)
 		expectSpecificObject(res, { error: ApiError.fromCode(405).message })
 	})

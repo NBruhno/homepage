@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { ApiOptions, GameSimple, Game, IgdbGame } from 'types'
+import type { GameSimple, Game, IgdbGame } from 'types'
 
 import { getUnixTime, sub } from 'date-fns'
 import { query as q } from 'faunadb'
@@ -12,8 +12,7 @@ import { createAndAttachError } from 'api/errors'
 import { authenticateSystem } from 'api/middleware'
 import { serverClient, igdbFetcher, gameFields, mapIgdbGame } from 'api/utils'
 
-export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, options: ApiOptions) => {
-	const { transaction } = options
+export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { body, method } = req
 	authenticateSystem(req, res)
 
@@ -33,7 +32,6 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 			if (body?.gamesToUpdate?.length > 0) {
 				gamesToUpdate = await igdbFetcher<Array<IgdbGame>>('/games', res, {
 					body: `${gameFields}; where id = (${body.gamesToUpdate.join(',')}); limit 500;`,
-					span: transaction,
 					nickname: 'gamesToUpdate',
 				}).then((igdbGames) => chunk(igdbGames.map(mapIgdbGame), 200))
 				break
@@ -41,7 +39,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 		}
 		case 'PATCH': {
 			const [knownGames, games] = await monitorReturnAsync((span) => Promise.all([
-				monitorReturnAsync(() => serverClient(transaction).query<{ data: Array<GameSimple> }>(
+				monitorReturnAsync(() => serverClient().query<{ data: Array<GameSimple> }>(
 					q.Map(
 						q.Paginate(
 							q.Match(q.Index('gamesIdRef')),
@@ -63,7 +61,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 					nickname: 'popular, 0-500',
 					span,
 				}).then((igdbGames) => igdbGames.map(mapIgdbGame)),
-			]), 'Promise.all()', transaction)
+			]), 'Promise.all()')
 
 			const outdatedGames = intersectionBy(games, knownGames, 'id') // Finds games that are possibly outdated.
 			const newGames = differenceBy(games, knownGames, 'id') // Only interested in creating new unique games.
@@ -79,7 +77,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 	if (gamesToUpdate.length > 0 || gamesToCreate.length > 0) {
 		// Collect all the update & create query chunks into one request towards FaunaDB to reduce connections and avoid payload limits.
 		await monitorAsync(async (span) => Promise.all([
-			...gamesToUpdate.map((listOfGames) => monitorAsync(() => serverClient(transaction).query(
+			...gamesToUpdate.map((listOfGames) => monitorAsync(() => serverClient().query(
 				q.Do(
 					listOfGames.map((game) => q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesById'), game.id))), {
 						data: {
@@ -89,7 +87,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 					})),
 				),
 			), `faunadb - Do(Update() * ${listOfGames.length})`, span)),
-			...gamesToCreate.map((listOfGames) => monitorAsync(() => serverClient(transaction).query(
+			...gamesToCreate.map((listOfGames) => monitorAsync(() => serverClient().query(
 				q.Do(
 					listOfGames.map((game) => q.Create(q.Collection('games'), {
 						data: {
@@ -99,7 +97,7 @@ export const updateLibrary = async (req: NextApiRequest, res: NextApiResponse, o
 					})),
 				),
 			), `faunadb - Do(Create() * ${listOfGames.length})`, span)),
-		]), 'Promise.all()', transaction)
+		]), 'Promise.all()')
 	}
 
 	logger.info(`Library update completed. ${gamesToUpdate.flat().length} games updated & ${gamesToCreate.flat().length} games created.`)

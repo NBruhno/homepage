@@ -31,7 +31,7 @@ type Options = {
 	body?: string,
 	nickname?: string,
 	single?: boolean,
-	span: Span,
+	span?: Span,
 }
 
 export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { body, single, span, nickname }: Options): Promise<T> => {
@@ -41,8 +41,8 @@ export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { b
 		method: 'POST',
 		body,
 		headers: new Headers({
-			Authorization: `Bearer ${config.igdb.token!}`,
-			'Client-ID': config.igdb.clientId!,
+			Authorization: `Bearer ${config.igdb.token}`,
+			'Client-ID': config.igdb.clientId,
 			'Content-Type': 'text/plain',
 			accept: 'application/json',
 		}),

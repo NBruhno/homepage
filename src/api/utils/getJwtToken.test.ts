@@ -1,6 +1,6 @@
 import { TokenType } from 'types'
 
-import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch, transaction } from 'test/utils'
+import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch } from 'test/utils'
 
 import { decrypt } from 'lib/cipher'
 import { decodeJwtToken } from 'lib/decodeJwtToken'
@@ -19,7 +19,7 @@ const expectedJwtContent = {
 
 describe('/api/getJwtToken', () => {
 	test('Token › Access token', async () => {
-		const token = getJwtToken('secret', defaultPayload, { transaction })
+		const token = getJwtToken('secret', defaultPayload)
 		expect(token).toMatch(accessTokenMatch)
 		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({ ...expectedJwtContent, typ: TokenType.Access }))
 		expect(decrypt(decodeJwtToken(token).secret)).toEqual('secret')
@@ -28,7 +28,7 @@ describe('/api/getJwtToken', () => {
 
 describe('/api/getJwtToken', () => {
 	test('Token › Refresh token', async () => {
-		const token = getJwtToken('secret', defaultPayload, { type: TokenType.Refresh, transaction })
+		const token = getJwtToken('secret', defaultPayload, { type: TokenType.Refresh })
 		expect(token).toMatch(refreshTokenMatch)
 		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({ ...expectedJwtContent, typ: TokenType.Refresh }))
 		expect(decrypt(decodeJwtToken(token).secret)).toEqual('secret')
@@ -37,7 +37,7 @@ describe('/api/getJwtToken', () => {
 
 describe('/api/getJwtToken', () => {
 	test('Token › Intermediate token', async () => {
-		const token = getJwtToken('secret', defaultPayload, { type: TokenType.Intermediate, transaction })
+		const token = getJwtToken('secret', defaultPayload, { type: TokenType.Intermediate })
 		expect(token).toMatch(intermediateTokenMatch)
 		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({ ...expectedJwtContent, typ: TokenType.Intermediate }))
 		expect(decrypt(decodeJwtToken(token).secret)).toEqual('secret')
@@ -47,6 +47,6 @@ describe('/api/getJwtToken', () => {
 describe('/api/getJwtToken', () => {
 	test('Token › Invalid type', async () => {
 		// @ts-expect-error: We expect an error here because we are testing an invalid type
-		expect(() => getJwtToken('secret', defaultPayload, { type: 'invalid', transaction })).toThrow('Invalid type supplied')
+		expect(() => getJwtToken('secret', defaultPayload, { type: 'invalid' })).toThrow('Invalid type supplied')
 	})
 })

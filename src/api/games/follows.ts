@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import type { ApiOptions, Game } from 'types'
+import type { Game } from 'types'
 
 // @ts-expect-error Missing type for parseJson.
 import { query as q, parseJSON } from 'faunadb'
@@ -20,13 +20,12 @@ const Query = object({
 	before: optional(string()),
 })
 
-export const follows = async (req: NextApiRequest, res: NextApiResponse, options: ApiOptions) => {
+export const follows = async (req: NextApiRequest, res: NextApiResponse) => {
 	const { query } = req
-	const { transaction } = options
 
 	const { user, take = 15, after, before } = create(query, Query)
 
-	const data = await monitorReturnAsync(() => serverClient(transaction).query<{ data: Array<{ data: Game }>, after: string, before: string }>(
+	const data = await monitorReturnAsync(() => serverClient().query<{ data: Array<{ data: Game }>, after: string, before: string }>(
 		q.Map(
 			q.Paginate(
 				q.Join(
@@ -40,7 +39,7 @@ export const follows = async (req: NextApiRequest, res: NextApiResponse, options
 		games: data.map(({ data }) => data),
 		before: before ? JSON.stringify(before as string) : undefined,
 		after: after ? JSON.stringify(after as string) : undefined,
-	})), 'faunadb - Map(Paginate(), Lambda())', transaction)
+	})), 'faunadb - Map(Paginate(), Lambda())')
 
 	const gamesToUpdate = data.games.filter((game) => gameShouldUpdate(game))
 	if (gamesToUpdate.length > 0) {

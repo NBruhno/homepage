@@ -1,14 +1,17 @@
+import type { NextApiRequest, NextApiResponse } from 'next'
+
 import { withSentry } from '@sentry/nextjs'
+import { getActiveTransaction } from '@sentry/tracing'
 
 import { prices } from 'api/games'
-import { withTracking } from 'api/middleware'
 
-const handler = withTracking(async (req, res, transaction) => {
-	const { query: { id }, method } = req
-	const gameId = parseInt(id as string, 10)
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+	const { method } = req
 
-	transaction.setName(`${method} - api/games/{gameId}/prices`)
-	await prices(req, res, { gameId, transaction })
-})
+	const transaction = getActiveTransaction()
+	if (transaction) transaction.setName(`${method} - api/games/{gameId}/prices`)
+
+	await prices(req, res)
+}
 
 export default withSentry(handler)

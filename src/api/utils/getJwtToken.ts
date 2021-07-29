@@ -12,7 +12,7 @@ import { monitorReturn } from '../../lib/sentryMonitor'
 type Payload = Record<string, any>
 type Options = {
 	type?: TokenType,
-	transaction: Transaction | Span,
+	transaction?: Transaction | Span,
 }
 
 const defaultPayload = {
@@ -22,10 +22,7 @@ const defaultPayload = {
 	nbf: Math.floor(Date.now() / 1000) - 30,
 }
 
-export const getJwtToken = (secret: string, payload: Payload, {
-	type = TokenType.Access,
-	transaction,
-}: Options) => monitorReturn(() => {
+export const getJwtToken = (secret: string, payload: Payload, { type = TokenType.Access, transaction }: Options = {}) => monitorReturn(() => {
 	const getExpiration = () => {
 		switch (type) {
 			case TokenType.Access: return Math.floor(Date.now() / 1000) + (60 * 15) // 15 minutes
