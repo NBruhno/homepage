@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { createMocks } from 'node-mocks-http'
+import { StructError } from 'superstruct'
 
 import {
-	parseJson, parseHeaders, testingCredentials, expectStatusCode, expectSpecificObject, accessTokenMatch, refreshTokenMatch,
+	parseJson, parseHeaders, testingCredentials, expectStatusCode, expectSpecificObject, accessTokenMatch, refreshTokenMatch, testingAccessCode,
 } from 'test/utils'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
@@ -49,6 +50,7 @@ describe('/api/users', () => {
 				email: 'mail+testregister@bruhno.dev',
 				password: testingCredentials,
 				displayName: 'Test register',
+				accessCode: testingAccessCode,
 			},
 		})
 
@@ -66,6 +68,7 @@ describe('/api/users', () => {
 				email: 'mail+test@bruhno.dev',
 				password: testingCredentials,
 				displayName: 'Test already exist register',
+				accessCode: testingAccessCode,
 			},
 		})
 
@@ -79,9 +82,8 @@ describe('/api/users', () => {
 			method: 'POST',
 		})
 
-		await expect(users(req, res)).rejects.toThrow(ApiError)
+		await expect(users(req, res)).rejects.toThrow(StructError)
 		expectStatusCode(res, 400)
-		expectSpecificObject(res, { error: ApiError.fromCode(400).message })
 	})
 
 	test('Invalid method', async () => {

@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import { createMocks } from 'node-mocks-http'
 
-import { parseJson, testingCredentials, expectSpecificObject, expectStatusCode } from 'test/utils'
+import { parseJson, testingCredentials, expectSpecificObject, expectStatusCode, testingAccessCode } from 'test/utils'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 
@@ -23,6 +23,7 @@ describe('/api/users/{userId}', () => {
 				email: 'mail+testdelete@bruhno.dev',
 				displayName: 'Test delete',
 				password: testingCredentials,
+				accessCode: testingAccessCode,
 			},
 		})
 

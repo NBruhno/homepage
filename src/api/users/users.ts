@@ -1,8 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import type { Infer } from 'superstruct'
 import type { FaunaUser } from 'types'
 import { TokenType } from 'types'
 
 import { query as q, errors } from 'faunadb'
+import { assert, StructError, object, pattern, string, create, define } from 'superstruct'
+
+import { config } from 'config.server'
 
 import { monitorReturn, monitorReturnAsync } from 'lib/sentryMonitor'
 
@@ -10,20 +14,29 @@ import { createAndAttachError } from 'api/errors'
 import { setRefreshCookie } from 'api/middleware'
 import { serverClient, getJwtToken } from 'api/utils'
 
+const Body = object({
+	email: pattern(string(), /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/),
+	password: string(),
+	displayName: string(),
+	accessCode: define('accessCode', (accessCode) => accessCode === config.auth.accessCode),
+})
+
 interface Request extends NextApiRequest {
-	body: {
-		email: string,
-		password: string,
-		displayName: string,
-	}
+	body: Infer<typeof Body>
 }
 
 export const users = async (req: Request, res: NextApiResponse) => {
-	const { method, body: { email, password, displayName } } = req
+	const { method, body } = req
 
 	switch (method) {
 		case 'POST': {
-			if (!email || !password || !displayName) throw createAndAttachError(400, res)
+			try {
+				assert(body, Body)
+			} catch (error) {
+				if (error instanceof StructError) res.status(400)
+				throw error
+			}
+			const { email, password, displayName } = create(body, Body)
 
 			const { ref } = await monitorReturnAsync(() => (
 				serverClient().query<FaunaUser>(

@@ -16,6 +16,7 @@ export const transaction = startTransaction({
 
 export const testingCredentials = process.env.TESTING_CREDENTIALS
 export const testingToken = process.env.TESTING_TOKEN
+export const testingAccessCode = process.env.ACCESS_CODE
 export const testingUserId = '273823504333275653'
 export const accessTokenMatch = /eyJhbGciOiJSUzI1NiIsInR5cCI6ImFjY2VzcyJ9/i
 export const intermediateTokenMatch = /eyJhbGciOiJSUzI1NiIsInR5cCI6ImludGVybWVkaWF0ZSJ9/i

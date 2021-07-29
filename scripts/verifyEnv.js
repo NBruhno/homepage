@@ -32,6 +32,7 @@ const verifyVariable = (value, deployOnly = false) => {
 }
 
 console.log(`Current environment:${new Array(characterSpacing - 18).join(' ')}${chalk.blue(VERCEL_ENV ? VERCEL_ENV.charAt(0).toUpperCase() + VERCEL_ENV.slice(1) : 'Undefined')}`)
+verifyVariable('ACCESS_CODE')
 verifyVariable('AUTH_IV')
 verifyVariable('AUTH_SECRET')
 verifyVariable('AUTH_SYSTEM_TOKEN')
