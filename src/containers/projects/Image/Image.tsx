@@ -1,15 +1,14 @@
 import NextImage from 'next/image'
 
 type Props = {
-	alt: string,
+	title: string,
 	height: string | number,
-	loading?: 'lazy' | 'eager',
-	quality?: number,
+	loading?: 'lazy' | 'eager' | undefined,
 	src: string,
 	width: string | number,
 }
 
-export const Image = ({ loading = 'lazy', alt, width, height, src, quality, ...rest }: Props) => (
+export const Image = ({ loading = 'lazy', title, width, height, src, ...rest }: Props) => (
 	<div
 		css={{
 			cursor: 'zoom-in',
@@ -18,10 +17,9 @@ export const Image = ({ loading = 'lazy', alt, width, height, src, quality, ...r
 		}}
 	>
 		<NextImage
-			alt={alt}
+			alt={title}
 			height={height}
 			loading={loading}
-			quality={quality}
 			src={src}
 			width={width}
 			placeholder='blur'

@@ -25,7 +25,7 @@ export const ButtonToggle = () => {
 							marginTop: '2px',
 						})}
 					>
-						<ChevronFlip slim horizontal isActive={collapsedSidebar} />
+						<ChevronFlip horizontal isActive={collapsedSidebar} />
 					</div>
 				)}
 			/>

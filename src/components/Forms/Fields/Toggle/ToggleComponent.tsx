@@ -3,7 +3,7 @@ import { adjustHsl } from 'lib/adjustHsl'
 type Props = {
 	checked?: boolean,
 	disabled?: boolean,
-	focus?: boolean,
+	focus?: boolean | undefined,
 }
 
 export const ToggleComponent = ({ checked, disabled, focus }: Props) => {

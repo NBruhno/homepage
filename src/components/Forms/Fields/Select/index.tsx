@@ -42,7 +42,7 @@ const itemToString = (item: any) => (item || '')
 
 export const Select = ({
 	optionalHint = true, fullWidth = true, required = false, enableValidate = true,
-	disabled, name, format, parse = (value) => value || null, label,
+	disabled = false, name, parse = (value) => value || null, label,
 	hint, placeholder, multiple = false, options, id = name,
 }: Props) => {
 	const parseDefault = (value: any) => value || (multiple ? [] : null)
@@ -52,9 +52,8 @@ export const Select = ({
 		{
 			type: 'select',
 			parse: parse || parseDefault,
-			format,
 			allowNull: true,
-			validate: (!disabled && enableValidate && validators) ? validators({ required, multiple }) : undefined,
+			validate: validators({ required, multiple, disabled: !enableValidate || disabled }),
 		},
 	)
 

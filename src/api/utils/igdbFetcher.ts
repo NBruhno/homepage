@@ -28,13 +28,13 @@ export const retry = async (functionToRetry: () => Promise<Response>, retries: n
 }
 
 type Options = {
-	body?: string,
+	body?: string | null,
 	nickname?: string,
 	single?: boolean,
-	span?: Span,
+	span?: Span | undefined,
 }
 
-export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { body, single, span, nickname }: Options): Promise<T> => {
+export const igdbFetcher = async <T>(url: RequestInfo, res: NextApiResponse, { body = null, single, span, nickname }: Options): Promise<T> => {
 	if (config.igdb.token === undefined || config.igdb.clientId === undefined) throw new Error('Both IGDB Token and Client ID needs to be set')
 
 	const data = await monitorReturnAsync(() => retry(() => fetch(`https://api.igdb.com/v4${url}`, {

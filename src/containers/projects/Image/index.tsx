@@ -53,7 +53,7 @@ export const ProjectImage = ({ src, title, width, height, divider, ...rest }: Pr
 		>
 			<Image
 				src={src}
-				alt={title}
+				title={title}
 				width={divider ? width / divider : width}
 				height={divider ? height / divider : height}
 				{...rest}

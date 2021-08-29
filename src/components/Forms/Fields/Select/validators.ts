@@ -10,7 +10,7 @@ const validateRequiredArray = (value: any) => value && value.length > 0 ? null :
 
 const composeValidators = (...validators: Array<any>) => (value: any) => validators.reduce((error, validator) => error || validator(value), undefined)
 
-export const validators = ({ required, multiple }: { required: boolean, multiple: boolean }) => composeValidators(
-	required && !multiple ? validateRequired : returnUndefined,
-	required && multiple ? validateRequiredArray : returnUndefined,
+export const validators = ({ required, multiple, disabled }: { required: boolean, multiple: boolean, disabled: boolean }) => composeValidators(
+	(required && !multiple && !disabled) ? validateRequired : returnUndefined,
+	(required && multiple && !disabled) ? validateRequiredArray : returnUndefined,
 )

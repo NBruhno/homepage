@@ -24,14 +24,13 @@ type Props = {
 
 export const Checkbox = ({
 	parse = (value) => value || false, fullWidth = true,
-	label, hint, disabled = false, name, format, id = name,
+	label, hint, disabled = false, name, id = name,
 }: Props) => {
 	const { input, meta } = useField(
 		name,
 		{
 			type: 'text',
 			parse,
-			format,
 		},
 	)
 

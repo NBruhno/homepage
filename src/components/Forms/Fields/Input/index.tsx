@@ -40,17 +40,19 @@ type InputProps = {
 
 export const Input = ({
 	optionalHint = true, fullWidth = true, required = false, rows = 3, enableValidate = true, type = 'text',
-	disabled = false, maxRows = 8, minLength, maxLength, name, format, validate = true, autoComplete = 'off', id= name, hidden,
-	parse = (value) => value || null, label, hint, placeholder, autofocus, pattern,
+	disabled = false, maxRows = 8, minLength, maxLength, name, validate = true, autoComplete = 'off', id= name,
+	parse = (value) => value || null, label, hint, placeholder, autofocus, pattern, hidden = false,
 }: InputProps) => {
+	const validType = {
+		username: 'text',
+	} as Record<string, string>
 	const { input, meta } = useField(
 		name,
 		{
-			type,
+			type: validType[type] ?? type,
 			parse,
-			format,
 			allowNull: true,
-			validate: (!disabled && enableValidate && validators) ? validators({ required, validate, type }) : undefined,
+			validate: validators({ required, validate, type, disabled: !enableValidate || disabled }),
 		},
 	)
 

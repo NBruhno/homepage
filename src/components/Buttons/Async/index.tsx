@@ -8,15 +8,17 @@ import { delay } from 'lib/delay'
 import { ButtonLoading } from './ButtonLoading'
 import { SubmitWrapper } from './SubmitWrapper'
 
-export type Props = {
+export type Props =
+& ComponentProps<'button'>
+& {
 	fullWidth?: boolean,
 	isLoading?: boolean,
 	isLoadingManual?: boolean,
 	label: ReactNode,
 	minDelay?: number,
 	submit?: boolean,
-	onClick?: (event: MouseEvent<HTMLButtonElement>) => any,
-} & ComponentProps<'button'>
+	onClick?: ((event: MouseEvent<HTMLButtonElement>) => any) | undefined,
+}
 
 export const ButtonAsync = ({
 	isLoading = false,
@@ -24,7 +26,7 @@ export const ButtonAsync = ({
 	label,
 	minDelay = 0,
 	onClick,
-	submit,
+	submit = false,
 	fullWidth = false,
 	...rest
 }: Props) => {
@@ -33,26 +35,22 @@ export const ButtonAsync = ({
 
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation()
-		if (submit) {
-			return
-		}
-
+		if (submit) return
 		event.preventDefault()
+		if (!onClick) throw new Error('This button does not have a onClick function!')
 
-		if (!onClick) {
-			throw new Error('This button does not have a onClick function!')
-		}
-
-		const result = onClick(event)
-		if (minDelay || (result && isFunction(result.then))) {
-			setInternalLoading(true)
-			const promiseHandler = () => {
-				if (isMounted) {
-					setInternalLoading(false)
+		if (onClick) {
+			const result: any = onClick(event)
+			if (minDelay || (result && isFunction(result.then))) {
+				setInternalLoading(true)
+				const promiseHandler = () => {
+					if (isMounted) {
+						setInternalLoading(false)
+					}
 				}
-			}
 
-			Promise.all([result, delay(minDelay)]).then(promiseHandler, promiseHandler)
+				Promise.all([result, delay(minDelay)]).then(promiseHandler, promiseHandler)
+			}
 		}
 	}
 
@@ -80,7 +78,7 @@ export const ButtonAsync = ({
 						label={label}
 						onClick={(event) => handleClick(event)}
 						fullWidth={fullWidth}
-						submit={submit}
+						submit
 						{...rest}
 					/>
 				</SubmitWrapper>
@@ -91,7 +89,7 @@ export const ButtonAsync = ({
 					label={label}
 					onClick={(event) => handleClick(event)}
 					fullWidth={fullWidth}
-					submit={submit}
+					submit={false}
 					{...rest}
 				/>
 			)}

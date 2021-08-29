@@ -1,3 +1,6 @@
 export { authenticate, authenticateSystem } from './authenticate'
+export { errorHandler } from './errorHandler'
+export { noMatchHandler } from './noMatchHandler'
 export { setRefreshCookie, removeRefreshCookie } from './cookies'
+export { withCaching } from './withCaching'
 export { withTracking } from './withTracking'

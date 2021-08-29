@@ -10,32 +10,25 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Set up pnpm
+      uses: pnpm/action-setup@v2.0.1
+      with:
+        version: latest
+
     - name: Set up node
-      uses: actions/setup-node@v2-beta
+      uses: actions/setup-node@v2
       with:
         node-version: '14'
-
-    - name: Get yarn cache directory path
-      id: yarn-cache-dir-path
-      run: echo "::set-output name=dir::$(yarn cache dir)"
-
-    - name: Set and use yarn cache
-      uses: actions/cache@v2
-      id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
-      with:
-        path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
+        cache: 'pnpm'
 
     - name: Install dependencies
-      run: yarn install
+      run: pnpm i
 
     - name: Linting
-      run: yarn lint
+      run: pnpm lint
 
     - name: Testing
-      run: yarn test
+      run: pnpm test
       env:
         AUTH_IV: ${{ secrets.AUTH_IV }}
         AUTH_SECRET: ${{ secrets.AUTH_SECRET }}

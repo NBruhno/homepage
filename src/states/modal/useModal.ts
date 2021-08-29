@@ -23,7 +23,9 @@ export const useModal = () => {
 	}
 
 	const closeModal = () => {
-		setModal({ allowClosure: true, showModal: false, modalContent: null, onClose: null, noWrapper: false })
+		if (modal.modalContent) {
+			setModal({ allowClosure: true, showModal: false, modalContent: null, onClose: null, noWrapper: false })
+		}
 	}
 
 	return {

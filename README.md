@@ -35,16 +35,16 @@ The code is publicly available to serve as inspiration/proof of concept, and is 
 * `IGDB_TOKEN` - OAuth token generated through the Twitch developer API
 * `ITAD_TOKEN` - Token from Is There Any Deal to get game prices
 
-You can verify that you have the required env variables by running `yarn verify:env`.
+You can verify that you have the required env variables by running `pnpm install verify:env`.
 If any of the ones required in the script is missing, it will error out.
 Inside `src/config.server.ts` you will find my encrypted public/private keys.
 Either replace them with another set of encrypted keys using your iv:secret or put them into your env and replace their reference here.
 They are encrypted inside this file because Vercel has a 4KB total limit on env variables, and the keys alone surpass that limit.
 
 ## Running the application locally
-Make sure to have yarn installed, and run `yarn` before starting to download the required packages.
+Make sure to have pnpm (or any package manager of choice) installed, and run `pnpm install` before starting to download the required packages.
 
-To run the application locally, run `yarn dev`.
+To run the application locally, run `pnpm dev`.
 This will start Next.
 
 If you want to run the application as it would on Vercel, you can install Vercel `npm i -g vercel` and run `vercel dev`.
@@ -52,13 +52,13 @@ If you want to run the application as it would on Vercel, you can install Vercel
 You can find the website at `http://localhost:3000` and you can access the API at `http://localhost:3000/api` once running.
 
 ## Building the application
-To build the application, run `yarn build`.
-Once build, the application can be run with `yarn start`.
+To build the application, run `pnpm build`.
+Once build, the application can be run with `pnpm start`.
 
 ## Linting and testing
-To lint the application, run `yarn lint`. If you want to run eslint and tsc individually, run `yarn lint:eslint` or `yarn lint:tsc`
+To lint the application, run `pnpm lint`. If you want to run eslint and tsc individually, run `pnpm lint:eslint` or `pnpm lint:tsc`
 
-To test the application, run `yarn test`. Make sure to add the required env variables for testing. Keep in mind that the tests are written to run against my variables and environment, using my public/private key pairs. To properly test the application yourself, you have to update `/src/test/utils.ts`.
+To test the application, run `pnpm test`. Make sure to add the required env variables for testing. Keep in mind that the tests are written to run against my variables and environment, using my public/private key pairs. To properly test the application yourself, you have to update `/src/test/utils.ts`.
 
 # Important note
 There is no guarantee that this readme is updated to match updates that are made to this repository. That solely depends on me remembering to update this file.

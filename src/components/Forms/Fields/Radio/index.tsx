@@ -29,16 +29,15 @@ type Props = {
 
 export const Radio = ({
 	parse = (value) => value || null, required = false, fullWidth = true, enableValidate = true,
-	options, disabled = false, name, format, id = name,
+	options, disabled = false, name, id = name,
 }: Props) => {
 	const { input, meta } = useField(
 		name,
 		{
 			type: 'text',
 			parse,
-			format,
 			allowNull: true,
-			validate: (!disabled && enableValidate && validators) ? validators({ required }) : undefined,
+			validate: validators({ required, disabled: !enableValidate || disabled }),
 		},
 	)
 

@@ -14,7 +14,7 @@ type Props = {
 	transitionTime?: number,
 }
 
-const Collapse = ({ children, isOpen = true, fill, transitionTime = 0.2 }: Props) => {
+const Collapse = ({ children, isOpen = true, fill = false, transitionTime = 0.2 }: Props) => {
 	// Toggle animation on/off when a child element is animating its height
 	const [isAnimated, setAnimated] = useState(true)
 	// Size of content

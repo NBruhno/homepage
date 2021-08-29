@@ -1,4 +1,3 @@
-import type { Interpolation } from '@emotion/serialize'
 import type { ReactNode } from 'react'
 
 import Collapse from 'components/Collapse'
@@ -15,7 +14,6 @@ type Props = {
 	isExpanded?: boolean,
 	isLoading?: boolean,
 	shouldAnimate?: boolean,
-	css?: Interpolation<Theme>,
 }
 
 export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, shouldAnimate = true, ...rest }: Props) => (

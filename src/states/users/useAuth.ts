@@ -8,12 +8,12 @@ import { fetcher, Method } from 'lib/fetcher'
 import { logger } from 'lib/logger'
 
 export type User = {
-	accessToken?: string,
+	accessToken?: string | undefined,
 	displayName: string | null,
 	email: string | null,
-	intermediateToken?: string,
+	intermediateToken?: string | undefined,
 	isStateKnown: boolean,
-	role?: string,
+	role?: string | undefined,
 	secret?: string,
 	shouldRefresh: boolean,
 	twoFactorSecret?: string,
