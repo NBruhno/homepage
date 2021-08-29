@@ -16,17 +16,17 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "concurrently -p \"[{name}]\" -n \"next\" -c \"blue\" -s \"all\" -k \"true\" \"yarn dev:next\"",
+    "dev": "concurrently -p \"[{name}]\" -n \"next\" -c \"blue\" -s \"all\" -k \"true\" \"pnpm dev:next\"",
     "dev:next": "next",
     "debug": "cross-env NODE_OPTIONS='--inspect' next dev",
     "prebuild": "node scripts/createEnv.js",
-    "build": "concurrently -p \"[{name}]\" -n \"next,sitemap,env\" -c \"blue,yellow,cyan\" -s \"all\" \"yarn build:next\" \"yarn build:sitemap\" \"yarn verify:env\"",
+    "build": "concurrently -p \"[{name}]\" -n \"next,sitemap,env\" -c \"blue,yellow,cyan\" -s \"all\" \"pnpm build:next\" \"pnpm build:sitemap\" \"pnpm verify:env\"",
     "build:next": "next build",
     "build:sitemap": "node scripts/createSitemap.js",
     "build:analyze": "cross-env ANALYZE_BUILD=true next build",
     "verify:env": "node scripts/verifyEnv.js",
     "start": "next start",
-    "lint": "concurrently -p \"[{name}]\" -n \"eslint,tsc\" -c \"magenta,blue\" -s \"all\" \"yarn lint:eslint\" \"yarn lint:tsc\"",
+    "lint": "concurrently -p \"[{name}]\" -n \"eslint,tsc\" -c \"magenta,blue\" -s \"all\" \"pnpm lint:eslint\" \"pnpm lint:tsc\"",
     "lint:eslint": "eslint . --ext js,ts,tsx",
     "lint:tsc": "tsc --project tsconfig.json --noEmit",
     "test": "jest"
