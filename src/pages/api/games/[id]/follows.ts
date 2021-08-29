@@ -5,7 +5,7 @@ import { create, object, string, coerce, number } from 'superstruct'
 import { monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { authenticate } from 'api/middleware'
-import { apiHandler, faunaClient } from 'api/utils'
+import { apiHandler, faunaClient, setCache } from 'api/utils'
 
 const Query = object({
 	id: coerce(number(), string(), (value) => parseInt(value, 10)),
@@ -30,6 +30,7 @@ const handler = apiHandler({
 				}
 			} else throw error
 		}).then((response) => response.data), 'faunadb - Get()')
+		setCache({ strategy: 'NoCache', res })
 		res.status(200).json({ following: userData.following })
 	})
 	.post(async (req, res) => {
