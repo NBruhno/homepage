@@ -47,7 +47,7 @@ export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
 				},
 
 				'&:hover': {
-					borderColor: disabled ? undefined : theme.color.primary,
+					borderColor: disabled ? 'transparent' : theme.color.primary,
 				},
 			})}
 			{...rest}

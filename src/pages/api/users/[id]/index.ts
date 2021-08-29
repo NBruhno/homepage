@@ -1,14 +1,29 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-
 import { withSentry } from '@sentry/nextjs'
+import { query as q } from 'faunadb'
+import { object, string, create } from 'superstruct'
 
-import { user } from 'api/users'
+import { monitorAsync } from 'lib/sentryMonitor'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-	const { query: { id } } = req
+import { authenticate, removeRefreshCookie } from 'api/middleware'
+import { apiHandler, faunaClient } from 'api/utils'
 
-	res.setHeader('Cache-Control', 'no-cache')
-	return user(req, res, { userId: id as string })
-}
+const handler = apiHandler({
+	validMethods: ['DELETE'],
+	cacheStrategy: 'NoCache',
+	transactionName: (req) => `${req.method} api/users/{userId}`,
+})
+	.delete(async (req, res) => {
+		const { secret } = authenticate(req)
+		const { userId } = create(req.query, object({
+			userId: string(),
+		}))
+		await monitorAsync(
+			() => faunaClient(secret).query(q.Delete(q.Ref(q.Collection('users'), userId))),
+			'faunadb - Delete()',
+		)
+
+		removeRefreshCookie(res)
+		res.status(200).json({ message: 'Your user has been deleted' })
+	})
 
 export default withSentry(handler)

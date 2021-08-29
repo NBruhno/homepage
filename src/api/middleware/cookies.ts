@@ -39,6 +39,7 @@ export const setRefreshCookie = (res: NextApiResponse, token: string, transactio
 		sameSite: 'strict',
 		secure: isProduction,
 	})
+
 	res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
 }, 'setRefreshCookie()', transaction)
 

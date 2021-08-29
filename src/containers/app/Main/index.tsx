@@ -1,6 +1,7 @@
 import type { ComponentProps } from 'react'
 
 import { useMediaQuery } from '@react-hook/media-query'
+import { setUser } from '@sentry/nextjs'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -32,16 +33,21 @@ const roleProtectedRoutes = [
 ]
 
 export const Main = ({ children }: ComponentProps<'main'>) => {
+	const { pathname } = useRouter()
 	const { showLogin, updateResponsive } = useResponsive()
 	const { openModal, closeModal } = useModal()
 	const { user } = useAuth()
+
+	// Internal state for handling the auth guard on routes
+	const [protectRoute, setProtectRoute] = useState(false)
+	const [roleProtectRoute, setRoleProtectRoute] = useState(false)
+	const show = (protectRoute || roleProtectRoute || showLogin) ?? false
+
+	// Store media queries for use in our theme (useResponsive())
 	const isMobile = useMediaQuery(mediaQueries.maxMobile.replace('@media ', ''))
 	const isTablet = useMediaQuery(mediaQueries.mobileToTablet.replace('@media ', ''))
 	const isLaptop = useMediaQuery(mediaQueries.tabletToLaptop.replace('@media ', ''))
 	const collapsedSidebar = useMediaQuery(mediaQueries.maxLaptop.replace('@media ', ''))
-	const [protectRoute, setProtectRoute] = useState(false)
-	const [roleProtectRoute, setRoleProtectRoute] = useState(false)
-	const { pathname } = useRouter()
 
 	useEffect(() => {
 		closeModal()
@@ -54,6 +60,10 @@ export const Main = ({ children }: ComponentProps<'main'>) => {
 				setProtectRoute(false)
 			} else if (roleProtectRoute) {
 				setRoleProtectRoute(false)
+			}
+
+			if (user.userId && user.displayName && user.email) { // We want to add an user to our transactions if available
+				setUser({ id: user.userId, username: user.displayName, email: user.email })
 			}
 		}
 	}, [pathname, user.isStateKnown, user.role])
@@ -80,8 +90,6 @@ export const Main = ({ children }: ComponentProps<'main'>) => {
 			), { allowClosure: !protectRoute || !roleProtectRoute, onClose: () => updateResponsive({ showLogin: !showLogin }) })
 		}
 	}, [protectRoute, roleProtectRoute, showLogin])
-
-	const show = (protectRoute || roleProtectRoute || showLogin) ?? false
 
 	return (
 		<MainContent>

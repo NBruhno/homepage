@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 type Props = {
 	size: string,
-	loading?: string,
+	loading?: string | undefined,
 } & ComponentProps<'div'>
 
 export const CoverWrapper = ({ size, ...rest }: Props) => (

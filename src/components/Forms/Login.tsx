@@ -48,7 +48,7 @@ export const FormLogin = () => {
 				<Form form={currentFlow} onSubmit={async (fields) => { await register(fields) }}>
 					<Input label='Access code' name='accessCode' type='password' id={`${currentFlow}-accessCode`} required />
 					<Input label='Email' name='email' type='email' id={`${currentFlow}-email`} required autoComplete='email' />
-					<Input label='Display name' name='displayName' id={`${currentFlow}-displayName`} required autoComplete='username' />
+					<Input label='Display name' name='displayName' type='username' id={`${currentFlow}-displayName`} required autoComplete='username' />
 					<Input label='Password' name='password' type='password' id={`${currentFlow}-password`} required autoComplete='password' />
 					<div css={(theme) => ({
 						display: 'flex',

@@ -24,14 +24,13 @@ type Props = {
 
 export const Toggle = ({
 	parse = (value: any) => value || false, fullWidth = true,
-	label, hint, disabled, name, format, id = name,
+	label, hint, disabled = false, name, id = name,
 }: Props) => {
 	const { input, meta } = useField(
 		name,
 		{
 			type: 'text',
 			parse,
-			format,
 		},
 	)
 

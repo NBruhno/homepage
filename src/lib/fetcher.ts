@@ -15,7 +15,7 @@ export enum Method {
 
 export type Options = {
 	absoluteUrl?: string,
-	accessToken?: string,
+	accessToken?: string | undefined,
 	body?: Record<string, any>,
 	cacheControl?: string,
 	contentType?: ContentType,
@@ -65,7 +65,7 @@ export const fetcher = async <ReturnType>(
 
 	return fetch(`${absoluteUrl ?? ''}/api${url}`, {
 		method,
-		body: body ? JSON.stringify(body) : undefined,
+		body: body ? JSON.stringify(body) : null,
 		headers,
 		credentials,
 		mode,

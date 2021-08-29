@@ -1,5 +1,5 @@
 import type { Span, Transaction } from '@sentry/types'
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiRequest } from 'next'
 import type { Token } from 'types'
 import { TokenType } from 'types'
 
@@ -11,7 +11,7 @@ import { config } from 'config.server'
 import { decrypt } from 'lib/cipher'
 import { monitorReturn } from 'lib/sentryMonitor'
 
-import { createAndAttachError } from 'api/errors'
+import { ApiError } from 'api/errors'
 
 export type Options = {
 	/** A token is automatically supplied through the request, but can be supplied manually here. */
@@ -33,60 +33,57 @@ export type Options = {
  * const token = authenticate(req, res, { transaction })
  * ```
  */
-export const authenticate = (req: NextApiRequest, res: NextApiResponse,
+export const authenticate = (req: NextApiRequest,
 	{ token, type = TokenType.Access, transaction }: Options = {}) => monitorReturn(() => {
-	try {
-		const { headers: { authorization }, cookies } = req
+	const { headers: { authorization }, cookies } = req
 
-		const tokenToUse = (() => {
-			if (token) return token
-			if (type === TokenType.Refresh) {
-				return config.environment !== 'development'
-					? cookies['__Host-refreshToken']
-					: cookies['refreshToken']
-			}
-			if (authorization) return authorization.split('Bearer ')[1]
-			throw createAndAttachError(401, res)
-		})()
-
-		const { header, payload } = <{ header: { typ: TokenType }, payload: Omit<Token, 'typ'> }><unknown>jwt.verify(
-			tokenToUse as string,
-			config.auth.publicKey,
-			{
-				algorithms: ['RS256'],
-				audience: ['https://bruhno.com', 'https://bruhno.dev'],
-				issuer: 'https://bruhno.dev',
-				complete: true,
-			},
-		)
-
-		if (header.typ !== type) throw createAndAttachError(401, res)
-
-		const decodedToken: Token = {
-			...payload,
-			typ: header.typ,
+	const tokenToUse = (() => {
+		if (token) return token
+		if (type === TokenType.Refresh && (cookies['__Host-refreshToken'] || cookies['refreshToken'])) {
+			return config.environment !== 'development'
+				? cookies['__Host-refreshToken']
+				: cookies['refreshToken']
 		}
+		if (authorization) return authorization.split('Bearer ')[1]
+		throw ApiError.fromCode(401)
+	})()
 
-		setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
-		return { ...decodedToken, secret: decrypt(decodedToken.secret) }
-	} catch (error) {
-		throw createAndAttachError(401, res, error)
+	const { header, payload } = <{ header: { typ: TokenType }, payload: Omit<Token, 'typ'> }><unknown>jwt.verify(
+		tokenToUse,
+		config.auth.publicKey,
+		{
+			algorithms: ['RS256'],
+			audience: ['https://bruhno.com', 'https://bruhno.dev'],
+			issuer: 'https://bruhno.dev',
+			complete: true,
+			ignoreExpiration: false,
+			ignoreNotBefore: false,
+		},
+	)
+
+	if (header.typ !== type) throw ApiError.fromCode(401)
+
+	const decodedToken: Token = {
+		...payload,
+		typ: header.typ,
 	}
+
+	setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
+	return { ...decodedToken, secret: decrypt(decodedToken.secret) }
 }, `authenticate() - ${type}`, transaction)
 
 /**
  * Authenticator for the system token. This is a simple check to see if the known value matches the supplied value.
- * @param req - The request object
- * @param res - The response object
+ * If valid it will return `true`, otherwise it will throw an `ApiError` `401`.
  * @example
- * ```tsx
+ * ```ts
  * authenticateSystem(req, res)
  * ```
  */
-export const authenticateSystem = (req: NextApiRequest, res: NextApiResponse) => {
+export const authenticateSystem = (req: NextApiRequest) => {
 	const { headers: { authorization } } = req
 	if (authorization === `Bearer ${config.auth.systemToken}`) {
 		setUser({ username: 'System' })
 		return true
-	} else throw createAndAttachError(401, res)
+	} else throw ApiError.fromCode(401)
 }

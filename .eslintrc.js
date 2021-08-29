@@ -4,7 +4,7 @@ module.exports = {
 		'airbnb',
 		'plugin:import/errors',
 		'plugin:import/warnings',
-		'next',
+		'plugin:@next/next/recommended',
 	],
 	plugins: [
 		'@typescript-eslint',
@@ -202,6 +202,7 @@ module.exports = {
 				{ pattern: '~/**', group: 'type' },
 				{ pattern: 'config.client', group: 'internal', position: 'after' },
 				{ pattern: 'config.server', group: 'internal', position: 'after' },
+				{ pattern: 'pages/**', group: 'internal', position: 'after' },
 				{ pattern: 'states/**', group: 'internal', position: 'after' },
 				{ pattern: 'styles/**', group: 'internal', position: 'after' },
 				{ pattern: 'lib/**', group: 'internal', position: 'after' },

@@ -30,6 +30,9 @@ const SentryWebpackPluginOptions = {
 
 const nextConfig = {
 	reactStrictMode: true,
+	experimental: {
+		esmExternals: true,
+	},
 
 	target: 'experimental-serverless-trace',
 	devIndicators: {
@@ -79,3 +82,4 @@ const nextConfig = {
 }
 
 module.exports = withBundleAnalyzer(withPWA(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
+// module.exports = withBundleAnalyzer(withPWA(nextConfig, SentryWebpackPluginOptions))

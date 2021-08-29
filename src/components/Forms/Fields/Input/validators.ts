@@ -5,9 +5,10 @@ const messages = {
 	generic: 'Entry is invalid',
 	type: {
 		email: 'This does not look like an email',
-		tel: 'This is not a valid phone number',
 		number: 'This has to be a number',
 		password: 'Needs to be 14 to 64 characters long',
+		tel: 'This is not a valid phone number',
+		username: 'Needs to be 2 to 64 characters long',
 	},
 }
 
@@ -33,15 +34,23 @@ const wrapFunction = (func: (value: any, allValues: Array<any>, props: any) => a
 
 const typeValidators = {
 	email: wrapRegex(/^\S+@\S+\.\S+$/, messages.type.email),
-	tel: wrapRegex(/^[0-9]{8}$/, messages.type.tel),
-	password: wrapRegex(/^.{14,64}$/, messages.type.password),
 	number: wrapRegex(/^[0-9]*$/, messages.type.number),
+	password: wrapRegex(/^\S{14,64}$/, messages.type.password),
+	username: wrapRegex(/^\w{2,64}$/, messages.type.username),
+	tel: wrapRegex(/^[0-9]{8}$/, messages.type.tel),
 }
 
 const composeValidators = (...validators: Array<any>) => (value: any) => validators.reduce((error, validator) => error || validator(value), undefined)
 
-export const validators = ({ required, validate, type }: { required: boolean, validate: boolean, type: string }) => composeValidators(
-	required ? validateRequired : returnUndefined,
+type Props = {
+	required: boolean,
+	validate: boolean,
+	type: string,
+	disabled: boolean,
+}
+
+export const validators = ({ required, validate, type, disabled }: Props) => composeValidators(
+	(required && !disabled) ? validateRequired : returnUndefined,
 	((type === 'email' || type === 'tel' || type === 'number' || type === 'password') && typeValidators[type]) || returnUndefined,
 	isRegExp(validate) ? wrapRegex(validate) : returnUndefined,
 	isFunction(validate) ? wrapFunction(validate) : returnUndefined,

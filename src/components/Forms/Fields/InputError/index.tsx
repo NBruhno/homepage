@@ -4,7 +4,7 @@ import { Text } from './Text'
 
 type Props = {
 	hasError: boolean,
-	isFocus?: boolean,
+	isFocus?: boolean | undefined,
 	errorMessage?: string,
 }
 
