@@ -36,8 +36,10 @@ const createObserver = () => (res: RequestResult) => {
 export const serverClient = () => new faunadb.Client({
 	secret: config.fauna.secret,
 	observer: createObserver(),
+	checkNewVersion: false,
 })
 export const faunaClient = (secret: string) => new faunadb.Client({
 	secret,
 	observer: createObserver(),
+	checkNewVersion: false,
 })

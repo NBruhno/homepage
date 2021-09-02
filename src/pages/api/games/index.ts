@@ -4,7 +4,6 @@ import type { Game, IgdbGame, GameSimple } from 'types'
 
 import { withSentry } from '@sentry/nextjs'
 import { getUnixTime, sub } from 'date-fns'
-// @ts-expect-error Missing type for parseJson.
 import { query as q, parseJSON } from 'faunadb'
 import { chunk, differenceBy, intersectionBy } from 'lodash'
 import { optional, string, object, create, pattern, coerce, number, size, array, any } from 'superstruct'
