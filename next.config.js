@@ -30,9 +30,6 @@ const SentryWebpackPluginOptions = {
 
 const nextConfig = {
 	reactStrictMode: true,
-	experimental: {
-		esmExternals: true,
-	},
 
 	target: 'experimental-serverless-trace',
 	devIndicators: {
@@ -46,7 +43,6 @@ const nextConfig = {
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	pwa: {
-		disable: process.env.VERCEL_ENV === 'development',
 		dest: 'public',
 	},
 
