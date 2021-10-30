@@ -2,11 +2,6 @@
 
 # dependencies
 /node_modules
-.yarn/*
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
 .pnp.*
 .pnpm-debug.log
 
@@ -24,9 +19,8 @@
 # misc
 .env
 .env*
-yarn-debug.log*
-yarn-error.log*
 
 # Automatically generated files
+tsconfig.tsbuildinfo
 /public/sitemap.xml
 .vercel
