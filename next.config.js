@@ -43,6 +43,8 @@ const nextConfig = {
 		rootDir: __dirname,
 	},
 
+	outputFileTracing: false,
+
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	pwa: {
