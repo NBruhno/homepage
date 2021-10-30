@@ -43,6 +43,8 @@ const nextConfig = {
 		rootDir: __dirname,
 	},
 
+	outputFileTracing: false,
+
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,
 	pwa: {
@@ -51,7 +53,7 @@ const nextConfig = {
 	},
 
 	async rewrites() {
-		return [ 
+		return [
 			{
 				source: '/service-worker.js',
 				destination: '/_next/static/service-worker.js',
