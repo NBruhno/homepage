@@ -34,7 +34,6 @@ const nextConfig = {
 		esmExternals: true,
 	},
 
-	target: 'experimental-serverless-trace',
 	devIndicators: {
 		autoPrerender: false,
 	},
@@ -85,4 +84,4 @@ const nextConfig = {
 }
 
 module.exports = withBundleAnalyzer(withPWA(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
-// module.exports = withBundleAnalyzer(withPWA(nextConfig, SentryWebpackPluginOptions))
+// module.exports = withBundleAnalyzer(withPWA(nextConfig))
