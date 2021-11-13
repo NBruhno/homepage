@@ -1,3 +1,4 @@
+/* eslint-disable no-promise-executor-return */
 /**
  * Helper function that can provide a delay, primarily used for showcase in stories.
  * @param seconds - number that determines the length of the delay

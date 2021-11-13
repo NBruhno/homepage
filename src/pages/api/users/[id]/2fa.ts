@@ -12,7 +12,7 @@ import { authenticate, setRefreshCookie } from 'api/middleware'
 import { apiHandler, faunaClient, getJwtToken } from 'api/utils'
 
 const Query = object({
-	userId: string(),
+	id: string(),
 })
 
 const handler = apiHandler({
@@ -52,7 +52,7 @@ const handler = apiHandler({
 			otp: string(),
 			secret: string(),
 		}))
-		const { userId } = create(req.query, Query)
+		const { id } = create(req.query, Query)
 		const { secret: faunaSecret } = authenticate(req)
 
 		monitor(() => {
@@ -60,7 +60,7 @@ const handler = apiHandler({
 		}, 'verify()')
 
 		await monitorAsync(() => faunaClient(faunaSecret).query(
-			q.Update(q.Ref(q.Collection('users'), userId), {
+			q.Update(q.Ref(q.Collection('users'), id), {
 				data: { twoFactorSecret: secret },
 			}),
 		), 'faunadb - Update()')
@@ -69,10 +69,10 @@ const handler = apiHandler({
 	})
 	.delete(async (req, res) => {
 		const { secret } = authenticate(req)
-		const { userId } = create(req.query, Query)
+		const { id } = create(req.query, Query)
 
 		await monitorAsync(() => faunaClient(secret).query(
-			q.Update(q.Ref(q.Collection('users'), userId), {
+			q.Update(q.Ref(q.Collection('users'), id), {
 				data: { twoFactorSecret: null },
 			}),
 		), 'faunadb - Update()')

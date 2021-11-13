@@ -21,7 +21,7 @@ const Query = object({
 
 const handler = apiHandler({
 	validMethods: ['GET', 'PATCH'],
-	transactionName: (req) => `${req.method} api/games/{id}`,
+	transactionName: (req) => `${req.method} api/games/{gameId}`,
 })
 	.get(async (req, res) => {
 		const { id } = create(req.query, Query)

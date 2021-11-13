@@ -14,11 +14,11 @@ const handler = apiHandler({
 })
 	.delete(async (req, res) => {
 		const { secret } = authenticate(req)
-		const { userId } = create(req.query, object({
-			userId: string(),
+		const { id } = create(req.query, object({
+			id: string(),
 		}))
 		await monitorAsync(
-			() => faunaClient(secret).query(q.Delete(q.Ref(q.Collection('users'), userId))),
+			() => faunaClient(secret).query(q.Delete(q.Ref(q.Collection('users'), id))),
 			'faunadb - Delete()',
 		)
 

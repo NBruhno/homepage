@@ -32,6 +32,7 @@ export default class MyDocument extends Document {
 					<link rel='manifest' href='/manifest.json' />
 					<link rel='icon' type='image/x-icon' href='favicon.ico' />
 					<link rel='icon' type='image/png' sizes='192x192' href='favicon.png' />
+					{/* eslint-disable-next-line react/no-invalid-html-attribute */}
 					<link rel='apple-touch-icon' href='favicon.png' />
 				</Head>
 				<body>

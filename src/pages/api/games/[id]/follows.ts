@@ -14,7 +14,7 @@ const Query = object({
 const handler = apiHandler({
 	validMethods: ['GET', 'POST', 'PATCH'],
 	cacheStrategy: 'NoCache',
-	transactionName: (req) => `${req.method} api/games/{id}/follow`,
+	transactionName: (req) => `${req.method} api/games/{gameId}/follow`,
 })
 	.get(async (req, res) => {
 		const { secret } = authenticate(req)

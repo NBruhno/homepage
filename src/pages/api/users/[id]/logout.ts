@@ -15,7 +15,7 @@ const handler = apiHandler({
 	.post(async (req, res) => {
 		const { secret } = authenticate(req)
 		assert(req.query, object({
-			userId: string(),
+			id: string(),
 		}))
 
 		try {

@@ -176,6 +176,13 @@ module.exports = {
 			allowArrowFunctions: true,
 			allowBind: false,
 		}],
+		'react/function-component-definition': ['error', {
+			namedComponents: 'arrow-function',
+			unnamedComponents: 'arrow-function',
+		}],
+		'react/jsx-no-useless-fragment': ['error', {
+			allowExpressions: true,
+		}],
 		'react/jsx-one-expression-per-line': 'off',
 		'react/jsx-props-no-spreading': 'off',
 		'react/no-array-index-key': 'off',
