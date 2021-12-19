@@ -29,12 +29,16 @@ export type State = {
 export const { useGlobalState } = createGlobalState<State>({
 	forms: {},
 	popularGames: {
-		afters: [''],
+		skips: [0],
 		numberOfPages: 1,
+		take: 50,
+		isLimitReached: false,
 	},
 	followingGames: {
-		afters: [''],
+		skips: [0],
 		numberOfPages: 1,
+		take: 50,
+		isLimitReached: false,
 	},
 	searchGames: {
 		hasSearch: false,

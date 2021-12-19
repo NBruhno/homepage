@@ -1,6 +1,6 @@
 import { withSentry } from '@sentry/nextjs'
 import { sub } from 'date-fns'
-import { optional, string, object, create, pattern, coerce, number, array, partial, assign, pick } from 'superstruct'
+import { optional, string, object, create, pattern, coerce, number, array, partial, assign, pick, literal } from 'superstruct'
 
 import { monitorReturnAsync } from 'lib/sentryMonitor'
 
@@ -13,11 +13,24 @@ const Query = object({
 	search: optional(string()),
 	take: optional(coerce(number(), pattern(string(), /[0-50]/), (value) => parseInt(value, 10))),
 	skip: optional(coerce(number(), pattern(string(), /[0-9]+/), (value) => parseInt(value, 10))),
+	'is-popular': optional(literal('yes')),
 })
+
+const getHasAfter = (returnCount: number, takeCount: number, hasSkip: boolean) => {
+	if (hasSkip) {
+		if (returnCount === takeCount + 2) return true
+		return false
+	}
+	if (returnCount === takeCount + 1) return true
+	return false
+}
 
 const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	.get(async (req, res) => {
-		const { search, take = 50, skip, user } = create(req.query, Query)
+		const { search, take = 50, skip = 0, user, 'is-popular': isPopular } = create(req.query, Query)
+		const hasSkip = skip > 0
+		const computedTake = hasSkip ? take + 2 : take + 1
+		const computedSkip = hasSkip ? skip - 1 : skip
 
 		if (user) {
 			const games = await prisma.game.findMany({
@@ -27,8 +40,8 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 					},
 				},
 				orderBy: { releaseDate: 'asc' },
-				take,
-				skip,
+				take: computedTake,
+				skip: computedSkip,
 				select: {
 					id: true,
 					name: true,
@@ -39,7 +52,13 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 			})
 
 			setCache({ strategy: 'NoCache', res })
-			return res.status(200).json({ games })
+			return res.status(200).json({
+				games,
+				skip,
+				take,
+				before: hasSkip ? games[0] : null,
+				after: getHasAfter(games.length, take, hasSkip) ? games.pop() : null,
+			})
 		}
 
 		const twoMonthsBackDate = sub(Date.now(), { months: 2 })
@@ -56,9 +75,12 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 					releaseDate: {
 						gte: twoMonthsBackDate,
 					},
+					hype: isPopular === 'yes' ? {
+						gt: 0,
+					} : undefined,
 				},
-				take,
-				skip,
+				take: computedTake,
+				skip: computedSkip,
 				select: {
 					id: true,
 					name: true,
@@ -69,7 +91,14 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 			}), 'prisma - findMany()')
 
 		setCache({ strategy: 'StaleWhileRevalidate', duration: 60, res })
-		return res.status(200).json({ games })
+
+		return res.status(200).json({
+			games: hasSkip ? games.slice(1, take) : games,
+			skip,
+			take,
+			before: hasSkip ? games[0] : null,
+			after: getHasAfter(games.length, take, hasSkip) ? games.pop() : null,
+		})
 	})
 	.post(async (req, res) => {
 		authenticateSystem(req)

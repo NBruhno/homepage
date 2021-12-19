@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import { useEffect } from 'react'
 
 import { useFollowingGames } from 'states/games'
 
@@ -11,12 +12,16 @@ const undefinedMessage = 'You need to be logged in to see what games you are fol
 const emptyMessage = 'You are not following any games'
 
 type Props = {
-	after: string | undefined,
+	skip: number | undefined,
 }
 
-export const Following = ({ after }: Props) => {
+export const Following = ({ skip }: Props) => {
 	const { query } = useRouter()
-	const { games } = useFollowingGames(query, after)
+	const { games, after, setIsLimitReached } = useFollowingGames(query, skip)
+
+	useEffect(() => {
+		if (after === null) setIsLimitReached(true)
+	}, [after])
 
 	if (!query.user) {
 		return (

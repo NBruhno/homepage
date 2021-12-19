@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { usePopularGames } from 'states/games'
 
 import { Item } from 'containers/games/Item'
@@ -8,12 +10,16 @@ import { Subtitle } from '../Common/Subtitle'
 const emptyMessage = 'Could not find any popular games at the moment'
 
 type Props = {
-	after: string | undefined,
+	skip: number | undefined,
 }
 
-export const Popular = ({ after }: Props) => {
-	const { games } = usePopularGames(after)
+export const Popular = ({ skip }: Props) => {
+	const { games, after, setIsLimitReached } = usePopularGames(skip)
 	const isLoading = !games
+
+	useEffect(() => {
+		if (after === null) setIsLimitReached(true)
+	}, [after])
 
 	if (isLoading) {
 		return (
