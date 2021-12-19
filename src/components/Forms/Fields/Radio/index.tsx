@@ -1,8 +1,7 @@
-import { isString, isNumber } from 'lodash'
-import { useField } from 'react-final-form'
+import type { Value } from '../Value'
+import type { ChangeEvent } from 'react'
 
-import type { Option } from 'lib/formatToOptions'
-import { formatToOptions } from 'lib/formatToOptions'
+import { useField } from 'react-final-form'
 
 import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
@@ -13,71 +12,70 @@ import { RadioCircle } from './RadioCircle'
 import { RadioComponent } from './RadioComponent'
 import { validators } from './validators'
 
+export type Option = {
+	label: string,
+	value: Value,
+	options?: Array<Omit<Option, 'options'>>,
+	hint?: string,
+	isDisabled?: boolean,
+}
+
 type Props = {
 	name: string,
 	options: Array<Option>,
 
-	disabled?: boolean,
+	isDisabled?: boolean,
 	enableValidate?: boolean,
-	fullWidth?: boolean,
+	isFullWidth?: boolean,
 	id?: string,
-	required?: boolean,
+	isRequired?: boolean,
 
-	format?: (value: any, name: string) => any,
-	parse?: (value: any, name: string) => any,
+	format?: (value: Value, name: string) => any,
+	parse?: (value: Value, name: string) => any,
 }
 
 export const Radio = ({
-	parse = (value) => value || null, required = false, fullWidth = true, enableValidate = true,
-	options, disabled = false, name, id = name,
+	parse = (value) => value ?? null, isRequired = false, isFullWidth = true, enableValidate = true,
+	options, isDisabled = false, name, id = name,
 }: Props) => {
-	const { input, meta } = useField(
+	const { input, meta } = useField<Value, HTMLInputElement>(
 		name,
 		{
 			type: 'text',
 			parse,
 			allowNull: true,
-			validate: validators({ required, disabled: !enableValidate || disabled }),
+			validate: validators({ isRequired, isDisabled: !enableValidate || isDisabled }),
 		},
 	)
 
-	const handleChange = (event: any) => {
-		const option = options[event.currentTarget.value]
-		const value = (isString(option) || isNumber(option)) ? option : option.value
-		input.onChange(value)
-	}
-
-	const handleBlur = (event: any) => {
-		const option = options[event.currentTarget.value]
-		const value = (isString(option) || isNumber(option)) ? option : option.value
-		input.onBlur(value)
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		const option = options[parseInt(event.currentTarget.value, 10)]
+		input.onChange(option.value)
 	}
 
 	const hasError = Boolean(meta.submitFailed) && Boolean(meta.error)
-	const formattedOptions = options ? formatToOptions(options) : []
-	const globallyDisabled = disabled
+	const isGloballyDisabled = isDisabled
 
 	return (
-		<FieldWrapper fullWidth={fullWidth} minWidth={170}>
-			{formattedOptions.map(({ value, label, hint, disabled = false }, index: number) => {
-				const checked = value === input.value
+		<FieldWrapper isFullWidth={isFullWidth} minWidth={170}>
+			{options.map(({ value, label, hint, isDisabled = false }, index: number) => {
+				const isChecked = value === input.value
 				return (
 					<RowLabel htmlFor={`${index}-${id}`} css={{ paddingBottom: '12px', marginBottom: 0 }} key={index}>
 						<RadioComponent
 							{...input}
 							id={`${index}-${id}`}
 							type='radio'
-							disabled={globallyDisabled || disabled}
+							disabled={isGloballyDisabled || isDisabled}
 							value={index}
 							onChange={handleChange}
-							onBlur={handleBlur}
-							checked={checked}
-							required={required}
+							checked={isChecked}
+							required={isRequired}
 						/>
 						<RadioCircle
-							checked={checked}
-							disabled={globallyDisabled || disabled}
-							focus={Boolean(meta.active) && (checked || (input.value === '' && index === 0))}
+							isChecked={isChecked}
+							isDisabled={isGloballyDisabled || isDisabled}
+							hasFocus={Boolean(meta.active) && (isChecked || (input.value === '' && index === 0))}
 							hasError={hasError}
 						/>
 						<div>
@@ -87,7 +85,7 @@ export const Radio = ({
 					</RowLabel>
 				)
 			})}
-			<InputError hasError={hasError} errorMessage={meta.error} />
+			<InputError hasError={hasError} errorMessage={meta.error as string | undefined} />
 		</FieldWrapper>
 	)
 }

@@ -11,7 +11,7 @@ import { Page } from 'components/Layout/Page'
 
 const GamePage: NextPage = () => {
 	const { query } = useRouter()
-	const { game, prices, following, follow, unfollow } = useGame(query.id as string)
+	const { game, prices, isFollowing, follow, unfollow } = useGame(query.id as string)
 	const isLoading = !game
 
 	return (
@@ -20,7 +20,7 @@ const GamePage: NextPage = () => {
 				<title>{game?.name ?? 'Game'} • Bruhno</title>
 			</Head>
 			<Page>
-				<Detail game={game ?? null} prices={prices} following={Boolean(following)} isLoading={isLoading} onFollow={follow} onUnfollow={unfollow} />
+				<Detail game={game ?? null} prices={prices} isFollowing={Boolean(isFollowing)} isLoading={isLoading} onFollow={follow} onUnfollow={unfollow} />
 			</Page>
 		</>
 	)

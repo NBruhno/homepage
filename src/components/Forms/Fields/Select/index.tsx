@@ -1,3 +1,4 @@
+import type { Value } from '../Value'
 import type { ReactNode } from 'react'
 
 import Downshift from 'downshift'
@@ -18,48 +19,45 @@ import { validators } from './validators'
 
 type Props = {
 	name: string,
-	options: Array<{ label: string, value: any, disabled?: boolean }>,
+	options: Array<{ label: string, value: number | string, isDisabled?: boolean }>,
 
-	disabled?: boolean,
-	enableValidate?: boolean,
-	fullWidth?: boolean,
+	isDisabled?: boolean,
+	shouldValidate?: boolean,
+	isFullWidth?: boolean,
 	hint?: string,
 	id?: string,
 	label: string,
-	multiple?: boolean,
-	optionalHint?: boolean,
+	hasMultiple?: boolean,
+	showOptionalHint?: boolean,
 	optionsLimit?: number,
 	placeholder?: string,
 	renderLabel?: ReactNode,
-	required?: boolean,
-	validate?: boolean,
+	isRequired?: boolean,
 
-	format?: (value: any, name: string) => any,
-	parse?: (value: any, name: string) => any,
+	format?: (value: Value, name: string) => any,
+	parse?: (value: Value, name: string) => any,
 }
 
-const itemToString = (item: any) => (item || '')
+const itemToString = (item: number | string | null) => item?.toString() ?? ''
 
 export const Select = ({
-	optionalHint = true, fullWidth = true, required = false, enableValidate = true,
-	disabled = false, name, parse = (value) => value || null, label,
-	hint, placeholder, multiple = false, options, id = name,
+	showOptionalHint = true, isFullWidth = true, isRequired = false, shouldValidate = true,
+	isDisabled = false, name, label, hint, placeholder, hasMultiple = false, options, id = name,
+	parse = (value: Value) => value ?? (hasMultiple ? [] : null),
 }: Props) => {
-	const parseDefault = (value: any) => value || (multiple ? [] : null)
-
 	const { input, meta } = useField(
 		name,
 		{
 			type: 'select',
-			parse: parse || parseDefault,
+			parse,
 			allowNull: true,
-			validate: validators({ required, multiple, disabled: !enableValidate || disabled }),
+			validate: validators({ isRequired, hasMultiple, isDisabled: !shouldValidate || isDisabled }),
 		},
 	)
 
 	useEffect(() => {
 		if (input.value === undefined) {
-			input.onChange(multiple ? [] : '')
+			input.onChange(hasMultiple ? [] : '')
 		}
 	})
 
@@ -78,13 +76,13 @@ export const Select = ({
 			{({ getInputProps, getItemProps, getMenuProps, getRootProps, getLabelProps, isOpen, inputValue = '', highlightedIndex, selectedItem }) => {
 				const filteredOptions = matchSorter(options, inputValue ?? '', { keys: ['label'] })
 				return (
-					<FieldWrapper fullWidth={fullWidth} minWidth={170} {...getRootProps()}>
+					<FieldWrapper isFullWidth={isFullWidth} minWidth={170} {...getRootProps()}>
 						<LabelContainer {...getLabelProps()}>
-							<label htmlFor={id}>{label} {optionalHint && !required && <Hint>(Optional)</Hint>}</label>
+							<label htmlFor={id}>{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>}</label>
 							{hint && <Hint htmlFor={id}>{hint}</Hint>}
 						</LabelContainer>
 						<MenuAnchor>
-							<SelectComponent {...getInputProps({ name: input.name, placeholder })} onFocus={input.onFocus} onBlur={input.onBlur} hasError={hasError} disabled={disabled} id={id} />
+							<SelectComponent {...getInputProps({ name: input.name, placeholder })} onFocus={input.onFocus} onBlur={input.onBlur} hasError={hasError} isDisabled={isDisabled} id={id} />
 							<Menu hasError={hasError} {...getMenuProps()} isOpen={isOpen && Boolean(filteredOptions.length)}>
 								{filteredOptions.map(({ value, label: optionLabel }, index: number) => (
 									<MenuItem {...getItemProps({ key: value, index, item: value })} highlightedIndex={highlightedIndex} selectedItem={selectedItem} key={index}>
@@ -93,7 +91,7 @@ export const Select = ({
 								))}
 							</Menu>
 						</MenuAnchor>
-						<InputError hasError={hasError} errorMessage={meta.error} isFocus={meta.active} />
+						<InputError hasError={hasError} errorMessage={meta.error as string | undefined} hasFocus={meta.active} />
 					</FieldWrapper>
 				)
 			}}

@@ -1,9 +1,9 @@
 import type { ComponentProps, ReactNode } from 'react'
 
-type Props = {
+type Props = ComponentProps<'div'> & {
 	header?: ReactNode,
 	isVisible: boolean,
-} & ComponentProps<'div'>
+}
 
 export const Content = ({ isVisible, header, ...rest }: Props) => (
 	<div

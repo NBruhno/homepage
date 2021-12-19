@@ -4,12 +4,10 @@ import { CoverWrapper } from './CoverWrapper'
 import { Image } from './Image'
 import { Placeholder } from './Placeholder'
 
-const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
-
-type Props = {
+type Props = ComponentProps<'img'> & {
 	coverSrc?: string | undefined,
 	size?: string,
-} & ComponentProps<'img'>
+}
 
 export const Cover = ({ size = 'big', coverSrc, alt, ...rest }: Props) => {
 	if (!coverSrc) {
@@ -22,7 +20,7 @@ export const Cover = ({ size = 'big', coverSrc, alt, ...rest }: Props) => {
 
 	return (
 		<CoverWrapper size={size} {...rest}>
-			<Image alt={alt} src={coverSrc ?? placeholderImage} />
+			<Image alt={alt} src={coverSrc} />
 		</CoverWrapper>
 	)
 }

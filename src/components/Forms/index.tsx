@@ -7,62 +7,62 @@ import { Form as FinalForm, FormSpy } from 'react-final-form'
 import { useGlobalState } from 'states/global'
 
 const onPersistState = (
-	values: object, valid: boolean, persistState: string | boolean,
+	values: object, isValid: boolean, persistState: boolean | string,
 	updateFormState: (values: Record<string, any>) => void,
 ) => {
 	if (persistState === true) {
 		return updateFormState(values)
 	}
 
-	if (persistState === 'valid' && valid) {
+	if (persistState === 'valid' && isValid) {
 		return updateFormState(values)
 	}
 }
 
-type Props = {
-	form: string,
+type Props<T> = {
+	name: string,
 	children: ReactNode,
 	initialValues?: object,
-	persistState?: string | boolean,
-	persistStateOnSubmit?: boolean,
-	destroyStateOnUnMount?: boolean,
-	renderFormOnStateUpdate?: boolean,
-	resetFormOnSubmitSuccess?: boolean,
-	onSubmit: (values: any, form: FormApi<any>) => void | SubmissionErrors | Promise<any>,
+	persistState?: boolean | string,
+	shouldPersistStateOnSubmit?: boolean,
+	shouldDestroyStateOnUnMount?: boolean,
+	shouldRenderFormOnStateUpdate?: boolean,
+	shouldResetFormOnSubmitSuccess?: boolean,
+	onSubmit: (values: T, form: FormApi<any>) => Promise<any> | SubmissionErrors,
 }
 
-export const Form = ({
-	form: formName, onSubmit, initialValues, children, persistState, persistStateOnSubmit,
-	renderFormOnStateUpdate, destroyStateOnUnMount, resetFormOnSubmitSuccess, ...props
-}: Props) => {
+export const Form = <T extends Record<string, any>>({
+	name, onSubmit, initialValues, children, persistState, shouldPersistStateOnSubmit,
+	shouldRenderFormOnStateUpdate, shouldDestroyStateOnUnMount, shouldResetFormOnSubmitSuccess, ...props
+}: Props<T>) => {
 	const [initialStateValues, setInitialStateValues] = useState<Record<string, any> | null>(null)
 	const [formsState, setFormsState] = useGlobalState('forms')
-	const updateFormsState = (form: Record<string, any>) => setFormsState({ ...formsState, [formName]: form })
+	const updateFormsState = (form: Record<string, any>) => setFormsState({ ...formsState, [name]: form })
 
-	const formState = (persistState || persistStateOnSubmit) ? formsState?.[formName] : null
+	const formState = (persistState || shouldPersistStateOnSubmit) ? formsState[name] : null
 
 	useEffect(() => {
 		// Set initialValues on mount
-		if ((persistState || persistStateOnSubmit) && formState) {
+		if ((persistState || shouldPersistStateOnSubmit) && formState) {
 			setInitialStateValues(formState)
 		}
 
-		// Reset the form state if destroyStateOnUnMount is set
+		// Reset the form state if shouldDestroyStateOnUnMount is set
 		return () => {
-			if (destroyStateOnUnMount && formState) {
-				setFormsState({ ...formsState, [formName]: {} })
+			if (shouldDestroyStateOnUnMount && formState) {
+				setFormsState({ ...formsState, [name]: {} })
 			}
 		}
 	// The effect is intended to only run on mount and dismount
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [])
 
-	// If renderFormOnStateUpdate is set, render the form on every state update
+	// If shouldRenderFormOnStateUpdate is set, render the form on every state update
 	useEffect(() => {
-		if (renderFormOnStateUpdate && formState) {
+		if (shouldRenderFormOnStateUpdate && formState) {
 			setInitialStateValues(formState)
 		}
-	}, [persistState, persistStateOnSubmit, formState, renderFormOnStateUpdate, formsState])
+	}, [persistState, shouldPersistStateOnSubmit, formState, shouldRenderFormOnStateUpdate, formsState])
 
 	return (
 
@@ -70,13 +70,14 @@ export const Form = ({
 			onSubmit={onSubmit}
 			initialValues={{ ...initialValues, ...initialStateValues }}
 			{...props}
-			render={({ handleSubmit, form }) => (
+			render={({ handleSubmit, form, hasValidationErrors, hasSubmitErrors }) => (
 				<form
-					id={formName}
+					id={name}
 					noValidate
-					onSubmit={resetFormOnSubmitSuccess ? (
+					onSubmit={shouldResetFormOnSubmitSuccess ? (
 						async (event) => {
 							await handleSubmit(event)
+							if (hasValidationErrors || hasSubmitErrors) return
 							form.reset()
 						}
 					) : (
@@ -87,15 +88,15 @@ export const Form = ({
 					{persistState && (
 						<FormSpy
 							subscription={{ values: true, valid: true }}
-							onChange={({ values, valid }) => onPersistState(values, valid, persistState, updateFormsState)}
+							onChange={({ values, valid: isValid }) => onPersistState(values, isValid, persistState, updateFormsState)}
 						/>
 					)}
-					{persistStateOnSubmit && (
+					{shouldPersistStateOnSubmit && (
 						<FormSpy
 							subscription={{ values: true, valid: true, submitSucceeded: true, dirtySinceLastSubmit: true }}
-							onChange={({ values, valid, dirtySinceLastSubmit, submitSucceeded }) => {
-								if (submitSucceeded && !dirtySinceLastSubmit) {
-									onPersistState(values, valid, persistState || persistStateOnSubmit, updateFormsState)
+							onChange={({ values, valid: isValid, dirtySinceLastSubmit: isDirtySinceLastSubmit, submitSucceeded: didSubmissionSucceeded }) => {
+								if (didSubmissionSucceeded && !isDirtySinceLastSubmit) {
+									onPersistState(values, isValid, true, updateFormsState)
 								}
 							}}
 						/>

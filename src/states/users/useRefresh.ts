@@ -18,8 +18,8 @@ export const useRefresh = () => {
 	const refresh = useCallback(async () => {
 		try {
 			const { accessToken } = await fetcher<{ accessToken: string }>('/users/refresh', { cacheControl: 'no-cache' })
-			const { sub, displayName, role, userId } = decodeJwtToken(accessToken)
-			setUser({ ...user, accessToken, email: sub, displayName, role, userId, shouldRefresh: true, isStateKnown: true })
+			const { sub, username, role, userId } = decodeJwtToken(accessToken)
+			setUser({ ...user, accessToken, email: sub, username, role, userId, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
 			logger.error(error)
 		}
@@ -53,7 +53,7 @@ export const useRefresh = () => {
 		}
 
 		// Clear the interval when this hook is dismounted
-		return () => clearInterval(refreshInterval)
+		return () => { clearInterval(refreshInterval) }
 	}, [user.accessToken, user.shouldRefresh])
 
 	return { user, refresh }

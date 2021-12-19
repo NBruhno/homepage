@@ -48,7 +48,7 @@ export const Following = ({ after }: Props) => {
 	if (games.length === 0) {
 		return (
 			<Container>
-				{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
+				<Subtitle>{emptyMessage}</Subtitle>
 			</Container>
 		)
 	}
@@ -64,7 +64,7 @@ export const Following = ({ after }: Props) => {
 					status={status}
 					index={index}
 					isLoading={!games}
-					key={id ?? index}
+					key={id}
 				/>
 			))}
 			{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}

@@ -1,8 +1,8 @@
-import { lastDayOfYear, isSameDay, fromUnixTime } from 'date-fns'
+import { lastDayOfYear, isSameDay, parseISO } from 'date-fns'
 
-export const dateOrYear = (timestamp?: number | null) => {
-	if (!timestamp) return 'TBA'
-	const date = new Date(fromUnixTime(timestamp))
+export const dateOrYear = (dateIsoString?: string | null) => {
+	if (!dateIsoString) return 'TBA'
+	const date = parseISO(dateIsoString)
 	if (isSameDay(lastDayOfYear(date), date)) {
 		return `TBA ${date.toLocaleString('en-DK', { year: 'numeric' })}`
 	}

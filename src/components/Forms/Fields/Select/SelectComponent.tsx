@@ -2,16 +2,18 @@ import type { ComponentProps } from 'react'
 
 import { DefaultInputStyle } from '../DefaultInputStyle'
 
-type Props = {
+type Props = ComponentProps<'input'> & {
 	hasError: boolean,
-} & ComponentProps<'input'>
+	isDisabled: boolean,
+}
 
-export const SelectComponent = ({ hasError, disabled = false, ...rest }: Props) => (
+export const SelectComponent = ({ hasError, isDisabled = false, ...rest }: Props) => (
 	<input
 		css={(theme) => ({
-			...DefaultInputStyle({ hasError, disabled, theme }),
+			...DefaultInputStyle({ hasError, isDisabled, theme }),
 			zIndex: 5,
 		})}
+		disabled={isDisabled}
 		{...rest}
 	/>
 )

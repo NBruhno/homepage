@@ -2,15 +2,15 @@ import { Container } from './Container'
 import { Line } from './Line'
 
 type Props = {
-	bold?: boolean,
+	isBold?: boolean,
 	isActive?: boolean,
-	slim?: boolean,
-	horizontal?: boolean,
+	isSlim?: boolean,
+	isHorizontal?: boolean,
 }
 
-export const ChevronFlip = ({ isActive = false, slim = false, bold = false, horizontal = false }: Props) => (
+export const ChevronFlip = ({ isActive = false, isSlim = false, isBold = false, isHorizontal = false }: Props) => (
 	<Container>
-		<Line isActive={isActive} slim={slim} bold={bold} horizontal={horizontal} />
-		<Line isActive={isActive} slim={slim} bold={bold} horizontal={horizontal} mirror />
+		<Line isActive={isActive} isSlim={isSlim} isBold={isBold} isHorizontal={isHorizontal} />
+		<Line isActive={isActive} isSlim={isSlim} isBold={isBold} isHorizontal={isHorizontal} shouldMirror />
 	</Container>
 )

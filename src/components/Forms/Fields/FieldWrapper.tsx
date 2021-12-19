@@ -2,20 +2,20 @@ import type { ComponentProps, LegacyRef } from 'react'
 
 import { forwardRef } from 'react'
 
-type Props = {
-	hidden?: boolean,
-	fullWidth?: boolean | undefined,
+type Props = ComponentProps<'div'> & {
+	isHidden?: boolean,
+	isFullWidth?: boolean | undefined,
 	minWidth?: number,
-} & ComponentProps<'div'>
+}
 
-const Component = ({ hidden = false, fullWidth = false, minWidth, ...rest }: Props, ref: LegacyRef<HTMLDivElement>) => (
+const Component = ({ isHidden = false, isFullWidth = false, minWidth, ...rest }: Props, ref: LegacyRef<HTMLDivElement>) => (
 	<div
 		css={{
-			display: fullWidth ? 'block' : 'inline-block',
-			height: hidden ? 0 : 'auto',
-			marginBottom: hidden ? 0 : '25px',
+			display: isFullWidth ? 'block' : 'inline-block',
+			height: isHidden ? 0 : 'auto',
+			marginBottom: isHidden ? 0 : '25px',
 			minWidth: minWidth ? `${minWidth}px` : 'auto',
-			overflow: hidden ? 'hidden' : 'visible',
+			overflow: isHidden ? 'hidden' : 'visible',
 		}}
 		ref={ref}
 		{...rest}

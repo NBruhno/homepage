@@ -8,7 +8,7 @@ const Component = (props: ComponentProps<'a'>, ref: LegacyRef<HTMLAnchorElement>
 		css={(theme) => ({
 			alignItems: 'center',
 			backgroundColor: theme.color.sidebarBackground,
-			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
+			color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,
 			display: 'flex',
 			flexShrink: 0,
 			fontFamily: theme.font.family.poppins,

@@ -1,19 +1,19 @@
 import type { ComponentProps } from 'react'
 
-type Props = {
-	fill?: boolean,
+type Props = ComponentProps<'div'> & {
+	shouldFill?: boolean,
 	transitionTime?: number,
 	isAnimated?: boolean,
-} & ComponentProps<'div'>
+}
 
-export const Container = ({ isAnimated, transitionTime, fill, ...rest }: Props) => (
+export const Container = ({ isAnimated, transitionTime = 0, shouldFill, ...rest }: Props) => (
 	<div
 		css={[
 			{
 				overflow: 'hidden',
 				transition: `${isAnimated ? `height ${transitionTime}s` : 'none'}`,
 			},
-			fill ? {
+			shouldFill ? {
 				display: 'flex',
 				flexDirection: 'column',
 				flexGrow: 1,

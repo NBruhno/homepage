@@ -1,5 +1,5 @@
 export const getCookie = (name: string) => {
-	const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))
+	const match = new RegExp('(^| )' + name + '=([^;]+)').exec(document.cookie)
 	if (match) {
 		return match[2]
 	} else {

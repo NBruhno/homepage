@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react'
 
-type Props = {
+type Props = ComponentProps<'div'> & {
 	isVisible: boolean,
-} & ComponentProps<'div'>
+}
 
 export const Label = ({ isVisible, ...rest }: Props) => (
 	<div

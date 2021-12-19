@@ -2,10 +2,10 @@ import NextImage from 'next/image'
 
 type Props = {
 	title: string,
-	height: string | number,
-	loading?: 'lazy' | 'eager' | undefined,
+	height: number | string,
+	loading?: 'eager' | 'lazy' | undefined,
 	src: string,
-	width: string | number,
+	width: number | string,
 }
 
 export const Image = ({ loading = 'lazy', title, width, height, src, ...rest }: Props) => (

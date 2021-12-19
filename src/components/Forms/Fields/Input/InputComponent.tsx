@@ -2,15 +2,17 @@ import type { ComponentProps } from 'react'
 
 import { DefaultInputStyle } from '../DefaultInputStyle'
 
-type Props = {
+type Props = ComponentProps<'input'> & {
 	hasError: boolean,
-} & ComponentProps<'input'>
+	isDisabled: boolean,
+}
 
-export const InputComponent = ({ hasError, disabled = false, ...rest }: Props) => (
+export const InputComponent = ({ hasError, isDisabled = false, ...rest }: Props) => (
 	<input
 		css={(theme) => ({
-			...DefaultInputStyle({ hasError, disabled, theme }),
+			...DefaultInputStyle({ hasError, isDisabled, theme }),
 		})}
+		disabled={isDisabled}
 		{...rest}
 	/>
 )

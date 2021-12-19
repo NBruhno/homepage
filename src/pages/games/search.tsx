@@ -11,6 +11,10 @@ import { Form } from 'components/Forms'
 import { Input } from 'components/Forms/Fields/Input'
 import { Page, PageContent } from 'components/Layout'
 
+export type GamesModel = {
+	search: string,
+}
+
 const Games: NextPage = () => {
 	const { games, gamesSearch, hasSearch, setHasSearch } = useSearchGames()
 
@@ -27,12 +31,12 @@ const Games: NextPage = () => {
 					})}
 					>
 						<div>
-							<Form form='games' onSubmit={() => undefined} persistStateOnSubmit renderFormOnStateUpdate>
-								<Input label='Find a game' name='search' optionalHint={false} />
+							<Form name='games' onSubmit={() => undefined} shouldPersistStateOnSubmit shouldRenderFormOnStateUpdate>
+								<Input label='Find a game' name='search' showOptionalHint={false} />
 								<FormSpy
 									subscription={{ values: true, submitSucceeded: true }}
-									onChange={({ values, submitSucceeded }) => {
-										if (values.search && submitSucceeded) setHasSearch(true)
+									onChange={({ values, submitSucceeded: hasSubmissionSucceeded }) => {
+										if (values.search && hasSubmissionSucceeded) setHasSearch(true)
 									}}
 								/>
 							</Form>

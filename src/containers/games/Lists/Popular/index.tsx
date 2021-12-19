@@ -5,7 +5,6 @@ import { Item } from 'containers/games/Item'
 import { Container } from '../Common/Container'
 import { Subtitle } from '../Common/Subtitle'
 
-const undefinedMessage = 'There appears to be an issue with games list'
 const emptyMessage = 'Could not find any popular games at the moment'
 
 type Props = {
@@ -35,18 +34,10 @@ export const Popular = ({ after }: Props) => {
 		)
 	}
 
-	if (!games) {
-		return (
-			<Container>
-				<Subtitle>{undefinedMessage}</Subtitle>
-			</Container>
-		)
-	}
-
 	if (games.length === 0) {
 		return (
 			<Container>
-				{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
+				<Subtitle>{emptyMessage}</Subtitle>
 			</Container>
 		)
 	}
@@ -62,7 +53,7 @@ export const Popular = ({ after }: Props) => {
 					status={status}
 					index={index}
 					isLoading={isLoading}
-					key={id ?? index}
+					key={id}
 				/>
 			))}
 			{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}

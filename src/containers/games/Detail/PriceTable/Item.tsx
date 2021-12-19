@@ -2,22 +2,22 @@
 
 import type { ComponentProps } from 'react'
 
-type Props = {
-	first?: boolean,
-} & ComponentProps<'a'>
+type Props = ComponentProps<'a'> & {
+	isFirst?: boolean,
+}
 
-export const Item = ({ first, ...rest }: Props) => (
+export const Item = ({ isFirst, ...rest }: Props) => (
 	<a
 		css={(theme) => ({
 			backgroundColor: theme.color.background,
-			borderTopLeftRadius: first ? '4px' : 0,
-			borderTopRightRadius: first ? '4px' : 0,
+			borderTopLeftRadius: isFirst ? '4px' : 0,
+			borderTopRightRadius: isFirst ? '4px' : 0,
 			color: theme.color.text,
 			display: 'flex',
 			fontFamily: theme.font.family.poppins,
 			justifyContent: 'space-between',
 			margin: 0,
-			padding: first ? '12px 10px' : '6px 10px',
+			padding: isFirst ? '12px 10px' : '6px 10px',
 			textDecoration: 'none',
 			transition: `background-color 135ms ${theme.animation.default}`,
 

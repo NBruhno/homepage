@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 require('dotenv').config()
 const chalk = require('chalk')
 
@@ -18,9 +19,9 @@ const log = (value, result) => {
 	console.log(`${value}:${new Array(characterSpacing - value.length).join(' ')} ${ending()}`)
 }
 
-const verifyVariable = (value, deployOnly = false) => {
+const verifyVariable = (value, isDeployOnly = false) => {
 	if (process.env[value] === undefined) {
-		if (deployOnly && VERCEL_ENV !== 'development') {
+		if (isDeployOnly && VERCEL_ENV !== 'development') {
 			log(value, 'missing')
 			missingValues.push(value)
 		} else {

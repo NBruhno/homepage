@@ -10,10 +10,10 @@ export const ButtonTheme = () => {
 
 	return (
 		<>
-			<Separator slim />
+			<Separator isSlim />
 			<ButtonText
 				css={{ margin: '6px 12px 7px', height: '35px' }}
-				slim
+				isSlim
 				label={(
 					<div css={{ display: 'flex', alignItems: 'center', height: '20px' }}>
 						{globalTheme === 'light' ? <MoonIcon css={{ marginRight: '12px' }} /> : <SunIcon css={{ marginRight: '12px' }} />}

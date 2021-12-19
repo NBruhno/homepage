@@ -1,27 +1,27 @@
 import type { ComponentProps } from 'react'
 
-type Props = {
-	checked: boolean,
-	disabled: boolean,
-	focus: boolean,
-} & ComponentProps<'div'>
+type Props = ComponentProps<'div'> & {
+	isChecked: boolean,
+	isDisabled: boolean,
+	hasFocus: boolean,
+}
 
-export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
+export const CheckMark = ({ isChecked, isDisabled, hasFocus, ...rest }: Props) => {
 	const backgroundColor = (theme: Theme) => {
-		if (disabled) {
-			return checked ? theme.color.gray : theme.color.background
+		if (isDisabled) {
+			return isChecked ? theme.color.gray : theme.color.background
 		} else {
-			return checked ? theme.color.primary : theme.color.white
+			return isChecked ? theme.color.primary : theme.color.white
 		}
 	}
 
 	return (
 		<div
 			css={(theme) => ({
-				cursor: disabled ? 'auto' : 'pointer',
+				cursor: isDisabled ? 'auto' : 'pointer',
 				position: 'relative',
-				boxShadow: focus ? `0 0 0 2px ${theme.color.primary}` : 'none',
-				border: `1px solid ${checked ? theme.color.primary : theme.color.gray}`,
+				boxShadow: hasFocus ? `0 0 0 2px ${theme.color.primary}` : 'none',
+				border: `1px solid ${isChecked ? theme.color.primary : theme.color.gray}`,
 				borderRadius: '4px',
 				width: '22px',
 				height: '22px',
@@ -41,13 +41,13 @@ export const CheckMark = ({ checked, disabled, focus, ...rest }: Props) => {
 					height: '14px',
 					borderStyle: 'solid',
 					borderColor: theme.color.text,
-					borderWidth: checked ? '0 2px 2px 0' : 0,
+					borderWidth: isChecked ? '0 2px 2px 0' : 0,
 					transform: 'rotate(37deg)',
 					transition: 'border-width 0.15s ease-in-out',
 				},
 
 				'&:hover': {
-					borderColor: disabled ? 'transparent' : theme.color.primary,
+					borderColor: isDisabled ? 'transparent' : theme.color.primary,
 				},
 			})}
 			{...rest}

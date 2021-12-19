@@ -47,7 +47,7 @@ export const GameList = ({
 	if (games.length === 0) {
 		return (
 			<Container>
-				{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
+				<Subtitle>{emptyMessage}</Subtitle>
 			</Container>
 		)
 	}
@@ -63,7 +63,7 @@ export const GameList = ({
 					status={status}
 					index={index}
 					isLoading={isLoading}
-					key={id ?? index}
+					key={id}
 				/>
 			))}
 			{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}

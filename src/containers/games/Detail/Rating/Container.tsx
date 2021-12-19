@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react'
 
-type Props = {
-	ratingLevel: 'high' | 'average' | 'low' | null,
-} & ComponentProps<'div'>
+type Props = ComponentProps<'div'> & {
+	ratingLevel: 'average' | 'high' | 'low' | null,
+}
 
 export const Container = ({ ratingLevel, ...rest }: Props) => (
 	<div
@@ -16,7 +16,7 @@ export const Container = ({ ratingLevel, ...rest }: Props) => (
 					case null: return theme.color.sidebarBackground
 				}
 			})(),
-			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
+			color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,
 			borderRadius: '4px',
 			display: 'flex',
 			fontFamily: theme.font.family.poppins,

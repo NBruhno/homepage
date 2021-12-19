@@ -22,18 +22,18 @@ type Props = {
 }
 
 export const App = ({ children }: Props) => {
-	const [browserIsNotSupported, setBrowserIsNotSupported] = useState(false)
+	const [isBrowserNotSupported, setIsBrowserNotSupported] = useState(false)
 	const { globalTheme } = useDarkMode()
 	useRefresh()
 
 	useIsomorphicLayoutEffect(() => {
-		setBrowserIsNotSupported(/Trident\/|MSIE/.test(window.navigator.userAgent))
+		setIsBrowserNotSupported(/Trident\/|MSIE/.test(window.navigator.userAgent))
 	}, [])
 
 	return (
 		<ThemeProvider theme={theme(globalTheme === 'dark')}>
 			<GlobalStyling>
-				{browserIsNotSupported ? (
+				{isBrowserNotSupported ? (
 					<BlockWrapper>
 						<div>
 							<div>This browser is not supported</div>

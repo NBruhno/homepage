@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-type SSRRect = {
+type SsrRect = {
 	bottom: number,
 	height: number,
 	left: number,
@@ -10,7 +10,7 @@ type SSRRect = {
 	x: number,
 	y: number,
 }
-const EmptySSRRect: SSRRect = {
+const emptySsrRect: SsrRect = {
 	bottom: 0,
 	height: 0,
 	left: 0,
@@ -30,9 +30,11 @@ const EmptySSRRect: SSRRect = {
  */
 export const useScroll = () => {
 	const [lastScrollTop, setLastScrollTop] = useState<number>(0)
-	const [bodyOffset, setBodyOffset] = useState<DOMRect | SSRRect>(
-		typeof window === 'undefined' || !window.document
-			? EmptySSRRect
+	const [bodyOffset, setBodyOffset] = useState<DOMRect | SsrRect>(
+		// window does not always exist
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		typeof window === 'undefined' || window.document
+			? emptySsrRect
 			: document.body.getBoundingClientRect(),
 	)
 	const [scrollY, setScrollY] = useState<number>(bodyOffset.top)
@@ -41,8 +43,10 @@ export const useScroll = () => {
 
 	const listener = () => {
 		setBodyOffset(
-			typeof window === 'undefined' || !window.document
-				? EmptySSRRect
+			// window does not always exist
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			typeof window === 'undefined' || window.document
+				? emptySsrRect
 				: document.body.getBoundingClientRect(),
 		)
 		setScrollY(-bodyOffset.top)

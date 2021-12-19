@@ -1,7 +1,7 @@
 import { useGlobalState } from 'states/global'
 
 export type Responsive = {
-	collapsedSidebar: boolean,
+	isSidebarCollapsed: boolean,
 	isMobile: boolean,
 	isTablet: boolean,
 	isLaptop: boolean,

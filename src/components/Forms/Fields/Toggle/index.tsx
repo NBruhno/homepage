@@ -1,3 +1,5 @@
+import type { Value } from '../Value'
+
 import { useEffect } from 'react'
 import { useField } from 'react-final-form'
 
@@ -13,18 +15,18 @@ type Props = {
 	label: string,
 	name: string,
 
-	disabled?: boolean,
-	fullWidth?: boolean,
+	isDisabled?: boolean,
+	isFullWidth?: boolean,
 	hint?: string,
 	id?: string,
 
-	format?: (value: any, name: string) => any,
-	parse?: (value: any, name: string) => any,
+	format?: (value: Value, name: string) => any,
+	parse?: (value: Value, name: string) => any,
 }
 
 export const Toggle = ({
-	parse = (value: any) => value || false, fullWidth = true,
-	label, hint, disabled = false, name, id = name,
+	parse = (value: Value) => value ?? false, isFullWidth = true,
+	label, hint, isDisabled = false, name, id = name,
 }: Props) => {
 	const { input, meta } = useField(
 		name,
@@ -41,9 +43,9 @@ export const Toggle = ({
 	})
 
 	return (
-		<FieldWrapper fullWidth={fullWidth}>
+		<FieldWrapper isFullWidth={isFullWidth}>
 			<RowLabel htmlFor={id}>
-				<ToggleComponent checked={input.value} disabled={disabled} focus={meta.active} />
+				<ToggleComponent isChecked={Boolean(input.value)} isDisabled={isDisabled} hasFocus={meta.active} />
 				<LabelContainer css={{ margin: '0 0 0 6px' }}>
 					<div>{label}</div>
 					{hint && <Hint>{hint}</Hint>}
@@ -52,8 +54,8 @@ export const Toggle = ({
 					{...input}
 					id={id}
 					type='checkbox'
-					disabled={disabled}
-					checked={input.value}
+					disabled={isDisabled}
+					checked={Boolean(input.value)}
 				/>
 			</RowLabel>
 		</FieldWrapper>

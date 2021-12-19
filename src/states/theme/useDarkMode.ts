@@ -6,7 +6,7 @@ import { useGlobalState } from 'states/global'
 export type Theme = 'dark' | 'light'
 
 export const useDarkMode = () => {
-	const systemPrefersDark = useMediaQuery('(prefers-color-scheme: dark)')
+	const didSystemPreferDark = useMediaQuery('(prefers-color-scheme: dark)')
 	const [globalTheme, setTheme] = useGlobalState('theme')
 
 	const setMode = (mode: Theme) => {
@@ -23,9 +23,10 @@ export const useDarkMode = () => {
 	}
 
 	useEffect(() => {
-		const localTheme = window?.localStorage?.getItem('theme') as Theme | undefined | null
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		const localTheme = window?.localStorage?.getItem('theme') as Theme | null | undefined
 		if (localTheme) setTheme(localTheme)
-		else setTheme(systemPrefersDark ? 'dark' : 'light')
+		else setTheme(didSystemPreferDark ? 'dark' : 'light')
 	}, [])
 
 	return { globalTheme, toggleTheme }

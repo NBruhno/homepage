@@ -8,11 +8,11 @@ type Props = {
 }
 
 export const SubmitWrapper = ({ children }: Props) => {
-	const { submitting } = useFormState({ subscription: { submitting: true } })
+	const { submitting: isSubmitting } = useFormState({ subscription: { submitting: true } })
 
 	return (
 		<div>
-			{cloneElement(children as ReactElement<any>, { isLoading: submitting })}
+			{cloneElement(children as ReactElement<any>, { isLoading: isSubmitting })}
 		</div>
 	)
 }

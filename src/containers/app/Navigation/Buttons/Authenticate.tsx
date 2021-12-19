@@ -9,13 +9,13 @@ import { LoginIcon, LogoutIcon } from 'components/Icons'
 const ButtonText = ({ children, onClick }: { children: ReactNode, onClick: () => void }) => (
 	<DefaultButtonText
 		css={{ margin: '4px 12px', height: '35px' }}
-		slim
+		isSlim
 		label={(
 			<div css={(theme) => ({
 				display: 'flex',
 				alignItems: 'center',
 				height: '20px',
-				color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
+				color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,
 			})}
 			>
 				{children}

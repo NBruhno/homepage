@@ -1,12 +1,12 @@
 /* eslint-disable react/button-has-type */
 import type { ComponentProps } from 'react'
 
-type Props = {
-	fullWidth?: boolean,
+type Props = ComponentProps<'button'> & {
+	isFullWidth?: boolean,
 	isVisible: boolean,
-} & ComponentProps<'button'>
+}
 
-export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
+export const Button = ({ isVisible, isFullWidth, ...rest }: Props) => (
 	<button
 		css={(theme) => ({
 			backgroundColor: '#000',
@@ -28,7 +28,7 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 			verticalAlign: 'middle',
 			visibility: isVisible ? 'visible' : 'hidden',
 			whiteSpace: 'nowrap',
-			width: fullWidth ? '100%' : 'auto',
+			width: isFullWidth ? '100%' : 'auto',
 
 			'&:focus:enabled, &:hover:enabled, &:active:enabled': {
 				outline: 0,
@@ -54,7 +54,7 @@ export const Button = ({ isVisible, fullWidth, ...rest }: Props) => (
 			},
 
 			'&:focus:after': {
-				boxShadow: `0 0 0 ${theme.darkTheme ? '1px' : '2px'} ${theme.color.text}`,
+				boxShadow: `0 0 0 ${theme.isDarkTheme ? '1px' : '2px'} ${theme.color.text}`,
 			},
 		})}
 		{...rest}

@@ -11,7 +11,7 @@ export const adjustHsl = (hsl: string, { hue: newHue, saturation: newSaturation,
 	const colors = /hsl\(\s*(\d+)\s*,\s*(\d+(?:\.\d+)?%)\s*,\s*(\d+(?:\.\d+)?%)(?:\s*,\s*(0(?:\.\d+)?|1(\.0+)?))?\)/g.exec(hsl)
 	if (colors) {
 		const [, hue = newHue, saturation = newSaturation, light = newLight, alpha = newAlpha] = colors
-		return `hsl(${hue}, ${saturation}, ${light}${(alpha) ? `, ${alpha}`: ''})`
+		return `hsl(${hue!}, ${saturation!}, ${light!}${(alpha) ? `, ${alpha}`: ''})`
 	} else {
 		throw Error(`Invalid hsl(*) string; ${hsl}`)
 	}

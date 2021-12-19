@@ -11,23 +11,22 @@ import { SubmitWrapper } from './SubmitWrapper'
 export type Props =
 & ComponentProps<'button'>
 & {
-	fullWidth?: boolean,
+	isFullWidth?: boolean,
 	isLoading?: boolean,
 	isLoadingManual?: boolean,
 	label: ReactNode,
 	minDelay?: number,
-	submit?: boolean,
 	onClick?: ((event: MouseEvent<HTMLButtonElement>) => any) | undefined,
 }
 
 export const ButtonAsync = ({
 	isLoading = false,
-	isLoadingManual,
+	isLoadingManual = false,
 	label,
 	minDelay = 0,
 	onClick,
-	submit = false,
-	fullWidth = false,
+	type = 'button',
+	isFullWidth = false,
 	...rest
 }: Props) => {
 	const [isLoadingInternal, setInternalLoading] = useState(false)
@@ -35,22 +34,21 @@ export const ButtonAsync = ({
 
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation()
-		if (submit) return
+		if (type === 'submit') return
 		event.preventDefault()
 		if (!onClick) throw new Error('This button does not have a onClick function!')
 
-		if (onClick) {
-			const result: any = onClick(event)
-			if (minDelay || (result && isFunction(result.then))) {
-				setInternalLoading(true)
-				const promiseHandler = () => {
-					if (isMounted) {
-						setInternalLoading(false)
-					}
+		const result: any = onClick(event)
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+		if (minDelay || (result && isFunction(result.then))) {
+			setInternalLoading(true)
+			const promiseHandler = () => {
+				if (isMounted) {
+					setInternalLoading(false)
 				}
-
-				Promise.all([result, delay(minDelay)]).then(promiseHandler, promiseHandler)
 			}
+
+			Promise.all([result, delay(minDelay)]).then(promiseHandler, promiseHandler)
 		}
 	}
 
@@ -70,15 +68,15 @@ export const ButtonAsync = ({
 
 	return (
 		<>
-			{submit ? (
+			{type === 'submit' ? (
 				<SubmitWrapper>
 					<ButtonLoading
 						isLoading={isLoadingManual || isLoadingInternal}
 						isVisible={!isLoading}
 						label={label}
 						onClick={(event) => handleClick(event)}
-						fullWidth={fullWidth}
-						submit
+						isFullWidth={isFullWidth}
+						type='submit'
 						{...rest}
 					/>
 				</SubmitWrapper>
@@ -88,8 +86,7 @@ export const ButtonAsync = ({
 					isVisible={!isLoading}
 					label={label}
 					onClick={(event) => handleClick(event)}
-					fullWidth={fullWidth}
-					submit={false}
+					isFullWidth={isFullWidth}
 					{...rest}
 				/>
 			)}

@@ -2,13 +2,13 @@ import type { ComponentProps } from 'react'
 
 import { useResponsive } from 'states/responsive'
 
-type Props = {
-	noWrapper: boolean,
+type Props = ComponentProps<'div'> & {
+	hasNoWrapper: boolean,
 	show: boolean,
-} & ComponentProps<'div'>
+}
 
-export const Container = ({ noWrapper, show, children, ...rest }: Props) => {
-	const { collapsedSidebar } = useResponsive()
+export const Container = ({ hasNoWrapper, show, children, ...rest }: Props) => {
+	const { isSidebarCollapsed } = useResponsive()
 
 	return (
 		<div
@@ -25,7 +25,7 @@ export const Container = ({ noWrapper, show, children, ...rest }: Props) => {
 				visibility: show ? 'visible' : 'hidden',
 				zIndex: 5,
 				margin: 0,
-				paddingLeft: collapsedSidebar ? '70px' : '250px',
+				paddingLeft: isSidebarCollapsed ? '70px' : '250px',
 
 				[theme.mediaQueries.maxMobile]: {
 					paddingLeft: 0,
@@ -34,7 +34,7 @@ export const Container = ({ noWrapper, show, children, ...rest }: Props) => {
 			})}
 			{...rest}
 		>
-			{noWrapper ? children : (
+			{hasNoWrapper ? children : (
 				<div
 					css={{
 						display: 'flex',

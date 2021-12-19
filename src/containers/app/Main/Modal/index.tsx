@@ -8,7 +8,7 @@ import { Container } from './Container'
 import { Shade } from './Shade'
 
 export const Modal = (props: ComponentProps<'div'>) => {
-	const { allowClosure, showModal, modalContent, closeModal, onClose, noWrapper = false } = useModal()
+	const { allowClosure, showModal, modalContent, closeModal, onClose, hasNoWrapper = false } = useModal()
 
 	return (
 		<>
@@ -21,8 +21,8 @@ export const Modal = (props: ComponentProps<'div'>) => {
 					}
 					: undefined}
 			/>
-			<Container show={showModal} noWrapper={noWrapper}>
-				{noWrapper ? modalContent : (
+			<Container show={showModal} hasNoWrapper={hasNoWrapper}>
+				{hasNoWrapper ? modalContent : (
 					<Card {...props} css={{ textAlign: 'center', width: '100%' }}>
 						{modalContent}
 					</Card>

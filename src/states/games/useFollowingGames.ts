@@ -17,10 +17,10 @@ export const useFollowingGames = (query: ParsedUrlQuery, after?: string) => {
 	const { data } = useSWR<{ games: Array<Game>, before?: string, after?: string }>(
 		query.user
 			? ['/games', query.user, after]
-			: null, (link, followedGamesUser, after) => fetcher(`${link}?user=${followedGamesUser}${after ? `&after=${after}` : ''}`), {
+			: null, (link: string, followedGamesUser: string, after: string) => fetcher(`${link}?user=${followedGamesUser}${after ? `&after=${after}` : ''}`), {
 			revalidateOnFocus: false,
 			onSuccess: (data) => {
-				setGameState({ afters: [...afters, data?.after ?? undefined], numberOfPages })
+				setGameState({ afters: [...afters, data.after ?? undefined], numberOfPages })
 			},
 		},
 	)

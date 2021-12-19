@@ -15,10 +15,10 @@ export const usePopularGames = (after?: string) => {
 	const [{ afters, numberOfPages }, setGameState] = useGlobalState('popularGames')
 	const { data } = useSWR<{ games: Array<Game>, after?: string }>(
 		['/games', after],
-		(link) => fetcher(`${link}${after ? `?after=${after}` : ''}`),
+		(link: string) => fetcher(`${link}${after ? `?after=${after}` : ''}`),
 		{
 			revalidateOnFocus: false,
-			onSuccess: (data) => data?.after && setGameState({ afters: [...afters, data?.after], numberOfPages }),
+			onSuccess: (data) => data.after && setGameState({ afters: [...afters, data.after], numberOfPages }),
 		},
 	)
 

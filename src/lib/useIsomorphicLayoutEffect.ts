@@ -11,12 +11,12 @@ import { useLayoutEffect, useEffect } from 'react'
  * @see https://reactjs.org/docs/hooks-reference.html#uselayouteffect
  */
 export const useIsomorphicLayoutEffect = (effect: EffectCallback, deps?: DependencyList) => {
-	const canUseDOM = Boolean(
+	const canUseDom = Boolean(
 		typeof window !== 'undefined'
 		&& typeof window.document !== 'undefined'
 		&& typeof window.document.createElement !== 'undefined',
 	)
 
-	const useRelevantEffect = canUseDOM ? useLayoutEffect : useEffect
+	const useRelevantEffect = canUseDom ? useLayoutEffect : useEffect
 	return useRelevantEffect(effect, deps)
 }

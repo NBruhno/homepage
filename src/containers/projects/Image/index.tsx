@@ -7,15 +7,13 @@ import { useModal } from 'states/modal'
 import { Image } from './Image'
 import { Placeholder } from './Placeholder'
 
-const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
-
-type Props = {
+type Props = ComponentProps<'img'> & {
 	src: string,
 	title: string,
 	width: number,
 	height: number,
 	divider?: number,
-} & ComponentProps<'img'>
+}
 
 export const ProjectImage = ({ src, title, width, height, divider, ...rest }: Props) => {
 	const { openModal } = useModal()
@@ -43,12 +41,12 @@ export const ProjectImage = ({ src, title, width, height, divider, ...rest }: Pr
 						}}
 					>
 						<img
-							src={src ?? placeholderImage}
+							src={src}
 							alt={title}
 							css={{ maxWidth: '100%', maxHeight: '90vh', objectFit: 'cover' }}
 						/>
 					</div>
-				), { noWrapper: true })
+				), { hasNoWrapper: true })
 			}}
 		>
 			<Image
