@@ -17,7 +17,7 @@ describe('/api/users', () => {
 			.send({
 				email: 'mail+testregister@bruhno.dev',
 				password: testingCredentials,
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { accessToken: string } }
 
 		const { userId } = decodeJwtToken(loginRes.body.accessToken)
 
@@ -39,7 +39,7 @@ describe('/api/users', () => {
 				password: testingCredentials,
 				displayName: 'Test register',
 				accessCode: testingAccessCode,
-			})
+			}) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		expect(res.status).toBe(200)
 		expect(res.body.accessToken).toMatch(accessTokenMatch)
@@ -71,7 +71,7 @@ describe('/api/users', () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)
 		const res = await supertest(server)
-			.post('/api/users')
+			.post('/api/users') as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)

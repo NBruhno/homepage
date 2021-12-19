@@ -1,66 +1,41 @@
-import type { FaunaUser } from 'types'
-import { TokenType } from 'types'
+import { UserTokenType } from 'types'
 
 import { setUser, withSentry } from '@sentry/nextjs'
-import { query as q, errors } from 'faunadb'
+import { hash } from 'argon2'
 import { object, string, create, size } from 'superstruct'
 
-import { monitorReturn, monitorReturnAsync } from 'lib/sentryMonitor'
+import { monitorReturnAsync } from 'lib/sentryMonitor'
 
-import { ApiError } from 'api/errors'
 import { setRefreshCookie } from 'api/middleware'
-import { serverClient, getJwtToken, apiHandler } from 'api/utils'
+import { getJwtToken, apiHandler, prisma, argonDefaultOptions } from 'api/utils'
 import { accessCode, email, password } from 'api/validation'
 
 const Body = object({
 	email: email(),
 	password: password(),
-	displayName: size(string(), 2, 64),
+	username: size(string(), 2, 64),
 	accessCode: accessCode(),
 })
 
 const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.post(async (req, res) => {
-		const { email, password, displayName } = create(req.body, Body)
+		const { email, password, username } = create(req.body, Body)
+		const passwordHash = await monitorReturnAsync(() => hash(password, argonDefaultOptions), 'argon2 - hash()')
 
-		const { ref } = await monitorReturnAsync(() => (
-			serverClient().query<FaunaUser>(
-				q.Create(q.Collection('users'), {
-					credentials: { password },
-					data: { email, role: 'user', twoFactorSecret: null, displayName },
-				}),
-			).then(async ({ ref }) => serverClient().query<FaunaUser>(
-				q.Update(ref, {
-					data: {
-						owner: ref,
-					},
-				}),
-			)).catch((error) => {
-				if (error instanceof errors.BadRequest) throw ApiError.fromCodeWithError(400, new Error('Email is already in use'))
-				else throw error
-			})
-		), 'faunadb - Create().then(Update())')
+		const user = await monitorReturnAsync(() => prisma.user.create({
+			data: {
+				email,
+				username,
+				passwordHash,
+			},
+		}), 'prisma - create()')
 
-		const loginRes = await monitorReturnAsync(() => (
-			serverClient().query<{ secret: string }>(
-				q.Login(ref, {
-					password,
-				}),
-			)
-		), 'faunadb - Login()')
-
-		const userId = monitorReturn(
-			() => ref.toString().split(',')[1].replace(/[") ]/gi, ''),
-			'userId',
-		)
-
-		setUser({ id: userId, username: displayName, email })
-
-		const accessToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user', userId })
-		const refreshToken = getJwtToken(loginRes.secret, { sub: email, displayName, role: 'user', userId }, { type: TokenType.Refresh })
+		setUser({ id: user.id, username: user.username, email: user.email })
+		const accessToken = getJwtToken({ sub: email, username: user.username, role: 'user', userId: user.id })
+		const refreshToken = getJwtToken({ sub: email, username: user.username, role: 'user', userId: user.id }, { type: UserTokenType.Refresh })
 		setRefreshCookie(res, refreshToken)
 
-		res.status(200).json({ accessToken })
+		return res.status(200).json({ accessToken })
 	})
 
 export default withSentry(handler)

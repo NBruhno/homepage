@@ -2,7 +2,7 @@ import type { NextApiResponse } from 'next'
 
 type Props = {
 	res: NextApiResponse,
-	strategy: 'NoCache' | 'StaleWhileRevalidate' | 'Default',
+	strategy: 'Default' | 'NoCache' | 'StaleWhileRevalidate',
 	/** In minutes, defaults to 1 */
 	duration?: number | undefined,
 }

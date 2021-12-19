@@ -1,15 +1,15 @@
-import { TokenType } from 'types'
+import { UserRole, UserTokenType } from 'types'
 
 import { withSentry } from '@sentry/nextjs'
-import { query as q } from 'faunadb'
-import { authenticator } from 'otplib'
+import { authenticator as otpAuthenticator } from 'otplib'
+import { toDataURL as getQRCodeImage } from 'qrcode'
 import { create, object, string } from 'superstruct'
 
 import { monitorReturn, monitor, monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 import { authenticate, setRefreshCookie } from 'api/middleware'
-import { apiHandler, faunaClient, getJwtToken } from 'api/utils'
+import { apiHandler, getJwtToken, prisma } from 'api/utils'
 
 const Query = object({
 	id: string(),
@@ -18,66 +18,84 @@ const Query = object({
 const handler = apiHandler({
 	validMethods: ['GET', 'POST', 'PATCH', 'DELETE'],
 	cacheStrategy: 'NoCache',
-	transactionName: (req) => `${req.method} api/users/{userId}/2fa`,
+	transactionName: (req) => `${req.method!} api/users/{userId}/2fa`,
 })
-	.get((req, res) => {
-		authenticate(req)
-		const twoFactorSecret = monitorReturn(() => authenticator.generateSecret(), 'generateSecret()')
+	.get(async (req, res) => {
+		const { userId: requestUserId, sub } = authenticate(req)
+		const { id } = create(req.query, Query)
+		if (requestUserId !== id) throw ApiError.fromCode(403)
 
-		res.status(200).json({ twoFactorSecret })
+		const twoFactorSecret = monitorReturn(() => otpAuthenticator.generateSecret(32), 'otplib - generateSecret()')
+		const qrCode = await getQRCodeImage(`otpauth://totp/${encodeURI(sub)}?secret=${twoFactorSecret}&issuer=Bruhno`, { type: 'image/webp' })
+
+		return res.status(200).json({ twoFactorSecret, qrCode })
 	})
 	.post(async (req, res) => {
-		const { otp } = create(req.body, object({
-			otp: string(),
-		}))
-		const { secret, sub, displayName, role, userId } = authenticate(req, { type: TokenType.Intermediate })
+		const { otp } = create(req.body, object({ otp: string() }))
+		const { id } = create(req.query, Query)
+		const { sub, username, role, userId: requestUserId } = authenticate(req, { type: UserTokenType.Intermediate })
+		if (requestUserId !== id) throw ApiError.fromCode(403)
 
-		const user = await monitorReturnAsync(() => faunaClient(secret).query<{ data: Record<string, any> }>(
-			q.Get(q.CurrentIdentity()),
-		), 'faunadb - Get()')
+		const user = await monitorReturnAsync(() => prisma.user.findUnique({
+			where: {
+				id: requestUserId,
+			},
+			select: {
+				twoFactorSecret: true,
+			},
+		}), 'prisma - findUnique()')
 
-		monitor(() => {
-			if (!authenticator.verify({ token: otp, secret: user.data.twoFactorSecret })) throw ApiError.fromCode(401)
-		}, 'verify()')
+		if (!user || !user.twoFactorSecret) throw ApiError.fromCode(404)
 
-		const accessToken = getJwtToken(secret, { sub, displayName, role, userId })
-		const refreshToken = getJwtToken(secret, { sub, displayName, role, userId }, { type: TokenType.Refresh })
+		monitor(() => { // TS somehow fails to acknowledge that the check above ensures the value is not falsy (not null)
+			if (!otpAuthenticator.verify({ token: otp, secret: user.twoFactorSecret! })) throw ApiError.fromCode(401)
+		}, 'otplib - verify()')
+
+		const accessToken = getJwtToken({ sub, username, role, userId: requestUserId })
+		const refreshToken = getJwtToken({ sub, username, role, userId: requestUserId }, { type: UserTokenType.Refresh })
 
 		setRefreshCookie(res, refreshToken)
-
-		res.status(200).json({ accessToken })
+		return res.status(200).json({ accessToken })
 	})
 	.patch(async (req, res) => {
 		const { secret, otp } = create(req.body, object({
 			otp: string(),
 			secret: string(),
 		}))
+		const { userId: requestUserId } = authenticate(req)
 		const { id } = create(req.query, Query)
-		const { secret: faunaSecret } = authenticate(req)
+		if (requestUserId !== id) throw ApiError.fromCode(403)
 
 		monitor(() => {
-			if (!authenticator.verify({ token: otp, secret })) throw ApiError.fromCode(401)
-		}, 'verify()')
+			if (!otpAuthenticator.verify({ token: otp, secret })) throw ApiError.fromCode(401)
+		}, 'otplib - verify()')
 
-		await monitorAsync(() => faunaClient(faunaSecret).query(
-			q.Update(q.Ref(q.Collection('users'), id), {
-				data: { twoFactorSecret: secret },
-			}),
-		), 'faunadb - Update()')
+		await monitorAsync(() => prisma.user.update({
+			where: {
+				id,
+			},
+			data: {
+				twoFactorSecret: secret,
+			},
+		}), 'prisma - update()')
 
-		res.status(200).json({ message: '2FA has been activated' })
+		return res.status(200).json({ message: '2FA has been activated' })
 	})
 	.delete(async (req, res) => {
-		const { secret } = authenticate(req)
 		const { id } = create(req.query, Query)
+		const { userId: requestUserId, role } = authenticate(req)
+		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
 
-		await monitorAsync(() => faunaClient(secret).query(
-			q.Update(q.Ref(q.Collection('users'), id), {
-				data: { twoFactorSecret: null },
-			}),
-		), 'faunadb - Update()')
+		await monitorAsync(() => prisma.user.update({
+			where: {
+				id,
+			},
+			data: {
+				twoFactorSecret: null,
+			},
+		}), 'prisma - update()')
 
-		res.status(200).json({ message: '2FA has been removed' })
+		return res.status(200).json({ message: '2FA has been removed' })
 	})
 
 export default withSentry(handler)

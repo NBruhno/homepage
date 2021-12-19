@@ -1,87 +1,54 @@
 import { withSentry } from '@sentry/nextjs'
-import { query as q, errors } from 'faunadb'
-import { create, object, string, coerce, number } from 'superstruct'
-
-import { monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
+import { create, object, string, coerce, number, boolean } from 'superstruct'
 
 import { authenticate } from 'api/middleware'
-import { apiHandler, faunaClient, setCache } from 'api/utils'
+import { apiHandler, prisma } from 'api/utils'
 
 const Query = object({
 	id: coerce(number(), string(), (value) => parseInt(value, 10)),
 })
 
 const handler = apiHandler({
-	validMethods: ['GET', 'POST', 'PATCH'],
+	validMethods: ['GET', 'POST'],
 	cacheStrategy: 'NoCache',
-	transactionName: (req) => `${req.method} api/games/{gameId}/follow`,
+	transactionName: (req) => `${req.method!} api/games/{gameId}/follows`,
 })
 	.get(async (req, res) => {
-		const { secret } = authenticate(req)
+		const { userId } = authenticate(req)
 		const { id } = create(req.query, Query)
-		const userData = await monitorReturnAsync(() => faunaClient(secret).query<{ data: { following: boolean } }>(
-			q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [id, q.CurrentIdentity()])),
-		).catch((error) => {
-			if (error instanceof errors.NotFound) {
-				return {
-					data: {
-						following: false,
-					},
-				}
-			} else throw error
-		}).then((response) => response.data), 'faunadb - Get()')
-		setCache({ strategy: 'NoCache', res })
-		res.status(200).json({ following: userData.following })
+
+		const userData = await prisma.gameUserData.findFirst({
+			where: {
+				gameId: id,
+				ownerId: userId,
+			},
+		})
+
+		return res.status(200).json({ isFollowing: Boolean(userData?.isFollowing) })
 	})
 	.post(async (req, res) => {
-		const { secret } = authenticate(req)
+		const { userId } = authenticate(req)
 		const { id } = create(req.query, Query)
-		await monitorAsync(() => faunaClient(secret).query(
-			q.Create(q.Collection('gamesUserData'), {
-				data: {
-					id,
-					owner: q.CurrentIdentity(),
-					following: true,
-				},
-			}),
-		), 'faunadb - Create()').catch(async (error) => {
-			if (error.description.includes('unique') && error instanceof errors.BadRequest) {
-				await monitorAsync(() => faunaClient(secret).query(
-					q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [id, q.CurrentIdentity()]))), {
-						data: {
-							following: true,
-						},
-					}),
-				), 'faunadb - Update()')
-			} else throw error
-		})
+		const { isFollowing } = create(req.body, object({ isFollowing: boolean() }))
 
-		res.status(200).json({ message: 'Successfully followed the game' })
-	})
-	.patch(async (req, res) => {
-		const { secret } = authenticate(req)
-		const { id } = create(req.query, Query)
-		await monitorReturnAsync(() => faunaClient(secret).query<{
-			data: {
-				id: string,
-				owner: string,
-				following: boolean,
+		const userData = await prisma.gameUserData.upsert({
+			where: {
+				id: {
+					gameId: id,
+					ownerId: userId,
+				},
 			},
-		}>(
-			q.Update(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [id, q.CurrentIdentity()]))), {
-				data: {
-					following: false,
-				},
-			}),
-		), 'faunadb - Update()').then(async (game) => {
-			if (!game.data.following) {
-				await monitorAsync(() => faunaClient(secret).query(
-					q.Delete(q.Select(['ref'], q.Get(q.Match(q.Index('gamesUserDataByIdAndOwner'), [id, q.CurrentIdentity()])))),
-				), 'faunadb - Delete()')
-			}
+			create: {
+				gameId: id,
+				ownerId: userId,
+				isFollowing,
+			},
+			update: {
+				isFollowing,
+			},
 		})
 
-		res.status(200).json({ message: 'Successfully unfollowed the game' })
+		return res.status(200).json({ message: `Successfully ${userData.isFollowing ? 'follow' : 'unfollow'}ed the game` })
 	})
 
 export default withSentry(handler)

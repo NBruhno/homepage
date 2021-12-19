@@ -15,7 +15,7 @@ describe('/api/users/login', () => {
 			.send({
 				email: 'mail+test@bruhno.dev',
 				password: testingCredentials,
-			})
+			}) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		expect(res.status).toBe(200)
 		expect(res.body.accessToken).toMatch(accessTokenMatch)
@@ -32,7 +32,7 @@ describe('/api/users/login', () => {
 			.send({
 				email: 'mail+test2fa@bruhno.dev',
 				password: testingCredentials,
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { intermediateToken: string } }
 
 		expect(res.status).toBe(200)
 		expect(res.body.intermediateToken).toMatch(intermediateTokenMatch)
@@ -77,7 +77,7 @@ describe('/api/users/login', () => {
 			.send({
 				email: 'something.that.is.not.an.email',
 				password: testingCredentials,
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: email/)
@@ -92,7 +92,7 @@ describe('/api/users/login', () => {
 			.send({
 				email: 'mail+test2fa@bruhno.dev',
 				password: 'to.short',
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: password/)
@@ -107,7 +107,7 @@ describe('/api/users/login', () => {
 			.send({
 				email: 'mail+test2fa@bruhno.dev',
 				password: 'this.is.a.way.to.long.password.for.it.to.be.accepted.by.the.validator',
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: password/)
@@ -118,7 +118,7 @@ describe('/api/users/login', () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)
 		const res = await supertest(server)
-			.post('/api/users/login')
+			.post('/api/users/login') as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)
@@ -134,7 +134,7 @@ describe('/api/users/login', () => {
 				email: 'mail+test2fa@bruhno.dev',
 				password: testingCredentials,
 				extra: 'this.should.error.out',
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: extra/)
@@ -148,7 +148,7 @@ describe('/api/users/login', () => {
 			.post('/api/users/login')
 			.send({
 				email: 'mail+test2fa@bruhno.dev',
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: password/)

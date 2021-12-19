@@ -16,9 +16,9 @@ describe('/api/users/refresh', () => {
 			.send({
 				email: 'mail+test@bruhno.dev',
 				password: testingCredentials,
-			})
+			}) as unknown as Omit<Response, 'headers'> & { headers: { 'set-cookie': Array<string> } }
 
-		refreshToken = res.headers['set-cookie']?.[0]
+		refreshToken = res.headers['set-cookie'][0]
 		server.close()
 	})
 
@@ -28,7 +28,7 @@ describe('/api/users/refresh', () => {
 
 		const res = await supertest(server)
 			.get('/api/users/refresh')
-			.set('Cookie', refreshToken)
+			.set('Cookie', refreshToken) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		expect(res.status).toBe(200)
 		expect(res.body.accessToken).toMatch(accessTokenMatch)

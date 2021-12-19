@@ -10,7 +10,7 @@ import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { ApiError } from 'api/errors'
 
 let accessToken = null as unknown as string
-let userId = null as unknown as string
+let id = null as unknown as string
 
 describe('/api/users/{userId}', () => {
 	beforeAll(async () => {
@@ -22,7 +22,7 @@ describe('/api/users/{userId}', () => {
 				displayName: 'Test delete',
 				password: testingCredentials,
 				accessCode: testingAccessCode,
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { accessToken: string } }
 
 		if (res.status !== 200) {
 			const loginServer = createTestServer(login)
@@ -31,22 +31,22 @@ describe('/api/users/{userId}', () => {
 				.send({
 					email: 'mail+testdelete@bruhno.dev',
 					password: testingCredentials,
-				})
+				}) as unknown as Omit<Response, 'body'> & { body: { accessToken: string } }
 			accessToken = loginRes.body.accessToken
-			userId = decodeJwtToken(loginRes.body.accessToken).userId
+			id = decodeJwtToken(loginRes.body.accessToken).userId
 			loginServer.close()
 		} else {
 			accessToken = res.body.accessToken
-			userId = decodeJwtToken(res.body.accessToken).userId
+			id = decodeJwtToken(res.body.accessToken).userId
 		}
 		usersServer.close()
 	})
 
 	test('DELETE › Delete user', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.delete(`/api/users/${userId}`)
+			.delete(`/api/users/${id}`)
 			.set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(200)
@@ -56,7 +56,7 @@ describe('/api/users/{userId}', () => {
 
 	test('DELETE › User does not exist', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: 1234 })
+		const server = createTestServer(handler, { id: 1234 })
 		const res = await supertest(server)
 			.delete(`/api/users/${1234}`)
 
@@ -67,9 +67,9 @@ describe('/api/users/{userId}', () => {
 
 	test('DELETE › Not authenticated', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.delete(`/api/users/${userId}`)
+			.delete(`/api/users/${id}`)
 
 		expect(res.status).toBe(401)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(401).message })
@@ -78,9 +78,9 @@ describe('/api/users/{userId}', () => {
 
 	test('Invalid method', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.trace(`/api/users/${userId}`)
+			.trace(`/api/users/${id}`)
 			.set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(405)

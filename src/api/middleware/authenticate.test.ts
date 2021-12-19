@@ -1,5 +1,5 @@
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
-import { createMocks } from 'node-mocks-http'
+import { createHttpMock } from 'test/utils'
 
 import { getJwtToken } from 'api/utils'
 
@@ -9,10 +9,12 @@ const defaultPayload = { sub: 'mail+test@bruhno.dev', displayName: 'Test', role:
 
 describe('/api/middleware/authenticate', () => {
 	test('Authenticate › Valid token', async () => {
-		const accessToken = getJwtToken('secret', { ...defaultPayload })
-		const { req } = createMocks({
-			headers: {
-				authorization: `Bearer ${accessToken}`,
+		const accessToken = getJwtToken({ ...defaultPayload })
+		const { req } = createHttpMock({
+			reqOptions: {
+				headers: {
+					authorization: `Bearer ${accessToken}`,
+				},
 			},
 		})
 
@@ -21,18 +23,20 @@ describe('/api/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Manually supplied token', async () => {
-		const accessToken = getJwtToken('secret', { ...defaultPayload })
-		const { req } = createMocks()
+		const accessToken = getJwtToken({ ...defaultPayload })
+		const { req } = createHttpMock()
 
 		const token = authenticate(req, { token: accessToken })
 		expect(token)
 	})
 
 	test('Authenticate › Expired token', async () => {
-		const accessToken = getJwtToken('secret', { ...defaultPayload, exp: Math.floor(Date.now() / 1000) - 60 })
-		const { req } = createMocks({
-			headers: {
-				authorization: `Bearer ${accessToken}`,
+		const accessToken = getJwtToken({ ...defaultPayload, exp: Math.floor(Date.now() / 1000) - 60 })
+		const { req } = createHttpMock({
+			reqOptions: {
+				headers: {
+					authorization: `Bearer ${accessToken}`,
+				},
 			},
 		})
 
@@ -40,10 +44,12 @@ describe('/api/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Invalid issuer', async () => {
-		const accessToken = getJwtToken('secret', { ...defaultPayload, iss: 'https://something.else' })
-		const { req } = createMocks({
-			headers: {
-				authorization: `Bearer ${accessToken}`,
+		const accessToken = getJwtToken({ ...defaultPayload, iss: 'https://something.else' })
+		const { req } = createHttpMock({
+			reqOptions: {
+				headers: {
+					authorization: `Bearer ${accessToken}`,
+				},
 			},
 		})
 
@@ -51,10 +57,12 @@ describe('/api/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Invalid audience', async () => {
-		const accessToken = getJwtToken('secret', { ...defaultPayload, aud: ['https://something.else'] })
-		const { req } = createMocks({
-			headers: {
-				authorization: `Bearer ${accessToken}`,
+		const accessToken = getJwtToken({ ...defaultPayload, aud: ['https://something.else'] })
+		const { req } = createHttpMock({
+			reqOptions: {
+				headers: {
+					authorization: `Bearer ${accessToken}`,
+				},
 			},
 		})
 
@@ -62,10 +70,12 @@ describe('/api/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Tampered token', async () => {
-		const accessToken = getJwtToken('secret', { ...defaultPayload }).split('.')
-		const { req } = createMocks({
-			headers: {
-				authorization: `Bearer ${accessToken.join('Y.')}`,
+		const accessToken = getJwtToken({ ...defaultPayload }).split('.')
+		const { req } = createHttpMock({
+			reqOptions: {
+				headers: {
+					authorization: `Bearer ${accessToken.join('Y.')}`,
+				},
 			},
 		})
 

@@ -1,3 +1,5 @@
+import type { Response } from 'supertest'
+
 import { authenticator } from 'otplib'
 import supertest from 'supertest'
 import { testingToken, testingCredentials, accessTokenMatch, refreshTokenMatch, retryFunction, createTestServer, testingUserId } from 'test/utils'
@@ -21,7 +23,7 @@ describe('/api/users/{userId}/2fa', () => {
 			.send({
 				email: 'mail+test2fa@bruhno.dev',
 				password: testingCredentials,
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { intermediateToken: string } }
 
 		intermediateToken = res.body.intermediateToken
 		userId = decodeJwtToken(intermediateToken).userId
@@ -34,7 +36,7 @@ describe('/api/users/{userId}/2fa', () => {
 		const server = createTestServer(handler, { userId: testingUserId })
 		const res = await supertest(server)
 			.get(`/api/users/${testingUserId}/2fa`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.set('authorization', `Bearer ${testingToken}`) as unknown as Omit<Response, 'body'> & { body: { twoFactorSecret: string } }
 
 		expect(res.status).toBe(200)
 		expect(typeof res.body.twoFactorSecret).toBe('string')
@@ -89,7 +91,7 @@ describe('/api/users/{userId}/2fa', () => {
 		const server = createTestServer(handler, { userId: testingUserId })
 		const res = await supertest(server)
 			.patch(`/api/users/${testingUserId}/2fa`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.set('authorization', `Bearer ${testingToken}`) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)
@@ -120,7 +122,7 @@ describe('/api/users/{userId}/2fa', () => {
 			.set('authorization', `Bearer ${intermediateToken}`)
 			.send({
 				otp: authenticator.generate(twoFactorSecret),
-			}), 3)
+			}), 3) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		expect(res.status).toBe(200)
 		expect(res.body.accessToken).toMatch(accessTokenMatch)
@@ -149,7 +151,7 @@ describe('/api/users/{userId}/2fa', () => {
 		const server = createTestServer(handler, { userId })
 		const res = await supertest(server)
 			.post(`/api/users/${userId}/2fa`)
-			.set('authorization', `Bearer ${intermediateToken}`)
+			.set('authorization', `Bearer ${intermediateToken}`) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)

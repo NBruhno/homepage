@@ -10,7 +10,7 @@ import { ApiError } from 'api/errors'
 describe('/api/users/{userId}/changePassword', () => {
 	test('POST › Change password', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id: testingUserId })
 		const res = await supertest(server)
 			.post(`/api/users/${testingUserId}/changePassword`)
 			.set('authorization', `Bearer ${testingToken}`)
@@ -25,7 +25,7 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Not authenticated', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id: testingUserId })
 		const res = await supertest(server)
 			.post(`/api/users/${testingUserId}/changePassword`)
 			.send({
@@ -39,13 +39,13 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid password (short)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id: testingUserId })
 		const res = await supertest(server)
 			.post(`/api/users/${testingUserId}/changePassword`)
 			.set('authorization', `Bearer ${testingToken}`)
 			.send({
 				newPassword: randomBytes(6).toString('hex'),
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: newPassword/)
@@ -54,13 +54,13 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid password (long)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id: testingUserId })
 		const res = await supertest(server)
 			.post(`/api/users/${testingUserId}/changePassword`)
 			.set('authorization', `Bearer ${testingToken}`)
 			.send({
 				newPassword: randomBytes(80).toString('hex'),
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: newPassword/)
@@ -75,7 +75,7 @@ describe('/api/users/{userId}/changePassword', () => {
 			.set('authorization', `Bearer ${testingToken}`)
 			.send({
 				newPassword: randomBytes(20).toString('hex'),
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)
@@ -84,10 +84,10 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid body (empty)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id: testingUserId })
 		const res = await supertest(server)
 			.post(`/api/users/${testingUserId}/changePassword`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.set('authorization', `Bearer ${testingToken}`) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)
@@ -96,14 +96,14 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid body (extra)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id: testingUserId })
 		const res = await supertest(server)
 			.post(`/api/users/${testingUserId}/changePassword`)
 			.set('authorization', `Bearer ${testingToken}`)
 			.send({
 				newPassword: randomBytes(20).toString('hex'),
 				extra: 'this.should.error.out',
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: extra/)
@@ -112,11 +112,11 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid body (missing)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id: testingUserId })
 		const res = await supertest(server)
 			.post(`/api/users/${testingUserId}/changePassword`)
 			.set('authorization', `Bearer ${testingToken}`)
-			.send({})
+			.send({}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: newPassword/)
@@ -125,7 +125,7 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('Invalid method', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id: testingUserId })
 		const res = await supertest(server)
 			.get(`/api/users/${testingUserId}/changePassword`)
 			.set('authorization', `Bearer ${testingToken}`)

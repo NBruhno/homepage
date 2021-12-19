@@ -19,7 +19,7 @@ const isProduction = config.environment !== 'development'
  * setRefreshCookie(res, refreshToken, transaction)
  * ```
  */
-export const setRefreshCookie = (res: NextApiResponse, token: string, transaction?: Transaction | Span) => monitorReturn(() => {
+export const setRefreshCookie = (res: NextApiResponse, token: string, transaction?: Span | Transaction) => monitorReturn(() => {
 	const expiration = Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3)
 
 	const refreshCookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', token, {
@@ -52,7 +52,7 @@ export const setRefreshCookie = (res: NextApiResponse, token: string, transactio
  * removeRefreshCookie(res, transaction)
  * ```
  */
-export const removeRefreshCookie = (res: NextApiResponse, transaction?: Transaction | Span) => monitorReturn(() => {
+export const removeRefreshCookie = (res: NextApiResponse, transaction?: Span | Transaction) => monitorReturn(() => {
 	const refreshCookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', '', {
 		httpOnly: true,
 		maxAge: -1,
