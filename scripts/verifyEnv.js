@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 
 require('dotenv').config()
-const chalk = require('chalk')
 
 const { VERCEL_ENV } = process.env
 
@@ -11,9 +10,9 @@ const missingValues = []
 const log = (value, result) => {
 	const ending = () => {
 		switch (result) {
-			case 'exists': return chalk.green('Exists')
-			case 'missing': return chalk.red('Missing')
-			case 'deploy': return chalk.yellow('Deployment only')
+			case 'exists': return 'Exists'
+			case 'missing': return 'Missing'
+			case 'deploy': return 'Deployment only'
 		}
 	}
 	console.log(`${value}:${new Array(characterSpacing - value.length).join(' ')} ${ending()}`)
@@ -32,7 +31,7 @@ const verifyVariable = (value, isDeployOnly = false) => {
 	}
 }
 
-console.log(`Current environment:${new Array(characterSpacing - 18).join(' ')}${chalk.blue(VERCEL_ENV ? VERCEL_ENV.charAt(0).toUpperCase() + VERCEL_ENV.slice(1) : 'Undefined')}`)
+console.log(`Current environment:${new Array(characterSpacing - 18).join(' ')}${VERCEL_ENV ? VERCEL_ENV.charAt(0).toUpperCase() + VERCEL_ENV.slice(1) : 'Undefined'}`)
 verifyVariable('ACCESS_CODE')
 verifyVariable('AUTH_IV')
 verifyVariable('AUTH_SECRET')
@@ -50,8 +49,8 @@ verifyVariable('SENTRY_PROJECT', true)
 verifyVariable('SENTRY_URL', true)
 
 if (missingValues.length > 0) {
-	console.log(chalk.red('Error: Missing the above mentioned env variables'))
+	console.log('Error: Missing the above mentioned env variables')
 	process.exit(1)
 } else {
-	console.log(chalk.green('All required env variables are available'))
+	console.log('All required env variables are available')
 }
