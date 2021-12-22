@@ -10,7 +10,7 @@ import { fetcher, Method } from 'lib/fetcher'
 import { filterUnspecified } from 'lib/filterUnspecified'
 
 import { authenticateSystem } from 'api/middleware'
-import { apiHandler, gameFields, igdbFetcher, mapIgdbGame } from 'api/utils'
+import { apiHandler, gameFields, igdbFetcher, mapIgdbGame, prisma } from 'api/utils'
 import { game as gameValidator } from 'api/validation'
 
 const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'NoCache' })

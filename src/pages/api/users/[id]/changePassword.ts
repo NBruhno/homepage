@@ -8,7 +8,7 @@ import { monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 import { authenticate } from 'api/middleware'
-import { apiHandler, argonDefaultOptions } from 'api/utils'
+import { apiHandler, argonDefaultOptions, prisma } from 'api/utils'
 import { password } from 'api/validation'
 
 const handler = apiHandler({
