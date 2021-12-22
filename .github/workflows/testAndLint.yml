@@ -20,6 +20,9 @@ jobs:
       with:
         node-version: '14'
         cache: 'pnpm'
+    
+    - name: Install ca-certificates
+      run: sudo apt-get install ca-certificates -y
 
     - name: Install dependencies
       run: pnpm i
