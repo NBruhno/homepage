@@ -51,13 +51,4 @@
     "global.d.ts",
     "next-env.d.ts"
   ],
-  "files": [
-    "./scripts/createEnv.js",
-    "./scripts/createSitemap.js",
-    "./scripts/verifyEnv.js",
-    "./next.config.js",
-    "./babel.config.js",
-    "./jest.config.js",
-    "./.eslintrc.js"
-  ]
 }

@@ -17,12 +17,12 @@ export const errorHandler = (error: unknown, _req: NextApiRequest, res: NextApiR
 	} else if (error instanceof JsonWebTokenError || error instanceof TokenExpiredError) {
 		const unauthorizedError = ApiError.fromCode(401)
 		return res.status(unauthorizedError.statusCode).json({ message: unauthorizedError.message })
-	} else if (false) {
-		const notFoundError = ApiError.fromCode(404)
-		return res.status(notFoundError.statusCode).json({ message: notFoundError.message })
-	} else if (false) {
-		const invalidMethodError = ApiError.fromCode(405)
-		return res.status(invalidMethodError.statusCode).json({ message: invalidMethodError.message })
+	// } else if (false) {
+	// 	const notFoundError = ApiError.fromCode(404)
+	// 	return res.status(notFoundError.statusCode).json({ message: notFoundError.message })
+	// } else if (false) {
+	// 	const invalidMethodError = ApiError.fromCode(405)
+	// 	return res.status(invalidMethodError.statusCode).json({ message: invalidMethodError.message })
 	} else {
 		const unexpectedError = ApiError.fromCode(500)
 		logger.error(error)

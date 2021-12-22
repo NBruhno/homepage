@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 module.exports = {
 	parser: '@typescript-eslint/parser',
-	parserOptions: {
-		project: ['./tsconfig.json'],
-	},
 	extends: [
 		'airbnb',
 		'plugin:import/errors',
@@ -36,10 +33,44 @@ module.exports = {
 		/* *********** TypeScript only rules ********** */
 		/* ******************************************** */
 		{
+			parserOptions: {
+				project: ['./tsconfig.json'],
+			},
 			files: ['*.ts', '*.tsx'],
 			rules: {
 				'@typescript-eslint/await-thenable': ['error'],
 				'@typescript-eslint/consistent-type-exports': ['error'],
+				'@typescript-eslint/naming-convention': [
+					'error',
+					{
+						selector: 'default',
+						format: ['strictCamelCase'],
+					},
+					{
+						selector: 'variable',
+						format: ['strictCamelCase', 'StrictPascalCase', 'UPPER_CASE'],
+					},
+					{
+						selector: ['parameter', 'typeProperty'],
+						format: ['strictCamelCase', 'UPPER_CASE'],
+						leadingUnderscore: 'allow',
+					},
+					{
+						selector: 'objectLiteralProperty',
+						format: ['strictCamelCase', 'StrictPascalCase', 'UPPER_CASE'],
+						leadingUnderscore: 'allow',
+					},
+					{
+						selector: ['enumMember', 'enum', 'typeAlias', 'interface', 'class', 'variable', 'typeParameter'],
+						format: ['StrictPascalCase'],
+					},
+					{
+						selector: ['variable', 'parameter', 'typeProperty'],
+						types: ['boolean'],
+						format: ['StrictPascalCase'],
+						prefix: ['is', 'should', 'has', 'can', 'did', 'will', 'disable', 'enable', 'show', 'allow', 'disallow'],
+					},
+				],
 				'@typescript-eslint/no-base-to-string': ['error'],
 				'@typescript-eslint/no-for-in-array': ['error'],
 				'@typescript-eslint/no-unnecessary-boolean-literal-compare': ['error'],
@@ -64,6 +95,7 @@ module.exports = {
 				'@typescript-eslint/restrict-template-expressions': ['error'],
 				'@typescript-eslint/switch-exhaustiveness-check': ['error'],
 				'@typescript-eslint/type-annotation-spacing': ['error'],
+				'@typescript-eslint/unbound-method': ['error'],
 			},
 		},
 	],
@@ -118,37 +150,6 @@ module.exports = {
 		}],
 		'@typescript-eslint/member-ordering': ['error'],
 		'@typescript-eslint/method-signature-style': ['error'],
-		'@typescript-eslint/naming-convention': [
-			'error',
-			{
-				selector: 'default',
-				format: ['strictCamelCase'],
-			},
-			{
-				selector: 'variable',
-				format: ['strictCamelCase', 'StrictPascalCase', 'UPPER_CASE'],
-			},
-			{
-				selector: ['parameter', 'typeProperty'],
-				format: ['strictCamelCase', 'UPPER_CASE'],
-				leadingUnderscore: 'allow',
-			},
-			{
-				selector: 'objectLiteralProperty',
-				format: ['strictCamelCase', 'StrictPascalCase', 'UPPER_CASE'],
-				leadingUnderscore: 'allow',
-			},
-			{
-				selector: ['enumMember', 'enum', 'typeAlias', 'interface', 'class', 'variable', 'typeParameter'],
-				format: ['StrictPascalCase'],
-			},
-			{
-				selector: ['variable', 'parameter', 'typeProperty'],
-				types: ['boolean'],
-				format: ['StrictPascalCase'],
-				prefix: ['is', 'should', 'has', 'can', 'did', 'will', 'disable', 'enable', 'show', 'allow', 'disallow'],
-			},
-		],
 		'@typescript-eslint/no-confusing-non-null-assertion': ['error'],
 		'@typescript-eslint/no-empty-interface': ['error'],
 		'@typescript-eslint/no-explicit-any': 'off',
@@ -173,7 +174,6 @@ module.exports = {
 		'@typescript-eslint/prefer-ts-expect-error': ['error'],
 		'@typescript-eslint/sort-type-union-intersection-members': ['error'],
 		'@typescript-eslint/triple-slash-reference': ['error'],
-		'@typescript-eslint/unbound-method': ['error'],
 		'@typescript-eslint/unified-signatures': ['warn'],
 
 		/* ******************************************** */
@@ -292,11 +292,10 @@ module.exports = {
 		'import/no-extraneous-dependencies': ['error', { devDependencies: true, optionalDependencies: false, peerDependencies: false }],
 		'import/no-unresolved': 'off',
 		'import/order': ['error', {
-			groups: ['type', 'builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+			groups: ['type', 'builtin', 'external', 'internal', 'unknown', 'parent', 'sibling', 'object', 'index'],
 			pathGroups: [
 				// We want types to always be at the top of a file (including enums)
 				{ pattern: 'types', group: 'type' },
-				{ pattern: '~/**', group: 'type' },
 				{ pattern: 'config.client', group: 'internal', position: 'after' },
 				{ pattern: 'config.server', group: 'internal', position: 'after' },
 				{ pattern: 'test/**', group: 'internal', position: 'after' },
