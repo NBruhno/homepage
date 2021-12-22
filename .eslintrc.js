@@ -299,6 +299,7 @@ module.exports = {
 				{ pattern: '~/**', group: 'type' },
 				{ pattern: 'config.client', group: 'internal', position: 'after' },
 				{ pattern: 'config.server', group: 'internal', position: 'after' },
+				{ pattern: 'test/**', group: 'internal', position: 'after' },
 				{ pattern: 'pages/**', group: 'internal', position: 'after' },
 				{ pattern: 'states/**', group: 'internal', position: 'after' },
 				{ pattern: 'styles/**', group: 'internal', position: 'after' },

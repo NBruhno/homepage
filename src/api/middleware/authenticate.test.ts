@@ -1,7 +1,8 @@
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
-import { createHttpMock } from 'test/utils'
 
 import { getJwtToken } from 'api/utils'
+
+import { createHttpMock } from '../tests/utils'
 
 import { authenticate } from './authenticate'
 

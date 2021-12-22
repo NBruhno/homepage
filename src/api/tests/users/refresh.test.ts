@@ -1,12 +1,16 @@
+import type { TestResponse } from '../utils'
+
 import supertest from 'supertest'
-import { accessTokenMatch, refreshTokenMatch, testingCredentials, createTestServer } from 'test/utils'
 
 import login from 'pages/api/users/login'
 import handler from 'pages/api/users/refresh'
 
 import { ApiError } from 'api/errors'
 
+import { createCredentials, accessTokenMatch, refreshTokenMatch, createTestServer } from '../utils'
+
 let refreshToken = null as unknown as string
+const { email, defaultPassword } = createCredentials()
 
 describe('/api/users/refresh', () => {
 	beforeAll(async () => {
@@ -14,9 +18,9 @@ describe('/api/users/refresh', () => {
 		const res = await supertest(server)
 			.post('/api/users/login')
 			.send({
-				email: 'mail+test@bruhno.dev',
-				password: testingCredentials,
-			}) as unknown as Omit<Response, 'headers'> & { headers: { 'set-cookie': Array<string> } }
+				email,
+				password: defaultPassword,
+			}) as unknown as TestResponse & { headers: { 'set-cookie': Array<string> } }
 
 		refreshToken = res.headers['set-cookie'][0]
 		server.close()
@@ -28,7 +32,7 @@ describe('/api/users/refresh', () => {
 
 		const res = await supertest(server)
 			.get('/api/users/refresh')
-			.set('Cookie', refreshToken) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
+			.set('Cookie', refreshToken) as unknown as TestResponse & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		expect(res.status).toBe(200)
 		expect(res.body.accessToken).toMatch(accessTokenMatch)

@@ -1,5 +1,6 @@
+import type { TestResponse } from '../utils'
+
 import supertest from 'supertest'
-import { testingCredentials, testingAccessCode, createTestServer } from 'test/utils'
 
 import users from 'pages/api/users'
 import handler from 'pages/api/users/[id]'
@@ -9,8 +10,11 @@ import { decodeJwtToken } from 'lib/decodeJwtToken'
 
 import { ApiError } from 'api/errors'
 
+import { createCredentials, createTestServer } from '../utils'
+
 let accessToken = null as unknown as string
 let id = null as unknown as string
+const { email, username, accessCode, defaultPassword } = createCredentials({ label: 'delete' })
 
 describe('/api/users/{userId}', () => {
 	beforeAll(async () => {
@@ -18,20 +22,20 @@ describe('/api/users/{userId}', () => {
 		const res = await supertest(usersServer)
 			.post('/api/users')
 			.send({
-				email: 'mail+testdelete@bruhno.dev',
-				displayName: 'Test delete',
-				password: testingCredentials,
-				accessCode: testingAccessCode,
-			}) as unknown as Omit<Response, 'body'> & { body: { accessToken: string } }
+				email,
+				username,
+				password: defaultPassword,
+				accessCode,
+			}) as unknown as TestResponse & { body: { accessToken: string } }
 
 		if (res.status !== 200) {
 			const loginServer = createTestServer(login)
 			const loginRes = await supertest(loginServer)
 				.post('/api/users/login')
 				.send({
-					email: 'mail+testdelete@bruhno.dev',
-					password: testingCredentials,
-				}) as unknown as Omit<Response, 'body'> & { body: { accessToken: string } }
+					email,
+					password: defaultPassword,
+				}) as unknown as TestResponse & { body: { accessToken: string } }
 			accessToken = loginRes.body.accessToken
 			id = decodeJwtToken(loginRes.body.accessToken).userId
 			loginServer.close()
@@ -50,7 +54,7 @@ describe('/api/users/{userId}', () => {
 			.set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(200)
-		expect(res.body).toStrictEqual({ message: 'Your user has been deleted' })
+		expect(res.body).toStrictEqual({ message: 'The user has been deleted' })
 		server.close()
 	})
 

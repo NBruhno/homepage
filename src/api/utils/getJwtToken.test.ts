@@ -1,8 +1,8 @@
 import { UserTokenType } from 'types'
 
-import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch } from 'test/utils'
-
 import { decodeJwtToken } from 'lib/decodeJwtToken'
+
+import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch } from '../tests/utils'
 
 import { getJwtToken } from './getJwtToken'
 
@@ -21,7 +21,6 @@ describe('/api/getJwtToken', () => {
 		const token = getJwtToken(defaultPayload)
 		expect(token).toMatch(accessTokenMatch)
 		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({ ...expectedJwtContent, typ: UserTokenType.Access }))
-		expect(decodeJwtToken(token)).toEqual('secret')
 	})
 })
 
@@ -30,7 +29,6 @@ describe('/api/getJwtToken', () => {
 		const token = getJwtToken(defaultPayload, { type: UserTokenType.Refresh })
 		expect(token).toMatch(refreshTokenMatch)
 		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({ ...expectedJwtContent, typ: UserTokenType.Refresh }))
-		expect(decodeJwtToken(token)).toEqual('secret')
 	})
 })
 
@@ -39,7 +37,6 @@ describe('/api/getJwtToken', () => {
 		const token = getJwtToken(defaultPayload, { type: UserTokenType.Intermediate })
 		expect(token).toMatch(intermediateTokenMatch)
 		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({ ...expectedJwtContent, typ: UserTokenType.Intermediate }))
-		expect(decodeJwtToken(token)).toEqual('secret')
 	})
 })
 

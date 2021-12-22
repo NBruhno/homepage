@@ -1,5 +1,6 @@
+import type { TestResponse } from '../utils'
+
 import supertest from 'supertest'
-import { testingCredentials, accessTokenMatch, refreshTokenMatch, testingAccessCode, createTestServer } from 'test/utils'
 
 import handler from 'pages/api/users'
 import user from 'pages/api/users/[id]'
@@ -9,24 +10,30 @@ import { decodeJwtToken } from 'lib/decodeJwtToken'
 
 import { ApiError } from 'api/errors'
 
+import { createCredentials, accessTokenMatch, refreshTokenMatch, createTestServer } from '../utils'
+
+const { email, username, accessCode, defaultPassword } = createCredentials({ label: 'register' })
+
 describe('/api/users', () => {
 	beforeAll(async () => {
 		const loginServer = createTestServer(login)
 		const loginRes = await supertest(loginServer)
 			.post('/api/users/login')
 			.send({
-				email: 'mail+testregister@bruhno.dev',
-				password: testingCredentials,
-			}) as unknown as Omit<Response, 'body'> & { body: { accessToken: string } }
+				email,
+				password: defaultPassword,
+			}) as unknown as TestResponse & { body: { accessToken: string } }
 
-		const { userId } = decodeJwtToken(loginRes.body.accessToken)
+		if (loginRes.status === 200) {
+			const { userId } = decodeJwtToken(loginRes.body.accessToken)
 
-		const deleteServer = createTestServer(user, { userId })
-		await supertest(deleteServer)
-			.delete(`/api/users/${userId}`)
-			.set('authorization', `Bearer ${loginRes.body.accessToken}`)
+			const deleteServer = createTestServer(user, { id: userId })
+			await supertest(deleteServer)
+				.delete(`/api/users/${userId}`)
+				.set('authorization', `Bearer ${loginRes.body.accessToken}`)
+			deleteServer.close()
+		}
 		loginServer.close()
-		deleteServer.close()
 	})
 
 	test('POST › Register successfully', async () => {
@@ -35,11 +42,11 @@ describe('/api/users', () => {
 		const res = await supertest(server)
 			.post('/api/users')
 			.send({
-				email: 'mail+testregister@bruhno.dev',
-				password: testingCredentials,
-				displayName: 'Test register',
-				accessCode: testingAccessCode,
-			}) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
+				email,
+				password: defaultPassword,
+				username,
+				accessCode,
+			}) as unknown as TestResponse & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		expect(res.status).toBe(200)
 		expect(res.body.accessToken).toMatch(accessTokenMatch)
@@ -54,13 +61,13 @@ describe('/api/users', () => {
 		const res = await supertest(server)
 			.post('/api/users')
 			.send({
-				email: 'mail+test@bruhno.dev',
-				password: testingCredentials,
-				displayName: 'Test already exist register',
-				accessCode: testingAccessCode,
+				email,
+				password: defaultPassword,
+				username,
+				accessCode,
 			})
 
-		expect(res.status).toBe(400)
+		expect(res.status).toBe(409)
 		expect(res.body).toStrictEqual({ message: 'Email is already in use' })
 		server.close()
 	})
@@ -71,7 +78,7 @@ describe('/api/users', () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)
 		const res = await supertest(server)
-			.post('/api/users') as unknown as Omit<Response, 'body'> & { body: { message: string } }
+			.post('/api/users') as unknown as TestResponse & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)

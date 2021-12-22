@@ -29,7 +29,7 @@ const handler = apiHandler({
 			where: {
 				id,
 			},
-		}), 'faunadb - Get()')
+		}), 'prisma - findUnique()')
 
 		if (!game) {
 			const igdbGame = await igdbFetcher('/games', res, {

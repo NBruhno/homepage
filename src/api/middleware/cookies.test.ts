@@ -1,8 +1,8 @@
 import { UserTokenType } from 'types'
 
-import { parseHeaders, refreshTokenMatch, createHttpMock } from 'test/utils'
-
 import { getJwtToken } from 'api/utils'
+
+import { parseHeaders, refreshTokenMatch, createHttpMock } from '../tests/utils'
 
 import { setRefreshCookie, removeRefreshCookie } from './cookies'
 

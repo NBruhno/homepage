@@ -1,0 +1,109 @@
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+}
+
+model GameUserData {
+  isFollowing Boolean  @default(false)
+  game        Game     @relation(fields: [gameId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  gameId      Int
+  owner       User     @relation(fields: [ownerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  ownerId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@id([gameId, ownerId], name: "id")
+  @@index(fields: [isFollowing, gameId, ownerId])
+}
+
+model Game {
+  id                 Int            @id @unique
+  name               String
+  category           GameCategory?
+  cover              String?
+  developers         Json?
+  dlcs               Json?
+  engines            Json?
+  franchises         Json?
+  genres             Json?
+  hype               Int?           @default(0)
+  modes              Json?
+  multiplayerModes   Json?
+  parentId           Int?
+  platforms          Json?
+  playerPerspectives Json?
+  porters            Json?
+  publishers         Json?
+  rating             Int?
+  ratingCount        Int?
+  releaseDate        DateTime?
+  releaseDates       Json?
+  screenshot         String?
+  similarGames       Json?
+  status             GameStatus?
+  storyline          String?        @db.Text
+  summary            String?        @db.Text
+  supporters         Json?
+  themes             Json?
+  userData           GameUserData[]
+  videos             Json?
+  websites           Json?
+  createdAt          DateTime?      @default(now())
+  lastChecked        DateTime?      @default(now())
+  updatedAt          DateTime?      @updatedAt
+
+  @@index(fields: [name])
+  @@index(fields: [releaseDate])
+  @@index(fields: [releaseDate, hype])
+}
+
+enum GameStatus {
+  Released
+  Alpha
+  Beta
+  EarlyAccess
+  Offline
+  Cancelled
+  Rumored
+  Delisted
+}
+
+enum GameCategory {
+  MainGame
+  DLCAddon
+  Expansion
+  Bundle
+  StandaloneExpansion
+  Mod
+  Episode
+  Season
+  Remake
+  Remaster
+  ExpandedGame
+  Port
+  Fork
+}
+
+model User {
+  id              String         @id @unique @default(uuid())
+  email           String         @unique
+  gameUserData    GameUserData[]
+  passwordHash    String
+  role            UserRole       @default(User)
+  twoFactorSecret String?        @db.Char(64)
+  username        String         @unique
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+enum UserRole {
+  User
+  Admin
+}

@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-import { errors as faunaError } from 'faunadb'
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 import { StructError } from 'superstruct'
 
@@ -12,17 +11,16 @@ export const errorHandler = (error: unknown, _req: NextApiRequest, res: NextApiR
 	res.setHeader('Cache-Control', 'no-cache')
 	if (error instanceof ApiError) {
 		return res.status(error.statusCode).json({ message: error.message })
-	} else if (error instanceof StructError || error instanceof faunaError.BadRequest) {
+	} else if (error instanceof StructError) {
 		const badRequestError = ApiError.fromCode(400)
 		return res.status(badRequestError.statusCode).json({ message: error.message, error })
-	} else if (error instanceof faunaError.Unauthorized || error instanceof faunaError.PermissionDenied
-		|| error instanceof JsonWebTokenError || error instanceof TokenExpiredError) {
+	} else if (error instanceof JsonWebTokenError || error instanceof TokenExpiredError) {
 		const unauthorizedError = ApiError.fromCode(401)
 		return res.status(unauthorizedError.statusCode).json({ message: unauthorizedError.message })
-	} else if (error instanceof faunaError.NotFound) {
+	} else if (false) {
 		const notFoundError = ApiError.fromCode(404)
 		return res.status(notFoundError.statusCode).json({ message: notFoundError.message })
-	} else if (error instanceof faunaError.MethodNotAllowed) {
+	} else if (false) {
 		const invalidMethodError = ApiError.fromCode(405)
 		return res.status(invalidMethodError.statusCode).json({ message: invalidMethodError.message })
 	} else {

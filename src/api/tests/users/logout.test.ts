@@ -1,5 +1,6 @@
+import type { TestResponse } from '../utils'
+
 import supertest from 'supertest'
-import { testingCredentials, createTestServer } from 'test/utils'
 
 import handler from 'pages/api/users/[id]/logout'
 import login from 'pages/api/users/login'
@@ -8,17 +9,21 @@ import { decodeJwtToken } from 'lib/decodeJwtToken'
 
 import { ApiError } from 'api/errors'
 
+import { createCredentials, createTestServer } from '../utils'
+
 let accessToken = null as unknown as string
 let id = null as unknown as string
+const { email, defaultPassword } = createCredentials()
+
 describe('/api/users/{userId}/logout', () => {
 	beforeAll(async () => {
 		const server = createTestServer(login)
 		const res = await supertest(server)
 			.post('/api/users/login')
 			.send({
-				email: 'mail+test@bruhno.dev',
-				password: testingCredentials,
-			}) as unknown as Omit<Response, 'body'> & { body: { accessToken: string } }
+				email,
+				password: defaultPassword,
+			}) as unknown as TestResponse & { body: { accessToken: string } }
 
 		accessToken = res.body.accessToken
 		id = decodeJwtToken(res.body.accessToken).userId
@@ -45,7 +50,7 @@ describe('/api/users/{userId}/logout', () => {
 			.set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(200)
-		expect(res.body).toStrictEqual({ message: 'Your local session has been terminated but found no active server session' })
+		expect(res.body).toStrictEqual({ message: 'You have been logged out successfully' })
 		server.close()
 	})
 
@@ -57,7 +62,7 @@ describe('/api/users/{userId}/logout', () => {
 			.set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(200)
-		expect(res.body).toStrictEqual({ message: 'Your local session has been terminated but found no active server session' })
+		expect(res.body).toStrictEqual({ message: 'You have been logged out successfully' })
 		server.close()
 	})
 
@@ -77,7 +82,7 @@ describe('/api/users/{userId}/logout', () => {
 		const server = createTestServer(handler)
 		const res = await supertest(server)
 			.post(`/api/users/./changePassword`)
-			.set('authorization', `Bearer ${accessToken}`) as unknown as Omit<Response, 'body'> & { body: { message: string } }
+			.set('authorization', `Bearer ${accessToken}`) as unknown as TestResponse & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)

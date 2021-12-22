@@ -134,7 +134,7 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		engines: engines.length > 0 ? engines : undefined,
 		franchises: franchises.length > 0 ? franchises : undefined,
 		genres: genres.length > 0 ? genres : undefined,
-		hype: Math.round(((hype !== null) && (follows !== null)) ? hype + follows : (hype ?? follows ?? 0)),
+		hype: Math.round(((hype !== null && hype !== undefined) && (follows !== null && follows !== undefined)) ? hype + follows : (hype ?? follows ?? 0)),
 		modes: modes.length > 0 ? modes : undefined,
 		multiplayerModes: multiplayerModes.length > 0 ? mapMultiplayerMode(multiplayerModes) : undefined,
 		parentId: parentGame,
