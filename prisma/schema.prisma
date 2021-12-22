@@ -98,7 +98,7 @@ model User {
   passwordHash    String
   role            UserRole       @default(User)
   twoFactorSecret String?        @db.Char(64)
-  username        String         @unique
+  username        String
   createdAt       DateTime       @default(now())
   updatedAt       DateTime       @updatedAt
 }
