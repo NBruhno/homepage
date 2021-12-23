@@ -4,7 +4,7 @@ import { withSentry } from '@sentry/nextjs'
 import { verify, hash } from 'argon2'
 import { create, object, string } from 'superstruct'
 
-import { monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
+import { monitorAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 import { authenticate } from 'api/middleware'
@@ -20,7 +20,7 @@ const handler = apiHandler({
 		const { userId: requestUserId, role } = authenticate(req)
 		const { id } = create(req.query, object({ id: string() }))
 
-		const user = await monitorReturnAsync(() => prisma.user.findUnique({
+		const user = await monitorAsync(() => prisma.user.findUnique({
 			where: {
 				id,
 			},
@@ -37,11 +37,11 @@ const handler = apiHandler({
 		}))
 
 		if (!user) throw ApiError.fromCode(404)
-		if (!await monitorReturnAsync(async () => verify(user.passwordHash, currentPassword, argonDefaultOptions), 'argon2 - verify')) {
+		if (!await monitorAsync(async () => verify(user.passwordHash, currentPassword, argonDefaultOptions), 'argon2 - verify')) {
 			throw ApiError.fromCodeWithError(401, new Error('Invalid password'))
 		}
 
-		const passwordHash = await monitorReturnAsync(() => hash(newPassword, argonDefaultOptions), 'argon2 - hash()')
+		const passwordHash = await monitorAsync(() => hash(newPassword, argonDefaultOptions), 'argon2 - hash()')
 		await monitorAsync(() => prisma.user.update({
 			where: {
 				id,

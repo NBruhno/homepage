@@ -4,7 +4,7 @@ import { setUser, withSentry } from '@sentry/nextjs'
 import { verify } from 'argon2'
 import { object, create } from 'superstruct'
 
-import { monitorReturnAsync } from 'lib/sentryMonitor'
+import { monitorAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 import { setRefreshCookie } from 'api/middleware'
@@ -20,7 +20,7 @@ export const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCa
 	.post(async (req, res) => {
 		const { email: loginEmail, password } = create(req.body, Body)
 
-		const user = await monitorReturnAsync(() => prisma.user.findUnique({
+		const user = await monitorAsync(() => prisma.user.findUnique({
 			where: {
 				email: loginEmail,
 			},
@@ -37,7 +37,7 @@ export const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCa
 		if (!user) throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
 		const { id, email, role, passwordHash, twoFactorSecret, username } = user
 
-		if (!await monitorReturnAsync(async () => verify(passwordHash, password, argonDefaultOptions), 'argon2 - verify')) {
+		if (!await monitorAsync(async () => verify(passwordHash, password, argonDefaultOptions), 'argon2 - verify')) {
 			throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
 		}
 

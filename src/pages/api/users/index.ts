@@ -5,7 +5,7 @@ import { setUser, withSentry } from '@sentry/nextjs'
 import { hash } from 'argon2'
 import { object, string, create, size } from 'superstruct'
 
-import { monitorReturnAsync } from 'lib/sentryMonitor'
+import { monitorAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 import { setRefreshCookie } from 'api/middleware'
@@ -22,10 +22,10 @@ const Body = object({
 const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.post(async (req, res) => {
 		const { email, password, username } = create(req.body, Body)
-		const passwordHash = await monitorReturnAsync(() => hash(password, argonDefaultOptions), 'argon2 - hash()')
+		const passwordHash = await monitorAsync(() => hash(password, argonDefaultOptions), 'argon2 - hash()')
 
 		try {
-			const user = await monitorReturnAsync(() => prisma.user.create({
+			const user = await monitorAsync(() => prisma.user.create({
 				data: {
 					email,
 					username,

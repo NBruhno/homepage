@@ -1,6 +1,8 @@
 import { withSentry } from '@sentry/nextjs'
 import { create, object, string, coerce, number, boolean } from 'superstruct'
 
+import { monitorAsync } from 'lib/sentryMonitor'
+
 import { authenticate } from 'api/middleware'
 import { apiHandler, prisma } from 'api/utils'
 
@@ -17,12 +19,12 @@ const handler = apiHandler({
 		const { userId } = authenticate(req)
 		const { id } = create(req.query, Query)
 
-		const userData = await prisma.gameUserData.findFirst({
+		const userData = await monitorAsync(() => prisma.gameUserData.findFirst({
 			where: {
 				gameId: id,
 				ownerId: userId,
 			},
-		})
+		}), 'prisma - findFirst()')
 
 		return res.status(200).json({ isFollowing: Boolean(userData?.isFollowing) })
 	})
@@ -31,7 +33,7 @@ const handler = apiHandler({
 		const { id } = create(req.query, Query)
 		const { isFollowing } = create(req.body, object({ isFollowing: boolean() }))
 
-		const userData = await prisma.gameUserData.upsert({
+		const userData = await monitorAsync(() => prisma.gameUserData.upsert({
 			where: {
 				id: {
 					gameId: id,
@@ -46,7 +48,7 @@ const handler = apiHandler({
 			update: {
 				isFollowing,
 			},
-		})
+		}), 'prisma - upsert()')
 
 		return res.status(200).json({ message: `Successfully ${userData.isFollowing ? 'follow' : 'unfollow'}ed the game` })
 	})

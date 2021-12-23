@@ -8,8 +8,6 @@ type Props = {
 }
 
 export const withTracking = ({ name }: Props) => (req: NextApiRequest, _res: NextApiResponse, next: NextHandler) => {
-	if (name) {
-		updateTransaction({ name: name(req) })
-	}
+	if (name) updateTransaction({ name: name(req) })
 	next()
 }

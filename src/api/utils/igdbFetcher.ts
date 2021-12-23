@@ -6,7 +6,7 @@ import { config } from 'config.server'
 
 import { delay } from 'lib/delay'
 import { logger } from 'lib/logger'
-import { monitorReturnAsync } from 'lib/sentryMonitor'
+import { monitorAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 
@@ -47,7 +47,7 @@ export const igdbFetcher = async <T extends boolean>(url: string, res: NextApiRe
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (config.igdb.token === undefined || config.igdb.clientId === undefined) throw new Error('igdbFetcher(): Both IGDB Token and Client ID needs to be set')
 
-	const data = await monitorReturnAsync(() => retry(() => fetch(`https://api.igdb.com/v4${url}`, {
+	const data = await monitorAsync(() => retry(() => fetch(`https://api.igdb.com/v4${url}`, {
 		method: 'POST',
 		body,
 		headers: new Headers({
