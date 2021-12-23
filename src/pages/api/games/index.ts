@@ -53,9 +53,9 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 
 			setCache({ strategy: 'NoCache', res })
 			return res.status(200).json({
-				games: hasSkip ? games.slice(1, take) : games,
-				take: computedTake,
-				skip: computedSkip,
+				games: hasSkip ? games.slice(1, take + 1) : games,
+				take,
+				skip,
 				before: hasSkip ? games[0] : null,
 				after: getHasAfter(games.length, take, hasSkip) ? games.pop() : null,
 			})
@@ -93,7 +93,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		setCache({ strategy: 'StaleWhileRevalidate', duration: 60, res })
 
 		return res.status(200).json({
-			games: hasSkip ? games.slice(1, take) : games,
+			games: hasSkip ? games.slice(1, take + 1) : games,
 			skip,
 			take,
 			before: hasSkip ? games[0] : null,
