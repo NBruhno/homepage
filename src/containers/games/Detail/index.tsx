@@ -118,10 +118,10 @@ export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow, isLoad
 				)}
 				{game?.genres && game.genres.length > 0 && <p>Genres: {game.genres.map(({ name }) => name).join(', ')}</p>}
 				{game?.themes && game.themes.length > 0 && <p>Themes: {game.themes.map(({ name }) => name).join(', ')}</p>}
-				{game?.platforms && game.platforms.length > 0 ? <p>Platforms: {game.platforms.map(({ name }) => name).join(', ')}</p> : <p>No known platforms</p>}
+				{game?.platforms && (game.platforms.length > 0 ? <p>Platforms: {game.platforms.map(({ name }) => name).join(', ')}</p> : <p>No known platforms</p>)}
 				{game?.summary && <h2>Summary</h2>}
 				{game?.summary && <p>{game.summary}</p>}
-				{groupedReleaseDates && groupedReleaseDates.length > 0 && <h2>Later release dates:</h2>}
+				{groupedReleaseDates && groupedReleaseDates.length > 0 && <h2>Other release dates:</h2>}
 				{groupedReleaseDates?.map(({ date, platforms }, index) => (
 					<div key={index}>
 						<p>{dateOrYear(date)}: {platforms.join(', ')}</p>
