@@ -53,7 +53,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 
 			setCache({ strategy: 'NoCache', res })
 			return res.status(200).json({
-				games,
+				games: hasSkip ? games.slice(1, take) : games,
 				skip,
 				take,
 				before: hasSkip ? games[0] : null,
