@@ -4,10 +4,10 @@ import { adjustHsl } from 'lib/adjustHsl'
 
 import { ButtonAsync } from './Async'
 
-type Props = {
+type Props = AsyncProps & {
 	backgroundColor?: keyof Theme['color'],
 	color?: keyof Theme['color'],
-} & AsyncProps
+}
 
 export const Solid = ({ color, backgroundColor, ...rest }: Props) => (
 	<ButtonAsync

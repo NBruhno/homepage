@@ -1,9 +1,8 @@
 require('dotenv').config()
 
-const TEST_REGEX = '(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|js?|tsx?|ts?)$'
+const TEST_REGEX = '(/__tests__/.*|(\\.|/)(test|spec))\\.(ts?|js?)$'
 
 module.exports = {
-	setupFiles: ['<rootDir>/jest.setup.js'],
 	testRegex: TEST_REGEX,
 	transform: {
 		'^.+\\.[tj]sx?$': 'babel-jest',
@@ -16,7 +15,7 @@ module.exports = {
 	},
 	testEnvironment: 'jsdom',
 	testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/public/'],
-	moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
+	moduleFileExtensions: ['ts', 'js'],
 	moduleDirectories: ['node_modules', 'src'],
 	collectCoverage: false,
 }

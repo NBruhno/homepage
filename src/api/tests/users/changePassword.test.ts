@@ -1,35 +1,90 @@
+import type { TestResponse } from '../utils'
+
 import { randomBytes } from 'crypto'
 
 import supertest from 'supertest'
-import { testingToken, testingUserId, createTestServer } from 'test/utils'
 
+import users from 'pages/api/users'
+import user from 'pages/api/users/[id]'
 import handler from 'pages/api/users/[id]/changePassword'
+
+import { decodeJwtToken } from 'lib/decodeJwtToken'
 
 import { ApiError } from 'api/errors'
 
+import { createCredentials, createTestServer } from '../utils'
+
+const { email, password, defaultPassword, username, accessCode } = createCredentials({ label: 'change-password', shouldPrefixEmail: true })
+let accessToken = null as unknown as string
+let id = null as unknown as string
+
 describe('/api/users/{userId}/changePassword', () => {
+	beforeAll(async () => {
+		const usersServer = createTestServer(users)
+		const res = await supertest(usersServer)
+			.post('/api/users')
+			.send({
+				email,
+				username,
+				password: defaultPassword,
+				accessCode,
+			}) as unknown as TestResponse & { body: { accessToken: string } }
+
+		if (res.status !== 200) {
+			const deleteServer = createTestServer(user, { id })
+			await supertest(deleteServer)
+				.delete(`/api/users/${id}`)
+				.set('authorization', `Bearer ${accessToken}`)
+			deleteServer.close()
+
+			const res = await supertest(usersServer)
+				.post('/api/users')
+				.send({
+					email,
+					username,
+					password: defaultPassword,
+					accessCode,
+				}) as unknown as TestResponse & { body: { accessToken: string } }
+			accessToken = res.body.accessToken
+			id = decodeJwtToken(res.body.accessToken).userId
+		} else {
+			accessToken = res.body.accessToken
+			id = decodeJwtToken(res.body.accessToken).userId
+		}
+		usersServer.close()
+	})
+
+	afterAll(async () => {
+		const deleteServer = createTestServer(user, { id })
+		await supertest(deleteServer)
+			.delete(`/api/users/${id}`)
+			.set('authorization', `Bearer ${accessToken}`)
+		deleteServer.close()
+	})
+
 	test('POST › Change password', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.post(`/api/users/${testingUserId}/changePassword`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.post(`/api/users/${id}/changePassword`)
+			.set('authorization', `Bearer ${accessToken}`)
 			.send({
-				newPassword: randomBytes(20).toString('hex'),
+				currentPassword: defaultPassword,
+				newPassword: password,
 			})
 
 		expect(res.status).toBe(200)
-		expect(res.body).toStrictEqual({ message: 'Your password has been updated' })
+		expect(res.body).toStrictEqual({ message: 'Password has been updated' })
 		server.close()
 	})
 
 	test('POST › Not authenticated', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.post(`/api/users/${testingUserId}/changePassword`)
+			.post(`/api/users/${id}/changePassword`)
 			.send({
-				newPassword: randomBytes(20).toString('hex'),
+				newPassword: password,
 			})
 
 		expect(res.status).toBe(401)
@@ -39,13 +94,14 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid password (short)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.post(`/api/users/${testingUserId}/changePassword`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.post(`/api/users/${id}/changePassword`)
+			.set('authorization', `Bearer ${accessToken}`)
 			.send({
+				currentPassword: password,
 				newPassword: randomBytes(6).toString('hex'),
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: newPassword/)
@@ -54,13 +110,14 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid password (long)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.post(`/api/users/${testingUserId}/changePassword`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.post(`/api/users/${id}/changePassword`)
+			.set('authorization', `Bearer ${accessToken}`)
 			.send({
+				currentPassword: password,
 				newPassword: randomBytes(80).toString('hex'),
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: newPassword/)
@@ -72,10 +129,11 @@ describe('/api/users/{userId}/changePassword', () => {
 		const server = createTestServer(handler)
 		const res = await supertest(server)
 			.post(`/api/users/./changePassword`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.set('authorization', `Bearer ${accessToken}`)
 			.send({
+				currentPassword: password,
 				newPassword: randomBytes(20).toString('hex'),
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)
@@ -84,10 +142,10 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid body (empty)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.post(`/api/users/${testingUserId}/changePassword`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.post(`/api/users/${id}/changePassword`)
+			.set('authorization', `Bearer ${accessToken}`) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)
@@ -96,14 +154,15 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid body (extra)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.post(`/api/users/${testingUserId}/changePassword`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.post(`/api/users/${id}/changePassword`)
+			.set('authorization', `Bearer ${accessToken}`)
 			.send({
+				currentPassword: password,
 				newPassword: randomBytes(20).toString('hex'),
 				extra: 'this.should.error.out',
-			})
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/At path: extra/)
@@ -112,24 +171,27 @@ describe('/api/users/{userId}/changePassword', () => {
 
 	test('POST › Invalid body (missing)', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.post(`/api/users/${testingUserId}/changePassword`)
-			.set('authorization', `Bearer ${testingToken}`)
-			.send({})
+			.post(`/api/users/${id}/changePassword`)
+			.set('authorization', `Bearer ${accessToken}`)
+			.send({
+				newPassword: randomBytes(20).toString('hex'),
+			}) as unknown as Omit<Response, 'body'> & { body: { message: string } }
 
 		expect(res.status).toBe(400)
-		expect(res.body.message).toMatch(/At path: newPassword/)
+		expect(res.body.message).toMatch(/At path: currentPassword/)
 		server.close()
 	})
 
 	test('Invalid method', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: testingUserId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.get(`/api/users/${testingUserId}/changePassword`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.get(`/api/users/${id}/changePassword`)
+			.set('authorization', `Bearer ${accessToken}`)
 			.send({
+				currentPassword: password,
 				newPassword: randomBytes(20).toString('hex'),
 			})
 

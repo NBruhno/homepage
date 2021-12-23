@@ -17,14 +17,15 @@ export const useSearchGames = () => {
 	const router = useRouter()
 	const [{ games: gamesSearch, ...formState }, setFormState] = useGlobalState('forms')
 	const [{ hasSearch }, setGameState] = useGlobalState('searchGames')
-	const { data } = useSWR<{ games: Array<Game> }>(gamesSearch?.search
-		? ['/games?search=', toLower(gamesSearch?.search)]
-		: null, (link, searchParameter) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
+
+	const { data } = useSWR<{ games: Array<Game> }>(gamesSearch?.search && typeof gamesSearch.search === 'string'
+		? ['/games?search=', encodeURIComponent(toLower(gamesSearch.search))]
+		: null, (link: string, searchParameter: string) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
 
 	// Every time we update the search form, we also want to update the URL to match the search query for easy sharing
 	useEffect(() => {
 		if (router.query.title !== gamesSearch?.search) {
-			router.push(`/games/search${gamesSearch?.search ? `?title=${gamesSearch.search}` : ''}`, undefined, { shallow: true })
+			router.push(`/games/search${gamesSearch?.search ? `?title=${encodeURIComponent(gamesSearch.search)}` : ''}`, undefined, { shallow: true })
 		}
 	}, [gamesSearch?.search])
 
@@ -32,7 +33,7 @@ export const useSearchGames = () => {
 	// state with the search
 	useEffect(() => {
 		if (router.query.title && !hasSearch) {
-			setFormState({ ...formState, games: { search: router.query.title } })
+			setFormState({ ...formState, games: { search: decodeURIComponent(router.query.title.toString()) } })
 			setHasSearch(true)
 		}
 	}, [router.query])
@@ -40,10 +41,8 @@ export const useSearchGames = () => {
 	/**
 	 * Indicates wether or not the user has searched for anything
 	 */
-	const setHasSearch = (search: boolean) => {
-		if (hasSearch !== search) {
-			setGameState({ hasSearch: search })
-		}
+	const setHasSearch = (hasSearchResponse: boolean) => {
+		if (hasSearch !== hasSearchResponse) setGameState({ hasSearch: hasSearchResponse })
 	}
 
 	return { games: data?.games, gamesSearch, hasSearch, setHasSearch }

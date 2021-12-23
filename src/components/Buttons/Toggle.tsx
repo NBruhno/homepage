@@ -4,15 +4,15 @@ import { adjustHsl } from 'lib/adjustHsl'
 
 import { ButtonAsync } from './Async'
 
-type Props = {
-	active?: boolean,
-} & AsyncProps
+type Props = AsyncProps & {
+	isActive?: boolean,
+}
 
-export const Toggle = ({ active, ...rest }: Props) => (
+export const Toggle = ({ isActive, ...rest }: Props) => (
 	<ButtonAsync
 		css={(theme) => ({
-			backgroundColor: active ? adjustHsl(theme.color.primary, { alpha: 0.4 }) : 'transparent',
-			color: active ? theme.color.textInverted : theme.color.text,
+			backgroundColor: isActive ? adjustHsl(theme.color.primary, { alpha: 0.4 }) : 'transparent',
+			color: isActive ? theme.color.textInverted : theme.color.text,
 			borderRadius: '4px',
 			border: `1px solid ${theme.color.text}`,
 			padding: '5px',

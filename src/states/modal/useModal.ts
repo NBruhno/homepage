@@ -5,26 +5,26 @@ import { useGlobalState } from 'states/global'
 export type Modal = {
 	allowClosure?: boolean,
 	modalContent: ReactNode,
-	noWrapper?: boolean,
+	hasNoWrapper?: boolean,
 	showModal: boolean,
 	onClose?: (() => void) | null,
 }
 
 type Options = {
 	allowClosure?: boolean,
-	noWrapper?: boolean,
+	hasNoWrapper?: boolean,
 	onClose?: (() => void) | null,
 }
 
 export const useModal = () => {
 	const [modal, setModal] = useGlobalState('modal')
-	const openModal = (content: ReactNode, { allowClosure = true, onClose = null, noWrapper = false }: Options = {}) => {
-		setModal({ allowClosure, showModal: true, modalContent: content, onClose, noWrapper })
+	const openModal = (content: ReactNode, { allowClosure = true, onClose = null, hasNoWrapper = false }: Options = {}) => {
+		setModal({ allowClosure, showModal: true, modalContent: content, onClose, hasNoWrapper })
 	}
 
 	const closeModal = () => {
 		if (modal.modalContent) {
-			setModal({ allowClosure: true, showModal: false, modalContent: null, onClose: null, noWrapper: false })
+			setModal({ allowClosure: true, showModal: false, modalContent: null, onClose: null, hasNoWrapper: false })
 		}
 	}
 

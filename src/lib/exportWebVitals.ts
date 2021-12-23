@@ -5,7 +5,7 @@ export type Metric = {
 	name: string,
 	startTime: number,
 	value: number,
-	label: 'web-vital' | 'custom',
+	label: 'custom' | 'web-vital',
 }
 
 export const reportWebVitals = (metric: Metric) => {

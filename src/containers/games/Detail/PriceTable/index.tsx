@@ -29,15 +29,15 @@ export const PriceTable = ({ prices, isLoading }: Props) => {
 
 	return (
 		<>
-			{prices?.length > 0 ? (
+			{prices.length > 0 ? (
 				<Container>
 					{sortedPrices.slice(0, 1).map(({ name, current, currency, url }, index) => (
-						<Item href={url} first key={`1-${index}`}>
+						<Item href={url} isFirst key={`1-${index}`}>
 							<h2 css={{ margin: 0 }}>{name}</h2>
 							<span>{priceWithCurrency(current, currency)}</span>
 						</Item>
 					))}
-					{prices?.length > 1 ? (
+					{prices.length > 1 ? (
 						<>
 							<Collapse isOpen={isExpanded} transitionTime={0.2}>
 								{sortedPrices.slice(1).map(({ name, current, currency, url }, index) => (

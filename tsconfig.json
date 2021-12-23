@@ -1,11 +1,12 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "allowJs": false,
+    "allowJs": true,
+    "checkJs": false,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "esModuleInterop": true,
-    "exactOptionalPropertyTypes": true,
+    "exactOptionalPropertyTypes": false,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
@@ -47,6 +48,7 @@
     "**/*.ts",
     "**/*.tsx",
     "emotion.d.ts",
+    "global.d.ts",
     "next-env.d.ts"
-  ]
+  ],
 }

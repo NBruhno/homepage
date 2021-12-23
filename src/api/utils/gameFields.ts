@@ -1,22 +1,40 @@
 const root = [
-	'aggregated_rating_count', 'aggregated_rating', 'first_release_date',
-	'id', 'name', 'storyline', 'summary', 'status', 'updated_at', 'hypes', 'follows',
+	'aggregated_rating_count', 'aggregated_rating', 'first_release_date', 'category', 'multiplayer_modes.*',
+	'id', 'name', 'storyline', 'summary', 'status', 'updated_at', 'hypes', 'follows', 'parent_game',
 ]
-const companies = [
-	'involved_companies.company.description', 'involved_companies.company.logo.alpha_channel', 'involved_companies.company.logo.image_id',
-	'involved_companies.company.name', 'involved_companies.company.slug', 'involved_companies.company.websites.category',
-	'involved_companies.company.websites.trusted', 'involved_companies.company.websites.url', 'involved_companies.developer',
-	'involved_companies.porting', 'involved_companies.publisher', 'involved_companies.supporting',
-]
-const releaseDates = [
-	'release_dates.date', 'release_dates.platform.abbreviation', 'release_dates.platform.name',
-	'release_dates.platform.platform_logo.alpha_channel', 'release_dates.platform.platform_logo.image_id',
-]
+const companies = ['involved_companies.company.name', 'involved_companies.developer', 'involved_companies.porting', 'involved_companies.publisher', 'involved_companies.supporting']
 const cover = ['cover.alpha_channel', 'cover.animated', 'cover.image_id']
+const dlcs = ['dlcs.name', 'dlcs.cover.alpha_channel', 'dlcs.cover.animated', 'dlcs.cover.image_id']
+const engines = ['game_engines.name']
+const franchises = ['franchises.name']
+const gameModes = ['game_modes.name']
 const genres = ['genres.name']
-const platforms = ['platforms.abbreviation', 'platforms.name', 'platforms.platform_logo.image_id']
-const engines = ['game_engines.description', 'game_engines.logo.alpha_channel', 'game_engines.logo.image_id', 'game_engines.name']
-const websites = ['websites.category', 'websites.trusted', 'websites.url']
+const multiplayerModes = ['multiplayer_modes.campaigncoop', 'multiplayer_modes.dropin', 'multiplayer_modes.lancoop', 'multiplayer_modes.offlinecoop', 'multiplayer_modes.offlinecoopmax', 'multiplayer_modes.offlinemax', 'multiplayer_modes.onlinecoop', 'multiplayer_modes.onlinecoopmax', 'multiplayer_modes.onlinemax', 'multiplayer_modes.splitscreen', 'multiplayer_modes.splitscreenonline', 'multiplayer_modes.platform.abbreviation', 'multiplayer_modes.platform.name']
+const platforms = ['platforms.abbreviation', 'platforms.name']
+const playerPerspectives = ['player_perspectives.name']
+const releaseDates = ['release_dates.date', 'release_dates.platform.abbreviation', 'release_dates.platform.name']
 const screenshots = ['screenshots.alpha_channel', 'screenshots.image_id', 'screenshots.width']
+const similarGames = ['similar_games.name', 'similar_games.cover.alpha_channel', 'similar_games.cover.animated', 'similar_games.cover.image_id']
+const themes = ['themes.name']
+const videos = ['videos.video_id', 'videos.name']
+const websites = ['websites.category', 'websites.trusted', 'websites.url']
 
-export const gameFields = `fields ${[...root, ...cover, ...screenshots, ...companies, ...releaseDates, ...genres, ...platforms, ...engines, ...websites].join(', ')}`
+export const gameFields = `fields ${[
+	...root,
+	...companies,
+	...cover,
+	...dlcs,
+	...engines,
+	...franchises,
+	...gameModes,
+	...genres,
+	...multiplayerModes,
+	...platforms,
+	...playerPerspectives,
+	...releaseDates,
+	...screenshots,
+	...similarGames,
+	...themes,
+	...videos,
+	...websites,
+].join(', ')}`

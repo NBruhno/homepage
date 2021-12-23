@@ -1,37 +1,65 @@
 import supertest from 'supertest'
-import { testingToken, createTestServer } from 'test/utils'
 
 import handler from 'pages/api/games/[id]/follows'
+import login from 'pages/api/users/login'
 
 import { ApiError } from 'api/errors'
 
+import { createCredentials, createTestServer } from '../utils'
+
+const { email, defaultPassword } = createCredentials()
+
+let accessToken = null as unknown as string
+
 describe('/api/games/{id}/follows', () => {
 	beforeAll(async () => {
-		const id = 54842
-		const server = createTestServer(handler, { id })
-		await supertest(server)
-			.post(`/api/games/${id}/follows`)
-			.set('authorization', `Bearer ${testingToken}`)
-		server.close()
-	})
+		const loginServer = createTestServer(login)
+		const loginRes = await supertest(loginServer)
+			.post('/api/users/login')
+			.send({
+				email,
+				password: defaultPassword,
+			}) as unknown as Omit<Response, 'body'> & { body: { accessToken: string } }
 
-	beforeAll(async () => {
-		const id = 1877
-		const server = createTestServer(handler, { id })
-		await supertest(server)
-			.patch(`/api/games/${id}/follows`)
-			.set('authorization', `Bearer ${testingToken}`)
-			.catch()
-		server.close()
-	})
+		accessToken = loginRes.body.accessToken
+		loginServer.close()
 
-	beforeAll(async () => {
-		const id = 101440
-		const server = createTestServer(handler, { id })
-		await supertest(server)
-			.post(`/api/games/${id}/follows`)
-			.set('authorization', `Bearer ${testingToken}`)
-		server.close()
+		await Promise.all([
+			async () => {
+				const id = 54842
+				const server = createTestServer(handler, { id })
+				await supertest(server)
+					.post(`/api/games/${id}/follows`)
+					.set('authorization', `Bearer ${accessToken}`)
+					.send({
+						isFollowing: true,
+					})
+				server.close()
+			},
+			async () => {
+				const id = 1877
+				const server = createTestServer(handler, { id })
+				await supertest(server)
+					.post(`/api/games/${id}/follows`)
+					.set('authorization', `Bearer ${accessToken}`)
+					.send({
+						isFollowing: false,
+					})
+					.catch()
+				server.close()
+			},
+			async () => {
+				const id = 101440
+				const server = createTestServer(handler, { id })
+				await supertest(server)
+					.post(`/api/games/${id}/follows`)
+					.set('authorization', `Bearer ${accessToken}`)
+					.send({
+						isFollowing: true,
+					})
+				server.close()
+			},
+		])
 	})
 
 	test('POST › Follow game', async () => {
@@ -39,7 +67,10 @@ describe('/api/games/{id}/follows', () => {
 		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
 			.post(`/api/games/${id}/follows`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.set('authorization', `Bearer ${accessToken}`)
+			.send({
+				isFollowing: true,
+			})
 
 		expect(res.status).toBe(200)
 		expect(res.body).toStrictEqual({ message: 'Successfully followed the game' })
@@ -51,10 +82,43 @@ describe('/api/games/{id}/follows', () => {
 		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
 			.post(`/api/games/${id}/follows`)
-			.set('authorization', `Bearer ${testingToken}`)
+			.set('authorization', `Bearer ${accessToken}`)
+			.send({
+				isFollowing: true,
+			})
 
 		expect(res.status).toBe(200)
 		expect(res.body).toStrictEqual({ message: 'Successfully followed the game' })
+		server.close()
+	})
+
+	test('POST › Unfollow game', async () => {
+		const id = 101440
+		const server = createTestServer(handler, { id })
+		const res = await supertest(server)
+			.post(`/api/games/${id}/follows`)
+			.set('authorization', `Bearer ${accessToken}`)
+			.send({
+				isFollowing: false,
+			})
+
+		expect(res.status).toBe(200)
+		expect(res.body).toStrictEqual({ message: 'Successfully unfollowed the game' })
+		server.close()
+	})
+
+	test('POST › Unfollow game that is not followed', async () => {
+		const id = 76747
+		const server = createTestServer(handler, { id })
+		const res = await supertest(server)
+			.post(`/api/games/${id}/follows`)
+			.set('authorization', `Bearer ${accessToken}`)
+			.send({
+				isFollowing: false,
+			})
+
+		expect(res.status).toBe(200)
+		expect(res.body).toStrictEqual({ message: 'Successfully unfollowed the game' })
 		server.close()
 	})
 
@@ -63,41 +127,9 @@ describe('/api/games/{id}/follows', () => {
 		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
 			.post(`/api/games/${id}/follows`)
-
-		expect(res.status).toBe(401)
-		expect(res.body).toStrictEqual({ message: ApiError.fromCode(401).message })
-		server.close()
-	})
-
-	test('PATCH › Unfollow game', async () => {
-		const id = 101440
-		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.patch(`/api/games/${id}/follows`)
-			.set('authorization', `Bearer ${testingToken}`)
-
-		expect(res.status).toBe(200)
-		expect(res.body).toStrictEqual({ message: 'Successfully unfollowed the game' })
-		server.close()
-	})
-
-	test('PATCH › Unfollow game that is not followed', async () => {
-		const id = 76747
-		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.patch(`/api/games/${id}/follows`)
-			.set('authorization', `Bearer ${testingToken}`)
-
-		expect(res.status).toBe(404)
-		expect(res.body).toStrictEqual({ message: ApiError.fromCode(404).message })
-		server.close()
-	})
-
-	test('PATCH › Not authenticated', async () => {
-		const id = 101440
-		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.patch(`/api/games/${id}/follows`)
+			.send({
+				isFollowing: true,
+			})
 
 		expect(res.status).toBe(401)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(401).message })

@@ -1,11 +1,11 @@
 import type { ComponentProps } from 'react'
 
-type Props = {
+type Props = ComponentProps<'div'> & {
 	highlightedIndex: number,
 	selectedItem: any,
 	index: number,
 	value: any,
-} & ComponentProps<'div'>
+}
 
 export const MenuItem = ({ highlightedIndex, selectedItem, index, value, ...rest }: Props) => (
 	<div

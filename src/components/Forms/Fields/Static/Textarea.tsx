@@ -1,12 +1,12 @@
 import AutosizeTextarea from 'react-autosize-textarea'
 
 type Props = {
-	async: boolean,
-	disabled: boolean,
+	isAsync: boolean,
+	isDisabled: boolean,
 	id: string,
 	maxRows: number,
 	rows: number,
-	value: string | number,
+	value: number | string,
 }
 
 export const Textarea = (props: Props) => (

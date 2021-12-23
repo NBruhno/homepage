@@ -3,7 +3,6 @@
 require('dotenv').config()
 const fs = require('fs')
 
-const chalk = require('chalk')
 const format = require('date-fns/format')
 
 const { log } = console
@@ -72,4 +71,4 @@ fs.writeFileSync(`${outputLocation}/sitemap.xml`, `<?xml version="1.0" encoding=
 	${sitemapEntries.join('\n	')}
 </urlset>`)
 
-log(chalk.greenBright(`Created successfully (/${outputLocation}/sitemap.xml)`))
+log(`Created successfully (/${outputLocation}/sitemap.xml)`)

@@ -9,12 +9,12 @@ export enum Location {
 	Left = 'left',
 }
 
-type Props = {
+type Props = ComponentProps<'div'> & {
 	children: ReactNode,
 	location?: Location,
 	show?: boolean,
 	tip: ReactNode,
-} & ComponentProps<'div'>
+}
 
 export const Tooltip = ({ tip, show = true, location = Location.Top, children, ...rest }: Props) => {
 	const getLeft = () => {

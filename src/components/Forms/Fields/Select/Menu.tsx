@@ -2,9 +2,9 @@ import type { ComponentProps, LegacyRef } from 'react'
 
 import { forwardRef } from 'react'
 
-type Props = {
+type Props = ComponentProps<'div'> & {
 	isOpen: boolean,
-} & ComponentProps<'div'>
+}
 
 const Component =({ isOpen, ...rest }: Props, ref: LegacyRef<HTMLDivElement>) => (
 	<div

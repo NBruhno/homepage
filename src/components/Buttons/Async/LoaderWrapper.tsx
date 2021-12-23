@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react'
 
-type Props = {
+type Props = ComponentProps<'div'> & {
 	isVisible: boolean,
-} & ComponentProps<'div'>
+}
 
 export const LoaderWrapper = ({ isVisible, ...rest }: Props) => (
 	<div

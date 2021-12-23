@@ -1,8 +1,11 @@
 import { startTransaction } from '@sentry/nextjs'
+import { pickBy } from 'lodash'
+
+import { logger } from './logger'
 
 export enum ContentType {
 	Text = 'text/plain',
-	JSON = 'application/json',
+	Json = 'application/json',
 }
 
 export enum Method {
@@ -39,8 +42,8 @@ export type Options = {
  * ```
  */
 export const fetcher = async <ReturnType>(
-	url: RequestInfo, {
-		accessToken, body, method = Method.Get, contentType = ContentType.JSON, absoluteUrl,
+	url: string, {
+		accessToken, body, method = Method.Get, contentType = ContentType.Json, absoluteUrl,
 		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
 	}: Options = {}): Promise<ReturnType> => {
 	const transaction = startTransaction({
@@ -53,15 +56,14 @@ export const fetcher = async <ReturnType>(
 		},
 	})
 
-	// Create headers object and remove undefined variables to exclude them from call
-	const headers = ({
+	// Create headers object and remove falsy variables to exclude them from call
+	const headers = pickBy({
 		'Content-Type': contentType,
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
 		'sentry-trace': transaction.traceId,
 		...customHeaders,
-	}) as Record<string, string>
-	Object.keys(headers).forEach((key) => headers[key] === undefined && delete headers[key])
+	}, (value) => value !== undefined) as Record<string, string>
 
 	return fetch(`${absoluteUrl ?? ''}/api${url}`, {
 		method,
@@ -69,17 +71,16 @@ export const fetcher = async <ReturnType>(
 		headers,
 		credentials,
 		mode,
-	}).then((response) => {
+	}).then(async (response) => {
 		try {
 			const responseContentType = response.headers.get('content-type')
+			const payload = responseContentType === ContentType.Text ? await response.text() : await response.json() as ReturnType
 			if (response.status >= 400) {
+				logger.error(payload)
 				throw new Error(response.statusText)
 			}
-			if (responseContentType === ContentType.Text) {
-				return response.text()
-			}
 
-			return response.json()
+			return payload as ReturnType
 		} finally {
 			transaction.setHttpStatus(response.status)
 			transaction.finish()

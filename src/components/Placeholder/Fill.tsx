@@ -1,5 +1,5 @@
 type Props = {
-	width: string | number,
+	width: number | string,
 }
 
 export const Fill = ({ width }: Props) => (

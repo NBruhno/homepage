@@ -4,11 +4,11 @@ import { adjustHsl } from 'lib/adjustHsl'
 
 import { ButtonAsync } from './Async'
 
-type Props = {
-	slim?: boolean,
-} & AsyncProps
+type Props = AsyncProps & {
+	isSlim?: boolean,
+}
 
-export const Text = ({ slim, ...rest }: Props) => (
+export const Text = ({ isSlim, ...rest }: Props) => (
 	<ButtonAsync
 		css={(theme) => ({
 			backgroundColor: 'transparent',
@@ -17,8 +17,8 @@ export const Text = ({ slim, ...rest }: Props) => (
 			padding: '6px 12px',
 			margin: '4px 0',
 			minWidth: '0px',
-			height: slim ? '35px' : 'unset',
-			fontSize: slim ? theme.font.size.s90 : theme.font.size.s100,
+			height: isSlim ? '35px' : 'unset',
+			fontSize: isSlim ? theme.font.size.s90 : theme.font.size.s100,
 
 			'&:disabled': {
 				color: adjustHsl(theme.color.white, { alpha: 0.3 }),

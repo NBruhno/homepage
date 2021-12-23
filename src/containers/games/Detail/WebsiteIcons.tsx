@@ -12,10 +12,10 @@ export enum SortBy {
 	Stores = 'stores',
 }
 
-type Props = {
+type Props = ComponentProps<'div'> & {
 	websites: Array<GameWebsite> | null,
 	sortBy?: SortBy,
-} & ComponentProps<'div'>
+}
 
 export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 	const websiteInformation = {

@@ -3,7 +3,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 })
 const { withSentryConfig } = require('@sentry/nextjs')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-const withPWA = require('next-pwa')
+const withPwa = require('next-pwa')
 
 const basePath = ''
 
@@ -34,7 +34,6 @@ const nextConfig = {
 		esmExternals: true,
 	},
 
-	target: 'experimental-serverless-trace',
 	devIndicators: {
 		autoPrerender: false,
 	},
@@ -84,5 +83,5 @@ const nextConfig = {
 	basePath,
 }
 
-module.exports = withBundleAnalyzer(withPWA(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
-// module.exports = withBundleAnalyzer(withPWA(nextConfig, SentryWebpackPluginOptions))
+module.exports = withBundleAnalyzer(withPwa(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
+// module.exports = withBundleAnalyzer(withPwa(nextConfig))

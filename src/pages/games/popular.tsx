@@ -12,8 +12,7 @@ import { Page, PageContent } from 'components/Layout'
 import { Tooltip } from 'components/Tooltip'
 
 const Games: NextPage = () => {
-	const [{ afters, numberOfPages }, setState] = useGlobalState('popularGames')
-	const disablePagination = numberOfPages >= 4
+	const [{ skips, numberOfPages, take, isLimitReached }, setState] = useGlobalState('popularGames')
 
 	return (
 		<>
@@ -26,18 +25,23 @@ const Games: NextPage = () => {
 					{useMemo(() => {
 						const pagesToRender = []
 						for (let index = 0; index < numberOfPages; index++) {
-							pagesToRender.push(<PopularGames after={afters[index]} key={index} />)
+							pagesToRender.push(<PopularGames skip={skips[index]} key={index} />)
 						}
 						return pagesToRender
 					}, [numberOfPages])}
 					<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
-						<Tooltip tip="That's all the popular games" show={disablePagination}>
+						<Tooltip tip="That's all the popular games" show={isLimitReached}>
 							<ButtonBorder
 								label='Show more'
-								disabled={disablePagination}
+								disabled={isLimitReached}
 								onClick={() => {
-									if (!disablePagination) {
-										setState({ afters, numberOfPages: numberOfPages + 1 })
+									if (!isLimitReached) {
+										setState({
+											isLimitReached,
+											numberOfPages: numberOfPages + 1,
+											skips: [...skips, numberOfPages * take],
+											take,
+										})
 									}
 								}}
 							/>

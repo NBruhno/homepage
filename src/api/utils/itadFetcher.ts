@@ -12,7 +12,9 @@ type Options = {
 	version: number,
 }
 
-export const itadFetcher = async <T>(url: RequestInfo, { body = null, span, nickname, query, version }: Options): Promise<T> => {
+export const itadFetcher = async <T>(url: string, { body = null, span, nickname, query, version }: Options): Promise<T> => {
+	// We assume that the env variables are always available, but this is just an extra precaution
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (config.itad.apiKey === undefined) throw new Error('ITAD API key needs to be set')
 
 	const params = new URLSearchParams({
@@ -20,6 +22,7 @@ export const itadFetcher = async <T>(url: RequestInfo, { body = null, span, nick
 		...query,
 	})
 
+	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 	const data = await monitorReturnAsync(() => fetch(`https://api.isthereanydeal.com/v0${version}${url}?${params}`, {
 		method: 'GET',
 		body,
@@ -29,5 +32,5 @@ export const itadFetcher = async <T>(url: RequestInfo, { body = null, span, nick
 		}),
 	}), `itadFetcher()${nickname ? ` - ${nickname}` : ''}`, span)
 
-	return data.json()
+	return data.json() as unknown as T
 }

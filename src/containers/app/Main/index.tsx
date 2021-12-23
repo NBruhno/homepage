@@ -39,41 +39,41 @@ export const Main = ({ children }: ComponentProps<'main'>) => {
 	const { user } = useAuth()
 
 	// Internal state for handling the auth guard on routes
-	const [protectRoute, setProtectRoute] = useState(false)
-	const [roleProtectRoute, setRoleProtectRoute] = useState(false)
-	const show = (protectRoute || roleProtectRoute || showLogin) ?? false
+	const [isRouteProtected, setIsRouteProtected] = useState(false)
+	const [isRouteRoleProtected, setIsRouteRoleProtected] = useState(false)
+	const show = (isRouteProtected || isRouteRoleProtected || showLogin) || false
 
 	// Store media queries for use in our theme (useResponsive())
 	const isMobile = useMediaQuery(mediaQueries.maxMobile.replace('@media ', ''))
 	const isTablet = useMediaQuery(mediaQueries.mobileToTablet.replace('@media ', ''))
 	const isLaptop = useMediaQuery(mediaQueries.tabletToLaptop.replace('@media ', ''))
-	const collapsedSidebar = useMediaQuery(mediaQueries.maxLaptop.replace('@media ', ''))
+	const isSidebarCollapsed = useMediaQuery(mediaQueries.maxLaptop.replace('@media ', ''))
 
 	useEffect(() => {
 		closeModal()
 		if (user.isStateKnown) {
 			if (!user.accessToken && (protectedRoutes.includes(pathname) || roleProtectedRoutes.includes(pathname))) {
-				setProtectRoute(true)
+				setIsRouteProtected(true)
 			} else if (user.accessToken && roleProtectedRoutes.includes(pathname) && user.role !== 'owner') {
-				setRoleProtectRoute(true)
-			} else if (protectRoute) {
-				setProtectRoute(false)
-			} else if (roleProtectRoute) {
-				setRoleProtectRoute(false)
+				setIsRouteRoleProtected(true)
+			} else if (isRouteProtected) {
+				setIsRouteProtected(false)
+			} else if (isRouteRoleProtected) {
+				setIsRouteRoleProtected(false)
 			}
 
-			if (user.userId && user.displayName && user.email) { // We want to add an user to our transactions if available
-				setUser({ id: user.userId, username: user.displayName, email: user.email })
+			if (user.userId && user.username && user.email) { // We want to add an user to our transactions if available
+				setUser({ id: user.userId, username: user.username, email: user.email })
 			}
 		}
 	}, [pathname, user.isStateKnown, user.role])
 
 	useEffect(() => {
-		updateResponsive({ isMobile, isTablet, isLaptop, collapsedSidebar })
-	}, [isMobile, collapsedSidebar])
+		updateResponsive({ isMobile, isTablet, isLaptop, isSidebarCollapsed })
+	}, [isMobile, isSidebarCollapsed])
 
 	useEffect(() => {
-		if (protectRoute || roleProtectRoute || showLogin) {
+		if (isRouteProtected || isRouteRoleProtected || showLogin) {
 			openModal((
 				<>
 					{!user.accessToken ? (
@@ -87,9 +87,9 @@ export const Main = ({ children }: ComponentProps<'main'>) => {
 						</>
 					)}
 				</>
-			), { allowClosure: !protectRoute || !roleProtectRoute, onClose: () => updateResponsive({ showLogin: !showLogin }) })
+			), { allowClosure: !isRouteProtected || !isRouteRoleProtected, onClose: () => updateResponsive({ showLogin: !showLogin }) })
 		}
-	}, [protectRoute, roleProtectRoute, showLogin])
+	}, [isRouteProtected, isRouteRoleProtected, showLogin])
 
 	return (
 		<MainContent>

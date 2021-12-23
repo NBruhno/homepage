@@ -13,19 +13,19 @@ import { DesktopSidebar, MobileSidebar } from './Sidebar'
 import { Text } from './Text'
 
 export const Navigation = () => {
-	const { isMobile, collapsedSidebar, updateResponsive, showMenu } = useResponsive()
+	const { isMobile, isSidebarCollapsed, updateResponsive, showMenu } = useResponsive()
 	const closeMenuOnInteraction = () => { if (isMobile) updateResponsive({ showMenu: false }) }
 
 	return (
 		<>
-			<DesktopSidebar collapsed={collapsedSidebar}>
+			<DesktopSidebar isCollapsed={isSidebarCollapsed}>
 				<Link href='/' passHref>
 					<Header onClick={() => closeMenuOnInteraction()}>
-						<Logo css={(theme) => ({ width: '32px', height: '32px', margin: collapsedSidebar ? '0 8px 0 -1px' : '0 6px 0 42px', transition: `margin 300ms ${theme.animation.default}` })} />
+						<Logo css={(theme) => ({ width: '32px', height: '32px', margin: isSidebarCollapsed ? '0 8px 0 -1px' : '0 6px 0 42px', transition: `margin 300ms ${theme.animation.default}` })} />
 						<Text>Bruhno</Text>
 					</Header>
 				</Link>
-				<DefaultNavigation closeMenuOnInteraction={closeMenuOnInteraction} collapsedSidebar={collapsedSidebar} />
+				<DefaultNavigation closeMenuOnInteraction={closeMenuOnInteraction} isSidebarCollapsed={isSidebarCollapsed} />
 				<Content css={{ marginTop: 'auto' }}>
 					<ButtonTheme />
 					<ButtonToggle />
@@ -33,7 +33,7 @@ export const Navigation = () => {
 			</DesktopSidebar>
 
 			<MobileSidebar show={showMenu}>
-				<DefaultNavigation closeMenuOnInteraction={closeMenuOnInteraction} collapsedSidebar={false} />
+				<DefaultNavigation closeMenuOnInteraction={closeMenuOnInteraction} isSidebarCollapsed={false} />
 				<Content css={{ marginTop: 'auto' }}>
 					<ButtonTheme />
 				</Content>

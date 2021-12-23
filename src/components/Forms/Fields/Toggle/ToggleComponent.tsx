@@ -1,25 +1,25 @@
 import { adjustHsl } from 'lib/adjustHsl'
 
 type Props = {
-	checked?: boolean,
-	disabled?: boolean,
-	focus?: boolean | undefined,
+	isChecked?: boolean,
+	isDisabled?: boolean,
+	hasFocus?: boolean | undefined,
 }
 
-export const ToggleComponent = ({ checked, disabled, focus }: Props) => {
+export const ToggleComponent = ({ isChecked, isDisabled, hasFocus }: Props) => {
 	const backgroundColor = (theme: Theme) => {
-		if (disabled) {
-			return checked ? theme.color.primaryLight : adjustHsl(theme.color.gray, { light: '34%' })
+		if (isDisabled) {
+			return isChecked ? theme.color.primaryLight : adjustHsl(theme.color.gray, { light: '34%' })
 		} else {
-			return checked ? theme.color.primary : theme.color.gray
+			return isChecked ? theme.color.primary : theme.color.gray
 		}
 	}
 
 	const boxShadow = (theme: Theme) => {
-		if (checked) {
-			return focus ? `0 0 0 2px ${theme.color.primary}` : 'none'
+		if (isChecked) {
+			return hasFocus ? `0 0 0 2px ${theme.color.primary}` : 'none'
 		} else {
-			return focus ? `0 0 0 1px ${theme.color.gray}` : 'none'
+			return hasFocus ? `0 0 0 1px ${theme.color.gray}` : 'none'
 		}
 	}
 
@@ -35,7 +35,7 @@ export const ToggleComponent = ({ checked, disabled, focus }: Props) => {
 				outline: 0,
 				flexShrink: 0,
 				margin: 'auto',
-				cursor: disabled ? 'auto' : 'pointer',
+				cursor: isDisabled ? 'auto' : 'pointer',
 
 				transition: 'boxShadow 0.15s ease-in-out, background-color 0.15s ease-in-out',
 
@@ -46,10 +46,10 @@ export const ToggleComponent = ({ checked, disabled, focus }: Props) => {
 					width: '18px',
 					left: '2px',
 					bottom: '2px',
-					backgroundColor: disabled ? theme.color.grayLighter : theme.color.white,
+					backgroundColor: isDisabled ? theme.color.grayLighter : theme.color.white,
 					transition: 'transform 0.15s',
 					borderRadius: '50px',
-					transform: checked ? 'translateX(18px)' : 'translateX(0)',
+					transform: isChecked ? 'translateX(18px)' : 'translateX(0)',
 				},
 			})}
 		/>

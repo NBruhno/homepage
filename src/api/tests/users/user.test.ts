@@ -1,5 +1,6 @@
+import type { TestResponse } from '../utils'
+
 import supertest from 'supertest'
-import { testingCredentials, testingAccessCode, createTestServer } from 'test/utils'
 
 import users from 'pages/api/users'
 import handler from 'pages/api/users/[id]'
@@ -9,8 +10,11 @@ import { decodeJwtToken } from 'lib/decodeJwtToken'
 
 import { ApiError } from 'api/errors'
 
+import { createCredentials, createTestServer } from '../utils'
+
 let accessToken = null as unknown as string
-let userId = null as unknown as string
+let id = null as unknown as string
+const { email, username, accessCode, defaultPassword } = createCredentials({ label: 'delete' })
 
 describe('/api/users/{userId}', () => {
 	beforeAll(async () => {
@@ -18,45 +22,45 @@ describe('/api/users/{userId}', () => {
 		const res = await supertest(usersServer)
 			.post('/api/users')
 			.send({
-				email: 'mail+testdelete@bruhno.dev',
-				displayName: 'Test delete',
-				password: testingCredentials,
-				accessCode: testingAccessCode,
-			})
+				email,
+				username,
+				password: defaultPassword,
+				accessCode,
+			}) as unknown as TestResponse & { body: { accessToken: string } }
 
 		if (res.status !== 200) {
 			const loginServer = createTestServer(login)
 			const loginRes = await supertest(loginServer)
 				.post('/api/users/login')
 				.send({
-					email: 'mail+testdelete@bruhno.dev',
-					password: testingCredentials,
-				})
+					email,
+					password: defaultPassword,
+				}) as unknown as TestResponse & { body: { accessToken: string } }
 			accessToken = loginRes.body.accessToken
-			userId = decodeJwtToken(loginRes.body.accessToken).userId
+			id = decodeJwtToken(loginRes.body.accessToken).userId
 			loginServer.close()
 		} else {
 			accessToken = res.body.accessToken
-			userId = decodeJwtToken(res.body.accessToken).userId
+			id = decodeJwtToken(res.body.accessToken).userId
 		}
 		usersServer.close()
 	})
 
 	test('DELETE › Delete user', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.delete(`/api/users/${userId}`)
+			.delete(`/api/users/${id}`)
 			.set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(200)
-		expect(res.body).toStrictEqual({ message: 'Your user has been deleted' })
+		expect(res.body).toStrictEqual({ message: 'The user has been deleted' })
 		server.close()
 	})
 
 	test('DELETE › User does not exist', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId: 1234 })
+		const server = createTestServer(handler, { id: 1234 })
 		const res = await supertest(server)
 			.delete(`/api/users/${1234}`)
 
@@ -67,9 +71,9 @@ describe('/api/users/{userId}', () => {
 
 	test('DELETE › Not authenticated', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.delete(`/api/users/${userId}`)
+			.delete(`/api/users/${id}`)
 
 		expect(res.status).toBe(401)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(401).message })
@@ -78,9 +82,9 @@ describe('/api/users/{userId}', () => {
 
 	test('Invalid method', async () => {
 		expect.hasAssertions()
-		const server = createTestServer(handler, { userId })
+		const server = createTestServer(handler, { id })
 		const res = await supertest(server)
-			.trace(`/api/users/${userId}`)
+			.trace(`/api/users/${id}`)
 			.set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(405)

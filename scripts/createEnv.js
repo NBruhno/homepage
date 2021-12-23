@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 require('isomorphic-fetch')
 require('dotenv').config()
 

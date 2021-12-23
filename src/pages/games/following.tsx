@@ -13,10 +13,9 @@ import { Page, PageContent } from 'components/Layout'
 import { Tooltip } from 'components/Tooltip'
 
 const Games: NextPage = () => {
-	const [{ afters, numberOfPages }, setState] = useGlobalState('followingGames')
+	const [{ skips, numberOfPages, take, isLimitReached }, setState] = useGlobalState('followingGames')
 	const [{ isStateKnown, userId }] = useGlobalState('user')
 	const router = useRouter()
-	const disablePagination = afters[afters.length - 1] === undefined
 
 	useEffect(() => {
 		if (isStateKnown && userId && !router.query.user) {
@@ -37,19 +36,24 @@ const Games: NextPage = () => {
 					{useMemo(() => {
 						const pagesToRender = []
 						for (let index = 0; index < numberOfPages; index++) {
-							pagesToRender.push(<FollowingGames after={afters[index]} key={index} />)
+							pagesToRender.push(<FollowingGames skip={skips[index]} key={index} />)
 						}
 						return pagesToRender
 					}, [numberOfPages])}
 					{router.query.user && (
 						<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
-							<Tooltip tip="That's all of your followed games" show={disablePagination}>
+							<Tooltip tip="That's all of your followed games" show={isLimitReached}>
 								<ButtonBorder
 									label='Show more'
-									disabled={disablePagination}
+									disabled={isLimitReached}
 									onClick={() => {
-										if (!disablePagination) {
-											setState({ afters, numberOfPages: numberOfPages + 1 })
+										if (!isLimitReached) {
+											setState({
+												isLimitReached,
+												numberOfPages: numberOfPages + 1,
+												skips: [...skips, numberOfPages * take],
+												take,
+											})
 										}
 									}}
 								/>

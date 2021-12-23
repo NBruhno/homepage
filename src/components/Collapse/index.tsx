@@ -9,18 +9,18 @@ import { context } from './context'
 
 type Props = {
 	children: ReactNode,
-	fill?: boolean,
+	shouldFill?: boolean,
 	isOpen?: boolean,
 	transitionTime?: number,
 }
 
-const Collapse = ({ children, isOpen = true, fill = false, transitionTime = 0.2 }: Props) => {
+const Collapse = ({ children, isOpen = true, shouldFill = false, transitionTime = 0.2 }: Props) => {
 	// Toggle animation on/off when a child element is animating its height
 	const [isAnimated, setAnimated] = useState(true)
 	// Size of content
 	const [ref, { height = null }] = useSize()
 	// Track when child transitions should be expected to end
-	const [childTransitionEnd, setChildTransitionEnd] = useState<null | number>(null)
+	const [childTransitionEnd, setChildTransitionEnd] = useState<number | null>(null)
 	// Notify parent Collapse elements about own transition
 	const onTransitionStart = useContext(context)
 	// Tracks if height was null last render
@@ -68,7 +68,7 @@ const Collapse = ({ children, isOpen = true, fill = false, transitionTime = 0.2 
 	}
 
 	return (
-		<Container fill={fill} isAnimated={isAnimated} transitionTime={transitionTime} css={{ height: getHeight() }}>
+		<Container shouldFill={shouldFill} isAnimated={isAnimated} transitionTime={transitionTime} css={{ height: getHeight() }}>
 			<div ref={ref}>
 				<context.Provider value={onChildTransitionStart}>
 					{children}

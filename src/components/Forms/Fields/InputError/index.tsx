@@ -4,12 +4,12 @@ import { Text } from './Text'
 
 type Props = {
 	hasError: boolean,
-	isFocus?: boolean | undefined,
+	hasFocus?: boolean | undefined,
 	errorMessage?: string,
 }
 
-export const InputError = ({ hasError, isFocus = false, errorMessage }: Props) => (
-	<Container isVisible={hasError} isFocus={isFocus}>
+export const InputError = ({ hasError, hasFocus = false, errorMessage }: Props) => (
+	<Container isVisible={hasError} hasFocus={hasFocus}>
 		{hasError && (
 			<>
 				<Icon />

@@ -1,4 +1,4 @@
-import type { GameSimple } from 'types'
+import type { Game } from '@prisma/client'
 
 import Link from 'next/link'
 
@@ -12,10 +12,11 @@ import { Container } from './Container'
 import { Subtitle } from './Subtitle'
 import { Title } from './Title'
 
-type Props = {
+type Props = Pick<Game, 'cover' | 'id' | 'name' | 'status'> & {
 	index?: number,
 	isLoading: boolean,
-} & Pick<GameSimple, 'id' | 'name' | 'releaseDate' | 'cover' | 'status'>
+	releaseDate: string | null,
+}
 
 export const Item = ({ id, name, releaseDate, cover, status, isLoading, index = 0 }: Props) => (
 	<Link href={`/games/${id}`} passHref>

@@ -1,11 +1,13 @@
+import type { Value } from '../Value'
+
 const messages = {
 	required: 'This field is required',
 }
 
 const returnUndefined = (): undefined => undefined
 
-const validateRequired = (value: any) => value ? null : messages.required
+const validateRequired = (value: Value) => value ? null : messages.required
 
-export const validators = ({ required, disabled }: { required: boolean, disabled: boolean }) => (
-	(required && !disabled) ? validateRequired : returnUndefined
+export const validators = ({ isRequired, isDisabled }: { isRequired: boolean, isDisabled: boolean }) => (
+	(isRequired && !isDisabled) ? validateRequired : returnUndefined
 )

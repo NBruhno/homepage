@@ -1,14 +1,13 @@
 import type { Span, Transaction } from '@sentry/types'
 import type { NextApiRequest } from 'next'
-import type { Token } from 'types'
-import { TokenType } from 'types'
+import type { UserToken } from 'types'
+import { UserTokenType } from 'types'
 
 import { setUser } from '@sentry/nextjs'
 import jwt from 'jsonwebtoken'
 
 import { config } from 'config.server'
 
-import { decrypt } from 'lib/cipher'
 import { monitorReturn } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
@@ -17,9 +16,9 @@ export type Options = {
 	/** A token is automatically supplied through the request, but can be supplied manually here. */
 	token?: string,
 	/** Switch between authenticating an access, refresh or intermediate token. Defaults to access. */
-	type?: TokenType,
+	type?: UserTokenType,
 	/** The Sentry transaction or span used for performance monitoring */
-	transaction?: Transaction | Span,
+	transaction?: Span | Transaction,
 }
 
 /**
@@ -34,12 +33,12 @@ export type Options = {
  * ```
  */
 export const authenticate = (req: NextApiRequest,
-	{ token, type = TokenType.Access, transaction }: Options = {}) => monitorReturn(() => {
+	{ token, type = UserTokenType.Access, transaction }: Options = {}) => monitorReturn(() => {
 	const { headers: { authorization }, cookies } = req
 
 	const tokenToUse = (() => {
 		if (token) return token
-		if (type === TokenType.Refresh && (cookies['__Host-refreshToken'] || cookies['refreshToken'])) {
+		if (type === UserTokenType.Refresh && (cookies['__Host-refreshToken'] || cookies['refreshToken'])) {
 			return config.environment !== 'development'
 				? cookies['__Host-refreshToken']
 				: cookies['refreshToken']
@@ -48,7 +47,7 @@ export const authenticate = (req: NextApiRequest,
 		throw ApiError.fromCode(401)
 	})()
 
-	const { header, payload } = <{ header: { typ: TokenType }, payload: Omit<Token, 'typ'> }><unknown>jwt.verify(
+	const { header, payload } = <{ header: { typ: UserTokenType }, payload: Omit<UserToken, 'typ'> }><unknown>jwt.verify(
 		tokenToUse,
 		config.auth.publicKey,
 		{
@@ -63,13 +62,13 @@ export const authenticate = (req: NextApiRequest,
 
 	if (header.typ !== type) throw ApiError.fromCode(401)
 
-	const decodedToken: Token = {
+	const decodedToken: UserToken = {
 		...payload,
 		typ: header.typ,
 	}
 
-	setUser({ id: decodedToken.userId, username: decodedToken.displayName, email: decodedToken.sub })
-	return { ...decodedToken, secret: decrypt(decodedToken.secret) }
+	setUser({ id: decodedToken.userId, username: decodedToken.username, email: decodedToken.sub })
+	return decodedToken
 }, `authenticate() - ${type}`, transaction)
 
 /**

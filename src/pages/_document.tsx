@@ -32,12 +32,15 @@ export default class MyDocument extends Document {
 					<link rel='manifest' href='/manifest.json' />
 					<link rel='icon' type='image/x-icon' href='favicon.ico' />
 					<link rel='icon' type='image/png' sizes='192x192' href='favicon.png' />
+					{/* eslint-disable-next-line react/no-invalid-html-attribute */}
 					<link rel='apple-touch-icon' href='favicon.png' />
 				</Head>
 				<body>
 					<Main />
 					<NextScript />
 					<noscript>
+						{/* This CSS is only included for showing a warning when JS is disabled */}
+						{/* eslint-disable-next-line @next/next/no-css-tags */}
 						<link rel='stylesheet' type='text/css' href='noScript.css' />
 						<div className='noScript'>You&apos;ve disabled JavaScript, so a lot of things <b>will not work</b>. This website is not designed to function without JavaScript, <b>please respect that</b>.</div>
 					</noscript>

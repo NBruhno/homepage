@@ -6,8 +6,17 @@ import type { User } from './users'
 
 import { createGlobalState } from 'react-hooks-global-state'
 
+import type { GamesModel } from 'pages/games/search'
+
+import type { LoginModel, RegisterModel, TwoFactorModel } from 'components/Forms/Login'
+
 export type State = {
-	forms: Record<string, Record<string, any>>,
+	forms: Record<string, Record<string, any>> & {
+		login?: LoginModel,
+		register?: RegisterModel,
+		'2fa'?: TwoFactorModel,
+		games?: GamesModel,
+	},
 	popularGames: PopularGames,
 	followingGames: FollowingGames,
 	searchGames: SearchGames,
@@ -20,18 +29,22 @@ export type State = {
 export const { useGlobalState } = createGlobalState<State>({
 	forms: {},
 	popularGames: {
-		afters: [''],
+		skips: [0],
 		numberOfPages: 1,
+		take: 50,
+		isLimitReached: false,
 	},
 	followingGames: {
-		afters: [''],
+		skips: [0],
 		numberOfPages: 1,
+		take: 50,
+		isLimitReached: false,
 	},
 	searchGames: {
 		hasSearch: false,
 	},
 	responsive: {
-		collapsedSidebar: false,
+		isSidebarCollapsed: false,
 		isMobile: false,
 		isTablet: false,
 		isLaptop: false,
@@ -42,12 +55,12 @@ export const { useGlobalState } = createGlobalState<State>({
 		allowClosure: true,
 		showModal: false,
 		modalContent: null,
-		noWrapper: false,
+		hasNoWrapper: false,
 		onClose: null,
 	},
 	theme: 'dark',
 	user: {
-		displayName: null,
+		username: null,
 		email: null,
 		isStateKnown: false,
 		accessToken: undefined,

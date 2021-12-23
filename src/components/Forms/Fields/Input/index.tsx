@@ -1,3 +1,5 @@
+import type { Value } from '../Value'
+
 import { useField } from 'react-final-form'
 
 import { ColumnLabel } from '../ColumnLabel'
@@ -16,43 +18,40 @@ type InputProps = {
 	label: string,
 
 	autoComplete?: string,
-	autofocus?: boolean,
-	disabled?: boolean,
+	shouldAutofocus?: boolean,
+	isDisabled?: boolean,
 	enableValidate?: boolean,
-	fullWidth?: boolean,
-	hidden?: boolean,
+	isFullWidth?: boolean,
+	isHidden?: boolean,
 	hint?: string,
 	id?: string,
 	maxLength?: number,
 	maxRows?: number,
 	minLength?: number,
-	optionalHint?: boolean,
+	showOptionalHint?: boolean,
 	pattern?: string,
 	placeholder?: string,
-	required?: boolean,
+	isRequired?: boolean,
 	rows?: number,
-	type?: string,
-	validate?: boolean,
+	type?: 'email' | 'hidden' | 'multiline' | 'number' | 'password' | 'tel' | 'text' | 'username',
+	shouldValidate?: boolean,
 
-	parse?: (value: any, name: string) => any,
-	format?: (value: any, name: string) => any,
+	parse?: (value: Value, name: string) => any,
+	format?: (value: Value, name: string) => any,
 }
 
 export const Input = ({
-	optionalHint = true, fullWidth = true, required = false, rows = 3, enableValidate = true, type = 'text',
-	disabled = false, maxRows = 8, minLength, maxLength, name, validate = true, autoComplete = 'off', id= name,
-	parse = (value) => value || null, label, hint, placeholder, autofocus, pattern, hidden = false,
+	showOptionalHint = true, isFullWidth = true, isRequired = false, rows = 3, enableValidate = true, type = 'text',
+	isDisabled = false, maxRows = 8, minLength, maxLength, name, shouldValidate = true, autoComplete = 'off', id= name,
+	parse = (value) => value ?? null, label, hint, placeholder, shouldAutofocus, pattern, isHidden = false,
 }: InputProps) => {
-	const validType = {
-		username: 'text',
-	} as Record<string, string>
-	const { input, meta } = useField(
+	const { input, meta } = useField<Value, HTMLInputElement>(
 		name,
 		{
-			type: validType[type] ?? type,
+			type: type === 'username' ? 'text' : type,
 			parse,
 			allowNull: true,
-			validate: validators({ required, validate, type, disabled: !enableValidate || disabled }),
+			validate: validators({ isRequired, shouldValidate, type, isDisabled: !enableValidate || isDisabled }),
 		},
 	)
 
@@ -60,16 +59,16 @@ export const Input = ({
 
 	const defaultProps = {
 		autoComplete,
-		autoFocus: autofocus,
-		disabled,
+		autoFocus: shouldAutofocus,
+		isDisabled,
 		hasError,
 		id,
 		maxLength,
 		minLength,
 		pattern,
 		placeholder,
-		value: input.value || '',
-		'aria-hidden': hidden,
+		value: input.value ?? '',
+		'aria-hidden': isHidden,
 	}
 
 	if (type === 'hidden') {
@@ -77,15 +76,15 @@ export const Input = ({
 	}
 
 	return (
-		<FieldWrapper fullWidth={fullWidth} minWidth={170} hidden={hidden}>
+		<FieldWrapper isFullWidth={isFullWidth} minWidth={170} hidden={isHidden}>
 			<ColumnLabel>
 				<LabelContainer>
 					<HintContainer>
 						<div>
-							<label htmlFor={id}>{label} {optionalHint && !required && <Hint>(Optional)</Hint>}</label>
+							<label htmlFor={id}>{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>}</label>
 							{hint && <Hint>{hint}</Hint>}
 						</div>
-						{maxLength && <Hint htmlFor={id}> {(input.value && input.value.length) || 0} / {maxLength}</Hint>}
+						{maxLength && <Hint htmlFor={id}> {(input.value && typeof input.value === 'string' && input.value.length) || 0} / {maxLength}</Hint>}
 					</HintContainer>
 				</LabelContainer>
 				{type === 'multiline' ? (
@@ -102,7 +101,7 @@ export const Input = ({
 						{...defaultProps}
 					/>
 				)}
-				<InputError hasError={hasError} errorMessage={meta.error} isFocus={meta.active} />
+				<InputError hasError={hasError} errorMessage={meta.error as string | undefined} hasFocus={meta.active} />
 			</ColumnLabel>
 		</FieldWrapper>
 	)

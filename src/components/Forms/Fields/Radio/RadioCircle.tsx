@@ -2,16 +2,16 @@ import type { ComponentProps } from 'react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 
-type Props = {
-	focus: boolean,
+type Props = ComponentProps<'div'> & {
+	hasFocus: boolean,
 	hasError: boolean,
-	checked: boolean,
-	disabled: boolean,
-} & ComponentProps<'div'>
+	isChecked: boolean,
+	isDisabled: boolean,
+}
 
-export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Props) => {
+export const RadioCircle = ({ hasFocus, hasError, isChecked, isDisabled, ...rest }: Props) => {
 	const boxShadow = (theme: Theme) => {
-		if (focus) {
+		if (hasFocus) {
 			return hasError ? `0 0 0 2px ${theme.color.error}` : `0 0 0 2px ${adjustHsl(theme.color.primary, { alpha: 0.8 })}`
 		} else {
 			return 'none'
@@ -19,9 +19,9 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 	}
 
 	const border = (theme: Theme) => {
-		if (disabled && checked) {
+		if (isDisabled && isChecked) {
 			return adjustHsl(theme.color.primary, { light: '60%' })
-		} else if (checked || focus) {
+		} else if (isChecked || hasFocus) {
 			return theme.color.primary
 		} else if (hasError) {
 			return theme.color.error
@@ -31,7 +31,7 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 	}
 
 	const backgroundColor = (theme: Theme) => {
-		if (disabled) {
+		if (isDisabled) {
 			return hasError ? adjustHsl(theme.color.error, { light: '60%' }) : theme.color.grayLight
 		} else {
 			return hasError ? adjustHsl(theme.color.error, { light: '60%' }) : theme.color.white
@@ -39,9 +39,9 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 	}
 
 	// const borderColor = (theme) => {
-	// 	if (disabled || hasError) {
+	// 	if (isDisabled || hasError) {
 	// 		return 'initial'
-	// 	}	else if (checked && focus) {
+	// 	}	else if (isChecked && hasFocus) {
 	// 		return 'transparent'
 	// 	} else {
 	// 		return theme.color.primary
@@ -51,7 +51,7 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 	return (
 		<div
 			css={(theme) => ({
-				cursor: disabled ? 'auto' : 'pointer',
+				cursor: isDisabled ? 'auto' : 'pointer',
 				position: 'relative',
 				boxShadow: boxShadow(theme),
 				border: `1px solid ${border(theme)}`,
@@ -68,10 +68,10 @@ export const RadioCircle = ({ focus, hasError, checked, disabled, ...rest }: Pro
 				'&:after': {
 					content: '""',
 					position: 'absolute',
-					transform: `translate(5px, 5px) ${checked ? 'scale(1)' : 'scale(0)'}`,
+					transform: `translate(5px, 5px) ${isChecked ? 'scale(1)' : 'scale(0)'}`,
 					width: '12px',
 					height: '12px',
-					backgroundColor: disabled ? adjustHsl(theme.color.primary, { light: '60%' }) : theme.color.primary,
+					backgroundColor: isDisabled ? adjustHsl(theme.color.primary, { light: '60%' }) : theme.color.primary,
 					borderRadius: '100%',
 					transition: 'transform 0.15s ease-in-out',
 				},

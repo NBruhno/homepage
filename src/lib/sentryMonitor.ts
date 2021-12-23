@@ -8,7 +8,7 @@ import { getActiveTransaction } from '@sentry/tracing'
  * @param operationName
  * @param transaction
  */
-export const monitor = <T>(functionToWatch: (span?: Span) => T, operationName: string, transaction?: Transaction | Span) => {
+export const monitor = <T>(functionToWatch: (span?: Span) => T, operationName: string, transaction?: Span | Transaction) => {
 	const transactionToUse = transaction ?? getActiveTransaction()
 	if (transactionToUse) {
 		const span = transactionToUse.startChild({ op: operationName })
@@ -19,7 +19,7 @@ export const monitor = <T>(functionToWatch: (span?: Span) => T, operationName: s
 	}
 }
 
-export const monitorReturn = <T>(functionToWatch: (span?: Span) => T, operationName: string, transaction?: Transaction | Span) => {
+export const monitorReturn = <T>(functionToWatch: (span?: Span) => T, operationName: string, transaction?: Span | Transaction) => {
 	const transactionToUse = transaction ?? getActiveTransaction()
 	if (transactionToUse) {
 		const span = transactionToUse.startChild({ op: operationName })
@@ -32,7 +32,7 @@ export const monitorReturn = <T>(functionToWatch: (span?: Span) => T, operationN
 	}
 }
 
-export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<T>, operationName: string, transaction?: Transaction | Span) => {
+export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<T>, operationName: string, transaction?: Span | Transaction) => {
 	const transactionToUse = transaction ?? getActiveTransaction()
 	if (transactionToUse) {
 		const span = transactionToUse.startChild({ op: operationName })
@@ -43,7 +43,7 @@ export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<
 	}
 }
 
-export const monitorReturnAsync = async <T>(functionToWatch: (span?: Span) => Promise<T>, operationName: string, transaction?: Transaction | Span) => {
+export const monitorReturnAsync = async <T>(functionToWatch: (span?: Span) => Promise<T>, operationName: string, transaction?: Span | Transaction) => {
 	const transactionToUse = transaction ?? getActiveTransaction()
 	if (transactionToUse) {
 		const span = transactionToUse.startChild({ op: operationName })

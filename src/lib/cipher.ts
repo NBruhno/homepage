@@ -1,39 +1,52 @@
+import type { BinaryLike, Encoding } from 'crypto'
+
 import { randomBytes, createCipheriv, createDecipheriv } from 'crypto'
 
-const ivLength = 16
-
-export const encrypt = (payload: string) => {
-	if (process.env.AUTH_SECRET === undefined) throw new Error('Missing AUTH_SECRET for encryption')
-	const iv = randomBytes(ivLength)
-	const cipher = createCipheriv('aes-256-cbc', Buffer.from(process.env.AUTH_SECRET), iv)
-	let encrypted = cipher.update(payload)
-
-	encrypted = Buffer.concat([encrypted, cipher.final()])
-
-	return `${iv.toString('hex')}:${encrypted.toString('hex')}`
+type Options = {
+	iv?: string | undefined,
+	outputEncoding?: Encoding,
+	inputEncoding?: Encoding,
 }
 
-export const decrypt = (payload: string): string => {
-	if (process.env.AUTH_SECRET === undefined) throw new Error('Missing AUTH_SECRET for decryption')
-	const parts = payload.split(':')
-	const shifted = parts.shift()
-	if (shifted === undefined) throw new Error('Invalid payload')
-	const iv = Buffer.from(shifted, 'hex')
-	const encrypted = Buffer.from(parts.join(':'), 'hex')
-	const decipher = createDecipheriv('aes-256-cbc', Buffer.from(process.env.AUTH_SECRET), iv)
-	let decrypted = decipher.update(encrypted)
+const encryptAes256gcm = (payload: string, secret: string | undefined, { iv, outputEncoding = 'base64', inputEncoding = 'utf8' }: Options) => {
+	if (!secret) throw new Error('Missing secret for encryption')
+	if (!payload) throw new Error('Missing payload to encrypt')
+	let ivBuffer: Buffer
+	if (iv) ivBuffer = Buffer.from(iv)
+	else ivBuffer = randomBytes(12)
 
-	decrypted = Buffer.concat([decrypted, decipher.final()])
+	const cipher = createCipheriv('aes-256-gcm', Buffer.from(secret), ivBuffer)
+	let encryptedContent = cipher.update(payload, inputEncoding, outputEncoding)
+	encryptedContent += cipher.final(outputEncoding)
 
-	return decrypted.toString() as string
+	if (iv) return `${cipher.getAuthTag().toString(outputEncoding)}:${encryptedContent}`
+	else return `${ivBuffer.toString(outputEncoding)}:${cipher.getAuthTag().toString(outputEncoding)}:${encryptedContent}`
 }
 
-export const decryptConfig = (payload: string) => {
-	if (process.env.AUTH_SECRET === undefined || process.env.AUTH_IV === undefined) throw new Error('Missing AUTH_SECRET or AUTH_IV for decryption')
-	const decipher = createDecipheriv('aes-256-cbc', process.env.AUTH_SECRET, process.env.AUTH_IV)
-	let decrypted = decipher.update(payload, 'base64', 'utf8')
+const decryptAes256gcm = (payload: string, secret: string | undefined, { iv, outputEncoding = 'utf8', inputEncoding = 'base64' }: Options) => {
+	if (!secret) throw new Error('Missing secret for decryption')
+	if (!payload) throw new Error('Missing payload to decrypt')
 
-	decrypted += decipher.final('utf8')
+	const decrypt = (ivBuffer: BinaryLike, authTag: string, encryptedContent: string) => {
+		const decipher = createDecipheriv('aes-256-gcm', secret, ivBuffer)
+		decipher.setAuthTag(Buffer.from(authTag, inputEncoding))
+		let decryptedContent = decipher.update(encryptedContent, inputEncoding, outputEncoding)
+		decryptedContent += decipher.final(outputEncoding)
+		return decryptedContent
+	}
 
-	return decrypted
+	if (iv) {
+		const [authTag, encryptedContent] = payload.split(':')
+		if (!authTag || !encryptedContent) throw new Error('Invalid payload, cannot decrypt')
+		return decrypt(iv, authTag, encryptedContent)
+	} else {
+		const [includedIv, authTag, encryptedContent] = payload.split(':')
+		if (!includedIv || !authTag || !encryptedContent) throw new Error('Invalid payload, cannot decrypt')
+		return decrypt(Buffer.from(includedIv, inputEncoding), authTag, encryptedContent)
+	}
 }
+
+export const encrypt = (payload: string) => encryptAes256gcm(payload, process.env.AUTH_SECRET, {})
+export const decrypt = (payload: string): string => decryptAes256gcm(payload, process.env.AUTH_SECRET, {})
+export const encryptConfig = (payload: string) => encryptAes256gcm(payload, process.env.AUTH_SECRET, { iv: process.env.AUTH_IV })
+export const decryptConfig = (payload: string) => decryptAes256gcm(payload, process.env.AUTH_SECRET, { iv: process.env.AUTH_IV })

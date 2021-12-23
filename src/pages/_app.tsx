@@ -5,6 +5,7 @@ import { App } from 'containers/app'
 
 export default class MyApp extends NextApp<{ err: Error }> {
 	render() {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const { Component, pageProps, err } = this.props
 
 		return (

@@ -1,4 +1,4 @@
-import type { Environment } from 'types/Environment'
+import type { Environment } from 'types'
 
 export const config = Object.freeze({
 	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV as Environment,

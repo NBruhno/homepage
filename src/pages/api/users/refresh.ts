@@ -1,4 +1,4 @@
-import { TokenType } from 'types'
+import { UserTokenType } from 'types'
 
 import { setUser, withSentry } from '@sentry/nextjs'
 
@@ -7,17 +7,17 @@ import { apiHandler, getJwtToken, updateTransaction } from 'api/utils'
 
 const handler = apiHandler({ validMethods: ['GET'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
-		const { secret, sub, displayName, role, userId } = authenticate(req, { type: TokenType.Refresh })
+		const { sub, username, role, userId } = authenticate(req, { type: UserTokenType.Refresh })
 
 		const [accessToken, newRefreshToken] = await Promise.all([
-			getJwtToken(secret, { sub, displayName, role, userId }),
-			getJwtToken(secret, { sub, displayName, role, userId }, { type: TokenType.Refresh }),
+			getJwtToken({ sub, username, role, userId }),
+			getJwtToken({ sub, username, role, userId }, { type: UserTokenType.Refresh }),
 		])
 
 		setRefreshCookie(res, newRefreshToken)
-		setUser({ id: userId, username: displayName, email: sub })
+		setUser({ id: userId, username, email: sub })
 		updateTransaction({ data: [{ label: 'user', value: userId }] })
-		res.status(200).json({ accessToken })
+		return res.status(200).json({ accessToken })
 	})
 
 export default withSentry(handler)

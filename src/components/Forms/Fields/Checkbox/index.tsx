@@ -1,3 +1,5 @@
+import type { Value } from '../Value'
+
 import { useEffect } from 'react'
 import { useField } from 'react-final-form'
 
@@ -13,18 +15,18 @@ type Props = {
 	label: string,
 	name: string,
 
-	disabled?: boolean,
-	fullWidth?: boolean,
+	isDisabled?: boolean,
+	isFullWidth?: boolean,
 	hint?: string,
 	id?: string,
 
-	format?: (value: any, name: string) => any,
-	parse?: (value: any, name: string) => any,
+	format?: (value: Value, name: string) => any,
+	parse?: (value: Value, name: string) => any,
 }
 
 export const Checkbox = ({
-	parse = (value) => value || false, fullWidth = true,
-	label, hint, disabled = false, name, id = name,
+	parse = (value) => value ?? false, isFullWidth = true,
+	label, hint, isDisabled = false, name, id = name,
 }: Props) => {
 	const { input, meta } = useField(
 		name,
@@ -41,19 +43,19 @@ export const Checkbox = ({
 	})
 
 	return (
-		<FieldWrapper fullWidth={fullWidth}>
+		<FieldWrapper isFullWidth={isFullWidth}>
 			<RowLabel htmlFor={id}>
-				<CheckMark checked={input.value} disabled={disabled} focus={Boolean(meta?.active)} />
+				<CheckMark isChecked={Boolean(input.value)} isDisabled={isDisabled} hasFocus={Boolean(meta.active)} />
 				<LabelContainer css={{ margin: '0 0 0 6px' }}>
 					<div>{label}</div>
 					{hint && <Hint>{hint}</Hint>}
 				</LabelContainer>
 				<CheckboxComponent
 					{...input}
-					checked={input.value || false}
+					checked={Boolean(input.value) || false}
 					id={id}
 					type='checkbox'
-					disabled={disabled}
+					disabled={isDisabled}
 				/>
 			</RowLabel>
 		</FieldWrapper>

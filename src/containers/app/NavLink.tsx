@@ -5,17 +5,17 @@ import { forwardRef } from 'react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 
-type Props = {
-	active?: boolean,
-} & ComponentProps<'a'>
+type Props = ComponentProps<'a'> & {
+	isActive?: boolean,
+}
 
-const Component = ({ active, ...rest }: Props, ref: LegacyRef<HTMLAnchorElement>) => (
+const Component = ({ isActive, ...rest }: Props, ref: LegacyRef<HTMLAnchorElement>) => (
 	<a
 		css={(theme) => ({
 			padding: '6px 12px',
-			color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
+			color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,
 			textDecoration: 'none',
-			backgroundColor: active ? adjustHsl(theme.color.primary, { alpha: 0.4 }) : 'transparent',
+			backgroundColor: isActive ? adjustHsl(theme.color.primary, { alpha: 0.4 }) : 'transparent',
 			borderRadius: '4px',
 			margin: '4px 12px',
 			transition: `color 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}`,
@@ -24,7 +24,7 @@ const Component = ({ active, ...rest }: Props, ref: LegacyRef<HTMLAnchorElement>
 			display: 'flex',
 
 			'&:hover, &:focus': {
-				backgroundColor: active ? adjustHsl(theme.color.primary, { alpha: 0.8 }) : adjustHsl(theme.color.primary, { alpha: 0.4 }),
+				backgroundColor: isActive ? adjustHsl(theme.color.primary, { alpha: 0.8 }) : adjustHsl(theme.color.primary, { alpha: 0.4 }),
 			},
 		})}
 		{...rest}

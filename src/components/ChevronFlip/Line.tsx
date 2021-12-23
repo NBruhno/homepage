@@ -1,24 +1,24 @@
 import type { ComponentProps } from 'react'
 
-type Props = {
-	bold?: boolean,
+type Props = ComponentProps<'span'> & {
 	isActive?: boolean,
-	mirror?: boolean,
-	horizontal: boolean,
-	slim?: boolean,
-} & ComponentProps<'span'>
+	isBold?: boolean,
+	isHorizontal: boolean,
+	isSlim?: boolean,
+	shouldMirror?: boolean,
+}
 
-export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Props) => {
+export const Line = ({ isSlim, isBold, shouldMirror, isActive, isHorizontal, ...rest }: Props) => {
 	let size = 0.1
 
-	if (slim) {
+	if (isSlim) {
 		size = 0.05
-	} else if (bold) {
+	} else if (isBold) {
 		size = 0.15
 	}
 
-	const verticalTransform = `translateY(${isActive ? -0.4 : 0}em) rotate(${-90 + (mirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
-	const horizontalTransform = `translateY(${isActive ? -0.4 : -0.40}em) rotate(${0 + (mirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
+	const verticalTransform = `translateY(${isActive ? -0.4 : 0}em) rotate(${-90 + (shouldMirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
+	const isHorizontalTransform = `translateY(${isActive ? -0.4 : -0.40}em) rotate(${0 + (shouldMirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
 
 	return (
 		<span
@@ -29,7 +29,7 @@ export const Line = ({ slim, bold, mirror, isActive, horizontal, ...rest }: Prop
 				height: `${size}em`,
 				left: `${0.7 - size / 2}em`,
 				position: 'absolute',
-				transform: horizontal ? horizontalTransform : verticalTransform,
+				transform: isHorizontal ? isHorizontalTransform : verticalTransform,
 				transformOrigin: `${size / 2}em ${size / 2}em`,
 				transition: `transform 300ms ${theme.animation.default}`,
 				width: '0.6em',

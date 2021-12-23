@@ -20,6 +20,9 @@ jobs:
       with:
         node-version: '14'
         cache: 'pnpm'
+    
+    - name: Install ca-certificates
+      run: sudo apt-get install ca-certificates -y
 
     - name: Install dependencies
       run: pnpm i
@@ -30,13 +33,13 @@ jobs:
     - name: Testing
       run: pnpm test
       env:
+        ACCESS_CODE: ${{ secrets.ACCESS_CODE }}
         AUTH_IV: ${{ secrets.AUTH_IV }}
         AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
-        VERCEL_ENV: ${{ secrets.VERCEL_ENV }}
-        FAUNADB_SECRET: ${{ secrets.FAUNADB_SECRET }}
-        FAUNADB_SERVER_KEY: ${{ secrets.FAUNADB_SERVER_KEY }}
-        IGDB_USER_KEY: ${{ secrets.IGDB_USER_KEY }}
-        NEXT_PUBLIC_SENTRY_DSN: ${{ secrets.NEXT_PUBLIC_SENTRY_DSN }}
+        AUTH_SYSTEM_TOKEN: ${{ secrets.AUTH_SYSTEM_TOKEN }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
         NODE_ENV: ${{ secrets.NODE_ENV }}
-        TESTING_CREDENTIALS: ${{ secrets.TESTING_CREDENTIALS }}
-        TESTING_TOKEN: ${{ secrets.TESTING_TOKEN }}
+        TESTING_CREDENTIALS_PASSWORD: ${{ secrets.TESTING_CREDENTIALS_PASSWORD }}
+        TESTING_CREDENTIALS_TWO_FACTOR_SECRET: ${{ secrets.TESTING_CREDENTIALS_TWO_FACTOR_SECRET }}
+        TESTING_DOMAIN: ${{ secrets.TESTING_DOMAIN }}
+        VERCEL_ENV: ${{ secrets.VERCEL_ENV }}

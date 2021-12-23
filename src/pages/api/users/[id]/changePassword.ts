@@ -1,34 +1,57 @@
+import { UserRole } from 'types'
+
 import { withSentry } from '@sentry/nextjs'
-import { errors, query as q } from 'faunadb'
+import { verify, hash } from 'argon2'
 import { create, object, string } from 'superstruct'
 
-import { monitorAsync } from 'lib/sentryMonitor'
+import { monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 import { authenticate } from 'api/middleware'
-import { apiHandler, faunaClient } from 'api/utils'
+import { apiHandler, argonDefaultOptions, prisma } from 'api/utils'
 import { password } from 'api/validation'
 
 const handler = apiHandler({
 	validMethods: ['POST'],
 	cacheStrategy: 'NoCache',
-	transactionName: (req) => `${req.method} api/users/{userId}/changePassword`,
+	transactionName: (req) => `${req.method!} api/users/{userId}/changePassword`,
 })
 	.post(async (req, res) => {
-		const { secret } = authenticate(req)
-		const { userId } = create(req.query, object({
-			userId: string(),
-		}))
-		const { newPassword } = create(req.body, object({
+		const { userId: requestUserId, role } = authenticate(req)
+		const { id } = create(req.query, object({ id: string() }))
+
+		const user = await monitorReturnAsync(() => prisma.user.findUnique({
+			where: {
+				id,
+			},
+			select: {
+				passwordHash: true,
+			},
+		}), 'prisma - findUnique()')
+
+		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
+
+		const { newPassword, currentPassword } = create(req.body, object({
+			currentPassword: password(),
 			newPassword: password(),
 		}))
 
-		await monitorAsync(async () => faunaClient(secret).query(
-			q.Update(q.Ref(q.Collection('users'), userId), { credentials: { password: newPassword } }),
-		).catch((error: unknown) => {
-			if (error instanceof errors.Unauthorized) throw ApiError.fromCode(401)
-		}), 'faunadb - Update()')
-		res.status(200).json({ message: 'Your password has been updated' })
+		if (!user) throw ApiError.fromCode(404)
+		if (!await monitorReturnAsync(async () => verify(user.passwordHash, currentPassword, argonDefaultOptions), 'argon2 - verify')) {
+			throw ApiError.fromCodeWithError(401, new Error('Invalid password'))
+		}
+
+		const passwordHash = await monitorReturnAsync(() => hash(newPassword, argonDefaultOptions), 'argon2 - hash()')
+		await monitorAsync(() => prisma.user.update({
+			where: {
+				id,
+			},
+			data: {
+				passwordHash,
+			},
+		}), 'update()')
+
+		return res.status(200).json({ message: 'Password has been updated' })
 	})
 
 export default withSentry(handler)

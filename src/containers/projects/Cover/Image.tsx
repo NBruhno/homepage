@@ -1,8 +1,8 @@
 import type { ComponentProps } from 'react'
 
-type Props = {
+type Props = ComponentProps<'img'> & {
 	loading?: string,
-} & ComponentProps<'img'>
+}
 
 export const Image = ({ loading = 'lazy', ...rest }: Props) => (
 	<img

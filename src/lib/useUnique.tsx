@@ -10,7 +10,7 @@ import { useState } from 'react'
  * ```
 */
 export const useUnique = (name?: string) => {
-	const [id] = useState(() => uniqueId(`${name || 'unique'}-`))
+	const [id] = useState(() => uniqueId(`${name ?? 'unique'}-`))
 
 	return id
 }

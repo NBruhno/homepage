@@ -3,16 +3,16 @@ import { Snackbar } from './Snackbar'
 type Props = {
 	snackbars: Array<{
 		text: string,
-		error?: boolean,
+		isError?: boolean,
 	}>,
 }
 
 const testBars = [
-	{ text: 'This is a text', error: true },
+	{ text: 'This is a text', isError: true },
 ]
 
 export const Snackbars = ({ snackbars = testBars }: Props) => (
 	<>
-		{snackbars.map(({ text, error }, index) => <Snackbar error={Boolean(error)} key={index}>{text}</Snackbar>)}
+		{snackbars.map(({ text, isError }, index) => <Snackbar isError={Boolean(isError)} key={index}>{text}</Snackbar>)}
 	</>
 )

@@ -1,16 +1,18 @@
+import type { Value } from '../Value'
+
 const messages = {
 	required: 'This field is required',
 }
 
 const returnUndefined = (): undefined => undefined
 
-const validateRequired = (value: any) => value ? null : messages.required
+const validateRequired = (value: Value) => value ? undefined : messages.required
 
-const validateRequiredArray = (value: any) => value && value.length > 0 ? null : messages.required
+const validateRequiredArray = (value: Value) => value && typeof value === 'string' && value.length > 0 ? undefined : messages.required
 
-const composeValidators = (...validators: Array<any>) => (value: any) => validators.reduce((error, validator) => error || validator(value), undefined)
+const composeValidators = (...validators: Array<(value: Value) => string | undefined>) => (value: Value) => validators.reduce((error: string | undefined, validator) => error ?? validator(value), undefined)
 
-export const validators = ({ required, multiple, disabled }: { required: boolean, multiple: boolean, disabled: boolean }) => composeValidators(
-	(required && !multiple && !disabled) ? validateRequired : returnUndefined,
-	(required && multiple && !disabled) ? validateRequiredArray : returnUndefined,
+export const validators = ({ isRequired, hasMultiple, isDisabled }: { isRequired: boolean, hasMultiple: boolean, isDisabled: boolean }) => composeValidators(
+	(isRequired && !hasMultiple && !isDisabled) ? validateRequired : returnUndefined,
+	(isRequired && hasMultiple && !isDisabled) ? validateRequiredArray : returnUndefined,
 )

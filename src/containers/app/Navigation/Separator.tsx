@@ -1,14 +1,14 @@
 import type { ComponentProps } from 'react'
 
-type Props = {
-	slim?: boolean,
-	collapsed?: boolean,
-} & ComponentProps<'div'>
+type Props = ComponentProps<'div'> & {
+	isSlim?: boolean,
+	isCollapsed?: boolean,
+}
 
-export const Separator = ({ slim = false, collapsed = false, children, ...rest }: Props) => {
+export const Separator = ({ isSlim = false, isCollapsed = false, children, ...rest }: Props) => {
 	const padding = () => {
-		if (slim) return '0 24px'
-		if (collapsed) return '4px 25px 12px'
+		if (isSlim) return '0 24px'
+		if (isCollapsed) return '4px 25px 12px'
 		return '12px 25px'
 	}
 
@@ -16,9 +16,9 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 		<div
 			css={(theme) => ({
 				borderTop: `1px solid ${theme.color.sidebarBorder}`,
-				height: ((slim || collapsed)) ? '0px' : '18px',
-				margin: slim ? 0 : '18px 0 2px',
-				minHeight: ((slim || collapsed)) ? '0px' : '18px',
+				height: ((isSlim || isCollapsed)) ? '0px' : '18px',
+				margin: isSlim ? 0 : '18px 0 2px',
+				minHeight: ((isSlim || isCollapsed)) ? '0px' : '18px',
 				overflow: 'hidden',
 				padding: padding(),
 				textOverflow: 'ellipsis',
@@ -26,9 +26,9 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 				whiteSpace: 'nowrap',
 
 				[theme.mediaQueries.maxMobile]: {
-					height: slim ? '0px' : '26px',
-					minHeight: slim ? '0px' : '26px',
-					padding: slim ? '0 24px' : '12px 24px',
+					height: isSlim ? '0px' : '26px',
+					minHeight: isSlim ? '0px' : '26px',
+					padding: isSlim ? '0 24px' : '12px 24px',
 					transition: 'none',
 				},
 			})}
@@ -36,9 +36,9 @@ export const Separator = ({ slim = false, collapsed = false, children, ...rest }
 		>
 			<span
 				css={(theme) => ({
-					opacity: collapsed ? 0 : 0.6,
+					opacity: isCollapsed ? 0 : 0.6,
 					transition: `opacity 300ms ${theme.animation.default}`,
-					color: theme.darkTheme ? theme.color.text : theme.color.textInverted,
+					color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,
 					fontFamily: theme.font.family.poppins,
 					fontSize: theme.font.size.s80,
 					display: 'flex',

@@ -4,11 +4,11 @@ import { css } from '@emotion/react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 
-type Props = {
-	collapsed?: boolean,
-} & ComponentProps<'nav'>
+type Props = ComponentProps<'nav'> & {
+	isCollapsed?: boolean,
+}
 
-const defaultCss = (theme: Theme, collapsed: boolean) => css({
+const defaultCss = (theme: Theme, isCollapsed: boolean) => css({
 	alignItems: 'stretch',
 	backgroundColor: theme.color.sidebarBackground,
 	flexDirection: 'column',
@@ -20,14 +20,14 @@ const defaultCss = (theme: Theme, collapsed: boolean) => css({
 	display: 'none',
 
 	'> ::-webkit-scrollbar': {
-		width: collapsed ? 0 : '8px',
+		width: isCollapsed ? 0 : '8px',
 	},
 })
 
-export const DesktopSidebar = ({ collapsed = false, ...rest }: Props) => (
+export const DesktopSidebar = ({ isCollapsed = false, ...rest }: Props) => (
 	<nav
 		css={(theme) => ([
-			defaultCss(theme, collapsed),
+			defaultCss(theme, isCollapsed),
 			{
 				[theme.mediaQueries.minMobile]: {
 					display: 'flex',
@@ -37,7 +37,7 @@ export const DesktopSidebar = ({ collapsed = false, ...rest }: Props) => (
 					top: 0,
 					transition: `width 300ms ${theme.animation.default}`,
 					visibility: 'visible',
-					width: collapsed ? '70px' : '250px',
+					width: isCollapsed ? '70px' : '250px',
 				},
 			},
 		])}

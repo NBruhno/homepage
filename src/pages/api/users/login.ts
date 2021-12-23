@@ -1,15 +1,14 @@
-import type { FaunaUser } from 'types'
-import { TokenType } from 'types'
+import { UserTokenType } from 'types'
 
 import { setUser, withSentry } from '@sentry/nextjs'
-import { query as q, errors } from 'faunadb'
+import { verify } from 'argon2'
 import { object, create } from 'superstruct'
 
-import { monitorReturn, monitorReturnAsync } from 'lib/sentryMonitor'
+import { monitorReturnAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 import { setRefreshCookie } from 'api/middleware'
-import { serverClient, getJwtToken, apiHandler } from 'api/utils'
+import { getJwtToken, apiHandler, prisma, argonDefaultOptions } from 'api/utils'
 import { email, password } from 'api/validation'
 
 const Body = object({
@@ -19,37 +18,41 @@ const Body = object({
 
 export const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.post(async (req, res) => {
-		const { email, password } = create(req.body, Body)
+		const { email: loginEmail, password } = create(req.body, Body)
 
-		const { data: { displayName, role, twoFactorSecret }, secret, ref } = await monitorReturnAsync(
-			() => serverClient().query<FaunaUser>(q.Merge(
-				q.Login(q.Match(q.Index('usersByEmail'), email), { password }),
-				q.Get(q.Match(q.Index('usersByEmail'), email)),
-			)).catch((error) => {
-				if (error instanceof errors.BadRequest) throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
-				throw error
-			}), 'fanaudb - Merge(Login(), Get())',
-		)
+		const user = await monitorReturnAsync(() => prisma.user.findUnique({
+			where: {
+				email: loginEmail,
+			},
+			select: {
+				id: true,
+				email: true,
+				passwordHash: true,
+				role: true,
+				twoFactorSecret: true,
+				username: true,
+			},
+		}), 'prisma - findUnique()')
 
-		const userId = monitorReturn(
-			() => ref.toString().split(',')[1].replace(/[") ]/gi, ''),
-			'userId',
-		)
+		if (!user) throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
+		const { id, email, role, passwordHash, twoFactorSecret, username } = user
 
-		setUser({ id: userId, username: displayName, email })
+		if (!await monitorReturnAsync(async () => verify(passwordHash, password, argonDefaultOptions), 'argon2 - verify')) {
+			throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
+		}
+
+		setUser({ id, username, email })
 
 		if (twoFactorSecret) {
-			const intermediateToken = getJwtToken(secret,
-				{ sub: email, displayName, role, userId },
-				{ type: TokenType.Intermediate })
+			const intermediateToken = getJwtToken({ sub: email, username, role, userId: id }, { type: UserTokenType.Intermediate })
 
-			res.status(200).json({ intermediateToken })
+			return res.status(200).json({ intermediateToken })
 		} else {
-			const accessToken = getJwtToken(secret, { sub: email, displayName, role, userId })
-			const refreshToken = getJwtToken(secret, { sub: email, displayName, role, userId }, { type: TokenType.Refresh })
+			const accessToken = getJwtToken({ sub: email, username, role, userId: id })
+			const refreshToken = getJwtToken({ sub: email, username, role, userId: id }, { type: UserTokenType.Refresh })
 			setRefreshCookie(res, refreshToken)
 
-			res.status(200).json({ accessToken })
+			return res.status(200).json({ accessToken })
 		}
 	})
 

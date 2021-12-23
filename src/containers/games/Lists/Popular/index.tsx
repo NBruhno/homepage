@@ -1,3 +1,5 @@
+import { useEffect } from 'react'
+
 import { usePopularGames } from 'states/games'
 
 import { Item } from 'containers/games/Item'
@@ -5,16 +7,19 @@ import { Item } from 'containers/games/Item'
 import { Container } from '../Common/Container'
 import { Subtitle } from '../Common/Subtitle'
 
-const undefinedMessage = 'There appears to be an issue with games list'
 const emptyMessage = 'Could not find any popular games at the moment'
 
 type Props = {
-	after: string | undefined,
+	skip: number | undefined,
 }
 
-export const Popular = ({ after }: Props) => {
-	const { games } = usePopularGames(after)
+export const Popular = ({ skip }: Props) => {
+	const { games, after, setIsLimitReached } = usePopularGames(skip)
 	const isLoading = !games
+
+	useEffect(() => {
+		if (after === null) setIsLimitReached(true)
+	}, [after])
 
 	if (isLoading) {
 		return (
@@ -35,18 +40,10 @@ export const Popular = ({ after }: Props) => {
 		)
 	}
 
-	if (!games) {
-		return (
-			<Container>
-				<Subtitle>{undefinedMessage}</Subtitle>
-			</Container>
-		)
-	}
-
 	if (games.length === 0) {
 		return (
 			<Container>
-				{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
+				<Subtitle>{emptyMessage}</Subtitle>
 			</Container>
 		)
 	}
@@ -62,7 +59,7 @@ export const Popular = ({ after }: Props) => {
 					status={status}
 					index={index}
 					isLoading={isLoading}
-					key={id ?? index}
+					key={id}
 				/>
 			))}
 			{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}

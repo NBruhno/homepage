@@ -1,9 +1,10 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextPageContext } from 'next'
 
 import { captureException, flush } from '@sentry/nextjs'
 import NextErrorComponent from 'next/error'
 
 const MyError = ({ statusCode, hasGetInitialPropsRun, err }: { statusCode: number, hasGetInitialPropsRun: boolean, err: Error }) => {
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (!hasGetInitialPropsRun && err) {
 		// getInitialProps is not called in case of
 		// https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
@@ -14,13 +15,13 @@ const MyError = ({ statusCode, hasGetInitialPropsRun, err }: { statusCode: numbe
 	return <NextErrorComponent statusCode={statusCode} />
 }
 
-MyError.getInitialProps = async ({ res, err, asPath }: { res: NextApiResponse, err: NextApiRequest, asPath: string }) => {
-	// @ts-ignore: Because of the current limitations of implementing Sentry with Next
+MyError.getInitialProps = async ({ res, err, asPath }: NextPageContext) => {
+	// @ts-expect-error: Because of the current limitations of implementing Sentry with Next
 	const errorInitialProps = await NextErrorComponent.getInitialProps({ res, err })
 
 	// Workaround for https://github.com/vercel/next.js/issues/8592, mark when
 	// getInitialProps has run
-	// @ts-ignore: Because of the current limitations of implementing Sentry with Next
+	// @ts-expect-error: Because of the current limitations of implementing Sentry with Next
 	errorInitialProps.hasGetInitialPropsRun = true
 
 	// Running on the server, the response object (`res`) is available.
@@ -47,6 +48,7 @@ MyError.getInitialProps = async ({ res, err, asPath }: { res: NextApiResponse, e
 	// If this point is reached, getInitialProps was called without any
 	// information about what the error might be. This is unexpected and may
 	// indicate a bug introduced in Next.js, so record it in Sentry
+	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 	captureException(new Error(`_error.js getInitialProps missing data at path: ${asPath}`))
 	await flush(2000)
 

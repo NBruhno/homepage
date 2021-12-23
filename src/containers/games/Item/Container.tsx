@@ -4,9 +4,9 @@ import type { ComponentPropsWithRef, LegacyRef } from 'react'
 
 import { forwardRef } from 'react'
 
-type Props = {
+type Props = ComponentPropsWithRef<'a'> & {
 	isLoading?: boolean,
-} & ComponentPropsWithRef<'a'>
+}
 
 const Component = ({ isLoading, ...rest }: Props, ref: LegacyRef<HTMLAnchorElement>) => (
 	<a
@@ -29,7 +29,7 @@ const Component = ({ isLoading, ...rest }: Props, ref: LegacyRef<HTMLAnchorEleme
 			'&:hover': {
 				border: `1px solid ${theme.color.primaryLighter}`,
 				backgroundColor: theme.color.backgroundHover,
-				boxShadow: `${theme.darkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
+				boxShadow: `${theme.isDarkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
 			},
 
 			'&:active': {

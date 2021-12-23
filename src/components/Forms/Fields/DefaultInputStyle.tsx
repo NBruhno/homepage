@@ -3,10 +3,10 @@ import { css } from '@emotion/react'
 type Props = {
 	theme: Theme,
 	hasError: boolean,
-	disabled: boolean,
+	isDisabled: boolean,
 }
 
-export const DefaultInputStyle = ({ theme, hasError, disabled }: Props) => css({
+export const DefaultInputStyle = ({ theme, hasError, isDisabled }: Props) => css({
 	backgroundColor: hasError ? theme.color.errorBackground : theme.color.inputBackground,
 	border: `2px solid ${hasError ? theme.color.error : theme.color.inputBorder}`,
 	borderRadius: '4px',
@@ -28,14 +28,14 @@ export const DefaultInputStyle = ({ theme, hasError, disabled }: Props) => css({
 	},
 
 	'&:hover': {
-		backgroundColor: (!disabled && hasError) ? theme.color.errorBackgroundHover : theme.color.inputBackgroundHover,
-		borderColor: (!hasError && !disabled) ? theme.color.inputBorderHover : 'transparent',
+		backgroundColor: (!isDisabled && hasError) ? theme.color.errorBackgroundHover : theme.color.inputBackgroundHover,
+		borderColor: (!isDisabled && hasError) ? theme.color.error : theme.color.inputBorderHover,
 	},
 
 	'&:focus': {
-		backgroundColor: (!disabled && hasError) ? theme.color.errorBackgroundHover : theme.color.inputBackgroundHover,
+		backgroundColor: (!isDisabled && hasError) ? theme.color.errorBackgroundHover : theme.color.inputBackgroundHover,
 		borderColor: !hasError ? theme.color.primary : 'transparent',
-		boxShadow: `0 0 0 1px ${hasError ? theme.color.error : theme.color.primary}`,
+		boxShadow: hasError ? `0 0 0 2px ${theme.color.error}` : `0 0 0 1px ${isDisabled ? 'transparent' : theme.color.primary}`,
 	},
 
 	'&:disabled': {

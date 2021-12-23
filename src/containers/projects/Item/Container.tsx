@@ -23,7 +23,7 @@ const Component = (props: ComponentPropsWithRef<'a'>, ref: LegacyRef<HTMLAnchorE
 
 			'&:hover': {
 				border: `1px solid ${theme.color.primaryLighter}`,
-				boxShadow: `${theme.darkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
+				boxShadow: `${theme.isDarkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
 			},
 
 			'&:active': {

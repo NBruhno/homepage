@@ -1,4 +1,4 @@
-import type { Game, GamePrice } from 'types'
+import type { GamePrice, Game } from 'types'
 
 import { useResponsive } from 'states/responsive'
 import { useAuth } from 'states/users'
@@ -28,14 +28,14 @@ import { Wrapper } from './Wrapper'
 type Props = {
 	game: Game | null,
 	prices: Array<GamePrice> | undefined,
-	following: boolean,
+	isFollowing: boolean | undefined,
 	isLoading: boolean,
 
 	onFollow: () => Promise<any>,
 	onUnfollow: () => Promise<any>,
 }
 
-export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoading }: Props) => {
+export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow, isLoading }: Props) => {
 	const { user } = useAuth()
 	const { isMobile, isTablet, isLaptop } = useResponsive()
 	const groupedReleaseDates = game?.releaseDates ? groupByReleaseDate(game.releaseDates, ({ date }) => date, game.releaseDate) : null
@@ -66,7 +66,7 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 							</ReleaseDate>
 							<Developer>
 								<Placeholder isLoading={isLoading} width='25%'>
-									{game?.developer?.name && `By ${game.developer.name}`}
+									{game?.developers[0]?.name && `By ${game.developers[0].name}`}
 								</Placeholder>
 							</Developer>
 							{(isTablet || isMobile) && (
@@ -78,15 +78,15 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 								<ActionWrapper>
 									<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top}>
 										<ButtonSolid
-											label={following ? 'Unfollow' : 'Follow'}
-											onClick={() => following ? onUnfollow() : onFollow()}
-											disabled={!user.accessToken || following === undefined}
+											label={isFollowing ? 'Unfollow' : 'Follow'}
+											onClick={() => isFollowing ? onUnfollow() : onFollow()}
+											disabled={!user.accessToken || isFollowing === undefined}
 											isLoading={isLoading}
-											fullWidth
+											isFullWidth
 										/>
 									</Tooltip>
 									<Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} isLoading={isLoading} />
-									{(!isTablet && !isMobile) && <WebsiteIcons websites={game?.websites ?? null} sortBy={SortBy.Stores} />}
+									<WebsiteIcons websites={game?.websites ?? null} sortBy={SortBy.Stores} />
 								</ActionWrapper>
 								{(!isLaptop) && (
 									<PriceTable prices={prices} isLoading={isLoading} />
@@ -100,9 +100,9 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 						<Tooltip tip='You need to be logged in' show={!user.accessToken} location={Location.Top} css={{ display: 'grid' }}>
 							<div css={{ display: 'grid', gridTemplateColumns: 'repeat(1, auto)', gridGap: '8px' }}>
 								<ButtonSolid
-									label={following ? 'Unfollow' : 'Follow'}
-									onClick={() => following ? onUnfollow() : onFollow()}
-									disabled={!user.accessToken || following === undefined}
+									label={isFollowing ? 'Unfollow' : 'Follow'}
+									onClick={() => isFollowing ? onUnfollow() : onFollow()}
+									disabled={!user.accessToken || isFollowing === undefined}
 									isLoading={isLoading}
 									css={{ padding: '5px 16px' }}
 								/>
@@ -116,11 +116,12 @@ export const Detail = ({ game, prices, following, onFollow, onUnfollow, isLoadin
 				{(isTablet || isMobile || isLaptop) && (
 					<PriceTable prices={prices} isLoading={isLoading} />
 				)}
-				{game?.genres && game?.genres?.length > 0 && <p>Genres: {game?.genres.join(', ')}</p>}
-				{game?.platforms && game?.platforms?.length > 0 && <p>Platforms: {game?.platforms?.map(({ name }) => name).join(', ') ?? 'No known platforms'}</p>}
+				{game?.genres && game.genres.length > 0 && <p>Genres: {game.genres.map(({ name }) => name).join(', ')}</p>}
+				{game?.themes && game.themes.length > 0 && <p>Themes: {game.themes.map(({ name }) => name).join(', ')}</p>}
+				{game?.platforms && (game.platforms.length > 0 ? <p>Platforms: {game.platforms.map(({ name }) => name).join(', ')}</p> : <p>No known platforms</p>)}
 				{game?.summary && <h2>Summary</h2>}
-				{game?.summary && <p>{game?.summary}</p>}
-				{groupedReleaseDates && groupedReleaseDates?.length > 0 && <h2>Later release dates:</h2>}
+				{game?.summary && <p>{game.summary}</p>}
+				{groupedReleaseDates && groupedReleaseDates.length > 0 && <h2>Other release dates:</h2>}
 				{groupedReleaseDates?.map(({ date, platforms }, index) => (
 					<div key={index}>
 						<p>{dateOrYear(date)}: {platforms.join(', ')}</p>
