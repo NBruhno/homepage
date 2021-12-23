@@ -144,10 +144,12 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		publishers: mapCompanies(companies, 'publisher') ?? [],
 		rating: rating ? Math.round(rating) : undefined,
 		ratingCount: ratingCount ? Math.round(ratingCount) : undefined,
-		releaseDate: releaseDate ? new Date(fromUnixTime(releaseDate)).toISOString() : undefined,
+		// FIXME: Set a high date for unknown, since it's currently not possible to sort null last with Prisma
+		releaseDate: releaseDate ? new Date(fromUnixTime(releaseDate)).toISOString() : '9999-12-31T00:00:00.000Z',
 		releaseDates: releaseDates.length > 0 ? releaseDates.map(({ date, platform }) => ({
 			platform,
-			date: date ? new Date(fromUnixTime(date)).toISOString() : undefined,
+			// FIXME: Set a high date for unknown, since it's currently not possible to sort null last with Prisma
+			date: date ? new Date(fromUnixTime(date)).toISOString() : '9999-12-31T00:00:00.000Z',
 		})) : [],
 		screenshot: sample(screenshotUrls) ?? undefined,
 		similarGames: similarGames.length > 0 ? similarGames.map(({ id, name, cover }) => ({
