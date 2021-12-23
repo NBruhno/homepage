@@ -8,7 +8,7 @@
 # What makes up this website
 * [Next.js](https://github.com/vercel/next.js) - React framework
 * [Vercel](https://github.com/vercel/vercel) - Hosting
-* [Fauna](https://planetscale.com) - Database
+* [PlanetScale](https://planetscale.com) - Database
 * [Prisma](https://github.com/prisma/prisma) - Database ORM
 ### Other important libraries:
   * [Emotion](https://github.com/emotion-js/emotion) - CSS-in-JS
