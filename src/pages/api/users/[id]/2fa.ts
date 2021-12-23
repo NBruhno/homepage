@@ -5,7 +5,7 @@ import { authenticator as otpAuthenticator } from 'otplib'
 import { toDataURL as getQRCodeImage } from 'qrcode'
 import { create, object, string } from 'superstruct'
 
-import { monitorReturn, monitor, monitorAsync, monitorReturnAsync } from 'lib/sentryMonitor'
+import { monitor, monitorAsync } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 import { authenticate, setRefreshCookie } from 'api/middleware'
@@ -25,7 +25,7 @@ const handler = apiHandler({
 		const { id } = create(req.query, Query)
 		if (requestUserId !== id) throw ApiError.fromCode(403)
 
-		const twoFactorSecret = monitorReturn(() => otpAuthenticator.generateSecret(32), 'otplib - generateSecret()')
+		const twoFactorSecret = monitor(() => otpAuthenticator.generateSecret(32), 'otplib - generateSecret()')
 		const qrCode = await getQRCodeImage(`otpauth://totp/${encodeURI(sub)}?secret=${twoFactorSecret}&issuer=Bruhno`, { type: 'image/webp' })
 
 		return res.status(200).json({ twoFactorSecret, qrCode })
@@ -36,7 +36,7 @@ const handler = apiHandler({
 		const { sub, username, role, userId: requestUserId } = authenticate(req, { type: UserTokenType.Intermediate })
 		if (requestUserId !== id) throw ApiError.fromCode(403)
 
-		const user = await monitorReturnAsync(() => prisma.user.findUnique({
+		const user = await monitorAsync(() => prisma.user.findUnique({
 			where: {
 				id: requestUserId,
 			},

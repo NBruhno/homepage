@@ -2,7 +2,7 @@ import { withSentry } from '@sentry/nextjs'
 import { sub } from 'date-fns'
 import { optional, string, object, create, pattern, coerce, number, array, partial, assign, pick, literal } from 'superstruct'
 
-import { monitorReturnAsync } from 'lib/sentryMonitor'
+import { monitorAsync } from 'lib/sentryMonitor'
 
 import { authenticateSystem } from 'api/middleware'
 import { gameFields, igdbFetcher, apiHandler, setCache, prisma, mapIgdbGame } from 'api/utils'
@@ -33,7 +33,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		const computedSkip = hasSkip ? skip - 1 : skip
 
 		if (user) {
-			const games = await prisma.game.findMany({
+			const games = await monitorAsync(() => prisma.game.findMany({
 				where: {
 					userData: {
 						some: { ownerId: user, isFollowing: true },
@@ -49,7 +49,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 					releaseDate: true,
 					status: true,
 				},
-			})
+			}), 'prisma - findMany(user)')
 
 			setCache({ strategy: 'NoCache', res })
 			return res.status(200).json({
@@ -69,7 +69,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 				body: `${gameFields}; limit ${take}; search "${search}";`,
 				nickname: 'search',
 			}).then((games) => games.map(mapIgdbGame))
-			: await monitorReturnAsync(() => prisma.game.findMany({
+			: await monitorAsync(() => prisma.game.findMany({
 				orderBy: [{ hype: 'desc' }, { releaseDate: 'asc' }],
 				where: {
 					releaseDate: {
@@ -90,7 +90,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 				},
 			}), 'prisma - findMany()')
 
-		setCache({ strategy: 'StaleWhileRevalidate', duration: 60, res })
+		setCache({ strategy: 'StaleWhileRevalidate', duration: 30, res })
 
 		return res.status(200).json({
 			games: hasSkip ? games.slice(1, take + 1) : games,
@@ -104,7 +104,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		authenticateSystem(req)
 		const gameToCreate = create(req.body, gameValidator)
 
-		const game = await monitorReturnAsync(() => prisma.game.create({
+		const game = await monitorAsync(() => prisma.game.create({
 			data: { ...gameToCreate, updatedAt: undefined },
 		}), 'prisma - create()')
 
@@ -119,7 +119,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 			data: { ...rest, updatedAt: undefined },
 		}))
 
-		const updatedGames = await prisma.$transaction(updateQueries)
+		const updatedGames = await monitorAsync(() => prisma.$transaction(updateQueries), 'prisma - transaction(update())')
 		return res.status(200).json({ count: updatedGames.length })
 	})
 	.patch(async (req, res) => {
@@ -131,7 +131,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 			update: { id, ...rest, updatedAt: undefined },
 		}))
 
-		const result = await monitorReturnAsync(() => prisma.$transaction(transactions), 'prisma - transaction(upsert())')
+		const result = await monitorAsync(() => prisma.$transaction(transactions), 'prisma - transaction(upsert())')
 
 		return res.status(200).json(result)
 	})

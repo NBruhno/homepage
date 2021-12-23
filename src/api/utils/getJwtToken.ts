@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 
 import { config } from 'config.server'
 
-import { monitorReturn } from '../../lib/sentryMonitor'
+import { monitor } from '../../lib/sentryMonitor'
 
 type Payload = Record<string, any>
 type Options = {
@@ -20,7 +20,7 @@ const defaultPayload = {
 	nbf: Math.floor(Date.now() / 1000) - 30,
 }
 
-export const getJwtToken = (payload: Payload, { type = UserTokenType.Access, transaction }: Options = {}) => monitorReturn(() => {
+export const getJwtToken = (payload: Payload, { type = UserTokenType.Access, transaction }: Options = {}) => monitor(() => {
 	const getExpiration = () => {
 		switch (type) {
 			case UserTokenType.Access: return Math.floor(Date.now() / 1000) + (60 * 15) // 15 minutes

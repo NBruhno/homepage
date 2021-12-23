@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken'
 
 import { config } from 'config.server'
 
-import { monitorReturn } from 'lib/sentryMonitor'
+import { monitor } from 'lib/sentryMonitor'
 
 import { ApiError } from 'api/errors'
 
@@ -33,7 +33,7 @@ export type Options = {
  * ```
  */
 export const authenticate = (req: NextApiRequest,
-	{ token, type = UserTokenType.Access, transaction }: Options = {}) => monitorReturn(() => {
+	{ token, type = UserTokenType.Access, transaction }: Options = {}) => monitor(() => {
 	const { headers: { authorization }, cookies } = req
 
 	const tokenToUse = (() => {

@@ -15,10 +15,6 @@ export const config = Object.freeze({
 		systemToken: process.env.AUTH_SYSTEM_TOKEN as string,
 	},
 
-	fauna: {
-		secret: process.env.FAUNADB_SECRET as string,
-	},
-
 	igdb: {
 		clientId: process.env.IGDB_CLIENT_ID as string,
 		token: process.env.IGDB_TOKEN as string,

@@ -2,7 +2,7 @@ import type { Span } from '@sentry/types'
 
 import { config } from 'config.server'
 
-import { monitorReturnAsync } from 'lib/sentryMonitor'
+import { monitorAsync } from 'lib/sentryMonitor'
 
 type Options = {
 	body?: string | null,
@@ -23,7 +23,7 @@ export const itadFetcher = async <T>(url: string, { body = null, span, nickname,
 	})
 
 	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-	const data = await monitorReturnAsync(() => fetch(`https://api.isthereanydeal.com/v0${version}${url}?${params}`, {
+	const data = await monitorAsync(() => fetch(`https://api.isthereanydeal.com/v0${version}${url}?${params}`, {
 		method: 'GET',
 		body,
 		headers: new Headers({
