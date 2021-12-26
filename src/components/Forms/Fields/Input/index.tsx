@@ -14,34 +14,34 @@ import { Textarea } from './Textarea'
 import { validators } from './validators'
 
 type InputProps = {
+	id?: string,
 	name: string,
 	label: string,
 
 	autoComplete?: string,
-	shouldAutofocus?: boolean,
-	isDisabled?: boolean,
 	enableValidate?: boolean,
+	hint?: string,
+	isDisabled?: boolean,
 	isFullWidth?: boolean,
 	isHidden?: boolean,
-	hint?: string,
-	id?: string,
+	isRequired?: boolean,
 	maxLength?: number,
 	maxRows?: number,
 	minLength?: number,
-	showOptionalHint?: boolean,
+	minRows?: number,
 	pattern?: string,
 	placeholder?: string,
-	isRequired?: boolean,
-	rows?: number,
-	type?: 'email' | 'hidden' | 'multiline' | 'number' | 'password' | 'tel' | 'text' | 'username',
+	shouldAutofocus?: boolean,
 	shouldValidate?: boolean,
+	showOptionalHint?: boolean,
+	type?: 'email' | 'hidden' | 'multiline' | 'number' | 'password' | 'tel' | 'text' | 'username',
 
 	parse?: (value: Value, name: string) => any,
 	format?: (value: Value, name: string) => any,
 }
 
 export const Input = ({
-	showOptionalHint = true, isFullWidth = true, isRequired = false, rows = 3, enableValidate = true, type = 'text',
+	showOptionalHint = true, isFullWidth = true, isRequired = false, minRows = 3, enableValidate = true, type = 'text',
 	isDisabled = false, maxRows = 8, minLength, maxLength, name, shouldValidate = true, autoComplete = 'off', id= name,
 	parse = (value) => value ?? null, label, hint, placeholder, shouldAutofocus, pattern, isHidden = false,
 }: InputProps) => {
@@ -91,9 +91,8 @@ export const Input = ({
 					<Textarea
 						{...input}
 						{...defaultProps}
-						rows={rows}
+						minRows={minRows}
 						maxRows={maxRows}
-						async
 					/>
 				) : (
 					<InputComponent

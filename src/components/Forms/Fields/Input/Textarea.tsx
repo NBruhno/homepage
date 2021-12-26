@@ -1,15 +1,12 @@
-import AutosizeTextarea from 'react-autosize-textarea'
+import AutosizeTextarea from 'react-textarea-autosize'
 
 import { DefaultInputStyle } from '../DefaultInputStyle'
 
 type Props = {
-	// External API
-	// eslint-disable-next-line @typescript-eslint/naming-convention
-	async: boolean,
 	isDisabled: boolean,
 	hasError: boolean,
 	maxRows: number,
-	rows: number,
+	minRows: number,
 }
 
 export const Textarea = ({ hasError, isDisabled, ...rest }: Props) => (
