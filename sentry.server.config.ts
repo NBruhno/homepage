@@ -4,6 +4,6 @@ const SENTRY_DSN = process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN
 
 Sentry.init({
 	dsn: SENTRY_DSN as string,
-	tracesSampleRate: 1,
+	tracesSampleRate: 0.1,
 	environment: process.env.VERCEL_ENV as string,
 })
