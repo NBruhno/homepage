@@ -1,4 +1,4 @@
-import AutosizeTextarea from 'react-autosize-textarea'
+import AutosizeTextarea from 'react-textarea-autosize'
 
 type Props = {
 	isAsync: boolean,
