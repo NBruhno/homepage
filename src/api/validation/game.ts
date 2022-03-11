@@ -1,6 +1,6 @@
 import type { GameCategory, GameStatus } from '@prisma/client'
 
-import { optional, string, object, number, array, enums, boolean } from 'superstruct'
+import { optional, string, object, number, array, enums, boolean, nullable } from 'superstruct'
 
 const status = optional(enums<GameStatus>(['Alpha', 'Beta', 'EarlyAccess', 'Offline', 'Released', 'Cancelled', 'Rumored', 'Delisted']))
 
@@ -28,7 +28,7 @@ const company = object({
 
 const platform = object({
 	id: number(),
-	abbreviation: string(),
+	abbreviation: nullable(string()),
 	name: string(),
 })
 
@@ -80,7 +80,7 @@ export const game = object({
 	themes: optional(array(defaultEntity)),
 	updatedAt: optional(string()),
 	videos: optional(array(object({
-		name: string(),
+		name: nullable(string()),
 		videoId: string(),
 	}))),
 	websites: optional(array(website)),

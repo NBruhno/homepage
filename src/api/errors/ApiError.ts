@@ -94,11 +94,10 @@ export class ApiError extends CustomError {
 }
 
 /**
- *
  * @param statusCode - Any HTTP status code
  * @param res - The Next.js response object
  * @param error - Any Error class
- * @returns ApiError
+ * @returns ApiError class
  */
 export const createAndAttachError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, error?: Error) => {
 	let apiError

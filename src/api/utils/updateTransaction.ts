@@ -19,8 +19,6 @@ export const updateTransaction = ({ data = [], name }: Props) => {
 			})
 		}
 
-		if (name) {
-			transaction.setName(name)
-		}
+		if (name) transaction.setName(name)
 	}
 }

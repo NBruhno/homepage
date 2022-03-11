@@ -12,5 +12,5 @@ export type GameMultiplayerMode = {
 	offlineMax: number | null,
 	onlineCoopMax: number | null,
 	onlineMax: number | null,
-	platform: GamePlatform,
+	platform: GamePlatform | null,
 }

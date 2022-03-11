@@ -12,7 +12,7 @@ export type Game = Omit<PrismaGame, 'developers' | 'dlcs' | 'engines' | 'franchi
 	developers: Array<GameCompany>,
 	dlcs: Array<GameReference>,
 	engines: Array<GameDefaultEntity>,
-	franchies: Array<GameDefaultEntity>,
+	franchises: Array<GameDefaultEntity>,
 	genres: Array<GameDefaultEntity>,
 	modes: Array<GameDefaultEntity>,
 	multiplayerModes: Array<GameMultiplayerMode>,
