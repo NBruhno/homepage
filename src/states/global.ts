@@ -14,6 +14,7 @@ export type State = {
 	forms: Record<string, Record<string, any>> & {
 		login?: LoginModel,
 		register?: RegisterModel,
+		// eslint-disable-next-line @typescript-eslint/naming-convention
 		'2fa'?: TwoFactorModel,
 		games?: GamesModel,
 	},

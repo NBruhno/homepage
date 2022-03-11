@@ -52,7 +52,6 @@ export const igdbFetcher = async <T extends boolean>(url: string, res: NextApiRe
 		body,
 		headers: new Headers({
 			Authorization: `Bearer ${config.igdb.token}`,
-			// eslint-disable-next-line @typescript-eslint/naming-convention
 			'Client-ID': config.igdb.clientId,
 			'Content-Type': 'text/plain',
 			accept: 'application/json',
