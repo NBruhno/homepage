@@ -138,7 +138,7 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		modes: modes.length > 0 ? modes : [],
 		multiplayerModes: multiplayerModes.length > 0 ? mapMultiplayerMode(multiplayerModes) : [],
 		parentId: parentGame,
-		platforms: platforms.length > 0 ? platforms : [],
+		platforms: platforms.length > 0 ? platforms.map(({ id, name, abbreviation }) => ({ id, name, abbreviation: abbreviation ?? null })) : [],
 		playerPerspectives: playerPerspectives.length > 0 ? playerPerspectives : [],
 		porters: mapCompanies(companies, 'porting') ?? [],
 		publishers: mapCompanies(companies, 'publisher') ?? [],
@@ -147,7 +147,11 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		// FIXME: Set a high date for unknown, since it's currently not possible to sort null last with Prisma
 		releaseDate: releaseDate ? new Date(fromUnixTime(releaseDate)).toISOString() : '9999-12-31T00:00:00.000Z',
 		releaseDates: releaseDates.length > 0 ? releaseDates.map(({ date, platform }) => ({
-			platform,
+			platform: {
+				id: platform.id,
+				name: platform.name,
+				abbreviation: platform.abbreviation ?? null,
+			},
 			// FIXME: Set a high date for unknown, since it's currently not possible to sort null last with Prisma
 			date: date ? new Date(fromUnixTime(date)).toISOString() : '9999-12-31T00:00:00.000Z',
 		})) : [],
@@ -163,7 +167,7 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		supporters: mapCompanies(companies, 'supporting') ?? [],
 		themes: themes.length > 0 ? themes : [],
 		updatedAt: updatedAt ? new Date(fromUnixTime(updatedAt)).toISOString() : undefined,
-		videos: videos.length > 0 ? videos.map(({ name, video_id: videoId }) => ({ name, videoId })) : [],
+		videos: videos.length > 0 ? videos.map(({ name, video_id: videoId }) => ({ name: name ?? null, videoId })) : [],
 		websites: mapWebsites(websites) ?? [],
 	}
 }
