@@ -38,6 +38,7 @@ describe('/api/users/{id}/2fa', () => {
 			.set('authorization', `Bearer ${intermediateToken}`)
 			.send({
 				otp: authenticator.generate(twoFactorSecret),
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			}), 3) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		accessToken = twoFactorRes.body.accessToken
@@ -148,6 +149,7 @@ describe('/api/users/{id}/2fa', () => {
 			.set('authorization', `Bearer ${intermediateToken}`)
 			.send({
 				otp: authenticator.generate(twoFactorSecret),
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			}), 3) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		expect(res.status).toBe(200)

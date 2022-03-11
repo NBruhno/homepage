@@ -20,6 +20,7 @@ describe('/api/users/refresh', () => {
 			.send({
 				email,
 				password: defaultPassword,
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			}) as unknown as TestResponse & { headers: { 'set-cookie': Array<string> } }
 
 		refreshToken = res.headers['set-cookie'][0]
@@ -32,6 +33,7 @@ describe('/api/users/refresh', () => {
 
 		const res = await supertest(server)
 			.get('/api/users/refresh')
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			.set('Cookie', refreshToken) as unknown as TestResponse & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		expect(res.status).toBe(200)

@@ -46,6 +46,7 @@ describe('/api/users', () => {
 				password: defaultPassword,
 				username,
 				accessCode,
+			// eslint-disable-next-line @typescript-eslint/naming-convention
 			}) as unknown as TestResponse & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
 
 		expect(res.status).toBe(200)
