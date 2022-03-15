@@ -5,13 +5,11 @@ export const Muted = (props: ComponentProps<'div'>) => (
 		css={(theme) => ({
 			color: theme.color.text,
 			fontSize: theme.font.size.s90,
-			padding: '10px 0',
 			opacity: 0.7,
-
-			[theme.mediaQueries.maxTablet]: {
-				textAlign: 'center',
-				padding: '0 10px',
-			},
+			textAlign: 'center',
+			lineHeight: '32px',
+			borderTop: `1px solid ${theme.color.gray020}`,
+			height: '32px',
 		})}
 		{...props}
 	/>

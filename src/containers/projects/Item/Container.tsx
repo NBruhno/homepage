@@ -6,6 +6,7 @@ import { forwardRef } from 'react'
 const Component = (props: ComponentPropsWithRef<'a'>, ref: LegacyRef<HTMLAnchorElement>) => (
 	<a
 		css={(theme) => ({
+			backgroundColor: theme.color.background,
 			border: `1px solid ${theme.color.gray020}`,
 			borderRadius: '4px',
 			color: theme.color.text,

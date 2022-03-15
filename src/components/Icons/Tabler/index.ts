@@ -1,6 +1,8 @@
 export { Alert as AlertIcon } from './Alert'
 export { Apple as AppleIcon } from './Apple'
 export { Apps as AppsIcon } from './Apps'
+export { ChevronLeft as ChevronLeftIcon } from './ChevronLeft'
+export { ChevronRight as ChevronRightIcon } from './ChevronRight'
 export { Discord as DiscordIcon } from './Discord'
 export { Gamepad as GamepadIcon } from './Gamepad'
 export { GitHub as GitHubIcon } from './GitHub'

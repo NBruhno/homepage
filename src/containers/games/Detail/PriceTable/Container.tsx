@@ -5,10 +5,11 @@ export const Container = (props: ComponentProps<'div'>) => (
 		css={(theme) => ({
 			border: `1px solid ${theme.color.gray020}`,
 			borderRadius: '4px',
-			marginTop: '12px',
 			maxWidth: '400px',
+			height: '86px',
+			backgroundColor: theme.color.background,
 
-			[theme.mediaQueries.maxTablet]: {
+			[theme.mediaQueries.maxDesktop]: {
 				maxWidth: 'unset',
 			},
 		})}

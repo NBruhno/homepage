@@ -21,10 +21,10 @@ const Body = object({
 
 const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.post(async (req, res) => {
-		const { email, password, username } = create(req.body, Body)
-		const passwordHash = await monitorAsync(() => hash(password, argonDefaultOptions), 'argon2 - hash()')
-
 		try {
+			const { email, password, username } = create(req.body, Body)
+			const passwordHash = await monitorAsync(() => hash(password, argonDefaultOptions), 'argon2 - hash()')
+
 			const user = await monitorAsync(() => prisma.user.create({
 				data: {
 					email,

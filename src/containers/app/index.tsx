@@ -11,6 +11,9 @@ import { theme } from 'styles/theme'
 
 import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 
+import { Snackbars } from 'components/Snackbars'
+
+import { Background } from './Background'
 import { BlockWrapper } from './BlockWrapper'
 import { Grid } from './Grid'
 import { Header } from './Header'
@@ -43,11 +46,13 @@ export const App = ({ children }: Props) => {
 					</BlockWrapper>
 				) : (
 					<Grid>
+						<Background />
 						<Header />
 						<Navigation />
 						<Main>
 							{children}
 						</Main>
+						<Snackbars />
 					</Grid>
 				)}
 			</GlobalStyling>

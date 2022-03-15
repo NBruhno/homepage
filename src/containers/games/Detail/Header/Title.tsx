@@ -10,6 +10,7 @@ export const Title = (props: ComponentProps<'h1'>) => (
 			color: theme.color.white,
 			margin: '0 0 8px',
 			fontWeight: theme.font.weight.medium,
+			gridArea: 'title',
 
 			[theme.mediaQueries.maxWearable]: {
 				fontSize: theme.font.size.s100,

@@ -9,6 +9,7 @@ export const Image = ({ loading = 'lazy', ...rest }: Props) => (
 		css={{
 			height: '100%',
 			width: '100%',
+			aspectRatio: '3/4',
 			objectFit: 'cover',
 
 			// Prevent alt text from showing during image fetch

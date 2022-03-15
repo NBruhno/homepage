@@ -4,6 +4,7 @@ import type { ComponentProps } from 'react'
 export const ReleaseDate = (props: ComponentProps<'h1'>) => (
 	<h1
 		css={(theme) => ({
+			gridArea: 'releaseDate',
 			textShadow: '1px 1px 5px hsla(0, 0%, 0%, 0.5), 0 0 12px hsla(0, 0%, 0%, 0.5)',
 			fontSize: theme.font.size.s180,
 			marginTop: '12px',

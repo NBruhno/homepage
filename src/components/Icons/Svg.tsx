@@ -31,7 +31,7 @@ export const Svg = ({ size = 24, x = 24, y = x, title, children, type = 'tabler'
 
 	return (
 		<svg
-			preserve-aspect-ratio='xMinYMin meet'
+			preserveAspectRatio='xMinYMin meet'
 			role='img'
 			viewBox={`0 0 ${x} ${y}`}
 			xmlns='http://www.w3.org/2000/svg'

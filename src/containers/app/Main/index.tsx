@@ -47,6 +47,9 @@ export const Main = ({ children }: ComponentProps<'main'>) => {
 	const isMobile = useMediaQuery(mediaQueries.maxMobile.replace('@media ', ''))
 	const isTablet = useMediaQuery(mediaQueries.mobileToTablet.replace('@media ', ''))
 	const isLaptop = useMediaQuery(mediaQueries.tabletToLaptop.replace('@media ', ''))
+	const isDesktop = useMediaQuery(mediaQueries.laptopToDesktop.replace('@media ', ''))
+	const isDesktopLarge = useMediaQuery(mediaQueries.desktopToDesktopLarge.replace('@media ', ''))
+	const isDesktopMax = useMediaQuery(mediaQueries.minDesktopLarge.replace('@media ', ''))
 	const isSidebarCollapsed = useMediaQuery(mediaQueries.maxLaptop.replace('@media ', ''))
 
 	useEffect(() => {
@@ -69,8 +72,10 @@ export const Main = ({ children }: ComponentProps<'main'>) => {
 	}, [pathname, user.isStateKnown, user.role])
 
 	useEffect(() => {
-		updateResponsive({ isMobile, isTablet, isLaptop, isSidebarCollapsed })
-	}, [isMobile, isSidebarCollapsed])
+		updateResponsive({ isMobile, isTablet, isLaptop, isDesktop, isDesktopLarge, isDesktopMax, isSidebarCollapsed })
+	// DO NOT set updateResponsive as part of the dependency, since that function updates every time the state is updated
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [isMobile, isTablet, isLaptop, isDesktop, isDesktopLarge, isDesktopMax, isSidebarCollapsed])
 
 	useEffect(() => {
 		if (isRouteProtected || isRouteRoleProtected || showLogin) {

@@ -1,5 +1,7 @@
 import type { ComponentProps } from 'react'
 
+import { useLoading } from 'states/isLoading'
+
 import { CoverWrapper } from './CoverWrapper'
 import { Image } from './Image'
 import { Placeholder } from './Placeholder'
@@ -9,17 +11,19 @@ type Props = ComponentProps<'img'> & {
 	size?: string,
 }
 
-export const Cover = ({ size = 'big', coverUrl, alt, ...rest }: Props) => {
-	if (!coverUrl) {
+export const Cover = ({ coverUrl, alt, ...rest }: Props) => {
+	const { isLoading } = useLoading()
+
+	if (!coverUrl || isLoading) {
 		return (
-			<CoverWrapper size={size} {...rest}>
+			<CoverWrapper {...rest}>
 				<Placeholder />
 			</CoverWrapper>
 		)
 	}
 
 	return (
-		<CoverWrapper size={size} {...rest}>
+		<CoverWrapper {...rest}>
 			<Image alt={alt} src={coverUrl} />
 		</CoverWrapper>
 	)

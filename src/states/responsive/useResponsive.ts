@@ -1,10 +1,14 @@
 import { useGlobalState } from 'states/global'
 
 export type Responsive = {
+	isLoading: boolean,
 	isSidebarCollapsed: boolean,
 	isMobile: boolean,
 	isTablet: boolean,
 	isLaptop: boolean,
+	isDesktop: boolean,
+	isDesktopLarge: boolean,
+	isDesktopMax: boolean,
 	showLogin: boolean,
 	showMenu: boolean,
 }

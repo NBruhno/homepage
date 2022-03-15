@@ -15,7 +15,7 @@ export const BackgroundWrapper = (props: ComponentProps<'div'>) => (
 			transition: `height 300ms ${theme.animation.default}`,
 
 			[theme.mediaQueries.maxMobile]: {
-				height: '250px',
+				height: '260px',
 			},
 		})}
 		{...props}

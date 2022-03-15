@@ -2,22 +2,23 @@ import type { ComponentProps } from 'react'
 import type { GameWebsite } from 'types'
 import { GameWebsiteType } from 'types'
 
+import { useLoading } from 'states/isLoading'
+import { useResponsive } from 'states/responsive'
+
 import {
 	SteamIcon, GooglePlayIcon, GoGIcon, RedditIcon, AppleIcon, TwitterIcon,
 	EpicGamesIcon, ItchIoIcon, DiscordIcon, WorldIcon, QuestionMarkIcon,
 } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
-export enum SortBy {
-	Stores = 'stores',
-}
-
 type Props = ComponentProps<'div'> & {
 	websites: Array<GameWebsite> | null,
-	sortBy?: SortBy,
 }
 
 export const WebsiteIcons = ({ websites, ...rest }: Props) => {
+	const { isDesktop, isDesktopLarge, isDesktopMax } = useResponsive()
+	const { isLoading } = useLoading()
+	const isDesktopOrHigher = isDesktop || isDesktopLarge || isDesktopMax
 	const websiteInformation = {
 		[GameWebsiteType.GooglePlayStore]: { logo: <GooglePlayIcon size={32} />, name: 'Google Play store' },
 		[GameWebsiteType.Discord]: { logo: <DiscordIcon size={32} />, name: 'Discord server' },
@@ -39,21 +40,44 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 			css={(theme) => ({
 				gridGap: '6px',
 				display: 'grid',
-				gridTemplateColumns: `repeat(${websites.length}, 34px)`,
-				maxWidth: '100%',
+				gridTemplateColumns: `repeat(auto-fit, 34px)`,
+				overflow: 'hidden',
 
 				[theme.mediaQueries.maxMobile]: {
-					margin: '12px 0 32px',
 					justifyContent: 'center',
 				},
 			})}
 			{...rest}
 		>
-			{websites.map(({ url, type }, index) => {
+			{isLoading && Array.from({ length: 5 }).map(() => (
+				<div
+					css={(theme) => ({
+						backgroundColor: theme.color.gray010,
+						borderRadius: '4px',
+						width: '32px',
+						height: '32px',
+						padding: '2px',
+						display: 'flex',
+						alignItems: 'center',
+						justifyContent: 'space-around',
+					})}
+				/>
+			))}
+			{!isLoading && websites.slice(0, isDesktopOrHigher ? websites.length : 5).map(({ url, type }, index) => {
 				const { logo, name } = websiteInformation[type]
 
 				return (
-					<Tooltip tip={name} key={index} show>
+					<Tooltip
+						tip={(
+							<>
+								<h3 css={{ margin: '0 0 6px' }}>{name}</h3>
+								{/* Remove https and www from the URL for display */}
+								<span>{url.replace('https://', '').replace('www.', '')}</span>
+							</>
+						)}
+						key={index}
+						show
+					>
 						<a
 							href={url}
 							target='_blank'
@@ -63,6 +87,9 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 								maxHeight: '32px',
 								maxWidth: '36px',
 								padding: '2px',
+								display: 'flex',
+								alignItems: 'center',
+								justifyContent: 'space-around',
 
 								'&:hover': {
 									color: theme.color.gray100,
