@@ -26,6 +26,7 @@ export const Container = ({ ratingLevel, ...rest }: Props) => (
 
 			'> div': {
 				textAlign: 'center',
+				lineHeight: '100%',
 				width: '21px',
 
 				'&:first-of-type': {
