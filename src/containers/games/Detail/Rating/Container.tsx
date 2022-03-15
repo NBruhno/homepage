@@ -22,7 +22,7 @@ export const Container = ({ ratingLevel, ...rest }: Props) => (
 			fontFamily: theme.font.family.poppins,
 			height: '36px',
 			justifyContent: 'space-between',
-			maxWidth: '88px',
+			width: '88px',
 
 			'> div': {
 				textAlign: 'center',

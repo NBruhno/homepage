@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import NextApp from 'next/app'
 import Head from 'next/head'
 
 import { App } from 'containers/app'
 
-export default class MyApp extends NextApp<{ err: Error }> {
+export default class MyApp extends NextApp<{ err: Error | undefined }> {
 	render() {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const { Component, pageProps, err } = this.props

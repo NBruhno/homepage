@@ -9,7 +9,7 @@ type Props = ComponentProps<'div'> & {
 export const Shade = ({ show, ...rest }: Props) => (
 	<div
 		css={(theme) => ({
-			backgroundColor: show ? adjustHsl(theme.color.background, { alpha: 0.5 }) : 'none',
+			backgroundColor: show ? adjustHsl(theme.color.background, { alpha: 0.5 }) : 'unset',
 			position: 'absolute',
 			top: 0,
 			left: 0,
@@ -22,7 +22,7 @@ export const Shade = ({ show, ...rest }: Props) => (
 
 			'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
 				backdropFilter: show ? 'blur(5px)' : 'none',
-				backgroundColor: show ? adjustHsl(theme.color.background, { alpha: 0.5 }) : 'none',
+				backgroundColor: show ? adjustHsl(theme.color.background, { alpha: 0.5 }) : 'unset',
 			},
 		})}
 		{...rest}

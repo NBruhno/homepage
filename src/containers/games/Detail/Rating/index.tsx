@@ -1,17 +1,19 @@
 import { useMemo } from 'react'
 
+import { useLoading } from 'states/isLoading'
+
 import { Tooltip } from 'components/Tooltip'
 
 import { Container } from './Container'
 import { Placeholder } from './Placeholder'
 
 type Props = {
-	isLoading: boolean,
 	rating: number | null,
 	ratingCount: number | null,
 }
 
-export const Rating = ({ rating, ratingCount, isLoading }: Props) => {
+export const Rating = ({ rating, ratingCount }: Props) => {
+	const { isLoading } = useLoading()
 	const ratingLevel = useMemo(() => {
 		if (!rating) return null
 		if (rating >= 66) return 'high'

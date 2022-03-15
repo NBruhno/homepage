@@ -1,12 +1,10 @@
 import { startTransaction } from '@sentry/nextjs'
 import { pickBy } from 'lodash'
 
-import { logger } from './logger'
+import { ApiError } from 'api/errors'
+import type { statusCodes } from 'api/errors/ApiError'
 
-export enum ContentType {
-	Text = 'text/plain',
-	Json = 'application/json',
-}
+import { logger } from './logger'
 
 export enum Method {
 	Put = 'PUT',
@@ -21,7 +19,6 @@ export type Options = {
 	accessToken?: string | undefined,
 	body?: Record<string, any>,
 	cacheControl?: string,
-	contentType?: ContentType,
 	credentials?: RequestCredentials,
 	customHeaders?: Record<string, any>,
 	method?: Method,
@@ -43,9 +40,9 @@ export type Options = {
  */
 export const fetcher = async <ReturnType>(
 	url: string, {
-		accessToken, body, method = Method.Get, contentType = ContentType.Json, absoluteUrl,
+		accessToken, body, method = Method.Get, absoluteUrl,
 		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
-	}: Options = {}): Promise<ReturnType> => {
+	}: Options = {}) => {
 	const transaction = startTransaction({
 		op: 'fetcher',
 		name: `${method} - ${url}`,
@@ -58,7 +55,7 @@ export const fetcher = async <ReturnType>(
 
 	// Create headers object and remove falsy variables to exclude them from call
 	const headers = pickBy({
-		'Content-Type': contentType,
+		'Content-Type': 'application/json',
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
 		'sentry-trace': transaction.traceId,
@@ -73,14 +70,16 @@ export const fetcher = async <ReturnType>(
 		mode,
 	}).then(async (response) => {
 		try {
-			const responseContentType = response.headers.get('content-type')
-			const payload = responseContentType === ContentType.Text ? await response.text() : await response.json() as ReturnType
 			if (response.status >= 400) {
-				logger.error(payload)
-				throw new Error(response.statusText)
+				const payload = await response.json() as { message?: string }
+				logger.error(payload.message)
+				throw ApiError.fromCodeWithError(
+					response.status as unknown as keyof typeof statusCodes,
+					new Error(payload.message ?? 'Unknown error'),
+				)
 			}
 
-			return payload as ReturnType
+			return response.json() as Promise<ReturnType>
 		} finally {
 			transaction.setHttpStatus(response.status)
 			transaction.finish()

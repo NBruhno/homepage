@@ -9,7 +9,7 @@ export const monitor = <T>(functionToWatch: (span?: Span) => T, operationName: s
 		const result = functionToWatch(span)
 		span.finish()
 		return result
-	} else {
+	} else { // In case Sentry is not currently running properly
 		const result = functionToWatch()
 		return result
 	}
@@ -22,7 +22,7 @@ export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<
 		const result = await functionToWatch(span)
 		span.finish()
 		return result
-	} else {
+	} else { // In case Sentry is not currently running properly
 		const result = await functionToWatch()
 		return result
 	}

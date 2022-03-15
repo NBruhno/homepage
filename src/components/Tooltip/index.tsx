@@ -14,9 +14,23 @@ type Props = ComponentProps<'div'> & {
 	location?: Location,
 	show?: boolean,
 	tip: ReactNode,
+	/** In milliseconds */
+	transitionInDelay?: number,
+	/** In milliseconds */
+	transitionOutDelay?: number,
+	/** In milliseconds */
+	transitionDuration?: number,
 }
 
-export const Tooltip = ({ tip, show = true, location = Location.Top, children, ...rest }: Props) => {
+export const Tooltip = ({
+	tip,
+	show = true,
+	location = Location.Top,
+	children,
+	transitionInDelay = 300,
+	transitionDuration = 200,
+	...rest
+}: Props) => {
 	const getLeft = () => {
 		switch (location) {
 			case Location.Top:
@@ -113,7 +127,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 						width: 'max-content',
 						borderRadius: '4px',
 						fontSize: theme.font.size.s90,
-						backgroundColor: theme.color.inputBackgroundHover,
+						backgroundColor: theme.color.inputBackground,
 						boxShadow: '0px 0px 24px rgba(0, 0, 0, 0.2)',
 						color: theme.color.text,
 						textAlign: 'center',
@@ -121,7 +135,7 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 						transform: `${getTransform()} scale(0.5)`,
 
 						[`#tooltip-wrapper:hover &`]: {
-							transitionDelay: '0.3s',
+							transitionDelay: `${transitionInDelay}ms`,
 							transform: `${getTransform()} scale(1)`,
 							visibility: 'visible',
 							opacity: 1,
@@ -145,8 +159,8 @@ export const Tooltip = ({ tip, show = true, location = Location.Top, children, .
 						[`#tooltip-wrapper:hover &`]: {
 							visibility: 'visible',
 							opacity: 1,
-							transitionDelay: '0.5s',
-							transitionDuration: '0.2s',
+							transitionDelay: `${transitionInDelay + transitionDuration}ms`,
+							transitionDuration: `${transitionDuration}ms`,
 							transform: `${getAfterTranslate()} ${getAfterScale(1)}`,
 						},
 					}])}

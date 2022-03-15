@@ -3,8 +3,7 @@ import type { NextPageContext } from 'next'
 import { captureException, flush } from '@sentry/nextjs'
 import NextErrorComponent from 'next/error'
 
-const MyError = ({ statusCode, hasGetInitialPropsRun, err }: { statusCode: number, hasGetInitialPropsRun: boolean, err: Error }) => {
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+const MyError = ({ statusCode, hasGetInitialPropsRun, err }: { statusCode: number, hasGetInitialPropsRun: boolean, err: Error | undefined }) => {
 	if (!hasGetInitialPropsRun && err) {
 		// getInitialProps is not called in case of
 		// https://github.com/vercel/next.js/issues/8592. As a workaround, we pass

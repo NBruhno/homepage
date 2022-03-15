@@ -1,6 +1,8 @@
 import type { FollowingGames, PopularGames, SearchGames } from './games'
+import type { Loading } from './isLoading'
 import type { Modal } from './modal'
 import type { Responsive } from './responsive'
+import type { Snackbar } from './snackbars'
 import type { Theme } from './theme'
 import type { User } from './users'
 
@@ -21,7 +23,9 @@ export type State = {
 	popularGames: PopularGames,
 	followingGames: FollowingGames,
 	searchGames: SearchGames,
+	snackbars: Array<Snackbar>,
 	modal: Modal,
+	isLoading: Loading,
 	responsive: Responsive,
 	theme: Theme,
 	user: User,
@@ -45,13 +49,18 @@ export const { useGlobalState } = createGlobalState<State>({
 		hasSearch: false,
 	},
 	responsive: {
+		isLoading: true,
 		isSidebarCollapsed: false,
 		isMobile: false,
 		isTablet: false,
 		isLaptop: false,
+		isDesktop: true,
+		isDesktopLarge: false,
+		isDesktopMax: false,
 		showLogin: false,
 		showMenu: false,
 	},
+	snackbars: [],
 	modal: {
 		allowClosure: true,
 		showModal: false,
@@ -59,6 +68,7 @@ export const { useGlobalState } = createGlobalState<State>({
 		hasNoWrapper: false,
 		onClose: null,
 	},
+	isLoading: false,
 	theme: 'dark',
 	user: {
 		username: null,

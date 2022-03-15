@@ -33,6 +33,6 @@ export const ButtonLoading = ({
 		{...rest}
 	>
 		<LoaderWrapper isVisible={isLoading}>{isLoading && <ActivityIndicator />}</LoaderWrapper>
-		{isVisible && <Label isVisible={!isLoading}>{label}</Label>}
+		<Label isVisible={!isLoading}>{label}</Label>
 	</Button>
 )

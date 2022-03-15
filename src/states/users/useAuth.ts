@@ -2,10 +2,13 @@ import { useState } from 'react'
 
 import { useGlobalState } from 'states/global'
 import { useModal } from 'states/modal'
+import { useSnackbar } from 'states/snackbars'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { fetcher, Method } from 'lib/fetcher'
 import { logger } from 'lib/logger'
+
+import { ApiError } from 'api/errors'
 
 import type { ChangePasswordModel } from 'components/Forms/ChangePassword'
 
@@ -25,7 +28,12 @@ export type User = {
 export const useAuth = () => {
 	const [user, setUser] = useGlobalState('user')
 	const [currentFlow, setCurrentFlow] = useState<'2fa' | 'loggedIn' | 'login' | 'register'>('login')
+	const { addSnackbar } = useSnackbar()
 	const { closeModal } = useModal()
+
+	const createErrorSnackbar = (error: unknown) => {
+		addSnackbar({ message: error instanceof ApiError ? error.message : 'Unknown error occurred', type: 'Alert' })
+	}
 
 	const register = async ({ email, password, username, accessCode }: { email: string, password: string, username: string, accessCode: string }) => {
 		try {
@@ -33,6 +41,7 @@ export const useAuth = () => {
 			const decodedToken = decodeJwtToken(accessToken)
 			setUser({ ...user, accessToken, email: decodedToken.sub, username: decodedToken.username, role: decodedToken.role, shouldRefresh: true, isStateKnown: true })
 		} catch (error) {
+			createErrorSnackbar(error)
 			logger.error(error)
 		}
 	}
@@ -58,6 +67,7 @@ export const useAuth = () => {
 
 			logger.error('Login failed: Unknown payload')
 		} catch (error) {
+			createErrorSnackbar(error)
 			logger.error(error)
 		}
 	}
@@ -70,6 +80,7 @@ export const useAuth = () => {
 				setCurrentFlow('login')
 			}
 		} catch (error) {
+			createErrorSnackbar(error)
 			logger.error(error)
 		}
 	}
@@ -85,6 +96,7 @@ export const useAuth = () => {
 				})
 			}
 		} catch (error) {
+			createErrorSnackbar(error)
 			logger.error(error)
 		}
 	}
@@ -96,6 +108,7 @@ export const useAuth = () => {
 				setUser({ ...user, twoFactorSecret: secret })
 			}
 		} catch (error) {
+			createErrorSnackbar(error)
 			logger.error(error)
 		}
 	}
@@ -111,6 +124,7 @@ export const useAuth = () => {
 				})
 			}
 		} catch (error) {
+			createErrorSnackbar(error)
 			logger.error(error)
 		}
 	}
@@ -131,6 +145,7 @@ export const useAuth = () => {
 				closeModal()
 			}
 		} catch (error) {
+			createErrorSnackbar(error)
 			logger.error(error)
 		}
 	}

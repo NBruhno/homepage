@@ -1,18 +1,20 @@
+import { useEffect } from 'react'
+
+import { useSnackbar } from 'states/snackbars'
+
 import { Snackbar } from './Snackbar'
 
-type Props = {
-	snackbars: Array<{
-		text: string,
-		isError?: boolean,
-	}>,
+export const Snackbars = () => {
+	const { snackbars, removeOutdatedSnackbars } = useSnackbar()
+
+	useEffect(() => {
+		const interval = setInterval(() => removeOutdatedSnackbars(), 200)
+		return () => clearInterval(interval)
+	}, [snackbars, removeOutdatedSnackbars])
+
+	return (
+		<>
+			{snackbars.map(({ message, type }, index) => <Snackbar isError={type === 'Alert'} key={index}>{message}</Snackbar>)}
+		</>
+	)
 }
-
-const testBars = [
-	{ text: 'This is a text', isError: true },
-]
-
-export const Snackbars = ({ snackbars = testBars }: Props) => (
-	<>
-		{snackbars.map(({ text, isError }, index) => <Snackbar isError={Boolean(isError)} key={index}>{text}</Snackbar>)}
-	</>
-)

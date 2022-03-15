@@ -5,16 +5,14 @@ export const ExpandButton = (props: AsyncProps) => (
 	<ButtonAsync
 		type='button'
 		css={(theme) => ({
-			backgroundColor: theme.color.background,
+			backgroundColor: 'transparent',
 			border: 'none',
-			borderBottomLeftRadius: '4px',
-			borderBottomRightRadius: '4px',
 			borderRadius: 'none',
 			borderTop: `1px solid ${theme.color.gray020}`,
 			fontSize: theme.font.size.s90,
 			color: theme.color.text,
 			cursor: 'pointer',
-			height: '32px',
+			height: '34px',
 			outline: 'none',
 			width: '100%',
 

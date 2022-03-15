@@ -7,39 +7,70 @@ export const screenSizes = Object.freeze({
 	desktopLarge: 1600,
 } as const)
 
+export const getRangeMediaQuery = (min: number, max: number) => (
+	`@media only screen and (min-width: ${min}px) and (max-width: ${max}px)`
+)
+
 export const mediaQueries = Object.freeze({
-	wearableToMobile: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.mobile -1}px)`,
-	wearableToTablet: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.tablet -1}px)`,
-	wearableToLaptop: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.laptop -1}px)`,
-	wearableToDesktop: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.desktop -1}px)`,
-	wearableToDesktopLarge: `@media only screen and (min-width: ${screenSizes.wearable}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+	/** min `306`, max `575` */
+	wearableToMobile: getRangeMediaQuery(screenSizes.wearable, screenSizes.mobile -1),
+	/** min `306`, max `767` */
+	wearableToTablet: getRangeMediaQuery(screenSizes.wearable, screenSizes.tablet -1),
+	/** min `306`, max `991` */
+	wearableToLaptop: getRangeMediaQuery(screenSizes.wearable, screenSizes.laptop -1),
+	/** min `306`, max `1199` */
+	wearableToDesktop: getRangeMediaQuery(screenSizes.wearable, screenSizes.desktop -1),
+	/** min `306`, max `1600` */
+	wearableToDesktopLarge: getRangeMediaQuery(screenSizes.wearable, screenSizes.desktopLarge),
 
-	mobileToTablet: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.tablet -1}px)`,
-	mobileToLaptop: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.laptop -1}px)`,
-	mobileToDesktop: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.desktop -1}px)`,
-	mobileToDesktopLarge: `@media only screen and (min-width: ${screenSizes.mobile}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+	/** min `576`, max `767` */
+	mobileToTablet: getRangeMediaQuery(screenSizes.mobile, screenSizes.tablet -1),
+	/** min `576`, max `991` */
+	mobileToLaptop: getRangeMediaQuery(screenSizes.mobile, screenSizes.laptop -1),
+	/** min `576`, max `1199` */
+	mobileToDesktop: getRangeMediaQuery(screenSizes.mobile, screenSizes.desktop -1),
+	/** min `576`, max `1600` */
+	mobileToDesktopLarge: getRangeMediaQuery(screenSizes.mobile, screenSizes.desktopLarge),
 
-	tabletToLaptop: `@media only screen and (min-width: ${screenSizes.tablet}px) and (max-width: ${screenSizes.laptop -1}px)`,
-	tabletToDesktop: `@media only screen and (min-width: ${screenSizes.tablet}px) and (max-width: ${screenSizes.desktop -1}px)`,
-	tabletToDesktopLarge: `@media only screen and (min-width: ${screenSizes.tablet}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+	/** min `768`, max `991` */
+	tabletToLaptop: getRangeMediaQuery(screenSizes.tablet, screenSizes.laptop -1),
+	/** min `768`, max `1199` */
+	tabletToDesktop: getRangeMediaQuery(screenSizes.tablet, screenSizes.desktop -1),
+	/** min `768`, max `1600` */
+	tabletToDesktopLarge: getRangeMediaQuery(screenSizes.tablet, screenSizes.desktopLarge),
 
-	laptopToDesktop: `@media only screen and (min-width: ${screenSizes.laptop}px) and (max-width: ${screenSizes.desktop -1}px)`,
-	laptopToDesktopLarge: `@media only screen and (min-width: ${screenSizes.laptop}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+	/** min `992`, max `1199` */
+	laptopToDesktop: getRangeMediaQuery(screenSizes.laptop, screenSizes.desktop -1),
+	/** min `992`, max `1600` */
+	laptopToDesktopLarge: getRangeMediaQuery(screenSizes.laptop, screenSizes.desktopLarge),
 
-	desktopToDesktopLarge: `@media only screen and (min-width: ${screenSizes.desktop}px) and (max-width: ${screenSizes.desktopLarge}px)`,
+	/** min `1200`, max `1600` */
+	desktopToDesktopLarge: getRangeMediaQuery(screenSizes.desktop, screenSizes.desktopLarge),
 
+	/** max `305` */
 	maxWearable: `@media only screen and (max-width: ${screenSizes.wearable - 1}px)`,
+	/** max `575` */
 	maxMobile: `@media only screen and (max-width: ${screenSizes.mobile - 1}px)`,
+	/** max `767` */
 	maxTablet: `@media only screen and (max-width: ${screenSizes.tablet - 1}px)`,
+	/** max `991` */
 	maxLaptop: `@media only screen and (max-width: ${screenSizes.laptop - 1}px)`,
+	/** max `1199` */
 	maxDesktop: `@media only screen and (max-width: ${screenSizes.desktop - 1}px)`,
+	/** max `1599` */
 	maxDesktopLarge: `@media only screen and (max-width: ${screenSizes.desktopLarge - 1}px)`,
 
+	/** min `306` */
 	minWearable: `@media only screen and (min-width: ${screenSizes.wearable}px)`,
+	/** min `576` */
 	minMobile: `@media only screen and (min-width: ${screenSizes.mobile}px)`,
+	/** min `768` */
 	minTablet: `@media only screen and (min-width: ${screenSizes.tablet}px)`,
+	/** min `992` */
 	minLaptop: `@media only screen and (min-width: ${screenSizes.laptop}px)`,
+	/** min `1200` */
 	minDesktop: `@media only screen and (min-width: ${screenSizes.desktop}px)`,
+	/** min `1600` */
 	minDesktopLarge: `@media only screen and (min-width: ${screenSizes.desktopLarge}px)`,
 } as const)
 
@@ -72,6 +103,7 @@ export const theme = (isDarkTheme = true) => Object.freeze({
 		errorBackgroundHover: isDarkTheme ? 'hsl(0, 65%, 20%)' : 'hsl(0, 80%, 85%)',
 		background: isDarkTheme ? 'hsl(216, 28%, 7%)' : 'hsl(0, 0%, 100%)',
 		backgroundHover: isDarkTheme ? 'hsl(216, 28%, 10%)' : 'hsl(0, 0%, 100%)',
+		backgroundHome: isDarkTheme ? '#253141' : '#ccc',
 		text: isDarkTheme ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)',
 		textFaded: isDarkTheme ? 'hsl(0, 0%, 85%)' : 'hsl(0, 0%, 20%)',
 		textSubtitle: isDarkTheme ? 'hsl(215, 28%, 65%)' : 'hsl(0, 0%, 20%)',
@@ -88,16 +120,16 @@ export const theme = (isDarkTheme = true) => Object.freeze({
 	},
 	font: {
 		size: {
-			s200: '2em',
-			s180: '1.800em',
-			s160: '1.602em',
-			s140: '1.424em',
-			s125: '1.266em',
-			s115: '1.125em',
-			s100: '1em',
-			s90: '0.889em',
-			s80: '0.79em',
-			s70: '0.702em',
+			s200: '2rem',
+			s180: '1.800rem',
+			s160: '1.602rem',
+			s140: '1.424rem',
+			s125: '1.266rem',
+			s115: '1.125rem',
+			s100: '1rem',
+			s90: '0.889rem',
+			s80: '0.79rem',
+			s70: '0.702rem',
 		},
 		family: {
 			roboto: `'Roboto', sans-serif`,

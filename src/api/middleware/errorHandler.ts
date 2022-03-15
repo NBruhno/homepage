@@ -7,6 +7,14 @@ import { logger } from 'lib/logger'
 
 import { ApiError } from 'api/errors'
 
+// const deriveTypesFromObject = (payload: Record<string, unknown>): Record<string, unknown> => Object.fromEntries(Object
+// 	.entries(payload)
+// 	.map(([key, value]) => {
+// 		if (Array.isArray(value)) return [key, 'array']
+// 		if (typeof value === 'object') return [key, deriveTypesFromObject(value as Record<string, unknown>)]
+// 		return [key, typeof value]
+// 	})) as Record<string, unknown>
+
 export const errorHandler = (error: unknown, _req: NextApiRequest, res: NextApiResponse) => {
 	res.setHeader('Cache-Control', 'no-cache')
 	if (error instanceof ApiError) {
