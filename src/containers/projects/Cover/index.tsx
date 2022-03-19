@@ -1,10 +1,10 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { CoverWrapper } from './CoverWrapper'
 import { Image } from './Image'
 import { Placeholder } from './Placeholder'
 
-type Props = ComponentProps<'img'> & {
+type Props = ComponentPropsWithoutRef<'img'> & {
 	coverSrc?: string | undefined,
 	size?: string,
 }

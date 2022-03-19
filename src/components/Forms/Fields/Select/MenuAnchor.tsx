@@ -1,5 +1,5 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const MenuAnchor = (props: ComponentProps<'div'>) => (
+export const MenuAnchor = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div css={{ position: 'relative' }} {...props} />
 )

@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Link = ({ children, ...rest }: ComponentProps<'a'>) => (
+export const Link = ({ children, ...rest }: ComponentPropsWithoutRef<'a'>) => (
 	<a
 		css={(theme) => ({
 			display: 'flex',

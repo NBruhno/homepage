@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-type Props = ComponentProps<'a'> & {
+type Props = ComponentPropsWithoutRef<'a'> & {
 	isFirst?: boolean,
 }
 

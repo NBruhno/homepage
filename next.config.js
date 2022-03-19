@@ -32,6 +32,7 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		esmExternals: true,
+		emotion: true,
 	},
 
 	devIndicators: {
@@ -83,5 +84,5 @@ const nextConfig = {
 	basePath,
 }
 
-module.exports = withBundleAnalyzer(withPwa(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
-// module.exports = withBundleAnalyzer(withPwa(nextConfig))
+// module.exports = withBundleAnalyzer(withPwa(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
+module.exports = withBundleAnalyzer(withPwa(nextConfig))

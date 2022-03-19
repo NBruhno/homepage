@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Title = (props: ComponentProps<'h4'>) => (
+export const Title = (props: ComponentPropsWithoutRef<'h4'>) => (
 	<h4
 		css={(theme) => ({
 			margin: '0 0 4px',

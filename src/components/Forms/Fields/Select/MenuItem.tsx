@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-type Props = ComponentProps<'div'> & {
+type Props = ComponentPropsWithoutRef<'div'> & {
 	highlightedIndex: number,
 	selectedItem: any,
 	index: number,

@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Empty = (props: ComponentProps<'div'>) => (
+export const Empty = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={(theme) => ({
 			color: theme.color.text,

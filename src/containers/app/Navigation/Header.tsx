@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import type { ComponentProps, LegacyRef } from 'react'
+import type { ComponentPropsWithoutRef, LegacyRef } from 'react'
 
 import { forwardRef } from 'react'
 
-const Component = (props: ComponentProps<'a'>, ref: LegacyRef<HTMLAnchorElement>) => (
+const Component = (props: ComponentPropsWithoutRef<'a'>, ref: LegacyRef<HTMLAnchorElement>) => (
 	<a
 		css={(theme) => ({
 			alignItems: 'center',

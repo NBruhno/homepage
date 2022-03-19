@@ -1,8 +1,8 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { DefaultInputStyle } from '../DefaultInputStyle'
 
-type Props = ComponentProps<'input'> & {
+type Props = ComponentPropsWithoutRef<'input'> & {
 	hasError: boolean,
 	isDisabled: boolean,
 }

@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/heading-has-content */
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Subtitle = (props: ComponentProps<'h3'>) => (
+export const Subtitle = (props: ComponentPropsWithoutRef<'h3'>) => (
 	<h3
 		css={(theme) => ({
 			fontFamily: theme.font.family.roboto,

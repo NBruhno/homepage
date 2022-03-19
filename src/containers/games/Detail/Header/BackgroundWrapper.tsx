@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const BackgroundWrapper = (props: ComponentProps<'div'>) => (
+export const BackgroundWrapper = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={(theme) => ({
 			position: 'absolute',

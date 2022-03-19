@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Wrapper = (props: ComponentProps<'div'>) => (
+export const Wrapper = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={() => ({
 			display: 'flex',

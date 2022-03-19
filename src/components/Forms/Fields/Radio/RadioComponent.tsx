@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const RadioComponent = (props: ComponentProps<'input'>) => (
+export const RadioComponent = (props: ComponentPropsWithoutRef<'input'>) => (
 	<input
 		css={{
 			position: 'absolute',

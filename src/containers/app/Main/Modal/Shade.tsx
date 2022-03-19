@@ -1,8 +1,8 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 
-type Props = ComponentProps<'div'> & {
+type Props = ComponentPropsWithoutRef<'div'> & {
 	show?: boolean,
 }
 

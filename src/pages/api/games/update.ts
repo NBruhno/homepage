@@ -1,6 +1,9 @@
 import { withSentry } from '@sentry/nextjs'
 import { compareAsc, getUnixTime, sub } from 'date-fns'
-import { chunk, intersectionBy, differenceBy, differenceWith } from 'lodash'
+import chunk from 'lodash/chunk'
+import differenceBy from 'lodash/differenceBy'
+import differenceWith from 'lodash/differenceWith'
+import intersectionBy from 'lodash/intersectionBy'
 import { array, create } from 'superstruct'
 
 import { config } from 'config.server'

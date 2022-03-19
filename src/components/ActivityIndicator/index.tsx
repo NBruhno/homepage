@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { css, keyframes } from '@emotion/react'
 
@@ -23,7 +23,7 @@ const dotStyle = (offset: number) => css({
 	animationDelay: `${offset * 0.25 - 0.5}s`,
 })
 
-export const ActivityIndicator = (props: ComponentProps<'div'>) => (
+export const ActivityIndicator = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div css={{ display: 'inline-flex' }} {...props}>
 		<span key={0} css={{ ...dotStyle(0) }} />
 		<span key={1} css={{ ...dotStyle(1) }} />

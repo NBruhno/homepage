@@ -1,8 +1,8 @@
-import type { SVGProps, ReactNode, ComponentProps } from 'react'
+import type { SVGProps, ReactNode, ComponentPropsWithoutRef } from 'react'
 
 import { useMemo } from 'react'
 
-export type Props = ComponentProps<'svg'> & {
+export type Props = ComponentPropsWithoutRef<'svg'> & {
 	x?: number,
 	y?: number,
 	children?: ReactNode,

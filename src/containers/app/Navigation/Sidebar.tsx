@@ -1,10 +1,10 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { css } from '@emotion/react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 
-type Props = ComponentProps<'nav'> & {
+type Props = ComponentPropsWithoutRef<'nav'> & {
 	isCollapsed?: boolean,
 }
 

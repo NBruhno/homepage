@@ -1,13 +1,13 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { useModal } from 'states/modal'
 
 import { Image } from './Image'
 import { Placeholder } from './Placeholder'
 
-type Props = ComponentProps<'img'> & {
+type Props = ComponentPropsWithoutRef<'img'> & {
 	src: string,
 	title: string,
 	width: number,

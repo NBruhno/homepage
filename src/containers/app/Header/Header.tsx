@@ -1,9 +1,9 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 import { useScroll } from 'lib/useScroll'
 
-export const Header = (props: ComponentProps<'header'>) => {
+export const Header = (props: ComponentPropsWithoutRef<'header'>) => {
 	const { scrollY } = useScroll()
 
 	return (

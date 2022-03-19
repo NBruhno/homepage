@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { useModal } from 'states/modal'
 
@@ -7,7 +7,7 @@ import { Card } from 'components/Card'
 import { Container } from './Container'
 import { Shade } from './Shade'
 
-export const Modal = (props: ComponentProps<'div'>) => {
+export const Modal = (props: ComponentPropsWithoutRef<'div'>) => {
 	const { allowClosure, showModal, modalContent, closeModal, onClose, hasNoWrapper = false } = useModal()
 
 	return (

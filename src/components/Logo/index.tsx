@@ -1,5 +1,5 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Logo = (props: ComponentProps<'img'>) => (
+export const Logo = (props: ComponentPropsWithoutRef<'img'>) => (
 	<img alt='logo' src='./images/Logo.svg' {...props} />
 )

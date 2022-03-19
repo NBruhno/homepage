@@ -1,8 +1,8 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { ActivityIndicator } from 'components/ActivityIndicator'
 
-export const Loader = (props: ComponentProps<'div'>) => (
+export const Loader = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={{
 			alignItems: 'center',

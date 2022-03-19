@@ -1,6 +1,6 @@
-import type { ReactNode, MouseEvent, ComponentProps } from 'react'
+import type { ReactNode, MouseEvent, ComponentPropsWithoutRef } from 'react'
 
-import { isFunction } from 'lodash'
+import isFunction from 'lodash/isFunction'
 import { useState, useEffect } from 'react'
 
 import { delay } from 'lib/delay'
@@ -9,7 +9,7 @@ import { ButtonLoading } from './ButtonLoading'
 import { SubmitWrapper } from './SubmitWrapper'
 
 export type Props =
-& ComponentProps<'button'>
+& ComponentPropsWithoutRef<'button'>
 & {
 	isFullWidth?: boolean,
 	isLoading?: boolean,

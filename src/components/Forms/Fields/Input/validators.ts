@@ -1,6 +1,6 @@
 import type { Value } from '../Value'
 
-import { isRegExp } from 'lodash'
+import isRegExp from 'lodash/isRegExp'
 
 const messages = {
 	required: 'This field is required',

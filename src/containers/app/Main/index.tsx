@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { useMediaQuery } from '@react-hook/media-query'
 import { setUser } from '@sentry/nextjs'
@@ -32,7 +32,7 @@ const roleProtectedRoutes = [
 	'/users',
 ]
 
-export const Main = ({ children }: ComponentProps<'main'>) => {
+export const Main = ({ children }: ComponentPropsWithoutRef<'main'>) => {
 	const { pathname } = useRouter()
 	const { showLogin, updateResponsive } = useResponsive()
 	const { openModal, closeModal } = useModal()
