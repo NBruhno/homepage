@@ -27,7 +27,7 @@ const handler = apiHandler({
 			select: {
 				passwordHash: true,
 			},
-		}), 'prisma - findUnique()')
+		}), 'db:prisma', 'findUnique()')
 
 		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
 
@@ -37,11 +37,11 @@ const handler = apiHandler({
 		}))
 
 		if (!user) throw ApiError.fromCode(404)
-		if (!await monitorAsync(async () => verify(user.passwordHash, currentPassword, argonDefaultOptions), 'argon2 - verify')) {
+		if (!await monitorAsync(async () => verify(user.passwordHash, currentPassword, argonDefaultOptions), 'argon2', 'verify()')) {
 			throw ApiError.fromCodeWithError(401, new Error('Invalid password'))
 		}
 
-		const passwordHash = await monitorAsync(() => hash(newPassword, argonDefaultOptions), 'argon2 - hash()')
+		const passwordHash = await monitorAsync(() => hash(newPassword, argonDefaultOptions), 'argon2', 'hash()')
 		await monitorAsync(() => prisma.user.update({
 			where: {
 				id,
@@ -49,7 +49,7 @@ const handler = apiHandler({
 			data: {
 				passwordHash,
 			},
-		}), 'update()')
+		}), 'db:prisma', 'update()')
 
 		return res.status(200).json({ message: 'Password has been updated' })
 	})

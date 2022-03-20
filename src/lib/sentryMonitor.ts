@@ -2,10 +2,10 @@ import type { Span, Transaction } from '@sentry/types'
 
 import { getActiveTransaction } from '@sentry/tracing'
 
-export const monitor = <T>(functionToWatch: (span?: Span) => T, operationName: string, transaction?: Span | Transaction) => {
+export const monitor = <T>(functionToWatch: (span?: Span) => T, operationName: string, description: string, transaction?: Span | Transaction) => {
 	const transactionToUse = transaction ?? getActiveTransaction()
 	if (transactionToUse) {
-		const span = transactionToUse.startChild({ op: operationName })
+		const span = transactionToUse.startChild({ op: operationName, description })
 		const result = functionToWatch(span)
 		span.finish()
 		return result
@@ -15,10 +15,10 @@ export const monitor = <T>(functionToWatch: (span?: Span) => T, operationName: s
 	}
 }
 
-export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<T>, operationName: string, transaction?: Span | Transaction) => {
+export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<T>, operationName: string, description: string, transaction?: Span | Transaction) => {
 	const transactionToUse = transaction ?? getActiveTransaction()
 	if (transactionToUse) {
-		const span = transactionToUse.startChild({ op: operationName })
+		const span = transactionToUse.startChild({ op: operationName, description })
 		const result = await functionToWatch(span)
 		span.finish()
 		return result

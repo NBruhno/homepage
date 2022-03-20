@@ -49,7 +49,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 					releaseDate: true,
 					status: true,
 				},
-			}), 'prisma - findMany(user)')
+			}), 'db:prisma', 'findMany(user)')
 
 			setCache({ strategy: 'NoCache', res })
 			return res.status(200).json({
@@ -88,7 +88,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 					releaseDate: true,
 					status: true,
 				},
-			}), 'prisma - findMany()')
+			}), 'db:prisma', 'findMany()')
 
 		setCache({ strategy: 'StaleWhileRevalidate', duration: 30, res })
 
@@ -106,7 +106,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 
 		const game = await monitorAsync(() => prisma.game.create({
 			data: { ...gameToCreate, updatedAt: undefined },
-		}), 'prisma - create()')
+		}), 'db:prisma', 'create()')
 
 		res.setHeader('Location', `/api/games/${game.id}`)
 		return res.status(201).json(game)
@@ -119,7 +119,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 			data: { ...rest, updatedAt: undefined },
 		}))
 
-		const updatedGames = await monitorAsync(() => prisma.$transaction(updateQueries), 'prisma - transaction(update())')
+		const updatedGames = await monitorAsync(() => prisma.$transaction(updateQueries), 'db:prisma', 'transaction(update())')
 		return res.status(200).json({ count: updatedGames.length })
 	})
 	.patch(async (req, res) => {
@@ -131,7 +131,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 			update: { id, ...rest, updatedAt: undefined },
 		}))
 
-		const result = await monitorAsync(() => prisma.$transaction(transactions), 'prisma - transaction(upsert())')
+		const result = await monitorAsync(() => prisma.$transaction(transactions), 'db:prisma', 'transaction(upsert())')
 
 		return res.status(200).json(result)
 	})

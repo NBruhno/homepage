@@ -69,7 +69,7 @@ export const authenticate = (req: NextApiRequest,
 
 	setUser({ id: decodedToken.userId, username: decodedToken.username, email: decodedToken.sub })
 	return decodedToken
-}, `authenticate() - ${type}`, transaction)
+}, 'authenticate()', type, transaction)
 
 /**
  * Authenticator for the system token. This is a simple check to see if the known value matches the supplied value.

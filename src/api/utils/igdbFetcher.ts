@@ -56,7 +56,7 @@ export const igdbFetcher = async <T extends boolean>(url: string, res: NextApiRe
 			'Content-Type': 'text/plain',
 			accept: 'application/json',
 		}),
-	}), 3, res), `igdbFetcher()${nickname ? ` - ${nickname}` : ''}`, span)
+	}), 3, res), 'http:igdb', `${nickname ? ` - ${nickname}` : ''}`, span)
 
 	const result = shouldReturnFirst ? data[0] : data
 

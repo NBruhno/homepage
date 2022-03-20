@@ -11,7 +11,7 @@ import { config } from 'config.server'
 import { absoluteUrl } from 'lib/absoluteUrl'
 import { fetcher, Method } from 'lib/fetcher'
 import { filterUnspecified } from 'lib/filterUnspecified'
-import { monitor, monitorAsync } from 'lib/sentryMonitor'
+import { monitorAsync } from 'lib/sentryMonitor'
 
 import { authenticateSystem } from 'api/middleware'
 import { apiHandler, gameFields, igdbFetcher, mapIgdbGame, prisma } from 'api/utils'
@@ -37,7 +37,7 @@ const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'No
 				id: true,
 				updatedAt: true,
 			},
-		}), 'prisma - findMany(popular games)')
+		}), 'db:prisma', 'findMany(popular games)')
 
 		const games = create(popularGames, array(gameValidator))
 
@@ -52,14 +52,17 @@ const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'No
 		const newGames = differenceBy(games, existingGames, 'id') // Only interested in creating new unique games.
 
 		const [createdGamesResponse, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
-			monitor(() => newGames.length > 0 ? prisma.game.createMany({ data: newGames, skipDuplicates: true }) : undefined, 'prisma - createMany(new games)', span),
-			...outdatedGames.length > 0 ? chunk(outdatedGames, 50).map((batch) => monitor(() => fetcher<{ count: number }>(`/games`, {
+			(async () => newGames.length > 0
+				? monitorAsync(() => prisma.game.createMany({ data: newGames, skipDuplicates: true }), 'db:prisma', 'createMany(new games)', span)
+				: undefined
+			)(),
+			...outdatedGames.length > 0 ? chunk(outdatedGames, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
 				body: { games: batch },
 				absoluteUrl: absoluteUrl(req).origin,
 				accessToken: config.auth.systemToken,
 				method: Method.Put,
-			}), 'fetcher() - PUT /games', span)) : [undefined],
-		]), 'Promise.all()')
+			}), 'http:internal', 'PUT /games', span)) : [undefined],
+		]), 'Promise', '.all()')
 
 		return res.status(200).json({
 			status: {
@@ -89,7 +92,7 @@ const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'No
 				id: true,
 				updatedAt: true,
 			},
-		}), 'prisma - findMany(potentially outdated games)')
+		}), 'db:prisma', 'findMany(potentially outdated games)')
 
 		if (potentiallyOutdatedGames.length > 0) {
 			const updatedGames = await igdbFetcher('/games', res, {
@@ -111,21 +114,21 @@ const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'No
 
 			if (gamesToUpdate.length > 0) {
 				const [markedAsCheckedGames, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
-					monitor(() => prisma.game.updateMany({
+					monitorAsync(() => prisma.game.updateMany({
 						where: {
 							OR: existingGames.map(({ id }) => ({ id })),
 						},
 						data: {
 							lastChecked: new Date().toISOString(),
 						},
-					}), 'prisma - updateMany()', span),
-					...chunk(gamesToUpdate, 50).map((batch) => monitor(() => fetcher<{ count: number }>(`/games`, {
+					}), 'db:prisma', 'updateMany()', span),
+					...chunk(gamesToUpdate, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
 						body: { games: batch.map((game) => ({ ...game, lastChecked: new Date().toISOString() })) },
 						absoluteUrl: absoluteUrl(req).origin,
 						accessToken: config.auth.systemToken,
 						method: Method.Put,
-					}), 'fetcher() - PUT /games', span)),
-				]), 'Promise.all()')
+					}), 'http:internal', 'PUT /games', span)),
+				]), 'Promise', '.all()')
 
 				const updatedGamesCount = updatedGamesResponse.map((response) => response.count).reduce((a, b) => a + b, 0)
 
@@ -150,7 +153,7 @@ const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'No
 				data: {
 					lastChecked: new Date().toISOString(),
 				},
-			}), 'prisma - updateMany()')
+			}), 'db:prisma', 'updateMany()')
 
 			return res.status(200).json({
 				status: {

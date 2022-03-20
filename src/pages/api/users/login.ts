@@ -32,12 +32,12 @@ export const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCa
 				twoFactorSecret: true,
 				username: true,
 			},
-		}), 'prisma - findUnique()')
+		}), 'db:prisma', 'findUnique()')
 
 		if (!user) throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
 		const { id, email, role, passwordHash, twoFactorSecret, username } = user
 
-		if (!await monitorAsync(async () => verify(passwordHash, password, argonDefaultOptions), 'argon2 - verify')) {
+		if (!await monitorAsync(async () => verify(passwordHash, password, argonDefaultOptions), 'argon2', 'verify()')) {
 			throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
 		}
 
