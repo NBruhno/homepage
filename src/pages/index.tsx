@@ -16,7 +16,9 @@ const Home: NextPage<Props> = () => (
 		</Head>
 		<Page css={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
 			<div css={{ textAlign: 'center' }}>
-				<Logo css={{ height: '37vh' }} />
+				<div css={{ height: '37vh' }}>
+					<Logo />
+				</div>
 				<h1 css={{ fontWeight: 400, fontSize: '3em', marginBottom: '14px' }}>Bruhno</h1>
 				<p css={(theme) => ({
 					fontWeight: theme.font.weight.regular,
