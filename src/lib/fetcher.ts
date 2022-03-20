@@ -1,5 +1,5 @@
 import { startTransaction } from '@sentry/nextjs'
-import { pickBy } from 'lodash'
+import pickBy from 'lodash/pickBy'
 
 import { ApiError } from 'api/errors'
 import type { statusCodes } from 'api/errors/ApiError'

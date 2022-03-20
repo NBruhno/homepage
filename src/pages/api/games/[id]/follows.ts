@@ -24,7 +24,7 @@ const handler = apiHandler({
 				gameId: id,
 				ownerId: userId,
 			},
-		}), 'prisma - findFirst()')
+		}), 'db:prisma', 'findFirst()')
 
 		return res.status(200).json({ isFollowing: Boolean(userData?.isFollowing) })
 	})
@@ -48,7 +48,7 @@ const handler = apiHandler({
 			update: {
 				isFollowing,
 			},
-		}), 'prisma - upsert()')
+		}), 'db:prisma', 'upsert()')
 
 		return res.status(200).json({ message: `Successfully ${userData.isFollowing ? 'follow' : 'unfollow'}ed the game` })
 	})

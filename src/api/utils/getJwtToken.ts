@@ -43,4 +43,4 @@ export const getJwtToken = (payload: Payload, { type = UserTokenType.Access, tra
 	})
 
 	return signedJwt
-}, `getJwtToken() - ${type}`, transaction)
+}, 'getJwtToken()', type, transaction)

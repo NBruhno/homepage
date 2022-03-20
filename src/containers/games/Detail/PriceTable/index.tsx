@@ -1,6 +1,6 @@
 import type { GamePrice } from 'types'
 
-import { sortBy } from 'lodash'
+import sortBy from 'lodash/sortBy'
 
 import { useLoading } from 'states/isLoading'
 import { useModal } from 'states/modal'

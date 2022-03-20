@@ -1,8 +1,8 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { useResponsive } from 'states/responsive'
 
-export const Shade = (props: ComponentProps<'div'>) => {
+export const Shade = (props: ComponentPropsWithoutRef<'div'>) => {
 	const { showMenu, updateResponsive } = useResponsive()
 	return (
 		<div

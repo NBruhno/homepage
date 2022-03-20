@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Page = (props: ComponentProps<'div'>) => (
+export const Page = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={{
 			padding: '24px',

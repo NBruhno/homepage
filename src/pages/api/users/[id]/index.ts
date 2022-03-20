@@ -23,7 +23,7 @@ const handler = apiHandler({
 			where: {
 				id,
 			},
-		}), 'prisma - delete()')
+		}), 'db:prisma', 'delete()')
 
 		if (requestUserId === id) removeRefreshCookie(res)
 		return res.status(200).json({ message: 'The user has been deleted' })

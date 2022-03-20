@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Subtitle = (props: ComponentProps<'p'>) => (
+export const Subtitle = (props: ComponentPropsWithoutRef<'p'>) => (
 	<p
 		css={(theme) => ({
 			color: theme.color.text,

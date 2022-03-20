@@ -1,7 +1,7 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 /* eslint-disable jsx-a11y/heading-has-content */
-export const ReleaseDate = (props: ComponentProps<'h1'>) => (
+export const ReleaseDate = (props: ComponentPropsWithoutRef<'h1'>) => (
 	<h1
 		css={(theme) => ({
 			gridArea: 'releaseDate',

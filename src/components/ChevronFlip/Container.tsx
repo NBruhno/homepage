@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Container = (props: ComponentProps<'span'>) => (
+export const Container = (props: ComponentPropsWithoutRef<'span'>) => (
 	<span
 		css={{
 			display: 'inline-block',

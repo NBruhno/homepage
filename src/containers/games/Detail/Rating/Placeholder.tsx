@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Placeholder = (props: ComponentProps<'div'>) => (
+export const Placeholder = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={(theme) => ({
 			borderRadius: '4px',

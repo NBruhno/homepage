@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Text = (props: ComponentProps<'span'>) => (
+export const Text = (props: ComponentPropsWithoutRef<'span'>) => (
 	<span
 		css={(theme) => ({
 			color: theme.color.white,

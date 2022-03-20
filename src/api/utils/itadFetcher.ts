@@ -30,7 +30,7 @@ export const itadFetcher = async <T>(url: string, { body = null, span, nickname,
 			'Content-Type': 'text/plain',
 			accept: 'application/json',
 		}),
-	}), `itadFetcher()${nickname ? ` - ${nickname}` : ''}`, span)
+	}), 'http:itad', `${nickname ? ` - ${nickname}` : ''}`, span)
 
 	return data.json() as unknown as T
 }

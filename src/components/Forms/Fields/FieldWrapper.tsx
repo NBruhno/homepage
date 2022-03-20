@@ -1,8 +1,8 @@
-import type { ComponentProps, LegacyRef } from 'react'
+import type { ComponentPropsWithoutRef, LegacyRef } from 'react'
 
 import { forwardRef } from 'react'
 
-type Props = ComponentProps<'div'> & {
+type Props = ComponentPropsWithoutRef<'div'> & {
 	isHidden?: boolean,
 	isFullWidth?: boolean | undefined,
 	minWidth?: number,

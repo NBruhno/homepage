@@ -1,11 +1,11 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import type { ComponentProps, LegacyRef } from 'react'
+import type { ComponentPropsWithoutRef, LegacyRef } from 'react'
 
 import { forwardRef } from 'react'
 
 import { adjustHsl } from 'lib/adjustHsl'
 
-type Props = ComponentProps<'a'> & {
+type Props = ComponentPropsWithoutRef<'a'> & {
 	isActive?: boolean,
 }
 

@@ -10,7 +10,7 @@
 
 # production
 /.next
-/public/storybook
+/public/ladle
 /public/sw.js
 /public/sw.js.map
 /public/workbox-*.js

@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const BlockWrapper = (props: ComponentProps<'div'>) => (
+export const BlockWrapper = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={{
 			height: '100vh',

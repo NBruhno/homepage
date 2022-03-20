@@ -3,7 +3,7 @@ import { GameWebsiteType, IgdbWebsiteCategory, IgdbStatus, IgdbCategory } from '
 
 import { GameStatus, GameCategory } from '@prisma/client'
 import { fromUnixTime } from 'date-fns'
-import { sample } from 'lodash'
+import sample from 'lodash/sample'
 
 export const igdbImageUrl = 'https://images.igdb.com/igdb/image/upload'
 

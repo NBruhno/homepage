@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-type Props = ComponentProps<'img'> & {
+type Props = ComponentPropsWithoutRef<'img'> & {
 	loading?: string,
 }
 

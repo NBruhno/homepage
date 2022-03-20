@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Container = (props: ComponentProps<'footer'>) => (
+export const Container = (props: ComponentPropsWithoutRef<'footer'>) => (
 	<footer
 		css={(theme) => ({
 			backgroundColor: theme.color.background,

@@ -41,7 +41,7 @@ export const setRefreshCookie = (res: NextApiResponse, token: string, transactio
 	})
 
 	res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
-}, 'setRefreshCookie()', transaction)
+}, 'setRefreshCookie()', '', transaction)
 
 /**
  * Function that sets a cookie that removes the current refresh token.
@@ -72,4 +72,4 @@ export const removeRefreshCookie = (res: NextApiResponse, transaction?: Span | T
 		secure: isProduction,
 	})
 	res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
-}, 'removeRefreshCookie()', transaction)
+}, 'removeRefreshCookie()', '', transaction)

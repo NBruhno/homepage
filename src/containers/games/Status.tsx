@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Status = (props: ComponentProps<'span'>) => (
+export const Status = (props: ComponentPropsWithoutRef<'span'>) => (
 	<span
 		css={(theme) => ({
 			backgroundColor: theme.isDarkTheme ? theme.color.grayDark : theme.color.grayDarker,

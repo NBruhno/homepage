@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 import type { GameWebsite } from 'types'
 import { GameWebsiteType } from 'types'
 
@@ -11,7 +11,7 @@ import {
 } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
-type Props = ComponentProps<'div'> & {
+type Props = ComponentPropsWithoutRef<'div'> & {
 	websites: Array<GameWebsite> | null,
 }
 

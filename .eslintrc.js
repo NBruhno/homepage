@@ -10,7 +10,6 @@ module.exports = {
 	plugins: [
 		'@typescript-eslint',
 		'eslint-plugin-tsdoc',
-		'babel',
 		'@emotion',
 		'filenames',
 		'import',

@@ -1,7 +1,7 @@
 /* eslint-disable react/button-has-type */
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-type Props = ComponentProps<'button'> & {
+type Props = ComponentPropsWithoutRef<'button'> & {
 	isFullWidth?: boolean,
 	isVisible: boolean,
 }

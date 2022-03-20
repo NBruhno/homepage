@@ -25,7 +25,7 @@ const handler = apiHandler({
 		const { id } = create(req.query, Query)
 		if (requestUserId !== id) throw ApiError.fromCode(403)
 
-		const twoFactorSecret = monitor(() => otpAuthenticator.generateSecret(32), 'otplib - generateSecret()')
+		const twoFactorSecret = monitor(() => otpAuthenticator.generateSecret(32), 'otplib', 'generateSecret()')
 		const qrCode = await getQRCodeImage(`otpauth://totp/${encodeURI(sub)}?secret=${twoFactorSecret}&issuer=Bruhno`, { type: 'image/webp' })
 
 		return res.status(200).json({ twoFactorSecret, qrCode })
@@ -43,13 +43,13 @@ const handler = apiHandler({
 			select: {
 				twoFactorSecret: true,
 			},
-		}), 'prisma - findUnique()')
+		}), 'db:prisma', 'findUnique()')
 
 		if (!user || !user.twoFactorSecret) throw ApiError.fromCode(404)
 
 		monitor(() => { // TS somehow fails to acknowledge that the check above ensures the value is not falsy (not null)
 			if (!otpAuthenticator.verify({ token: otp, secret: user.twoFactorSecret! })) throw ApiError.fromCode(401)
-		}, 'otplib - verify()')
+		}, 'otplib', 'verify()')
 
 		const accessToken = getJwtToken({ sub, username, role, userId: requestUserId })
 		const refreshToken = getJwtToken({ sub, username, role, userId: requestUserId }, { type: UserTokenType.Refresh })
@@ -68,7 +68,7 @@ const handler = apiHandler({
 
 		monitor(() => {
 			if (!otpAuthenticator.verify({ token: otp, secret })) throw ApiError.fromCode(401)
-		}, 'otplib - verify()')
+		}, 'otplib', 'verify()')
 
 		await monitorAsync(() => prisma.user.update({
 			where: {
@@ -77,7 +77,7 @@ const handler = apiHandler({
 			data: {
 				twoFactorSecret: secret,
 			},
-		}), 'prisma - update()')
+		}), 'db:prisma', 'update()')
 
 		return res.status(200).json({ message: '2FA has been activated' })
 	})
@@ -93,7 +93,7 @@ const handler = apiHandler({
 			data: {
 				twoFactorSecret: null,
 			},
-		}), 'prisma - update()')
+		}), 'db:prisma', 'update()')
 
 		return res.status(200).json({ message: '2FA has been removed' })
 	})

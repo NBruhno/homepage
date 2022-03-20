@@ -32,6 +32,7 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		esmExternals: true,
+		emotion: true,
 	},
 
 	devIndicators: {

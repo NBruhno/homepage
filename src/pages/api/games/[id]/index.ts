@@ -29,7 +29,7 @@ const handler = apiHandler({
 			where: {
 				id,
 			},
-		}), 'prisma - findUnique()')
+		}), 'db:prisma', 'findUnique()')
 
 		if (!game) {
 			const igdbGame = await igdbFetcher('/games', res, {
@@ -46,7 +46,7 @@ const handler = apiHandler({
 				absoluteUrl: absoluteUrl(req).origin,
 				accessToken: config.auth.systemToken,
 				method: Method.Post,
-			}), 'fetcher() - POST /games')
+			}), 'http:internal', 'POST /games')
 			setCache({ strategy: 'Default', duration: 5, res })
 			return res.status(200).json(createdGame)
 		}
@@ -63,7 +63,7 @@ const handler = apiHandler({
 			where: { id },
 			update: game,
 			create: game,
-		}), 'prisma - upsert()')
+		}), 'db:prisma', 'upsert()')
 
 		res.setHeader('Location', `/api/games/${createdGame.id}`)
 		return res.status(200).json(createdGame)
@@ -76,7 +76,7 @@ const handler = apiHandler({
 		const updatedGame = await monitorAsync(() => prisma.game.update({
 			where: { id },
 			data: game,
-		}), 'prisma - update()')
+		}), 'db:prisma', 'update()')
 
 		res.setHeader('Location', `/api/games/${updatedGame.id}`)
 		return res.status(200).json(updatedGame)

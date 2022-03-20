@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const CheckboxComponent = (props: ComponentProps<'input'>) => (
+export const CheckboxComponent = (props: ComponentPropsWithoutRef<'input'>) => (
 	<input
 		css={{
 			position: 'absolute',

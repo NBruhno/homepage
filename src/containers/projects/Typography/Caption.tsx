@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Caption = (props: ComponentProps<'p'>) => (
+export const Caption = (props: ComponentPropsWithoutRef<'p'>) => (
 	<p
 		css={(theme) => ({
 			opacity: 0.7,

@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Spacer = (props: ComponentProps<'span'>) => (
+export const Spacer = (props: ComponentPropsWithoutRef<'span'>) => (
 	<span
 		css={{
 			position: 'absolute',

@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const Grid = (props: ComponentProps<'div'>) => (
+export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={(theme) => ({
 			backgroundColor: theme.color.background,

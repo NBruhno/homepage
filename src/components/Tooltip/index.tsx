@@ -1,4 +1,4 @@
-import type { ReactNode, ComponentProps } from 'react'
+import type { ReactNode, ComponentPropsWithoutRef } from 'react'
 
 import { css } from '@emotion/react'
 
@@ -9,7 +9,7 @@ export enum Location {
 	Left = 'left',
 }
 
-type Props = ComponentProps<'div'> & {
+type Props = ComponentPropsWithoutRef<'div'> & {
 	children: ReactNode,
 	location?: Location,
 	show?: boolean,

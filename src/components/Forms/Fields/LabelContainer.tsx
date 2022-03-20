@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-export const LabelContainer = (props: ComponentProps<'div'>) => (
+export const LabelContainer = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={(theme) => ({
 			color: theme.color.textFaded,

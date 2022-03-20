@@ -1,4 +1,4 @@
-import type { ReactNode, ComponentProps } from 'react'
+import type { ReactNode, ComponentPropsWithoutRef } from 'react'
 
 import { ActivityIndicator } from 'components/ActivityIndicator'
 
@@ -6,7 +6,7 @@ import { Button } from './Button'
 import { Label } from './Label'
 import { LoaderWrapper } from './LoaderWrapper'
 
-type Props = ComponentProps<'button'> & {
+type Props = ComponentPropsWithoutRef<'button'> & {
 	isDisabled?: boolean,
 	isFullWidth?: boolean,
 	isLoading?: boolean,

@@ -1,6 +1,6 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
-type Props = ComponentProps<'span'> & {
+type Props = ComponentPropsWithoutRef<'span'> & {
 	isActive?: boolean,
 	isBold?: boolean,
 	isHorizontal: boolean,

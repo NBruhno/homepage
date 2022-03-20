@@ -1,4 +1,4 @@
-import type { ComponentProps } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import Link from 'next/link'
 
@@ -12,7 +12,7 @@ import { NavLink } from '../NavLink'
 
 import { Header as HeaderComponent } from './Header'
 
-export const Header = (props: ComponentProps<'nav'>) => {
+export const Header = (props: ComponentPropsWithoutRef<'nav'>) => {
 	const { showMenu, updateResponsive } = useResponsive()
 
 	return (
