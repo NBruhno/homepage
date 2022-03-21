@@ -94,48 +94,60 @@ export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow }: Prop
 				<GridContainer name='priceTable'>
 					<PriceTable prices={prices} />
 				</GridContainer>
-				<InfoBox
-					developers={game?.developers}
-					engines={game?.engines}
-					franchises={game?.franchises}
-					genres={game?.genres}
-					modes={game?.modes}
-					multiplayerModes={game?.multiplayerModes}
-					platforms={game?.platforms}
-					playerPerspectives={game?.playerPerspectives}
-					porters={game?.porters}
-					publishers={game?.publishers}
-					releaseDate={game?.releaseDate ?? null}
-					releaseDates={game?.releaseDates}
-					supporters={game?.supporters}
-					themes={game?.themes}
-				/>
+				<GridContainer name='info'>
+					<InfoBox
+						developers={game?.developers}
+						engines={game?.engines}
+						franchises={game?.franchises}
+						genres={game?.genres}
+						modes={game?.modes}
+						multiplayerModes={game?.multiplayerModes}
+						platforms={game?.platforms}
+						playerPerspectives={game?.playerPerspectives}
+						porters={game?.porters}
+						publishers={game?.publishers}
+						releaseDate={game?.releaseDate ?? null}
+						releaseDates={game?.releaseDates}
+						supporters={game?.supporters}
+						themes={game?.themes}
+					/>
+				</GridContainer>
 				<GridContainer name='content'>
-					<h2 css={{ marginTop: '12px' }}>
-						<Placeholder width='30%'>
-							Summary
-						</Placeholder>
-					</h2>
-					<p>
-						<Placeholder lines={5}>
-							{game?.summary}
-						</Placeholder>
-					</p>
-					<h2>
-						<Placeholder width='35%'>
-							Storyline
-						</Placeholder>
-					</h2>
-					<p>
-						<Placeholder lines={5}>
-							{game?.storyline}
-						</Placeholder>
-					</p>
-					<h2>
-						<Placeholder width='25%'>
-							Videos
-						</Placeholder>
-					</h2>
+					{(isLoading || game?.summary) && (
+						<>
+							<h2 css={{ marginTop: '12px' }}>
+								<Placeholder width='30%'>
+									Summary
+								</Placeholder>
+							</h2>
+							<p>
+								<Placeholder lines={5}>
+									{game?.summary}
+								</Placeholder>
+							</p>
+						</>
+					)}
+					{(isLoading || game?.storyline) && (
+						<>
+							<h2>
+								<Placeholder width='35%'>
+									Storyline
+								</Placeholder>
+							</h2>
+							<p>
+								<Placeholder lines={5}>
+									{game?.storyline}
+								</Placeholder>
+							</p>
+						</>
+					)}
+					{(isLoading || (game?.videos && game.videos.length > 0)) && (
+						<h2>
+							<Placeholder width='25%'>
+								Videos
+							</Placeholder>
+						</h2>
+					)}
 					<VideoTabs videos={game?.videos} />
 				</GridContainer>
 				<GridContainer name='similarGames'>
