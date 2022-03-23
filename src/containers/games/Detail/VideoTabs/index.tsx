@@ -13,10 +13,10 @@ type Props = {
 	}> | undefined,
 }
 
-export const VideoTabs = ({ videos }: Props) => {
+export const VideoTabs = ({ videos = [] }: Props) => {
 	const [videoIndex, setVideoIndex] = useState(0)
 
-	if (!videos) return null
+	if (videos.length === 0) return null
 
 	const { videoId, name } = videos[videoIndex]
 

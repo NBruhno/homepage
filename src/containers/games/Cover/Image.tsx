@@ -1,11 +1,13 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import NextImage from 'next/image'
 
-type Props = ComponentPropsWithoutRef<'img'> & {
-	loading?: string,
+type Props = {
+	loading?: 'eager' | 'lazy',
+	src: string,
+	imageProps: any,
 }
 
-export const Image = ({ loading = 'lazy', ...rest }: Props) => (
-	<img
+export const Image = ({ loading = 'lazy', src, imageProps }: Props) => (
+	<NextImage
 		css={{
 			height: '100%',
 			width: '100%',
@@ -19,6 +21,11 @@ export const Image = ({ loading = 'lazy', ...rest }: Props) => (
 		}}
 		alt='game cover'
 		loading={loading}
-		{...rest}
+		layout='responsive'
+		width={264}
+		height={352}
+		placeholder={imageProps ? 'blur' : 'empty'}
+		{...imageProps}
+		src={src}
 	/>
 )

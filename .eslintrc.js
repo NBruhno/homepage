@@ -41,28 +41,28 @@ module.exports = {
 				'@typescript-eslint/consistent-type-exports': ['error'],
 				'@typescript-eslint/naming-convention': [
 					'error',
-					{
-						selector: 'default',
-						format: ['strictCamelCase'],
-					},
-					{
-						selector: 'variable',
-						format: ['strictCamelCase', 'StrictPascalCase', 'UPPER_CASE'],
-					},
-					{
-						selector: ['parameter', 'typeProperty'],
-						format: ['strictCamelCase', 'UPPER_CASE'],
-						leadingUnderscore: 'allow',
-					},
-					{
-						selector: 'objectLiteralProperty',
-						format: [],
-						leadingUnderscore: 'allow',
-					},
-					{
-						selector: ['enumMember', 'enum', 'typeAlias', 'interface', 'class', 'variable', 'typeParameter'],
-						format: ['StrictPascalCase'],
-					},
+					// {
+					// 	selector: 'default',
+					// 	format: ['strictCamelCase'],
+					// },
+					// {
+					// 	selector: 'variable',
+					// 	format: ['strictCamelCase', 'StrictPascalCase', 'UPPER_CASE'],
+					// },
+					// {
+					// 	selector: ['parameter', 'typeProperty'],
+					// 	format: ['strictCamelCase', 'UPPER_CASE'],
+					// 	leadingUnderscore: 'allow',
+					// },
+					// {
+					// 	selector: 'objectLiteralProperty',
+					// 	format: [],
+					// 	leadingUnderscore: 'allow',
+					// },
+					// {
+					// 	selector: ['enumMember', 'enum', 'typeAlias', 'interface', 'class', 'variable', 'typeParameter'],
+					// 	format: ['StrictPascalCase'],
+					// },
 					{
 						selector: ['variable', 'parameter', 'typeProperty'],
 						types: ['boolean'],

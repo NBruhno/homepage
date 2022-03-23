@@ -25,38 +25,33 @@ export const PriceTable = ({ prices }: Props) => {
 
 	if (isLoading) return null
 	if (!prices) return <Empty>Looking for prices...</Empty>
+	if (prices.length === 0) return <Empty>There are no known prices for this game</Empty>
 
 	const sortedPrices = sortBy(prices, [({ current }) => current])
 
+	const [{ name, current, currency, url }] = sortedPrices
+
 	return (
-		<>
-			{prices.length > 0 ? (
-				<Container>
-					{sortedPrices.slice(0, 1).map(({ name, current, currency, url }, index) => (
-						<Item href={url} isFirst key={index}>
-							<h3 css={{ margin: 0 }}>{name}</h3>
-							<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
-						</Item>
-					))}
-					{prices.length > 1 ? (
-						<ExpandButton
-							onClick={() => openModal(
-								<>
-									{sortedPrices.slice(1).map(({ name, current, currency, url }, index) => (
-										<Item href={url} key={index}>
-											<span css={{ margin: 0 }}>{name}</span>
-											<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
-										</Item>
-									))}
-								</>,
-							)}
-							label='Show all known prices'
-						/>
-					) : <Muted>There are no other known prices</Muted>}
-				</Container>
-			) : (
-				<Empty>There are no known prices for this game</Empty>
-			)}
-		</>
+		<Container>
+			<Item href={url} isFirst>
+				<h3 css={{ margin: 0 }}>{name}</h3>
+				<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
+			</Item>
+			{prices.length > 1 ? (
+				<ExpandButton
+					onClick={() => openModal(
+						<>
+							{sortedPrices.slice(1).map(({ name, current, currency, url }, index) => (
+								<Item href={url} key={index}>
+									<span css={{ margin: 0 }}>{name}</span>
+									<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
+								</Item>
+							))}
+						</>,
+					)}
+					label='Show all known prices'
+				/>
+			) : <Muted>There are no other known prices</Muted>}
+		</Container>
 	)
 }

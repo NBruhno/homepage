@@ -10,7 +10,6 @@ export const Container = (props: ComponentPropsWithoutRef<'div'>) => (
 			borderRadius: '4px',
 			fontSize: theme.font.size.s90,
 			rowGap: '18px',
-			gridArea: 'info',
 			marginBottom: '12px',
 			backgroundColor: theme.color.background,
 

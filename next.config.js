@@ -35,6 +35,10 @@ const nextConfig = {
 		emotion: true,
 	},
 
+	images: {
+		domains: ['images.igdb.com'],
+	},
+
 	devIndicators: {
 		autoPrerender: false,
 	},
