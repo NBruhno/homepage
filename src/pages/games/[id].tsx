@@ -33,10 +33,16 @@ export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
 	if (!game) return { notFound: true }
 	const [{ prices }, { img: coverProps, base64: coverBlurUrl }, { img: screenshotProps, base64: screenshotBlurUrl }, ...similarGames] = await Promise.all([
 		await fetcher<{ prices: Array<GamePrice> }>(`/games/${game.id}/prices?name=${encodeURIComponent(game.name)}`, { absoluteUrl: config.staticHost }),
-		getPlaiceholder(game.cover ?? ''),
-		getPlaiceholder(game.screenshot ?? ''),
+		game.cover ? getPlaiceholder(game.cover) : { img: null, base64: null },
+		game.screenshot ? getPlaiceholder(game.screenshot) : { img: null, base64: null },
 		...game.similarGames.map(async (game) => {
-			const { img, base64 } = await getPlaiceholder(game.cover ?? '')
+			if (!game.cover) {
+				return {
+					...game,
+					coverProps: null,
+				}
+			}
+			const { img, base64 } = await getPlaiceholder(game.cover)
 
 			return ({
 				...game,
@@ -52,14 +58,14 @@ export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
 		props: {
 			game: {
 				...game,
-				coverProps: {
+				coverProps: (coverProps && coverBlurUrl) ? {
 					...coverProps,
 					blurDataURL: coverBlurUrl,
-				},
-				screenshotProps: {
+				} : null,
+				screenshotProps: (screenshotProps && screenshotBlurUrl) ? {
 					...screenshotProps,
 					blurDataURL: screenshotBlurUrl,
-				},
+				} : null,
 				similarGames,
 			},
 			prices,
