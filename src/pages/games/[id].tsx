@@ -16,8 +16,8 @@ import { Detail } from 'containers/games/Detail'
 import { Page } from 'components/Layout/Page'
 
 type State = {
-	game: GameExtended,
-	prices: Array<GamePrice>,
+	game: GameExtended | undefined,
+	prices: Array<GamePrice> | undefined,
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -75,7 +75,7 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 	return (
 		<>
 			<Head>
-				<title>{game.name} • Bruhno</title>
+				<title>{game?.name} • Bruhno</title>
 			</Head>
 			<Page>
 				<Detail
