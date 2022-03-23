@@ -40,7 +40,7 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 			css={(theme) => ({
 				gridGap: '6px',
 				display: 'grid',
-				gridTemplateColumns: `repeat(auto-fit, 34px)`,
+				gridTemplateColumns: `repeat(auto-fill, 34px)`,
 				overflow: 'hidden',
 
 				[theme.mediaQueries.maxMobile]: {
@@ -49,8 +49,9 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 			})}
 			{...rest}
 		>
-			{isLoading && Array.from({ length: 5 }).map(() => (
+			{isLoading && Array.from({ length: 5 }).map((_, index) => (
 				<div
+					key={index}
 					css={(theme) => ({
 						backgroundColor: theme.color.gray010,
 						borderRadius: '4px',

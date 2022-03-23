@@ -1,4 +1,4 @@
-import type { GamePrice, Game } from 'types'
+import type { GamePrice, GameExtended } from 'types'
 
 import { useLoading } from 'states/isLoading'
 import { useResponsive } from 'states/responsive'
@@ -28,7 +28,7 @@ import { WebsiteIcons } from './WebsiteIcons'
 import { Wrapper } from './Wrapper'
 
 type Props = {
-	game: Game | null,
+	game: GameExtended,
 	prices: Array<GamePrice> | undefined,
 	isFollowing: boolean | undefined,
 
@@ -48,28 +48,28 @@ export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow }: Prop
 					{isLoading ? (
 						<BackgroundPlaceholder />
 					) : (
-						<Background src={game?.screenshot ?? game?.cover ?? null} />
+						<Background src={game.screenshot ?? game.cover ?? null} />
 					)}
 				</BackgroundWrapper>
 			</Wrapper>
 			<Grid>
 				<GridContainer name='cover'>
-					<Cover coverUrl={game?.cover ?? null} loading='eager' css={{ maxHeight: '354px' }} />
+					<Cover coverUrl={game.cover ?? null} loading='eager' imageProps={game.coverProps} css={{ maxHeight: '354px' }} />
 				</GridContainer>
 				<GridContainer name='headlines'>
 					<Title>
 						<Placeholder width='55%'>
-							{game?.name}
+							{game.name}
 						</Placeholder>
 					</Title>
 					<ReleaseDate>
 						<Placeholder width='30%'>
-							{dateOrYear(game?.releaseDate)}
+							{dateOrYear(game.releaseDate)}
 						</Placeholder>
 					</ReleaseDate>
 					<Developer>
 						<Placeholder width='25%'>
-							{game?.developers[0]?.name && `By ${game.developers[0].name}`}
+							{game.developers[0]?.name && `By ${game.developers[0].name}`}
 						</Placeholder>
 					</Developer>
 				</GridContainer>
@@ -85,35 +85,36 @@ export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow }: Prop
 							isLoading={isLoading}
 						/>
 					</Tooltip>
-					<Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} />
-					{!isMobile && <WebsiteIcons websites={game?.websites ?? null} />}
+					{!isMobile && <Rating rating={game.rating ?? null} ratingCount={game.ratingCount ?? null} />}
+					{!isMobile && <WebsiteIcons websites={game.websites} />}
 				</GridContainer>
-				<GridContainer name='websites' shouldShow={isMobile}>
-					<WebsiteIcons websites={game?.websites ?? null} />
+				<GridContainer name='websites' shouldShow={isMobile} css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', justifyContent: 'space-around' }}>
+					<Rating rating={game.rating ?? null} ratingCount={game.ratingCount ?? null} />
+					<WebsiteIcons websites={game.websites} />
 				</GridContainer>
 				<GridContainer name='priceTable'>
 					<PriceTable prices={prices} />
 				</GridContainer>
 				<GridContainer name='info'>
 					<InfoBox
-						developers={game?.developers}
-						engines={game?.engines}
-						franchises={game?.franchises}
-						genres={game?.genres}
-						modes={game?.modes}
-						multiplayerModes={game?.multiplayerModes}
-						platforms={game?.platforms}
-						playerPerspectives={game?.playerPerspectives}
-						porters={game?.porters}
-						publishers={game?.publishers}
-						releaseDate={game?.releaseDate ?? null}
-						releaseDates={game?.releaseDates}
-						supporters={game?.supporters}
-						themes={game?.themes}
+						developers={game.developers}
+						engines={game.engines}
+						franchises={game.franchises}
+						genres={game.genres}
+						modes={game.modes}
+						multiplayerModes={game.multiplayerModes}
+						platforms={game.platforms}
+						playerPerspectives={game.playerPerspectives}
+						porters={game.porters}
+						publishers={game.publishers}
+						releaseDate={game.releaseDate ?? null}
+						releaseDates={game.releaseDates}
+						supporters={game.supporters}
+						themes={game.themes}
 					/>
 				</GridContainer>
 				<GridContainer name='content'>
-					{(isLoading || game?.summary) && (
+					{(isLoading || game.summary) && (
 						<>
 							<h2 css={{ marginTop: '12px' }}>
 								<Placeholder width='30%'>
@@ -122,12 +123,12 @@ export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow }: Prop
 							</h2>
 							<p>
 								<Placeholder lines={5}>
-									{game?.summary}
+									{game.summary}
 								</Placeholder>
 							</p>
 						</>
 					)}
-					{(isLoading || game?.storyline) && (
+					{(isLoading || game.storyline) && (
 						<>
 							<h2>
 								<Placeholder width='35%'>
@@ -136,22 +137,22 @@ export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow }: Prop
 							</h2>
 							<p>
 								<Placeholder lines={5}>
-									{game?.storyline}
+									{game.storyline}
 								</Placeholder>
 							</p>
 						</>
 					)}
-					{(isLoading || (game?.videos && game.videos.length > 0)) && (
+					{(isLoading || game.videos.length > 0) && (
 						<h2>
 							<Placeholder width='25%'>
 								Videos
 							</Placeholder>
 						</h2>
 					)}
-					<VideoTabs videos={game?.videos} />
+					<VideoTabs videos={game.videos} />
 				</GridContainer>
 				<GridContainer name='similarGames'>
-					<SimilarGames similarGames={game?.similarGames} />
+					<SimilarGames similarGames={game.similarGames} />
 				</GridContainer>
 			</Grid>
 		</>

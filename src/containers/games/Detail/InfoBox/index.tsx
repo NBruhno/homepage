@@ -1,5 +1,7 @@
 import type { GameDefaultEntity, GameMultiplayerMode, GamePlatform, GameReleaseDate } from 'types'
 
+import { Fragment } from 'react'
+
 import { Placeholder } from 'components/Placeholder'
 
 import { dateOrYear } from '../../dateOrYear'
@@ -215,8 +217,8 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder lines={6}>
-								{multiplayerModes.map(({ platform, hasCampaignCoop, hasDropIn, hasLanCoop, hasOfflineCoop, hasOnlineCoop, hasOnlineSplitScreen, hasSplitScreen }) => (
-									<>
+								{multiplayerModes.map(({ platform, hasCampaignCoop, hasDropIn, hasLanCoop, hasOfflineCoop, hasOnlineCoop, hasOnlineSplitScreen, hasSplitScreen }, index) => (
+									<Fragment key={index}>
 										{platform && <h4>{platform.name}</h4>}
 										<div>Has online coop: {hasOnlineCoop === true ? 'Yes' : 'No'}</div>
 										<div>Has campaign coop: {hasCampaignCoop === true ? 'Yes' : 'No'}</div>
@@ -225,7 +227,7 @@ export const InfoBox = ({
 										<div>Has split screen: {hasSplitScreen === true ? 'Yes' : 'No'}</div>
 										<div>Has online split screen: {hasOnlineSplitScreen === true ? 'Yes' : 'No'}</div>
 										<div>Has drop in: {hasDropIn === true ? 'Yes' : 'No'}</div>
-									</>
+									</Fragment>
 								))}
 							</Placeholder>
 						</div>
