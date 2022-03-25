@@ -1,9 +1,11 @@
+import type { GameImagePlaceholder } from 'types'
+
 import NextImage from 'next/image'
 
 type Props = {
 	loading?: 'eager' | 'lazy',
 	src: string,
-	imageProps: any,
+	imageProps: GameImagePlaceholder | undefined,
 }
 
 export const Image = ({ loading = 'lazy', src, imageProps }: Props) => (

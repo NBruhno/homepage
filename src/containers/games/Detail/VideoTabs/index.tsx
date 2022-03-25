@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { ChevronLeftIcon, ChevronRightIcon } from 'components/Icons'
 import { Video } from 'components/Video'
@@ -15,10 +15,11 @@ type Props = {
 
 export const VideoTabs = ({ videos = [] }: Props) => {
 	const [videoIndex, setVideoIndex] = useState(0)
+	useEffect(() => {
+		setVideoIndex(0)
+	}, [videos]) // We need to reset to 0 if route changes to a different game
 
 	if (videos.length === 0) return null
-
-	const { videoId, name } = videos[videoIndex]
 
 	return (
 		<Wrapper>
@@ -28,7 +29,7 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 				onClick={() => videoIndex === 0 ? setVideoIndex(videos.length - 1) : setVideoIndex(videoIndex - 1)}
 			/>
 			<div css={{ width: '100%' }}>
-				<Video id={videoId} name={name ?? ''} />
+				<Video id={videos[videoIndex]?.videoId ?? ''} name={videos[videoIndex]?.name ?? ''} />
 			</div>
 			<Button
 				label={<ChevronRightIcon />}
