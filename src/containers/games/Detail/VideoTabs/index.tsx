@@ -21,8 +21,6 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 
 	if (videos.length === 0) return null
 
-	const { videoId, name } = videos[videoIndex]
-
 	return (
 		<Wrapper>
 			<Button
@@ -31,7 +29,7 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 				onClick={() => videoIndex === 0 ? setVideoIndex(videos.length - 1) : setVideoIndex(videoIndex - 1)}
 			/>
 			<div css={{ width: '100%' }}>
-				<Video id={videoId} name={name ?? ''} />
+				<Video id={videos[videoIndex]?.videoId ?? ''} name={videos[videoIndex]?.name ?? ''} />
 			</div>
 			<Button
 				label={<ChevronRightIcon />}
