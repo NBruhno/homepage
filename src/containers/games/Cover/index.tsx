@@ -11,9 +11,10 @@ type Props = ComponentPropsWithoutRef<'img'> & {
 	coverUrl?: string | null,
 	size?: string,
 	imageProps?: GameImagePlaceholder,
+	isPriority?: boolean,
 }
 
-export const Cover = ({ coverUrl, imageProps, ...rest }: Props) => {
+export const Cover = ({ coverUrl, imageProps, isPriority = false, ...rest }: Props) => {
 	const { isLoading } = useLoading()
 
 	if (!coverUrl || isLoading) {
@@ -26,7 +27,7 @@ export const Cover = ({ coverUrl, imageProps, ...rest }: Props) => {
 
 	return (
 		<CoverWrapper {...rest}>
-			<Image imageProps={imageProps} src={coverUrl} />
+			<Image isPriority={isPriority} imageProps={imageProps} src={coverUrl} />
 		</CoverWrapper>
 	)
 }

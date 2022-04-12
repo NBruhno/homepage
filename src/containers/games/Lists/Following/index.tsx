@@ -38,10 +38,12 @@ export const Following = ({ skip }: Props) => {
 					<Item
 						id={index}
 						cover={null}
+						coverProps={null}
 						name=''
 						releaseDate={null}
 						status={null}
 						index={index}
+						isPriority={index <= 10}
 						isLoading
 						key={index}
 					/>
@@ -64,10 +66,12 @@ export const Following = ({ skip }: Props) => {
 				<Item
 					id={id}
 					cover={cover}
+					coverProps={null}
 					name={name}
 					releaseDate={releaseDate}
 					status={status}
 					index={index}
+					isPriority={index <= 10}
 					isLoading={!games}
 					key={id}
 				/>

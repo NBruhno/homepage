@@ -48,13 +48,18 @@ export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow }: Prop
 					{isLoading ? (
 						<BackgroundPlaceholder />
 					) : (
-						<Background src={game?.screenshot ?? game?.cover ?? null} />
+						<Background src={game?.screenshot ?? game?.cover ?? null} imageProps={game?.screenshotProps ?? undefined} />
 					)}
 				</BackgroundWrapper>
 			</Wrapper>
 			<Grid>
 				<GridContainer name='cover'>
-					<Cover coverUrl={game?.cover ?? null} loading='eager' imageProps={game?.coverProps ?? undefined} css={{ maxHeight: '354px' }} />
+					<Cover
+						coverUrl={game?.cover ?? null}
+						css={{ maxHeight: '354px' }}
+						imageProps={game?.coverProps ?? undefined}
+						isPriority
+					/>
 				</GridContainer>
 				<GridContainer name='headlines'>
 					<Title>

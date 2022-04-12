@@ -19,7 +19,7 @@ export const useFollowingGames = (query: ParsedUrlQuery, newSkip: number = 0) =>
 	const { data } = useSWR<{ games: Array<GameSimple>, skip: number, take: number, before: GameSimple | null, after: GameSimple | null }>(
 		query.user
 			? ['/games', query.user, newSkip]
-			: null, (link: string, followedGamesUser: string, skip: number) => fetcher(`${link}?user=${followedGamesUser}${skip ? `&skip=${skip}` : ''}`), {
+			: null, ([link, followedGamesUser, skip]: [string, string, number]) => fetcher(`${link}?user=${followedGamesUser}${skip ? `&skip=${skip}` : ''}`), {
 			revalidateOnFocus: false,
 		},
 	)

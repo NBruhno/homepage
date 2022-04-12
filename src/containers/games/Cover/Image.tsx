@@ -3,12 +3,12 @@ import type { GameImagePlaceholder } from 'types'
 import NextImage from 'next/image'
 
 type Props = {
-	loading?: 'eager' | 'lazy',
 	src: string,
 	imageProps: GameImagePlaceholder | undefined,
+	isPriority: boolean,
 }
 
-export const Image = ({ loading = 'lazy', src, imageProps }: Props) => (
+export const Image = ({ src, imageProps, isPriority }: Props) => (
 	<NextImage
 		css={{
 			height: '100%',
@@ -22,7 +22,8 @@ export const Image = ({ loading = 'lazy', src, imageProps }: Props) => (
 			},
 		}}
 		alt='game cover'
-		loading={loading}
+		loading={isPriority ? 'eager' : 'lazy'}
+		priority={isPriority}
 		layout='responsive'
 		width={264}
 		height={352}
