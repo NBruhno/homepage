@@ -55,6 +55,9 @@ const nextConfig = {
 	experimental: {
 		esmExternals: true,
 		emotion: true,
+		images: {
+			layoutRaw: true,
+		},
 	},
 
 	images: {

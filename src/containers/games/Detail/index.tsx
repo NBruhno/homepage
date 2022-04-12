@@ -48,7 +48,7 @@ export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow }: Prop
 					{isLoading ? (
 						<BackgroundPlaceholder />
 					) : (
-						<Background src={game?.screenshot ?? game?.cover ?? null} />
+						<Background src={game?.screenshot ?? game?.cover ?? null} imageProps={game?.screenshotProps ?? undefined} />
 					)}
 				</BackgroundWrapper>
 			</Wrapper>

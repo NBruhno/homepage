@@ -1,8 +1,11 @@
+import type { GameImagePlaceholder } from 'types'
+
 import NextImage from 'next/image'
 
 /* eslint-disable @next/next/no-img-element */
 type Props = {
 	src: string | null,
+	imageProps: GameImagePlaceholder | undefined,
 }
 
 const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
@@ -20,8 +23,12 @@ export const Background = ({ src, ...rest }: Props) => (
 		})}
 		alt='background'
 		loading='eager'
-		layout='fill'
+		quality={100}
+		unoptimized
 		priority
+		layout='raw'
+		height='100%'
+		width='100%'
 		src={src ?? placeholderImage}
 		{...rest}
 	/>
