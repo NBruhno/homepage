@@ -20,7 +20,7 @@ export const useSearchGames = () => {
 
 	const { data } = useSWR<{ games: Array<Game> }>(gamesSearch?.search && typeof gamesSearch.search === 'string'
 		? ['/games?search=', encodeURIComponent(toLower(gamesSearch.search))]
-		: null, (link: string, searchParameter: string) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
+		: null, ([link, searchParameter]: [string, string]) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
 
 	// Every time we update the search form, we also want to update the URL to match the search query for easy sharing
 	useEffect(() => {

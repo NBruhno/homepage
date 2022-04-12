@@ -1,9 +1,15 @@
-import type { NextPage } from 'next'
+import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
+import type { GameSimple, GameSimpleExtended } from 'types'
 
 import Head from 'next/head'
+import { getPlaiceholder } from 'plaiceholder'
 import { useMemo } from 'react'
 
+import { config } from 'config.server'
+
 import { useGlobalState } from 'states/global'
+
+import { fetcher } from 'lib/fetcher'
 
 import { PopularGames } from 'containers/games/Lists'
 
@@ -11,7 +17,33 @@ import { ButtonBorder } from 'components/Buttons'
 import { Page, PageContent } from 'components/Layout'
 import { Tooltip } from 'components/Tooltip'
 
-const Games: NextPage = () => {
+type State = {
+	games: Array<GameSimpleExtended>,
+}
+
+export const getStaticProps: GetStaticProps<State> = async () => {
+	const { games } = await fetcher<{ games: Array<GameSimple>, skip: number, take: number, before: GameSimple | null, after: GameSimple | null }>(`/games?is-popular=yes`, { absoluteUrl: config.staticHost })
+
+	const extendedGames = await Promise.all(games.map(async (game): Promise<GameSimpleExtended> => {
+		const { img, base64 } = game.cover ? await getPlaiceholder(game.cover) : { img: null, base64: null }
+		return ({
+			...game,
+			coverProps: (img && base64) ? {
+				...img,
+				blurDataURL: base64,
+			} : null,
+		})
+	}))
+
+	return {
+		props: {
+			games: extendedGames,
+		},
+		revalidate: 60 * 10, // in seconds
+	}
+}
+
+const Games: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ games }) => {
 	const [{ skips, numberOfPages, take, isLimitReached }, setState] = useGlobalState('popularGames')
 
 	return (
@@ -25,7 +57,7 @@ const Games: NextPage = () => {
 					{useMemo(() => {
 						const pagesToRender = []
 						for (let index = 0; index < numberOfPages; index++) {
-							pagesToRender.push(<PopularGames skip={skips[index]} key={index} />)
+							pagesToRender.push(<PopularGames skip={skips[index]} key={index} preloadedGames={index === 0 ? games : null} />)
 						}
 						return pagesToRender
 					}, [numberOfPages])}

@@ -17,7 +17,7 @@ export const usePopularGames = (newSkip: number = 0) => {
 	const [state, setState] = useGlobalState('popularGames')
 	const { data } = useSWR<{ games: Array<GameSimple>, skip: number, take: number, before: GameSimple | null, after: GameSimple | null }>(
 		['/games', newSkip],
-		(link: string, skip: number) => fetcher(`${link}?is-popular=yes${skip ? `&skip=${skip}` : ''}`),
+		([link, skip]: [string, number]) => fetcher(`${link}?is-popular=yes${skip ? `&skip=${skip}` : ''}`),
 		{ revalidateOnFocus: false },
 	)
 
