@@ -10,7 +10,7 @@ type Props = {
 
 const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
 
-export const Background = ({ src, ...rest }: Props) => (
+export const Background = ({ src, imageProps, ...rest }: Props) => (
 	<NextImage
 		css={(theme) => ({
 			width: 'calc(100% + 25px)',
@@ -29,6 +29,8 @@ export const Background = ({ src, ...rest }: Props) => (
 		layout='raw'
 		height='100%'
 		width='100%'
+		placeholder={imageProps ? 'blur' : 'empty'}
+		{...imageProps}
 		src={src ?? placeholderImage}
 		{...rest}
 	/>
