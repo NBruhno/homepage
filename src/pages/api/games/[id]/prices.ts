@@ -25,7 +25,7 @@ const Query = union([
 
 const handler = apiHandler({
 	validMethods: ['GET'],
-	transactionName: (req) => `${req.method!} api/games/{gameId}/prices`,
+	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/prices`,
 })
 	.get(async (req, res) => {
 		const { store, id, name } = create(req.query, Query)

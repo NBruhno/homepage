@@ -18,7 +18,7 @@ const Query = object({
 const handler = apiHandler({
 	validMethods: ['GET', 'POST', 'PATCH', 'DELETE'],
 	cacheStrategy: 'NoCache',
-	transactionName: (req) => `${req.method!} api/users/{userId}/2fa`,
+	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}/2fa`,
 })
 	.get(async (req, res) => {
 		const { userId: requestUserId, sub } = authenticate(req)

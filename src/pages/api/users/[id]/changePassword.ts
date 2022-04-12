@@ -14,7 +14,7 @@ import { password } from 'api/validation'
 const handler = apiHandler({
 	validMethods: ['POST'],
 	cacheStrategy: 'NoCache',
-	transactionName: (req) => `${req.method!} api/users/{userId}/changePassword`,
+	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}/changePassword`,
 })
 	.post(async (req, res) => {
 		const { userId: requestUserId, role } = authenticate(req)

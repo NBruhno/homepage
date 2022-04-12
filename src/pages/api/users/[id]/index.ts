@@ -12,7 +12,7 @@ import { apiHandler, prisma } from 'api/utils'
 const handler = apiHandler({
 	validMethods: ['DELETE'],
 	cacheStrategy: 'NoCache',
-	transactionName: (req) => `${req.method!} api/users/{userId}`,
+	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}`,
 })
 	.delete(async (req, res) => {
 		const { userId: requestUserId, role } = authenticate(req)

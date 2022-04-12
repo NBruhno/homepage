@@ -7,7 +7,7 @@ import { apiHandler } from 'api/utils'
 const handler = apiHandler({
 	validMethods: ['POST'],
 	cacheStrategy: 'NoCache',
-	transactionName: (req) => `${req.method!} api/users/{userId}/logout`,
+	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}/logout`,
 })
 	.post(async (req, res) => {
 		authenticate(req)
