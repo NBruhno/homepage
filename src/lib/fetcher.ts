@@ -1,3 +1,5 @@
+import type { Transaction } from '@sentry/types'
+
 import { startTransaction } from '@sentry/nextjs'
 import pickBy from 'lodash/pickBy'
 
@@ -51,7 +53,7 @@ export const fetcher = async <ReturnType>(
 		http: {
 			method,
 		},
-	})
+	}) as Transaction | null
 
 	// Create headers object and remove falsy variables to exclude them from call
 	const headers = pickBy({
@@ -82,8 +84,10 @@ export const fetcher = async <ReturnType>(
 
 			return response.json() as Promise<ReturnType>
 		} finally {
-			transaction.setHttpStatus(response.status)
-			transaction.finish()
+			if (transaction) {
+				transaction.setHttpStatus(response.status)
+				transaction.finish()
+			}
 		}
 	})
 }
