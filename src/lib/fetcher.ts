@@ -58,7 +58,8 @@ export const fetcher = async <ReturnType>(
 		'Content-Type': 'application/json',
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-		'sentry-trace': transaction.traceId,
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		'sentry-trace': transaction?.traceId ?? undefined,
 		...customHeaders,
 	}, (value) => value !== undefined) as Record<string, string>
 
