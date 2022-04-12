@@ -18,7 +18,7 @@ type Props = {
 
 export const Popular = ({ preloadedGames, skip }: Props) => {
 	const { games, after, setIsLimitReached } = usePopularGames(skip)
-	const isLoading = !games
+	const isLoading = !games && !preloadedGames
 
 	useEffect(() => {
 		if (after === null) setIsLimitReached(true)
