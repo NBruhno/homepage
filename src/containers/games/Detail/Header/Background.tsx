@@ -1,3 +1,5 @@
+import NextImage from 'next/image'
+
 /* eslint-disable @next/next/no-img-element */
 type Props = {
 	src: string | null,
@@ -6,7 +8,7 @@ type Props = {
 const placeholderImage = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVQYV2NgAAIAAAUAAarVyFEAAAAASUVORK5CYII='
 
 export const Background = ({ src, ...rest }: Props) => (
-	<img
+	<NextImage
 		css={(theme) => ({
 			width: 'calc(100% + 25px)',
 			height: 'calc(100% + 25px)',
@@ -18,6 +20,8 @@ export const Background = ({ src, ...rest }: Props) => (
 		})}
 		alt='background'
 		loading='eager'
+		layout='fill'
+		priority
 		src={src ?? placeholderImage}
 		{...rest}
 	/>

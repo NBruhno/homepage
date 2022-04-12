@@ -43,6 +43,7 @@ export const Following = ({ skip }: Props) => {
 						releaseDate={null}
 						status={null}
 						index={index}
+						isPriority={index <= 10}
 						isLoading
 						key={index}
 					/>
@@ -70,6 +71,7 @@ export const Following = ({ skip }: Props) => {
 					releaseDate={releaseDate}
 					status={status}
 					index={index}
+					isPriority={index <= 10}
 					isLoading={!games}
 					key={id}
 				/>

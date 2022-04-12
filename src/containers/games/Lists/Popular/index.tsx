@@ -36,7 +36,8 @@ export const Popular = ({ preloadedGames, skip }: Props) => {
 						releaseDate={releaseDate}
 						status={status}
 						index={index}
-						isLoading={isLoading}
+						isPriority={index <= 10}
+						isLoading={false}
 						key={id}
 					/>
 				))}
@@ -57,6 +58,7 @@ export const Popular = ({ preloadedGames, skip }: Props) => {
 						releaseDate={null}
 						status={null}
 						index={index}
+						isPriority={index <= 10}
 						isLoading
 						key={index}
 					/>
@@ -65,7 +67,7 @@ export const Popular = ({ preloadedGames, skip }: Props) => {
 		)
 	}
 
-	if (games.length === 0) {
+	if (games!.length === 0) {
 		return (
 			<Container>
 				<Subtitle>{emptyMessage}</Subtitle>
@@ -75,7 +77,7 @@ export const Popular = ({ preloadedGames, skip }: Props) => {
 
 	return (
 		<Container>
-			{games.map(({ id, cover, name, releaseDate, status }, index: number) => (
+			{games!.map(({ id, cover, name, releaseDate, status }, index: number) => (
 				<Item
 					id={id}
 					cover={cover}
@@ -84,11 +86,12 @@ export const Popular = ({ preloadedGames, skip }: Props) => {
 					releaseDate={releaseDate}
 					status={status}
 					index={index}
+					isPriority={index <= 10}
 					isLoading={isLoading}
 					key={id}
 				/>
 			))}
-			{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
+			{games!.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
 		</Container>
 	)
 }
