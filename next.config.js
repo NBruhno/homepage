@@ -9,12 +9,34 @@ const basePath = ''
 
 const securityHeaders = [
 	{
+		/** Pre-fetches DNS resolutions for a potential decrease in latency for link navigation https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-DNS-Prefetch-Control */
+		key: 'X-DNS-Prefetch-Control',
+		value: 'on',
+	},
+	{
+		/** Enforces HTTPS https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security */
+		key: 'Strict-Transport-Security',
+		/** Applies to all subdomains and preload is used by vendors such as Google to ensure that the header exists
+		 * before load if the referrer is from their origin.
+		 */
+		value: 'max-age=63072000; includeSubDomains; preload',
+	},
+	{
+		/** Might be obsolete, but `CSP` is more error prone to implement (and I'm lazy) https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Frame-Options */
 		key: 'X-Frame-Options',
+		/** Only allow iframe of this pages content if the origin is the same */
 		value: 'SAMEORIGIN',
 	},
 	{
+		/** Prevents the browser from guessing the type of content that is sent and rely on `Content-Type` header alone https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Content-Type-Options */
 		key: 'X-Content-Type-Options',
 		value: 'nosniff',
+	},
+	{
+		/** Controls what referrer information is sent with the request https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy */
+		key: 'Referrer-Policy',
+		/** Only send referrer to same origin that doesn't switch protocol */
+		value: 'strict-origin',
 	},
 ]
 
