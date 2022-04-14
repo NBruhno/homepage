@@ -1,6 +1,7 @@
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
 	enabled: process.env.ANALYZE_BUILD === 'true',
 })
+const { withPlaiceholder } = require('@plaiceholder/next')
 const { withSentryConfig } = require('@sentry/nextjs')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 const withPwa = require('next-pwa')
@@ -113,5 +114,5 @@ const nextConfig = {
 	basePath,
 }
 
-module.exports = withBundleAnalyzer(withPwa(withSentryConfig(nextConfig, SentryWebpackPluginOptions)))
+module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), SentryWebpackPluginOptions)))
 // module.exports = withBundleAnalyzer(withPwa(nextConfig))

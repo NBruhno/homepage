@@ -52,7 +52,7 @@ const Collapse = ({ children, isOpen = true, shouldFill = false, transitionTime 
 		return () => clearTimeout(timeout)
 	}, [childTransitionEnd])
 
-	const onChildTransitionStart = useCallback((time) => {
+	const onChildTransitionStart = useCallback((time: number) => {
 		setAnimated(false)
 		setChildTransitionEnd(Date.now() + time * 1000)
 	}, [])
