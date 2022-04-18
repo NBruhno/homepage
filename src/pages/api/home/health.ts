@@ -13,9 +13,9 @@ const handler = apiHandler({ validMethods: ['GET'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
 		const { token } = authenticate(req, { allowedRoles: [UserRole.Admin] })
 
-		const sensors = await fetcher('/sensors', { absoluteUrl: config.smartHomeHost, accessToken: token })
+		const health = await fetcher('/health', { absoluteUrl: config.smartHomeHost, accessToken: token })
 
-		return res.status(200).json(sensors)
+		return res.status(200).json(health)
 	})
 
 export default withSentry(handler)

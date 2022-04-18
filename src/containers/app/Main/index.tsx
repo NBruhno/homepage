@@ -30,6 +30,7 @@ const protectedRoutes = [
 
 const roleProtectedRoutes = [
 	'/users',
+	'/home',
 ]
 
 export const Main = ({ children }: ComponentPropsWithoutRef<'main'>) => {
@@ -57,7 +58,7 @@ export const Main = ({ children }: ComponentPropsWithoutRef<'main'>) => {
 		if (user.isStateKnown) {
 			if (!user.accessToken && (protectedRoutes.includes(pathname) || roleProtectedRoutes.includes(pathname))) {
 				setIsRouteProtected(true)
-			} else if (user.accessToken && roleProtectedRoutes.includes(pathname) && user.role !== 'owner') {
+			} else if (user.accessToken && roleProtectedRoutes.includes(pathname) && user.role !== 'Admin') {
 				setIsRouteRoleProtected(true)
 			} else if (isRouteProtected) {
 				setIsRouteProtected(false)
