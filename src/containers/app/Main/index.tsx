@@ -20,8 +20,8 @@ import { Modal } from './Modal'
 import { Shade } from './Shade'
 
 const FormLogin = dynamic(async () => {
-	const module = await import('components/Forms/Login')
-	return module.FormLogin
+	const component = await import('components/Forms/Login')
+	return component.FormLogin
 }, { ssr: false })
 
 const protectedRoutes = [
