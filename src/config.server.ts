@@ -26,4 +26,5 @@ export const config = Object.freeze({
 
 	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV as Environment,
 	staticHost: process.env.STATIC_HOST as string,
+	smartHomeHost: process.env.SMART_HOME_HOST as string,
 } as const)

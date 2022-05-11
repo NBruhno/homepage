@@ -1,9 +1,11 @@
+import { UserRole } from 'types'
+
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
 import { useAuth } from 'states/users'
 
-import { HomeIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon } from 'components/Icons'
+import { HomeIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon, SmartHomeIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
 
 import { NavLink } from '../NavLink'
@@ -30,6 +32,13 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, isSidebarCollapsed }
 					<HomeIcon title='Home' css={{ marginRight: '12px' }} size={22} /><Text>Home</Text>
 				</NavLink>
 			</Link>
+			{user.role === UserRole.Admin && (
+				<Link href='/home' passHref>
+					<NavLink isActive={pathname.includes('/home')} onClick={() => closeMenuOnInteraction()}>
+						<SmartHomeIcon title='Smart home' css={{ marginRight: '12px' }} size={22} /><Text>Smart home</Text>
+					</NavLink>
+				</Link>
+			)}
 			<Link href='/users/profile' passHref>
 				<NavLink isActive={pathname.includes('/users/profile')} onClick={() => closeMenuOnInteraction()}>
 					{user.accessToken

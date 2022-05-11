@@ -28,6 +28,7 @@ export const Image = ({ src, imageProps, isPriority }: Props) => (
 		width={264}
 		height={352}
 		placeholder={imageProps ? 'blur' : 'empty'}
+		unoptimized
 		{...imageProps}
 		src={src}
 	/>

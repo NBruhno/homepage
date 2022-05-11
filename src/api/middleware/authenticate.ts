@@ -1,7 +1,7 @@
 import type { Span, Transaction } from '@sentry/types'
 import type { NextApiRequest } from 'next'
 import type { UserToken } from 'types'
-import { UserTokenType } from 'types'
+import { UserRole, UserTokenType } from 'types'
 
 import { setUser } from '@sentry/nextjs'
 import jwt from 'jsonwebtoken'
@@ -17,8 +17,10 @@ export type Options = {
 	token?: string,
 	/** Switch between authenticating an access, refresh or intermediate token. Defaults to access. */
 	type?: UserTokenType,
-	/** The Sentry transaction or span used for performance monitoring */
+	/** The Sentry transaction or span used for performance monitoring. */
 	transaction?: Span | Transaction,
+	/** Will return a `403` if the user does not have the roles from this list. */
+	allowedRoles?: Array<UserRole>,
 }
 
 /**
@@ -33,7 +35,7 @@ export type Options = {
  * ```
  */
 export const authenticate = (req: NextApiRequest,
-	{ token, type = UserTokenType.Access, transaction }: Options = {}) => monitor(() => {
+	{ token, type = UserTokenType.Access, transaction, allowedRoles = [] }: Options = {}) => monitor(() => {
 	const { headers: { authorization }, cookies } = req
 
 	const tokenToUse = (() => {
@@ -60,15 +62,22 @@ export const authenticate = (req: NextApiRequest,
 		},
 	)
 
-	if (header.typ !== type) throw ApiError.fromCode(401)
+	// Return a 403 if the type of the token is not the same as the one required
+	if (header.typ !== type) throw ApiError.fromCode(403)
 
 	const decodedToken: UserToken = {
 		...payload,
 		typ: header.typ,
 	}
 
+	// Return a 403 if the user does not have the any of the known roles
+	if (!Object.values(UserRole).includes(decodedToken.role)) throw ApiError.fromCode(403)
+
+	// Return a 403 if the user does not have the any of required roles if specified
+	if (allowedRoles.length > 0 && !allowedRoles.includes(decodedToken.role)) throw ApiError.fromCode(403)
+
 	setUser({ id: decodedToken.userId, username: decodedToken.username, email: decodedToken.sub })
-	return decodedToken
+	return { ...decodedToken, token: tokenToUse }
 }, 'authenticate()', type, transaction)
 
 /**
