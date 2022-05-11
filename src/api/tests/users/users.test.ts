@@ -13,6 +13,7 @@ import { ApiError } from 'api/errors'
 import { createCredentials, accessTokenMatch, refreshTokenMatch, createTestServer } from '../utils'
 
 const { email, username, accessCode, defaultPassword } = createCredentials({ label: 'register' })
+const { email: adminEmail, defaultPassword: adminPassword } = createCredentials({ label: 'admin' })
 
 describe('/api/users', () => {
 	beforeAll(async () => {

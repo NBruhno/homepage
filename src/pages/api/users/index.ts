@@ -1,5 +1,6 @@
 import { UserTokenType } from 'types'
 
+import { UserRole } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import { setUser, withSentry } from '@sentry/nextjs'
 import { hash } from 'argon2'
@@ -34,8 +35,8 @@ const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			}), 'db:prisma', 'create()')
 
 			setUser({ id: user.id, username: user.username, email: user.email })
-			const accessToken = getJwtToken({ sub: email, username: user.username, role: 'user', userId: user.id })
-			const refreshToken = getJwtToken({ sub: email, username: user.username, role: 'user', userId: user.id }, { type: UserTokenType.Refresh })
+			const accessToken = getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id })
+			const refreshToken = getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id }, { type: UserTokenType.Refresh })
 			setRefreshCookie(res, refreshToken)
 
 			return res.status(200).json({ accessToken })
