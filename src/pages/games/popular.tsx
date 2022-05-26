@@ -10,6 +10,7 @@ import { config } from 'config.server'
 import { useGlobalState } from 'states/global'
 
 import { fetcher } from 'lib/fetcher'
+import { logger } from 'lib/logger'
 
 import { PopularGames } from 'containers/games/Lists'
 
@@ -18,28 +19,38 @@ import { Page, PageContent } from 'components/Layout'
 import { Tooltip } from 'components/Tooltip'
 
 type State = {
-	games: Array<GameSimpleExtended>,
+	games: Array<GameSimpleExtended> | null,
 }
 
 export const getStaticProps: GetStaticProps<State> = async () => {
-	const { games } = await fetcher<{ games: Array<GameSimple>, skip: number, take: number, before: GameSimple | null, after: GameSimple | null }>(`/games?is-popular=yes`, { absoluteUrl: config.staticHost })
+	try {
+		const { games } = await fetcher<{ games: Array<GameSimple>, skip: number, take: number, before: GameSimple | null, after: GameSimple | null }>(`/games?is-popular=yes`, { absoluteUrl: config.staticHost })
 
-	const extendedGames = await Promise.all(games.map(async (game): Promise<GameSimpleExtended> => {
-		const { img, base64 } = game.cover ? await getPlaiceholder(game.cover) : { img: null, base64: null }
-		return ({
-			...game,
-			coverProps: (img && base64) ? {
-				...img,
-				blurDataURL: base64,
-			} : null,
-		})
-	}))
+		const extendedGames = await Promise.all(games.map(async (game): Promise<GameSimpleExtended> => {
+			const { img, base64 } = game.cover ? await getPlaiceholder(game.cover) : { img: null, base64: null }
+			return ({
+				...game,
+				coverProps: (img && base64) ? {
+					...img,
+					blurDataURL: base64,
+				} : null,
+			})
+		}))
 
-	return {
-		props: {
-			games: extendedGames,
-		},
-		revalidate: 60 * 10, // in seconds
+		return {
+			props: {
+				games: extendedGames,
+			},
+			revalidate: 60 * 10, // in seconds
+		}
+	} catch (error) {
+		logger.error(error)
+
+		return {
+			props: {
+				games: null,
+			},
+		}
 	}
 }
 
