@@ -1,5 +1,6 @@
 import { PerspectiveCamera } from '@react-three/drei'
 import { useLoader } from '@react-three/fiber'
+import { random } from 'lodash'
 import { useMemo } from 'react'
 import { TextureLoader } from 'three'
 
@@ -20,7 +21,7 @@ export const Nebula = () => {
 			y: -0.12,
 			z: Math.random() * 2 * Math.PI,
 		},
-		opacity: Math.random(),
+		opacity: random(0.4, 0.9),
 	})), [])
 	const stationaryClouds = useMemo(() => Array.from({ length: 40 }).map(() => ({
 		position: {
@@ -33,35 +34,39 @@ export const Nebula = () => {
 			y: -0.12,
 			z: Math.random() * 2 * Math.PI,
 		},
-		opacity: Math.random(),
+		opacity: random(0.4, 0.9),
 	})), [])
 
 	return (
 		<>
 			<fogExp2 args={[0x03544e, 0.001]} />
 			<color attach='background' args={[0x03544e]} />
-			<Lights />
+
 			<PerspectiveCamera makeDefault fov={60} position={[1, 0, 0]} rotation={[1.16, -0.12, 0.27]} near={1} far={1000} />
-			{movingClouds.map(({ position, rotation, opacity }) => (
+			<Lights />
+			{movingClouds.map(({ position, rotation, opacity }, index) => (
 				<Dust
 					texture={dustTexture}
 					position={[position.x, position.y, position.z]}
 					rotation={[rotation.x, rotation.y, rotation.z]}
 					opacity={opacity}
+					key={index}
 				/>
 			))}
-			{stationaryClouds.map(({ position, rotation, opacity }) => (
+			{stationaryClouds.map(({ position, rotation, opacity }, index) => (
 				<Dust
 					texture={dustTexture}
 					position={[position.x, position.y, position.z]}
 					rotation={[rotation.x, rotation.y, rotation.z]}
 					opacity={opacity}
 					shouldAnimate={false}
+					key={index}
 				/>
 			))}
 			<Stars count={4000} radius={350} saturation={0.1} shouldFade />
 			<Stars count={10000} depth={250} radius={400} shouldFade />
 			<Stars count={50000} depth={500} factor={10} shouldFade saturation={1} />
+
 		</>
 	)
 }

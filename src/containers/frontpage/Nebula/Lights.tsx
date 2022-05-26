@@ -6,18 +6,18 @@ import { useRef } from 'react'
 export const Lights = () => {
 	const ref = useRef<PointLight>()
 	useFrame(async () => {
-		if (ref.current) {
-			if (Math.random() > 0.99 || ref.current.power > 100) {
-				if (ref.current.power < 100) {
-					ref.current.position.set(
-						Math.random() * 400,
-						300 + Math.random() * 200,
-						100,
-					)
-				}
-				ref.current.power = 50 + Math.random() * 500
-			}
-		}
+		// if (ref.current) {
+		// 	if (Math.random() > 0.98 || ref.current.power > 100) {
+		// 		if (ref.current.power < 100) {
+		// 			ref.current.position.set(
+		// 				Math.random() * 400,
+		// 				300 + Math.random() * 200,
+		// 				Math.random() * 100 + 300,
+		// 			)
+		// 		}
+		// 		ref.current.power = 50 + Math.random() * 500
+		// 	}
+		// }
 	})
 
 	return (
@@ -31,7 +31,7 @@ export const Lights = () => {
 			<pointLight args={[0x3d48bf, 50, 350, 1]} position={[100, 300, 300]} />
 			{/* Flashing effect lights */}
 			{/* @ts-expect-error The ref is valid */}
-			<pointLight args={[0xa8d5ff, 30, 500, 9]} position={[200, 300, 100]} ref={ref} />
+			<pointLight args={[0xa8d5ff, 30, 500, 3]} position={[200, 300, 100]} ref={ref} />
 		</>
 	)
 }

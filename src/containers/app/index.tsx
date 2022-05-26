@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react'
 
 import { ThemeProvider } from '@emotion/react'
-import { useState } from 'react'
+import { Canvas } from '@react-three/fiber'
+import { useRouter } from 'next/router'
+import { useState, Suspense } from 'react'
 
 import { useDarkMode } from 'states/theme'
 import { useRefresh } from 'states/users'
@@ -11,9 +13,10 @@ import { theme } from 'styles/theme'
 
 import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 
+import { Nebula } from 'containers/frontpage'
+
 import { Snackbars } from 'components/Snackbars'
 
-import { Background } from './Background'
 import { BlockWrapper } from './BlockWrapper'
 import { Grid } from './Grid'
 import { Header } from './Header'
@@ -25,6 +28,7 @@ type Props = {
 }
 
 export const App = ({ children }: Props) => {
+	const router = useRouter()
 	const [isBrowserNotSupported, setIsBrowserNotSupported] = useState(false)
 	const { globalTheme } = useDarkMode()
 	useRefresh()
@@ -32,6 +36,8 @@ export const App = ({ children }: Props) => {
 	useIsomorphicLayoutEffect(() => {
 		setIsBrowserNotSupported(/Trident\/|MSIE/.test(window.navigator.userAgent))
 	}, [])
+
+	const isNebulaVisible = router.pathname === '/'
 
 	return (
 		<ThemeProvider theme={theme(globalTheme === 'dark')}>
@@ -46,7 +52,15 @@ export const App = ({ children }: Props) => {
 					</BlockWrapper>
 				) : (
 					<Grid>
-						<Background />
+						{isNebulaVisible && (
+							<div css={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }}>
+								<Canvas>
+									<Suspense fallback={null}>
+										<Nebula />
+									</Suspense>
+								</Canvas>
+							</div>
+						)}
 						<Header />
 						<Navigation />
 						<Main>
