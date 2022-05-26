@@ -4,7 +4,7 @@
     {
       "label": "PlanetScale main database",
       "type": "shell",
-      "command": "pscale connect homepage develop --port 3309 --debug",
+      "command": "pscale connect main develop --port 3309 --debug",
       "presentation": {
         "panel": "dedicated",
         "reveal": "always",
@@ -14,7 +14,7 @@
     {
       "label": "PlanetScale shadow database",
       "type": "shell",
-      "command": "pscale connect homepage shadow --port 3310 --debug",
+      "command": "pscale connect main shadow --port 3310 --debug",
       "presentation": {
         "panel": "dedicated",
         "reveal": "always",
