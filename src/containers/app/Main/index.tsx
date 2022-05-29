@@ -33,7 +33,11 @@ const roleProtectedRoutes = [
 	'/home',
 ]
 
-export const Main = ({ children }: ComponentPropsWithoutRef<'main'>) => {
+type Props = ComponentPropsWithoutRef<'main'> & {
+	isNebulaVisible: boolean,
+}
+
+export const Main = ({ children, isNebulaVisible }: Props) => {
 	const { pathname } = useRouter()
 	const { showLogin, updateResponsive } = useResponsive()
 	const { openModal, closeModal } = useModal()
@@ -102,7 +106,7 @@ export const Main = ({ children }: ComponentPropsWithoutRef<'main'>) => {
 			{children}
 			<Modal />
 			<Shade />
-			<Footer />
+			<Footer isTransparent={isNebulaVisible} />
 		</MainContent>
 	)
 }

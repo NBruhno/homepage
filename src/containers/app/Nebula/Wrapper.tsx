@@ -1,17 +1,6 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-import { keyframes } from '@emotion/react'
 import { useEffect, useState } from 'react'
-
-const fadeIn = keyframes`
-	0% {
-		opacity: 0,
-	}
-
-	100% {
-		opacity: 1,
-	}
-`
 
 export const Wrapper = (props: ComponentPropsWithoutRef<'div'>) => {
 	const [opacity, setOpacity] = useState(0)
