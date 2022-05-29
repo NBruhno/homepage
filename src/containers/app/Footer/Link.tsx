@@ -1,10 +1,14 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-export const Link = ({ children, ...rest }: ComponentPropsWithoutRef<'a'>) => (
+type Props = ComponentPropsWithoutRef<'a'> & {
+	isTransparent: boolean,
+}
+
+export const Link = ({ isTransparent, children, ...rest }: Props) => (
 	<a
 		css={(theme) => ({
 			display: 'flex',
-			color: theme.color.text,
+			color: isTransparent ? theme.color.white : theme.color.text,
 			opacity: 0.7,
 			transition: `opacity 200ms ${theme.animation.default}`,
 

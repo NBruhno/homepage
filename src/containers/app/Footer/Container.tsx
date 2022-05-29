@@ -1,12 +1,16 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-export const Container = (props: ComponentPropsWithoutRef<'footer'>) => (
+type Props = ComponentPropsWithoutRef<'footer'> & {
+	isTransparent: boolean,
+}
+
+export const Container = ({ isTransparent, ...rest }: Props) => (
 	<footer
 		css={(theme) => ({
-			backgroundColor: theme.color.background,
-			borderTop: `1px solid ${theme.color.border}`,
+			backgroundColor: isTransparent ? 'transparent' : theme.color.background,
+			borderTop: isTransparent ? 'none' : `1px solid ${theme.color.border}`,
 			bottom: 0,
-			color: theme.color.text,
+			color: isTransparent ? theme.color.white : theme.color.text,
 			height: '72px',
 			marginTop: 'auto',
 			padding: '12px 24px',
@@ -16,6 +20,6 @@ export const Container = (props: ComponentPropsWithoutRef<'footer'>) => (
 				textAlign: 'center',
 			},
 		})}
-		{...props}
+		{...rest}
 	/>
 )
