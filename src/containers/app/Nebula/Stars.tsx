@@ -56,7 +56,11 @@ type Props = {
 	speed?: number,
 }
 
-const genStar = (radius: number) => new Vector3().setFromSpherical(new Spherical(radius, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
+const genStar = (radius: number) => new Vector3().setFromSpherical(new Spherical(
+	radius,
+	Math.acos(1 - Math.random() * 2),
+	Math.random() * 2 * Math.PI,
+))
 
 export const Stars = ({
 	radius = 500,

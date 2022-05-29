@@ -1,5 +1,5 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import type { Game, GameExtended, GamePrice } from 'types'
+import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
+import type { Game, GameExtended, GamePrice, GameSimple } from 'types'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
@@ -19,6 +19,14 @@ import { Page } from 'components/Layout/Page'
 type State = {
 	game: GameExtended | null,
 	prices: Array<GamePrice> | null,
+}
+
+export const getStaticPaths: GetStaticPaths = async () => {
+	const { games } = await fetcher<{ games: Array<GameSimple> }>('/games?is-popular=yes', { absoluteUrl: config.staticHost })
+	return {
+		paths: games.map(({ id }) => ({ params: { id: id.toString() } })),
+		fallback: true,
+	}
 }
 
 export const getStaticProps: GetStaticProps<State> = async ({ params }) => {

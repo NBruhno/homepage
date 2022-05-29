@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react'
 
 import { ThemeProvider } from '@emotion/react'
-import { Canvas } from '@react-three/fiber'
+import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useState, Suspense } from 'react'
+import { useState } from 'react'
 
 import { useDarkMode } from 'states/theme'
 import { useRefresh } from 'states/users'
@@ -13,8 +13,6 @@ import { theme } from 'styles/theme'
 
 import { useIsomorphicLayoutEffect } from 'lib/useIsomorphicLayoutEffect'
 
-import { Nebula } from 'containers/frontpage'
-
 import { Snackbars } from 'components/Snackbars'
 
 import { BlockWrapper } from './BlockWrapper'
@@ -22,6 +20,11 @@ import { Grid } from './Grid'
 import { Header } from './Header'
 import { Main } from './Main'
 import { Navigation } from './Navigation'
+
+const Nebula = dynamic(async () => {
+	const component = await import('./Nebula')
+	return component.Nebula
+}, { ssr: false })
 
 type Props = {
 	children: ReactNode,
@@ -52,15 +55,7 @@ export const App = ({ children }: Props) => {
 					</BlockWrapper>
 				) : (
 					<Grid>
-						{isNebulaVisible && (
-							<div css={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }}>
-								<Canvas>
-									<Suspense fallback={null}>
-										<Nebula />
-									</Suspense>
-								</Canvas>
-							</div>
-						)}
+						{isNebulaVisible && <Nebula />}
 						<Header />
 						<Navigation />
 						<Main>
