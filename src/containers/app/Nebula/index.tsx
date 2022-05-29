@@ -7,6 +7,7 @@ import { TextureLoader } from 'three'
 import { Dust } from './Dust'
 import { Lights } from './Lights'
 import { Stars } from './Stars'
+import { Wrapper } from './Wrapper'
 
 export const Nebula = () => {
 	const dustTexture = useLoader(TextureLoader, './images/smoke.png')
@@ -38,7 +39,7 @@ export const Nebula = () => {
 	})), [])
 
 	return (
-		<div css={{ position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }}>
+		<Wrapper>
 			<Canvas>
 				<Suspense fallback={null}>
 					<fogExp2 args={[0x03544e, 0.001]} />
@@ -69,6 +70,6 @@ export const Nebula = () => {
 					<Stars count={50000} depth={500} factor={10} shouldFade saturation={1} />
 				</Suspense>
 			</Canvas>
-		</div>
+		</Wrapper>
 	)
 }
