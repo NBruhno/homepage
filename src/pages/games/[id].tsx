@@ -22,7 +22,7 @@ type State = {
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-	const { games } = await fetcher<{ games: Array<GameSimple> }>('/games?is-popular=yes', { absoluteUrl: config.staticHost })
+	const { games } = await fetcher<{ games: Array<GameSimple> }>('/games?is-popular=yes&take=10', { absoluteUrl: config.staticHost })
 	return {
 		paths: games.map(({ id }) => ({ params: { id: id.toString() } })),
 		fallback: true,
