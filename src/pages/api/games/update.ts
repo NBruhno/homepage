@@ -4,7 +4,7 @@ import chunk from 'lodash/chunk'
 import differenceBy from 'lodash/differenceBy'
 import differenceWith from 'lodash/differenceWith'
 import intersectionBy from 'lodash/intersectionBy'
-import { array, create } from 'superstruct'
+import { array, create, object, optional, coerce, number, pattern, string } from 'superstruct'
 
 import { config } from 'config.server'
 
@@ -17,14 +17,19 @@ import { authenticateSystem } from 'api/middleware'
 import { apiHandler, gameFields, igdbFetcher, mapIgdbGame, prisma } from 'api/utils'
 import { game as gameValidator } from 'api/validation'
 
+const Query = object({
+	take: optional(coerce(number(), pattern(string(), /[1-500]/), (value) => parseInt(value, 10))),
+})
+
 const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'NoCache' })
 	.post(async (req, res) => {
 		authenticateSystem(req)
+		const { take = 500 } = create(req.query, Query)
 		const twoMonthsBackTimestamp = getUnixTime(sub(Date.now(), { months: 2 }))
 		const popularGames = await igdbFetcher('/games', res, {
 			shouldReturnFirst: false,
-			body: `${gameFields}; limit 500; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
-			nickname: 'popular, 0-500',
+			body: `${gameFields}; limit ${take}; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
+			nickname: `popular, 0-${take}`,
 		}).then((igdbGames) => igdbGames.map(mapIgdbGame))
 
 		const existingGames = await monitorAsync(() => prisma.game.findMany({
@@ -79,6 +84,7 @@ const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'No
 	})
 	.patch(async (req, res) => {
 		authenticateSystem(req)
+		const { take = 100 } = create(req.query, Query)
 
 		// Get all games in the library that hasn't been updated in the last 24 hours
 		const potentiallyOutdatedGames = await monitorAsync(() => prisma.game.findMany({
@@ -87,7 +93,7 @@ const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'No
 					lte: sub(Date.now(), { hours: 1 }),
 				},
 			},
-			take: 100,
+			take,
 			select: {
 				id: true,
 				updatedAt: true,
@@ -97,8 +103,8 @@ const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'No
 		if (potentiallyOutdatedGames.length > 0) {
 			const updatedGames = await igdbFetcher('/games', res, {
 				shouldReturnFirst: false,
-				body: `${gameFields}; limit 100; where id = (${potentiallyOutdatedGames.map(({ id }) => id).join(',')});`,
-				nickname: 'potentially outdated, 0-100',
+				body: `${gameFields}; limit ${take}; where id = (${potentiallyOutdatedGames.map(({ id }) => id).join(',')});`,
+				nickname: `potentially outdated, 0-${take}`,
 			}).then((igdbGames) => igdbGames.map(mapIgdbGame))
 
 			// Finds the games that have been updated since we last updated them

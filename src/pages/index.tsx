@@ -15,7 +15,7 @@ const Home: NextPage<Props> = () => (
 			<title>Bruhno</title>
 		</Head>
 		<Page css={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
-			<div css={{ textAlign: 'center' }}>
+			<div css={(theme) => ({ textAlign: 'center', color: theme.color.white })}>
 				<Logo css={{ height: '37vh' }} />
 				<h1 css={{ fontWeight: 400, fontSize: '3em', marginBottom: '14px' }}>Bruhno</h1>
 				<p css={(theme) => ({
@@ -24,7 +24,8 @@ const Home: NextPage<Props> = () => (
 					margin: 0,
 					fontFamily: theme.font.family.poppins,
 				})}
-				>Personal portfolio of Nicolai Bruhn Lauritsen
+				>
+					Personal portfolio of Nicolai Bruhn Lauritsen
 				</p>
 			</div>
 		</Page>

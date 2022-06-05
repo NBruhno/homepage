@@ -115,4 +115,4 @@ const nextConfig = {
 }
 
 module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), SentryWebpackPluginOptions)))
-// module.exports = withBundleAnalyzer(withPwa(nextConfig))
+// module.exports = withBundleAnalyzer(withPwa(withPlaiceholder(nextConfig)))
