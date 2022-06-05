@@ -3,7 +3,7 @@ import type { PointLight } from 'three'
 import { useFrame, useThree } from '@react-three/fiber'
 import { useEffect, useRef } from 'react'
 
-const frameRate = 1000 / 10
+const frameRate = 1000 / 10 // 10 FPS
 
 export const Lights = () => {
 	const ref = useRef<PointLight>()

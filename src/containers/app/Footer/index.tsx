@@ -24,21 +24,21 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 			</ListItem>
 			<ListItem>
 				<Tooltip tip='linkedin.com/in/bruhno'>
-					<Link isTransparent href='https://www.linkedin.com/in/bruhno' aria-label='LinkedIn profile'>
+					<Link isTransparent={isTransparent} href='https://www.linkedin.com/in/bruhno' aria-label='LinkedIn profile'>
 						<LinkedInIcon size={22} />
 					</Link>
 				</Tooltip>
 			</ListItem>
 			<ListItem>
 				<Tooltip tip='github.com/NBruhno'>
-					<Link isTransparent href='https://github.com/NBruhno' aria-label='GitHub profile'>
+					<Link isTransparent={isTransparent} href='https://github.com/NBruhno' aria-label='GitHub profile'>
 						<GitHubIcon size={22} />
 					</Link>
 				</Tooltip>
 			</ListItem>
 			<ListItem>
 				<Tooltip tip='gitlab.com/Bruhno'>
-					<Link isTransparent href='https://gitlab.com/Bruhno' aria-label='GitLab profile'>
+					<Link isTransparent={isTransparent} href='https://gitlab.com/Bruhno' aria-label='GitLab profile'>
 						<GitLabIcon size={22} />
 					</Link>
 				</Tooltip>
