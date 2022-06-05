@@ -39,5 +39,5 @@ export const useGame = (id: string, { incomingGame, incomingPrices }: Options = 
 	}
 	useEffect(() => setIsFollowing(followingData?.isFollowing), [followingData?.isFollowing])
 
-	return { game: incomingGame ?? game, prices: data?.prices, isFollowing, follow: async () => follow(), unfollow: async () => unfollow() }
+	return { game: incomingGame ?? game, prices: incomingPrices ?? data?.prices, isFollowing, follow: async () => follow(), unfollow: async () => unfollow() }
 }
