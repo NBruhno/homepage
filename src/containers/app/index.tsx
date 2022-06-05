@@ -1,10 +1,9 @@
 import type { ReactNode } from 'react'
 
 import { ThemeProvider } from '@emotion/react'
-import { useDetectGPU } from '@react-three/drei'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import { useDarkMode } from 'states/theme'
 import { useRefresh } from 'states/users'
@@ -32,17 +31,15 @@ type Props = {
 }
 
 export const App = ({ children }: Props) => {
-	const detectedGpu = useDetectGPU()
 	const router = useRouter()
 	const [isBrowserNotSupported, setIsBrowserNotSupported] = useState(false)
 	const { globalTheme } = useDarkMode()
+	const isNebulaVisible = useMemo(() => Boolean(router.pathname === '/'), [router.pathname])
 	useRefresh()
 
 	useIsomorphicLayoutEffect(() => {
 		setIsBrowserNotSupported(/Trident\/|MSIE/.test(window.navigator.userAgent))
 	}, [])
-
-	const isNebulaVisible = Boolean(router.pathname === '/' && detectedGpu.fps && detectedGpu.fps >= 30)
 
 	return (
 		<ThemeProvider theme={theme(globalTheme === 'dark')}>

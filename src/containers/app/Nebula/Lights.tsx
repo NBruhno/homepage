@@ -1,10 +1,21 @@
 import type { PointLight } from 'three'
 
-import { useFrame } from '@react-three/fiber'
-import { useRef } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
+import { useEffect, useRef } from 'react'
+
+const frameRate = 1000 / 10
 
 export const Lights = () => {
 	const ref = useRef<PointLight>()
+	const { invalidate } = useThree()
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			invalidate()
+		}, frameRate)
+		return () => clearInterval(interval)
+	}, [])
+
 	useFrame(async () => {
 		// if (ref.current) {
 		// 	if (Math.random() > 0.98 || ref.current.power > 100) {
