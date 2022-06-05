@@ -40,8 +40,9 @@ export const Nebula = () => {
 
 	return (
 		<Wrapper>
-			<Canvas>
+			<Canvas frameloop='demand'>
 				<Suspense fallback={null}>
+					{/* <ThreeFrameLimiter fps={15} /> */}
 					<fogExp2 args={[0x03544e, 0.001]} />
 					<color attach='background' args={[0x03544e]} />
 					<PerspectiveCamera makeDefault fov={60} position={[1, 0, 0]} rotation={[1.16, -0.12, 0.27]} near={1} far={1000} />

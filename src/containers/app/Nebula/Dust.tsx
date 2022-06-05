@@ -16,7 +16,7 @@ export const Dust = ({ texture, opacity, position, shouldAnimate = true, rotatio
 	const ref = useRef<Mesh>()
 	useFrame(() => {
 		if (ref.current && shouldAnimate) {
-			ref.current.rotation.z -= random(0.6, 2) / 10000
+			ref.current.rotation.z -= random(0.6, 2) / 1000
 		}
 	})
 
