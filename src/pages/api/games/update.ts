@@ -21,7 +21,31 @@ const Query = object({
 	take: optional(coerce(number(), pattern(string(), /[1-500]/), (value) => parseInt(value, 10))),
 })
 
-const handler = apiHandler({ validMethods: ['POST', 'PATCH'], cacheStrategy: 'NoCache' })
+const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrategy: 'NoCache' })
+	.get(async (req, res) => {
+		authenticateSystem(req)
+		const { take = 10000 } = create(req.query, Query)
+
+		// Get all games that has not been checked in the last 24 hours
+		const staleGames = await monitorAsync(() => prisma.game.findMany({
+			where: {
+				lastChecked: {
+					lte: sub(Date.now(), { hours: 24 }),
+				},
+			},
+			take,
+			select: {
+				id: true,
+				lastChecked: true,
+			},
+		}), 'db:prisma', 'findMany(unchecked games)')
+
+		return res.status(200).json({
+			message: staleGames.length > 0 ? `Some games are not being updated properly` : `There are no stale games in the library`,
+			numberOfStaleGames: staleGames.length,
+			staleGames,
+		})
+	})
 	.post(async (req, res) => {
 		authenticateSystem(req)
 		const { take = 500 } = create(req.query, Query)
