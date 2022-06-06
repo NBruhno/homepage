@@ -116,6 +116,9 @@ export const Detail = ({ game, prices, isFollowing, onFollow, onUnfollow }: Prop
 						releaseDates={game?.releaseDates}
 						supporters={game?.supporters}
 						themes={game?.themes}
+						createdAt={game?.createdAt}
+						lastChecked={game?.lastChecked ?? null}
+						updatedAt={game?.updatedAt}
 					/>
 				</GridContainer>
 				<GridContainer name='content'>

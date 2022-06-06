@@ -26,7 +26,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 		authenticateSystem(req)
 		const { take = 10000 } = create(req.query, Query)
 
-		// Get all games that has not been checked in the last 24 hours
+		// Get all games that has not been checked after 24 hours
 		const staleGames = await monitorAsync(() => prisma.game.findMany({
 			where: {
 				lastChecked: {
