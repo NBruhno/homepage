@@ -3,7 +3,7 @@ import type { ReactNode } from 'react'
 import { ThemeProvider } from '@emotion/react'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useMemo, useState } from 'react'
+import { useState, useMemo } from 'react'
 
 import { useDarkMode } from 'states/theme'
 import { useRefresh } from 'states/users'
@@ -33,13 +33,17 @@ type Props = {
 export const App = ({ children }: Props) => {
 	const router = useRouter()
 	const [isBrowserNotSupported, setIsBrowserNotSupported] = useState(false)
+	const [isNebulaVisible, setIsNebulaVisible] = useState(false)
+	const isFrontPage = useMemo(() => Boolean(router.pathname === '/'), [router.pathname])
 	const { globalTheme } = useDarkMode()
-	const isNebulaVisible = useMemo(() => Boolean(router.pathname === '/'), [router.pathname])
 	useRefresh()
 
 	useIsomorphicLayoutEffect(() => {
 		setIsBrowserNotSupported(/Trident\/|MSIE/.test(window.navigator.userAgent))
 	}, [])
+	useIsomorphicLayoutEffect(() => {
+		setIsNebulaVisible(isFrontPage && !(window.navigator.userAgent).includes('Headless'))
+	}, [isFrontPage])
 
 	return (
 		<ThemeProvider theme={theme(globalTheme === 'dark')}>
@@ -53,7 +57,7 @@ export const App = ({ children }: Props) => {
 						</div>
 					</BlockWrapper>
 				) : (
-					<Grid>
+					<Grid isFrontPage={isFrontPage}>
 						{isNebulaVisible && <Nebula />}
 						<Header />
 						<Navigation />

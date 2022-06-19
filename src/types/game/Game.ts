@@ -8,12 +8,14 @@ import type { GameVideo } from './GameVideo'
 import type { GameWebsite } from './GameWebsite'
 import type { Game as PrismaGame } from '@prisma/client'
 
-export type Game = Omit<PrismaGame, 'developers' | 'dlcs' | 'engines' | 'franchies' | 'genres' | 'modes' | 'multiplayerModes' | 'platforms' | 'playerPerspectives' | 'porters' | 'publishers' | 'releaseDate' | 'releaseDates' | 'similarGames' | 'supporters' | 'themes' | 'videos' | 'websites'> & {
+export type Game = Omit<PrismaGame, 'createdAt' | 'developers' | 'dlcs' | 'engines' | 'franchies' | 'genres' | 'lastChecked' | 'modes' | 'multiplayerModes' | 'platforms' | 'playerPerspectives' | 'porters' | 'publishers' | 'releaseDate' | 'releaseDates' | 'similarGames' | 'supporters' | 'themes' | 'updatedAt' | 'videos' | 'websites'> & {
+	createdAt: string,
 	developers: Array<GameCompany>,
 	dlcs: Array<GameReference>,
 	engines: Array<GameDefaultEntity>,
 	franchises: Array<GameDefaultEntity>,
 	genres: Array<GameDefaultEntity>,
+	lastChecked: string | null,
 	modes: Array<GameDefaultEntity>,
 	multiplayerModes: Array<GameMultiplayerMode>,
 	platforms: Array<GamePlatform>,
@@ -25,6 +27,7 @@ export type Game = Omit<PrismaGame, 'developers' | 'dlcs' | 'engines' | 'franchi
 	similarGames: Array<GameReference>,
 	supporters: Array<GameCompany>,
 	themes: Array<GameDefaultEntity>,
+	updatedAt: string,
 	videos: Array<GameVideo>,
 	websites: Array<GameWebsite>,
 }

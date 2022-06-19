@@ -1,5 +1,7 @@
 import type { GameDefaultEntity, GameMultiplayerMode, GamePlatform, GameReleaseDate } from 'types'
 
+import { formatRelative, parseISO } from 'date-fns'
+import { enGB } from 'date-fns/locale'
 import { Fragment } from 'react'
 
 import { Placeholder } from 'components/Placeholder'
@@ -25,11 +27,16 @@ type Props = {
 	releaseDates: Array<GameReleaseDate> | undefined,
 	supporters: Array<GameDefaultEntity> | undefined,
 	themes: Array<GameDefaultEntity> | undefined,
+
+	createdAt: string | undefined,
+	lastChecked: string | null,
+	updatedAt: string | undefined,
 }
 
 export const InfoBox = ({
 	genres = [], themes = [], platforms = [], engines = [], franchises = [], modes = [], multiplayerModes = [],
 	playerPerspectives = [], porters = [], publishers = [], supporters = [], releaseDates = [], developers = [], releaseDate,
+	createdAt, updatedAt, lastChecked,
 }: Props) => {
 	const groupedReleaseDates = groupByReleaseDate(releaseDates, ({ date }) => date, releaseDate)
 
@@ -189,11 +196,13 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='65%'>
-								{groupedReleaseDates.map(({ date, platforms }, index) => (
-									<div key={index}>
-										<span>{dateOrYear(date)}: {platforms.join(', ')}</span>
-									</div>
-								))}
+								<ul css={(theme) => ({ paddingLeft: '20px', margin: 0, color: theme.color.textFaded })}>
+									{groupedReleaseDates.map(({ date, platforms }, index) => (
+										<li key={index}>
+											<span css={(theme) => ({ color: theme.color.text })}>{dateOrYear(date)}: {platforms.join(', ')}</span>
+										</li>
+									))}
+								</ul>
 							</Placeholder>
 						</div>
 					)}
@@ -234,6 +243,44 @@ export const InfoBox = ({
 					)}
 				</Container>
 			)}
+			<Container>
+				{createdAt && (
+					<div>
+						<Title>
+							<Placeholder width='50%'>
+								Created at
+							</Placeholder>
+						</Title>
+						<Placeholder width='70%'>
+							{parseISO(createdAt).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}
+						</Placeholder>
+					</div>
+				)}
+				{updatedAt && (
+					<div>
+						<Title>
+							<Placeholder width='35%'>
+								Last updated
+							</Placeholder>
+						</Title>
+						<Placeholder width='65%'>
+							{formatRelative(parseISO(updatedAt), new Date(), { locale: enGB })}
+						</Placeholder>
+					</div>
+				)}
+				{lastChecked && (
+					<div>
+						<Title>
+							<Placeholder width='40%'>
+								Last checked
+							</Placeholder>
+						</Title>
+						<Placeholder width='75%'>
+							{formatRelative(parseISO(lastChecked), new Date(), { locale: enGB })}
+						</Placeholder>
+					</div>
+				)}
+			</Container>
 		</>
 	)
 }
