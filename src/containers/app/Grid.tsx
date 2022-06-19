@@ -1,9 +1,13 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
+type Props = ComponentPropsWithoutRef<'div'> & {
+	isFrontPage: boolean,
+}
+
+export const Grid = ({ isFrontPage, ...rest }: Props) => (
 	<div
 		css={(theme) => ({
-			backgroundColor: theme.color.background,
+			backgroundColor: isFrontPage ? theme.color.backgroundHome : theme.color.background,
 			display: 'grid',
 			gridTemplateColumns: 'auto 1fr',
 			gridTemplateRows: '1fr',
@@ -16,6 +20,6 @@ export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 				gridTemplateRows: 'auto 1fr',
 			},
 		})}
-		{...props}
+		{...rest}
 	/>
 )
