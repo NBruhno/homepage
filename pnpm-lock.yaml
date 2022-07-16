@@ -45,7 +45,6 @@ specifiers:
   eslint-plugin-react: 7.30.1
   eslint-plugin-react-hooks: 4.6.0
   eslint-plugin-tsdoc: 0.2.16
-  final-form: 4.20.7
   isomorphic-fetch: 3.0.0
   jest: 28.1.3
   jest-environment-jsdom: 28.1.3
@@ -63,9 +62,7 @@ specifiers:
   qrcode: 1.5.1
   react: 18.2.0
   react-dom: 18.2.0
-  react-final-form: 6.5.9
   react-hook-form: 7.33.1
-  react-hooks-global-state: 1.0.2
   react-lite-youtube-embed: 2.2.2
   react-textarea-autosize: 8.3.4
   resize-observer-polyfill: 1.5.1
@@ -95,7 +92,6 @@ dependencies:
   cookie: 0.5.0
   date-fns: 2.28.0
   downshift: 6.1.7_react@18.2.0
-  final-form: 4.20.7
   jsonwebtoken: 8.5.1
   lodash: 4.17.21
   match-sorter: 6.3.1
@@ -103,12 +99,11 @@ dependencies:
   next-connect: 0.12.2
   otplib: 12.0.1
   plaiceholder: 2.4.0_sharp@0.30.7
+  prisma: 4.0.0
   qrcode: 1.5.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-final-form: 6.5.9_b76tjmhm4bpbaoui6lan2hu4pm
   react-hook-form: 7.33.1_react@18.2.0
-  react-hooks-global-state: 1.0.2_react@18.2.0
   react-lite-youtube-embed: 2.2.2_biqbaboplfbrettd7655fr4n2y
   react-textarea-autosize: 8.3.4_3hx2ussxxho4jajbwrd6gq34qe
   resize-observer-polyfill: 1.5.1
@@ -156,7 +151,6 @@ devDependencies:
   lodash-webpack-plugin: 0.11.6_webpack@5.73.0
   next-pwa: 5.5.4_vqnfgdme3wrztqatk7i6j7uvti
   node-mocks-http: 1.11.0
-  prisma: 4.0.0
   sharp: 0.30.7
   supertest: 6.2.4
   typescript: 4.7.4
@@ -1330,13 +1324,6 @@ packages:
       regenerator-runtime: 0.13.9
     dev: false
 
-  /@babel/runtime/7.17.8:
-    resolution: {integrity: sha512-dQpEpK0O9o6lj6oPu0gRDbbnk+4LeHlNcBpspf6Olzt3GIX4P1lWF1gS+pHLDFlaJvbR6q7jCfQ08zA4QJBnmA==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      regenerator-runtime: 0.13.9
-    dev: false
-
   /@babel/runtime/7.17.9:
     resolution: {integrity: sha512-lSiBBvodq29uShpWGNbgFdKYNiFDo5/HIYsaCEY9ff4sb10x9jizo2+pRrSyF4jKZCXqgzuqBOQKbUm90gQwJg==}
     engines: {node: '>=6.9.0'}
@@ -2143,6 +2130,7 @@ packages:
   /@prisma/engines/3.16.0-49.da41d2bb3406da22087b849f0e911199ba4fbf11:
     resolution: {integrity: sha512-u/rG4lDHALolWBLr3yebZ+N2qImp3SDMcu7bHNJuRDaYvYEXy/MqfNRNEgd9GoPsXL3gofYf0VzJf2AmCG3YVw==}
     requiresBuild: true
+    dev: false
 
   /@react-aria/interactions/3.9.1_react@18.2.0:
     resolution: {integrity: sha512-qPTJpUwIiis2OwpVzDd3I8dBjBkelDnvAW+dJkX+8B840JP5a7E1zVoAuR7OOAXqKa95R7miwK+5la1aSeWoDg==}
@@ -4739,12 +4727,6 @@ packages:
       to-regex-range: 5.0.1
     dev: true
 
-  /final-form/4.20.7:
-    resolution: {integrity: sha512-ii3X9wNfyBYFnDPunYN5jh1/HAvtOZ9aJI/TVk0MB86hZuOeYkb+W5L3icgwW9WWNztZR6MDU3En6eoZTUoFPg==}
-    dependencies:
-      '@babel/runtime': 7.17.9
-    dev: false
-
   /find-cache-dir/3.3.2:
     resolution: {integrity: sha512-wXZV5emFEjrridIgED11OoUKLxiYjAcqot/NJdAkOhlJ+vGzwhOAfcG5OX1jP+S0PcjEn8bdMJv+g2jwQ3Onig==}
     engines: {node: '>=8'}
@@ -6892,6 +6874,7 @@ packages:
     requiresBuild: true
     dependencies:
       '@prisma/engines': 3.16.0-49.da41d2bb3406da22087b849f0e911199ba4fbf11
+    dev: false
 
   /process-nextick-args/2.0.1:
     resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
@@ -7013,30 +6996,11 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
 
-  /react-final-form/6.5.9_b76tjmhm4bpbaoui6lan2hu4pm:
-    resolution: {integrity: sha512-x3XYvozolECp3nIjly+4QqxdjSSWfcnpGEL5K8OBT6xmGrq5kBqbA6+/tOqoom9NwqIPPbxPNsOViFlbKgowbA==}
-    peerDependencies:
-      final-form: ^4.20.4
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-    dependencies:
-      '@babel/runtime': 7.17.8
-      final-form: 4.20.7
-      react: 18.2.0
-    dev: false
-
   /react-hook-form/7.33.1_react@18.2.0:
     resolution: {integrity: sha512-ydTfTxEJdvgjCZBj5DDXRc58oTEfnFupEwwTAQ9FSKzykEJkX+3CiAkGtAMiZG7IPWHuzgT6AOBfogiKhUvKgg==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
-    dependencies:
-      react: 18.2.0
-    dev: false
-
-  /react-hooks-global-state/1.0.2_react@18.2.0:
-    resolution: {integrity: sha512-UcWz+VjcUUCQ7bXGmOhanGII3j22zyPSjwJnQWeycxFYj/etBxIbz9xziEm4sv5+OqGuS7bzvpx24XkCxgJ7Bg==}
-    peerDependencies:
-      react: '>=16.8.0'
     dependencies:
       react: 18.2.0
     dev: false
