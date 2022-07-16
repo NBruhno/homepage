@@ -1,110 +1,139 @@
+import type { Infer } from 'superstruct'
+
+import { object, string } from 'superstruct'
+
 import { useAuth } from 'states/users'
 
-import { Title, Subtitle } from 'containers/login'
+import { email, password, username } from 'validation/shared'
 
 import { ButtonSolid, ButtonBorder } from 'components/Buttons'
+import { Form } from 'components/Form'
+import { Input } from 'components/FormFields'
 
-import { Input } from './Fields/Input'
+import { Subtitle, Title } from './Shared'
 
-import { Form } from '.'
+const loginSchema = object({
+	email: email(),
+	password: string(),
+})
 
-export type LoginModel = {
-	email: string,
-	password: string,
-}
+const registerSchema = object({
+	accessCode: string(),
+	email: email(),
+	username: username(),
+	password: password(),
+})
 
-export type RegisterModel = {
-	accessCode: string,
-	email: string,
-	username: string,
-	password: string,
-}
+const twoFactorModel = object({
+	otp: string(),
+})
 
-export type TwoFactorModel = {
-	otp: string,
-}
+export type LoginModel = Infer<typeof loginSchema>
+export type RegisterModel = Infer<typeof registerSchema>
+export type TwoFactorModel = Infer<typeof twoFactorModel>
 
 export const FormLogin = () => {
-	const { login, register, verify2fa, logout, currentFlow, setCurrentFlow } = useAuth()
+	const { onLogin, onRegister, onVerify2fa, onLogout, currentFlow, setCurrentFlow } = useAuth()
 
 	switch (currentFlow) {
 		case 'login': return (
 			<>
 				<Title>Welcome back</Title>
-				<Form name={currentFlow} onSubmit={async (fields: LoginModel) => { await login(fields) }}>
-					<Input label='Email' name='email' type='email' id={`${currentFlow}-email`} isRequired autoComplete='email' />
-					<Input label='Password' name='password' type='password' id={`${currentFlow}-password`} isRequired autoComplete='password' />
-					<div css={(theme) => ({
-						display: 'flex',
-						justifyContent: 'space-between',
+				<Form<LoginModel>
+					name={currentFlow}
+					schema={loginSchema}
+					onSubmit={async (fields) => { await onLogin(fields) }}
+					render={(({ name }) => (
+						<>
+							<Input label='Email' name={name('email')} type='email' isRequired autoComplete='email' />
+							<Input label='Password' name={name('password')} type='password' isRequired autoComplete='password' />
+							<div css={(theme) => ({
+								display: 'flex',
+								justifyContent: 'space-between',
 
-						[theme.mediaQueries.maxMobile]: {
-							flexDirection: 'column-reverse',
-						},
-					})}
-					>
-						<ButtonBorder label='Sign up instead' onClick={() => setCurrentFlow('register')} />
-						<ButtonSolid
-							label='Login'
-							type='submit'
-							css={(theme) => ({
 								[theme.mediaQueries.maxMobile]: {
-									width: '100%',
-									marginBottom: '12px',
+									flexDirection: 'column-reverse',
 								},
 							})}
-						/>
-					</div>
-				</Form>
+							>
+								<ButtonBorder label='Sign up instead' onClick={() => setCurrentFlow('register')} />
+								<ButtonSolid
+									label='Login'
+									type='submit'
+									css={(theme) => ({
+										[theme.mediaQueries.maxMobile]: {
+											width: '100%',
+											marginBottom: '12px',
+										},
+									})}
+								/>
+							</div>
+						</>
+					))}
+				/>
 			</>
 		)
 		case 'register': return (
 			<>
 				<Title>Sign up</Title>
-				<Form name={currentFlow} onSubmit={async (fields: RegisterModel) => { await register(fields) }}>
-					<Input label='Access code' name='accessCode' type='text' id={`${currentFlow}-accessCode`} isRequired />
-					<Input label='Email' name='email' type='email' id={`${currentFlow}-email`} isRequired autoComplete='email' />
-					<Input label='Display name' name='username' type='username' id={`${currentFlow}-username`} isRequired autoComplete='username' />
-					<Input label='Password' name='password' type='password' id={`${currentFlow}-password`} isRequired autoComplete='password' />
-					<div css={(theme) => ({
-						display: 'flex',
-						justifyContent: 'space-between',
+				<Form<RegisterModel>
+					name={currentFlow}
+					schema={registerSchema}
+					onSubmit={async (fields) => { await onRegister(fields) }}
+					render={(({ name }) => (
+						<>
+							<Input label='Access code' name={name('accessCode')} type='text' isRequired />
+							<Input label='Email' name={name('email')} type='email' isRequired autoComplete='email' />
+							<Input label='Display name' name={name('username')} type='username' isRequired autoComplete='username' />
+							<Input label='Password' name={name('password')} type='password' isRequired autoComplete='password' />
+							<div css={(theme) => ({
+								display: 'flex',
+								justifyContent: 'space-between',
 
-						[theme.mediaQueries.maxMobile]: {
-							flexDirection: 'column-reverse',
-						},
-					})}
-					>
-						<ButtonBorder label='Go back' onClick={() => setCurrentFlow('login')} />
-						<ButtonSolid
-							label='Sign up'
-							type='submit'
-							css={(theme) => ({
 								[theme.mediaQueries.maxMobile]: {
-									width: '100%',
-									marginBottom: '12px',
+									flexDirection: 'column-reverse',
 								},
 							})}
-						/>
-					</div>
-				</Form>
+							>
+								<ButtonBorder label='Go back' onClick={() => setCurrentFlow('login')} />
+								<ButtonSolid
+									label='Sign up'
+									type='submit'
+									css={(theme) => ({
+										[theme.mediaQueries.maxMobile]: {
+											width: '100%',
+											marginBottom: '12px',
+										},
+									})}
+								/>
+							</div>
+						</>
+					))}
+				/>
 			</>
 		)
 		case '2fa': return (
 			<>
 				<Title>Two-Factor Authentication</Title>
 				<Subtitle>Submit your code generated by your authenticator</Subtitle>
-				<Form name={currentFlow} onSubmit={async (fields: TwoFactorModel) => { await verify2fa(fields) }}>
-					<Input label='One time password' name='otp' id={`${currentFlow}-otp`} isRequired autoComplete='otp' />
-					<ButtonSolid label='Verify code' type='submit' isFullWidth />
-				</Form>
+				<Form<TwoFactorModel>
+					name={currentFlow}
+					schema={twoFactorModel}
+					onSubmit={async (fields) => { await onVerify2fa(fields) }}
+					render={({ name }) => (
+						<>
+							<Input label='One time password' name={name('otp')} isRequired autoComplete='otp' />
+							<ButtonSolid label='Verify code' type='submit' isFullWidth />
+						</>
+					)}
+				/>
 			</>
 		)
 		case 'loggedIn': return (
 			<div>
 				<Title>You are already logged in</Title>
 				<Subtitle />
-				<ButtonSolid label='Logout' onClick={async () => { await logout() }} isFullWidth />
+				<ButtonSolid label='Logout' onClick={async () => { await onLogout() }} isFullWidth />
 			</div>
 		)
 		default: return null

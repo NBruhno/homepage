@@ -1,35 +1,43 @@
+import type { Infer } from 'superstruct'
+
+import { object, string } from 'superstruct'
+
 import { useAuth } from 'states/users'
 
-import { Title, Subtitle } from 'containers/login'
+import { password } from 'validation/shared'
 
 import { ButtonSolid } from 'components/Buttons'
+import { Form } from 'components/Form'
+import { Input } from 'components/FormFields'
 
-import { Input } from './Fields/Input'
+import { Subtitle, Title } from './Shared'
 
-import { Form } from '.'
+const schema = object({
+	currentPassword: string(),
+	newPassword: password(),
+})
 
-export type ChangePasswordModel = {
-	currentPassword: string,
-	newPassword: string,
-}
+export type ChangePasswordModel = Infer<typeof schema>
 
 export const FormChangePassword = () => {
-	const { changePassword } = useAuth()
-	const formName = 'changePassword'
+	const { onChangePassword } = useAuth()
 
 	return (
 		<>
 			<Title>Change password</Title>
 			<Subtitle />
-			<Form
-				name={formName}
-				onSubmit={(fields: ChangePasswordModel) => changePassword(fields)}
-				shouldResetFormOnSubmitSuccess
-			>
-				<Input label='Current password' name='currentPassword' type='password' id={`${formName}-currentPassword`} isRequired />
-				<Input label='New password' name='newPassword' type='password' id={`${formName}-newPassword`} isRequired />
-				<ButtonSolid label='Change password' type='submit' isFullWidth />
-			</Form>
+			<Form<ChangePasswordModel>
+				name='changePassword'
+				schema={schema}
+				onSubmit={(fields) => onChangePassword(fields)}
+				render={({ name }) => (
+					<>
+						<Input label='Current password' name={name('currentPassword')} type='password' isRequired />
+						<Input label='New password' name={name('newPassword')} type='password' isRequired />
+						<ButtonSolid label='Change password' type='submit' isFullWidth />
+					</>
+				)}
+			/>
 		</>
 	)
 }

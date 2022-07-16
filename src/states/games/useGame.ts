@@ -1,43 +1,43 @@
-import type { Game, GamePrice } from 'types'
+import type { GameExtended, GamePrice } from 'types'
 
 import { useState, useEffect } from 'react'
 import useSWR from 'swr'
 
-import { useGlobalState } from 'states/global'
-import { useLoading } from 'states/isLoading'
+import { useLoading } from 'states/page'
+import { useUser } from 'states/users'
 
 import { fetcher, Method } from 'lib/fetcher'
 
-type Options = {
-	incomingGame?: Game,
-	incomingPrices?: Array<GamePrice>,
+type Props = {
+	id: string,
+	initialGame?: GameExtended,
+	initialPrices?: Array<GamePrice>,
 }
 
-export const useGame = (id: string, { incomingGame, incomingPrices }: Options = {}) => {
-	const { data: game } = useSWR<Game>((id && !incomingGame)
-		? `/games/${id}`
-		: null, (link: string) => fetcher(link), { revalidateOnFocus: false })
-	const { data } = useSWR<{ prices: Array<GamePrice> }>((id && game?.name && !incomingPrices)
-		? `/games/${id}/prices?name=${encodeURIComponent(game.name)}`
-		: null, (link: string) => fetcher(link), { revalidateOnFocus: false })
-	const [user] = useGlobalState('user')
+export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 	const [isFollowing, setIsFollowing] = useState<boolean | undefined>(undefined)
-	const { data: followingData } = useSWR<{ isFollowing: boolean }>((id && user.accessToken)
+	const accessToken = useUser((state) => state.accessToken)
+
+	const { data: game } = useSWR(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
+	const { data: gamePricing } = useSWR<{ prices: Array<GamePrice> }>(id && game?.name
+		? `/games/${id}/prices?name=${encodeURIComponent(game.name)}`
+		: null, null, { fallbackData: initialPrices ? { prices: initialPrices } : undefined })
+	const { data: followingData } = useSWR<{ isFollowing: boolean }>((id && accessToken)
 		? `/games/${id}/follows`
-		: null, (link: string) => fetcher(link, { accessToken: user.accessToken }), { revalidateOnFocus: false })
-	useLoading(Boolean(!game) && Boolean(!incomingGame))
+		: null, (link: string) => fetcher(link, { accessToken }))
+	useLoading(Boolean(!game) && Boolean(!initialGame))
 
-	const follow = async () => {
-		const response = await fetcher<{ message?: string }>(`/games/${id}/follows`, { accessToken: user.accessToken, method: Method.Post, body: { isFollowing: true } })
-
+	const onFollow = async () => {
+		const response = await fetcher<{ message?: string }>(`/games/${id}/follows`, { accessToken, method: Method.Post, body: { isFollowing: true } })
 		if (response.message) setIsFollowing(true)
 	}
 
-	const unfollow = async () => {
-		const response = await fetcher<{ message?: string }>(`/games/${id}/follows`, { accessToken: user.accessToken, method: Method.Post, body: { isFollowing: false } })
+	const onUnfollow = async () => {
+		const response = await fetcher<{ message?: string }>(`/games/${id}/follows`, { accessToken, method: Method.Post, body: { isFollowing: false } })
 		if (response.message) setIsFollowing(false)
 	}
+
 	useEffect(() => setIsFollowing(followingData?.isFollowing), [followingData?.isFollowing])
 
-	return { game: incomingGame ?? game, prices: incomingPrices ?? data?.prices, isFollowing, follow: async () => follow(), unfollow: async () => unfollow() }
+	return { game, prices: gamePricing?.prices, isFollowing, onFollow, onUnfollow }
 }

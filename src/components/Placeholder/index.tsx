@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { useLoading } from 'states/isLoading'
+import { useLoading } from 'states/page'
 
 import { Internal } from './Internal'
 

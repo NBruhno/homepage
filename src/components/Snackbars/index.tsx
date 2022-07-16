@@ -1,11 +1,12 @@
 import { useEffect } from 'react'
+import shallow from 'zustand/shallow'
 
-import { useSnackbar } from 'states/snackbars'
+import { useSnackbar } from 'states/page'
 
 import { Snackbar } from './Snackbar'
 
 export const Snackbars = () => {
-	const { snackbars, removeOutdatedSnackbars } = useSnackbar()
+	const { snackbars, removeOutdatedSnackbars } = useSnackbar((state) => state, shallow)
 
 	useEffect(() => {
 		const interval = setInterval(() => removeOutdatedSnackbars(), 200)

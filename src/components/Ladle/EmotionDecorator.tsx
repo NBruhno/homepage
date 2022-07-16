@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 import { ThemeProvider } from '@emotion/react'
 
-import { useDarkMode } from 'states/theme'
+import { useDarkMode } from 'states/page'
 
 import { GlobalStyling } from 'styles/global'
 import { theme } from 'styles/theme'

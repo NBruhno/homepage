@@ -55,10 +55,13 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		esmExternals: true,
-		emotion: true,
 		images: {
-			layoutRaw: true,
+			allowFutureImage: true,
 		},
+	},
+
+	compiler: {
+		emotion: true,
 	},
 
 	images: {
@@ -73,7 +76,10 @@ const nextConfig = {
 		rootDir: __dirname,
 	},
 
+	pageExtensions: ['route.tsx', 'route.ts'],
+
 	outputFileTracing: false,
+	poweredByHeader: false,
 
 	transformManifest: (manifest) => ['/'].concat(manifest),
 	generateInDevMode: false,

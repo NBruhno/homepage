@@ -1,6 +1,6 @@
 import type { Props as AsyncProps } from './Async'
 
-import { adjustHsl } from 'lib/adjustHsl'
+import { adjustHsl } from 'lib/client'
 
 import { ButtonAsync } from './Async'
 

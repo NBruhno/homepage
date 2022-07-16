@@ -1,5 +1,0 @@
-export { accessCode } from './accessCode'
-export { email } from './email'
-export { game } from './game'
-export { password } from './password'
-export { uuid } from './uuid'
