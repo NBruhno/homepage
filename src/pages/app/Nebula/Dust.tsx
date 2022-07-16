@@ -2,7 +2,7 @@ import type { Mesh } from 'three'
 
 import { useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import { random } from 'lodash'
+import random from 'lodash/random'
 import { useRef } from 'react'
 
 type DustProps = {

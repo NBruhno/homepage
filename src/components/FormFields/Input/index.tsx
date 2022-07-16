@@ -1,5 +1,7 @@
 import { useFocusVisible, useHover } from '@react-aria/interactions'
-import { get, isEmpty, isString } from 'lodash'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import isString from 'lodash/isString'
 import { useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
 

@@ -1,10 +1,10 @@
 import type { Infer } from 'superstruct'
 
-import { object, string } from 'superstruct'
+import { object, size } from 'superstruct'
 
 import { useAuth } from 'states/users'
 
-import { email, password, username } from 'validation/shared'
+import { email, fieldString, password, username } from 'validation/shared'
 
 import { ButtonSolid, ButtonBorder } from 'components/Buttons'
 import { Form } from 'components/Form'
@@ -14,18 +14,18 @@ import { Subtitle, Title } from './Shared'
 
 const loginSchema = object({
 	email: email(),
-	password: string(),
+	password: fieldString(),
 })
 
 const registerSchema = object({
-	accessCode: string(),
+	accessCode: fieldString(),
 	email: email(),
 	username: username(),
 	password: password(),
 })
 
 const twoFactorModel = object({
-	otp: string(),
+	otp: size(fieldString(), 6, 6),
 })
 
 export type LoginModel = Infer<typeof loginSchema>

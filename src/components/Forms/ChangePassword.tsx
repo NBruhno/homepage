@@ -1,10 +1,10 @@
 import type { Infer } from 'superstruct'
 
-import { object, string } from 'superstruct'
+import { object } from 'superstruct'
 
 import { useAuth } from 'states/users'
 
-import { password } from 'validation/shared'
+import { fieldString, password } from 'validation/shared'
 
 import { ButtonSolid } from 'components/Buttons'
 import { Form } from 'components/Form'
@@ -13,7 +13,7 @@ import { Input } from 'components/FormFields'
 import { Subtitle, Title } from './Shared'
 
 const schema = object({
-	currentPassword: string(),
+	currentPassword: fieldString(),
 	newPassword: password(),
 })
 

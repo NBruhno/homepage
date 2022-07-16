@@ -1,6 +1,6 @@
 import { useFocusVisible, useHover } from '@react-aria/interactions'
 import { useCombobox } from 'downshift'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { matchSorter } from 'match-sorter'
 import { useEffect, useState, useRef } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
