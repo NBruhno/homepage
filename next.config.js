@@ -120,5 +120,5 @@ const nextConfig = {
 	basePath,
 }
 
-// module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), SentryWebpackPluginOptions)))
-module.exports = withBundleAnalyzer(withPwa(withPlaiceholder(nextConfig)))
+module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), SentryWebpackPluginOptions)))
+// module.exports = withBundleAnalyzer(withPwa(withPlaiceholder(nextConfig)))
