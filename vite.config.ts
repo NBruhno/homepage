@@ -1,18 +1,20 @@
+import path from 'path'
+
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
 	resolve: {
 		alias: {
-			components: '/home/bruhno/projects/homepage/src/components',
-			'config.client': '/home/bruhno/projects/homepage/src/config.client',
-			'config.server': '/home/bruhno/projects/homepage/src/config.server',
-			lib: '/home/bruhno/projects/homepage/src/lib',
-			pages: '/home/bruhno/projects/homepage/src/pages',
-			states: '/home/bruhno/projects/homepage/src/states',
-			styles: '/home/bruhno/projects/homepage/src/styles',
-			types: '/home/bruhno/projects/homepage/src/types',
-			validation: '/home/bruhno/projects/homepage/src/validation',
+			components: path.resolve(__dirname, 'src/components'),
+			'config.client': path.resolve(__dirname, 'src/config.client'),
+			'config.server': path.resolve(__dirname, 'src/config.server'),
+			lib: path.resolve(__dirname, 'src/lib'),
+			pages: path.resolve(__dirname, 'src/pages'),
+			states: path.resolve(__dirname, 'src/states'),
+			styles: path.resolve(__dirname, 'src/styles'),
+			types: path.resolve(__dirname, 'src/types'),
+			validation: path.resolve(__dirname, 'src/validation'),
 		},
 	},
 	publicDir: 'public',
