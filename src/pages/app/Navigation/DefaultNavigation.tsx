@@ -6,7 +6,7 @@ import shallow from 'zustand/shallow'
 
 import { useUser } from 'states/users'
 
-import { HomeIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon, SmartHomeIcon } from 'components/Icons'
+import { HomeIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon, SmartHomeIcon, ToolsIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
 
 import { NavLink } from '../NavLink'
@@ -75,6 +75,11 @@ export const DefaultNavigation = ({ closeMenuOnInteraction, isSidebarCollapsed }
 			<Link href='/projects' passHref>
 				<NavLink isActive={pathname.includes('/projects')} onClick={() => closeMenuOnInteraction()}>
 					<AppsIcon title='Projects' css={{ marginRight: '12px' }} size={22} /><Text>Projects</Text>
+				</NavLink>
+			</Link>
+			<Link href='/components' passHref>
+				<NavLink isActive={pathname.includes('/components')} onClick={() => closeMenuOnInteraction()}>
+					<ToolsIcon title='Components' css={{ marginRight: '12px' }} size={22} /><Text>Components</Text>
 				</NavLink>
 			</Link>
 			<Link href='/about' passHref>

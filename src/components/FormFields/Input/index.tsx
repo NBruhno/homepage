@@ -1,4 +1,5 @@
-import { useFocusVisible, useHover } from '@react-aria/interactions'
+import { useFocusRing } from '@react-aria/focus'
+import { useHover } from '@react-aria/interactions'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
@@ -44,7 +45,7 @@ export const Input = ({
 	const id = useUnique(name)
 	const { register, formState: { errors }, watch } = useFormContext()
 	const value = watch(name, null) as Date | number | string
-	const { isFocusVisible } = useFocusVisible({ isTextInput: true })
+	const { isFocusVisible, focusProps } = useFocusRing({ isTextInput: true, autoFocus: shouldAutofocus })
 	const { hoverProps, isHovered } = useHover({})
 
 	const inputMode = useMemo(() => {
@@ -75,21 +76,26 @@ export const Input = ({
 			value: minLength,
 			message: `Needs to be at least ${minLength} characters long`,
 		} : undefined,
-		valueAsNumber: type === 'number',
-		setValueAs: (value: unknown) => (isString(value) && isEmpty(value)) ? undefined : value,
+		setValueAs: (value: unknown) => {
+			if (type === 'number') {
+				if (isEmpty(value) || Number.isNaN(value)) return undefined
+				return isString(value) ? Number(value) : undefined
+			}
+			return (isString(value) && isEmpty(value)) ? undefined : value
+		},
 	})
 
 	const error = get(errors, name)
 	const hasError = Boolean(error)
 
 	const defaultProps = {
+		...focusProps,
 		...hoverProps,
 		'aria-hidden': inputType === 'hidden',
 		autoComplete,
 		autoFocus: shouldAutofocus,
 		hasError,
 		id,
-		isDisabled,
 		maxLength,
 		minLength,
 		placeholder,
@@ -113,6 +119,7 @@ export const Input = ({
 					<Textarea
 						{...inputProps}
 						{...defaultProps}
+						isDisabled={isDisabled}
 						minRows={minRows}
 						maxRows={maxRows}
 						isHovered={isHovered}

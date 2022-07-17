@@ -14,7 +14,7 @@ export const DefaultInputStyle = ({ theme, hasError, isDisabled, isHovered, isFo
 		return hasError ? theme.color.errorBackground : theme.color.inputBackground
 	})(),
 	border: `2px solid ${(() => {
-		if ((isHovered || isFocusVisible) && !isDisabled) return theme.color.primary
+		if ((isHovered || isFocusVisible) && !isDisabled) return hasError ? theme.color.error : theme.color.primary
 		return hasError ? theme.color.error : theme.color.inputBorder
 	})()}`,
 	borderRadius: '4px',
@@ -31,7 +31,7 @@ export const DefaultInputStyle = ({ theme, hasError, isDisabled, isHovered, isFo
 	padding: '10px 6px',
 	position: 'relative',
 	textAlign: 'left',
-	transition: `border 135ms ${theme.animation.default}, box-shadow 135ms ${theme.animation.default}`,
+	transition: `border 135ms ${theme.animation.default}, box-shadow 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}`,
 	WebkitTapHighlightColor: 'transparent',
 	width: 'calc(100% - 14px)',
 
@@ -45,8 +45,8 @@ export const DefaultInputStyle = ({ theme, hasError, isDisabled, isHovered, isFo
 		cursor: 'auto',
 	},
 
-	'&:focus:active': {
-		borderColor: theme.color.primary,
+	'&:focus': {
+		borderColor: hasError ? theme.color.error : theme.color.primary,
 	},
 
 	// '::-webkit-outer-spin-button, ::-webkit-inner-spin-button': {

@@ -5,6 +5,7 @@ import type { StructSchema } from 'superstruct/lib/utils'
 import type { Promisable } from 'type-fest'
 
 import { superstructResolver } from '@hookform/resolvers/superstruct'
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
@@ -15,11 +16,15 @@ import { useFormStore } from 'states/page'
 type RenderProps<T> = UseFormReturn<T, object> & {
 	/** A type-safe way to add a name to a field. Checks if the field name exists in the provided model */
 	name: (name: FieldPath<T>) => keyof T,
+	fieldProps: (name: FieldPath<T>) => {
+		name: string,
+		isRequired: boolean,
+	},
 }
 
 type Props<T> = {
 	/** The name of the form should match the available `Forms` defined in `states/page/useFormStore` */
-	name: keyof Forms,
+	name?: keyof Forms,
 	/**
 	 * Superstruct schema for validation. The schema created for validation can be used as the `Model` type for the form
 	 * @example
@@ -96,21 +101,21 @@ export const Form = <T extends Record<string, any>>({
 		defaultValues: initialValues,
 	})
 
-	const formState = useFormStore((state) => state[name])
+	const formState = useFormStore((state) => name ? state[name] : undefined)
 	const setFormState = useFormStore((state) => state.setFormState)
 	const resetFormState = useFormStore((state) => state.resetFormState)
 	const formValues = methods.watch()
 
 	useEffect(() => {
 		// Updates the form state if enabled and if it has changed
-		if (shouldPersistStateOnChange && !isEqual(formValues, formState)) setFormState(name, formValues)
+		if (shouldPersistStateOnChange && !isEqual(formValues, formState) && name) setFormState(name, formValues)
 		// If enabled, clears the form-state on unmount
-		return () => shouldResetStateOnUnMount ? resetFormState(name) : undefined
+		return () => (shouldResetStateOnUnMount && name) ? resetFormState(name) : undefined
 	}, [shouldPersistStateOnChange, formValues, shouldResetStateOnUnMount])
 
 	useEffect(() => {
 		// If enabled and it does not already persist on change, it will update all fields to be in sync with the form state
-		if (shouldUpdateFieldsOnStateChange && !shouldPersistStateOnChange) {
+		if (shouldUpdateFieldsOnStateChange && !shouldPersistStateOnChange && formState) {
 			Object.entries(formState).forEach(([key, value]) => {
 				const fieldName = key as FieldPath<T>
 				const fieldValue = value as FieldPathValue<T, FieldPath<T>>
@@ -125,14 +130,22 @@ export const Form = <T extends Record<string, any>>({
 				name={name}
 				onSubmit={methods.handleSubmit(async (fields) => {
 					await onSubmit(fields)
-					if (shouldPersistStateOnSubmit) setFormState(name, formValues)
-					if (shouldResetStateOnSubmitSuccess) resetFormState(name)
+					if (shouldPersistStateOnSubmit && name) setFormState(name, formValues)
+					if (shouldResetStateOnSubmitSuccess && name) resetFormState(name)
 				})}
 				noValidate
 			>
 				{render({
 					...methods,
-					name: (name: keyof T) => name,
+					name: (name) => name,
+					fieldProps: (name) => {
+						// We assume that if the schema validation onf the field can pass with an `undefined` that the field is optional
+						const isRequired = schema ? get(schema.schema as Record<keyof T, { refiner: (value: any) => Array<any> }>, name).refiner(undefined).length === 0 : false
+						return ({
+							name,
+							isRequired,
+						})
+					},
 				})}
 			</form>
 		</FormProvider>

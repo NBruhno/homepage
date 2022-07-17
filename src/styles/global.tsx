@@ -26,6 +26,7 @@ export const globalCss = (theme: Theme) => css([
 		},
 
 		body: {
+			color: theme.color.text,
 			lineHeight: 1.65,
 		},
 
