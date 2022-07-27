@@ -1,10 +1,11 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { useScrollStore } from 'states/page'
+
 import { adjustHsl } from 'lib/client'
-import { useScroll } from 'lib/hooks'
 
 export const Header = (props: ComponentPropsWithoutRef<'header'>) => {
-	const { scrollY } = useScroll()
+	const scrollY = useScrollStore((state) => state.scrollY)
 
 	return (
 		<header

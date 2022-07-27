@@ -14,7 +14,7 @@ import { Text } from './Text'
 
 export const Navigation = () => {
 	const { isMobile, isSidebarCollapsed, setResponsiveState, showMenu } = useResponsive()
-	const closeMenuOnInteraction = () => { if (isMobile) setResponsiveState({ showMenu: false }) }
+	const closeMenuOnInteraction = () => isMobile ? setResponsiveState({ showMenu: false }) : undefined
 
 	return (
 		<>
@@ -25,7 +25,7 @@ export const Navigation = () => {
 						<Text>Bruhno</Text>
 					</Header>
 				</Link>
-				<DefaultNavigation closeMenuOnInteraction={closeMenuOnInteraction} isSidebarCollapsed={isSidebarCollapsed} />
+				<DefaultNavigation isSidebarCollapsed={isSidebarCollapsed} />
 				<Content css={{ marginTop: 'auto' }}>
 					<ButtonTheme />
 					<ButtonToggle />
@@ -33,7 +33,7 @@ export const Navigation = () => {
 			</DesktopSidebar>
 
 			<MobileSidebar show={showMenu}>
-				<DefaultNavigation closeMenuOnInteraction={closeMenuOnInteraction} isSidebarCollapsed={false} />
+				<DefaultNavigation isSidebarCollapsed={false} />
 				<Content css={{ marginTop: 'auto' }}>
 					<ButtonTheme />
 				</Content>
