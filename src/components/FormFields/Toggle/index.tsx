@@ -23,7 +23,7 @@ type Props = {
 export const Toggle = ({ isFullWidth = true, label, hint, isDisabled = false, name }: Props) => {
 	const id = useUnique(name)
 	const { register, watch } = useFormContext()
-	const isChecked = watch(name, null) as boolean
+	const isChecked = watch(name) as boolean
 	const [isFocus, setIsFocus] = useState(false)
 
 	const inputProps = register(name, {
