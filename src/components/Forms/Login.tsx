@@ -4,7 +4,7 @@ import { object, size } from 'superstruct'
 
 import { useAuth } from 'states/users'
 
-import { email, fieldString, password, username } from 'validation/shared'
+import { fieldEmail, fieldPassword, fieldString, fieldUsername } from 'validation/fields'
 
 import { ButtonSolid, ButtonBorder } from 'components/Buttons'
 import { Form } from 'components/Form'
@@ -13,15 +13,15 @@ import { Input } from 'components/FormFields'
 import { Subtitle, Title } from './Shared'
 
 const loginSchema = object({
-	email: email(),
+	email: fieldEmail(),
 	password: fieldString(),
 })
 
 const registerSchema = object({
 	accessCode: fieldString(),
-	email: email(),
-	username: username(),
-	password: password(),
+	email: fieldEmail(),
+	username: fieldUsername(),
+	password: fieldPassword(),
 })
 
 const twoFactorModel = object({

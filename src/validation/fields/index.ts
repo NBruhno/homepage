@@ -1,0 +1,5 @@
+export { fieldEmail } from './email'
+export { fieldNumber } from './number'
+export { fieldPassword } from './password'
+export { fieldString } from './string'
+export { fieldUsername } from './username'

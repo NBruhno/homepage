@@ -79,7 +79,7 @@ export const Input = ({
 		setValueAs: (value: unknown) => {
 			if (type === 'number') {
 				if (isEmpty(value) || Number.isNaN(value)) return undefined
-				return isString(value) ? Number(value) : undefined
+				return (isString(value) && !isEmpty(value.trim())) ? Number(value) : undefined
 			}
 			return (isString(value) && isEmpty(value)) ? undefined : value
 		},

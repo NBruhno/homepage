@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import type { DeepPartial, FieldPath, FieldPathValue, UseFormReturn, ValidationMode } from 'react-hook-form'
 import type { Struct } from 'superstruct'
-import type { StructSchema } from 'superstruct/lib/utils'
+import type { AnyStruct, StructSchema } from 'superstruct/lib/utils'
 import type { Promisable } from 'type-fest'
 
 import { superstructResolver } from '@hookform/resolvers/superstruct'
@@ -13,12 +13,15 @@ import { useForm, FormProvider } from 'react-hook-form'
 import type { Forms } from 'states/page'
 import { useFormStore } from 'states/page'
 
+import { inferFieldType } from './inferFieldType'
+
 type RenderProps<T> = UseFormReturn<T, object> & {
 	/** A type-safe way to add a name to a field. Checks if the field name exists in the provided model */
 	name: (name: FieldPath<T>) => keyof T,
 	fieldProps: (name: FieldPath<T>) => {
 		name: string,
 		isRequired: boolean,
+		type: 'email' | 'number' | 'password' | undefined,
 	},
 }
 
@@ -59,7 +62,7 @@ type Props<T> = {
 	shouldResetStateOnSubmitSuccess?: boolean,
 
 	/** If you want to submit programmatically, use the `handleSubmit` from `render()` and set this to `() => undefined` */
-	onSubmit: (fields: T) => Promisable<void>,
+	onSubmit: (fields: T) => Promisable<any>,
 	/**
 	 * This is where you will place all your fields. That way, the form has the right context.
 	 * Returns all available functions from `useForm` and some extra utility functions.
@@ -139,11 +142,11 @@ export const Form = <T extends Record<string, any>>({
 					...methods,
 					name: (name) => name,
 					fieldProps: (name) => {
-						// We assume that if the schema validation onf the field can pass with an `undefined` that the field is optional
-						const isRequired = schema ? get(schema.schema as Record<keyof T, { refiner: (value: any) => Array<any> }>, name).refiner(undefined).length === 0 : false
+						const struct = get(schema?.schema, name) as AnyStruct | undefined
 						return ({
 							name,
-							isRequired,
+							isRequired: !struct?.type.includes('Optional'),
+							type: inferFieldType(struct),
 						})
 					},
 				})}

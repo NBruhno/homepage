@@ -4,7 +4,7 @@ import { object } from 'superstruct'
 
 import { useAuth } from 'states/users'
 
-import { fieldString, password } from 'validation/shared'
+import { fieldPassword, fieldString } from 'validation/fields'
 
 import { ButtonSolid } from 'components/Buttons'
 import { Form } from 'components/Form'
@@ -14,7 +14,7 @@ import { Subtitle, Title } from './Shared'
 
 const schema = object({
 	currentPassword: fieldString(),
-	newPassword: password(),
+	newPassword: fieldPassword(),
 })
 
 export type ChangePasswordModel = Infer<typeof schema>
@@ -30,10 +30,10 @@ export const FormChangePassword = () => {
 				name='changePassword'
 				schema={schema}
 				onSubmit={(fields) => onChangePassword(fields)}
-				render={({ name }) => (
+				render={({ fieldProps }) => (
 					<>
-						<Input label='Current password' name={name('currentPassword')} type='password' isRequired />
-						<Input label='New password' name={name('newPassword')} type='password' isRequired />
+						<Input label='Current password' {...fieldProps('currentPassword')} isRequired />
+						<Input label='New password' {...fieldProps('newPassword')} isRequired />
 						<ButtonSolid label='Change password' type='submit' isFullWidth />
 					</>
 				)}
