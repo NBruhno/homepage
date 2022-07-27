@@ -13,8 +13,9 @@ export const Item = forwardRef<HTMLDivElement, Props>(({ isHighlighted, isSelect
 	<div
 		css={(theme) => ({
 			backgroundColor: (() => {
-				if (isSelected) return theme.color.primary
-				if (isHighlighted) return adjustHsl(theme.color.primary, { alpha: 0.5 })
+				if (isSelected && isHighlighted) return theme.color.primary
+				if (isSelected) return adjustHsl(theme.color.primary, { alpha: 0.8 })
+				if (isHighlighted) return adjustHsl(theme.color.primary, { alpha: 0.4 })
 				return theme.color.inputBackground
 			})(),
 			color: theme.color.text,
@@ -24,7 +25,7 @@ export const Item = forwardRef<HTMLDivElement, Props>(({ isHighlighted, isSelect
 			cursor: 'pointer',
 
 			'&:hover': {
-				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.5 }),
+				backgroundColor: isSelected ? theme.color.primary : adjustHsl(theme.color.primary, { alpha: 0.4 }),
 			},
 		})}
 		{...rest}

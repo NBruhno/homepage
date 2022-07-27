@@ -22,6 +22,7 @@ export const InputClearButton = ({ isVisible = true, onClick }: Props) => {
 					height: '38px',
 					borderRadius: '0 2px 2px 0',
 					paddingTop: '9px',
+					zIndex: 1,
 				})}
 				label={(
 					<CloseIcon

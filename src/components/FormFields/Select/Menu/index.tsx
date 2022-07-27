@@ -45,7 +45,7 @@ export const Menu = forwardRef<HTMLDivElement, Props>(({
 			border: `1px solid ${theme.color.border}`,
 			transition: `height 500ms ${theme.animation.default}, opacity 200ms ${theme.animation.default}, top 200ms ${theme.animation.default}`,
 			maxHeight: '290px',
-			padding: '10px 0',
+			padding: '6px 0',
 
 			'::-webkit-scrollbar': {
 				backgroundColor: 'transparent',

@@ -1,5 +1,7 @@
 import { css } from '@emotion/react'
 
+import { adjustHsl } from 'lib/client'
+
 type Props = {
 	theme: Theme,
 	hasError: boolean,
@@ -36,7 +38,7 @@ export const DefaultInputStyle = ({ theme, hasError, isDisabled, isHovered, isFo
 	width: 'calc(100% - 14px)',
 
 	'::placeholder': {
-		color: theme.color.gray,
+		color: hasError ? adjustHsl(theme.color.grayLight, { alpha: 0.65 }) : theme.color.gray,
 	},
 
 	'&:disabled': {

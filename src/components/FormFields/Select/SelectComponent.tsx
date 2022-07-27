@@ -15,7 +15,6 @@ export const SelectComponent = forwardRef<HTMLInputElement, Props>(({ hasError, 
 	<input
 		css={(theme) => ([
 			DefaultInputStyle({ hasError, isDisabled, isHovered, isFocusVisible, theme }),
-			{ zIndex: 5 },
 		])}
 		disabled={isDisabled}
 		ref={ref}
