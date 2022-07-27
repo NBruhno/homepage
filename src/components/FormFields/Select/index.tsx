@@ -51,7 +51,7 @@ export const Select = ({
 	const [filteredOptions, setFilteredOptions] = useState(options)
 	const { field } = useController({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
 	const inputRef = useRef<HTMLInputElement>(null)
-	const { isOpen, selectedItem, getLabelProps, getMenuProps, highlightedIndex, getItemProps, getInputProps, getComboboxProps, inputValue, reset, openMenu, closeMenu, setInputValue } = useCombobox({
+	const { isOpen: isMenuOpen, selectedItem, getLabelProps, getMenuProps, highlightedIndex, getItemProps, getInputProps, getComboboxProps, inputValue, reset, openMenu, closeMenu, setInputValue } = useCombobox({
 		id,
 		initialInputValue: options.find(({ value }) => value === field.value)?.label ?? '',
 		initialSelectedItem: options.find(({ value }) => value === field.value),
@@ -111,7 +111,7 @@ export const Select = ({
 				<InputClearButton isVisible={field.value !== undefined} onClick={reset} />
 				<Menu
 					options={filteredOptions}
-					isOpen={isOpen}
+					isOpen={isMenuOpen}
 					highlightedIndex={highlightedIndex}
 					selectedItem={selectedItem}
 					hasError={hasError}

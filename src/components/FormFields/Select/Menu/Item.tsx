@@ -26,16 +26,6 @@ export const Item = forwardRef<HTMLDivElement, Props>(({ isHighlighted, isSelect
 			'&:hover': {
 				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.5 }),
 			},
-
-			'&:last-of-type': {
-				borderBottomLeftRadius: '4px',
-				borderBottomRightRadius: '4px',
-			},
-
-			'&:first-of-type': {
-				borderTopLeftRadius: '4px',
-				borderTopRightRadius: '4px',
-			},
 		})}
 		{...rest}
 		ref={ref}

@@ -32,19 +32,26 @@ export const Menu = forwardRef<HTMLDivElement, Props>(({
 		css={(theme) => ({
 			background: theme.color.inputBackground,
 			position: 'absolute',
-			width: '100%',
 			left: 0,
-			right: 0,
+			right: '-2px',
 			zIndex: 4,
 			borderRadius: '4px',
-			overflowY: 'scroll',
+			overflowY: 'auto',
 			boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
 			visibility: isOpen ? 'visible' : 'hidden',
 			height: isOpen ? 'unset' : 0,
 			opacity: isOpen ? 1 : 0,
-			top: isOpen ? '48px' : '42px',
+			top: isOpen ? `${hasError ? 70 : 48}px` : '12px',
+			border: `1px solid ${theme.color.border}`,
 			transition: `height 500ms ${theme.animation.default}, opacity 200ms ${theme.animation.default}, top 200ms ${theme.animation.default}`,
-			maxHeight: '300px',
+			maxHeight: '290px',
+			padding: '10px 0',
+
+			'::-webkit-scrollbar': {
+				backgroundColor: 'transparent',
+				marginLeft: '-8px',
+				borderRadius: '0 4px 4px 0',
+			},
 		})}
 		{...rest}
 	>

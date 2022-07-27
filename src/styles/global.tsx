@@ -44,6 +44,11 @@ export const globalCss = (theme: Theme) => css([
 		a: {
 			color: theme.color.link,
 		},
+
+		'*': {
+			scrollbarWidth: 'thin',
+			scrollbarColor: theme.color.gray,
+		},
 	},
 ])
 

@@ -13,10 +13,10 @@ type Props = ComponentPropsWithoutRef<'input'> & {
 
 export const SelectComponent = forwardRef<HTMLInputElement, Props>(({ hasError, isDisabled = false, isHovered = false, isFocusVisible, ...rest }, ref) => (
 	<input
-		css={(theme) => ({
-			...DefaultInputStyle({ hasError, isDisabled, isHovered, isFocusVisible, theme }),
-			zIndex: 5,
-		})}
+		css={(theme) => ([
+			DefaultInputStyle({ hasError, isDisabled, isHovered, isFocusVisible, theme }),
+			{ zIndex: 5 },
+		])}
 		disabled={isDisabled}
 		ref={ref}
 		{...rest}
