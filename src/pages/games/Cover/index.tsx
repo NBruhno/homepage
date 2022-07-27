@@ -1,6 +1,8 @@
 import type { ComponentPropsWithoutRef } from 'react'
 import type { GameImagePlaceholder } from 'types'
 
+import { forwardRef } from 'react'
+
 import { useLoading } from 'states/page'
 
 import { CoverWrapper } from './CoverWrapper'
@@ -9,25 +11,24 @@ import { Placeholder } from './Placeholder'
 
 type Props = ComponentPropsWithoutRef<'img'> & {
 	coverUrl?: string | null,
-	size?: string,
 	imageProps?: GameImagePlaceholder,
 	isPriority?: boolean,
 }
 
-export const Cover = ({ coverUrl, imageProps, isPriority = false, ...rest }: Props) => {
+export const Cover = forwardRef<HTMLDivElement, Props>(({ coverUrl, imageProps, isPriority = false, ...rest }, ref) => {
 	const { isLoading } = useLoading()
 
 	if (!coverUrl || isLoading) {
 		return (
-			<CoverWrapper {...rest}>
+			<CoverWrapper {...rest} ref={ref}>
 				<Placeholder />
 			</CoverWrapper>
 		)
 	}
 
 	return (
-		<CoverWrapper {...rest}>
+		<CoverWrapper {...rest} ref={ref}>
 			<Image isPriority={isPriority} imageProps={imageProps} src={coverUrl} />
 		</CoverWrapper>
 	)
-}
+})

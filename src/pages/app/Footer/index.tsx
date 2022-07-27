@@ -15,34 +15,34 @@ type Props = ComponentPropsWithoutRef<'footer'> & {
 export const Footer = ({ isTransparent, ...rest }: Props) => (
 	<Container isTransparent={isTransparent} {...rest}>
 		<SocialList>
-			<ListItem>
-				<Tooltip tip='mail@bruhno.com'>
+			<Tooltip tip='mail@bruhno.com'>
+				<ListItem>
 					<Link isTransparent={isTransparent} href='mailto:mail@bruhno.com' target={undefined} aria-label='Send an email to mail@bruhno.com'>
 						<MailIcon size={22} />
 					</Link>
-				</Tooltip>
-			</ListItem>
-			<ListItem>
-				<Tooltip tip='linkedin.com/in/bruhno'>
+				</ListItem>
+			</Tooltip>
+			<Tooltip tip='linkedin.com/in/bruhno'>
+				<ListItem>
 					<Link isTransparent={isTransparent} href='https://www.linkedin.com/in/bruhno' aria-label='LinkedIn profile'>
 						<LinkedInIcon size={22} />
 					</Link>
-				</Tooltip>
-			</ListItem>
-			<ListItem>
-				<Tooltip tip='github.com/NBruhno'>
+				</ListItem>
+			</Tooltip>
+			<Tooltip tip='github.com/NBruhno'>
+				<ListItem>
 					<Link isTransparent={isTransparent} href='https://github.com/NBruhno' aria-label='GitHub profile'>
 						<GitHubIcon size={22} />
 					</Link>
-				</Tooltip>
-			</ListItem>
-			<ListItem>
-				<Tooltip tip='gitlab.com/Bruhno'>
+				</ListItem>
+			</Tooltip>
+			<Tooltip tip='gitlab.com/Bruhno'>
+				<ListItem>
 					<Link isTransparent={isTransparent} href='https://gitlab.com/Bruhno' aria-label='GitLab profile'>
 						<GitLabIcon size={22} />
 					</Link>
-				</Tooltip>
-			</ListItem>
+				</ListItem>
+			</Tooltip>
 		</SocialList>
 		<div css={{ opacity: 0.7 }}>
 			<small>

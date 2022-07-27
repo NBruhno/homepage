@@ -1,17 +1,19 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-export const ListItem = (props: ComponentPropsWithoutRef<'li'>) => (
+import { forwardRef } from 'react'
+
+export const ListItem = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<'li'>>((props, ref) => (
 	<li
 		css={(theme) => ({
-			marginRight: '12px',
 			borderRight: `1px solid ${theme.color.gray050}`,
-			paddingRight: '12px',
+			padding: '0 12px',
 			display: 'inline-flex',
 
-			'&:last-child': {
+			'&:last-of-type': {
 				borderRight: 'none',
 			},
 		})}
+		ref={ref}
 		{...props}
 	/>
-)
+))

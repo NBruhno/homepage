@@ -20,6 +20,7 @@ export const Wrapper = (props: ComponentPropsWithoutRef<'div'>) => {
 				right: 0,
 				transition: 'opacity 750ms ease',
 				opacity,
+				backgroundColor: 'transparent',
 			}}
 			{...props}
 		/>

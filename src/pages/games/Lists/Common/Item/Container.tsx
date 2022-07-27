@@ -25,11 +25,12 @@ const Component = ({ isLoading, ...rest }: Props, ref: LegacyRef<HTMLAnchorEleme
 			transition: `
 					border 200ms ${theme.animation.default},
 					box-shadow 200ms ${theme.animation.default},
-					background-color 200ms ${theme.animation.default}`,
+					background 200ms ${theme.animation.default}`,
 		}, !isLoading ? {
 			'&:hover': {
 				border: `1px solid ${theme.color.primaryLighter}`,
-				backgroundColor: theme.color.backgroundHover,
+				// backgroundColor: theme.color.backgroundHover,
+				background: [theme.color.inputBackgroundHover, `linear-gradient(134deg, ${theme.color.inputBorder} 0%, ${theme.color.inputBackgroundHover} 63%, ${theme.color.inputBackground} 100%)`],
 				boxShadow: `${theme.isDarkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
 			},
 

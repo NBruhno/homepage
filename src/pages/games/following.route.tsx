@@ -48,7 +48,7 @@ const Games: NextPage = () => {
 							<Tooltip tip="That's all of your followed games" show={isLimitReached}>
 								<ButtonBorder
 									label='Show more'
-									disabled={isLimitReached}
+									isDisabled={isLimitReached}
 									onClick={() => {
 										if (!isLimitReached) {
 											setPageData({

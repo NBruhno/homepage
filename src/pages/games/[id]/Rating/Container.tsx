@@ -1,10 +1,12 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { forwardRef } from 'react'
+
 type Props = ComponentPropsWithoutRef<'div'> & {
 	ratingLevel: 'average' | 'high' | 'low' | null,
 }
 
-export const Container = ({ ratingLevel, ...rest }: Props) => (
+export const Container = forwardRef<HTMLDivElement, Props>(({ ratingLevel, ...rest }, ref) => (
 	<div
 		css={(theme) => ({
 			alignItems: 'center',
@@ -38,6 +40,7 @@ export const Container = ({ ratingLevel, ...rest }: Props) => (
 				},
 			},
 		})}
+		ref={ref}
 		{...rest}
 	/>
-)
+))

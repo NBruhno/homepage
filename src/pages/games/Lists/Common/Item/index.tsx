@@ -22,7 +22,7 @@ type Props = Pick<GameSimpleExtended, 'cover' | 'coverProps' | 'id' | 'name' | '
 export const Item = ({ id, name, releaseDate, cover, coverProps, status, isPriority, isLoading, index = 0 }: Props) => (
 	<Link href={`/games/${id}`} passHref>
 		<Container isLoading={isLoading}>
-			<Cover coverUrl={cover} isPriority={isPriority} imageProps={coverProps ?? undefined} size='small' />
+			<Cover coverUrl={cover} isPriority={isPriority} imageProps={coverProps ?? undefined} />
 			<div css={{ padding: '12px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
 				<div>
 					<Title>

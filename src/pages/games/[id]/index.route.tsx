@@ -7,9 +7,7 @@ import { getPlaiceholder } from 'plaiceholder'
 import { config } from 'config.server'
 
 import { useGame } from 'states/games'
-import { useLoading } from 'states/page'
-import { useTitle } from 'states/page'
-import { useResponsive } from 'states/page'
+import { useLoading, useTitle, useResponsive } from 'states/page'
 import { useUser } from 'states/users'
 
 import { fetcher } from 'lib/fetcher'
@@ -19,7 +17,7 @@ import { ButtonSolid } from 'components/Buttons'
 import { GridContainer } from 'components/Layout'
 import { Page } from 'components/Layout/Page'
 import { Placeholder } from 'components/Placeholder'
-import { Tooltip, Location } from 'components/Tooltip'
+import { Tooltip } from 'components/Tooltip'
 
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
@@ -162,11 +160,11 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 					name='actions'
 					css={{ display: 'grid', alignItems: 'center', columnGap: '12px', gridTemplateColumns: isMobile ? 'min-content min-content' : 'min-content min-content 1fr' }}
 				>
-					<Tooltip tip='You need to be logged in' show={!accessToken} location={Location.Top}>
+					<Tooltip tip='You need to be logged in' show={!accessToken}>
 						<ButtonSolid
 							label={isFollowing ? 'Unfollow' : 'Follow'}
 							onClick={() => isFollowing ? onUnfollow() : onFollow()}
-							disabled={!accessToken || isFollowing === undefined}
+							isDisabled={!accessToken || isFollowing === undefined}
 							isLoading={isLoading}
 						/>
 					</Tooltip>

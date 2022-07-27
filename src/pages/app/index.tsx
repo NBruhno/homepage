@@ -1,12 +1,11 @@
 import type { ReactNode } from 'react'
 
 import { ThemeProvider } from '@emotion/react'
-import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 import { useState, useMemo } from 'react'
 import { SWRConfig } from 'swr'
 
-import { useDarkMode } from 'states/page'
+import { useDarkMode, useScroll } from 'states/page'
 import { useRefresh } from 'states/users'
 
 import { GlobalStyling } from 'styles/global'
@@ -24,11 +23,6 @@ import { Header } from './Header'
 import { Main } from './Main'
 import { Navigation } from './Navigation'
 
-const Nebula = dynamic(async () => {
-	const component = await import('./Nebula')
-	return component.Nebula
-}, { ssr: false })
-
 type Props = {
 	children: ReactNode,
 }
@@ -40,6 +34,7 @@ export const App = ({ children }: Props) => {
 	const isFrontPage = useMemo(() => Boolean(router.pathname === '/'), [router.pathname])
 	const { globalTheme } = useDarkMode()
 	useRefresh()
+	useScroll()
 
 	useIsomorphicLayoutEffect(() => {
 		setIsBrowserNotSupported(/Trident\/|MSIE/.test(window.navigator.userAgent))
@@ -66,8 +61,7 @@ export const App = ({ children }: Props) => {
 							</div>
 						</BlockWrapper>
 					) : (
-						<Grid isFrontPage={isFrontPage}>
-							{isNebulaVisible && <Nebula />}
+						<Grid isNebulaVisible={isNebulaVisible}>
 							<Header />
 							<Navigation />
 							<Main isNebulaVisible={isNebulaVisible}>

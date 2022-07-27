@@ -1,6 +1,8 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import type { ComponentPropsWithRef } from 'react'
 
-export const CoverWrapper = (props: ComponentPropsWithoutRef<'div'>) => (
+import { forwardRef } from 'react'
+
+export const CoverWrapper = forwardRef<HTMLDivElement, ComponentPropsWithRef<'div'>>((props, ref) => (
 	<div
 		css={(theme) => ({
 			flexShrink: 0,
@@ -8,6 +10,7 @@ export const CoverWrapper = (props: ComponentPropsWithoutRef<'div'>) => (
 			width: '100%',
 			background: [theme.color.inputBackgroundHover, `linear-gradient(134deg, ${theme.color.inputBorder} 0%, ${theme.color.inputBackgroundHover} 63%, ${theme.color.inputBackground} 100%)`],
 		})}
+		ref={ref}
 		{...props}
 	/>
-)
+))

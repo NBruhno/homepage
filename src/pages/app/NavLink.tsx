@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import type { ComponentPropsWithoutRef, LegacyRef } from 'react'
+import type { ComponentPropsWithoutRef } from 'react'
 
 import { forwardRef } from 'react'
 
@@ -9,7 +9,7 @@ type Props = ComponentPropsWithoutRef<'a'> & {
 	isActive?: boolean,
 }
 
-const Component = ({ isActive, ...rest }: Props, ref: LegacyRef<HTMLAnchorElement>) => (
+export const NavLink = forwardRef<HTMLAnchorElement, Props>(({ isActive, ...rest }, ref) => (
 	<a
 		css={(theme) => ({
 			padding: '6px 12px',
@@ -30,6 +30,4 @@ const Component = ({ isActive, ...rest }: Props, ref: LegacyRef<HTMLAnchorElemen
 		{...rest}
 		ref={ref}
 	/>
-)
-
-export const NavLink = forwardRef(Component)
+))

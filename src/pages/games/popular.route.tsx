@@ -74,7 +74,7 @@ const Games: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ games
 					<Tooltip tip="That's all the popular games" show={isLimitReached}>
 						<ButtonBorder
 							label='Show more'
-							disabled={isLimitReached}
+							isDisabled={isLimitReached}
 							onClick={() => {
 								if (!isLimitReached) {
 									setPageData({

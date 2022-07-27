@@ -1,13 +1,13 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
 type Props = ComponentPropsWithoutRef<'div'> & {
-	isFrontPage: boolean,
+	isNebulaVisible: boolean,
 }
 
-export const Grid = ({ isFrontPage, ...rest }: Props) => (
+export const Grid = ({ isNebulaVisible, ...rest }: Props) => (
 	<div
 		css={(theme) => ({
-			backgroundColor: isFrontPage ? theme.color.backgroundHome : theme.color.background,
+			backgroundColor: isNebulaVisible ? 'transparent' : theme.color.background,
 			display: 'grid',
 			gridTemplateColumns: 'auto 1fr',
 			gridTemplateRows: '1fr',
