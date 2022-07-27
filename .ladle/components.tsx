@@ -3,17 +3,24 @@ import React from 'react'
 
 import { ThemeProvider, css } from '@emotion/react'
 
-import { useDarkMode } from '../src/states/page'
+import { useDarkMode, useScroll } from '../src/states/page'
 
 import { theme } from '../src/styles/theme'
 import { GlobalStyling } from '../src/styles/global'
 
-export const Provider: GlobalProvider = ({ children, globalState }) => (
-	<ThemeProvider theme={theme(globalState.theme === 'dark')}>
-		<GlobalStyling>
-			<div style={{ padding: '36px' }}>
-				{children}
-			</div>
-		</GlobalStyling>
-	</ThemeProvider>
-)
+export const Provider: GlobalProvider = ({ children, globalState }) => {
+	useScroll()
+
+	return (
+		<>
+			<div id='portal' />
+			<ThemeProvider theme={theme(globalState.theme === 'dark')}>
+				<GlobalStyling>
+					<div style={{ padding: '36px' }}>
+						{children}
+					</div>
+				</GlobalStyling>
+			</ThemeProvider>
+		</>
+	)
+}
