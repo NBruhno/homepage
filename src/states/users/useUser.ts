@@ -1,4 +1,4 @@
-import type { UserRole } from '@prisma/client'
+import type { UserRole } from 'types'
 
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
@@ -28,7 +28,7 @@ export type UserState = {
 	email: string | null,
 	intermediateToken?: string | undefined,
 	isStateKnown: boolean,
-	role?: string | undefined,
+	role?: UserRole | undefined,
 	shouldRefresh: boolean,
 	twoFactorSecret?: string,
 	userId: string | null,

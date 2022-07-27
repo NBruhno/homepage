@@ -6,6 +6,8 @@ import useSWR from 'swr'
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
+import { useLoading } from 'states/page'
+
 import { fetcher } from 'lib/fetcher'
 
 export type FollowingGamesState = PageData & Partial<GameData> & {
@@ -38,6 +40,7 @@ export const useFollowingGames = (query: ParsedUrlQuery, newSkip = 0) => {
 
 	const setGameData = useFollowingGamesStore((state) => state.setGameData)
 
+	useLoading(Boolean(!data))
 	useEffect(() => {
 		setGameData({
 			games: data?.games,

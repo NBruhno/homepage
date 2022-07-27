@@ -6,6 +6,8 @@ import useSWR from 'swr'
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
+import { useLoading } from 'states/page'
+
 import { fetcher } from 'lib/fetcher'
 
 export type PopularGamesState = Partial<GameData> & Partial<PageData> & {
@@ -40,6 +42,7 @@ export const usePopularGames = (newSkip = 0) => {
 
 	const setGameData = usePopularGamesStore((state) => state.setGameData)
 
+	useLoading(Boolean(!data))
 	useEffect(() => {
 		setGameData({
 			games: data?.games,
