@@ -1,10 +1,12 @@
 import type { Props as AsyncProps } from './Async'
 
+import { forwardRef } from 'react'
+
 import { adjustHsl } from 'lib/client'
 
 import { ButtonAsync } from './Async'
 
-export const Border = (props: AsyncProps) => (
+export const ButtonBorder = forwardRef<HTMLButtonElement, AsyncProps>((props, ref) => (
 	<ButtonAsync
 		css={(theme) => ({
 			backgroundColor: 'transparent',
@@ -30,6 +32,7 @@ export const Border = (props: AsyncProps) => (
 				borderRadius: '6px',
 			},
 		})}
+		ref={ref}
 		{...props}
 	/>
-)
+))

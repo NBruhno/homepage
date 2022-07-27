@@ -1,5 +1,7 @@
 import type { Props as AsyncProps } from './Async'
 
+import { forwardRef } from 'react'
+
 import { adjustHsl } from 'lib/client'
 
 import { ButtonAsync } from './Async'
@@ -8,7 +10,7 @@ type Props = AsyncProps & {
 	isActive?: boolean,
 }
 
-export const Toggle = ({ isActive, ...rest }: Props) => (
+export const ButtonToggle = forwardRef<HTMLButtonElement, Props>(({ isActive, ...rest }, ref) => (
 	<ButtonAsync
 		css={(theme) => ({
 			backgroundColor: isActive ? adjustHsl(theme.color.primary, { alpha: 0.4 }) : 'transparent',
@@ -36,6 +38,7 @@ export const Toggle = ({ isActive, ...rest }: Props) => (
 				borderRadius: '6px',
 			},
 		})}
+		ref={ref}
 		{...rest}
 	/>
-)
+))

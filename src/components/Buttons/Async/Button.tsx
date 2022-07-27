@@ -1,12 +1,14 @@
 /* eslint-disable react/button-has-type */
-import type { ComponentPropsWithoutRef } from 'react'
+import type { ComponentPropsWithRef } from 'react'
 
-type Props = ComponentPropsWithoutRef<'button'> & {
+import { forwardRef } from 'react'
+
+type Props = ComponentPropsWithRef<'button'> & {
 	isFullWidth?: boolean,
 	isVisible: boolean,
 }
 
-export const Button = ({ isVisible, isFullWidth, ...rest }: Props) => (
+export const Button = forwardRef<HTMLButtonElement, Props>(({ isVisible, isFullWidth, ...rest }, ref) => (
 	<button
 		css={(theme) => ({
 			backgroundColor: '#000',
@@ -50,13 +52,13 @@ export const Button = ({ isVisible, isFullWidth, ...rest }: Props) => (
 				right: '-2px',
 				borderRadius: '5px',
 				boxShadow: 'none',
-				transition: `box-shadow 135ms ${theme.animation.default}`,
 			},
 
 			'&:focus:after': {
 				boxShadow: `0 0 0 ${theme.isDarkTheme ? '1px' : '2px'} ${theme.color.text}`,
 			},
 		})}
+		ref={ref}
 		{...rest}
 	/>
-)
+))
