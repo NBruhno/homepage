@@ -26,6 +26,7 @@ export const globalCss = (theme: Theme) => css([
 		},
 
 		body: {
+			color: theme.color.text,
 			lineHeight: 1.65,
 		},
 
@@ -42,6 +43,11 @@ export const globalCss = (theme: Theme) => css([
 
 		a: {
 			color: theme.color.link,
+		},
+
+		'*': {
+			scrollbarWidth: 'thin',
+			scrollbarColor: theme.color.gray,
 		},
 	},
 ])

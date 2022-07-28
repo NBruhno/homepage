@@ -1,1 +1,1 @@
-export { EmotionDecorator } from './EmotionDecorator'
+export { FormWrapper } from './FormWrapper'

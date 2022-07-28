@@ -1,6 +1,8 @@
 import type { Props as AsyncProps } from './Async'
 
-import { adjustHsl } from 'lib/adjustHsl'
+import { forwardRef } from 'react'
+
+import { adjustHsl } from 'lib/client'
 
 import { ButtonAsync } from './Async'
 
@@ -8,7 +10,7 @@ type Props = AsyncProps & {
 	isSlim?: boolean,
 }
 
-export const Text = ({ isSlim, ...rest }: Props) => (
+export const ButtonText = forwardRef<HTMLButtonElement, Props>(({ isSlim, ...rest }, ref) => (
 	<ButtonAsync
 		css={(theme) => ({
 			backgroundColor: 'transparent',
@@ -29,6 +31,7 @@ export const Text = ({ isSlim, ...rest }: Props) => (
 				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.4 }),
 			},
 		})}
+		ref={ref}
 		{...rest}
 	/>
-)
+))

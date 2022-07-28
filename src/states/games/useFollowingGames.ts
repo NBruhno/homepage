@@ -1,22 +1,36 @@
+import type { GameData, PageData } from './types'
 import type { ParsedUrlQuery } from 'querystring'
-import type { GameSimple } from 'types'
 
+import { useEffect } from 'react'
 import useSWR from 'swr'
+import create from 'zustand'
+import { devtools } from 'zustand/middleware'
 
-import { useGlobalState } from 'states/global'
+import { useLoading } from 'states/page'
 
 import { fetcher } from 'lib/fetcher'
 
-export type FollowingGames = {
-	isLimitReached: boolean,
-	numberOfPages: number,
-	skips: Array<number>,
-	take: number,
+export type FollowingGamesState = PageData & Partial<GameData> & {
+	setGameData: (gameData: Partial<GameData> & Pick<PageData, 'isLimitReached'>) => void,
+	setPageData: (gameData: PageData) => void,
+	setIsLimitReached: (isLimitReached: boolean) => void,
 }
 
-export const useFollowingGames = (query: ParsedUrlQuery, newSkip: number = 0) => {
-	const [state, setState] = useGlobalState('followingGames')
-	const { data } = useSWR<{ games: Array<GameSimple>, skip: number, take: number, before: GameSimple | null, after: GameSimple | null }>(
+export const useFollowingGamesStore = create(devtools<FollowingGamesState>((set) => ({
+	games: undefined,
+	after: undefined,
+	before: undefined,
+	isLimitReached: false,
+	numberOfPages: 1,
+	take: 50,
+	skips: [0],
+	setGameData: (gameData) => set(gameData, false, 'setGameData'),
+	setPageData: (pageData) => set(pageData, false, 'setPageData'),
+	setIsLimitReached: (isLimitReached) => set({ isLimitReached }, false, 'setIsLimitReached'),
+}), { name: 'useFollowingGamesStore' }))
+
+export const useFollowingGames = (query: ParsedUrlQuery, newSkip = 0) => {
+	const { data } = useSWR<GameData & { skip: number, take: number }>(
 		query.user
 			? ['/games', query.user, newSkip]
 			: null, ([link, followedGamesUser, skip]: [string, string, number]) => fetcher(`${link}?user=${followedGamesUser}${skip ? `&skip=${skip}` : ''}`), {
@@ -24,6 +38,21 @@ export const useFollowingGames = (query: ParsedUrlQuery, newSkip: number = 0) =>
 		},
 	)
 
-	const setIsLimitReached = (isLimitReached: boolean) => setState({ ...state, isLimitReached })
-	return { games: data?.games, after: data?.after, before: data?.before, setIsLimitReached }
+	const setGameData = useFollowingGamesStore((state) => state.setGameData)
+
+	useLoading(Boolean(!data))
+	useEffect(() => {
+		setGameData({
+			games: data?.games,
+			after: data?.after,
+			before: data?.before,
+			isLimitReached: data?.after === null,
+		})
+	}, [data])
+
+	return {
+		games: useFollowingGamesStore((state) => state.games),
+		after: useFollowingGamesStore((state) => state.after),
+		setIsLimitReached: useFollowingGamesStore((state) => state.setIsLimitReached),
+	}
 }

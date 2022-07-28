@@ -2,11 +2,10 @@ import { differenceInSeconds, formatDuration, subSeconds, intervalToDuration } f
 import { useEffect, useMemo, useState } from 'react'
 import useSWR from 'swr'
 
-import { useGlobalState } from 'states/global'
+import { useUser } from 'states/users'
 
+import type { ApiError } from 'lib/errors'
 import { fetcher } from 'lib/fetcher'
-
-import type { ApiError } from 'api/errors'
 
 type Health = {
 	message: string,
@@ -41,7 +40,7 @@ type Return = {
 }
 
 export const useHealth = (): Return => {
-	const [user] = useGlobalState('user')
+	const accessToken = useUser((state) => state.accessToken)
 	const [lastTimeFetched, setLastTimeFetched] = useState(new Date())
 	const [secondsSinceLastFetch, setSecondsSinceLastFetch] = useState(differenceInSeconds(new Date(), lastTimeFetched))
 
@@ -54,8 +53,8 @@ export const useHealth = (): Return => {
 	})
 
 	const { data: health, error } = useSWR<Health, ApiError>(
-		user.accessToken ? '/home/health' : null, (link: string) => (
-			fetcher(link, { accessToken: user.accessToken })
+		accessToken ? '/home/health' : null, (link: string) => (
+			fetcher(link, { accessToken })
 		), {
 			refreshInterval: 10000,
 			errorRetryInterval: 10000,

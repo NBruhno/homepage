@@ -1,10 +1,12 @@
 import type { Props as AsyncProps } from './Async'
 
-import { adjustHsl } from 'lib/adjustHsl'
+import { forwardRef } from 'react'
+
+import { adjustHsl } from 'lib/client'
 
 import { ButtonAsync } from './Async'
 
-export const Icon = (props: AsyncProps) => (
+export const ButtonIcon = forwardRef<HTMLButtonElement, AsyncProps>((props, ref) => (
 	<ButtonAsync
 		css={(theme) => ({
 			backgroundColor: 'transparent',
@@ -20,6 +22,7 @@ export const Icon = (props: AsyncProps) => (
 				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.4 }),
 			},
 		})}
+		ref={ref}
 		{...props}
 	/>
-)
+))

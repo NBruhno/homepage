@@ -3,8 +3,8 @@ import type { Transaction } from '@sentry/types'
 import { startTransaction } from '@sentry/nextjs'
 import pickBy from 'lodash/pickBy'
 
-import { ApiError } from 'api/errors'
-import type { statusCodes } from 'api/errors/ApiError'
+import { ApiError } from 'lib/errors'
+import type { statusCodes } from 'lib/errors'
 
 import { logger } from './logger'
 

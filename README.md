@@ -6,16 +6,16 @@
 </p>
 
 # What makes up this website
-* [Next.js](https://github.com/vercel/next.js) - React framework
-* [Vercel](https://github.com/vercel/vercel) - Hosting
-* [PlanetScale](https://planetscale.com) - Database
-* [Prisma](https://github.com/prisma/prisma) - Database ORM
+  * [Next.js](https://github.com/vercel/next.js) - React framework
+  * [Vercel](https://github.com/vercel/vercel) - Hosting
+  * [PlanetScale](https://planetscale.com) - Database
+  * [Prisma](https://github.com/prisma/prisma) - Database ORM
 ### Other important libraries:
   * [Emotion](https://github.com/emotion-js/emotion) - CSS-in-JS
-  * [Final Form](https://github.com/final-form/final-form) - Forms
+  * [React Hook Form](https://github.com/react-hook-form/react-hook-form) - Forms
   * [Sentry](https://github.com/getsentry/sentry-javascript) - Error tracking and performance monitoring
+  * [Zustand](https://github.com/pmndrs/zustand) - State management
 ### Obvious additions
-  * [Babel](https://github.com/babel/babel) - Compiler
   * [Jest](https://github.com/facebook/jest) - Testing
   * [React](https://github.com/facebook/react) - Framework
   * [TypeScript](https://github.com/microsoft/TypeScript) - Typing
@@ -64,6 +64,6 @@ To test the application, run `pnpm test`. Make sure to add the required env vari
 # Important note
 There is no guarantee that this readme is updated to match updates that are made to this repository. That solely depends on me remembering to update this file.
 
-To make use of all the implemented features, FaunaDB, Vercel and Sentry, you need some knowledge on how to use these services.
+To make use of all the implemented features, PlanetScale, Prisma, Vercel and Sentry, you need some knowledge on how to use these services.
 If you do not know how to, there is plenty of documentation out there that will help you learn how to use these amazing tools.
 This project does not aim to explain any of the used services.

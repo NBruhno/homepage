@@ -1,171 +1,75 @@
-import type { ReactNode, ComponentPropsWithoutRef } from 'react'
+import type { ReactNode } from 'react'
 
-import { css } from '@emotion/react'
+import { useHover } from '@react-aria/interactions'
+import { Fragment, isValidElement, Children, cloneElement, useMemo, useRef } from 'react'
 
-export enum Location {
-	Top = 'top',
-	Right = 'right',
-	Bottom = 'bottom',
-	Left = 'left',
-}
+import { useScrollStore } from 'states/page'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
+import { Portal } from 'components/Portal'
+
+import { TooltipArrow } from './TooltipArrow'
+import { TooltipContainer } from './TooltipContainer'
+
+export type TooltipPosition = 'bottom' | 'left' | 'right' | 'top'
+export type Props = & {
 	children: ReactNode,
-	location?: Location,
-	show?: boolean,
 	tip: ReactNode,
-	/** In milliseconds */
-	transitionInDelay?: number,
-	/** In milliseconds */
-	transitionOutDelay?: number,
-	/** In milliseconds */
-	transitionDuration?: number,
+	position?: TooltipPosition,
+	/** How long in **milliseconds** the child has be hovered before the tooltip is visible */
+	timeToHover?: number,
+	show?: boolean,
 }
 
 export const Tooltip = ({
 	tip,
 	show = true,
-	location = Location.Top,
+	position = 'top',
 	children,
-	transitionInDelay = 300,
-	transitionDuration = 200,
+	timeToHover = 300,
 	...rest
-}: Props) => {
-	const getLeft = () => {
-		switch (location) {
-			case Location.Top:
-			case Location.Bottom: return '50%'
-			case Location.Right: return 'calc(100% + 5px)'
-			case Location.Left: return 'auto'
+}: Props & Record<string, any>) => {
+	const contentRef = useRef<HTMLDivElement>(null)
+	const windowScrollX = useScrollStore((state) => state.scrollX)
+	const windowScrollY = useScrollStore((state) => state.scrollY)
+	const { hoverProps, isHovered } = useHover({})
+	const childRect = useMemo(() => {
+		if (!contentRef.current || typeof window === 'undefined') {
+			return {
+				height: 0, width: 0, top: 0, right: 0, left: 0, tooltipHeight: 0, tooltipWidth: 0,
+			}
 		}
-	}
-
-	const getBottom = () => {
-		switch (location) {
-			case Location.Top: return 'calc(100% + 5px)'
-			case Location.Bottom: return 'auto'
-			case Location.Right:
-			case Location.Left: return '50%'
+		const { height, width, top, left, right } = contentRef.current.getBoundingClientRect()
+		return {
+			height,
+			width,
+			top: top + windowScrollY,
+			left: left + windowScrollX,
+			right: right + windowScrollX,
 		}
-	}
-
-	const getTransform = () => {
-		switch (location) {
-			case Location.Top: return 'translate(-50%, -5px)'
-			case Location.Bottom: return 'translate(-50%, 5px)'
-			case Location.Right: return 'translate(5px, 50%)'
-			case Location.Left: return 'translate(-5px, 50%)'
-		}
-	}
-
-	const getBorderWidth = () => {
-		switch (location) {
-			case Location.Top: return '5px 5px 0px 5px'
-			case Location.Bottom: return '0px 5px 5px 5px'
-			case Location.Right: return '5px 5px 5px 0px'
-			case Location.Left: return '5px 0px 5px 5px'
-		}
-	}
-
-	const getBorderColor = (theme: Theme) => {
-		switch (location) {
-			case Location.Top: return `${theme.color.inputBackgroundHover} transparent transparent transparent`
-			case Location.Bottom: return `transparent transparent ${theme.color.inputBackgroundHover} transparent`
-			case Location.Right: return `transparent ${theme.color.inputBackgroundHover} transparent transparent`
-			case Location.Left: return `transparent transparent transparent ${theme.color.inputBackgroundHover}`
-		}
-	}
-
-	const getTransformOrigin = () => {
-		switch (location) {
-			case Location.Top: return 'top'
-			case Location.Bottom: return 'bottom'
-			case Location.Right: return 'right'
-			case Location.Left: return 'left'
-		}
-	}
-
-	const getAfterScale = (amount: number) => {
-		switch (location) {
-			case Location.Top:
-			case Location.Bottom: return `scaleY(${amount})`
-			case Location.Right:
-			case Location.Left: return `scaleX(${amount})`
-		}
-	}
-
-	const getAfterTranslate = () => {
-		switch (location) {
-			case Location.Top:
-			case Location.Bottom: return 'translateX(-50%)'
-			case Location.Right:
-			case Location.Left: return 'translateY(50%)'
-		}
-	}
-
-	const sharedStyles = css({
-		position: 'absolute',
-		zIndex: 10,
-		visibility: 'hidden',
-		opacity: 0,
-		left: getLeft(),
-		right: location === Location.Left ? 'calc(100% + 5px)' : 'auto',
-		bottom: getBottom(),
-		top: location === Location.Bottom ? 'calc(100% + 5px)' : 'auto',
-		pointerEvents: 'none',
-		transition: '0.2s',
-	})
+	}, undefined)
+	const defaultTooltipProps = { isHovered, position, timeToHover, childRect }
 
 	return (
-		<div id='tooltip-wrapper' css={{ position: 'relative', display: 'inline-block' }} {...rest}>
+		<>
 			{show && (
-				<div
-					css={(theme) => ([sharedStyles, {
-						padding: '10px 18px',
-						minWidth: '50px',
-						maxWidth: '300px',
-						width: 'max-content',
-						borderRadius: '4px',
-						fontSize: theme.font.size.s90,
-						backgroundColor: theme.color.inputBackground,
-						boxShadow: '0px 0px 24px rgba(0, 0, 0, 0.2)',
-						color: theme.color.text,
-						textAlign: 'center',
-						whiteSpace: 'pre-wrap',
-						transform: `${getTransform()} scale(0.5)`,
-
-						[`#tooltip-wrapper:hover &`]: {
-							transitionDelay: `${transitionInDelay}ms`,
-							transform: `${getTransform()} scale(1)`,
-							visibility: 'visible',
-							opacity: 1,
-						},
-					}])}
-				>
-					{tip}
-				</div>
+				<Portal>
+					<TooltipContainer {...defaultTooltipProps}>{tip}</TooltipContainer>
+					<TooltipArrow {...defaultTooltipProps} />
+				</Portal>
 			)}
-			{children}
-			{show && (
-				<div
-					css={(theme) => ([sharedStyles, {
-						borderStyle: 'solid',
-						borderWidth: getBorderWidth(),
-						borderColor: getBorderColor(theme),
-						transitionDuration: '0s',
-						transformOrigin: getTransformOrigin(),
-						transform: `${getAfterTranslate()} ${getAfterScale(0)}`,
-
-						[`#tooltip-wrapper:hover &`]: {
-							visibility: 'visible',
-							opacity: 1,
-							transitionDelay: `${transitionInDelay + transitionDuration}ms`,
-							transitionDuration: `${transitionDuration}ms`,
-							transform: `${getAfterTranslate()} ${getAfterScale(1)}`,
-						},
-					}])}
-				/>
+			{Children.map(
+				children,
+				(child, index) => {
+					if (isValidElement(child)) {
+						return (
+							<Fragment key={index}>
+								{cloneElement(child, { ref: contentRef, ...hoverProps, ...rest, key: index })}
+							</Fragment>
+						)
+					}
+					return child
+				},
 			)}
-		</div>
+		</>
 	)
 }

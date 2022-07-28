@@ -1,25 +1,33 @@
 import type { ReactNode, MouseEvent, ComponentPropsWithoutRef } from 'react'
+import type { Promisable } from 'type-fest'
 
 import isFunction from 'lodash/isFunction'
-import { useState, useEffect } from 'react'
+import { forwardRef, useState } from 'react'
 
 import { delay } from 'lib/delay'
 
 import { ButtonLoading } from './ButtonLoading'
 import { SubmitWrapper } from './SubmitWrapper'
 
-export type Props =
-& ComponentPropsWithoutRef<'button'>
-& {
+export type Props = Omit<ComponentPropsWithoutRef<'button'>, 'disabled' | 'onClick' | 'type'> & {
+	isDisabled?: boolean,
 	isFullWidth?: boolean,
 	isLoading?: boolean,
 	isLoadingManual?: boolean,
 	label: ReactNode,
 	minDelay?: number,
-	onClick?: ((event: MouseEvent<HTMLButtonElement>) => any) | undefined,
-}
+} & (
+	{
+		onClick?: never,
+		type: 'submit',
+	} | {
+		type?: 'button' | 'reset',
+		onClick: (event: MouseEvent<HTMLButtonElement>) => Promisable<any>,
+	}
+)
 
-export const ButtonAsync = ({
+export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
+	isDisabled = false,
 	isLoading = false,
 	isLoadingManual = false,
 	label,
@@ -28,68 +36,54 @@ export const ButtonAsync = ({
 	type = 'button',
 	isFullWidth = false,
 	...rest
-}: Props) => {
+}, ref) => {
 	const [isLoadingInternal, setInternalLoading] = useState(false)
-	const [isMounted, setMounted] = useState(false)
 
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation()
 		if (type === 'submit') return
 		event.preventDefault()
-		if (!onClick) throw new Error('This button does not have a onClick function!')
+		if (!onClick) throw new Error(`Button is type ${type}, but it does not have an onClick function!`)
 
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const result: any = onClick(event)
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		if (minDelay || (result && isFunction(result.then))) {
 			setInternalLoading(true)
-			const promiseHandler = () => {
-				if (isMounted) {
-					setInternalLoading(false)
-				}
-			}
-
+			const promiseHandler = () => setInternalLoading(false)
 			Promise.all([result, delay(minDelay)]).then(promiseHandler, promiseHandler)
 		}
 	}
 
-	useEffect(() => {
-		if (!isMounted) {
-			setMounted(true)
-		} else {
-			setMounted(false)
-		}
+	const defaultProps = {
+		isVisible: !isLoading,
+		label,
+		isFullWidth,
+		isDisabled,
+		ref,
+		...rest,
+	}
 
-		return () => {
-			setMounted(false)
-		}
-		// The effect is intended to only run on mount and dismount
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [])
+	if (type === 'submit') {
+		return (
+			<SubmitWrapper
+				render={({ isSubmitting }) => (
+					<ButtonLoading
+						isLoading={isSubmitting || isLoadingManual || isLoadingInternal}
+						type='submit'
+						{...defaultProps}
+					/>
+				)}
+			/>
+		)
+	}
 
 	return (
-		<>
-			{type === 'submit' ? (
-				<SubmitWrapper>
-					<ButtonLoading
-						isLoading={isLoadingManual || isLoadingInternal}
-						isVisible={!isLoading}
-						label={label}
-						onClick={(event) => handleClick(event)}
-						isFullWidth={isFullWidth}
-						type='submit'
-						{...rest}
-					/>
-				</SubmitWrapper>
-			) : (
-				<ButtonLoading
-					isLoading={isLoadingManual || isLoadingInternal}
-					isVisible={!isLoading}
-					label={label}
-					onClick={(event) => handleClick(event)}
-					isFullWidth={isFullWidth}
-					{...rest}
-				/>
-			)}
-		</>
+		<ButtonLoading
+			isLoading={isLoadingManual || isLoadingInternal}
+			type={type}
+			onClick={(event) => handleClick(event)}
+			{...defaultProps}
+		/>
 	)
-}
+})

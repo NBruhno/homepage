@@ -2,7 +2,7 @@ import type { ReactNode } from 'react'
 
 import { useState, useContext, useEffect, useCallback } from 'react'
 
-import { useSize } from 'lib/useSize'
+import { useSize } from 'lib/hooks'
 
 import { Container } from './Container'
 import { context } from './context'

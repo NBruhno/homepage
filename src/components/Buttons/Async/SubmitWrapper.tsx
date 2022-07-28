@@ -1,18 +1,10 @@
-import type { ReactNode, ReactElement } from 'react'
-
-import { cloneElement } from 'react'
-import { useFormState } from 'react-final-form'
+import { useFormState } from 'react-hook-form'
 
 type Props = {
-	children: ReactNode,
+	render: (args: { isSubmitting: boolean }) => JSX.Element,
 }
 
-export const SubmitWrapper = ({ children }: Props) => {
-	const { submitting: isSubmitting } = useFormState({ subscription: { submitting: true } })
-
-	return (
-		<div>
-			{cloneElement(children as ReactElement<any>, { isLoading: isSubmitting })}
-		</div>
-	)
+export const SubmitWrapper = ({ render }: Props) => {
+	const { isSubmitting } = useFormState()
+	return render({ isSubmitting })
 }
