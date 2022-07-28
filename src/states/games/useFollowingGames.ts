@@ -40,7 +40,7 @@ export const useFollowingGames = (query: ParsedUrlQuery, newSkip = 0) => {
 
 	const setGameData = useFollowingGamesStore((state) => state.setGameData)
 
-	useLoading(Boolean(!data))
+	const { setIsLoading } = useLoading()
 	useEffect(() => {
 		setGameData({
 			games: data?.games,
@@ -48,6 +48,7 @@ export const useFollowingGames = (query: ParsedUrlQuery, newSkip = 0) => {
 			before: data?.before,
 			isLimitReached: data?.after === null,
 		})
+		setIsLoading(Boolean(!data))
 	}, [data])
 
 	return {

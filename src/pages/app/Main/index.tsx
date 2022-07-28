@@ -8,8 +8,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import shallow from 'zustand/shallow'
 
-import { useModal } from 'states/page'
-import { useResponsive } from 'states/page'
+import { useModal, useResponsive } from 'states/page'
 import { useUser } from 'states/users'
 
 import { mediaQueries } from 'styles/theme'

@@ -42,7 +42,7 @@ export const usePopularGames = (newSkip = 0) => {
 
 	const setGameData = usePopularGamesStore((state) => state.setGameData)
 
-	useLoading(Boolean(!data))
+	const { setIsLoading } = useLoading()
 	useEffect(() => {
 		setGameData({
 			games: data?.games,
@@ -50,6 +50,7 @@ export const usePopularGames = (newSkip = 0) => {
 			before: data?.before,
 			isLimitReached: data?.after === null,
 		})
+		setIsLoading(Boolean(!data))
 	}, [data, setGameData])
 
 	return {
