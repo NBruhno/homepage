@@ -5,14 +5,14 @@ export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 		css={(theme) => ({
 			display: 'grid',
 			gridTemplate: `
-				"cover headlines headlines" 204px
+				"cover headlines headlines" 214px
 				"cover actions info" auto
 				"cover priceTable info" auto
 				"content content info" 1fr
 				"similarGames similarGames similarGames" auto
 				/ 264px 1fr 330px
 			`,
-			margin: '272px auto 0',
+			margin: '262px auto 0',
 			zIndex: 1,
 			width: '100%',
 			maxWidth: '1300px',
@@ -22,7 +22,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 
 			[theme.mediaQueries.desktopToDesktopLarge]: {
 				gridTemplate: `
-					"cover headlines headlines" 204px
+					"cover headlines headlines" 214px
 					"cover actions actions" auto
 					"cover priceTable info" auto
 					"content content info" 1fr
@@ -33,7 +33,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 
 			[theme.mediaQueries.tabletToDesktop]: {
 				gridTemplate: `
-					"cover headlines headlines" 204px
+					"cover headlines headlines" 214px
 					"cover actions actions" auto
 					"priceTable priceTable info" auto
 					"content content info" 1fr
@@ -44,7 +44,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 
 			[theme.mediaQueries.mobileToTablet]: {
 				gridTemplate: `
-					"cover headlines headlines" 204px
+					"cover headlines headlines" 214px
 					"actions actions actions" auto
 					"priceTable priceTable priceTable" auto
 					"content content info" 1fr
@@ -64,7 +64,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 					"content content" auto
 					"info info" auto
 					"similarGames similarGames" auto
-					/ minmax(0, 120px) 2fr
+					/ minmax(0, 116px) 2fr
 				`,
 			},
 		})}
