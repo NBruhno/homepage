@@ -40,7 +40,7 @@ export const TooltipContainer = ({ children, isHovered, position, timeToHover, c
 			tooltipHeight: height * 2,
 			tooltipWidth: width * 2,
 		}
-	}, undefined)
+	}, [ref.current])
 
 	return (
 		<div
