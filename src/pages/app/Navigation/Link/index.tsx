@@ -27,7 +27,7 @@ export const Link = forwardRef<HTMLAnchorElement, Props>(({ url, Icon, name, isA
 	const role = useUser((state) => state.role)
 	const { pathname } = useRouter()
 
-	if ((allowedRoles.length > 0 && !role) || (role && !allowedRoles.includes(role))) return null
+	if (allowedRoles.length > 0 && (!role || !allowedRoles.includes(role))) return null
 
 	return (
 		<NextLink
