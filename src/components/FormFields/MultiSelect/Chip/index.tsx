@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import type { Option } from '..'
-import type { ComponentPropsWithRef } from 'react'
+import type { ComponentPropsWithRef, ReactNode } from 'react'
 
 import { forwardRef } from 'react'
 
@@ -9,12 +8,12 @@ import { ButtonIcon } from 'components/Buttons'
 import { CloseIcon } from 'components/Icons'
 
 type Props = ComponentPropsWithRef<'div'> & {
-	option: Option,
-	isSelected: boolean,
-	onRemoveChip: (option: Option) => void,
+	children: ReactNode,
+	isHighlighted: boolean,
+	onRemoveChip: () => void,
 }
 
-export const Chip = forwardRef<HTMLDivElement, Props>(({ option, onRemoveChip, isSelected }, ref) => (
+export const Chip = forwardRef<HTMLDivElement, Props>(({ children, onRemoveChip, isHighlighted }, ref) => (
 	<div
 		css={(theme) => ({
 			borderRadius: '4px',
@@ -29,7 +28,7 @@ export const Chip = forwardRef<HTMLDivElement, Props>(({ option, onRemoveChip, i
 		onClick={(event) => event.preventDefault()}
 		ref={ref}
 	>
-		<span css={{ paddingLeft: '6px' }}>{option.label}</span>
+		<span css={{ paddingLeft: '6px' }}>{children}</span>
 		<ButtonIcon
 			tabIndex={-1}
 			css={(theme) => ({
@@ -38,8 +37,8 @@ export const Chip = forwardRef<HTMLDivElement, Props>(({ option, onRemoveChip, i
 				minWidth: 'auto',
 				padding: '3px 2px',
 				borderRadius: '0 4px 4px 0',
-				color: isSelected ? theme.color.error : theme.color.gray050,
-				backgroundColor: isSelected ? theme.color.errorBackgroundHover : 'transparent',
+				color: isHighlighted ? theme.color.error : theme.color.gray050,
+				backgroundColor: isHighlighted ? theme.color.errorBackgroundHover : 'transparent',
 
 				'&:focus:enabled, &:active:enabled': {
 					backgroundColor: 'transparent',
@@ -53,7 +52,7 @@ export const Chip = forwardRef<HTMLDivElement, Props>(({ option, onRemoveChip, i
 			})}
 			onClick={(event) => {
 				event.stopPropagation()
-				onRemoveChip(option)
+				onRemoveChip()
 			}}
 			label={(
 				<CloseIcon

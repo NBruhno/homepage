@@ -17,6 +17,7 @@ import { InputClearButton } from '../Shared'
 
 import { Chip } from './Chip'
 import { FieldContainer } from './FieldContainer'
+import { handleKeyboardInput } from './handleKeyboardInput'
 import { InputComponent } from './InputComponent'
 import { Menu } from './Menu'
 import { MenuAnchor } from './MenuAnchor'
@@ -55,52 +56,73 @@ export const MultiSelect = ({
 }: Props) => {
 	const id = useUnique(name)
 	const { formState: { errors }, control } = useFormContext()
+	const { field } = useController({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
+	const initialValues = field.value as Array<Option['value']> | undefined
+
 	const [filteredOptions, setFilteredOptions] = useState(options)
 	const [isInputFocus, setIsInputFocus] = useState(false)
-	const { field } = useController({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
 	const [inputValue, setInputValue] = useState<string>('')
 	const containerRef = useRef<HTMLDivElement>(null)
 	const inputRef = useRef<HTMLInputElement>(null)
-	const initialValues = field.value as Array<Option['value']> | undefined
 
-	const { getDropdownProps, getSelectedItemProps, addSelectedItem, removeSelectedItem, selectedItems, reset, activeIndex, setActiveIndex } = useMultipleSelection<Option>({
+	const { hoverProps, isHovered } = useHover({ isDisabled })
+	const { isFocusVisible, focusProps } = useFocusRing({ isTextInput: true, autoFocus: shouldAutofocus })
+
+	const {
+		getDropdownProps,
+		getSelectedItemProps,
+
+		activeIndex: highlightedChipIndex,
+		addSelectedItem: onAddSelectedOption,
+		removeSelectedItem: onRemoveChip,
+		reset,
+		selectedItems: selectedOptions,
+		setActiveIndex: onSetHighlightedChip,
+	} = useMultipleSelection<Option>({
 		initialSelectedItems: initialValues ? initialValues.map((initialValue) => options.find(({ value }) => value === initialValue)!) : [],
-		onSelectedItemsChange: ({ selectedItems }) => {
-			setFilteredOptions(getFilteredOptions(options, selectedItems ?? [], inputValue))
-			if (selectedItems === undefined || selectedItems.length === 0) return field.onChange(undefined)
-			return field.onChange(selectedItems.map(({ value }) => value))
+		onSelectedItemsChange: ({ selectedItems: selectedOptions }) => {
+			setFilteredOptions(getFilteredOptions(options, selectedOptions ?? [], inputValue))
+			if (selectedOptions === undefined || selectedOptions.length === 0) return field.onChange(undefined)
+			return field.onChange(selectedOptions.map(({ value }) => value))
 		},
 	})
 
-	const { isOpen: isMenuOpen, getLabelProps, getMenuProps, highlightedIndex, getItemProps, getInputProps, getComboboxProps, openMenu, closeMenu, setHighlightedIndex, setInputValue: setInternalInputValue } = useCombobox({
+	const {
+		getComboboxProps,
+		getInputProps,
+		getItemProps,
+		getLabelProps,
+		getMenuProps,
+
+		closeMenu: onCloseMenu,
+		highlightedIndex: highlightedOptionIndex,
+		isOpen: isMenuOpen,
+		openMenu: onOpenMenu,
+		setHighlightedIndex: onSetHighlightedOption,
+		setInputValue: setInternalInputValue,
+	} = useCombobox({
 		id,
 		items: filteredOptions,
 		itemToString: () => '',
 		onInputValueChange: ({ inputValue }) => {
 			setInputValue(inputValue ?? '')
-			setFilteredOptions(getFilteredOptions(options, selectedItems, inputValue ?? ''))
+			setFilteredOptions(getFilteredOptions(options, selectedOptions, inputValue ?? ''))
 		},
 	})
-
-	const { hoverProps, isHovered } = useHover({ isDisabled })
-	const { isFocusVisible, focusProps } = useFocusRing({ isTextInput: true, autoFocus: shouldAutofocus })
 
 	const error = get(errors, name)
 	const hasError = Boolean(error)
 
-	const inputProps = getInputProps({
-		...getDropdownProps({ preventKeyAction: isMenuOpen, ref: inputRef }) as object,
-		name,
-		placeholder,
-		onFocus: openMenu,
-		onClick: openMenu,
-	}) as { onKeyDown: (event: any) => void }
-
-	const addItem = (item: Option) => {
+	const onResetHighlightedChip = () => onSetHighlightedChip(-1)
+	const onResetHighlightedOption = () => onSetHighlightedOption(-1)
+	const resetInputValue = () => {
 		setInputValue('')
 		setInternalInputValue('')
-		addSelectedItem(item)
-		setHighlightedIndex(0)
+	}
+	const onAddChip = (item: Option) => {
+		resetInputValue()
+		onAddSelectedOption(item)
+		onSetHighlightedOption(0)
 	}
 
 	return (
@@ -120,7 +142,7 @@ export const MultiSelect = ({
 					onClick={(event) => {
 						if (event.defaultPrevented) return undefined
 						else {
-							openMenu()
+							onOpenMenu()
 							inputRef.current?.focus()
 						}
 					}}
@@ -133,87 +155,67 @@ export const MultiSelect = ({
 						paddingRight: '32px',
 					}}
 					>
-						{selectedItems.map((item, index) => (
+						{selectedOptions.map((option, index) => (
 							<Chip
-								option={item}
 								key={index}
-								isSelected={activeIndex === index}
-								onRemoveChip={removeSelectedItem}
-								{...getSelectedItemProps({ selectedItem: item, index })}
-							/>
+								isHighlighted={highlightedChipIndex === index}
+								onRemoveChip={() => {
+									onRemoveChip(option)
+									onResetHighlightedChip()
+								}}
+								{...getSelectedItemProps({ selectedItem: option, index })}
+							>
+								{option.label}
+							</Chip>
 						))}
 						<InputComponent
-							{...inputProps}
+							{...getInputProps({
+								...getDropdownProps({ preventKeyAction: isMenuOpen, ref: inputRef }) as object,
+								name,
+								placeholder,
+								onFocus: onOpenMenu,
+								onClick: () => {
+									onOpenMenu() // Always open the menu on interaction with component
+									onResetHighlightedChip() // If the user re-selects the input, reset the highlighted chip
+								},
+							})}
 							{...focusProps}
 							{...hoverProps}
 							isDisabled={isDisabled}
 							hasError={hasError}
 							value={inputValue}
 							onFocus={(event) => {
-								openMenu()
+								onOpenMenu()
 								if (!isInputFocus) setIsInputFocus(true)
 								if (focusProps.onFocus) focusProps.onFocus(event)
 							}}
 							id={id}
 							autoFocus={shouldAutofocus}
 							onBlur={(event) => {
-								setInputValue('')
+								resetInputValue() // We always reset the search when exiting the field
+								onResetHighlightedChip() // Exiting the field should reset the selected chip
 								if (isInputFocus) setIsInputFocus(false)
 								if (focusProps.onBlur) focusProps.onBlur(event)
 							}}
 							// We want to close the menu if the user exists using tab
 							onKeyDown={(event) => {
 								if (focusProps.onKeyDown) focusProps.onKeyDown(event)
-								if (isMenuOpen) {
-									switch (event.key) {
-										case 'Tab': {
-											closeMenu()
-											break
-										}
-										case 'Enter': {
-											event.preventDefault()
-											addItem(filteredOptions[highlightedIndex === -1 ? 0 : highlightedIndex])
-											break
-										}
-										case 'ArrowDown': {
-											if (highlightedIndex !== filteredOptions.length) setHighlightedIndex(highlightedIndex + 1)
-											break
-										}
-										case 'ArrowUp': {
-											if (highlightedIndex !== 0) setHighlightedIndex(highlightedIndex - 1)
-											break
-										}
-										case 'ArrowRight': {
-											if (isEmpty(inputValue)) {
-												if (activeIndex === selectedItems.length) {
-													setHighlightedIndex(-1)
-													inputRef.current?.focus()
-												} else if (activeIndex !== -1) setActiveIndex(activeIndex + 1)
-											}
-											break
-										}
-										case 'ArrowLeft': {
-											if (isEmpty(inputValue)) {
-												if (activeIndex === -1) setActiveIndex(selectedItems.length - 1)
-												else if (activeIndex !== 0) setActiveIndex(activeIndex - 1)
-											}
-											break
-										}
-										case 'Backspace': {
-											if (selectedItems.length > 0 && isEmpty(inputValue)) {
-												if (activeIndex !== -1) {
-													removeSelectedItem(selectedItems[activeIndex])
-													setActiveIndex(-1)
-												} else {
-													removeSelectedItem(selectedItems.at(-1)!)
-													setActiveIndex(-1)
-												}
-											}
-											break
-										}
-										default: setActiveIndex(-1)
-									}
-								}
+								handleKeyboardInput(event, {
+									filteredOptions,
+									selectedOptions,
+									highlightedChipIndex,
+									highlightedOptionIndex,
+									inputRef,
+									inputValue,
+									isMenuOpen,
+									onAddChip,
+									onCloseMenu,
+									onRemoveChip,
+									onResetHighlightedChip,
+									onResetHighlightedOption,
+									onSetHighlightedChip,
+									onSetHighlightedOption,
+								})
 							}}
 						/>
 					</div>
@@ -222,18 +224,18 @@ export const MultiSelect = ({
 					isVisible={field.value !== undefined && !isEmpty(field.value)}
 					onClick={() => {
 						reset()
-						setInputValue('')
+						resetInputValue()
 					}}
 				/>
 				<Menu
 					options={filteredOptions}
 					isOpen={isMenuOpen}
-					highlightedIndex={highlightedIndex === -1 ? 0 : highlightedIndex}
+					highlightedOptionIndex={highlightedOptionIndex === -1 ? 0 : highlightedOptionIndex}
 					hasError={hasError}
 					getItemProps={getItemProps}
 					maxOptionsVisible={maxOptionsVisible}
 					containerHeight={containerRef.current?.getBoundingClientRect().height ?? 0}
-					addSelectedItem={addItem}
+					onAddChip={onAddChip}
 					{...getMenuProps()}
 				/>
 			</MenuAnchor>

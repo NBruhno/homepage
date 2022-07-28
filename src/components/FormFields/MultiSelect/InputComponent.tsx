@@ -26,6 +26,10 @@ export const InputComponent = forwardRef<HTMLInputElement, Props>(({ isDisabled,
 				outline: 'none',
 			},
 
+			'&:activer': {
+
+			},
+
 			'::placeholder': {
 				color: hasError ? adjustHsl(theme.color.grayLight, { alpha: 0.65 }) : theme.color.gray,
 			},

@@ -11,12 +11,12 @@ type Props = ComponentPropsWithRef<'div'> & {
 	options: Array<Option>,
 	isOpen: boolean,
 	hasError: boolean,
-	highlightedIndex: number,
+	highlightedOptionIndex: number,
 	selectedItem: Option | null,
 	maxOptionsVisible: number,
 	containerHeight: number,
 	getItemProps: (options: UseComboboxGetItemPropsOptions<Option>) => any,
-	addSelectedItem: (item: Option) => void,
+	onAddChip: (item: Option) => void,
 }
 
 export const Menu = forwardRef<HTMLDivElement, Props>(({
@@ -24,10 +24,10 @@ export const Menu = forwardRef<HTMLDivElement, Props>(({
 	isOpen,
 	hasError,
 	maxOptionsVisible,
-	highlightedIndex,
+	highlightedOptionIndex,
 	containerHeight,
 	getItemProps,
-	addSelectedItem,
+	onAddChip,
 	...rest
 }, ref) => (
 	<div
@@ -63,8 +63,8 @@ export const Menu = forwardRef<HTMLDivElement, Props>(({
 			<Empty>Nothing matches your search</Empty>
 		) : options.slice(0, maxOptionsVisible).map((item, index: number) => (
 			<Item
-				{...getItemProps({ key: `${item.label}-${index}`, index, item, onClick: () => addSelectedItem(item) })}
-				isHighlighted={highlightedIndex === index}
+				{...getItemProps({ key: `${item.label}-${index}`, index, item, onClick: () => onAddChip(item) })}
+				isHighlighted={highlightedOptionIndex === index}
 				key={index}
 			>
 				{item.label}
