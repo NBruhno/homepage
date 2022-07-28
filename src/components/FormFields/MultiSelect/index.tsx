@@ -7,6 +7,7 @@ import { matchSorter } from 'match-sorter'
 import { useRef, useState } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 
+import { delay } from 'lib/delay'
 import { useUnique } from 'lib/hooks'
 
 import { FieldWrapper } from '../FieldWrapper'
@@ -191,7 +192,8 @@ export const MultiSelect = ({
 							}}
 							id={id}
 							autoFocus={shouldAutofocus}
-							onBlur={(event) => {
+							onBlur={async (event) => {
+								await delay(20) // We wait before resetting to make sure if the user clicks the menu, it does not reset before interaction
 								resetInputValue() // We always reset the search when exiting the field
 								onResetHighlightedChip() // Exiting the field should reset the selected chip
 								if (isInputFocus) setIsInputFocus(false)
