@@ -43,7 +43,11 @@ type Props = {
 	maxOptionsVisible?: number,
 }
 
-const getAvailableOptions = (options: Array<Option>, selectedOptions: Array<Option>) => options.filter(({ value }) => !selectedOptions.some((selectedOption) => selectedOption.value === value))
+const getFilteredOptions = (options: Array<Option>, selectedOptions: Array<Option>, inputValue: string) => {
+	const unselectedOptions = options.filter(({ value }) => !selectedOptions.some((selectedOption) => selectedOption.value === value))
+	if (isEmpty(inputValue)) return unselectedOptions
+	return matchSorter(unselectedOptions, inputValue, { keys: ['label'] })
+}
 
 export const MultiSelect = ({
 	showOptionalHint = true, isFullWidth = true, isRequired = false, maxOptionsVisible = 40,
@@ -59,24 +63,22 @@ export const MultiSelect = ({
 	const inputRef = useRef<HTMLInputElement>(null)
 	const initialValues = field.value as Array<Option['value']> | undefined
 
-	const { getDropdownProps, getSelectedItemProps, addSelectedItem, removeSelectedItem, selectedItems, reset } = useMultipleSelection<Option>({
+	const { getDropdownProps, getSelectedItemProps, addSelectedItem, removeSelectedItem, selectedItems, reset, activeIndex, setActiveIndex } = useMultipleSelection<Option>({
 		initialSelectedItems: initialValues ? initialValues.map((initialValue) => options.find(({ value }) => value === initialValue)!) : [],
 		onSelectedItemsChange: ({ selectedItems }) => {
-			if (isEmpty(inputValue)) setFilteredOptions(getAvailableOptions(options, selectedItems ?? []))
-			else setFilteredOptions(matchSorter(getAvailableOptions(options, selectedItems ?? []), inputValue, { keys: ['label'] }))
+			setFilteredOptions(getFilteredOptions(options, selectedItems ?? [], inputValue))
 			if (selectedItems === undefined || selectedItems.length === 0) return field.onChange(undefined)
 			return field.onChange(selectedItems.map(({ value }) => value))
 		},
 	})
 
-	const { isOpen: isMenuOpen, getLabelProps, getMenuProps, highlightedIndex, getItemProps, getInputProps, getComboboxProps, openMenu, closeMenu, setHighlightedIndex } = useCombobox({
+	const { isOpen: isMenuOpen, getLabelProps, getMenuProps, highlightedIndex, getItemProps, getInputProps, getComboboxProps, openMenu, closeMenu, setHighlightedIndex, setInputValue: setInternalInputValue } = useCombobox({
 		id,
 		items: filteredOptions,
 		itemToString: () => '',
 		onInputValueChange: ({ inputValue }) => {
 			setInputValue(inputValue ?? '')
-			if (isEmpty(inputValue) || inputValue === undefined) setFilteredOptions(getAvailableOptions(options, selectedItems))
-			else setFilteredOptions(matchSorter(getAvailableOptions(options, selectedItems), inputValue, { keys: ['label'] }))
+			setFilteredOptions(getFilteredOptions(options, selectedItems, inputValue ?? ''))
 		},
 	})
 
@@ -96,9 +98,9 @@ export const MultiSelect = ({
 
 	const addItem = (item: Option) => {
 		setInputValue('')
+		setInternalInputValue('')
 		addSelectedItem(item)
 		setHighlightedIndex(0)
-		setFilteredOptions(getAvailableOptions(options, selectedItems))
 	}
 
 	return (
@@ -135,6 +137,7 @@ export const MultiSelect = ({
 							<Chip
 								option={item}
 								key={index}
+								isSelected={activeIndex === index}
 								onRemoveChip={removeSelectedItem}
 								{...getSelectedItemProps({ selectedItem: item, index })}
 							/>
@@ -160,14 +163,57 @@ export const MultiSelect = ({
 							}}
 							// We want to close the menu if the user exists using tab
 							onKeyDown={(event) => {
-								if (event.key === 'Tab' && isMenuOpen) closeMenu()
-								if (event.key === 'Enter' && isMenuOpen) {
-									event.preventDefault()
-									addItem(filteredOptions[highlightedIndex === -1 ? 0 : highlightedIndex])
-								}
-								if (event.key === 'ArrowDown' && isMenuOpen && highlightedIndex !== filteredOptions.length) setHighlightedIndex(highlightedIndex + 1)
-								if (event.key === 'ArrowUp' && isMenuOpen && highlightedIndex !== 0) setHighlightedIndex(highlightedIndex - 1)
 								if (focusProps.onKeyDown) focusProps.onKeyDown(event)
+								if (isMenuOpen) {
+									switch (event.key) {
+										case 'Tab': {
+											closeMenu()
+											break
+										}
+										case 'Enter': {
+											event.preventDefault()
+											addItem(filteredOptions[highlightedIndex === -1 ? 0 : highlightedIndex])
+											break
+										}
+										case 'ArrowDown': {
+											if (highlightedIndex !== filteredOptions.length) setHighlightedIndex(highlightedIndex + 1)
+											break
+										}
+										case 'ArrowUp': {
+											if (highlightedIndex !== 0) setHighlightedIndex(highlightedIndex - 1)
+											break
+										}
+										case 'ArrowRight': {
+											if (isEmpty(inputValue)) {
+												if (activeIndex === selectedItems.length) {
+													setHighlightedIndex(-1)
+													inputRef.current?.focus()
+												} else if (activeIndex !== -1) setActiveIndex(activeIndex + 1)
+											}
+											break
+										}
+										case 'ArrowLeft': {
+											if (isEmpty(inputValue)) {
+												if (activeIndex === -1) setActiveIndex(selectedItems.length - 1)
+												else if (activeIndex !== 0) setActiveIndex(activeIndex - 1)
+											}
+											break
+										}
+										case 'Backspace': {
+											if (selectedItems.length > 0 && isEmpty(inputValue)) {
+												if (activeIndex !== -1) {
+													removeSelectedItem(selectedItems[activeIndex])
+													setActiveIndex(-1)
+												} else {
+													removeSelectedItem(selectedItems.at(-1)!)
+													setActiveIndex(-1)
+												}
+											}
+											break
+										}
+										default: setActiveIndex(-1)
+									}
+								}
 							}}
 						/>
 					</div>

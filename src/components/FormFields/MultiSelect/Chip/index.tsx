@@ -10,10 +10,11 @@ import { CloseIcon } from 'components/Icons'
 
 type Props = ComponentPropsWithRef<'div'> & {
 	option: Option,
+	isSelected: boolean,
 	onRemoveChip: (option: Option) => void,
 }
 
-export const Chip = forwardRef<HTMLDivElement, Props>(({ option, onRemoveChip }, ref) => (
+export const Chip = forwardRef<HTMLDivElement, Props>(({ option, onRemoveChip, isSelected }, ref) => (
 	<div
 		css={(theme) => ({
 			borderRadius: '4px',
@@ -37,7 +38,8 @@ export const Chip = forwardRef<HTMLDivElement, Props>(({ option, onRemoveChip },
 				minWidth: 'auto',
 				padding: '3px 2px',
 				borderRadius: '0 4px 4px 0',
-				color: theme.color.gray050,
+				color: isSelected ? theme.color.error : theme.color.gray050,
+				backgroundColor: isSelected ? theme.color.errorBackgroundHover : 'transparent',
 
 				'&:focus:enabled, &:active:enabled': {
 					backgroundColor: 'transparent',
