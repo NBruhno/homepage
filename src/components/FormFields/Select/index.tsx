@@ -4,7 +4,7 @@ import { useCombobox } from 'downshift'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import { matchSorter } from 'match-sorter'
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 
 import { useUnique } from 'lib/hooks'
@@ -50,7 +50,7 @@ export const Select = ({
 	const { formState: { errors }, control } = useFormContext()
 	const [filteredOptions, setFilteredOptions] = useState(options)
 	const { field } = useController({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
-	const inputRef = useRef<HTMLInputElement>(null)
+
 	const { isOpen: isMenuOpen, selectedItem, getLabelProps, getMenuProps, highlightedIndex, getItemProps, getInputProps, getComboboxProps, inputValue, reset, openMenu, closeMenu, setInputValue } = useCombobox({
 		id,
 		initialInputValue: options.find(({ value }) => value === field.value)?.label ?? '',
@@ -94,7 +94,6 @@ export const Select = ({
 					{...getInputProps({
 						name,
 						placeholder,
-						ref: inputRef,
 						onFocus: openMenu,
 						onClick: openMenu,
 					})}
