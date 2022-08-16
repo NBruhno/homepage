@@ -109,11 +109,11 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 		authenticateSystem(req)
 		const { take = 100 } = create(req.query, Query)
 
-		// Get all games in the library that hasn't been updated in the last 24 hours
+		// Get all games in the library that hasn't been updated in the last 2 hours
 		const potentiallyOutdatedGames = await monitorAsync(() => prisma.game.findMany({
 			where: {
 				lastChecked: {
-					lte: sub(Date.now(), { hours: 1 }),
+					lte: sub(Date.now(), { hours: 2 }),
 				},
 			},
 			take,

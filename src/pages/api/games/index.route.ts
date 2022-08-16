@@ -12,7 +12,7 @@ import { monitorAsync } from 'lib/sentryMonitor'
 const Query = object({
 	user: optional(uuid()),
 	search: optional(string()),
-	take: optional(coerce(number(), pattern(string(), /[0-50]/), (value) => parseInt(value, 10))),
+	take: optional(coerce(number(), pattern(string(), /[1-50]/), (value) => parseInt(value, 10))),
 	skip: optional(coerce(number(), pattern(string(), /[0-9]+/), (value) => parseInt(value, 10))),
 	'is-popular': optional(literal('yes')),
 })
