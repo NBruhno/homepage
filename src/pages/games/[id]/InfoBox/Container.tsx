@@ -3,7 +3,8 @@ import type { ComponentPropsWithoutRef } from 'react'
 export const Container = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={(theme) => ({
-			display: 'grid',
+			display: 'flex',
+			flexDirection: 'column',
 			border: `1px solid ${theme.color.gray020}`,
 			maxWidth: '400px',
 			padding: '12px 10px',

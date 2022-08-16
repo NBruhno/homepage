@@ -28,6 +28,11 @@ export const useModal = create(devtools<ModalState>((set, state) => ({
 	content: null,
 	hasNoWrapper: false,
 	onClose: null,
-	onCloseModal: () => state().content ? set({ allowClosure: true, show: false, content: null, hasNoWrapper: false }) : undefined,
-	onOpenModal: (content, options) => set({ show: true, content, ...options }),
+	onCloseModal: () => state().content ? set({
+		allowClosure: true,
+		show: false,
+		content: null,
+		hasNoWrapper: false,
+	}, false, 'onCloseModal') : undefined,
+	onOpenModal: (content, options) => set({ show: true, content, ...options }, false, 'onOpenModal'),
 }), { name: 'useModal' }))

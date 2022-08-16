@@ -6,6 +6,8 @@ import Head from 'next/head'
 
 import { usePage } from 'states/page'
 
+import { PortalTarget } from 'components/Portal'
+
 import { App } from './app'
 
 type Props = AppProps & {
@@ -17,7 +19,7 @@ const MyApp = ({ Component, pageProps, err }: Props) => {
 
 	return (
 		<>
-			<div id='portal' />
+			<PortalTarget />
 			<Head>
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<meta name='sentry-trace' content='{{ span.toSentryTrace() }}' />

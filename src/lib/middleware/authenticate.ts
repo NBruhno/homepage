@@ -12,7 +12,7 @@ import { ApiError } from 'lib/errors'
 import { monitor } from 'lib/sentryMonitor'
 
 export type Options = {
-	/** A token is automatically supplied through the request, but can be supplied manually here. */
+	/** A token is automatically inferred through the request, but can be supplied manually here. */
 	token?: string,
 	/** Switch between authenticating an access, refresh or intermediate token. Defaults to access. */
 	type?: UserTokenType,

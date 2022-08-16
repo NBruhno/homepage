@@ -17,6 +17,7 @@ type Responsive = {
 export type PageState = Responsive & {
 	title: string,
 	theme: 'dark' | 'light',
+	setIsLoading: (isLoading: boolean) => void,
 	setResponsive: (responsiveParams: Partial<Responsive>) => void,
 	setTheme: (theme: PageState['theme']) => void,
 	setTitle: (title: string) => void,
@@ -35,6 +36,7 @@ export const usePage = create(devtools<PageState>((set) => ({
 	showLogin: false,
 	showMenu: false,
 	theme: 'dark',
+	setIsLoading: (isLoading) => set({ isLoading }, false, 'setIsLoading'),
 	setResponsive: (responsiveParams) => set(responsiveParams, false, 'setResponsive'),
 	setTheme: (theme) => set({ theme }, false, 'setTheme'),
 	setTitle: (title) => set({ title }, false, 'setTitle'),

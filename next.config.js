@@ -57,15 +57,19 @@ const nextConfig = {
 		esmExternals: true,
 		images: {
 			allowFutureImage: true,
+			remotePatterns: [
+				{
+					protocol: 'https',
+					hostname: 'images.igdb.com',
+					pathname: '/igdb/image/upload/**',
+					port: '',
+				},
+			],
 		},
 	},
 
 	compiler: {
 		emotion: true,
-	},
-
-	images: {
-		domains: ['images.igdb.com'],
 	},
 
 	devIndicators: {

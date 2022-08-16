@@ -31,11 +31,13 @@ export const useSnackbar = create(devtools<SnackbarState>((set, state) => ({
 				createdAt: new Date(),
 			},
 		],
-	}),
+	}, false, 'addSnackbar'),
 	removeOutdatedSnackbars: () => {
 		const { snackbars } = state()
 		if (snackbars.length > 0) {
-			set({ snackbars: snackbars.filter(({ createdAt, duration = 5 }) => differenceInMilliseconds(new Date(), createdAt) <= duration * 1000) })
+			set({
+				snackbars: snackbars.filter(({ createdAt, duration = 5 }) => differenceInMilliseconds(new Date(), createdAt) <= duration * 1000),
+			}, false, 'removeOutdatedSnackbars')
 		}
 	},
 }), { name: 'useSnackbar' }))

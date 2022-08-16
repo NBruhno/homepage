@@ -1,7 +1,7 @@
 import { useResponsive } from 'states/page'
 import { useAuth, useUser } from 'states/users'
 
-import { ButtonText as DefaultButtonText } from 'components/Buttons'
+import { ButtonText } from 'components/Buttons'
 import { LoginIcon, LogoutIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
@@ -12,7 +12,7 @@ export const ButtonAuthenticate = () => {
 
 	return (
 		<Tooltip show={isSidebarCollapsed && !isMobile} tip={accessToken ? 'Logout' : 'Login'} position='right'>
-			<DefaultButtonText
+			<ButtonText
 				css={{ margin: '4px 12px', height: '35px' }}
 				onClick={async () => {
 					if (accessToken) await onLogout()
@@ -23,17 +23,21 @@ export const ButtonAuthenticate = () => {
 						css={(theme) => ({
 							display: 'flex',
 							alignItems: 'center',
+							columnGap: '12px',
 							height: '20px',
 							color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,
+							fontSize: theme.font.size.s90,
 						})}
 					>
 						{accessToken ? (
 							<>
-								<LogoutIcon css={{ marginRight: '12px' }} />Logout
+								<LogoutIcon />
+								<span>Logout</span>
 							</>
 						) : (
 							<>
-								<LoginIcon css={{ marginRight: '12px' }} />Login
+								<LoginIcon />
+								<span>Login</span>
 							</>
 						)}
 					</div>

@@ -12,16 +12,6 @@
       }
     },
     {
-      "label": "PlanetScale shadow database",
-      "type": "shell",
-      "command": "pscale connect main shadow --port 3310 --debug",
-      "presentation": {
-        "panel": "dedicated",
-        "reveal": "always",
-        "group": "database"
-      }
-    },
-    {
       "label": "Prisma studio",
       "type": "shell",
       "command": "prisma studio",
@@ -38,7 +28,6 @@
       "type": "process",
       "dependsOn": [
         "PlanetScale main database",
-        "PlanetScale shadow database",
         "Prisma studio"
       ],
       "dependsOrder": "parallel",

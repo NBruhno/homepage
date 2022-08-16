@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import type { DeepPartial, FieldPath, FieldPathValue, UseFormReturn, ValidationMode } from 'react-hook-form'
+import type { DeepPartial, FieldPath, FieldPathValue, FieldValues, UseFormReturn, ValidationMode } from 'react-hook-form'
 import type { Struct } from 'superstruct'
 import type { AnyStruct, StructSchema } from 'superstruct/lib/utils'
 import type { Promisable } from 'type-fest'
@@ -15,7 +15,7 @@ import { useFormStore } from 'states/page'
 
 import { inferFieldType } from './inferFieldType'
 
-type RenderProps<T> = UseFormReturn<T, object> & {
+type RenderProps<T extends FieldValues> = UseFormReturn<T, object> & {
 	/** A type-safe way to add a name to a field. Checks if the field name exists in the provided model */
 	name: (name: FieldPath<T>) => keyof T,
 	fieldProps: (name: FieldPath<T>) => {
@@ -25,7 +25,7 @@ type RenderProps<T> = UseFormReturn<T, object> & {
 	},
 }
 
-type Props<T> = {
+type Props<T extends FieldValues> = {
 	/** The name of the form should match the available `Forms` defined in `states/page/useFormStore` */
 	name?: keyof Forms,
 	/**
@@ -82,9 +82,9 @@ type Props<T> = {
  *
  * <Form<Model>
  * 	onSubmit={(fields) => console.log(fields)}
- * 	render={({ register, name }) => (
+ * 	render={({ fieldProps, name }) => (
  * 		<>
- * 			<input {...register('text')} />
+ * 			<input {...fieldProps('text')} />
  * 			<Input name={name('number')} type='number' label='Number' />
  * 			<button type='submit'>Submit</button>
  * 		</>
@@ -92,7 +92,7 @@ type Props<T> = {
  * />
  * ```
  */
-export const Form = <T extends Record<string, any>>({
+export const Form = <T extends FieldValues>({
 	name, render, onSubmit, schema, validationMode = 'onSubmit', initialValues,
 	shouldPersistStateOnChange = false, shouldPersistStateOnSubmit = false, shouldResetStateOnUnMount = false,
 	shouldResetStateOnSubmitSuccess = false, shouldUpdateFieldsOnStateChange = false,

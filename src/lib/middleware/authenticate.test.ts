@@ -10,7 +10,7 @@ import { authenticate } from './authenticate'
 
 const defaultPayload = { sub: 'mail+test@bruhno.dev', displayName: 'Test', role: UserRole.User }
 
-describe('/api/middleware/authenticate', () => {
+describe('/lib/middleware/authenticate', () => {
 	test('Authenticate › Valid token', async () => {
 		const accessToken = getJwtToken({ ...defaultPayload })
 		const { req } = createHttpMock({

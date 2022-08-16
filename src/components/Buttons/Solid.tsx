@@ -17,7 +17,6 @@ export const ButtonSolid = forwardRef<HTMLButtonElement, Props>(({ color, backgr
 			backgroundColor: backgroundColor ? theme.color[backgroundColor] : theme.color.primary,
 			borderRadius: '4px',
 			color: color ? theme.color.textInverted : theme.color.black,
-			transition: `background 800ms ${theme.animation.default}`,
 
 			'&:disabled': {
 				color: theme.color.gray040,

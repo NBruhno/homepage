@@ -24,19 +24,19 @@ export const Container = forwardRef<HTMLDivElement, Props>(({ ratingLevel, ...re
 			fontFamily: theme.font.family.poppins,
 			height: '36px',
 			justifyContent: 'space-between',
-			width: '88px',
+			width: '96px',
 
 			'> div': {
 				textAlign: 'center',
 				lineHeight: '100%',
-				width: '21px',
+				width: '19px',
 
 				'&:first-of-type': {
-					paddingLeft: '12px',
+					paddingLeft: '16px',
 				},
 
 				'&:last-of-type': {
-					paddingRight: '12px',
+					paddingRight: '16px',
 				},
 			},
 		})}

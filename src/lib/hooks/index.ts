@@ -1,3 +1,4 @@
+export { useDebounce } from './useDebounce'
 export { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect'
 export { useSize } from './useSize'
 export { useSizeEffect } from './useSizeEffect'

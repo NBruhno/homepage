@@ -22,6 +22,7 @@ export const NavLink = forwardRef<HTMLAnchorElement, Props>(({ isActive, ...rest
 			fontFamily: theme.font.family.poppins,
 			fontSize: theme.font.size.s90,
 			display: 'flex',
+			columnGap: '12px',
 
 			'&:hover, &:focus': {
 				backgroundColor: isActive ? adjustHsl(theme.color.primary, { alpha: 0.8 }) : adjustHsl(theme.color.primary, { alpha: 0.4 }),
