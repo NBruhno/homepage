@@ -193,7 +193,6 @@ export const MultiSelect = ({
 							id={id}
 							autoFocus={shouldAutofocus}
 							onBlur={async (event) => {
-								await delay(20) // We wait before resetting to make sure if the user clicks the menu, it does not reset before interaction
 								resetInputValue() // We always reset the search when exiting the field
 								onResetHighlightedChip() // Exiting the field should reset the selected chip
 								if (isInputFocus) setIsInputFocus(false)
