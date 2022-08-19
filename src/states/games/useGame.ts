@@ -1,4 +1,4 @@
-import type { GameExtended, GamePrice } from 'types'
+import type { GameExtended, GameNews, GamePrice } from 'types'
 
 import { useState, useEffect } from 'react'
 import useSWR from 'swr'
@@ -7,6 +7,7 @@ import { useLoading } from 'states/page'
 import { useUser } from 'states/users'
 
 import { fetcher, Method } from 'lib/fetcher'
+import { getSteamAppId } from 'lib/getSteamAppId'
 
 type Props = {
 	id: string,
@@ -22,9 +23,13 @@ export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 	const { data: gamePricing } = useSWR<{ prices: Array<GamePrice> }>(id && game?.name
 		? `/games/${id}/prices?name=${encodeURIComponent(game.name)}`
 		: null, null, { fallbackData: initialPrices ? { prices: initialPrices } : undefined })
-	const { data: followingData } = useSWR<{ isFollowing: boolean }>((id && accessToken)
-		? `/games/${id}/follows`
+	const steamAppId = getSteamAppId(game?.websites)
+	const { data: userData } = useSWR<{ isFollowing: boolean, isInSteamLibrary: boolean }>((id && accessToken)
+		? `/games/${id}/user-status`
 		: null, (link: string) => fetcher(link, { accessToken }))
+	const { data: gameNews } = useSWR<GameNews>(id && steamAppId
+		? `/games/${id}/news?steam-app-id=${encodeURIComponent(steamAppId)}`
+		: null, null)
 	useLoading(Boolean(!game) && Boolean(!initialGame))
 
 	const onFollow = async () => {
@@ -37,7 +42,7 @@ export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 		if (response.message) setIsFollowing(false)
 	}
 
-	useEffect(() => setIsFollowing(followingData?.isFollowing), [followingData?.isFollowing])
+	useEffect(() => setIsFollowing(userData?.isFollowing), [userData?.isFollowing])
 
-	return { game, prices: gamePricing?.prices, isFollowing, onFollow, onUnfollow }
+	return { game, prices: gamePricing?.prices, gameNews, isFollowing, isInSteamLibrary: Boolean(userData?.isInSteamLibrary), onFollow, onUnfollow }
 }

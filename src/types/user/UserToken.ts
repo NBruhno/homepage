@@ -15,4 +15,5 @@ export type UserToken = {
 	sub: string,
 	typ: UserTokenType,
 	userId: string,
+	steamId: string | null,
 }

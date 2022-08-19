@@ -26,11 +26,10 @@ export type Options = {
  * An authenticator for JWT tokens created by getJwtToken(). It's possible to further configure the function by supplying
  * the available options as the third parameter. This function can check both access, refresh and intermediate tokens.
  * @param req - The request object
- * @param res - The response object
  * @param options - A set options for the authenticator. This is optional
  * @example
  * ```tsx
- * const token = authenticate(req, res, { transaction })
+ * const token = authenticate(req, { transaction })
  * ```
  */
 export const authenticate = (req: NextApiRequest,
@@ -84,7 +83,7 @@ export const authenticate = (req: NextApiRequest,
  * If valid it will return `true`, otherwise it will throw an `ApiError` `401`.
  * @example
  * ```ts
- * authenticateSystem(req, res)
+ * authenticateSystem(req)
  * ```
  */
 export const authenticateSystem = (req: NextApiRequest) => {

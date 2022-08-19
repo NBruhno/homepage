@@ -1,0 +1,1 @@
+export { endpointFollowingGames } from './followingGames'

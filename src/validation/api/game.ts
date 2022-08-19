@@ -66,9 +66,9 @@ export const game = object({
 	publishers: optional(array(company)),
 	rating: optional(number()),
 	ratingCount: optional(number()),
-	releaseDate: optional(string()),
+	releaseDate: nullable(string()),
 	releaseDates: optional(array(object({
-		date: optional(string()),
+		date: nullable(string()),
 		platform,
 	}))),
 	screenshot: optional(string()),

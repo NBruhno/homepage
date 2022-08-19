@@ -10,23 +10,10 @@ const Query = object({
 })
 
 const handler = apiHandler({
-	validMethods: ['GET', 'POST'],
+	validMethods: ['POST'],
 	cacheStrategy: 'NoCache',
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/follows`,
 })
-	.get(async (req, res) => {
-		const { userId } = authenticate(req)
-		const { id } = create(req.query, Query)
-
-		const userData = await monitorAsync(() => prisma.gameUserData.findFirst({
-			where: {
-				gameId: id,
-				ownerId: userId,
-			},
-		}), 'db:prisma', 'findFirst()')
-
-		return res.status(200).json({ isFollowing: Boolean(userData?.isFollowing) })
-	})
 	.post(async (req, res) => {
 		const { userId } = authenticate(req)
 		const { id } = create(req.query, Query)
