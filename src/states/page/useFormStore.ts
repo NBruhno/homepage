@@ -32,4 +32,4 @@ export const useFormStore = create(devtools<FormState>((set, state) => ({
 	...initialValues,
 	setFormState: (name, formState) => !isEqual(state()[name], formState) && set({ [name]: formState }, false, 'setFormState'),
 	resetFormState: (name) => !isEqual(state()[name], initialValues) && set({ [name]: initialValues[name] }, false, 'resetFormState'),
-}), { name: 'useFormStore' }))
+}), { anonymousActionType: 'useFormStore' }))

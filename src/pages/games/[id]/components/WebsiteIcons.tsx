@@ -38,8 +38,7 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 		<div
 			css={(theme) => ({
 				gridGap: '6px',
-				display: 'grid',
-				gridTemplateColumns: `repeat(auto-fill, 34px)`,
+				display: 'flex',
 				overflow: 'hidden',
 
 				[theme.mediaQueries.maxMobile]: {

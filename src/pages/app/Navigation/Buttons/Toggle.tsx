@@ -3,11 +3,13 @@ import { useResponsive } from 'states/page'
 import { ButtonIcon } from 'components/Buttons'
 import { ChevronFlip } from 'components/ChevronFlip'
 
+import { Separator } from '../Separator'
+
 export const ButtonToggle = () => {
 	const { isSidebarCollapsed, setResponsiveState } = useResponsive()
 	return (
 		<>
-			<div css={(theme) => ({ borderTop: `1px solid ${theme.color.sidebarBorder}` })} />
+			<Separator isSlim />
 			<ButtonIcon
 				css={{
 					margin: '6px 12px',

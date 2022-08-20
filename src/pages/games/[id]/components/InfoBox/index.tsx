@@ -2,12 +2,12 @@ import type { GameDefaultEntity, GameMultiplayerMode, GamePlatform, GameReleaseD
 
 import { formatRelative, parseISO } from 'date-fns'
 import { enGB } from 'date-fns/locale'
-import { Fragment } from 'react'
 
 import { Placeholder } from 'components/Placeholder'
+import { Tooltip } from 'components/Tooltip'
 
-import { dateOrYear } from '../../dateOrYear'
-import { groupByReleaseDate } from '../../groupByReleaseDate'
+import { dateOrYear } from '../../../dateOrYear'
+import { groupByReleaseDate } from '../../../groupByReleaseDate'
 
 import { Container } from './Container'
 import { Title } from './Title'
@@ -39,6 +39,7 @@ export const InfoBox = ({
 	createdAt, updatedAt, lastChecked,
 }: Props) => {
 	const groupedReleaseDates = groupByReleaseDate(releaseDates, ({ date }) => date, releaseDate)
+	const listFormatter = new Intl.ListFormat('en-DK', { style: 'short', type: 'conjunction' })
 
 	const hasGenres = genres.length > 0
 	const hasThemes = themes.length > 0
@@ -68,7 +69,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='70%'>
-								{genres.map(({ name }) => name).join(', ')}
+								{listFormatter.format(genres.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -80,7 +81,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='65%'>
-								{themes.map(({ name }) => name).join(', ')}
+								{listFormatter.format(themes.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -92,7 +93,9 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='75%'>
-								{platforms.map(({ name }) => name).join(', ')}
+								<Tooltip tip={listFormatter.format(platforms.map(({ name }) => name))}>
+									<span>{listFormatter.format(platforms.map(({ abbreviation }) => abbreviation))}</span>
+								</Tooltip>
 							</Placeholder>
 						</div>
 					)}
@@ -104,7 +107,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='70%'>
-								{modes.map(({ name }) => name).join(', ')}
+								{listFormatter.format(modes.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -116,7 +119,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='65%'>
-								{franchises.map(({ name }) => name).join(', ')}
+								{listFormatter.format(franchises.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -128,7 +131,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='75%'>
-								{engines.map(({ name }) => name).join(', ')}
+								{listFormatter.format(engines.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -144,7 +147,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='70%'>
-								{developers.map(({ name }) => name).join(', ')}
+								{listFormatter.format(developers.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -156,7 +159,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='65%'>
-								{publishers.map(({ name }) => name).join(', ')}
+								{listFormatter.format(publishers.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -168,7 +171,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='75%'>
-								{supporters.map(({ name }) => name).join(', ')}
+								{listFormatter.format(supporters.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -180,7 +183,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='70%'>
-								{porters.map(({ name }) => name).join(', ')}
+								{listFormatter.format(porters.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -199,7 +202,7 @@ export const InfoBox = ({
 								<ul css={(theme) => ({ paddingLeft: '20px', margin: 0, color: theme.color.textFaded })}>
 									{groupedReleaseDates.map(({ date, platforms }, index) => (
 										<li key={index}>
-											<span css={(theme) => ({ color: theme.color.text })}>{dateOrYear(date)}: {platforms.join(', ')}</span>
+											<span css={(theme) => ({ color: theme.color.text })}>{dateOrYear(date)}: {listFormatter.format(platforms)}</span>
 										</li>
 									))}
 								</ul>
@@ -214,7 +217,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='75%'>
-								{playerPerspectives.map(({ name }) => name).join(', ')}
+								{listFormatter.format(playerPerspectives.map(({ name }) => name))}
 							</Placeholder>
 						</div>
 					)}
@@ -227,8 +230,21 @@ export const InfoBox = ({
 							</Title>
 							<Placeholder lines={6}>
 								{multiplayerModes.map(({ platform, hasCampaignCoop, hasDropIn, hasLanCoop, hasOfflineCoop, hasOnlineCoop, hasOnlineSplitScreen, hasSplitScreen }, index) => (
-									<Fragment key={index}>
-										{platform && <h4>{platform.name}</h4>}
+									<div
+										css={(theme) => ({
+											marginBottom: '12px',
+											paddingBottom: '12px',
+											borderBottom: `1px solid ${theme.color.gray020}`,
+
+											':last-of-type': {
+												borderBottom: 'none',
+												paddingBottom: 0,
+												marginBottom: 0,
+											},
+										})}
+										key={index}
+									>
+										{platform && <h4 css={(theme) => ({ marginTop: '16px', marginBottom: '6px', color: theme.color.textFaded })}>{platform.name}</h4>}
 										<div>Has online coop: {hasOnlineCoop === true ? 'Yes' : 'No'}</div>
 										<div>Has campaign coop: {hasCampaignCoop === true ? 'Yes' : 'No'}</div>
 										<div>Has offline coop: {hasOfflineCoop === true ? 'Yes' : 'No'}</div>
@@ -236,7 +252,7 @@ export const InfoBox = ({
 										<div>Has split screen: {hasSplitScreen === true ? 'Yes' : 'No'}</div>
 										<div>Has online split screen: {hasOnlineSplitScreen === true ? 'Yes' : 'No'}</div>
 										<div>Has drop in: {hasDropIn === true ? 'Yes' : 'No'}</div>
-									</Fragment>
+									</div>
 								))}
 							</Placeholder>
 						</div>

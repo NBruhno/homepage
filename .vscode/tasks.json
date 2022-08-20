@@ -8,17 +8,7 @@
       "presentation": {
         "panel": "dedicated",
         "reveal": "always",
-        "group": "database"
-      }
-    },
-    {
-      "label": "PlanetScale shadow database",
-      "type": "shell",
-      "command": "pscale connect main shadow --port 3310 --debug",
-      "presentation": {
-        "panel": "dedicated",
-        "reveal": "always",
-        "group": "database"
+        "group": "development"
       }
     },
     {
@@ -28,7 +18,18 @@
       "presentation": {
         "panel": "dedicated",
         "reveal": "always",
-        "group": "database"
+        "group": "development"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Dev server",
+      "type": "shell",
+      "command": "pnpm dev",
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "development"
       },
       "problemMatcher": []
     },
@@ -38,7 +39,21 @@
       "type": "process",
       "dependsOn": [
         "PlanetScale main database",
-        "PlanetScale shadow database",
+        "Prisma studio"
+      ],
+      "dependsOrder": "parallel",
+      "runOptions": {
+        "runOn": "default"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start development services",
+      "command": "",
+      "type": "process",
+      "dependsOn": [
+        "Dev server",
+        "PlanetScale main database",
         "Prisma studio"
       ],
       "dependsOrder": "parallel",

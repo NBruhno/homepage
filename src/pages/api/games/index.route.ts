@@ -12,7 +12,7 @@ import { monitorAsync } from 'lib/sentryMonitor'
 const Query = object({
 	user: optional(uuid()),
 	search: optional(string()),
-	take: optional(coerce(number(), pattern(string(), /[0-50]/), (value) => parseInt(value, 10))),
+	take: optional(coerce(number(), pattern(string(), /[1-50]/), (value) => parseInt(value, 10))),
 	skip: optional(coerce(number(), pattern(string(), /[0-9]+/), (value) => parseInt(value, 10))),
 	'is-popular': optional(literal('yes')),
 })
@@ -40,7 +40,9 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 						some: { ownerId: user, isFollowing: true },
 					},
 				},
-				orderBy: { releaseDate: 'asc' },
+				orderBy: {
+					releaseDate: { sort: 'asc', nulls: 'last' },
+				},
 				take: computedTake,
 				skip: computedSkip,
 				select: {
@@ -73,9 +75,16 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 			: await monitorAsync(() => prisma.game.findMany({
 				orderBy: [{ hype: 'desc' }, { releaseDate: 'asc' }],
 				where: {
-					releaseDate: {
-						gte: twoMonthsBackDate,
-					},
+					OR: [
+						{
+							releaseDate: {
+								gte: twoMonthsBackDate,
+							},
+						},
+						{
+							releaseDate: null,
+						},
+					],
 					hype: isPopular === 'yes' ? {
 						gt: 0,
 					} : undefined,

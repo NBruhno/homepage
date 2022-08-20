@@ -5,7 +5,7 @@ import { parseHeaders, refreshTokenMatch, createHttpMock } from 'lib/test'
 
 import { setRefreshCookie, removeRefreshCookie } from './cookies'
 
-describe('/api/middleware/cookie', () => {
+describe('/lib/middleware/cookie', () => {
 	test('setRefreshCookie › Set cookie', async () => {
 		const { res } = createHttpMock()
 

@@ -30,12 +30,13 @@ export const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCa
 				passwordHash: true,
 				role: true,
 				twoFactorSecret: true,
+				steamId: true,
 				username: true,
 			},
 		}), 'db:prisma', 'findUnique()')
 
 		if (!user) throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
-		const { id, email, role, passwordHash, twoFactorSecret, username } = user
+		const { id, email, role, passwordHash, twoFactorSecret, username, steamId } = user
 
 		if (!await monitorAsync(async () => verify(passwordHash, password, argonDefaultOptions), 'argon2', 'verify()')) {
 			throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
@@ -48,8 +49,8 @@ export const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCa
 
 			return res.status(200).json({ intermediateToken })
 		} else {
-			const accessToken = getJwtToken({ sub: email, username, role, userId: id })
-			const refreshToken = getJwtToken({ sub: email, username, role, userId: id }, { type: UserTokenType.Refresh })
+			const accessToken = getJwtToken({ sub: email, username, role, userId: id, steamId })
+			const refreshToken = getJwtToken({ sub: email, username, role, userId: id, steamId }, { type: UserTokenType.Refresh })
 			setRefreshCookie(res, refreshToken)
 
 			return res.status(200).json({ accessToken })

@@ -5,9 +5,8 @@ import { usePage } from './usePage'
 export type Loading = boolean
 
 export const useLoading = (shouldLoad?: boolean) => {
-	const { isLoading, setResponsive } = usePage((state) => ({ isLoading: state.isLoading, setResponsive: state.setResponsive }))
-
-	const setIsLoading = (isLoading: boolean) => setResponsive({ isLoading })
+	const isLoading = usePage((state) => state.isLoading)
+	const setIsLoading = usePage((state) => state.setIsLoading)
 
 	useEffect(() => {
 		if (shouldLoad !== undefined && shouldLoad !== isLoading) setIsLoading(shouldLoad)

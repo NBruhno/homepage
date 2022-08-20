@@ -1,5 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { getYear } from 'date-fns'
+
 import { GitHubIcon, GitLabIcon, MailIcon, LinkedInIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
@@ -46,7 +48,7 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 		</SocialList>
 		<div css={{ opacity: 0.7 }}>
 			<small>
-				Copyright © 2010 Bruhno. All rights reserved.
+				Copyright © {getYear(new Date())} Bruhno. All rights reserved.
 			</small>
 		</div>
 	</Container>

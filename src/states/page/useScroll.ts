@@ -32,7 +32,7 @@ export const useScrollStore = create(devtools<PageScrollState>((set) => ({
 	windowScrollX: 0,
 	windowScrollY: 0,
 	setScrollState: (scrollState) => set(scrollState),
-}), { name: 'useScrollStore' }))
+}), { anonymousActionType: 'useScrollStore' }))
 
 const emptyRect = {
 	bottom: 0,

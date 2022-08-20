@@ -28,7 +28,7 @@ export const Tooltip = ({
 	timeToHover = 300,
 	...rest
 }: Props & Record<string, any>) => {
-	const contentRef = useRef<HTMLDivElement>(null)
+	const contentRef = useRef<HTMLUnknownElement>(null)
 	const windowScrollX = useScrollStore((state) => state.scrollX)
 	const windowScrollY = useScrollStore((state) => state.scrollY)
 	const { hoverProps, isHovered } = useHover({})
@@ -48,6 +48,7 @@ export const Tooltip = ({
 		}
 	}, undefined)
 	const defaultTooltipProps = { isHovered, position, timeToHover, childRect }
+	const defaultChildProps = { ref: contentRef, ...hoverProps, ...rest }
 
 	return (
 		<>
@@ -63,7 +64,7 @@ export const Tooltip = ({
 					if (isValidElement(child)) {
 						return (
 							<Fragment key={index}>
-								{cloneElement(child, { ref: contentRef, ...hoverProps, ...rest, key: index })}
+								{cloneElement(child, { ...defaultChildProps, key: index })}
 							</Fragment>
 						)
 					}

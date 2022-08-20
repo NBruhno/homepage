@@ -22,19 +22,20 @@ import { Tooltip } from 'components/Tooltip'
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
 
-import { Grid } from './Grid'
-import { Background } from './Header/Background'
-import { BackgroundWrapper } from './Header/BackgroundWrapper'
-import { Developer } from './Header/Developer'
-import { ReleaseDate } from './Header/ReleaseDate'
-import { Title } from './Header/Title'
-import { InfoBox } from './InfoBox'
-import { PriceTable } from './PriceTable'
-import { Rating } from './Rating'
-import { SimilarGames } from './SimilarGames'
-import { VideoTabs } from './VideoTabs'
-import { WebsiteIcons } from './WebsiteIcons'
-import { Wrapper } from './Wrapper'
+import { Grid } from './components/Grid'
+import { Background } from './components/Header/Background'
+import { BackgroundWrapper } from './components/Header/BackgroundWrapper'
+import { Developer } from './components/Header/Developer'
+import { ReleaseDate } from './components/Header/ReleaseDate'
+import { Title } from './components/Header/Title'
+import { InfoBox } from './components/InfoBox'
+import { News } from './components/News'
+import { PriceTable } from './components/PriceTable'
+import { Rating } from './components/Rating'
+import { SimilarGames } from './components/SimilarGames'
+import { VideoTabs } from './components/VideoTabs'
+import { WebsiteIcons } from './components/WebsiteIcons'
+import { Wrapper } from './components/Wrapper'
 
 type State = {
 	game: GameExtended | null,
@@ -116,7 +117,7 @@ export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
 
 const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ game: incomingGame, prices: incomingPrices }) => {
 	const { query } = useRouter()
-	const { game, prices, isFollowing, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined, initialPrices: incomingPrices ?? undefined })
+	const { game, prices, gameNews, isFollowing, isInSteamLibrary, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined, initialPrices: incomingPrices ?? undefined })
 	const accessToken = useUser((state) => state.accessToken)
 	const { isMobile } = useResponsive()
 	const { isLoading } = useLoading()
@@ -158,7 +159,7 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 				</GridContainer>
 				<GridContainer
 					name='actions'
-					css={{ display: 'grid', alignItems: 'center', columnGap: '12px', gridTemplateColumns: isMobile ? 'min-content min-content' : 'min-content min-content 1fr' }}
+					css={{ display: 'flex', alignItems: 'center', columnGap: '12px', justifyContent: isMobile ? 'center' : 'flex-start' }}
 				>
 					<Tooltip tip='You need to be logged in' show={!accessToken}>
 						<ButtonSolid
@@ -168,11 +169,17 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 							isLoading={isLoading}
 						/>
 					</Tooltip>
-					{!isMobile && <Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} />}
+					<Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} />
+					{isInSteamLibrary && (
+						<Tooltip tip='You already own this game on Steam'>
+							<div css={(theme) => ({ backgroundColor: theme.color.sidebarBackground, padding: '5px 16px', borderRadius: '4px' })}>
+								In library
+							</div>
+						</Tooltip>
+					)}
 					{!isMobile && <WebsiteIcons websites={game?.websites ?? []} />}
 				</GridContainer>
-				<GridContainer name='websites' shouldShow={isMobile} css={{ display: 'grid', gridTemplateColumns: 'auto 1fr', justifyContent: 'space-around' }}>
-					<Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} />
+				<GridContainer name='websites' shouldShow={isMobile} css={{ margin: '0 auto' }}>
 					<WebsiteIcons websites={game?.websites ?? []} />
 				</GridContainer>
 				<GridContainer name='priceTable'>
@@ -236,6 +243,16 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 						</h2>
 					)}
 					<VideoTabs videos={game?.videos} />
+					{gameNews && (
+						<>
+							<h2>
+								<Placeholder width='25%'>
+									Latest news
+								</Placeholder>
+							</h2>
+							<News {...gameNews} />
+						</>
+					)}
 				</GridContainer>
 				<GridContainer name='similarGames'>
 					<SimilarGames similarGames={game?.similarGames ?? []} />

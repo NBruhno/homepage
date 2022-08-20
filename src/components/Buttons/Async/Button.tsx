@@ -21,7 +21,7 @@ export const Button = forwardRef<HTMLButtonElement, Props>(({ isVisible, isFullW
 			height: '36px',
 			maxWidth: '100%',
 			minWidth: '60px',
-			padding: '5px 30px',
+			padding: '5px 16px',
 			position: 'relative',
 			textAlign: 'center',
 			touchAction: 'manipulation',

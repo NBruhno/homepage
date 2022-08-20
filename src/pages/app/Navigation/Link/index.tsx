@@ -44,7 +44,7 @@ export const Link = forwardRef<HTMLAnchorElement, Props>(({ url, Icon, name, isA
 					isActive={isActive ?? pathname === url}
 					ref={ref}
 				>
-					<Icon title={name} size={22} css={{ marginRight: '12px' }} /><Text>{name}</Text>
+					<Icon title={name} size={22} /><Text>{name}</Text>
 				</NavLink>
 			</Tooltip>
 		</NextLink>

@@ -58,7 +58,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 				gridTemplateColumns: 'auto auto',
 				gridTemplate: `
 					"cover headlines" 1fr
-					"cover actions" auto
+					"actions actions" auto
 					"websites websites" auto
 					"priceTable priceTable" auto
 					"content content" auto

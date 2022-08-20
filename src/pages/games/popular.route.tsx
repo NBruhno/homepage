@@ -26,7 +26,6 @@ type State = {
 export const getStaticProps: GetStaticProps<State> = async () => {
 	try {
 		const { games } = await fetcher<{ games: Array<GameSimple>, skip: number, take: number, before: GameSimple | null, after: GameSimple | null }>(`/games?is-popular=yes`, { absoluteUrl: config.staticHost })
-
 		const extendedGames = await Promise.all(games.map(async (game): Promise<GameSimpleExtended> => {
 			const { img, base64 } = game.cover ? await getPlaiceholder(game.cover) : { img: null, base64: null }
 			return ({

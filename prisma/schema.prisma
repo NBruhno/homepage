@@ -1,13 +1,12 @@
 datasource db {
   provider             = "mysql"
   url                  = env("DATABASE_URL")
-  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
   referentialIntegrity = "prisma"
 }
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity"]
+  previewFeatures = ["referentialIntegrity", "orderByNulls"]
 }
 
 model GameUserData {
@@ -97,6 +96,7 @@ model User {
   gameUserData    GameUserData[]
   passwordHash    String
   role            UserRole       @default(User)
+  steamId         String?
   twoFactorSecret String?        @db.Char(64)
   username        String
   createdAt       DateTime       @default(now())

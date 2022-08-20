@@ -17,7 +17,7 @@ export const FieldContainer = forwardRef<HTMLDivElement, Props>(({ hasError, isD
 		css={(theme) => ([
 			DefaultInputStyle({ theme, hasError, isDisabled, isFocusVisible, isHovered }),
 			{
-				cursor: 'pointer',
+				cursor: 'text',
 			},
 			isFocus ? {
 				borderColor: hasError ? theme.color.error : theme.color.primary,

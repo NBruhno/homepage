@@ -31,7 +31,7 @@ export const usePopularGamesStore = create(devtools<PopularGamesState>((set) => 
 	setGameData: (gameData) => set(gameData, false, 'setGameData'),
 	setPageData: (pageData) => set(pageData, false, 'setPageData'),
 	setIsLimitReached: (isLimitReached) => set({ isLimitReached }, false, 'setIsLimitReached'),
-}), { name: 'usePopularGamesStore' }))
+}), { anonymousActionType: 'usePopularGamesStore' }))
 
 export const usePopularGames = (newSkip = 0) => {
 	const { data } = useSWR<{ games: Array<GameSimple>, skip: number, take: number, before: GameSimple | null, after: GameSimple | null }>(
@@ -42,7 +42,7 @@ export const usePopularGames = (newSkip = 0) => {
 
 	const setGameData = usePopularGamesStore((state) => state.setGameData)
 
-	useLoading(Boolean(!data))
+	const { setIsLoading } = useLoading()
 	useEffect(() => {
 		setGameData({
 			games: data?.games,
@@ -50,6 +50,7 @@ export const usePopularGames = (newSkip = 0) => {
 			before: data?.before,
 			isLimitReached: data?.after === null,
 		})
+		setIsLoading(Boolean(!data))
 	}, [data, setGameData])
 
 	return {

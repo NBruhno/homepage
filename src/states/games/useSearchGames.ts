@@ -23,7 +23,7 @@ type SearchGamesState = {
 export const useSearchGamesStore = create(devtools<SearchGamesState>((set) => ({
 	hasSearch: false,
 	setHasSearch: (hasSearch) => set({ hasSearch }, false, 'setHasSearch'),
-}), { name: 'useSearchGamesStore' }))
+}), { anonymousActionType: 'useSearchGamesStore' }))
 
 export const useSearchGames = () => {
 	const router = useRouter()

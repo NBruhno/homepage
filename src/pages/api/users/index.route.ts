@@ -36,8 +36,8 @@ const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			}), 'db:prisma', 'create()')
 
 			setUser({ id: user.id, username: user.username, email: user.email })
-			const accessToken = getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id })
-			const refreshToken = getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id }, { type: UserTokenType.Refresh })
+			const accessToken = getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id, steamId: user.steamId })
+			const refreshToken = getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id, steamId: user.steamId }, { type: UserTokenType.Refresh })
 			setRefreshCookie(res, refreshToken)
 
 			return res.status(200).json({ accessToken })

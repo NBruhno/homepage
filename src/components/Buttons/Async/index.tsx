@@ -1,7 +1,6 @@
 import type { ReactNode, MouseEvent, ComponentPropsWithoutRef } from 'react'
 import type { Promisable } from 'type-fest'
 
-import isFunction from 'lodash/isFunction'
 import { forwardRef, useState } from 'react'
 
 import { delay } from 'lib/delay'
@@ -48,7 +47,7 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const result: any = onClick(event)
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-		if (minDelay || (result && isFunction(result.then))) {
+		if (minDelay || (result && typeof result.then === 'function')) {
 			setInternalLoading(true)
 			const promiseHandler = () => setInternalLoading(false)
 			Promise.all([result, delay(minDelay)]).then(promiseHandler, promiseHandler)

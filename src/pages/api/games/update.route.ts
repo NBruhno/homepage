@@ -4,7 +4,7 @@ import chunk from 'lodash/chunk'
 import differenceBy from 'lodash/differenceBy'
 import differenceWith from 'lodash/differenceWith'
 import intersectionBy from 'lodash/intersectionBy'
-import { array, create, object, optional, coerce, number, pattern, string } from 'superstruct'
+import { array, create, object, optional, coerce, number, pattern, string, assign, enums } from 'superstruct'
 
 import { config } from 'config.server'
 
@@ -46,74 +46,179 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 		})
 	})
 	.post(async (req, res) => {
+		const UpdateQuery = assign(Query, object({ type: enums<'followed' | 'popular'>(['popular', 'followed']) }))
 		authenticateSystem(req)
-		const { take = 500 } = create(req.query, Query)
-		const twoMonthsBackTimestamp = getUnixTime(sub(Date.now(), { months: 2 }))
-		const popularGames = await igdbFetcher('/games', res, {
-			shouldReturnFirst: false,
-			body: `${gameFields}; limit ${take}; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
-			nickname: `popular, 0-${take}`,
-		}).then((igdbGames) => igdbGames.map(mapIgdbGame))
+		const { take = 500, type } = create(req.query, UpdateQuery)
 
-		const existingGames = await monitorAsync(() => prisma.game.findMany({
-			where: {
-				OR: popularGames.map(({ id }) => ({
-					id,
-				})),
-			},
-			select: {
-				id: true,
-				updatedAt: true,
-			},
-		}), 'db:prisma', 'findMany(popular games)')
+		switch (type) {
+			case 'popular': {
+				const twoMonthsBackTimestamp = getUnixTime(sub(Date.now(), { months: 2 }))
+				const popularGames = await igdbFetcher('/games', res, {
+					shouldReturnFirst: false,
+					body: `${gameFields}; limit ${take}; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
+					nickname: `popular, 0-${take}`,
+				}).then((igdbGames) => igdbGames.map(mapIgdbGame))
 
-		const games = create(popularGames, array(gameValidator))
+				const existingGames = await monitorAsync(() => prisma.game.findMany({
+					where: {
+						OR: popularGames.map(({ id }) => ({
+							id,
+						})),
+					},
+					select: {
+						id: true,
+						updatedAt: true,
+					},
+				}), 'db:prisma', 'findMany(popular games)')
 
-		const knownGames = intersectionBy(games, existingGames, 'id') // Finds games that we already know
-		const outdatedGames = differenceWith( // Finds the games that are newer than the games we already know
-			knownGames,
-			existingGames,
-			(known, existing) => (known.updatedAt && existing.updatedAt)
-				? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
-				: false,
-		)
-		const newGames = differenceBy(games, existingGames, 'id') // Only interested in creating new unique games.
+				const games = create(popularGames, array(gameValidator))
 
-		const [createdGamesResponse, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
-			(async () => newGames.length > 0
-				? monitorAsync(() => prisma.game.createMany({ data: newGames, skipDuplicates: true }), 'db:prisma', 'createMany(new games)', span)
-				: undefined
-			)(),
-			...outdatedGames.length > 0 ? chunk(outdatedGames, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
-				body: { games: batch },
-				absoluteUrl: absoluteUrl(req).origin,
-				accessToken: config.auth.systemToken,
-				method: Method.Put,
-			}), 'http:internal', 'PUT /games', span)) : [undefined],
-		]), 'Promise', '.all()')
+				const knownGames = intersectionBy(games, existingGames, 'id') // Finds games that we already know
+				const outdatedGames = differenceWith( // Finds the games that are newer than the games we already know
+					knownGames,
+					existingGames,
+					(known, existing) => (known.updatedAt && existing.updatedAt)
+						? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
+						: false,
+				)
+				const newGames = differenceBy(games, existingGames, 'id') // Only interested in creating new unique games.
 
-		return res.status(200).json({
-			status: {
-				popularGames: games.length,
-				knownGames: knownGames.length,
-				newGames: newGames.length,
-				outdatedGames: outdatedGames.length,
-			},
-			resolution: {
-				createdGames: createdGamesResponse?.count ?? 0,
-				updatedGames: filterUnspecified(updatedGamesResponse.map((response) => response?.count)).reduce((a, b) => a + b, 0),
-			},
-		})
+				const [createdGamesResponse, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
+					(async () => newGames.length > 0
+						? monitorAsync(() => prisma.game.createMany({ data: newGames, skipDuplicates: true }), 'db:prisma', 'createMany(new games)', span)
+						: undefined
+					)(),
+					...outdatedGames.length > 0 ? chunk(outdatedGames, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
+						body: { games: batch },
+						absoluteUrl: absoluteUrl(req).origin,
+						accessToken: config.auth.systemToken,
+						method: Method.Put,
+					}), 'http:internal', 'PUT /games', span)) : [undefined],
+				]), 'Promise', '.all()')
+
+				return res.status(200).json({
+					status: {
+						popularGames: games.length,
+						knownGames: knownGames.length,
+						newGames: newGames.length,
+						outdatedGames: outdatedGames.length,
+					},
+					resolution: {
+						createdGames: createdGamesResponse?.count ?? 0,
+						updatedGames: filterUnspecified(updatedGamesResponse.map((response) => response?.count)).reduce((a, b) => a + b, 0),
+					},
+				})
+			}
+			case 'followed': {
+				// Get all followed games in the library that hasn't been updated in the last 1 hour
+				const potentiallyOutdatedFollowedGames = await monitorAsync(() => prisma.gameUserData.findMany({
+					where: {
+						game: {
+							lastChecked: {
+								lte: sub(Date.now(), { hours: 1 }),
+							},
+						},
+						isFollowing: true,
+					},
+					take,
+					select: {
+						game: {
+							select: {
+								id: true,
+								updatedAt: true,
+							},
+						},
+					},
+				}), 'db:prisma', 'findMany(potentially outdated followed games)')
+					.then((potentiallyOutdatedFollowedGames) => potentiallyOutdatedFollowedGames.map(({ game }) => game))
+
+				if (potentiallyOutdatedFollowedGames.length > 0) {
+					const updatedGames = await igdbFetcher('/games', res, {
+						shouldReturnFirst: false,
+						body: `${gameFields}; limit ${take}; where id = (${potentiallyOutdatedFollowedGames.map(({ id }) => id).join(',')});`,
+						nickname: `potentially outdated, 0-${take}`,
+					}).then((igdbGames) => igdbGames.map(mapIgdbGame))
+
+					// Finds the games that have been updated since we last updated them
+					const gamesToUpdate = differenceWith(
+						updatedGames,
+						potentiallyOutdatedFollowedGames,
+						(known, existing) => (known.updatedAt && existing.updatedAt)
+							? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
+							: false,
+					)
+
+					const existingGames = differenceBy(potentiallyOutdatedFollowedGames, gamesToUpdate, 'id')
+
+					if (gamesToUpdate.length > 0) {
+						const [markedAsCheckedGames, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
+							monitorAsync(() => prisma.game.updateMany({
+								where: {
+									OR: existingGames.map(({ id }) => ({ id })),
+								},
+								data: {
+									lastChecked: new Date().toISOString(),
+								},
+							}), 'db:prisma', 'updateMany()', span),
+							...chunk(gamesToUpdate, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
+								body: { games: batch.map((game) => ({ ...game, lastChecked: new Date().toISOString() })) },
+								absoluteUrl: absoluteUrl(req).origin,
+								accessToken: config.auth.systemToken,
+								method: Method.Put,
+							}), 'http:internal', 'PUT /games', span)),
+						]), 'Promise', '.all()')
+
+						const updatedGamesCount = updatedGamesResponse.map((response) => response.count).reduce((a, b) => a + b, 0)
+
+						return res.status(201).json({
+							status: {
+								potentiallyOutdatedFollowedGames: potentiallyOutdatedFollowedGames.length,
+								foundGames: updatedGames.length,
+								outdatedGames: gamesToUpdate.length,
+							},
+							resolution: {
+								markedAsCheckedGames: markedAsCheckedGames.count,
+								updatedGames: filterUnspecified(updatedGamesResponse.map((response) => response.count)).reduce((a, b) => a + b, 0),
+							},
+							message: `Successfully updated ${updatedGamesCount} games`,
+						})
+					}
+
+					const markedAsCheckedGames = await monitorAsync(() => prisma.game.updateMany({
+						where: {
+							OR: existingGames.map(({ id }) => ({ id })),
+						},
+						data: {
+							lastChecked: new Date().toISOString(),
+						},
+					}), 'db:prisma', 'updateMany()')
+
+					return res.status(200).json({
+						status: {
+							potentiallyOutdatedFollowedGames: potentiallyOutdatedFollowedGames.length,
+							foundGames: updatedGames.length,
+							outdatedGames: gamesToUpdate.length,
+						},
+						resolution: {
+							markedAsCheckedGames: markedAsCheckedGames.count,
+						},
+						message: `Found no games to update`,
+					})
+				}
+
+				return res.status(200).json({ message: 'There were no games to update' })
+			}
+		}
 	})
 	.patch(async (req, res) => {
 		authenticateSystem(req)
 		const { take = 100 } = create(req.query, Query)
 
-		// Get all games in the library that hasn't been updated in the last 24 hours
+		// Get all games in the library that hasn't been updated in the last 2 hours
 		const potentiallyOutdatedGames = await monitorAsync(() => prisma.game.findMany({
 			where: {
 				lastChecked: {
-					lte: sub(Date.now(), { hours: 1 }),
+					lte: sub(Date.now(), { hours: 2 }),
 				},
 			},
 			take,
@@ -131,13 +236,14 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 			}).then((igdbGames) => igdbGames.map(mapIgdbGame))
 
 			// Finds the games that have been updated since we last updated them
-			const gamesToUpdate = differenceWith(
-				updatedGames,
-				potentiallyOutdatedGames,
-				(known, existing) => (known.updatedAt && existing.updatedAt)
-					? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
-					: false,
-			)
+			const gamesToUpdate = updatedGames
+			// const gamesToUpdate = differenceWith(
+			// 	updatedGames,
+			// 	potentiallyOutdatedGames,
+			// 	(known, existing) => (known.updatedAt && existing.updatedAt)
+			// 		? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
+			// 		: false,
+			// )
 
 			const existingGames = differenceBy(potentiallyOutdatedGames, gamesToUpdate, 'id')
 
