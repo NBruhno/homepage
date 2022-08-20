@@ -245,15 +245,14 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 				nickname: `potentially outdated, 0-${take}`,
 			}).then((igdbGames) => igdbGames.map(mapIgdbGame))
 
-			// Finds the games that have been updated since we last updated them
-			const gamesToUpdate = updatedGames
-			// const gamesToUpdate = differenceWith(
-			// 	updatedGames,
-			// 	potentiallyOutdatedGames,
-			// 	(known, existing) => (known.updatedAt && existing.updatedAt)
-			// 		? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
-			// 		: false,
-			// )
+			// Finds the games that already have been updated since we last updated them
+			const gamesToUpdate = differenceWith(
+				updatedGames,
+				potentiallyOutdatedGames,
+				(known, existing) => (known.updatedAt && existing.updatedAt)
+					? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
+					: false,
+			)
 
 			const existingGames = differenceBy(potentiallyOutdatedGames, gamesToUpdate, 'id')
 
