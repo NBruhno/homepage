@@ -9,7 +9,6 @@ import { Stars } from './Stars'
 import { Wrapper } from './Wrapper'
 
 export const Nebula = () => {
-	// const dustTexture = useTexture('./images/smoke.png')
 	const movingClouds = useMemo(() => Array.from({ length: 40 }).map(() => ({
 		position: {
 			x: Math.random() * 800 - 400,

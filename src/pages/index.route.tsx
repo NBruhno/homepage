@@ -9,6 +9,9 @@ import { Logo } from 'components/Logo'
 import { Portal } from 'components/Portal'
 
 const Nebula = dynamic(async () => {
+	// If the browser does not support WebGL, there is no point in fetching the Nebula component
+	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+	if ((!window.WebGLRenderingContext && !document.createElement('canvas').getContext('experimental-webgl')) as boolean) return () => null
 	const component = await import('components/Nebula')
 	return component.Nebula
 }, { ssr: false })
