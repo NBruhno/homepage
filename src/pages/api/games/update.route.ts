@@ -220,6 +220,15 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 				lastChecked: {
 					lte: sub(Date.now(), { hours: 2 }),
 				},
+				NOT: [
+					{
+						userData: {
+							some: {
+								isFollowing: true,
+							},
+						},
+					},
+				],
 			},
 			take,
 			select: {
