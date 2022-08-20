@@ -29,6 +29,7 @@ import { Developer } from './components/Header/Developer'
 import { ReleaseDate } from './components/Header/ReleaseDate'
 import { Title } from './components/Header/Title'
 import { InfoBox } from './components/InfoBox'
+import { News } from './components/News'
 import { PriceTable } from './components/PriceTable'
 import { Rating } from './components/Rating'
 import { SimilarGames } from './components/SimilarGames'
@@ -242,21 +243,14 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 						</h2>
 					)}
 					<VideoTabs videos={game?.videos} />
-					{(isLoading || (gameNews && gameNews.steamNews.length > 0)) && (
+					{gameNews && (
 						<>
 							<h2>
 								<Placeholder width='25%'>
 									Latest news
 								</Placeholder>
 							</h2>
-							<ul>
-								{gameNews?.steamNews.map(({ title, url }) => (
-									<li>
-										<a href={url}>{title}</a>
-									</li>
-								))}
-							</ul>
-							<a href={gameNews?.newsUrl}>See all the latest Steam news</a>
+							<News {...gameNews} />
 						</>
 					)}
 				</GridContainer>
