@@ -1,5 +1,5 @@
 export type GamePlatform = {
 	id: number,
-	abbreviation: string,
+	abbreviation: string | null,
 	name: string,
 }
