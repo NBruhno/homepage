@@ -8,9 +8,9 @@ export const groupByReleaseDate = (releaseDates: Array<GameReleaseDate>, keyGett
 			const collection = map.get(key)
 			if (firstReleaseDate === item.date) return null
 			if (!collection) {
-				map.set(key, [item.platform.abbreviation || item.platform.name])
+				map.set(key, [item.platform.abbreviation ?? item.platform.name])
 			} else {
-				collection.push(item.platform.abbreviation || item.platform.name)
+				collection.push(item.platform.abbreviation ?? item.platform.name)
 			}
 		}
 	})
