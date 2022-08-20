@@ -212,7 +212,8 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 	})
 	.patch(async (req, res) => {
 		authenticateSystem(req)
-		const { take = 100 } = create(req.query, Query)
+		const UpdateQuery = assign(Query, object({ 'exclude-followed': enums<'no' | 'yes'>(['yes', 'no']) }))
+		const { take = 100, 'exclude-followed': excludeFollowed } = create(req.query, UpdateQuery)
 
 		// Get all games in the library that hasn't been updated in the last 2 hours
 		const potentiallyOutdatedGames = await monitorAsync(() => prisma.game.findMany({
@@ -220,7 +221,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 				lastChecked: {
 					lte: sub(Date.now(), { hours: 2 }),
 				},
-				NOT: [
+				NOT: excludeFollowed === 'yes' ? [
 					{
 						userData: {
 							some: {
@@ -228,7 +229,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 							},
 						},
 					},
-				],
+				] : undefined,
 			},
 			take,
 			select: {
