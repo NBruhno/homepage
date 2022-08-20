@@ -40,4 +40,4 @@ export const usePage = create(devtools<PageState>((set) => ({
 	setResponsive: (responsiveParams) => set(responsiveParams, false, 'setResponsive'),
 	setTheme: (theme) => set({ theme }, false, 'setTheme'),
 	setTitle: (title) => set({ title }, false, 'setTitle'),
-}), { name: 'usePage' }))
+}), { anonymousActionType: 'usePage' }))

@@ -27,7 +27,7 @@ export const useFollowingGamesStore = create(devtools<FollowingGamesState>((set)
 	setGameData: (gameData) => set(gameData, false, 'setGameData'),
 	setPageData: (pageData) => set(pageData, false, 'setPageData'),
 	setIsLimitReached: (isLimitReached) => set({ isLimitReached }, false, 'setIsLimitReached'),
-}), { name: 'useFollowingGamesStore' }))
+}), { anonymousActionType: 'useFollowingGamesStore' }))
 
 export const useFollowingGames = (query: ParsedUrlQuery, newSkip = 0) => {
 	const { data } = useSWR<GameData & { skip: number, take: number }>(

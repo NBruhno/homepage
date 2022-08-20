@@ -7,7 +7,6 @@ import { matchSorter } from 'match-sorter'
 import { useRef, useState } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 
-import { delay } from 'lib/delay'
 import { useUnique } from 'lib/hooks'
 
 import { FieldWrapper } from '../FieldWrapper'

@@ -35,4 +35,4 @@ export const useModal = create(devtools<ModalState>((set, state) => ({
 		hasNoWrapper: false,
 	}, false, 'onCloseModal') : undefined,
 	onOpenModal: (content, options) => set({ show: true, content, ...options }, false, 'onOpenModal'),
-}), { name: 'useModal' }))
+}), { anonymousActionType: 'useModal' }))

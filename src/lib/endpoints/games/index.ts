@@ -1,1 +1,0 @@
-export { endpointFollowingGames } from './followingGames'

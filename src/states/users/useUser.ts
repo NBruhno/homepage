@@ -50,4 +50,4 @@ export const useUser = create(devtools<UserState>((set) => ({
 	setShouldRefresh: (shouldRefresh) => set({ shouldRefresh }, false, 'setShouldRefresh'),
 	setTwoFactorSecret: (twoFactorSecret) => set({ twoFactorSecret }, false, 'setTwoFactorSecret'),
 	setUser: (user) => set(user, false, 'setUser'),
-}), { name: 'useUser' }))
+}), { anonymousActionType: 'useUser' }))

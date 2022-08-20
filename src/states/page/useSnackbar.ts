@@ -40,4 +40,4 @@ export const useSnackbar = create(devtools<SnackbarState>((set, state) => ({
 			}, false, 'removeOutdatedSnackbars')
 		}
 	},
-}), { name: 'useSnackbar' }))
+}), { anonymousActionType: 'useSnackbar' }))
