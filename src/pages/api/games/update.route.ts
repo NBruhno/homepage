@@ -4,7 +4,7 @@ import chunk from 'lodash/chunk'
 import differenceBy from 'lodash/differenceBy'
 import differenceWith from 'lodash/differenceWith'
 import intersectionBy from 'lodash/intersectionBy'
-import { array, create, object, optional, coerce, number, pattern, string, assign, enums } from 'superstruct'
+import { array, create, object, optional, coerce, number, pattern, string, assign, enums, literal } from 'superstruct'
 
 import { config } from 'config.server'
 
@@ -212,7 +212,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 	})
 	.patch(async (req, res) => {
 		authenticateSystem(req)
-		const UpdateQuery = assign(Query, object({ 'exclude-followed': enums<'no' | 'yes'>(['yes', 'no']) }))
+		const UpdateQuery = assign(Query, object({ 'exclude-followed': optional(literal('yes')) }))
 		const { take = 100, 'exclude-followed': excludeFollowed } = create(req.query, UpdateQuery)
 
 		// Get all games in the library that hasn't been updated in the last 2 hours

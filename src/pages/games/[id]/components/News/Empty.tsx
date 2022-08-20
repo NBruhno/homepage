@@ -5,7 +5,7 @@ export const Empty = (props: ComponentPropsWithoutRef<'span'>) => (
 		css={(theme) => ({
 			color: theme.color.textFaded,
 			textAlign: 'center',
-			marginTop: '24px',
+			margin: '24px 0',
 		})}
 		{...props}
 	/>

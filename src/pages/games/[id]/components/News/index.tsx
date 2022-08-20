@@ -3,12 +3,13 @@ import type { GameNews } from 'types'
 import { ChevronRightIcon } from 'components/Icons'
 
 import { Empty } from './Empty'
+import { Grid } from './Grid'
 import { Item } from './Item'
 import { List } from './List'
 
 export const News = ({ newsUrl, steamNews, otherNews }: GameNews) => (
 	<>
-		<div css={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '12px' }}>
+		<Grid>
 			<List>
 				<h3 css={{ marginTop: 0, marginBottom: '4px' }}>Steam news</h3>
 				{steamNews.length > 0
@@ -21,7 +22,7 @@ export const News = ({ newsUrl, steamNews, otherNews }: GameNews) => (
 					? otherNews.map((newsItem) => <Item {...newsItem} />)
 					: <Empty>There are no other news</Empty>}
 			</List>
-		</div>
+		</Grid>
 		<a
 			href={newsUrl}
 			css={{ marginTop: '12px', display: 'flex', alignItems: 'center', columnGap: '4px', textDecoration: 'none' }}
