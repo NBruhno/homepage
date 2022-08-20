@@ -2,6 +2,7 @@ import type { SteamNews } from 'types/steam'
 
 import { withSentry } from '@sentry/nextjs'
 import { fromUnixTime } from 'date-fns'
+import partition from 'lodash/partition'
 import { create, object, string, coerce, optional, number, pattern } from 'superstruct'
 
 import { apiHandler } from 'lib/api'
@@ -36,10 +37,12 @@ const handler = apiHandler({
 		}), 'http:steam', 'game news').then(async (response) => {
 			if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
 			const steamNews = await response.json() as SteamNews
+			const [steamCommunityNews, otherNews] = partition(steamNews.appnews.newsitems, ({ feed_type: feedType, feedname }) => feedType === 1 || feedname === 'steam_community_announcements')
+
 			return {
 				newsUrl: `https://steamcommunity.com/games/${appId}/announcements`,
-				steamNews: newsMapper(steamNews.appnews.newsitems.filter(({ feed_type: feedType, feedname }) => feedType === 0 || feedname === 'steam_community_announcements')).slice(0, take),
-				otherNews: newsMapper(steamNews.appnews.newsitems.filter(({ feed_type: feedType, feedname }) => feedType === 1 && feedname !== 'steam_community_announcements')).slice(0, take),
+				steamNews: newsMapper(steamCommunityNews).slice(0, take),
+				otherNews: newsMapper(otherNews).slice(0, take),
 			}
 		})
 		return res.status(200).json(news)

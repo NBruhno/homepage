@@ -243,16 +243,12 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 						</h2>
 					)}
 					<VideoTabs videos={game?.videos} />
-					{gameNews && (
-						<>
-							<h2>
-								<Placeholder width='25%'>
-									Latest news
-								</Placeholder>
-							</h2>
-							<News {...gameNews} />
-						</>
-					)}
+					<h2>
+						<Placeholder width='25%'>
+							Latest news
+						</Placeholder>
+					</h2>
+					<News gameNews={gameNews} />
 				</GridContainer>
 				<GridContainer name='similarGames'>
 					<SimilarGames similarGames={game?.similarGames ?? []} />
