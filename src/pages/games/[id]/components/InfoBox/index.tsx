@@ -94,7 +94,7 @@ export const InfoBox = ({
 							</Title>
 							<Placeholder width='75%'>
 								<Tooltip tip={listFormatter.format(platforms.map(({ name }) => name))}>
-									<span>{listFormatter.format(platforms.map(({ abbreviation }) => abbreviation))}</span>
+									<span>{listFormatter.format(platforms.map(({ abbreviation, name }) => abbreviation ?? name.match(/\b([A-Z])/g)!.join('')))}</span>
 								</Tooltip>
 							</Placeholder>
 						</div>
