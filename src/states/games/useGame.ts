@@ -30,7 +30,7 @@ export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 	const { data: gameNews } = useSWR<GameNews>(id && steamAppId
 		? `/games/${id}/news?steam-app-id=${encodeURIComponent(steamAppId)}`
 		: null, null)
-	useLoading(Boolean(!game) && Boolean(!initialGame))
+	const { isLoading } = useLoading(Boolean(!game) && Boolean(!initialGame))
 
 	const onFollow = async () => {
 		const response = await fetcher<{ message?: string }>(`/games/${id}/follows`, { accessToken, method: Method.Post, body: { isFollowing: true } })
@@ -44,5 +44,5 @@ export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 
 	useEffect(() => setIsFollowing(userData?.isFollowing), [userData?.isFollowing])
 
-	return { game, prices: gamePricing?.prices, gameNews, isFollowing, isInSteamLibrary: Boolean(userData?.isInSteamLibrary), onFollow, onUnfollow }
+	return { game, prices: gamePricing?.prices, gameNews: ((id && steamAppId) || isLoading) ? gameNews : null, isFollowing, isInSteamLibrary: Boolean(userData?.isInSteamLibrary), onFollow, onUnfollow }
 }

@@ -5,7 +5,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 		css={(theme) => ({
 			display: 'grid',
 			gridTemplateColumns: '1fr 1fr',
-			columnGap: '12px',
+			columnGap: '8px',
 			rowGap: '24px',
 
 			[theme.mediaQueries.maxTablet]: {
