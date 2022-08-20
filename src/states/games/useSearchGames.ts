@@ -7,7 +7,7 @@ import useSWR from 'swr'
 import create from 'zustand'
 import { devtools } from 'zustand/middleware'
 
-import { useFormStore } from 'states/page'
+import { useFormStore, useLoading } from 'states/page'
 
 import { fetcher } from 'lib/fetcher'
 
@@ -36,6 +36,7 @@ export const useSearchGames = () => {
 		? ['/games?search=', encodeURIComponent(toLower(gameSearch))]
 		: null, ([link, searchParameter]: [string, string]) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
 
+	const { setIsLoading, isLoading } = useLoading()
 	// Every time we update the search form, we also want to update the URL to match the search query for easy sharing
 	useEffect(() => {
 		if (gameSearch && !hasSearch) setHasSearch(true)
@@ -56,6 +57,10 @@ export const useSearchGames = () => {
 			setHasSearch(true)
 		}
 	}, [router.query])
+
+	useEffect(() => {
+		if (data && isLoading) setIsLoading(false)
+	}, [data, isLoading])
 
 	return { games: data?.games, hasSearch }
 }
