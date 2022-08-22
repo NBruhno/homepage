@@ -202,7 +202,7 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 						supporters={game?.supporters}
 						themes={game?.themes}
 						createdAt={game?.createdAt}
-						lastChecked={game?.lastChecked ?? null}
+						lastCheckedAt={game?.lastCheckedAt ?? null}
 						updatedAt={game?.updatedAt}
 					/>
 				</GridContainer>

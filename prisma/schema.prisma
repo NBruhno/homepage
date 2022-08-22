@@ -54,9 +54,9 @@ model Game {
   userData           GameUserData[]
   videos             Json?
   websites           Json?
-  createdAt          DateTime?      @default(now())
-  lastChecked        DateTime?      @default(now())
-  updatedAt          DateTime?      @updatedAt
+  createdAt          DateTime       @default(now())
+  lastCheckedAt      DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
 
   @@index(fields: [name])
   @@index(fields: [releaseDate])

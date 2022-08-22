@@ -29,14 +29,14 @@ type Props = {
 	themes: Array<GameDefaultEntity> | undefined,
 
 	createdAt: string | undefined,
-	lastChecked: string | null,
+	lastCheckedAt: string | null,
 	updatedAt: string | undefined,
 }
 
 export const InfoBox = ({
 	genres = [], themes = [], platforms = [], engines = [], franchises = [], modes = [], multiplayerModes = [],
 	playerPerspectives = [], porters = [], publishers = [], supporters = [], releaseDates = [], developers = [], releaseDate,
-	createdAt, updatedAt, lastChecked,
+	createdAt, updatedAt, lastCheckedAt,
 }: Props) => {
 	const groupedReleaseDates = groupByReleaseDate(releaseDates, ({ date }) => date, releaseDate)
 	const listFormatter = new Intl.ListFormat('en-DK', { style: 'short', type: 'conjunction' })
@@ -284,7 +284,7 @@ export const InfoBox = ({
 						</Placeholder>
 					</div>
 				)}
-				{lastChecked && (
+				{lastCheckedAt && (
 					<div>
 						<Title>
 							<Placeholder width='40%'>
@@ -292,7 +292,7 @@ export const InfoBox = ({
 							</Placeholder>
 						</Title>
 						<Placeholder width='75%'>
-							{formatRelative(parseISO(lastChecked), new Date(), { locale: enGB })}
+							{formatRelative(parseISO(lastCheckedAt), new Date(), { locale: enGB })}
 						</Placeholder>
 					</div>
 				)}

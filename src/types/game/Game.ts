@@ -15,7 +15,7 @@ export type Game = Omit<PrismaGame, 'createdAt' | 'developers' | 'dlcs' | 'engin
 	engines: Array<GameDefaultEntity>,
 	franchises: Array<GameDefaultEntity>,
 	genres: Array<GameDefaultEntity>,
-	lastChecked: string | null,
+	lastCheckedAt: string,
 	modes: Array<GameDefaultEntity>,
 	multiplayerModes: Array<GameMultiplayerMode>,
 	platforms: Array<GamePlatform>,

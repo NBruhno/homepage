@@ -1,5 +1,6 @@
 import { withSentry } from '@sentry/nextjs'
-import { compareAsc, getUnixTime, sub } from 'date-fns'
+import { compareAsc, getUnixTime, isAfter, sub } from 'date-fns'
+import { partition } from 'lodash'
 import chunk from 'lodash/chunk'
 import differenceBy from 'lodash/differenceBy'
 import differenceWith from 'lodash/differenceWith'
@@ -22,33 +23,94 @@ const Query = object({
 
 const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
+		const UpdateQuery = object({
+			'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
+			'hours-since-last-checked-priority': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
+			take: optional(coerce(number(), pattern(string(), /[1-100000]/), (value) => parseInt(value, 10))),
+		})
 		authenticateSystem(req)
-		const { take = 10000 } = create(req.query, Query)
+		const { take = 10000, 'hours-since-last-checked': hoursSinceLastChecked = 72, 'hours-since-last-checked-priority': hoursSinceLastCheckedPriority = 24 } = create(req.query, UpdateQuery)
 
+		const twoMonthsBackDate = sub(Date.now(), { months: 2 })
 		// Get all games that has not been checked after 24 hours
 		const staleGames = await monitorAsync(() => prisma.game.findMany({
 			where: {
-				lastChecked: {
-					lte: sub(Date.now(), { hours: 24 }),
-				},
+				OR: [
+					{
+						lastCheckedAt: {
+							lte: sub(Date.now(), { hours: hoursSinceLastChecked }),
+						},
+						userData: {
+							some: {
+								isFollowing: false,
+							},
+						},
+					},
+					{
+						lastCheckedAt: {
+							lte: sub(Date.now(), { hours: hoursSinceLastCheckedPriority }),
+						},
+						userData: {
+							some: {
+								isFollowing: true,
+							},
+						},
+					},
+					{
+						lastCheckedAt: {
+							lte: sub(Date.now(), { hours: hoursSinceLastCheckedPriority }),
+						},
+						OR: [
+							{
+								releaseDate: {
+									gte: twoMonthsBackDate,
+								},
+							},
+							{
+								releaseDate: null,
+							},
+						],
+						hype: {
+							gt: 0,
+						},
+					},
+				],
 			},
 			take,
 			select: {
 				id: true,
-				lastChecked: true,
+				lastCheckedAt: true,
+				hype: true,
+				releaseDate: true,
+				userData: {
+					select: {
+						isFollowing: true,
+					},
+				},
 			},
-		}), 'db:prisma', 'findMany(unchecked games)')
+		}), 'db:prisma', 'findMany(stale games)')
+
+		const [stalePriorityGames, staleRegularGames] = partition(staleGames, (game) => (
+			((game.releaseDate === null || isAfter(game.releaseDate, twoMonthsBackDate))
+			&& (game.hype !== null && game.hype >= 0))
+			|| game.userData.some(({ isFollowing }) => isFollowing)
+		))
 
 		return res.status(200).json({
 			message: staleGames.length > 0 ? `Some games are not being updated properly` : `There are no stale games in the library`,
-			numberOfStaleGames: staleGames.length,
-			staleGames,
+			numberOfStaleRegularGames: staleRegularGames.length,
+			numberOfStalePriorityGames: stalePriorityGames.length,
+			stalePriorityGames,
+			staleRegularGames,
 		})
 	})
 	.post(async (req, res) => {
-		const UpdateQuery = assign(Query, object({ type: enums<'followed' | 'popular'>(['popular', 'followed']) }))
+		const UpdateQuery = assign(Query, object({
+			type: enums<'followed' | 'popular'>(['popular', 'followed']),
+			'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
+		}))
 		authenticateSystem(req)
-		const { take = 500, type } = create(req.query, UpdateQuery)
+		const { take = 500, type, 'hours-since-last-checked': hoursSinceLastChecked = 1 } = create(req.query, UpdateQuery)
 
 		switch (type) {
 			case 'popular': {
@@ -77,7 +139,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 				const outdatedGames = differenceWith( // Finds the games that are newer than the games we already know
 					knownGames,
 					existingGames,
-					(known, existing) => (known.updatedAt && existing.updatedAt)
+					(known, existing) => known.updatedAt
 						? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
 						: false,
 				)
@@ -114,8 +176,8 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 				const potentiallyOutdatedFollowedGames = await monitorAsync(() => prisma.gameUserData.findMany({
 					where: {
 						game: {
-							lastChecked: {
-								lte: sub(Date.now(), { hours: 1 }),
+							lastCheckedAt: {
+								lte: sub(Date.now(), { hours: hoursSinceLastChecked }),
 							},
 						},
 						isFollowing: true,
@@ -143,7 +205,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 					const gamesToUpdate = differenceWith(
 						updatedGames,
 						potentiallyOutdatedFollowedGames,
-						(known, existing) => (known.updatedAt && existing.updatedAt)
+						(known, existing) => known.updatedAt
 							? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
 							: false,
 					)
@@ -157,7 +219,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 									OR: existingGames.map(({ id }) => ({ id })),
 								},
 								data: {
-									lastChecked: new Date().toISOString(),
+									lastCheckedAt: new Date().toISOString(),
 								},
 							}), 'db:prisma', 'updateMany()', span),
 							...chunk(gamesToUpdate, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
@@ -189,7 +251,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 							OR: existingGames.map(({ id }) => ({ id })),
 						},
 						data: {
-							lastChecked: new Date().toISOString(),
+							lastCheckedAt: new Date().toISOString(),
 						},
 					}), 'db:prisma', 'updateMany()')
 
@@ -212,14 +274,20 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 	})
 	.patch(async (req, res) => {
 		authenticateSystem(req)
-		const UpdateQuery = assign(Query, object({ 'exclude-followed': optional(literal('yes')) }))
-		const { take = 100, 'exclude-followed': excludeFollowed } = create(req.query, UpdateQuery)
+		const UpdateQuery = assign(Query, object({
+			'exclude-followed': optional(literal('yes')),
+			'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
+		}))
+		const { take = 100, 'exclude-followed': excludeFollowed, 'hours-since-last-checked': hoursSinceLastChecked = 2 } = create(req.query, UpdateQuery)
 
-		// Get all games in the library that hasn't been updated in the last 2 hours
+		// Get all games in the library that hasn't been checked for updates
 		const potentiallyOutdatedGames = await monitorAsync(() => prisma.game.findMany({
+			orderBy: [{
+				lastCheckedAt: 'asc',
+			}],
 			where: {
-				lastChecked: {
-					lte: sub(Date.now(), { hours: 2 }),
+				lastCheckedAt: {
+					lte: sub(Date.now(), { hours: hoursSinceLastChecked }),
 				},
 				NOT: excludeFollowed === 'yes' ? [
 					{
@@ -249,7 +317,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 			const gamesToUpdate = differenceWith(
 				updatedGames,
 				potentiallyOutdatedGames,
-				(known, existing) => (known.updatedAt && existing.updatedAt)
+				(known, existing) => known.updatedAt
 					? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1
 					: false,
 			)
@@ -263,7 +331,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 							OR: existingGames.map(({ id }) => ({ id })),
 						},
 						data: {
-							lastChecked: new Date().toISOString(),
+							lastCheckedAt: new Date().toISOString(),
 						},
 					}), 'db:prisma', 'updateMany()', span),
 					...chunk(gamesToUpdate, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
@@ -295,7 +363,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 					OR: existingGames.map(({ id }) => ({ id })),
 				},
 				data: {
-					lastChecked: new Date().toISOString(),
+					lastCheckedAt: new Date().toISOString(),
 				},
 			}), 'db:prisma', 'updateMany()')
 
