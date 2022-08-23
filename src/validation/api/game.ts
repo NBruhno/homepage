@@ -43,7 +43,7 @@ export const game = object({
 	franchises: optional(array(defaultEntity)),
 	genres: optional(array(defaultEntity)),
 	hype: optional(number()),
-	lastChecked: optional(string()),
+	lastCheckedAt: optional(string()),
 	modes: optional(array(defaultEntity)),
 	multiplayerModes: optional(array(object({
 		hasCampaignCoop: optional(boolean()),
