@@ -223,7 +223,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 								},
 							}), 'db:prisma', 'updateMany()', span),
 							...chunk(gamesToUpdate, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
-								body: { games: batch.map((game) => ({ ...game, lastChecked: new Date().toISOString() })) },
+								body: { games: batch.map((game) => ({ ...game, lastCheckedAt: new Date().toISOString() })) },
 								absoluteUrl: absoluteUrl(req).origin,
 								accessToken: config.auth.systemToken,
 								method: Method.Put,
@@ -335,7 +335,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 						},
 					}), 'db:prisma', 'updateMany()', span),
 					...chunk(gamesToUpdate, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
-						body: { games: batch.map((game) => ({ ...game, lastChecked: new Date().toISOString() })) },
+						body: { games: batch.map((game) => ({ ...game, lastCheckedAt: new Date().toISOString() })) },
 						absoluteUrl: absoluteUrl(req).origin,
 						accessToken: config.auth.systemToken,
 						method: Method.Put,

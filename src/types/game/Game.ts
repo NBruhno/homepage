@@ -8,7 +8,7 @@ import type { GameVideo } from './GameVideo'
 import type { GameWebsite } from './GameWebsite'
 import type { Game as PrismaGame } from '@prisma/client'
 
-export type Game = Omit<PrismaGame, 'createdAt' | 'developers' | 'dlcs' | 'engines' | 'franchies' | 'genres' | 'lastChecked' | 'modes' | 'multiplayerModes' | 'platforms' | 'playerPerspectives' | 'porters' | 'publishers' | 'releaseDate' | 'releaseDates' | 'similarGames' | 'supporters' | 'themes' | 'updatedAt' | 'videos' | 'websites'> & {
+export type Game = Omit<PrismaGame, 'createdAt' | 'developers' | 'dlcs' | 'engines' | 'franchies' | 'genres' | 'lastCheckedAt' | 'modes' | 'multiplayerModes' | 'platforms' | 'playerPerspectives' | 'porters' | 'publishers' | 'releaseDate' | 'releaseDates' | 'similarGames' | 'supporters' | 'themes' | 'updatedAt' | 'videos' | 'websites'> & {
 	createdAt: string,
 	developers: Array<GameCompany>,
 	dlcs: Array<GameReference>,
