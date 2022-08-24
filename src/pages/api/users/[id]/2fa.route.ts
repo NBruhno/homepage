@@ -44,7 +44,7 @@ const handler = apiHandler({
 			},
 		}), 'db:prisma', 'findUnique()')
 
-		if (!user || !user.twoFactorSecret) throw ApiError.fromCode(404)
+		if (!user?.twoFactorSecret) throw ApiError.fromCode(404)
 
 		monitor(() => { // TS somehow fails to acknowledge that the check above ensures the value is not falsy (not null)
 			if (!otpAuthenticator.verify({ token: otp, secret: user.twoFactorSecret! })) throw ApiError.fromCode(401)
