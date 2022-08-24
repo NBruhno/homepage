@@ -4,7 +4,10 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const { withPlaiceholder } = require('@plaiceholder/next')
 const { withSentryConfig } = require('@sentry/nextjs')
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-const withPwa = require('next-pwa')
+const withPwa = require('next-pwa')({
+	disable: process.env.VERCEL_ENV === 'development',
+	dest: 'public',
+})
 
 const basePath = ''
 
@@ -62,7 +65,6 @@ const nextConfig = {
 					protocol: 'https',
 					hostname: 'images.igdb.com',
 					pathname: '/igdb/image/upload/**',
-					port: '',
 				},
 			],
 		},
@@ -70,10 +72,6 @@ const nextConfig = {
 
 	compiler: {
 		emotion: true,
-	},
-
-	devIndicators: {
-		autoPrerender: false,
 	},
 
 	serverRuntimeConfig: {
@@ -84,13 +82,6 @@ const nextConfig = {
 
 	outputFileTracing: false,
 	poweredByHeader: false,
-
-	transformManifest: (manifest) => ['/'].concat(manifest),
-	generateInDevMode: false,
-	pwa: {
-		disable: process.env.VERCEL_ENV === 'development',
-		dest: 'public',
-	},
 
 	async rewrites() {
 		return [
