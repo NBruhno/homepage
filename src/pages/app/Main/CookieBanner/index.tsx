@@ -53,7 +53,8 @@ export const CookieBanner = (props: ComponentPropsWithoutRef<'div'>) => {
 			<div>
 				<div>This website uses cookies to maintain login sessions</div>
 				<Link href='/cookies' passHref>
-					<a css={{ textDecoration: 'none' }}>You can read more about why and how this works here</a>
+					{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
+					<a css={{ textDecoration: 'none' }} onClick={() => setIsDismissed()} role='button' tabIndex={0}>You can read more about why and how this works here</a>
 				</Link>
 			</div>
 			<ButtonBorder label='Dismiss' onClick={() => setIsDismissed()} css={{ flexShrink: 0 }} />
