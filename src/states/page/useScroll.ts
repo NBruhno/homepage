@@ -18,7 +18,7 @@ type PageScrollState = {
 	setScrollState: (scrollState: Omit<PageScrollState, 'setScrollState'>) => void,
 }
 
-export const useScrollStore = create(devtools<PageScrollState>((set) => ({
+export const useScrollStore = create<PageScrollState>()(devtools((set) => ({
 	bottom: 0,
 	height: 0,
 	left: 0,

@@ -20,7 +20,7 @@ type SearchGamesState = {
 	setHasSearch: (hasSearch: boolean) => void,
 }
 
-export const useSearchGamesStore = create(devtools<SearchGamesState>((set) => ({
+export const useSearchGamesStore = create<SearchGamesState>()(devtools((set) => ({
 	hasSearch: false,
 	setHasSearch: (hasSearch) => set({ hasSearch }, false, 'setHasSearch'),
 }), { anonymousActionType: 'useSearchGamesStore' }))

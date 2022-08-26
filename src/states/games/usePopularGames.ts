@@ -20,7 +20,7 @@ export type PopularGamesState = Partial<GameData> & Partial<PageData> & {
 	setIsLimitReached: (isLimitReached: boolean) => void,
 }
 
-export const usePopularGamesStore = create(devtools<PopularGamesState>((set) => ({
+export const usePopularGamesStore = create<PopularGamesState>()(devtools((set) => ({
 	games: undefined,
 	after: undefined,
 	before: undefined,
