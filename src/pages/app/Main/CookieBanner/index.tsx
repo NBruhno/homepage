@@ -26,6 +26,27 @@ export const CookieBanner = (props: ComponentPropsWithoutRef<'div'>) => {
 				alignItems: 'center',
 				columnGap: '16px',
 				border: `1px solid ${theme.color.border}`,
+				zIndex: 1,
+
+				[theme.mediaQueries.maxLaptop]: {
+					right: '32px',
+				},
+
+				[theme.mediaQueries.maxTablet]: {
+					right: '0',
+					borderRadius: '4px 0 0 4px',
+					borderRight: 'none',
+				},
+
+				[theme.mediaQueries.maxMobile]: {
+					bottom: 0,
+					right: 0,
+					left: 0,
+					borderRadius: 0,
+					border: 'none',
+					borderTop: `1px solid ${theme.color.border}`,
+					justifyContent: 'center',
+				},
 			})}
 			{...props}
 		>
@@ -35,7 +56,7 @@ export const CookieBanner = (props: ComponentPropsWithoutRef<'div'>) => {
 					<a css={{ textDecoration: 'none' }}>You can read more about why and how this works here</a>
 				</Link>
 			</div>
-			<ButtonBorder label='Dismiss' onClick={() => setIsDismissed()} />
+			<ButtonBorder label='Dismiss' onClick={() => setIsDismissed()} css={{ flexShrink: 0 }} />
 		</div>
 	)
 }
