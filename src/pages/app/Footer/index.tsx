@@ -1,8 +1,9 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
 import { getYear } from 'date-fns'
+import NextLink from 'next/link'
 
-import { GitHubIcon, GitLabIcon, MailIcon, LinkedInIcon } from 'components/Icons'
+import { GitHubIcon, GitLabIcon, MailIcon, LinkedInIcon, CookieIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
 import { Container } from './Container'
@@ -43,6 +44,15 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 					<Link isTransparent={isTransparent} href='https://gitlab.com/Bruhno' aria-label='GitLab profile'>
 						<GitLabIcon size={22} />
 					</Link>
+				</ListItem>
+			</Tooltip>
+			<Tooltip tip='Cookies'>
+				<ListItem>
+					<NextLink href='/cookies' passHref>
+						<Link isTransparent={isTransparent} shouldOpenInNewTab={false} aria-label='Cookies'>
+							<CookieIcon size={22} />
+						</Link>
+					</NextLink>
 				</ListItem>
 			</Tooltip>
 		</SocialList>
