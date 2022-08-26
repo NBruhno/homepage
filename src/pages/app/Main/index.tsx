@@ -15,6 +15,7 @@ import { mediaQueries } from 'styles/theme'
 
 import { Footer } from '../Footer'
 
+import { CookieBanner } from './CookieBanner'
 import { MainContent } from './MainContent'
 import { Modal } from './Modal'
 import { Shade } from './Shade'
@@ -106,6 +107,7 @@ export const Main = ({ children, isNebulaVisible }: Props) => {
 			{children}
 			<Modal />
 			<Shade />
+			<CookieBanner />
 			<Footer isTransparent={isNebulaVisible} />
 		</MainContent>
 	)

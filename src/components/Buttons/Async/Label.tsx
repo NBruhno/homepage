@@ -14,6 +14,7 @@ export const Label = ({ isVisible, ...rest }: Props) => (
 			whiteSpace: 'nowrap',
 			fontFamily: theme.font.family.poppins,
 			zIndex: 1,
+			lineHeight: theme.font.size.s100,
 		})}
 		{...rest}
 	/>
