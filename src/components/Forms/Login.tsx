@@ -1,5 +1,6 @@
 import type { Infer } from 'superstruct'
 
+import Link from 'next/link'
 import { object, size } from 'superstruct'
 
 import { useAuth } from 'states/users'
@@ -86,7 +87,11 @@ export const FormLogin = () => {
 							<Input label='Email' name={name('email')} type='email' isRequired autoComplete='email' />
 							<Input label='Display name' name={name('username')} type='username' isRequired autoComplete='username' />
 							<Input label='Password' name={name('password')} type='password' isRequired autoComplete='password' />
+							<Link href='/privacy-policy' passHref>
+								<a css={{ textDecoration: 'none' }}>By creating an account you confirm that you have read and accepted our Privacy Policy</a>
+							</Link>
 							<div css={(theme) => ({
+								marginTop: '24px',
 								display: 'flex',
 								justifyContent: 'space-between',
 

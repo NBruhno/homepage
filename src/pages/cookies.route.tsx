@@ -8,8 +8,9 @@ const About: NextPage = () => {
 	useTitle('About')
 	return (
 		<Page>
-			<PageContent maxWidth={700}>
+			<PageContent maxWidth={900}>
 				<h1 css={(theme) => ({ fontWeight: theme.font.weight.light, marginBottom: '8px' })}>Cookies on this website</h1>
+				<small>Last updated: {new Date('08/27/2022').toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}</small>
 				<p>By using this website, cookies (basically a form of storage in your browser) may be stored to keep some things functioning properly, like login sessions. You can always remove cookies from your browser or set up your browser to ignore cookies entirely. If you wish to do so, please refer to the help section of your browser. Choosing to prohibit this website from using cookies is might hinder your ability to use the login function, since it relies on functional cookies.</p>
 				<p>This website ONLY uses what the industry is now calling &quot;functional cookies&quot;. There no tracking, marketing or analytical cookies on this site. This website does not care who you are unless you wish to login.</p>
 				<h2>Cookies this website use</h2>

@@ -3,7 +3,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 import { getYear } from 'date-fns'
 import NextLink from 'next/link'
 
-import { GitHubIcon, GitLabIcon, MailIcon, LinkedInIcon, CookieIcon } from 'components/Icons'
+import { GitHubIcon, GitLabIcon, MailIcon, LinkedInIcon, CookieIcon, SpyIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
 import { Container } from './Container'
@@ -51,6 +51,15 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 					<NextLink href='/cookies' passHref>
 						<Link isTransparent={isTransparent} shouldOpenInNewTab={false} aria-label='Cookies'>
 							<CookieIcon size={22} />
+						</Link>
+					</NextLink>
+				</ListItem>
+			</Tooltip>
+			<Tooltip tip='Privacy Policy'>
+				<ListItem>
+					<NextLink href='/privacy-policy' passHref>
+						<Link isTransparent={isTransparent} shouldOpenInNewTab={false} aria-label='Cookies'>
+							<SpyIcon size={22} />
 						</Link>
 					</NextLink>
 				</ListItem>
