@@ -22,7 +22,7 @@ type ModalState = {
 	onOpenModal: (content: ReactNode, options?: Options) => void,
 }
 
-export const useModal = create(devtools<ModalState>((set, state) => ({
+export const useModal = create<ModalState>()(devtools((set, state) => ({
 	allowClosure: true,
 	show: false,
 	content: null,

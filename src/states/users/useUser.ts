@@ -42,7 +42,7 @@ export type UserState = {
 	setUser: (user: User) => void,
 }
 
-export const useUser = create(devtools<UserState>((set) => ({
+export const useUser = create<UserState>()(devtools((set) => ({
 	...initialState,
 	resetUser: () => set({ ...initialState, isStateKnown: true }, false, 'resetUser'),
 	setIntermediateToken: (intermediateUser) => set(intermediateUser, false, 'setIntermediateToken'),

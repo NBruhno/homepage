@@ -28,7 +28,7 @@ const initialValues: Forms = {
 	changePassword: {},
 }
 
-export const useFormStore = create(devtools<FormState>((set, state) => ({
+export const useFormStore = create<FormState>()(devtools((set, state) => ({
 	...initialValues,
 	setFormState: (name, formState) => !isEqual(state()[name], formState) && set({ [name]: formState }, false, 'setFormState'),
 	resetFormState: (name) => !isEqual(state()[name], initialValues) && set({ [name]: initialValues[name] }, false, 'resetFormState'),

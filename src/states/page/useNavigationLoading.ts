@@ -8,7 +8,7 @@ type NavigationLoadingState = {
 	setIsNavigationLoading: (isNavigationLoading: boolean) => void,
 }
 
-export const useNavigationLoadingStore = create(devtools<NavigationLoadingState>((set) => ({
+export const useNavigationLoadingStore = create<NavigationLoadingState>()(devtools((set) => ({
 	isNavigationLoading: false,
 	setIsNavigationLoading: (isNavigationLoading) => set({ isNavigationLoading }),
 }), { anonymousActionType: 'useNavigationLoadingStore' }))

@@ -19,7 +19,7 @@ type SnackbarState = {
 	removeOutdatedSnackbars: () => void,
 }
 
-export const useSnackbar = create(devtools<SnackbarState>((set, state) => ({
+export const useSnackbar = create<SnackbarState>()(devtools((set, state) => ({
 	snackbars: [],
 	addSnackbar: ({ duration, type, ...rest }) => set({
 		snackbars: [

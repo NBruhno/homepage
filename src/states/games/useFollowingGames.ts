@@ -16,7 +16,7 @@ export type FollowingGamesState = PageData & Partial<GameData> & {
 	setIsLimitReached: (isLimitReached: boolean) => void,
 }
 
-export const useFollowingGamesStore = create(devtools<FollowingGamesState>((set) => ({
+export const useFollowingGamesStore = create<FollowingGamesState>()(devtools((set) => ({
 	games: undefined,
 	after: undefined,
 	before: undefined,
