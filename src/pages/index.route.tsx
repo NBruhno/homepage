@@ -10,10 +10,16 @@ import { Portal } from 'components/Portal'
 
 const Nebula = dynamic(async () => {
 	// If the browser does not support WebGL, there is no point in fetching the Nebula component
-	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-	if ((!window.WebGLRenderingContext && !document.createElement('canvas').getContext('experimental-webgl')) as boolean) return () => null
-	const component = await import('components/Nebula')
-	return component.Nebula
+	try {
+		const canvas = document.createElement('canvas')
+		if (Boolean(window.WebGLRenderingContext) && (canvas.getContext('experimental-webgl') || canvas.getContext('webgl'))) {
+			const component = await import('components/Nebula')
+			return component.Nebula
+		}
+		return () => null
+	} catch (e) {
+		return () => null
+	}
 }, { ssr: false })
 
 const Home: NextPage = () => {
