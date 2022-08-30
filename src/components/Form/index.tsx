@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ReactNode, BaseSyntheticEvent } from 'react'
 import type { DeepPartial, FieldPath, FieldPathValue, FieldValues, UseFormReturn, ValidationMode } from 'react-hook-form'
 import type { Struct } from 'superstruct'
 import type { AnyStruct, StructSchema } from 'superstruct/lib/utils'
@@ -62,7 +62,7 @@ type Props<T extends FieldValues> = {
 	shouldResetStateOnSubmitSuccess?: boolean,
 
 	/** If you want to submit programmatically, use the `handleSubmit` from `render()` and set this to `() => undefined` */
-	onSubmit: (fields: T) => Promisable<any>,
+	onSubmit: (fields: T, event: BaseSyntheticEvent | undefined) => Promisable<any>,
 	/**
 	 * This is where you will place all your fields. That way, the form has the right context.
 	 * Returns all available functions from `useForm` and some extra utility functions.
@@ -131,10 +131,11 @@ export const Form = <T extends FieldValues>({
 		<FormProvider {...methods}>
 			<form
 				name={name}
-				onSubmit={methods.handleSubmit(async (fields) => {
-					await onSubmit(fields)
+				onSubmit={methods.handleSubmit(async (fields, event) => {
+					await onSubmit(fields, event)
 					if (shouldPersistStateOnSubmit && name) setFormState(name, formValues)
 					if (shouldResetStateOnSubmitSuccess && name) resetFormState(name)
+					event?.preventDefault()
 				})}
 				noValidate
 			>
