@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react'
 
-import isEmpty from 'lodash/isEmpty'
 import { useFormContext } from 'react-hook-form'
 
 import { Card } from 'components/Card'
@@ -28,21 +27,9 @@ export const FormWrapper = <T extends Record<string, number | string | undefined
 				<Card contentCss={{ minHeight: '360px' }}>{children}</Card>
 				<Card>
 					<Title>Values</Title>
-					<JsonWrapper>
-						{!isEmpty(values) && JSON.stringify(values, null, 2)}
-					</JsonWrapper>
+					<JsonWrapper data={values} name='fields' />
 					<Title>Errors</Title>
-					<JsonWrapper>
-						{!isEmpty(formState.errors) && (
-							<>
-								{'{\n'}
-								{Object.entries(formState.errors).map(([key, value]: [key: string, value: { message: string } | undefined]) => (
-									`  "${key}": ${value?.message ? `"${value.message}"` : 'undefined'},\n`
-								))}
-								{'}'}
-							</>
-						)}
-					</JsonWrapper>
+					<JsonWrapper data={formState.errors} name='errors' />
 				</Card>
 			</div>
 		</>

@@ -1,8 +1,6 @@
 import type { Story } from '@ladle/react'
 import type { ComponentProps } from 'react'
 
-import { logger } from 'lib/logger'
-
 import { ButtonSolid } from 'components/Buttons'
 import { Form } from 'components/Form'
 import { FormWrapper } from 'components/Ladle'
@@ -13,11 +11,13 @@ export default {
 	title: 'Fields/Toggle',
 }
 
-type DefaultProps = Story<Pick<ComponentProps<typeof Toggle>, 'hint' | 'isDisabled' | 'isFullWidth' | 'label' | 'name'>>
+type DefaultProps = Story<Pick<ComponentProps<typeof Toggle>, 'hint' | 'isDisabled' | 'isFullWidth' | 'label' | 'name'> & {
+	onSubmit: (fields: any) => void,
+}>
 
-export const Default: DefaultProps = ({ label, hint, name, isDisabled, isFullWidth }) => (
+export const Default: DefaultProps = ({ label, hint, name, isDisabled, isFullWidth, onSubmit }) => (
 	<Form
-		onSubmit={(fields) => logger.log(fields)}
+		onSubmit={(fields) => onSubmit(fields)}
 		render={({ fieldProps }) => (
 			<FormWrapper title='Default'>
 				<Toggle
@@ -39,4 +39,10 @@ Default.args = {
 	hint: '',
 	isDisabled: false,
 	isFullWidth: true,
+}
+
+Default.argTypes = {
+	onSubmit: {
+		action: 'submitted',
+	},
 }
