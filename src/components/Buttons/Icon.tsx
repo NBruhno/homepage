@@ -17,7 +17,8 @@ export const ButtonIcon = forwardRef<HTMLButtonElement, Props>(({ isActive, ...r
 				backgroundColor: 'transparent',
 				borderRadius: '4px',
 				minWidth: '36px',
-				padding: '5px 8px',
+				padding: '0 8px',
+				color: theme.isDarkTheme ? theme.color.text : theme.color.text,
 
 				'&:disabled': {
 					color: theme.color.gray040,
@@ -36,6 +37,11 @@ export const ButtonIcon = forwardRef<HTMLButtonElement, Props>(({ isActive, ...r
 			},
 		]}
 		ref={ref}
+		labelCss={{
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
+		}}
 		{...rest}
 	/>
 ))
