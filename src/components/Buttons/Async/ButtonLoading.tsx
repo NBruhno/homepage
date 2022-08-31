@@ -1,3 +1,4 @@
+import type { Interpolation } from '@emotion/react'
 import type { ReactNode, ComponentPropsWithoutRef, MouseEvent } from 'react'
 import type { Promisable } from 'type-fest'
 
@@ -15,6 +16,7 @@ type Props = Omit<ComponentPropsWithoutRef<'button'>, 'onClick' | 'type'> & {
 	isLoading?: boolean,
 	isVisible?: boolean,
 	label: ReactNode,
+	labelCss?: Interpolation<Theme>,
 } & (
 	{
 		onClick?: never,
@@ -33,6 +35,7 @@ export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
 	label,
 	onClick,
 	type = 'button',
+	labelCss,
 	...rest
 }, ref) => (
 	<Button
@@ -45,6 +48,6 @@ export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
 		{...rest}
 	>
 		<LoaderWrapper isVisible={isLoading}>{isLoading && <ActivityIndicator />}</LoaderWrapper>
-		<Label isVisible={!isLoading}>{label}</Label>
+		<Label isVisible={!isLoading} css={labelCss}>{label}</Label>
 	</Button>
 ))

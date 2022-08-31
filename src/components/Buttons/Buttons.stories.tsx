@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react'
+
 import { delay } from 'lib/delay'
 
 import { Card } from 'components/Card'
@@ -14,102 +16,75 @@ export default {
 	title: 'Buttons',
 }
 
-export const Solid = () => (
+type Props = {
+	Button: (props: any) => any,
+	onClick: () => void,
+	label?: ReactNode,
+}
+
+const DefaultContent = ({ Button, onClick, label }: Props) => (
 	<Card contentCss={{ display: 'grid', columnGap: '12px', alignItems: 'center', justifyContent: 'space-around', gridTemplateColumns: 'auto auto auto auto auto' }}>
 		<p>Default</p>
 		<p>Promise</p>
 		<p>Form submission</p>
 		<p>Loading</p>
 		<p>Disabled</p>
-		<ButtonSolid label='Default' onClick={() => undefined} />
-		<ButtonSolid label='Promise' onClick={() => delay(2)} />
-		<Form
-			onSubmit={() => delay(2)}
-			render={() => (
-				<ButtonSolid label='Submit' type='submit' />
-			)}
+		<Button label={label ?? 'Default'} onClick={onClick} />
+		<Button
+			label={label ?? 'Promise'}
+			onClick={async () => {
+				await delay(2)
+				onClick()
+			}}
 		/>
-		<ButtonSolid label='Loading' onClick={() => undefined} isLoadingManual />
-		<ButtonSolid label='Disabled' onClick={() => undefined} isDisabled />
+		<Form
+			onSubmit={async () => {
+				await delay(2)
+				onClick()
+			}}
+			render={() => <Button label={label ?? 'Submit'} type='submit' />}
+		/>
+		<Button label={label ?? 'Loading'} onClick={onClick} isLoadingManual />
+		<Button label={label ?? 'Disabled'} onClick={onClick} isDisabled />
 	</Card>
 )
 
-export const Border = () => (
-	<Card contentCss={{ display: 'grid', columnGap: '12px', alignItems: 'center', justifyContent: 'space-around', gridTemplateColumns: 'auto auto auto auto auto' }}>
-		<p>Default</p>
-		<p>Promise</p>
-		<p>Form submission</p>
-		<p>Loading</p>
-		<p>Disabled</p>
-		<ButtonBorder label='Default' onClick={() => undefined} />
-		<ButtonBorder label='Promise' onClick={() => delay(2)} />
-		<Form
-			onSubmit={() => delay(2)}
-			render={() => (
-				<ButtonBorder label='Submit' type='submit' />
-			)}
-		/>
-		<ButtonBorder label='Loading' onClick={() => undefined} isLoadingManual />
-		<ButtonBorder label='Disabled' onClick={() => undefined} isDisabled />
-	</Card>
-)
+export const Solid = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonSolid} />
 
-export const Text = () => (
-	<Card contentCss={{ display: 'grid', columnGap: '12px', alignItems: 'center', justifyContent: 'space-around', gridTemplateColumns: 'auto auto auto auto auto' }}>
-		<p>Default</p>
-		<p>Promise</p>
-		<p>Form submission</p>
-		<p>Loading</p>
-		<p>Disabled</p>
-		<ButtonText label='Default' onClick={() => undefined} />
-		<ButtonText label='Promise' onClick={() => delay(2)} />
-		<Form
-			onSubmit={() => delay(2)}
-			render={() => (
-				<ButtonText label='Submit' type='submit' />
-			)}
-		/>
-		<ButtonText label='Loading' onClick={() => undefined} isLoadingManual />
-		<ButtonText label='Disabled' onClick={() => undefined} isDisabled />
-	</Card>
-)
+Solid.argTypes = {
+	onClick: {
+		action: 'submitted',
+	},
+}
 
-export const Toggle = () => (
-	<Card contentCss={{ display: 'grid', columnGap: '12px', alignItems: 'center', justifyContent: 'space-around', gridTemplateColumns: 'auto auto auto auto auto' }}>
-		<p>Default</p>
-		<p>Promise</p>
-		<p>Form submission</p>
-		<p>Loading</p>
-		<p>Disabled</p>
-		<ButtonToggle label='Default' onClick={() => undefined} />
-		<ButtonToggle label='Promise' onClick={() => delay(2)} />
-		<Form
-			onSubmit={() => delay(2)}
-			render={() => (
-				<ButtonToggle label='Submit' type='submit' />
-			)}
-		/>
-		<ButtonToggle label='Loading' onClick={() => undefined} isLoadingManual />
-		<ButtonToggle label='Disabled' onClick={() => undefined} isDisabled />
-	</Card>
-)
+export const Border = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonBorder} />
 
-export const Icon = () => (
-	<Card contentCss={{ display: 'grid', columnGap: '12px', alignItems: 'center', justifyContent: 'space-around', gridTemplateColumns: 'auto auto auto auto auto' }}>
-		<p>Default</p>
-		<p>Promise</p>
-		<p>Form submission</p>
-		<p>Loading</p>
-		<p>Disabled</p>
-		<ButtonIcon label={<WorldIcon />} onClick={() => undefined} />
-		<ButtonIcon label={<WorldIcon />} onClick={() => delay(2)} />
-		<Form
-			onSubmit={() => delay(2)}
-			render={() => (
-				<ButtonIcon label={<WorldIcon />} type='submit' />
-			)}
-		/>
-		<ButtonIcon label={<WorldIcon />} onClick={() => undefined} isLoadingManual />
-		<ButtonIcon label={<WorldIcon />} onClick={() => undefined} isDisabled />
-	</Card>
-)
+Border.argTypes = {
+	onClick: {
+		action: 'submitted',
+	},
+}
+
+export const Text = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonText} />
+
+Text.argTypes = {
+	onClick: {
+		action: 'submitted',
+	},
+}
+
+export const Toggle = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonToggle} />
+
+Toggle.argTypes = {
+	onClick: {
+		action: 'submitted',
+	},
+}
+
+export const Icon = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonIcon} label={<WorldIcon />} />
+
+Icon.argTypes = {
+	onClick: {
+		action: 'submitted',
+	},
+}

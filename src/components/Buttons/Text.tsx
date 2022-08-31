@@ -15,6 +15,7 @@ export const ButtonText = forwardRef<HTMLButtonElement, Props>(({ isSlim, ...res
 		css={(theme) => ({
 			backgroundColor: 'transparent',
 			borderRadius: '4px',
+			color: theme.isDarkTheme ? theme.color.text : theme.color.text,
 
 			padding: '6px 12px',
 			margin: '4px 0',

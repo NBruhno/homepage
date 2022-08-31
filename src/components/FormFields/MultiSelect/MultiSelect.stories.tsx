@@ -1,8 +1,6 @@
 import type { Story } from '@ladle/react'
 import type { ComponentProps } from 'react'
 
-import { logger } from 'lib/logger'
-
 import { ButtonSolid } from 'components/Buttons'
 import { Form } from 'components/Form'
 import { FormWrapper } from 'components/Ladle'
@@ -18,11 +16,11 @@ const options = Array.from({ length: 100 }).map((_, index) => ({
 	value: index + 1,
 }))
 
-type DefaultProps = Story<Omit<ComponentProps<typeof MultiSelect>, 'options'>>
+type DefaultProps = Story<Omit<ComponentProps<typeof MultiSelect>, 'options'> & { onSubmit: (value: any) => void }>
 
-export const Default: DefaultProps = ({ label, hint, isRequired, name, isDisabled, isFullWidth, placeholder, showOptionalHint, shouldAutofocus }) => (
+export const Default: DefaultProps = ({ label, hint, isRequired, name, isDisabled, isFullWidth, placeholder, showOptionalHint, shouldAutofocus, onSubmit }) => (
 	<Form
-		onSubmit={(fields) => logger.log(fields)}
+		onSubmit={(fields) => onSubmit(fields)}
 		render={({ fieldProps }) => (
 			<FormWrapper title='Default'>
 				<MultiSelect
@@ -53,4 +51,10 @@ Default.args = {
 	showOptionalHint: true,
 	shouldAutofocus: false,
 	placeholder: 'Placeholder text',
+}
+
+Default.argTypes = {
+	onSubmit: {
+		action: 'submitted',
+	},
 }

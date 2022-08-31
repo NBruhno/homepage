@@ -5,8 +5,6 @@ import { object } from 'superstruct'
 
 import { fieldEmail, fieldNumber, fieldPassword, fieldString } from 'validation/fields'
 
-import { logger } from 'lib/logger'
-
 import { ButtonSolid } from 'components/Buttons'
 import { Form } from 'components/Form'
 import { FormWrapper } from 'components/Ladle'
@@ -17,11 +15,13 @@ export default {
 	title: 'Fields/Input',
 }
 
-type DefaultProps = Story<Pick<ComponentProps<typeof Input>, 'hint' | 'isDisabled' | 'isFullWidth' | 'isRequired' | 'label' | 'name' | 'placeholder' | 'shouldAutofocus' | 'showOptionalHint' | 'type'>>
+type DefaultProps = Story<Pick<ComponentProps<typeof Input>, 'hint' | 'isDisabled' | 'isFullWidth' | 'isRequired' | 'label' | 'name' | 'placeholder' | 'shouldAutofocus' | 'showOptionalHint' | 'type'> & {
+	onSubmit: (fields: any) => void,
+}>
 
-export const Default: DefaultProps = ({ label, hint, type, isRequired, name, isDisabled, isFullWidth, placeholder, showOptionalHint, shouldAutofocus }) => (
+export const Default: DefaultProps = ({ label, hint, type, isRequired, name, isDisabled, isFullWidth, placeholder, showOptionalHint, shouldAutofocus, onSubmit }) => (
 	<Form
-		onSubmit={(fields) => logger.log(fields)}
+		onSubmit={(fields) => onSubmit(fields)}
 		render={({ fieldProps }) => (
 			<FormWrapper title='Default'>
 				<Input
@@ -60,9 +60,12 @@ Default.argTypes = {
 		control: { type: 'select' },
 		defaultValue: 'text',
 	},
+	onSubmit: {
+		action: 'submitted',
+	},
 }
 
-export const InferredBySchema = () => {
+export const InferredBySchema = ({ onSubmit }: { onSubmit: (fields: any) => void }) => {
 	const schema = object({
 		input: fieldString(),
 		inputOptional: fieldString({ isOptional: true }),
@@ -75,7 +78,7 @@ export const InferredBySchema = () => {
 	return (
 		<Form
 			schema={schema}
-			onSubmit={(fields) => logger.log(fields)}
+			onSubmit={(fields) => onSubmit(fields)}
 			render={({ fieldProps }) => (
 				<FormWrapper title='Required'>
 					<Input {...fieldProps('input')} label='Required text' />
@@ -89,4 +92,10 @@ export const InferredBySchema = () => {
 			)}
 		/>
 	)
+}
+
+InferredBySchema.argTypes = {
+	onSubmit: {
+		action: 'submitted',
+	},
 }

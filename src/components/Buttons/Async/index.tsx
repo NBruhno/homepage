@@ -1,3 +1,4 @@
+import type { Interpolation } from '@emotion/react'
 import type { ReactNode, MouseEvent, ComponentPropsWithoutRef } from 'react'
 import type { Promisable } from 'type-fest'
 
@@ -15,6 +16,7 @@ export type Props = Omit<ComponentPropsWithoutRef<'button'>, 'disabled' | 'onCli
 	isLoadingManual?: boolean,
 	label: ReactNode,
 	minDelay?: number,
+	labelCss?: Interpolation<Theme>,
 } & (
 	{
 		onClick?: never,
@@ -34,6 +36,7 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 	onClick,
 	type = 'button',
 	isFullWidth = false,
+	labelCss,
 	...rest
 }, ref) => {
 	const [isLoadingInternal, setInternalLoading] = useState(false)
@@ -70,6 +73,7 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 					<ButtonLoading
 						isLoading={isSubmitting || isLoadingManual || isLoadingInternal}
 						type='submit'
+						labelCss={labelCss}
 						{...defaultProps}
 					/>
 				)}
@@ -82,6 +86,7 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 			isLoading={isLoadingManual || isLoadingInternal}
 			type={type}
 			onClick={(event) => handleClick(event)}
+			labelCss={labelCss}
 			{...defaultProps}
 		/>
 	)
