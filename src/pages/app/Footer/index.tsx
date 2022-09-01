@@ -1,9 +1,9 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { IconCookie, IconSpy, IconMail, IconBrandLinkedin, IconBrandGithub, IconBrandGitlab } from '@tabler/icons'
 import { getYear } from 'date-fns'
 import NextLink from 'next/link'
 
-import { GitHubIcon, GitLabIcon, MailIcon, LinkedInIcon, CookieIcon, SpyIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
 import { Container } from './Container'
@@ -21,28 +21,28 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 			<Tooltip tip='mail@bruhno.com'>
 				<ListItem>
 					<Link isTransparent={isTransparent} href='mailto:mail@bruhno.com' target={undefined} aria-label='Send an email to mail@bruhno.com'>
-						<MailIcon size={22} />
+						<IconMail size={22} />
 					</Link>
 				</ListItem>
 			</Tooltip>
 			<Tooltip tip='linkedin.com/in/bruhno'>
 				<ListItem>
 					<Link isTransparent={isTransparent} href='https://www.linkedin.com/in/bruhno' aria-label='LinkedIn profile'>
-						<LinkedInIcon size={22} />
+						<IconBrandLinkedin size={22} />
 					</Link>
 				</ListItem>
 			</Tooltip>
 			<Tooltip tip='github.com/NBruhno'>
 				<ListItem>
 					<Link isTransparent={isTransparent} href='https://github.com/NBruhno' aria-label='GitHub profile'>
-						<GitHubIcon size={22} />
+						<IconBrandGithub size={22} />
 					</Link>
 				</ListItem>
 			</Tooltip>
 			<Tooltip tip='gitlab.com/Bruhno'>
 				<ListItem>
 					<Link isTransparent={isTransparent} href='https://gitlab.com/Bruhno' aria-label='GitLab profile'>
-						<GitLabIcon size={22} />
+						<IconBrandGitlab size={22} />
 					</Link>
 				</ListItem>
 			</Tooltip>
@@ -50,7 +50,7 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 				<ListItem>
 					<NextLink href='/cookies' passHref>
 						<Link isTransparent={isTransparent} shouldOpenInNewTab={false} aria-label='Cookies'>
-							<CookieIcon size={22} />
+							<IconCookie size={22} />
 						</Link>
 					</NextLink>
 				</ListItem>
@@ -59,7 +59,7 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 				<ListItem>
 					<NextLink href='/privacy-policy' passHref>
 						<Link isTransparent={isTransparent} shouldOpenInNewTab={false} aria-label='Cookies'>
-							<SpyIcon size={22} />
+							<IconSpy size={22} />
 						</Link>
 					</NextLink>
 				</ListItem>

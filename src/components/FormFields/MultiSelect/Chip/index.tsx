@@ -2,10 +2,10 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import type { ComponentPropsWithRef, ReactNode } from 'react'
 
+import { IconX } from '@tabler/icons'
 import { forwardRef } from 'react'
 
 import { ButtonIcon } from 'components/Buttons'
-import { CloseIcon } from 'components/Icons'
 
 type Props = ComponentPropsWithRef<'div'> & {
 	children: ReactNode,
@@ -55,7 +55,7 @@ export const Chip = forwardRef<HTMLDivElement, Props>(({ children, onRemoveChip,
 				onRemoveChip()
 			}}
 			label={(
-				<CloseIcon
+				<IconX
 					size={16}
 				/>
 			)}

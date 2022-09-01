@@ -1,6 +1,7 @@
 import type { GameNews, GameNewsItem } from 'types'
 
-import { ChevronRightIcon } from 'components/Icons'
+import { IconChevronRight } from '@tabler/icons'
+
 import { Placeholder } from 'components/Placeholder'
 
 import { Empty } from './Empty'
@@ -65,7 +66,7 @@ export const News = ({ gameNews }: Props) => {
 			>
 				<Placeholder isLoading={isLoading}>
 					<span>See all the other news on Steam</span>
-					<ChevronRightIcon />
+					<IconChevronRight />
 				</Placeholder>
 			</a>
 		</>

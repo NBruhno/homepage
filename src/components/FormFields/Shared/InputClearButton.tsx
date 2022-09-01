@@ -1,5 +1,6 @@
+import { IconX } from '@tabler/icons'
+
 import { ButtonIcon } from 'components/Buttons'
-import { CloseIcon } from 'components/Icons'
 
 type Props = {
 	isVisible?: boolean,
@@ -27,7 +28,7 @@ export const InputClearButton = ({ isVisible = true, onClick }: Props) => {
 					},
 				})}
 				label={(
-					<CloseIcon
+					<IconX
 						size={20}
 					/>
 				)}

@@ -1,8 +1,9 @@
+import { IconLogin, IconLogout } from '@tabler/icons'
+
 import { useResponsive } from 'states/page'
 import { useAuth, useUser } from 'states/users'
 
 import { ButtonText } from 'components/Buttons'
-import { LoginIcon, LogoutIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
 export const ButtonAuthenticate = () => {
@@ -30,12 +31,12 @@ export const ButtonAuthenticate = () => {
 					<>
 						{accessToken ? (
 							<>
-								<LogoutIcon />
+								<IconLogout />
 								<span>Logout</span>
 							</>
 						) : (
 							<>
-								<LoginIcon />
+								<IconLogin />
 								<span>Login</span>
 							</>
 						)}

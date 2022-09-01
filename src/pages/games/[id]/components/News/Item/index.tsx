@@ -1,8 +1,8 @@
 import type { GameNewsItem } from 'types'
 
+import { IconChevronRight } from '@tabler/icons'
 import { parseISO } from 'date-fns'
 
-import { ChevronRightIcon } from 'components/Icons'
 import { Placeholder } from 'components/Placeholder'
 
 import { Container } from './Container'
@@ -23,6 +23,6 @@ export const Item = ({ title, date, url, isLoading }: Props) => (
 				</Placeholder>
 			</div>
 		</div>
-		<ChevronRightIcon />
+		<IconChevronRight />
 	</Container>
 )

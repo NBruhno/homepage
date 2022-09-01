@@ -1,6 +1,6 @@
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons'
 import { useEffect, useState } from 'react'
 
-import { ChevronLeftIcon, ChevronRightIcon } from 'components/Icons'
 import { Video } from 'components/Video'
 
 import { Button } from './Button'
@@ -24,7 +24,7 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 	return (
 		<Wrapper>
 			<Button
-				label={<ChevronLeftIcon />}
+				label={<IconChevronLeft />}
 				orientation='left'
 				onClick={() => videoIndex === 0 ? setVideoIndex(videos.length - 1) : setVideoIndex(videoIndex - 1)}
 			/>
@@ -32,7 +32,7 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 				<Video id={videos[videoIndex]?.videoId ?? ''} name={videos[videoIndex]?.name ?? ''} />
 			</div>
 			<Button
-				label={<ChevronRightIcon />}
+				label={<IconChevronRight />}
 				orientation='right'
 				onClick={() => videoIndex === videos.length - 1 ? setVideoIndex(0) : setVideoIndex(videoIndex + 1)}
 			/>

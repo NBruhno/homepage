@@ -1,7 +1,7 @@
-import { AlertIcon } from 'components/Icons'
+import { IconAlertCircle } from '@tabler/icons'
 
 export const Icon = () => (
-	<AlertIcon
+	<IconAlertCircle
 		size={20}
 		css={(theme) => ({
 			color: theme.color.white,

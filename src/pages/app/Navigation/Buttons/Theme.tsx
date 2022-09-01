@@ -1,7 +1,8 @@
+import { IconMoon, IconSun } from '@tabler/icons'
+
 import { useDarkMode, useResponsive } from 'states/page'
 
 import { ButtonText } from 'components/Buttons'
-import { SunIcon, MoonIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
 import { Separator } from '../Separator'
@@ -28,7 +29,7 @@ export const ButtonTheme = () => {
 					})}
 					label={(
 						<>
-							{globalTheme === 'light' ? <MoonIcon /> : <SunIcon />}
+							{globalTheme === 'light' ? <IconMoon /> : <IconSun />}
 							{globalTheme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
 						</>
 					)}
