@@ -19,21 +19,18 @@ export const ButtonTheme = () => {
 				position='right'
 			>
 				<ButtonText
-					css={{ margin: '6px 12px 7px', height: '35px' }}
+					css={{ margin: '6px 12px 7px', padding: '0 12px' }}
 					isSlim
+					labelCss={() => ({
+						display: 'flex',
+						alignItems: 'center',
+						columnGap: '12px',
+					})}
 					label={(
-						<div
-							css={{
-								display: 'flex',
-								alignItems: 'center',
-								height: '20px',
-								columnGap: '12px',
-								lineHeight: '12px',
-							}}
-						>
+						<>
 							{globalTheme === 'light' ? <MoonIcon /> : <SunIcon />}
 							{globalTheme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
-						</div>
+						</>
 					)}
 					onClick={() => toggleTheme()}
 				/>
