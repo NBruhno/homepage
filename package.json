@@ -111,7 +111,6 @@
     "node-mocks-http": "1.11.0",
     "prisma": "4.3.0",
     "react-inspector": "6.0.1",
-    "sharp": "0.30.7",
     "supertest": "6.2.4",
     "type-fest": "2.19.0",
     "typescript": "4.8.2",
