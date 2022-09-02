@@ -35,7 +35,7 @@ export const Chip = forwardRef<HTMLDivElement, Props>(({ children, onRemoveChip,
 				width: '22px',
 				height: '22px',
 				minWidth: 'auto',
-				padding: '3px 2px',
+				padding: 0,
 				borderRadius: '0 4px 4px 0',
 				color: isHighlighted ? theme.color.error : theme.color.gray050,
 				backgroundColor: isHighlighted ? theme.color.errorBackgroundHover : 'transparent',
@@ -50,6 +50,9 @@ export const Chip = forwardRef<HTMLDivElement, Props>(({ children, onRemoveChip,
 					color: theme.color.error,
 				},
 			})}
+			labelCss={{
+				padding: '3px 2px',
+			}}
 			onClick={(event) => {
 				event.stopPropagation()
 				onRemoveChip()
