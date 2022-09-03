@@ -13,6 +13,7 @@ import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
 import { InputError } from '../InputError'
 import { LabelContainer } from '../LabelContainer'
+import { InputClearButton } from '../Shared'
 
 import { HintContainer } from './HintContainer'
 import { InputComponent } from './InputComponent'
@@ -43,8 +44,8 @@ export const Input = ({
 	label, hint, placeholder, shouldAutofocus,
 }: Props) => {
 	const id = useUnique(name)
-	const { register, formState: { errors }, watch } = useFormContext()
-	const value = watch(name, null) as Date | number | string
+	const { register, formState: { errors }, watch, resetField } = useFormContext()
+	const value = watch(name, null) as Date | number | string | undefined
 	const { isFocusVisible, focusProps } = useFocusRing({ isTextInput: true, autoFocus: shouldAutofocus })
 	const { hoverProps, isHovered } = useHover({})
 
@@ -115,24 +116,27 @@ export const Input = ({
 						{maxLength && <Hint> {(value && typeof value === 'string' && value.length) || 0} / {maxLength}</Hint>}
 					</HintContainer>
 				</LabelContainer>
-				{type === 'multiline' ? (
-					<Textarea
-						{...inputProps}
-						{...defaultProps}
-						isDisabled={isDisabled}
-						minRows={minRows}
-						maxRows={maxRows}
-						isHovered={isHovered}
-						isFocusVisible={isFocusVisible}
-					/>
-				) : (
-					<InputComponent
-						{...inputProps}
-						{...defaultProps}
-						isHovered={isHovered}
-						isFocusVisible={isFocusVisible}
-					/>
-				)}
+				<div css={{ position: 'relative' }}>
+					{type === 'multiline' ? (
+						<Textarea
+							{...inputProps}
+							{...defaultProps}
+							isDisabled={isDisabled}
+							minRows={minRows}
+							maxRows={maxRows}
+							isHovered={isHovered}
+							isFocusVisible={isFocusVisible}
+						/>
+					) : (
+						<InputComponent
+							{...inputProps}
+							{...defaultProps}
+							isHovered={isHovered}
+							isFocusVisible={isFocusVisible}
+						/>
+					)}
+					<InputClearButton isVisible={value !== undefined} onClick={() => resetField(name)} />
+				</div>
 				<InputError
 					hasError={hasError}
 					errorMessage={error?.message as string | undefined}
