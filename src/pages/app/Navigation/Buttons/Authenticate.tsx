@@ -31,12 +31,12 @@ export const ButtonAuthenticate = () => {
 					<>
 						{accessToken ? (
 							<>
-								<IconLogout />
+								<IconLogout css={{ flexShrink: 0 }} />
 								<span>Logout</span>
 							</>
 						) : (
 							<>
-								<IconLogin />
+								<IconLogin css={{ flexShrink: 0 }} />
 								<span>Login</span>
 							</>
 						)}

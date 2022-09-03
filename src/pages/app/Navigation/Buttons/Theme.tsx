@@ -22,14 +22,15 @@ export const ButtonTheme = () => {
 				<ButtonText
 					css={{ margin: '6px 12px 7px', padding: '0 12px' }}
 					isSlim
-					labelCss={() => ({
+					labelCss={(theme) => ({
 						display: 'flex',
 						alignItems: 'center',
 						columnGap: '12px',
+						color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,
 					})}
 					label={(
 						<>
-							{globalTheme === 'light' ? <IconMoon /> : <IconSun />}
+							{globalTheme === 'light' ? <IconMoon css={{ flexShrink: 0 }} /> : <IconSun css={{ flexShrink: 0 }} />}
 							{globalTheme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
 						</>
 					)}

@@ -24,20 +24,20 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 			<Link
 				url='/'
 				name='Home'
-				renderIcon={() => <IconHome size={22} />}
+				renderIcon={() => <IconHome size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/home'
 				name='Smart home'
 				isActive={pathname.includes('/home')}
 				allowedRoles={[UserRole.Admin]}
-				renderIcon={() => <IconSmartHome size={22} />}
+				renderIcon={() => <IconSmartHome size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/users/profile'
 				name={(accessToken && username) ? username : 'Not logged in'}
 				isActive={pathname.includes('/users/profile')}
-				renderIcon={() => accessToken ? <IconUser size={22} /> : <IconUserOff size={22} />}
+				renderIcon={() => accessToken ? <IconUser size={22} css={{ flexShrink: 0 }} /> : <IconUserOff size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<ButtonAuthenticate />
 			<Separator isCollapsed={isSidebarCollapsed}>
@@ -47,19 +47,19 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 				url='/games/popular'
 				name='Popular'
 				isActive={pathname.includes('/games/popular')}
-				renderIcon={() => <IconListNumbers size={22} />}
+				renderIcon={() => <IconListNumbers size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url={userId ? `/games/following?user=${userId}` : '/games/following'}
 				name='Following'
 				isActive={pathname.includes('/games/following')}
-				renderIcon={() => <IconListCheck size={22} />}
+				renderIcon={() => <IconListCheck size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/games/search'
 				name='Search'
 				isActive={pathname.includes('/games/search')}
-				renderIcon={() => <IconListSearch size={22} />}
+				renderIcon={() => <IconListSearch size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Separator isCollapsed={isSidebarCollapsed}>
 				Other
@@ -68,19 +68,19 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 				url='/projects'
 				name='Projects'
 				isActive={pathname.includes('/projects')}
-				renderIcon={() => <IconApps size={22} />}
+				renderIcon={() => <IconApps size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/components'
 				name='Components'
 				isActive={pathname.includes('/components')}
-				renderIcon={() => <IconTools size={22} />}
+				renderIcon={() => <IconTools size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/about'
 				name='About'
 				isActive={pathname.includes('/about')}
-				renderIcon={() => <IconInfoCircle size={22} />}
+				renderIcon={() => <IconInfoCircle size={22} css={{ flexShrink: 0 }} />}
 			/>
 		</Content>
 	)
