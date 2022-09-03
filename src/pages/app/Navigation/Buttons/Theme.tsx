@@ -1,7 +1,8 @@
+import { IconMoon, IconSun } from '@tabler/icons'
+
 import { useDarkMode, useResponsive } from 'states/page'
 
 import { ButtonText } from 'components/Buttons'
-import { SunIcon, MoonIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
 import { Separator } from '../Separator'
@@ -19,21 +20,19 @@ export const ButtonTheme = () => {
 				position='right'
 			>
 				<ButtonText
-					css={{ margin: '6px 12px 7px', height: '35px' }}
+					css={{ margin: '6px 12px 7px', padding: '0 12px' }}
 					isSlim
+					labelCss={(theme) => ({
+						display: 'flex',
+						alignItems: 'center',
+						columnGap: '12px',
+						color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,
+					})}
 					label={(
-						<div
-							css={{
-								display: 'flex',
-								alignItems: 'center',
-								height: '20px',
-								columnGap: '12px',
-								lineHeight: '12px',
-							}}
-						>
-							{globalTheme === 'light' ? <MoonIcon /> : <SunIcon />}
+						<>
+							{globalTheme === 'light' ? <IconMoon css={{ flexShrink: 0 }} /> : <IconSun css={{ flexShrink: 0 }} />}
 							{globalTheme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
-						</div>
+						</>
 					)}
 					onClick={() => toggleTheme()}
 				/>

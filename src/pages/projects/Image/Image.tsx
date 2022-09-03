@@ -9,22 +9,20 @@ type Props = {
 }
 
 export const Image = ({ loading = 'lazy', title, width, height, src, ...rest }: Props) => (
-	<div
+	<NextImage
+		alt={title}
+		height={height}
+		width={width}
+		loading={loading}
+		src={src}
+		placeholder='blur'
+		blurDataURL='LGJIFP000KWBx]nP?IWB4nRi~qbI'
+		{...rest}
 		css={{
 			cursor: 'zoom-in',
 			display: 'flex',
-			justifyContent: 'center',
+			width: '100%',
+			height: '100%',
 		}}
-	>
-		<NextImage
-			alt={title}
-			height={height}
-			loading={loading}
-			src={src}
-			width={width}
-			placeholder='blur'
-			blurDataURL='LGJIFP000KWBx]nP?IWB4nRi~qbI'
-			{...rest}
-		/>
-	</div>
+	/>
 )

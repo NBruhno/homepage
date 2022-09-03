@@ -1,11 +1,11 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { IconMenu2 } from '@tabler/icons'
 import Link from 'next/link'
 
 import { useResponsive } from 'states/page'
 
 import { ButtonIcon } from 'components/Buttons'
-import { MenuIcon } from 'components/Icons'
 import { Logo } from 'components/Logo'
 
 import { NavLink } from '../NavLink'
@@ -21,7 +21,7 @@ export const Header = (props: ComponentPropsWithoutRef<'nav'>) => {
 			<LoadingBar />
 			<HeaderComponent {...props}>
 				<ButtonIcon
-					label={<MenuIcon css={(theme) => ({ color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted })} />}
+					label={<IconMenu2 css={(theme) => ({ color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted })} />}
 					onClick={() => setResponsiveState({ showMenu: !showMenu })}
 				/>
 				<Link href='/' passHref>

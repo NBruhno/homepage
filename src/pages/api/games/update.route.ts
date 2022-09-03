@@ -1,10 +1,10 @@
 import { withSentry } from '@sentry/nextjs'
 import { compareAsc, getUnixTime, isAfter, sub } from 'date-fns'
-import { partition } from 'lodash'
 import chunk from 'lodash/chunk'
 import differenceBy from 'lodash/differenceBy'
 import differenceWith from 'lodash/differenceWith'
 import intersectionBy from 'lodash/intersectionBy'
+import partition from 'lodash/partition'
 import { array, create, object, optional, coerce, number, pattern, string, assign, enums, literal } from 'superstruct'
 
 import { config } from 'config.server'

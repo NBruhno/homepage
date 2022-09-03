@@ -1,5 +1,6 @@
+import { IconX } from '@tabler/icons'
+
 import { ButtonIcon } from 'components/Buttons'
-import { CloseIcon } from 'components/Icons'
 
 type Props = {
 	isVisible?: boolean,
@@ -18,7 +19,6 @@ export const InputClearButton = ({ isVisible = true, onClick }: Props) => {
 					bottom: '2px',
 					height: 'calc(100% - 4px)',
 					borderRadius: '0 2px 2px 0',
-					paddingTop: '9px',
 					zIndex: 1,
 					color: theme.color.gray050,
 					'&:hover:enabled': {
@@ -27,7 +27,7 @@ export const InputClearButton = ({ isVisible = true, onClick }: Props) => {
 					},
 				})}
 				label={(
-					<CloseIcon
+					<IconX
 						size={20}
 					/>
 				)}

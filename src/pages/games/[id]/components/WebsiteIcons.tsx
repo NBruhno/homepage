@@ -2,12 +2,11 @@ import type { ComponentPropsWithoutRef } from 'react'
 import type { GameWebsite } from 'types'
 import { GameWebsiteType } from 'types'
 
+import { IconBrandApple, IconBrandDiscord, IconBrandGooglePlay, IconBrandReddit, IconBrandSteam, IconBrandTwitter, IconQuestionMark, IconWorld } from '@tabler/icons'
+
 import { useLoading, useResponsive } from 'states/page'
 
-import {
-	SteamIcon, GooglePlayIcon, GoGIcon, RedditIcon, AppleIcon, TwitterIcon,
-	EpicGamesIcon, ItchIoIcon, DiscordIcon, WorldIcon, QuestionMarkIcon,
-} from 'components/Icons'
+import { GoGIcon, EpicGamesIcon, ItchIoIcon } from 'components/Icons'
 import { Tooltip } from 'components/Tooltip'
 
 type Props = ComponentPropsWithoutRef<'div'> & {
@@ -19,17 +18,17 @@ export const WebsiteIcons = ({ websites, ...rest }: Props) => {
 	const { isLoading } = useLoading()
 	const isDesktopOrHigher = isDesktop || isDesktopLarge || isDesktopMax
 	const websiteInformation = {
-		[GameWebsiteType.GooglePlayStore]: { logo: <GooglePlayIcon size={32} />, name: 'Google Play store' },
-		[GameWebsiteType.Discord]: { logo: <DiscordIcon size={32} />, name: 'Discord server' },
+		[GameWebsiteType.GooglePlayStore]: { logo: <IconBrandGooglePlay size={32} />, name: 'Google Play store' },
+		[GameWebsiteType.Discord]: { logo: <IconBrandDiscord size={32} />, name: 'Discord server' },
 		[GameWebsiteType.EpicGames]: { logo: <EpicGamesIcon size={32} />, name: 'Epic Games store' },
 		[GameWebsiteType.GoG]: { logo: <GoGIcon size={32} />, name: 'Good old Games store' },
-		[GameWebsiteType.AppStore]: { logo: <AppleIcon size={32} />, name: 'App Store' },
+		[GameWebsiteType.AppStore]: { logo: <IconBrandApple size={32} />, name: 'App Store' },
 		[GameWebsiteType.Itch]: { logo: <ItchIoIcon size={32} />, name: 'Itch.io website' },
-		[GameWebsiteType.Official]: { logo: <WorldIcon size={32} />, name: 'Official website' },
-		[GameWebsiteType.Reddit]: { logo: <RedditIcon size={32} />, name: 'Sub-reddit' },
-		[GameWebsiteType.Steam]: { logo: <SteamIcon size={32} />, name: 'Steam store' },
-		[GameWebsiteType.Twitter]: { logo: <TwitterIcon size={32} />, name: 'Twitter profile' },
-		[GameWebsiteType.Unknown]: { logo: <QuestionMarkIcon size={32} />, name: 'Unknown website' },
+		[GameWebsiteType.Official]: { logo: <IconWorld size={32} />, name: 'Official website' },
+		[GameWebsiteType.Reddit]: { logo: <IconBrandReddit size={32} />, name: 'Sub-reddit' },
+		[GameWebsiteType.Steam]: { logo: <IconBrandSteam size={32} />, name: 'Steam store' },
+		[GameWebsiteType.Twitter]: { logo: <IconBrandTwitter size={32} />, name: 'Twitter profile' },
+		[GameWebsiteType.Unknown]: { logo: <IconQuestionMark size={32} />, name: 'Unknown website' },
 	}
 
 	if (!websites || websites.length <= 0) return null

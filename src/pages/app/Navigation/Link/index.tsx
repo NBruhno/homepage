@@ -1,4 +1,3 @@
-import type { ComponentProps } from 'react'
 import type { UserRole } from 'types'
 
 import NextLink from 'next/link'
@@ -8,7 +7,6 @@ import { forwardRef } from 'react'
 import { useResponsive } from 'states/page'
 import { useUser } from 'states/users'
 
-import type { Svg } from 'components/Icons/Svg'
 import { Tooltip } from 'components/Tooltip'
 
 import { NavLink } from '../../NavLink'
@@ -17,12 +15,12 @@ import { Text } from '../Text'
 type Props = {
 	name: string,
 	url: string,
-	Icon: (props: Partial<ComponentProps<typeof Svg>>) => JSX.Element,
 	allowedRoles?: Array<UserRole>,
 	isActive?: boolean,
+	renderIcon: () => JSX.Element,
 }
 
-export const Link = forwardRef<HTMLAnchorElement, Props>(({ url, Icon, name, isActive, allowedRoles = [] }, ref) => {
+export const Link = forwardRef<HTMLAnchorElement, Props>(({ url, renderIcon, name, isActive, allowedRoles = [] }, ref) => {
 	const { isMobile, setResponsiveState, isSidebarCollapsed } = useResponsive()
 	const role = useUser((state) => state.role)
 	const { pathname } = useRouter()
@@ -44,7 +42,7 @@ export const Link = forwardRef<HTMLAnchorElement, Props>(({ url, Icon, name, isA
 					isActive={isActive ?? pathname === url}
 					ref={ref}
 				>
-					<Icon title={name} size={22} /><Text>{name}</Text>
+					{renderIcon()}<Text>{name}</Text>
 				</NavLink>
 			</Tooltip>
 		</NextLink>

@@ -280,6 +280,7 @@ module.exports = {
 		'react/react-in-jsx-scope': 'off',
 		'react/require-default-props': 0,
 		'react/sort-comp': 'off',
+		'react/no-unknown-property': 'off',
 
 		/* ******************************************** */
 		/* ************ Other plugin rules ************ */

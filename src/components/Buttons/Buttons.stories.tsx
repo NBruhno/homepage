@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react'
 
+import { IconWorld } from '@tabler/icons'
+
 import { delay } from 'lib/delay'
 
 import { Card } from 'components/Card'
 import { Form } from 'components/Form'
-import { WorldIcon } from 'components/Icons'
 
 import { ButtonBorder } from './Border'
 import { ButtonIcon } from './Icon'
@@ -81,7 +82,7 @@ Toggle.argTypes = {
 	},
 }
 
-export const Icon = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonIcon} label={<WorldIcon />} />
+export const Icon = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonIcon} label={<IconWorld />} />
 
 Icon.argTypes = {
 	onClick: {

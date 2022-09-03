@@ -1,11 +1,10 @@
 import { UserRole } from 'types'
 
+import { IconApps, IconHome, IconInfoCircle, IconListCheck, IconListNumbers, IconListSearch, IconSmartHome, IconTools, IconUser, IconUserOff } from '@tabler/icons'
 import { useRouter } from 'next/router'
 import shallow from 'zustand/shallow'
 
 import { useUser } from 'states/users'
-
-import { HomeIcon, UserIcon, UserOffIcon, InfoIcon, AppsIcon, ListNumberIcon, ListCheckIcon, ListSearchIcon, SmartHomeIcon, ToolsIcon } from 'components/Icons'
 
 import { ButtonAuthenticate } from './Buttons/Authenticate'
 import { Content } from './Content'
@@ -25,20 +24,20 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 			<Link
 				url='/'
 				name='Home'
-				Icon={HomeIcon}
+				renderIcon={() => <IconHome size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/home'
 				name='Smart home'
 				isActive={pathname.includes('/home')}
 				allowedRoles={[UserRole.Admin]}
-				Icon={SmartHomeIcon}
+				renderIcon={() => <IconSmartHome size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/users/profile'
 				name={(accessToken && username) ? username : 'Not logged in'}
 				isActive={pathname.includes('/users/profile')}
-				Icon={accessToken ? UserIcon : UserOffIcon}
+				renderIcon={() => accessToken ? <IconUser size={22} css={{ flexShrink: 0 }} /> : <IconUserOff size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<ButtonAuthenticate />
 			<Separator isCollapsed={isSidebarCollapsed}>
@@ -48,19 +47,19 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 				url='/games/popular'
 				name='Popular'
 				isActive={pathname.includes('/games/popular')}
-				Icon={ListNumberIcon}
+				renderIcon={() => <IconListNumbers size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url={userId ? `/games/following?user=${userId}` : '/games/following'}
 				name='Following'
 				isActive={pathname.includes('/games/following')}
-				Icon={ListCheckIcon}
+				renderIcon={() => <IconListCheck size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/games/search'
 				name='Search'
 				isActive={pathname.includes('/games/search')}
-				Icon={ListSearchIcon}
+				renderIcon={() => <IconListSearch size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Separator isCollapsed={isSidebarCollapsed}>
 				Other
@@ -69,19 +68,19 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 				url='/projects'
 				name='Projects'
 				isActive={pathname.includes('/projects')}
-				Icon={AppsIcon}
+				renderIcon={() => <IconApps size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/components'
 				name='Components'
 				isActive={pathname.includes('/components')}
-				Icon={ToolsIcon}
+				renderIcon={() => <IconTools size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/about'
 				name='About'
 				isActive={pathname.includes('/about')}
-				Icon={InfoIcon}
+				renderIcon={() => <IconInfoCircle size={22} css={{ flexShrink: 0 }} />}
 			/>
 		</Content>
 	)
