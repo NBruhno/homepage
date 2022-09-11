@@ -1,4 +1,4 @@
-import type { UserRole } from 'types'
+import type { UserRole } from '@prisma/client'
 
 import NextLink from 'next/link'
 import { useRouter } from 'next/router'

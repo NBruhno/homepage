@@ -11,7 +11,7 @@ import { username, email, password } from 'validation/shared'
 
 import { getJwtToken, apiHandler, prisma, argonDefaultOptions } from 'lib/api'
 import { ApiError } from 'lib/errors'
-import { setRefreshCookie } from 'lib/middleware'
+import { authenticate, setRefreshCookie } from 'lib/middleware'
 import { monitorAsync } from 'lib/sentryMonitor'
 
 const Body = object({
@@ -22,6 +22,12 @@ const Body = object({
 })
 
 const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
+	.get(async (req, res) => {
+		authenticate(req, { allowedRoles: [UserRole.Admin] })
+		const result = await monitorAsync(() => prisma.user.findMany(), 'db:prisma', 'findMany()')
+
+		return res.status(200).json(result)
+	})
 	.post(async (req, res) => {
 		try {
 			const { email, password, username } = create(req.body, Body)

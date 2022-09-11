@@ -1,9 +1,9 @@
 /* eslint-disable no-console */
 
-require('isomorphic-fetch')
-require('dotenv').config()
+const fs = require('node:fs')
 
-const fs = require('fs')
+const { fetch } = require('undici')
+require('dotenv').config()
 
 const { VERCEL_ENV, IGDB_CLIENT_ID, IGDB_CLIENT_SECRET } = process.env
 

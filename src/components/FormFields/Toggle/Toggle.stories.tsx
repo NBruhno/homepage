@@ -1,14 +1,20 @@
 import type { Story } from '@ladle/react'
 import type { ComponentProps } from 'react'
 
+import { useState } from 'react'
+
+import { delay } from 'lib/delay'
+
 import { ButtonSolid } from 'components/Buttons'
 import { Form } from 'components/Form'
 import { FormWrapper } from 'components/Ladle'
 
+import { Button } from './Button'
+
 import { Toggle } from '.'
 
 export default {
-	title: 'Fields/Toggle',
+	title: 'Form fields/Toggle',
 }
 
 type DefaultProps = Story<Pick<ComponentProps<typeof Toggle>, 'hint' | 'isDisabled' | 'isFullWidth' | 'label' | 'name'> & {
@@ -45,4 +51,19 @@ Default.argTypes = {
 	onSubmit: {
 		action: 'submitted',
 	},
+}
+
+export const ButtonType = () => {
+	const [isChecked, setIsChecked] = useState(false)
+
+	return (
+		<Button
+			label='Toggle button'
+			onClick={async () => {
+				await delay(2)
+				setIsChecked(!isChecked)
+			}}
+			isChecked={isChecked}
+		/>
+	)
 }

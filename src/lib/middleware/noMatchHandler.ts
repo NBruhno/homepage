@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { updateTransaction } from 'lib/api'
 import { ApiError } from 'lib/errors'
 
 /** Handles scenarios where `next-connect` does not find any match for the request.
@@ -9,9 +10,11 @@ export const noMatchHandler = (methods: Array<'DELETE' | 'GET' | 'METHOD' | 'PAT
 	// @ts-expect-error We do not know what the req.method is ahead of time (we can only guess), hence it is always a string or undefined
 	if (methods.includes(req.method ?? '')) {
 		const apiError = ApiError.fromCode(404)
+		updateTransaction({ status: apiError.statusCode })
 		res.status(apiError.statusCode).json({ message: apiError.message })
 	} else {
 		const apiError = ApiError.fromCode(405)
+		updateTransaction({ status: apiError.statusCode })
 		res.setHeader('Allow', methods)
 		res.status(apiError.statusCode).json({ message: apiError.message })
 	}

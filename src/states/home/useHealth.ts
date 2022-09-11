@@ -56,7 +56,7 @@ export const useHealth = (): Return => {
 		accessToken ? '/home/health' : null, (link: string) => (
 			fetcher(link, { accessToken })
 		), {
-			refreshInterval: 10000,
+			refreshInterval: 60000,
 			errorRetryInterval: 10000,
 			revalidateOnFocus: false,
 			onSuccess: () => {

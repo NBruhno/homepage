@@ -8,7 +8,7 @@ import { FormWrapper } from 'components/Ladle'
 import { MultiSelect } from '.'
 
 export default {
-	title: 'Fields/MultiSelect',
+	title: 'Form fields/MultiSelect',
 }
 
 const options = Array.from({ length: 100 }).map((_, index) => ({

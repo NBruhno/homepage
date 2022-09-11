@@ -45,7 +45,7 @@ export const Input = ({
 }: Props) => {
 	const id = useUnique(name)
 	const { register, formState: { errors }, watch, resetField } = useFormContext()
-	const value = watch(name, null) as Date | number | string | undefined
+	const value = watch(name, undefined) as Date | number | string | undefined
 	const { isFocusVisible, focusProps } = useFocusRing({ isTextInput: true, autoFocus: shouldAutofocus })
 	const { hoverProps, isHovered } = useHover({})
 

@@ -34,4 +34,7 @@ export default defineConfig({
 		logOverride: { 'this-is-undefined-in-esm': 'silent' },
 	},
 	base: '/ladle/',
+	server: {
+		open: 'none',
+	},
 })

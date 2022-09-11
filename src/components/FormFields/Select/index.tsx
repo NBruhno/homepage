@@ -1,3 +1,5 @@
+import type { FieldPathByValue, FieldValues } from 'react-hook-form'
+
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
 import { useCombobox } from 'downshift'
@@ -25,8 +27,8 @@ export type Option = {
 	isDisabled?: boolean,
 }
 
-type Props = {
-	name: string,
+type Props<Path> = {
+	name: Path,
 	label: string,
 	options: Array<Option>,
 
@@ -42,14 +44,14 @@ type Props = {
 	maxOptionsVisible?: number,
 }
 
-export const Select = ({
+export const Select = <TFieldValues extends FieldValues, Path extends FieldPathByValue<TFieldValues, string>>({
 	showOptionalHint = true, isFullWidth = true, isRequired = false, isMultiple = false, maxOptionsVisible = 40,
 	isDisabled = false, name, label, hint, placeholder, options, shouldAutofocus = false,
-}: Props) => {
+}: Props<Path>) => {
 	const id = useUnique(name)
-	const { formState: { errors }, control } = useFormContext()
+	const { formState: { errors }, control } = useFormContext<TFieldValues>()
 	const [filteredOptions, setFilteredOptions] = useState(options)
-	const { field } = useController({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
+	const { field } = useController<TFieldValues, Path>({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
 
 	const { isOpen: isMenuOpen, selectedItem, getLabelProps, getMenuProps, highlightedIndex, getItemProps, getInputProps, getComboboxProps, inputValue, reset, openMenu, closeMenu, setInputValue } = useCombobox({
 		id,

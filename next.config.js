@@ -57,19 +57,21 @@ const SentryWebpackPluginOptions = {
 const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
+		fallbackNodePolyfills: false,
 		esmExternals: true,
-		images: {
-			allowFutureImage: true,
-			remotePatterns: [
-				{
-					protocol: 'https',
-					hostname: 'images.igdb.com',
-					pathname: '/igdb/image/upload/**',
-				},
-			],
-		},
 	},
 
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'images.igdb.com',
+				pathname: '/igdb/image/upload/**',
+			},
+		],
+	},
+
+	swcMinify: true,
 	compiler: {
 		emotion: true,
 	},
@@ -116,4 +118,3 @@ const nextConfig = {
 }
 
 module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), SentryWebpackPluginOptions)))
-// module.exports = withBundleAnalyzer(withPwa(withPlaiceholder(nextConfig)))

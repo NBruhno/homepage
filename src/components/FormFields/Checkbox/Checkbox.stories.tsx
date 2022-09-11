@@ -8,7 +8,7 @@ import { FormWrapper } from 'components/Ladle'
 import { Checkbox } from '.'
 
 export default {
-	title: 'Fields/Checkbox',
+	title: 'Form fields/Checkbox',
 }
 
 type DefaultProps = Story<Pick<ComponentProps<typeof Checkbox>, 'hint' | 'isDisabled' | 'isFullWidth' | 'label' | 'name'> & {
@@ -17,6 +17,7 @@ type DefaultProps = Story<Pick<ComponentProps<typeof Checkbox>, 'hint' | 'isDisa
 
 export const Default: DefaultProps = ({ label, hint, name, isDisabled, isFullWidth, onSubmit }) => (
 	<Form
+		shouldFocusError
 		onSubmit={(fields) => onSubmit(fields)}
 		render={({ fieldProps }) => (
 			<FormWrapper title='Default'>

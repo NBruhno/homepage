@@ -1,5 +1,5 @@
-import type { UserRole } from './UserRole'
 import type { UserTokenType } from './UserTokenType'
+import type { UserRole } from '@prisma/client'
 
 export type UserToken = {
 	alg: string,
