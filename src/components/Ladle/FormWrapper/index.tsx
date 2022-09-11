@@ -4,7 +4,8 @@ import { useFormContext } from 'react-hook-form'
 
 import { Card } from 'components/Card'
 
-import { JsonWrapper } from './JsonWrapper'
+import { JsonWrapper } from '../JsonWrapper'
+
 import { Title } from './Title'
 
 export const FormWrapper = <T extends Record<string, number | string | undefined>>({ title, children }: { title: string, children: ReactNode }) => {

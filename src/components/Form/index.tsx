@@ -6,6 +6,7 @@ import type { Promisable } from 'type-fest'
 
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import { useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
@@ -86,7 +87,7 @@ type Props<T extends FieldValues> = {
 	 */
 		shouldUpdateFieldsOnStateChange?: boolean,
 		/** Resets the form state in `useFormStore` when the form is un-mounted */
-		shouldResetStateOnUnMount?: boolean,
+		shouldResetStateOnDismount?: boolean,
 		/** Resets the form state in `useFormStore` when the form is submitted without validation errors */
 		shouldResetStateOnSubmitSuccess?: boolean,
 	} | {
@@ -94,7 +95,7 @@ type Props<T extends FieldValues> = {
 		shouldPersistStateOnChange?: false,
 		shouldPersistStateOnSubmit?: false,
 		shouldUpdateFieldsOnStateChange?: false,
-		shouldResetStateOnUnMount?: false,
+		shouldResetStateOnDismount?: false,
 		shouldResetStateOnSubmitSuccess?: false,
 	}
 )
@@ -123,7 +124,7 @@ type Props<T extends FieldValues> = {
  */
 export const Form = <T extends FieldValues>({
 	name, render, onSubmit, schema, validationMode = 'onSubmit', reValidateMode = 'onChange', initialValues, criteriaMode,
-	shouldPersistStateOnChange = false, shouldPersistStateOnSubmit = false, shouldResetStateOnUnMount = false,
+	shouldPersistStateOnChange = false, shouldPersistStateOnSubmit = false, shouldResetStateOnDismount = false,
 	shouldResetStateOnSubmitSuccess = false, shouldUpdateFieldsOnStateChange = false, shouldFocusError = true,
 }: Props<T>) => {
 	const uniqueName = useUnique()
@@ -145,10 +146,10 @@ export const Form = <T extends FieldValues>({
 
 	useEffect(() => {
 		// Updates the form state if enabled and if it has changed
-		if (shouldPersistStateOnChange && !isEqual(formValues, formState) && name) setFormState(name, formValues)
+		if (shouldPersistStateOnChange && !isEmpty(formValues) && !isEqual(formValues, formState) && name) setFormState(name, formValues)
 		// If enabled, clears the form-state on unmount
-		return () => (shouldResetStateOnUnMount && name) ? resetFormState(name) : undefined
-	}, [shouldPersistStateOnChange, formValues, shouldResetStateOnUnMount, name])
+		return () => (shouldResetStateOnDismount && name) ? resetFormState(name) : undefined
+	}, [shouldPersistStateOnChange, formValues, shouldResetStateOnDismount, name, formState, resetFormState, setFormState])
 
 	useEffect(() => {
 		// If enabled and it does not already persist on change, it will update all fields to be in sync with the form state
@@ -159,7 +160,19 @@ export const Form = <T extends FieldValues>({
 				if (!isEqual(formValues[fieldName], fieldValue)) setValue(fieldName, fieldValue)
 			})
 		}
-	}, [shouldUpdateFieldsOnStateChange, shouldPersistStateOnChange, formState, setValue, formValues])
+	}, [shouldUpdateFieldsOnStateChange, shouldPersistStateOnChange, formState, setValue])
+
+	useEffect(() => {
+		if (formState) {
+			Object.entries(formState).forEach(([key, value]) => {
+				const fieldName = key as FieldPath<T>
+				const fieldValue = value as FieldPathValue<T, FieldPath<T>>
+				if (!isEqual(formValues[fieldName], fieldValue)) setValue(fieldName, fieldValue)
+			})
+		}
+	// We only want to set the field values to match state on mount, not at any other point unless other attributes are specified
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [])
 
 	return (
 		<FormProvider {...methods}>
