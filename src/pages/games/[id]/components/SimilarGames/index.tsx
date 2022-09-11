@@ -25,7 +25,7 @@ export const SimilarGames = ({ similarGames = [] }: Props) => {
 			</h2>
 			<Container>
 				{similarGames.map(({ name, cover, id, coverProps }, index) => (
-					<Link href={`/games/${id}`} passHref prefetch key={id}>
+					<Link href={`/games/${id}`} passHref key={id}>
 						<Tooltip tip={name} timeToHover={0} key={index}>
 							<a>
 								<Cover coverUrl={cover} imageProps={coverProps ?? undefined} />
