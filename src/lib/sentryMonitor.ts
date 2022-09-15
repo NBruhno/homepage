@@ -1,7 +1,7 @@
 import type { Span, Transaction } from '@sentry/types'
 
 import { getActiveTransaction } from '@sentry/tracing'
-import { getUnixTime } from 'date-fns'
+import { addMilliseconds } from 'date-fns'
 
 import { prisma } from 'lib/api'
 
@@ -28,8 +28,8 @@ export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<
 			data: {
 				query: event.query,
 			},
-			startTimestamp: getUnixTime(event.timestamp),
-			endTimestamp: getUnixTime(event.timestamp) + event.duration,
+			startTimestamp: new Date(event.timestamp).getTime(),
+			endTimestamp: addMilliseconds(new Date(event.timestamp), event.duration).getTime(),
 		}))
 		const result = await functionToWatch(span)
 		span.finish()
