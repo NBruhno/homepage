@@ -92,11 +92,11 @@ type Props<T extends FieldValues> = {
 		shouldResetStateOnSubmitSuccess?: boolean,
 	} | {
 		name?: never,
-		shouldPersistStateOnChange?: false,
-		shouldPersistStateOnSubmit?: false,
-		shouldUpdateFieldsOnStateChange?: false,
-		shouldResetStateOnDismount?: false,
-		shouldResetStateOnSubmitSuccess?: false,
+		shouldPersistStateOnChange?: never,
+		shouldPersistStateOnSubmit?: never,
+		shouldUpdateFieldsOnStateChange?: never,
+		shouldResetStateOnDismount?: never,
+		shouldResetStateOnSubmitSuccess?: never,
 	}
 )
 
