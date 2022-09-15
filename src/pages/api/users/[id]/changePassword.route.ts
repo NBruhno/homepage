@@ -1,5 +1,4 @@
-import { UserRole } from 'types'
-
+import { UserRole } from '@prisma/client'
 import { withSentry } from '@sentry/nextjs'
 import { verify, hash } from 'argon2'
 import { create, object, string } from 'superstruct'

@@ -6,10 +6,11 @@ type Props = {
 		value: any,
 	}>,
 	name?: string,
+	status?: number,
 }
 
 /** Updates the transaction in the current scope of Sentry with more/modified data */
-export const updateTransaction = ({ data = [], name }: Props) => {
+export const updateTransaction = ({ data = [], name, status }: Props) => {
 	const transaction = getActiveTransaction()
 
 	if (transaction) {
@@ -20,5 +21,6 @@ export const updateTransaction = ({ data = [], name }: Props) => {
 		}
 
 		if (name) transaction.setName(name)
+		if (status) transaction.setHttpStatus(status)
 	}
 }

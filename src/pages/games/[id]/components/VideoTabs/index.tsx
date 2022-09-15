@@ -25,6 +25,7 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 		<Wrapper>
 			<Button
 				label={<IconChevronLeft />}
+				aria-label='Previous video'
 				orientation='left'
 				onClick={() => videoIndex === 0 ? setVideoIndex(videos.length - 1) : setVideoIndex(videoIndex - 1)}
 			/>
@@ -33,6 +34,7 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 			</div>
 			<Button
 				label={<IconChevronRight />}
+				aria-label='Next video'
 				orientation='right'
 				onClick={() => videoIndex === videos.length - 1 ? setVideoIndex(0) : setVideoIndex(videoIndex + 1)}
 			/>

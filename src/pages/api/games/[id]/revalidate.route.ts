@@ -1,5 +1,4 @@
-import { UserRole } from 'types'
-
+import { UserRole } from '@prisma/client'
 import { withSentry } from '@sentry/nextjs'
 import { create, object, string } from 'superstruct'
 
@@ -12,7 +11,7 @@ const Query = object({
 
 const handler = apiHandler({
 	validMethods: ['POST'],
-	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/news`,
+	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/revalidate`,
 })
 	.post(async (req, res) => {
 		authenticate(req, { allowedRoles: [UserRole.Admin] })

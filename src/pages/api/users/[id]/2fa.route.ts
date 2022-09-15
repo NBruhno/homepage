@@ -1,5 +1,6 @@
-import { UserRole, UserTokenType } from 'types'
+import { UserTokenType } from 'types'
 
+import { UserRole } from '@prisma/client'
 import { withSentry } from '@sentry/nextjs'
 import { authenticator as otpAuthenticator } from 'otplib'
 import { toDataURL as getQRCodeImage } from 'qrcode'

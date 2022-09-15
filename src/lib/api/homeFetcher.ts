@@ -2,11 +2,20 @@ import type { Transaction } from '@sentry/types'
 
 import { startTransaction } from '@sentry/nextjs'
 import pickBy from 'lodash/pickBy'
+import { fetch, setGlobalDispatcher, Agent } from 'undici'
+
+import { config } from 'config.server'
 
 import { ApiError } from 'lib/errors'
 import type { statusCodes } from 'lib/errors'
+import { logger } from 'lib/logger'
 
-import { logger } from './logger'
+setGlobalDispatcher(new Agent({
+	connect: {
+		// We are using a self-signed cert, so we are also creating a fetcher specifically for contacting that server
+		rejectUnauthorized: false,
+	},
+}))
 
 export enum Method {
 	Put = 'PUT',
@@ -17,36 +26,15 @@ export enum Method {
 }
 
 export type Options = {
-	absoluteUrl?: string,
-	accessToken?: string | undefined,
+	accessToken: string,
 	body?: Record<string, any>,
-	cacheControl?: string,
-	credentials?: RequestCredentials,
-	customHeaders?: Record<string, any>,
 	method?: Method,
-	mode?: RequestMode,
 }
 
-/**
- * Helper function for fetching resources using `useSWR()` or as a normal fetch. Default method is GET.
- * @param url - the resource to fetch.
- * @param options - a set of options to transform the fetch call.
- * @example
- * ```tsx
- * const { data: test, error } = useSWR('/tests', fetcher)
- * ```
- * @example
- * ```tsx
- * fetcher('/tests', { method: Method.Post })
- * ```
- */
-export const fetcher = async <ReturnType>(
-	url: string, {
-		accessToken, body, method = Method.Get, absoluteUrl,
-		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
-	}: Options = {}) => {
+export const homeFetcher = async <ReturnType>(
+	url: string, { accessToken, body, method = Method.Get }: Options) => {
 	const transaction = startTransaction({
-		op: 'fetcher',
+		op: 'homeFetcher',
 		name: `${method} - ${url}`,
 		trimEnd: false,
 	}, {
@@ -58,20 +46,20 @@ export const fetcher = async <ReturnType>(
 	// Create headers object and remove falsy variables to exclude them from call
 	const headers = pickBy({
 		'Content-Type': 'application/json',
-		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
 		'sentry-trace': transaction?.traceId ?? undefined,
-		...customHeaders,
 	}, (value) => value !== undefined) as Record<string, string>
 
-	return fetch(`${absoluteUrl ?? ''}/api${url}`, {
+	const urlToFetch = `${config.smartHomeHost}/api${url}`
+	return fetch(urlToFetch, {
 		method,
 		body: body ? JSON.stringify(body) : null,
 		headers,
-		credentials,
-		mode,
+		credentials: 'same-origin',
+		mode: 'cors',
 	}).then(async (response) => {
 		try {
+			if (response.redirected || response.url !== urlToFetch) throw ApiError.fromCode(421)
 			if (response.status >= 400) {
 				const payload = await response.json() as { message?: string }
 				logger.error(payload.message)

@@ -5,12 +5,12 @@
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "pnpm run dev",
-      "localRoot": "homepage"
+      "command": "cd homepage && pnpm run dev",
+      "localRoot": "/homepage"
     },
     {
       "name": "Next.js: debug client-side",
-      "type": "pwa-chrome",
+      "type": "chrome",
       "request": "launch",
       "url": "http://localhost:3000"
     },
@@ -19,8 +19,7 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm run dev",
-      "localRoot": "homepage",
-      "console": "integratedTerminal",
+      "localRoot": "/homepage",
       "serverReadyAction": {
         "pattern": "started server on .+, url: (https?://.+)",
         "uriFormat": "%s",

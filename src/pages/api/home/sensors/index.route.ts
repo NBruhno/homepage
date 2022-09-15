@@ -1,18 +1,14 @@
-import { UserRole } from 'types'
-
+import { UserRole } from '@prisma/client'
 import { withSentry } from '@sentry/nextjs'
 
-import { config } from 'config.server'
-
-import { apiHandler } from 'lib/api'
-import { fetcher } from 'lib/fetcher'
+import { apiHandler, homeFetcher } from 'lib/api'
 import { authenticate } from 'lib/middleware'
 
 const handler = apiHandler({ validMethods: ['GET'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
 		const { token } = authenticate(req, { allowedRoles: [UserRole.Admin] })
 
-		const sensors = await fetcher('/sensors', { absoluteUrl: config.smartHomeHost, accessToken: token })
+		const sensors = await homeFetcher('/sensors', { accessToken: token })
 
 		return res.status(200).json(sensors)
 	})

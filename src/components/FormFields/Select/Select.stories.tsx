@@ -8,7 +8,7 @@ import { FormWrapper } from 'components/Ladle'
 import { Select } from '.'
 
 export default {
-	title: 'Fields/Select',
+	title: 'Form fields/Select',
 }
 
 const options = Array.from({ length: 100 }).map((_, index) => ({

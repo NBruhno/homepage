@@ -1,8 +1,9 @@
 import type { Span, Transaction } from '@sentry/types'
 import type { NextApiRequest } from 'next'
 import type { UserToken } from 'types'
-import { UserRole, UserTokenType } from 'types'
+import { UserTokenType } from 'types'
 
+import { UserRole } from '@prisma/client'
 import { setUser } from '@sentry/nextjs'
 import jwt from 'jsonwebtoken'
 

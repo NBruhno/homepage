@@ -1,5 +1,4 @@
-import { UserRole } from 'types'
-
+import { UserRole } from '@prisma/client'
 import { IconApps, IconHome, IconInfoCircle, IconListCheck, IconListNumbers, IconListSearch, IconSmartHome, IconTools, IconUser, IconUserOff } from '@tabler/icons'
 import { useRouter } from 'next/router'
 import shallow from 'zustand/shallow'

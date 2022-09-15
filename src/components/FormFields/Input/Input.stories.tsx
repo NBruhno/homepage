@@ -12,7 +12,7 @@ import { FormWrapper } from 'components/Ladle'
 import { Input } from '.'
 
 export default {
-	title: 'Fields/Input',
+	title: 'Form fields/Input',
 }
 
 type DefaultProps = Story<Pick<ComponentProps<typeof Input>, 'hint' | 'isDisabled' | 'isFullWidth' | 'isRequired' | 'label' | 'name' | 'placeholder' | 'shouldAutofocus' | 'showOptionalHint' | 'type'> & {
