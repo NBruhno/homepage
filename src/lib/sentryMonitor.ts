@@ -29,7 +29,7 @@ export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<
 				query: event.query,
 			},
 			startTimestamp: getUnixTime(event.timestamp),
-			endTimestamp: getUnixTime(addMilliseconds(event.timestamp, event.duration)),
+			endTimestamp: getUnixTime(event.timestamp) + event.duration,
 		}))
 		const result = await functionToWatch(span)
 		span.finish()
