@@ -1,7 +1,7 @@
 import type { Span, Transaction } from '@sentry/types'
 
 import { getActiveTransaction } from '@sentry/tracing'
-import { addMilliseconds, getUnixTime } from 'date-fns'
+import { getUnixTime } from 'date-fns'
 
 import { prisma } from 'lib/api'
 
