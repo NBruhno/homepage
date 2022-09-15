@@ -87,7 +87,7 @@ describe('/api/users', () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)
 		const res = await supertest(server)
-			.get('/api/users')
+			.delete('/api/users')
 
 		expect(res.status).toBe(405)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(405).message })
