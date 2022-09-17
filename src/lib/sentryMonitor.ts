@@ -33,7 +33,7 @@ export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<
 		}))
 		const result = await functionToWatch(span)
 		span.finish()
-		prisma.$on('query', () => undefined)
+		prisma.$on('query', () => undefined) // Reset the listener to avoid duplications
 		return result
 	} else { // In case Sentry is not currently running properly
 		const result = await functionToWatch()

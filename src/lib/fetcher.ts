@@ -1,6 +1,3 @@
-import type { Transaction } from '@sentry/types'
-
-import { startTransaction } from '@sentry/nextjs'
 import pickBy from 'lodash/pickBy'
 
 import { ApiError } from 'lib/errors'
@@ -45,22 +42,11 @@ export const fetcher = async <ReturnType>(
 		accessToken, body, method = Method.Get, absoluteUrl,
 		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
 	}: Options = {}) => {
-	const transaction = startTransaction({
-		op: 'fetcher',
-		name: `${method} - ${url}`,
-		trimEnd: false,
-	}, {
-		http: {
-			method,
-		},
-	}) as Transaction | null
-
 	// Create headers object and remove falsy variables to exclude them from call
 	const headers = pickBy({
 		'Content-Type': 'application/json',
 		'Cache-Control': cacheControl,
 		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-		'sentry-trace': transaction?.traceId ?? undefined,
 		...customHeaders,
 	}, (value) => value !== undefined) as Record<string, string>
 
@@ -71,22 +57,15 @@ export const fetcher = async <ReturnType>(
 		credentials,
 		mode,
 	}).then(async (response) => {
-		try {
-			if (response.status >= 400) {
-				const payload = await response.json() as { message?: string }
-				logger.error(payload.message)
-				throw ApiError.fromCodeWithError(
-					response.status as unknown as keyof typeof statusCodes,
-					new Error(payload.message ?? 'Unknown error'),
-				)
-			}
-
-			return response.json() as Promise<ReturnType>
-		} finally {
-			if (transaction) {
-				transaction.setHttpStatus(response.status)
-				transaction.finish()
-			}
+		if (response.status >= 400) {
+			const payload = await response.json() as { message?: string }
+			logger.error(payload.message)
+			throw ApiError.fromCodeWithError(
+				response.status as unknown as keyof typeof statusCodes,
+				new Error(payload.message ?? 'Unknown error'),
+			)
 		}
+
+		return response.json() as Promise<ReturnType>
 	})
 }
