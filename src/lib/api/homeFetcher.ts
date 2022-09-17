@@ -1,6 +1,5 @@
-import type { Transaction } from '@sentry/types'
+import type { Span } from '@sentry/types'
 
-import { startTransaction } from '@sentry/nextjs'
 import pickBy from 'lodash/pickBy'
 import { fetch, setGlobalDispatcher, Agent } from 'undici'
 
@@ -9,6 +8,7 @@ import { config } from 'config.server'
 import { ApiError } from 'lib/errors'
 import type { statusCodes } from 'lib/errors'
 import { logger } from 'lib/logger'
+import { monitorAsync } from 'lib/sentryMonitor'
 
 setGlobalDispatcher(new Agent({
 	connect: {
@@ -29,52 +29,33 @@ export type Options = {
 	accessToken: string,
 	body?: Record<string, any>,
 	method?: Method,
+	nickname?: string,
+	span?: Span,
 }
 
-export const homeFetcher = async <ReturnType>(
-	url: string, { accessToken, body, method = Method.Get }: Options) => {
-	const transaction = startTransaction({
-		op: 'homeFetcher',
-		name: `${method} - ${url}`,
-		trimEnd: false,
-	}, {
-		http: {
-			method,
-		},
-	}) as Transaction | null
-
-	// Create headers object and remove falsy variables to exclude them from call
-	const headers = pickBy({
-		'Content-Type': 'application/json',
-		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-		'sentry-trace': transaction?.traceId ?? undefined,
-	}, (value) => value !== undefined) as Record<string, string>
-
+export const homeFetcher = async <ReturnType>(url: string, { accessToken, body, method = Method.Get, nickname, span }: Options) => {
 	const urlToFetch = `${config.smartHomeHost}/api${url}`
-	return fetch(urlToFetch, {
+	return monitorAsync((span) => fetch(urlToFetch, {
 		method,
 		body: body ? JSON.stringify(body) : null,
-		headers,
+		// Create headers object and remove falsy variables to exclude them from call
+		headers: pickBy({
+			'Content-Type': 'application/json',
+			Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
+			'sentry-trace': span?.traceId,
+		}, (value) => value !== undefined) as Record<string, string>,
 		credentials: 'same-origin',
 		mode: 'cors',
 	}).then(async (response) => {
-		try {
-			if (response.redirected || response.url !== urlToFetch) throw ApiError.fromCode(421)
-			if (response.status >= 400) {
-				const payload = await response.json() as { message?: string }
-				logger.error(payload.message)
-				throw ApiError.fromCodeWithError(
-					response.status as unknown as keyof typeof statusCodes,
-					new Error(payload.message ?? 'Unknown error'),
-				)
-			}
-
-			return response.json() as Promise<ReturnType>
-		} finally {
-			if (transaction) {
-				transaction.setHttpStatus(response.status)
-				transaction.finish()
-			}
+		if (response.redirected || response.url !== urlToFetch) throw ApiError.fromCode(421)
+		if (response.status >= 400) {
+			const payload = await response.json() as { message?: string }
+			logger.error(payload.message)
+			throw ApiError.fromCodeWithError(
+				response.status as unknown as keyof typeof statusCodes,
+				new Error(payload.message ?? 'Unknown error'),
+			)
 		}
-	})
+		return response.json() as Promise<ReturnType>
+	}), 'http:home', nickname ?? '', span)
 }

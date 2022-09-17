@@ -22,15 +22,17 @@ export const monitorAsync = async <T>(functionToWatch: (span?: Span) => Promise<
 	const transactionToUse = transaction ?? getActiveTransaction()
 	if (transactionToUse) {
 		const span = transactionToUse.startChild({ op: operationName, description })
-		prisma.$on('query', (event) => span.startChild({ // Subscribes to query logs from Prisma
-			op: 'db:planetscale',
-			description: `${description} - query`,
-			data: {
-				query: event.query,
-			},
-			startTimestamp: new Date(event.timestamp).getTime(),
-			endTimestamp: addMilliseconds(new Date(event.timestamp), event.duration).getTime(),
-		}))
+		prisma.$on('query', (event) => {
+			const dbSpan = span.startChild({ // Subscribes to query logs from Prisma
+				op: 'db:planetscale',
+				description: `${description} - query`,
+				data: {
+					query: event.query,
+				},
+				startTimestamp: new Date(event.timestamp).getTime(),
+			})
+			dbSpan.finish(addMilliseconds(new Date(event.timestamp), event.duration).getTime())
+		})
 		const result = await functionToWatch(span)
 		span.finish()
 		prisma.$on('query', () => undefined) // Reset the listener to avoid duplications
