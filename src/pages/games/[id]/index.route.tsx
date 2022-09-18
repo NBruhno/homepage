@@ -1,5 +1,5 @@
 import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import type { Game, GameExtended, GamePrice, GameSimple } from 'types'
+import type { Game, GameExtended, GameSimple } from 'types'
 
 import { useRouter } from 'next/router'
 import { getPlaiceholder } from 'plaiceholder'
@@ -39,7 +39,6 @@ import { Wrapper } from './components/Wrapper'
 
 type State = {
 	game: GameExtended | null,
-	prices: Array<GamePrice> | null,
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
@@ -63,8 +62,7 @@ export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
 	try {
 		const game = await fetcher<Game | undefined>(`/games/${params.id as string}`, { absoluteUrl: config.staticHost })
 		if (!game) return { notFound: true }
-		const [{ prices }, { img: coverProps, base64: coverBlurUrl }, { img: screenshotProps, base64: screenshotBlurUrl }, ...similarGames] = await Promise.all([
-			await fetcher<{ prices: Array<GamePrice> }>(`/games/${game.id}/prices?name=${encodeURIComponent(game.name)}`, { absoluteUrl: config.staticHost }),
+		const [{ img: coverProps, base64: coverBlurUrl }, { img: screenshotProps, base64: screenshotBlurUrl }, ...similarGames] = await Promise.all([
 			game.cover ? getPlaiceholder(game.cover) : { img: null, base64: null },
 			game.screenshot ? getPlaiceholder(game.screenshot) : { img: null, base64: null },
 			...game.similarGames.map(async (game) => {
@@ -100,7 +98,6 @@ export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
 					} : null,
 					similarGames,
 				},
-				prices,
 			},
 			revalidate: 60 * 10, // in seconds
 		}
@@ -115,9 +112,9 @@ export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
 	}
 }
 
-const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ game: incomingGame, prices: incomingPrices }) => {
+const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ game: incomingGame }) => {
 	const { query } = useRouter()
-	const { game, prices, gameNews, isFollowing, isInSteamLibrary, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined, initialPrices: incomingPrices ?? undefined })
+	const { game, prices, gameNews, isFollowing, isInSteamLibrary, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined })
 	const accessToken = useUser((state) => state.accessToken)
 	const { isMobile } = useResponsive()
 	const { isLoading } = useLoading()
