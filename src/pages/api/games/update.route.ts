@@ -106,7 +106,7 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 	})
 	.post(async (req, res) => {
 		const UpdateQuery = assign(Query, object({
-			type: enums<'followed' | 'popular'>(['popular', 'followed']),
+			type: enums(['popular', 'followed']),
 			'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
 		}))
 		authenticateSystem(req)

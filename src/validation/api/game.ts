@@ -1,8 +1,6 @@
-import type { GameCategory, GameStatus } from '@prisma/client'
-
 import { optional, string, object, number, array, enums, boolean, nullable } from 'superstruct'
 
-const status = optional(enums<GameStatus>(['Alpha', 'Beta', 'EarlyAccess', 'Offline', 'Released', 'Cancelled', 'Rumored', 'Delisted']))
+const status = optional(enums(['Alpha', 'Beta', 'EarlyAccess', 'Offline', 'Released', 'Cancelled', 'Rumored', 'Delisted']))
 
 const simpleGame = object({
 	id: number(),
@@ -35,7 +33,7 @@ const platform = object({
 export const game = object({
 	id: number(),
 	name: string(),
-	category: optional(enums<GameCategory>(['Bundle', 'DLCAddon', 'Episode', 'ExpandedGame', 'Expansion', 'Fork', 'MainGame', 'Mod', 'Port', 'Remake', 'Remaster', 'Season', 'StandaloneExpansion'])),
+	category: optional(enums(['Bundle', 'DLCAddon', 'Episode', 'ExpandedGame', 'Expansion', 'Fork', 'MainGame', 'Mod', 'Port', 'Remake', 'Remaster', 'Season', 'StandaloneExpansion'])),
 	cover: optional(string()),
 	developers: optional(array(company)),
 	dlcs: optional(array(simpleGame)),

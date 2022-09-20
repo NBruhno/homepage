@@ -1,4 +1,7 @@
 import * as Sentry from '@sentry/nextjs'
+import { Integrations } from '@sentry/tracing'
+
+import { prisma } from './src/lib/api/prisma'
 
 const SENTRY_DSN = process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN
 
@@ -9,4 +12,5 @@ Sentry.init({
 		return 0.2
 	},
 	environment: process.env.VERCEL_ENV as string,
+	integrations: [new Integrations.Prisma({ client: prisma })],
 })
