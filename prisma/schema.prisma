@@ -6,7 +6,7 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "orderByNulls"]
+  previewFeatures = ["referentialIntegrity", "orderByNulls", "tracing"]
 }
 
 model GameUserData {
