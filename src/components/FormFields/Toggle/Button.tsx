@@ -1,6 +1,8 @@
 import type { MouseEvent } from 'react'
 import type { Promisable } from 'type-fest'
 
+import { useFocusRing } from '@react-aria/focus'
+import { useHover } from '@react-aria/interactions'
 import { useState } from 'react'
 
 import { delay } from 'lib/delay'
@@ -25,6 +27,8 @@ type Props = {
 
 export const Button = ({ isFullWidth = true, label, hint, isDisabled = false, isChecked = false, onClick, minDelay = 0 }: Props) => {
 	const [isLoading, setIsLoading] = useState(false)
+	const { isFocusVisible, focusProps } = useFocusRing({ within: true })
+	const { hoverProps, isHovered } = useHover({})
 
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation()
@@ -43,7 +47,9 @@ export const Button = ({ isFullWidth = true, label, hint, isDisabled = false, is
 	return (
 		<FieldWrapper isFullWidth={isFullWidth}>
 			<RowLabel>
-				<ToggleComponent isChecked={isChecked} isDisabled={isDisabled} isLoading={isLoading} onClick={(event) => handleClick(event)} label={label} />
+				<div {...focusProps} {...hoverProps}>
+					<ToggleComponent isChecked={isChecked} isDisabled={isDisabled} isLoading={isLoading} isFocusVisible={isFocusVisible} isHovered={isHovered} onClick={(event) => handleClick(event)} label={label} />
+				</div>
 				<LabelContainer css={{ margin: '0 0 0 6px' }}>
 					<span>{label}</span>
 					{hint && <Hint>{hint}</Hint>}
