@@ -11,7 +11,7 @@ export const Container = ({ isTransparent, ...rest }: Props) => (
 			borderTop: isTransparent ? 'none' : `1px solid ${theme.color.border}`,
 			bottom: 0,
 			color: isTransparent ? theme.color.white : theme.color.text,
-			height: '72px',
+			height: '73px',
 			marginTop: 'auto',
 			padding: '12px 24px',
 			verticalAlign: 'bottom',
