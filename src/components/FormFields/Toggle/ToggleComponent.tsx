@@ -1,29 +1,32 @@
 import type { MouseEvent } from 'react'
 import type { Promisable } from 'type-fest'
 
-import { css, keyframes } from '@emotion/react'
-import { IconLoader2 } from '@tabler/icons'
+import { css } from '@emotion/react'
 
 import { adjustHsl } from 'lib/client'
 
+import { Spinner } from 'components/Spinner'
+
 type Props = {
-	isChecked?: boolean,
-	isDisabled?: boolean,
+	isChecked: boolean,
+	isDisabled: boolean,
+	isFocusVisible: boolean,
+	isHovered: boolean,
 	isLoading?: boolean,
-	hasFocus?: boolean | undefined,
 	onClick?: (event: MouseEvent<HTMLButtonElement>) => Promisable<any>,
-	label?: string,
+	label: string,
 }
 
-export const ToggleComponent = ({ isChecked, isDisabled, isLoading, hasFocus, onClick, label }: Props) => {
+export const ToggleComponent = ({ isChecked, isDisabled, isLoading, isFocusVisible, isHovered, onClick, label }: Props) => {
 	const backgroundColor = (theme: Theme) => {
+		if (isHovered && !isLoading && !isDisabled) return isChecked ? theme.color.primaryLighter : theme.color.grayLight
 		if (isDisabled || isLoading) return isChecked ? theme.color.primaryLight : adjustHsl(theme.color.gray, { light: '34%' })
 		else return isChecked ? theme.color.primary : theme.color.gray
 	}
 
 	const boxShadow = (theme: Theme) => {
-		if (isChecked) return hasFocus ? `0 0 0 2px ${theme.color.primary}` : 'none'
-		else return hasFocus ? `0 0 0 1px ${theme.color.gray}` : 'none'
+		if (isChecked) return isFocusVisible ? `0 0 0 2px ${theme.color.primary}` : 'none'
+		else return isFocusVisible ? `0 0 0 1px ${theme.color.gray}` : 'none'
 	}
 
 	const transform = () => {
@@ -32,10 +35,10 @@ export const ToggleComponent = ({ isChecked, isDisabled, isLoading, hasFocus, on
 		else return 'translateX(0)'
 	}
 
-	const transformSpinner = () => {
-		if (isLoading) return 'translateX(0px)'
-		else if (isChecked) return 'translateX(9px)'
-		else return 'translateX(-9px)'
+	const marginSpinner = () => {
+		if (isLoading) return '2px 0 0'
+		else if (isChecked) return '2px -18px 0 0'
+		else return '2px 0 0 -18px'
 	}
 
 	const styling = (theme: Theme) => css({
@@ -48,7 +51,7 @@ export const ToggleComponent = ({ isChecked, isDisabled, isLoading, hasFocus, on
 		outline: 0,
 		flexShrink: 0,
 		margin: 'auto',
-		cursor: isDisabled ? 'auto' : 'pointer',
+		cursor: (isDisabled || isLoading) ? 'auto' : 'pointer',
 
 		transition: 'boxShadow 0.15s ease-in-out, background-color 0.15s ease-in-out',
 
@@ -67,20 +70,14 @@ export const ToggleComponent = ({ isChecked, isDisabled, isLoading, hasFocus, on
 	})
 
 	if (onClick) {
-		const animation = keyframes`
-			0% {
-				transform: rotate(0deg),
-			}
-			1000% {
-				transform: rotate(359deg),
-			}
-		`
-
 		return (
 			<button
 				aria-label={label}
 				type='button'
-				onClick={onClick}
+				onClick={(event) => {
+					if (isDisabled || isLoading) return undefined
+					else onClick(event)
+				}}
 				css={(theme) => [
 					styling(theme),
 					{
@@ -88,17 +85,14 @@ export const ToggleComponent = ({ isChecked, isDisabled, isLoading, hasFocus, on
 					},
 				]}
 			>
-				<IconLoader2
-					css={(theme) => ({
-						color: theme.color.gray060,
-						// opacity: isLoading ? 1 : 0,
-						marginTop: '2px',
-						transition: 'transform 0.15s, opacity 0.15s',
-						transform: transformSpinner(),
-						animation: `${animation} 2.2s linear infinite`,
-					})}
+				<Spinner
+					css={{
+						opacity: isLoading ? 1 : 0,
+						transition: 'margin 0.15s, opacity 0.15s',
+						margin: marginSpinner(),
+						position: 'relative',
+					}}
 					size={16}
-					strokeWidth={3}
 				/>
 			</button>
 		)

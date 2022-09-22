@@ -67,3 +67,14 @@ export const ButtonType = () => {
 		/>
 	)
 }
+
+export const ButtonTypeFails = () => (
+	<Button
+		label='Toggle button'
+		onClick={async () => {
+			await delay(2)
+			throw new Error('Oh no!')
+		}}
+		isChecked={false}
+	/>
+)

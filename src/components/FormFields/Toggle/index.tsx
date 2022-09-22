@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useFocusRing } from '@react-aria/focus'
+import { useHover } from '@react-aria/interactions'
 import { useFormContext } from 'react-hook-form'
 
 import { useUnique } from 'lib/hooks'
@@ -24,29 +25,27 @@ export const Toggle = ({ isFullWidth = true, label, hint, isDisabled = false, na
 	const id = useUnique(name)
 	const { register, watch } = useFormContext()
 	const isChecked = watch(name) as boolean
-	const [isFocus, setIsFocus] = useState(false)
+	const { isFocusVisible, focusProps } = useFocusRing({ within: true })
+	const { hoverProps, isHovered } = useHover({})
 
 	const inputProps = register(name, {
 		disabled: isDisabled,
-		onBlur: () => isFocus && setIsFocus(false),
 		value: false,
 		setValueAs: (value: unknown) => value === undefined || value === '' ? false : value,
 	})
 
 	return (
 		<FieldWrapper isFullWidth={isFullWidth}>
-			<RowLabel htmlFor={id}>
-				<ToggleComponent isChecked={isChecked} isDisabled={isDisabled} hasFocus={isFocus} />
+			<RowLabel htmlFor={id} {...focusProps} {...hoverProps}>
+				<ToggleComponent label={label} isChecked={isChecked} isDisabled={isDisabled} isFocusVisible={isFocusVisible} isHovered={isHovered} />
 				<LabelContainer htmlFor={id} css={{ margin: '0 0 0 6px' }}>
 					<span>{label}</span>
 					{hint && <Hint>{hint}</Hint>}
 				</LabelContainer>
 				<Checkbox
 					{...inputProps}
-					checked={isChecked}
 					disabled={isDisabled}
 					id={id}
-					onFocus={() => !isFocus && setIsFocus(true)}
 					type='checkbox'
 				/>
 			</RowLabel>
