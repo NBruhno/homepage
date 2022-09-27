@@ -16,6 +16,7 @@ export const Image = ({ src, imageProps, isPriority }: Props) => (
 			aspectRatio: '3/4',
 			objectFit: 'cover',
 			color: 'transparent',
+			position: 'relative',
 
 			// Prevent alt text from showing during image fetch
 			'img:-moz-loading': {
