@@ -2,7 +2,7 @@ import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import type { GameSimple, GameSimpleExtended } from 'types'
 
 import { getPlaiceholder } from 'plaiceholder'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
 
 import { config } from 'config.server'
@@ -55,34 +55,26 @@ export const getStaticProps: GetStaticProps<State> = async () => {
 }
 
 const Games: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ games }) => {
-	const { numberOfPages, take, skips, isLimitReached, setPageData } = usePopularGamesStore((state) => state, shallow)
+	const { take, isLimitReached } = usePopularGamesStore((state) => state, shallow)
+	const [skips, setSkips] = useState([0])
 	useTitle('Popular games')
+
+	const gamesToRender = useMemo(() => skips.map((skip, index) => (
+		<PopularGames skip={skip} key={index} preloadedGames={index === 0 ? games : null} />
+	)), [games, skips])
 
 	return (
 		<Page>
 			<PageContent maxWidth={700}>
 				<h2>Popular games</h2>
-				{useMemo(() => {
-					const pagesToRender = []
-					for (let index = 0; index < numberOfPages; index++) {
-						pagesToRender.push(<PopularGames skip={skips[index]} key={index} preloadedGames={index === 0 ? games : null} />)
-					}
-					return pagesToRender
-				}, [numberOfPages])}
+				{gamesToRender}
 				<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
 					<Tooltip tip="That's all the popular games" show={isLimitReached}>
 						<ButtonBorder
 							label='Show more'
 							isDisabled={isLimitReached}
 							onClick={() => {
-								if (!isLimitReached) {
-									setPageData({
-										isLimitReached,
-										numberOfPages: numberOfPages + 1,
-										skips: [...skips, numberOfPages * take],
-										take,
-									})
-								}
+								if (!isLimitReached) setSkips([...skips, take * skips.length])
 							}}
 						/>
 					</Tooltip>
