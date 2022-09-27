@@ -2,7 +2,7 @@ import type { NextPage } from 'next'
 
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import shallow from 'zustand/shallow'
 
 import { useFollowingGamesStore } from 'states/games/useFollowingGames'
@@ -15,7 +15,8 @@ import { Tooltip } from 'components/Tooltip'
 import { FollowingGames } from './Lists'
 
 const Games: NextPage = () => {
-	const { numberOfPages, take, skips, isLimitReached, setPageData } = useFollowingGamesStore((state) => state, shallow)
+	const { take, isLimitReached } = useFollowingGamesStore((state) => state, shallow)
+	const [skips, setSkips] = useState([0])
 	const isStateKnown = useUser((state) => state.isStateKnown)
 	const userId = useUser((state) => state.userId)
 	const router = useRouter()
@@ -28,6 +29,10 @@ const Games: NextPage = () => {
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isStateKnown, userId, router.query.user])
 
+	const gamesToRender = useMemo(() => skips.map((skip, index) => (
+		<FollowingGames skip={skip} key={index} />
+	)), [skips])
+
 	return (
 		<>
 			<Head>
@@ -36,13 +41,7 @@ const Games: NextPage = () => {
 			<Page>
 				<PageContent maxWidth={700}>
 					<h2>Followed games</h2>
-					{useMemo(() => {
-						const pagesToRender = []
-						for (let index = 0; index < numberOfPages; index++) {
-							pagesToRender.push(<FollowingGames skip={skips[index]} key={index} />)
-						}
-						return pagesToRender
-					}, [numberOfPages])}
+					{gamesToRender}
 					{router.query.user && (
 						<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
 							<Tooltip tip="That's all of your followed games" show={isLimitReached}>
@@ -50,14 +49,7 @@ const Games: NextPage = () => {
 									label='Show more'
 									isDisabled={isLimitReached}
 									onClick={() => {
-										if (!isLimitReached) {
-											setPageData({
-												isLimitReached,
-												numberOfPages: numberOfPages + 1,
-												skips: [...skips, numberOfPages * take],
-												take,
-											})
-										}
+										if (!isLimitReached) setSkips([...skips, take * skips.length])
 									}}
 								/>
 							</Tooltip>

@@ -4,6 +4,8 @@ export type GameData = {
 	games: Array<GameSimple>,
 	after: GameSimple | null,
 	before: GameSimple | null,
+	skip: number,
+	take: number,
 }
 
 export type PageData = {
