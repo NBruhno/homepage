@@ -1,9 +1,11 @@
+import type { FocusEvent, KeyboardEvent } from 'react'
+
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import isString from 'lodash/isString'
-import { useMemo } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 import { useUnique } from 'lib/hooks'
@@ -13,10 +15,8 @@ import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
 import { InputError } from '../InputError'
 import { LabelContainer } from '../LabelContainer'
-import { InputClearButton } from '../Shared'
+import { InputClearButton, InputContainer, InputComponent, InputButtonContainer, InputVisibleButton } from '../Shared'
 
-import { HintContainer } from './HintContainer'
-import { InputComponent } from './InputComponent'
 import { Textarea } from './Textarea'
 
 type Props = {
@@ -48,6 +48,10 @@ export const Input = ({
 	const value = watch(name, undefined) as Date | number | string | undefined
 	const { isFocusVisible, focusProps } = useFocusRing({ isTextInput: true, autoFocus: shouldAutofocus })
 	const { hoverProps, isHovered } = useHover({})
+	const [isInputFocus, setIsInputFocus] = useState(false)
+	const [isForcedTextInput, setIsForcedTextInput] = useState(false)
+	const containerRef = useRef<HTMLDivElement>(null)
+	const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null)
 
 	const inputMode = useMemo(() => {
 		switch (type) {
@@ -59,12 +63,13 @@ export const Input = ({
 		}
 	}, [type])
 	const inputType = useMemo(() => {
+		if (isForcedTextInput) return 'text'
 		switch (type) {
 			case 'username':
 			case 'number': return 'text'
 			default: return type
 		}
-	}, [type])
+	}, [type, isForcedTextInput])
 
 	const inputProps = register(name, {
 		required: isRequired ? 'This field is required' : false,
@@ -88,11 +93,12 @@ export const Input = ({
 
 	const error = get(errors, name)
 	const hasError = Boolean(error)
+	const labelId = `${id}-label`
 
 	const defaultProps = {
+		...inputProps,
 		...focusProps,
-		...hoverProps,
-		'aria-hidden': inputType === 'hidden',
+		hidden: inputType === 'hidden',
 		autoComplete,
 		autoFocus: shouldAutofocus,
 		hasError,
@@ -102,41 +108,77 @@ export const Input = ({
 		placeholder,
 		type: inputType,
 		inputMode,
+		isDisabled,
+		labeledBy: labelId,
+		onKeyDown: async (event: KeyboardEvent<HTMLInputElement>) => {
+			// Some password managers prevent a proper exit when tabbing out
+			if (event.key === 'Tab') {
+				inputRef.current?.blur()
+				containerRef.current?.blur()
+				if (isInputFocus) setIsInputFocus(false)
+				// Triggering the blur event manually does not always have an effect.
+				if (focusProps.onBlur) focusProps.onBlur(event as unknown as FocusEvent<HTMLInputElement>)
+			}
+		},
+		onFocus: (event: FocusEvent<HTMLInputElement>) => {
+			if (!isInputFocus) setIsInputFocus(true)
+			if (focusProps.onFocus) focusProps.onFocus(event)
+		},
+		onBlur: async (event: FocusEvent<HTMLInputElement>) => {
+			if (isInputFocus) setIsInputFocus(false)
+			if (focusProps.onBlur) focusProps.onBlur(event)
+			await inputProps.onBlur(event)
+		},
 	} as const
 
 	return (
-		<FieldWrapper isFullWidth={isFullWidth} minWidth={170} hidden={inputType === 'hidden'}>
+		<FieldWrapper isFullWidth={isFullWidth} minWidth={170} isHidden={inputType === 'hidden'}>
 			<ColumnLabel>
-				<LabelContainer>
-					<HintContainer>
-						<span>
-							<label htmlFor={id}>{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>}</label>
-							{hint && <Hint>{hint}</Hint>}
-						</span>
-						{maxLength && <Hint> {(value && typeof value === 'string' && value.length) || 0} / {maxLength}</Hint>}
-					</HintContainer>
+				<LabelContainer htmlFor={id} id={labelId}>
+					<span>{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>} {maxLength && <Hint> {(value && typeof value === 'string' && value.length) || 0} / {maxLength}</Hint>}</span>
 				</LabelContainer>
-				<div css={{ position: 'relative' }}>
+				<InputContainer
+					{...hoverProps}
+					hasError={hasError}
+					isDisabled={isDisabled}
+					isHovered={isHovered}
+					isFocusVisible={isFocusVisible}
+					isFocus={isInputFocus}
+					onClick={(event) => {
+						if (event.defaultPrevented) return undefined
+						else inputRef.current?.focus()
+					}}
+					ref={containerRef}
+				>
 					{type === 'multiline' ? (
 						<Textarea
-							{...inputProps}
 							{...defaultProps}
-							isDisabled={isDisabled}
 							minRows={minRows}
 							maxRows={maxRows}
 							isHovered={isHovered}
 							isFocusVisible={isFocusVisible}
+							ref={(event) => {
+								inputProps.ref(event)
+								// @ts-expect-error It claims that current on the ref is a read-only property, which is not the case.
+								inputRef.current = event
+							}}
 						/>
 					) : (
 						<InputComponent
-							{...inputProps}
 							{...defaultProps}
-							isHovered={isHovered}
-							isFocusVisible={isFocusVisible}
+							ref={(event) => {
+								inputProps.ref(event)
+								// @ts-expect-error It claims that current on the ref is a read-only property, which is not the case.
+								inputRef.current = event
+							}}
 						/>
 					)}
-					<InputClearButton isVisible={value !== undefined} onClick={() => resetField(name)} />
-				</div>
+					<InputButtonContainer>
+						<InputClearButton isVisible={value !== undefined} onClick={() => resetField(name)} />
+						<InputVisibleButton isVisible={type === 'password'} isEnabled={isForcedTextInput} onClick={() => setIsForcedTextInput(!isForcedTextInput)} />
+					</InputButtonContainer>
+				</InputContainer>
+				{hint && !hasError && <Hint>{hint}</Hint>}
 				<InputError
 					hasError={hasError}
 					errorMessage={error?.message as string | undefined}

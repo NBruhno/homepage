@@ -5,8 +5,7 @@
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "cd homepage && pnpm run dev",
-      "localRoot": "/homepage"
+      "command": "pnpm run debug",
     },
     {
       "name": "Next.js: debug client-side",
@@ -19,7 +18,6 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "pnpm run dev",
-      "localRoot": "/homepage",
       "serverReadyAction": {
         "pattern": "started server on .+, url: (https?://.+)",
         "uriFormat": "%s",

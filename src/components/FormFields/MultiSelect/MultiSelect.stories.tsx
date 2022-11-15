@@ -14,11 +14,12 @@ export default {
 const options = Array.from({ length: 100 }).map((_, index) => ({
 	label: `Option ${index + 1}`,
 	value: index + 1,
+	isDisabled: index % 7 === 0,
 }))
 
 type DefaultProps = Story<Omit<ComponentProps<typeof MultiSelect>, 'options'> & { onSubmit: (value: any) => void }>
 
-export const Default: DefaultProps = ({ label, hint, isRequired, name, isDisabled, isFullWidth, placeholder, showOptionalHint, shouldAutofocus, onSubmit }) => (
+export const Default: DefaultProps = ({ label, hint, isRequired, name, isDisabled, isFullWidth, isLoading, placeholder, showOptionalHint, shouldAutofocus, onSubmit }) => (
 	<Form
 		onSubmit={(fields) => onSubmit(fields)}
 		render={({ fieldProps }) => (
@@ -31,6 +32,7 @@ export const Default: DefaultProps = ({ label, hint, isRequired, name, isDisable
 					isRequired={isRequired}
 					isDisabled={isDisabled}
 					isFullWidth={isFullWidth}
+					isLoading={isLoading}
 					placeholder={placeholder}
 					showOptionalHint={showOptionalHint}
 					shouldAutofocus={shouldAutofocus}
@@ -48,6 +50,7 @@ Default.args = {
 	isRequired: false,
 	isDisabled: false,
 	isFullWidth: true,
+	isLoading: false,
 	showOptionalHint: true,
 	shouldAutofocus: false,
 	placeholder: 'Placeholder text',

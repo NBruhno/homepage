@@ -36,6 +36,7 @@ export const DefaultInputStyle = ({ theme, hasError, isDisabled, isHovered, isFo
 	transition: `border 135ms ${theme.animation.default}, box-shadow 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}`,
 	WebkitTapHighlightColor: 'transparent',
 	width: 'calc(100% - 14px)',
+	minHeight: '22px',
 
 	'::placeholder': {
 		color: hasError ? adjustHsl(theme.color.grayLight, { alpha: 0.65 }) : theme.color.gray,

@@ -28,7 +28,7 @@ export const Chip = forwardRef<HTMLDivElement, Props>(({ children, onRemoveChip,
 		onClick={(event) => event.preventDefault()}
 		ref={ref}
 	>
-		<span css={{ paddingLeft: '6px' }}>{children}</span>
+		<span css={{ paddingLeft: '6px', lineHeight: 0 }}>{children}</span>
 		<ButtonIcon
 			tabIndex={-1}
 			css={(theme) => ({

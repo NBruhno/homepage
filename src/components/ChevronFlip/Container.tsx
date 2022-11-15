@@ -4,9 +4,9 @@ export const Container = (props: ComponentPropsWithoutRef<'span'>) => (
 	<span
 		css={{
 			display: 'inline-block',
-			height: '1em',
+			height: '12px',
 			position: 'relative',
-			width: '1.4em',
+			width: '22px',
 		}}
 		{...props}
 	/>

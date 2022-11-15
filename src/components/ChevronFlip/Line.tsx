@@ -31,7 +31,7 @@ export const Line = ({ isSlim, isBold, shouldMirror, isActive, isHorizontal, ...
 				position: 'absolute',
 				transform: isHorizontal ? isHorizontalTransform : verticalTransform,
 				transformOrigin: `${size / 2}em ${size / 2}em`,
-				transition: `transform 300ms ${theme.animation.default}`,
+				transition: `transform 150ms ${theme.animation.default}`,
 				width: '0.6em',
 			})}
 			{...rest}
