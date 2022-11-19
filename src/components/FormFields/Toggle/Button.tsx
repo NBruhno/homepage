@@ -23,9 +23,10 @@ type Props = {
 	hint?: string,
 	isDisabled?: boolean,
 	isFullWidth?: boolean,
+	isLoading?: boolean,
 }
 
-export const Button = ({ isFullWidth = true, label, hint, isDisabled = false, isChecked = false, onClick, minDelay = 0 }: Props) => {
+export const ToggleButton = ({ isFullWidth = true, label, hint, isDisabled = false, isChecked = false, onClick, minDelay = 0, isLoading: isLoadingManually }: Props) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const { isFocusVisible, focusProps } = useFocusRing({ within: true })
 	const { hoverProps, isHovered } = useHover({})
@@ -45,10 +46,18 @@ export const Button = ({ isFullWidth = true, label, hint, isDisabled = false, is
 	}
 
 	return (
-		<FieldWrapper isFullWidth={isFullWidth}>
-			<RowLabel>
+		<FieldWrapper isFullWidth={isFullWidth} isSlim>
+			<RowLabel isSlim>
 				<div {...focusProps} {...hoverProps}>
-					<ToggleComponent isChecked={isChecked} isDisabled={isDisabled} isLoading={isLoading} isFocusVisible={isFocusVisible} isHovered={isHovered} onClick={(event) => handleClick(event)} label={label} />
+					<ToggleComponent
+						isChecked={isChecked}
+						isDisabled={isDisabled}
+						isFocusVisible={isFocusVisible}
+						isHovered={isHovered}
+						isLoading={isLoadingManually ?? isLoading}
+						label={label}
+						onClick={(event) => handleClick(event)}
+					/>
 				</div>
 				<LabelContainer css={{ margin: '0 0 0 6px' }}>
 					<span>{label}</span>

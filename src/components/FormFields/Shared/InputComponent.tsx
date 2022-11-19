@@ -7,9 +7,10 @@ import { adjustHsl } from 'lib/client'
 type Props = ComponentPropsWithRef<'input'> & {
 	isDisabled: boolean,
 	hasError: boolean,
+	shouldFill?: boolean,
 }
 
-export const InputComponent = forwardRef<HTMLInputElement, Props>(({ isDisabled, hasError, ...rest }, ref) => (
+export const InputComponent = forwardRef<HTMLInputElement, Props>(({ isDisabled, hasError, shouldFill = true, ...rest }, ref) => (
 	<input
 		css={(theme) => ({
 			backgroundColor: 'transparent',
@@ -19,15 +20,10 @@ export const InputComponent = forwardRef<HTMLInputElement, Props>(({ isDisabled,
 			fontSize: theme.font.size.s100,
 			WebkitTapHighlightColor: 'transparent',
 			display: 'block',
-			width: 'max-content',
-			height: '20px',
+			width: shouldFill ? '100%' : 'max-content',
 
 			'&:focus': {
 				outline: 'none',
-			},
-
-			'&:activer': {
-
 			},
 
 			'::placeholder': {

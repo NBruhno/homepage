@@ -1,20 +1,20 @@
-import type { Option } from '.'
+import type { SelectOption } from '../CommonProps'
 import type { KeyboardEvent, RefObject } from 'react'
 
 import isEmpty from 'lodash/isEmpty'
 
 type Props = {
-	filteredOptions: Array<Option>,
-	selectedOptions: Array<Option>,
+	filteredOptions: Array<SelectOption>,
+	selectedOptions: Array<SelectOption>,
 	highlightedChipIndex: number,
 	highlightedOptionIndex: number,
 	inputRef: RefObject<HTMLInputElement>,
 	inputValue: string,
 	isMenuOpen: boolean,
 
-	onAddChip: (item: Option) => void,
+	onAddChip: (item: SelectOption) => void,
 	onCloseMenu: () => void,
-	onRemoveChip: (item: Option) => void,
+	onRemoveChip: (item: SelectOption) => void,
 	onResetHighlightedChip: () => void,
 	onResetHighlightedOption: () => void,
 	onSetHighlightedChip: (index: number) => void,
@@ -49,21 +49,26 @@ export const handleKeyboardInput = (event: KeyboardEvent<HTMLInputElement>, {
 			case 'Enter': {
 				// Enter should always submit the highlighted option in the menu, as long as there is anything to submit
 				event.preventDefault()
-				if (highlightedChipIndex === -1 && filteredOptions.length > 0) {
+				if (highlightedChipIndex === -1 && filteredOptions.length > 0 && !filteredOptions[highlightedOptionIndex === -1 ? 0 : highlightedOptionIndex].isDisabled) {
 					onAddChip(filteredOptions[highlightedOptionIndex === -1 ? 0 : highlightedOptionIndex])
+					inputRef.current?.select()
 				}
 				break
 			}
 			case 'ArrowDown': {
-				// Go one step down in the menu
+				// Will otherwise go to the back of the selected text
+				event.preventDefault()
 				onResetHighlightedChip()
+				// Go one step down in the menu
 				if (highlightedOptionIndex === -1) onSetHighlightedOption(1)
 				else if (highlightedOptionIndex !== filteredOptions.length) onSetHighlightedOption(highlightedOptionIndex + 1)
 				break
 			}
 			case 'ArrowUp': {
-				// Go one step down up the menu
+				// Will otherwise go to the front of the selected text
+				event.preventDefault()
 				onResetHighlightedChip()
+				// Go one step up in the menu
 				if (highlightedOptionIndex !== 0) onSetHighlightedOption(highlightedOptionIndex - 1)
 				break
 			}

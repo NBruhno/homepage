@@ -15,27 +15,34 @@ import { logger } from 'lib/logger'
 // 		return [key, typeof value]
 // 	})) as Record<string, unknown>
 
-export const errorHandler = (error: unknown, _req: NextApiRequest, res: NextApiResponse) => {
+const shouldLogWarnings = process.env.NODE_ENV !== 'test'
+
+export const errorHandler = (error: Error, _req: NextApiRequest, res: NextApiResponse) => {
+	// We want to make sure error responses are not cached
 	res.setHeader('Cache-Control', 'no-cache')
+
 	if (error instanceof ApiError) {
+		if (shouldLogWarnings) logger.warn(error)
 		updateTransaction({ status: error.statusCode })
 		return res.status(error.statusCode).json({ message: error.message })
 	} else if (error instanceof StructError) {
-		const badRequestError = ApiError.fromCode(400)
+		const badRequestError = ApiError.fromCodeWithError(400, error)
+		if (shouldLogWarnings) logger.warn(badRequestError)
 		updateTransaction({ status: badRequestError.statusCode })
 		return res.status(badRequestError.statusCode).json({ message: error.message, error })
 	} else if (error instanceof JsonWebTokenError || error instanceof TokenExpiredError) {
-		const unauthorizedError = ApiError.fromCode(401)
+		const unauthorizedError = ApiError.fromCodeWithCause(401, error)
+		if (shouldLogWarnings) logger.warn(unauthorizedError)
 		updateTransaction({ status: unauthorizedError.statusCode })
 		return res.status(unauthorizedError.statusCode).json({ message: unauthorizedError.message })
 	// } else if (false) {
-	// 	const notFoundError = ApiError.fromCode(404)
+	// 	const notFoundError = ApiError.fromCodeWithError(404, error)
 	// 	return res.status(notFoundError.statusCode).json({ message: notFoundError.message })
 	// } else if (false) {
-	// 	const invalidMethodError = ApiError.fromCode(405)
+	// 	const invalidMethodError = ApiError.fromCodeWithError(405, error)
 	// 	return res.status(invalidMethodError.statusCode).json({ message: invalidMethodError.message })
 	} else {
-		const unexpectedError = ApiError.fromCode(500)
+		const unexpectedError = ApiError.fromCodeWithCause(500, error)
 		updateTransaction({ status: unexpectedError.statusCode })
 		logger.error(error)
 		return res.status(unexpectedError.statusCode).json({ message: unexpectedError.message })

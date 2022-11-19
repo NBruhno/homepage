@@ -12,12 +12,15 @@ type Props = ComponentPropsWithoutRef<'div'> & {
 	isFocus: boolean,
 }
 
-export const FieldContainer = forwardRef<HTMLDivElement, Props>(({ hasError, isDisabled, isFocusVisible, isHovered, isFocus, ...rest }, ref) => (
+export const InputContainer = forwardRef<HTMLDivElement, Props>(({ hasError, isDisabled, isFocusVisible, isHovered, isFocus, ...rest }, ref) => (
 	<div
 		css={(theme) => ([
 			DefaultInputStyle({ theme, hasError, isDisabled, isFocusVisible, isHovered }),
 			{
 				cursor: 'text',
+				display: 'flex',
+				columnGap: '8px',
+				justifyContent: 'space-between',
 			},
 			isFocus ? {
 				borderColor: hasError ? theme.color.error : theme.color.primary,

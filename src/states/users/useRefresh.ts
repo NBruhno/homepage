@@ -39,9 +39,7 @@ export const useRefresh = () => {
 		}
 
 		// Initial load
-		if (hasRefreshToken && !accessToken) {
-			onRefresh()
-		}
+		if (hasRefreshToken && !accessToken) void onRefresh()
 
 		if (accessToken) {
 			setResponsive({ showLogin: false })

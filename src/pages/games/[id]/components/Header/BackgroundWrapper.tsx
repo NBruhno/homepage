@@ -7,16 +7,11 @@ export const BackgroundWrapper = (props: ComponentPropsWithoutRef<'div'>) => (
 			top: 0,
 			left: 0,
 			right: 0,
-			height: '500px',
 			width: '100%',
 			zIndex: 0,
 			overflow: 'hidden',
-			backgroundColor: theme.color.gray,
-			transition: `height 300ms ${theme.animation.default}`,
-
-			[theme.mediaQueries.maxMobile]: {
-				height: '236px',
-			},
+			backgroundColor: theme.color.background,
+			maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 500px, rgba(0,0,0,0))',
 		})}
 		{...props}
 	/>

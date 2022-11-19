@@ -46,7 +46,7 @@ const securityHeaders = [
 
 const GIT_COMMIT_MESSAGE = process.env.VERCEL_GIT_COMMIT_MESSAGE
 const SentryWebpackPluginOptions = {
-	hideSourceMaps: true,
+	hideSourceMaps: false,
 	silent: process.env.VERCEL_ENV === 'development',
 	deploy: process.env.VERCEL_ENV !== 'development' ? ({
 		env: process.env.VERCEL_ENV,
@@ -56,6 +56,7 @@ const SentryWebpackPluginOptions = {
 }
 
 const nextConfig = {
+	productionBrowserSourceMaps: true,
 	reactStrictMode: true,
 	experimental: {
 		// fallbackNodePolyfills: false,

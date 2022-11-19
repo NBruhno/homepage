@@ -3,13 +3,14 @@ import React from 'react'
 
 import { ThemeProvider, css } from '@emotion/react'
 
-import { useDarkMode, useScroll } from '../src/states/page'
+import { useDarkMode, useLoading, useScroll } from '../src/states/page'
 
 import { theme } from '../src/styles/theme'
 import { GlobalStyling } from '../src/styles/global'
 
 export const Provider: GlobalProvider = ({ children, globalState }) => {
 	useScroll()
+	useLoading(false)
 
 	return (
 		<>

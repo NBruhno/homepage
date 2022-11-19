@@ -1,4 +1,3 @@
-import { withSentry } from '@sentry/nextjs'
 import { compareAsc, getUnixTime, isAfter, sub } from 'date-fns'
 import chunk from 'lodash/chunk'
 import differenceBy from 'lodash/differenceBy'
@@ -21,7 +20,7 @@ const Query = object({
 	take: optional(coerce(number(), pattern(string(), /[1-500]/), (value) => parseInt(value, 10))),
 })
 
-const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrategy: 'NoCache' })
+export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
 		const UpdateQuery = object({
 			'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
@@ -37,42 +36,20 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 			where: {
 				OR: [
 					{
-						lastCheckedAt: {
-							lte: sub(Date.now(), { hours: hoursSinceLastChecked }),
-						},
-						userData: {
-							some: {
-								isFollowing: false,
-							},
-						},
+						lastCheckedAt: { lte: sub(Date.now(), { hours: hoursSinceLastChecked }) },
+						userData: { some: { isFollowing: false } },
 					},
 					{
-						lastCheckedAt: {
-							lte: sub(Date.now(), { hours: hoursSinceLastCheckedPriority }),
-						},
-						userData: {
-							some: {
-								isFollowing: true,
-							},
-						},
+						lastCheckedAt: { lte: sub(Date.now(), { hours: hoursSinceLastCheckedPriority }) },
+						userData: { some: { isFollowing: true } },
 					},
 					{
-						lastCheckedAt: {
-							lte: sub(Date.now(), { hours: hoursSinceLastCheckedPriority }),
-						},
+						lastCheckedAt: { lte: sub(Date.now(), { hours: hoursSinceLastCheckedPriority }) },
 						OR: [
-							{
-								releaseDate: {
-									gte: twoMonthsBackDate,
-								},
-							},
-							{
-								releaseDate: null,
-							},
+							{ releaseDate: { gte: twoMonthsBackDate } },
+							{ releaseDate: null },
 						],
-						hype: {
-							gt: 0,
-						},
+						hype: { gt: 0 },
 					},
 				],
 			},
@@ -382,5 +359,3 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrate
 
 		return res.status(200).json({ message: 'There were no games to update' })
 	})
-
-export default withSentry(handler)

@@ -24,6 +24,7 @@ import { dateOrYear } from '../dateOrYear'
 
 import { Grid } from './components/Grid'
 import { Background } from './components/Header/Background'
+import { BackgroundCutoff } from './components/Header/BackgroundCutoff'
 import { BackgroundWrapper } from './components/Header/BackgroundWrapper'
 import { Developer } from './components/Header/Developer'
 import { ReleaseDate } from './components/Header/ReleaseDate'
@@ -35,7 +36,6 @@ import { Rating } from './components/Rating'
 import { SimilarGames } from './components/SimilarGames'
 import { VideoTabs } from './components/VideoTabs'
 import { WebsiteIcons } from './components/WebsiteIcons'
-import { Wrapper } from './components/Wrapper'
 
 type State = {
 	game: GameExtended | null,
@@ -123,16 +123,14 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 
 	return (
 		<Page>
-			<Wrapper>
-				<BackgroundWrapper>
-					<Background src={game?.screenshot ?? game?.cover ?? null} imageProps={game?.screenshotProps ?? undefined} />
-				</BackgroundWrapper>
-			</Wrapper>
+			<BackgroundWrapper>
+				<Background src={game?.screenshot ?? game?.cover ?? null} imageProps={game?.screenshotProps ?? undefined} />
+			</BackgroundWrapper>
+			<BackgroundCutoff />
 			<Grid>
-				<GridContainer name='cover'>
+				<GridContainer name='cover' css={(theme) => ({ maxHeight: '354px', [theme.mediaQueries.minTablet]: { marginTop: '10px' } })}>
 					<Cover
 						coverUrl={game?.cover ?? null}
-						css={{ maxHeight: '354px' }}
 						imageProps={game?.coverProps ?? undefined}
 						isPriority
 					/>

@@ -1,4 +1,3 @@
-import { withSentry } from '@sentry/nextjs'
 import { create, object, string, coerce, number, boolean } from 'superstruct'
 
 import { apiHandler, prisma } from 'lib/api'
@@ -9,7 +8,7 @@ const Query = object({
 	id: coerce(number(), string(), (value) => parseInt(value, 10)),
 })
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['POST'],
 	cacheStrategy: 'NoCache',
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/follows`,
@@ -38,5 +37,3 @@ const handler = apiHandler({
 
 		return res.status(200).json({ message: `Successfully ${userData.isFollowing ? 'follow' : 'unfollow'}ed the game` })
 	})
-
-export default withSentry(handler)

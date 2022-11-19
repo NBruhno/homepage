@@ -9,7 +9,7 @@ import { ButtonSolid } from 'components/Buttons'
 import { Form } from 'components/Form'
 import { FormWrapper } from 'components/Ladle'
 
-import { Button } from './Button'
+import { ToggleButton } from './Button'
 
 import { Toggle } from '.'
 
@@ -26,6 +26,20 @@ export const Default: DefaultProps = ({ label, hint, name, isDisabled, isFullWid
 		onSubmit={(fields) => onSubmit(fields)}
 		render={({ fieldProps }) => (
 			<FormWrapper title='Default'>
+				<Toggle
+					{...fieldProps(name)}
+					label={label}
+					hint={hint}
+					isDisabled={isDisabled}
+					isFullWidth={isFullWidth}
+				/>
+				<Toggle
+					{...fieldProps(name)}
+					label={label}
+					hint={hint}
+					isDisabled={isDisabled}
+					isFullWidth={isFullWidth}
+				/>
 				<Toggle
 					{...fieldProps(name)}
 					label={label}
@@ -57,7 +71,7 @@ export const ButtonType = () => {
 	const [isChecked, setIsChecked] = useState(false)
 
 	return (
-		<Button
+		<ToggleButton
 			label='Toggle button'
 			onClick={async () => {
 				await delay(2)
@@ -69,7 +83,7 @@ export const ButtonType = () => {
 }
 
 export const ButtonTypeFails = () => (
-	<Button
+	<ToggleButton
 		label='Toggle button'
 		onClick={async () => {
 			await delay(2)

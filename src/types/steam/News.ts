@@ -11,7 +11,8 @@ export type SteamNews = {
 			contents: string,
 			feedlabel: string,
 			date: number,
-			feedname: string | 'steam_community_announcements',
+			/** `steam_community_announcements` is a known possible value */
+			feedname: string,
 			feed_type: 0 | 1,
 			appid: number,
 		}>,

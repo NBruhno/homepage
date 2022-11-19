@@ -5,13 +5,14 @@ import { forwardRef } from 'react'
 
 type Props = ComponentPropsWithRef<'button'> & {
 	isFullWidth?: boolean,
-	isVisible: boolean,
+	showPlaceholder: boolean,
 }
 
-export const Button = forwardRef<HTMLButtonElement, Props>(({ isVisible, isFullWidth, ...rest }, ref) => (
+export const Button = forwardRef<HTMLButtonElement, Props>(({ showPlaceholder, isFullWidth, ...rest }, ref) => (
 	<button
 		css={(theme) => ({
 			backgroundColor: '#000',
+			opacity: showPlaceholder ? 0.4 : 1,
 			border: 'none',
 			color: '#FFF',
 			cursor: 'pointer',
@@ -28,7 +29,6 @@ export const Button = forwardRef<HTMLButtonElement, Props>(({ isVisible, isFullW
 			transition: `color 135ms ${theme.animation.default}, background-color 135ms ${theme.animation.default}, border-color 135ms ${theme.animation.default}`,
 			userSelect: 'none',
 			verticalAlign: 'middle',
-			visibility: isVisible ? 'visible' : 'hidden',
 			whiteSpace: 'nowrap',
 			width: isFullWidth ? '100%' : 'auto',
 

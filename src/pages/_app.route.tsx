@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import type { AppProps } from 'next/app'
 
+import { Analytics } from '@vercel/analytics/react'
 import Head from 'next/head'
 
 import { usePage } from 'states/page'
@@ -20,6 +21,7 @@ const MyApp = ({ Component, pageProps, err }: Props) => {
 	return (
 		<>
 			<PortalTarget />
+			<Analytics />
 			<Head>
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<meta name='sentry-trace' content='{{ span.toSentryTrace() }}' />

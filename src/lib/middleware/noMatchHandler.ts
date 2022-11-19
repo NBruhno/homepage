@@ -9,11 +9,11 @@ import { ApiError } from 'lib/errors'
 export const noMatchHandler = (methods: Array<'DELETE' | 'GET' | 'METHOD' | 'PATCH' | 'POST' | 'PUT'>) => (req: NextApiRequest, res: NextApiResponse) => {
 	// @ts-expect-error We do not know what the req.method is ahead of time (we can only guess), hence it is always a string or undefined
 	if (methods.includes(req.method ?? '')) {
-		const apiError = ApiError.fromCode(404)
+		const apiError = ApiError.fromCodeWithCause(404, new Error(`Could not find any matching route with the given method. Received "${req.method ?? 'UNSPECIFIED'}" - "${req.url ?? 'Unknown URL'}"`))
 		updateTransaction({ status: apiError.statusCode })
 		res.status(apiError.statusCode).json({ message: apiError.message })
 	} else {
-		const apiError = ApiError.fromCode(405)
+		const apiError = ApiError.fromCodeWithCause(405, new Error(`No valid route with the given method found. Expected one of [${methods.join(', ')}] but received "${req.method ?? 'UNSPECIFIED'}"`))
 		updateTransaction({ status: apiError.statusCode })
 		res.setHeader('Allow', methods)
 		res.status(apiError.statusCode).json({ message: apiError.message })

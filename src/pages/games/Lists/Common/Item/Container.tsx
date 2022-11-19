@@ -1,15 +1,14 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
+import type { ComponentPropsWithRef, Ref } from 'react'
 
-import type { ComponentPropsWithRef, LegacyRef } from 'react'
-
+import NextLink from 'next/link'
 import { forwardRef } from 'react'
 
-type Props = ComponentPropsWithRef<'a'> & {
+type Props = ComponentPropsWithRef<typeof NextLink> & {
 	isLoading?: boolean,
 }
 
-const Component = ({ isLoading, ...rest }: Props, ref: LegacyRef<HTMLAnchorElement>) => (
-	<a
+const Component = ({ isLoading, ...rest }: Props, ref: Ref<HTMLAnchorElement>) => (
+	<NextLink
 		css={(theme) => ([{
 			backgroundColor: theme.color.background,
 			border: `1px solid ${theme.color.gray020}`,
@@ -23,9 +22,9 @@ const Component = ({ isLoading, ...rest }: Props, ref: LegacyRef<HTMLAnchorEleme
 			overflow: 'hidden',
 			textDecoration: 'none',
 			transition: `
-					border 200ms ${theme.animation.default},
-					box-shadow 200ms ${theme.animation.default},
-					background 200ms ${theme.animation.default}`,
+				border 200ms ${theme.animation.default},
+				box-shadow 200ms ${theme.animation.default},
+				background 200ms ${theme.animation.default}`,
 		}, !isLoading ? {
 			'&:hover': {
 				border: `1px solid ${theme.color.primaryLighter}`,

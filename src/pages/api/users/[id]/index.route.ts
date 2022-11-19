@@ -1,5 +1,4 @@
 import { UserRole } from '@prisma/client'
-import { withSentry } from '@sentry/nextjs'
 import { object, string, create, optional } from 'superstruct'
 
 import { email, username } from 'validation/shared'
@@ -9,7 +8,7 @@ import { ApiError } from 'lib/errors'
 import { authenticate, removeRefreshCookie } from 'lib/middleware'
 import { monitorAsync } from 'lib/sentryMonitor'
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['GET', 'DELETE', 'PATCH'],
 	cacheStrategy: 'NoCache',
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}`,
@@ -69,5 +68,3 @@ const handler = apiHandler({
 		if (requestUserId === id) removeRefreshCookie(res)
 		return res.status(200).json({ message: 'The user has been deleted' })
 	})
-
-export default withSentry(handler)

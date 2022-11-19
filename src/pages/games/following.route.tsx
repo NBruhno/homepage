@@ -23,7 +23,7 @@ const Games: NextPage = () => {
 
 	useEffect(() => {
 		if (isStateKnown && userId && !router.query.user) {
-			router.push(`/games/following?user=${userId}`)
+			void router.push(`/games/following?user=${userId}`)
 		}
 	// We are only interested in the router query
 	// eslint-disable-next-line react-hooks/exhaustive-deps

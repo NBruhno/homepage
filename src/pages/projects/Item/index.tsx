@@ -1,5 +1,3 @@
-import Link from 'next/link'
-
 import { Container } from './Container'
 import { Cover } from './Cover'
 import { Subtitle } from './Subtitle'
@@ -14,17 +12,15 @@ type Props = {
 }
 
 export const ProjectItem = ({ title, subtitle, coverSrc, id, url }: Props) => (
-	<Link href={url ?? `/projects/${id}`} target={url ? '_blank' : '_self'} passHref>
-		<Container>
-			<Cover coverSrc={coverSrc} size='small' />
-			<div css={{ padding: '12px' }}>
-				<Title>
-					{title}
-				</Title>
-				<Subtitle>
-					{subtitle}
-				</Subtitle>
-			</div>
-		</Container>
-	</Link>
+	<Container href={url ?? `/projects/${id}`} target={url ? '_blank' : '_self'}>
+		<Cover coverSrc={coverSrc} size='small' />
+		<div css={{ padding: '12px' }}>
+			<Title>
+				{title}
+			</Title>
+			<Subtitle>
+				{subtitle}
+			</Subtitle>
+		</div>
+	</Container>
 )

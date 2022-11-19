@@ -38,7 +38,7 @@ module.exports = {
 			files: ['*.ts', '*.tsx'],
 			rules: {
 				'@typescript-eslint/await-thenable': ['error'],
-				'@typescript-eslint/consistent-type-exports': ['error'],
+				'@typescript-eslint/consistent-type-exports': ['error', { fixMixedExportsWithInlineTypeSpecifier: true }],
 				'@typescript-eslint/naming-convention': [
 					'error',
 					// {
@@ -71,9 +71,20 @@ module.exports = {
 					},
 				],
 				'@typescript-eslint/no-base-to-string': ['error'],
+				'@typescript-eslint/no-confusing-void-expression': ['off'],
+				'@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: true }],
 				'@typescript-eslint/no-for-in-array': ['error'],
+				'@typescript-eslint/no-meaningless-void-operator': ['error'],
+				'@typescript-eslint/no-misused-promises': ['error', {
+					checksVoidReturn: {
+						arguments: false,
+						attributes: false,
+					},
+				}],
+				'@typescript-eslint/no-redundant-type-constituents': ['error'],
 				'@typescript-eslint/no-unnecessary-boolean-literal-compare': ['error'],
 				'@typescript-eslint/no-unnecessary-condition': ['error'],
+				'@typescript-eslint/no-unnecessary-type-arguments': ['error'],
 				'@typescript-eslint/no-unnecessary-type-assertion': ['error'],
 				'@typescript-eslint/no-unsafe-argument': ['error'],
 				'@typescript-eslint/no-unsafe-assignment': ['error'],
@@ -230,6 +241,7 @@ module.exports = {
 		'no-undef': 'off',
 		'no-unused-vars': 'off',
 		'no-use-before-define': ['error', { classes: false, functions: false, variables: false }],
+		'no-void': ['error', { allowAsStatement: true }],
 		'object-curly-newline': ['error', { consistent: true, multiline: true }],
 		'object-curly-spacing': ['error', 'always'],
 		'prefer-destructuring': ['error', {

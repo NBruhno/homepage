@@ -1,6 +1,6 @@
 import type { GameImagePlaceholder } from 'types'
 
-import NextImage from 'next/future/image'
+import NextImage from 'next/image'
 
 type Props = {
 	src: string,

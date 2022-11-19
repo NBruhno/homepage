@@ -3,7 +3,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 import { useMediaQuery } from '@react-hook/media-query'
 import { setUser } from '@sentry/nextjs'
 import dynamic from 'next/dynamic'
-import Link from 'next/link'
+import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import shallow from 'zustand/shallow'
@@ -94,7 +94,7 @@ export const Main = ({ children, isNebulaVisible }: Props) => {
 					) : (
 						<>
 							<h1 css={{ margin: '0 0 24px', fontSize: '1.5em' }}>You are not authorized to access this resource</h1>
-							<Link href='/' passHref><a css={(theme) => ({ color: theme.color.text })}>Home</a></Link>
+							<NextLink href='/' passHref css={(theme) => ({ color: theme.color.text })}>Home</NextLink>
 						</>
 					)}
 				</>

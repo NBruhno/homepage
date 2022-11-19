@@ -62,7 +62,7 @@ export const MobileSidebar = ({ show, ...rest }: Props & { show: boolean }) => (
 					width: '250px',
 
 					'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
-						backdropFilter: 'saturate(150%) blur(5px)',
+						backdropFilter: 'saturate(150%) blur(16px) brightness(150%)',
 						backgroundColor: adjustHsl(theme.color.sidebarBackground, { alpha: 0.9 }),
 					},
 				},

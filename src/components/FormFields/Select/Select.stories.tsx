@@ -20,10 +20,10 @@ type DefaultProps = Story<Omit<ComponentProps<typeof Select>, 'options'> & {
 	onSubmit: (fields: any) => void,
 }>
 
-export const Default: DefaultProps = ({ label, hint, isRequired, name, isDisabled, isFullWidth, placeholder, showOptionalHint, shouldAutofocus, onSubmit }) => (
+export const Default: DefaultProps = ({ label, hint, isRequired, name, isDisabled, isFullWidth, isLoading, placeholder, showOptionalHint, shouldAutofocus, onSubmit }) => (
 	<Form
 		onSubmit={(fields) => onSubmit(fields)}
-		render={({ fieldProps }) => (
+		render={({ fieldProps, reset }) => (
 			<FormWrapper title='Default'>
 				<Select
 					{...fieldProps(name)}
@@ -33,11 +33,13 @@ export const Default: DefaultProps = ({ label, hint, isRequired, name, isDisable
 					isRequired={isRequired}
 					isDisabled={isDisabled}
 					isFullWidth={isFullWidth}
+					isLoading={isLoading}
 					placeholder={placeholder}
 					showOptionalHint={showOptionalHint}
 					shouldAutofocus={shouldAutofocus}
 				/>
 				<ButtonSolid label='Submit' type='submit' />
+				<ButtonSolid label='Reset' onClick={() => reset()} />
 			</FormWrapper>
 		)}
 	/>
@@ -50,6 +52,7 @@ Default.args = {
 	isRequired: false,
 	isDisabled: false,
 	isFullWidth: true,
+	isLoading: false,
 	showOptionalHint: true,
 	shouldAutofocus: false,
 	placeholder: 'Placeholder text',

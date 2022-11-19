@@ -1,6 +1,5 @@
 import type { IgdbGame } from 'types'
 
-import { withSentry } from '@sentry/nextjs'
 import { coerce, create, number, object, string } from 'superstruct'
 
 import { config } from 'config.server'
@@ -17,7 +16,7 @@ const Query = object({
 	id: coerce(number(), string(), (value) => parseInt(value, 10)),
 })
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['GET', 'PUT', 'PATCH'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}`,
 })
@@ -37,7 +36,7 @@ const handler = apiHandler({
 				nickname: 'find unknown game',
 			}).then((game: IgdbGame | undefined) => {
 				if (game) return mapIgdbGame(game)
-				throw ApiError.fromCode(404)
+				throw ApiError.fromCodeWithCause(404, new Error(`Failed to find IGDB game with ID ${id}`))
 			})
 
 			const createdGame = await monitorAsync(() => fetcher(`/games`, {
@@ -69,8 +68,8 @@ const handler = apiHandler({
 	})
 	.patch(async (req, res) => {
 		authenticateSystem(req)
-		const game = create(req.body, gameValidator)
 		const { id } = create(req.query, Query)
+		const game = create(req.body, gameValidator)
 
 		const updatedGame = await monitorAsync(() => prisma.game.update({
 			where: { id },
@@ -80,5 +79,3 @@ const handler = apiHandler({
 		res.setHeader('Location', `/api/games/${updatedGame.id}`)
 		return res.status(200).json(updatedGame)
 	})
-
-export default withSentry(handler)

@@ -41,7 +41,7 @@ export const useSearchGames = () => {
 	useEffect(() => {
 		if (gameSearch && !hasSearch) setHasSearch(true)
 		if (router.query.title !== gameSearch) {
-			router.push(`/games/search${gameSearch ? `?title=${encodeURIComponent(gameSearch)}` : ''}`, undefined, { shallow: true })
+			void router.push(`/games/search${gameSearch ? `?title=${encodeURIComponent(gameSearch)}` : ''}`, undefined, { shallow: true })
 		}
 	}, [gameSearch, hasSearch])
 

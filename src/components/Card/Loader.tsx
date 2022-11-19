@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-import { ActivityIndicator } from 'components/ActivityIndicator'
+import { Spinner } from 'components/Spinner'
 
 export const Loader = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
@@ -14,6 +14,6 @@ export const Loader = (props: ComponentPropsWithoutRef<'div'>) => (
 		}}
 		{...props}
 	>
-		<ActivityIndicator />
+		<Spinner size={32} />
 	</div>
 )

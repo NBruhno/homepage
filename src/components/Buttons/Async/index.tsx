@@ -58,7 +58,7 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 	}
 
 	const defaultProps = {
-		isVisible: !isLoading,
+		showPlaceholder: isLoading,
 		label,
 		isFullWidth,
 		isDisabled,

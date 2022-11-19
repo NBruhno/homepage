@@ -1,10 +1,10 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
-import type { ComponentPropsWithRef, LegacyRef } from 'react'
+import type { ComponentPropsWithRef, Ref } from 'react'
 
+import NextLink from 'next/link'
 import { forwardRef } from 'react'
 
-const Component = (props: ComponentPropsWithRef<'a'>, ref: LegacyRef<HTMLAnchorElement>) => (
-	<a
+const Component = (props: ComponentPropsWithRef<typeof NextLink>, ref: Ref<HTMLAnchorElement>) => (
+	<NextLink
 		css={(theme) => ({
 			backgroundColor: theme.color.background,
 			border: `1px solid ${theme.color.gray020}`,

@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
 import type { ComponentPropsWithoutRef } from 'react'
 
+import NextLink from 'next/link'
 import { forwardRef } from 'react'
 
 import { adjustHsl } from 'lib/client'
 
-type Props = ComponentPropsWithoutRef<'a'> & {
+type Props = ComponentPropsWithoutRef<typeof NextLink> & {
 	isActive?: boolean,
 }
 
 export const NavLink = forwardRef<HTMLAnchorElement, Props>(({ isActive, ...rest }, ref) => (
-	<a
+	<NextLink
 		css={(theme) => ({
 			padding: '6px 12px',
 			color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,

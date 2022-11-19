@@ -1,6 +1,5 @@
 import type { SteamNews } from 'types/steam'
 
-import { withSentry } from '@sentry/nextjs'
 import { fromUnixTime } from 'date-fns'
 import partition from 'lodash/partition'
 import { create, object, string, coerce, optional, number, pattern } from 'superstruct'
@@ -26,7 +25,7 @@ const Query = object({
 	take: optional(coerce(number(), pattern(string(), /[1-10]/), (value) => parseInt(value, 10))),
 })
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['GET'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/news`,
 })
@@ -47,5 +46,3 @@ const handler = apiHandler({
 		})
 		return res.status(200).json(news)
 	})
-
-export default withSentry(handler)

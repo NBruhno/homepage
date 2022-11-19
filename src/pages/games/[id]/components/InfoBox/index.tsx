@@ -201,8 +201,11 @@ export const InfoBox = ({
 							<Placeholder width='65%'>
 								<ul css={(theme) => ({ paddingLeft: '20px', margin: 0, color: theme.color.textFaded })}>
 									{groupedReleaseDates.map(({ date, platforms }, index) => (
-										<li key={index}>
-											<span css={(theme) => ({ color: theme.color.text })}>{dateOrYear(date)}: {listFormatter.format(platforms)}</span>
+										<li key={index} css={(theme) => ({ color: theme.color.text, marginBottom: '8px', '&:last-child': { margin: 0 } })}>
+											{dateOrYear(date)}
+											<div css={(theme) => ({ color: theme.color.textFaded, fontSize: theme.font.size.s80 })}>
+												{listFormatter.format(platforms)}
+											</div>
 										</li>
 									))}
 								</ul>
