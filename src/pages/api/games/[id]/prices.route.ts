@@ -1,6 +1,5 @@
 import type { ItadPlain, ItadPrices } from 'types'
 
-import { withSentry } from '@sentry/nextjs'
 import { create, object, optional, string, union } from 'superstruct'
 
 import { apiHandler, itadFetcher, setCache } from 'lib/api'
@@ -23,7 +22,7 @@ const Query = union([
 	}),
 ])
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['GET'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/prices`,
 })
@@ -61,5 +60,3 @@ const handler = apiHandler({
 		setCache({ strategy: 'Default', duration: 5, res })
 		res.status(200).json({ prices })
 	})
-
-export default withSentry(handler)

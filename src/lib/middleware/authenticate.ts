@@ -45,7 +45,7 @@ export const authenticate = (req: NextApiRequest,
 				: cookies['refreshToken']!
 		}
 		if (authorization) return authorization.split('Bearer ')[1]
-		throw ApiError.fromCode(401)
+		throw ApiError.fromCodeWithCause(401, new Error('No JWT attached to the request'))
 	})()
 
 	const { header, payload } = <{ header: { typ: UserTokenType }, payload: Omit<UserToken, 'typ'> }><unknown>jwt.verify(
@@ -62,7 +62,7 @@ export const authenticate = (req: NextApiRequest,
 	)
 
 	// Return a 403 if the type of the token is not the same as the one required
-	if (header.typ !== type) throw ApiError.fromCode(403)
+	if (header.typ !== type) throw ApiError.fromCodeWithCause(403, new Error(`Invalid JWT header, expected "${type}" but received "${header.typ}"`))
 
 	const decodedToken: UserToken = {
 		...payload,
@@ -70,10 +70,14 @@ export const authenticate = (req: NextApiRequest,
 	}
 
 	// Return a 403 if the user does not have the any of the known roles
-	if (!Object.values(UserRole).includes(decodedToken.role)) throw ApiError.fromCode(403)
+	if (!Object.values(UserRole).includes(decodedToken.role)) {
+		throw ApiError.fromCodeWithCause(403, new Error(`Invalid JWT role, expected one of [${Object.values(UserRole).join(', ')}] but received "${decodedToken.role}"`))
+	}
 
 	// Return a 403 if the user does not have the any of required roles if specified
-	if (allowedRoles.length > 0 && !allowedRoles.includes(decodedToken.role)) throw ApiError.fromCode(403)
+	if (allowedRoles.length > 0 && !allowedRoles.includes(decodedToken.role)) {
+		throw ApiError.fromCodeWithCause(403, new Error(`Invalid JWT role, expected one of [${allowedRoles.join(', ')}] but received "${decodedToken.role}"`))
+	}
 
 	setUser({ id: decodedToken.userId, username: decodedToken.username, email: decodedToken.sub })
 	return { ...decodedToken, token: tokenToUse }
@@ -92,5 +96,5 @@ export const authenticateSystem = (req: NextApiRequest) => {
 	if (authorization === `Bearer ${config.auth.systemToken}`) {
 		setUser({ username: 'System' })
 		return true
-	} else throw ApiError.fromCode(401)
+	} else throw ApiError.fromCodeWithCause(401, new Error(`Invalid system token`))
 }

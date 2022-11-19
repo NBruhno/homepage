@@ -20,7 +20,7 @@ import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
 import { InputError } from '../InputError'
 import { LabelContainer } from '../LabelContainer'
-import { InputClearButton, InputButtonContainer, InputMenuIndicator, SelectMenu, SelectMenuAnchor, InputContainer, InputComponent } from '../Shared'
+import { InputClearButton, InputButtonContainer, InputMenuIndicator, SelectMenu, InputContainer, InputComponent } from '../Shared'
 
 import { Chip } from './Chip'
 import { handleKeyboardInput } from './handleKeyboardInput'

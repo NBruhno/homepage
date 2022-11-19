@@ -35,6 +35,7 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 			<Link
 				url='/users/profile'
 				name={(accessToken && username) ? username : 'Not logged in'}
+				tooltip='Your profile'
 				isActive={pathname.includes('/users/profile')}
 				renderIcon={() => accessToken ? <IconUser size={22} css={{ flexShrink: 0 }} /> : <IconUserOff size={22} css={{ flexShrink: 0 }} />}
 			/>
@@ -45,18 +46,21 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 			<Link
 				url='/games/popular'
 				name='Popular'
+				tooltip='Popular games'
 				isActive={pathname.includes('/games/popular')}
 				renderIcon={() => <IconListNumbers size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url={userId ? `/games/following?user=${userId}` : '/games/following'}
 				name='Following'
+				tooltip='Games you follow'
 				isActive={pathname.includes('/games/following')}
 				renderIcon={() => <IconListCheck size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/games/search'
 				name='Search'
+				tooltip='Search for a game'
 				isActive={pathname.includes('/games/search')}
 				renderIcon={() => <IconListSearch size={22} css={{ flexShrink: 0 }} />}
 			/>

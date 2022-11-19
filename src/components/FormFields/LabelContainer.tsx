@@ -9,6 +9,7 @@ export const LabelContainer = (props: ComponentPropsWithoutRef<'label'>) => (
 			flexDirection: 'column',
 			fontSize: theme.font.size.s100,
 			fontWeight: theme.font.weight.regular,
+			textAlign: 'left',
 			marginBottom: 0,
 		})}
 		{...props}

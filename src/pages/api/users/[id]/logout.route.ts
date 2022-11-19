@@ -1,10 +1,9 @@
-import { withSentry } from '@sentry/nextjs'
 import { assert, object, string } from 'superstruct'
 
 import { apiHandler } from 'lib/api'
 import { authenticate, removeRefreshCookie } from 'lib/middleware'
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['POST'],
 	cacheStrategy: 'NoCache',
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}/logout`,
@@ -16,5 +15,3 @@ const handler = apiHandler({
 		removeRefreshCookie(res)
 		return res.status(200).json({ message: 'You have been logged out successfully' })
 	})
-
-export default withSentry(handler)

@@ -19,7 +19,6 @@ export const Item = forwardRef<HTMLDivElement, Props>(({ isHighlighted, isSelect
 				return isDisabled ? theme.color.grayDark : theme.color.inputBackground
 			})(),
 			color: theme.color.text,
-			fontWeight: theme.font.weight.regular,
 			margin: '4px 6px',
 			padding: '8px 10px',
 			borderRadius: '4px',

@@ -4,7 +4,7 @@ export const InputButtonContainer = (props: ComponentProps<'div'>) => (
 	<div
 		css={() => ({
 			display: 'flex',
-			alignItem: 'center',
+			alignItems: 'center',
 			pointerEvents: 'none',
 			margin: '-10px -6px',
 		})}

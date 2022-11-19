@@ -1,7 +1,6 @@
 import { UserTokenType } from 'types'
 
 import { UserRole } from '@prisma/client'
-import { withSentry } from '@sentry/nextjs'
 import { authenticator as otpAuthenticator } from 'otplib'
 import { toDataURL as getQRCodeImage } from 'qrcode'
 import { create, object, string } from 'superstruct'
@@ -15,7 +14,7 @@ const Query = object({
 	id: string(),
 })
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['GET', 'POST', 'PATCH', 'DELETE'],
 	cacheStrategy: 'NoCache',
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}/2fa`,
@@ -97,5 +96,3 @@ const handler = apiHandler({
 
 		return res.status(200).json({ message: '2FA has been removed' })
 	})
-
-export default withSentry(handler)

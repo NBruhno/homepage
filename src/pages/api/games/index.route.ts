@@ -1,4 +1,3 @@
-import { withSentry } from '@sentry/nextjs'
 import { sub } from 'date-fns'
 import { optional, string, object, create, pattern, coerce, number, array, partial, assign, pick, literal } from 'superstruct'
 
@@ -26,7 +25,7 @@ const getHasAfter = (returnCount: number, takeCount: number, hasSkip: boolean) =
 	return false
 }
 
-const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
+export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	.get(async (req, res) => {
 		const { search, take = 50, skip = 0, user, 'is-popular': isPopular } = create(req.query, Query)
 		const hasSkip = skip > 0
@@ -145,5 +144,3 @@ const handler = apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 
 		return res.status(200).json(result)
 	})
-
-export default withSentry(handler)

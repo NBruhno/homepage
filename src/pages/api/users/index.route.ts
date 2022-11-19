@@ -2,7 +2,7 @@ import { UserTokenType } from 'types'
 
 import { UserRole } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
-import { setUser, withSentry } from '@sentry/nextjs'
+import { setUser } from '@sentry/nextjs'
 import { hash } from 'argon2'
 import { object, create } from 'superstruct'
 
@@ -21,7 +21,7 @@ const Body = object({
 	accessCode: accessCode(),
 })
 
-const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
+export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
 		authenticate(req, { allowedRoles: [UserRole.Admin] })
 		const result = await monitorAsync(() => prisma.user.findMany(), 'db:prisma', 'findMany()')
@@ -49,11 +49,9 @@ const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			return res.status(200).json({ accessToken })
 		} catch (error) {
 			if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
-				throw ApiError.fromCodeWithError(409, new Error('Email is already in use'))
+				throw ApiError.fromCodeWithError(409, error, 'Email is already in use')
 			} else {
 				throw error
 			}
 		}
 	})
-
-export default withSentry(handler)

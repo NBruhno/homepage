@@ -5,6 +5,8 @@ import { css, Global } from '@emotion/react'
 import { fonts } from 'styles/fonts'
 import { normalize } from 'styles/normalize'
 
+import { adjustHsl } from 'lib/client'
+
 export const globalCss = (theme: Theme) => css([
 	fonts,
 	normalize,
@@ -15,9 +17,20 @@ export const globalCss = (theme: Theme) => css([
 		},
 
 		'*::-webkit-scrollbar-thumb': {
-			backgroundColor: theme.color.gray,
+			backgroundColor: adjustHsl(theme.color.gray, { alpha: 0.7 }),
 			borderRadius: '8px',
 			border: 'none',
+
+			transition: `background-color 150ms ${theme.animation.default}`,
+
+			':hover': {
+				backgroundColor: theme.color.gray,
+				cursor: 'grab',
+			},
+
+			':active': {
+				backgroundColor: theme.color.gray030,
+			},
 		},
 
 		html: {

@@ -1,6 +1,5 @@
 import type { UserRole } from '@prisma/client'
 
-import NextLink from 'next/link'
 import { useRouter } from 'next/router'
 import { forwardRef } from 'react'
 
@@ -14,13 +13,14 @@ import { Text } from '../Text'
 
 type Props = {
 	name: string,
+	tooltip?: string,
 	url: string,
 	allowedRoles?: Array<UserRole>,
 	isActive?: boolean,
 	renderIcon: () => JSX.Element,
 }
 
-export const Link = forwardRef<HTMLAnchorElement, Props>(({ url, renderIcon, name, isActive, allowedRoles = [] }, ref) => {
+export const Link = forwardRef<HTMLAnchorElement, Props>(({ url, renderIcon, name, tooltip, isActive, allowedRoles = [] }, ref) => {
 	const { isMobile, setResponsiveState, isSidebarCollapsed } = useResponsive()
 	const role = useUser((state) => state.role)
 	const { pathname } = useRouter()
@@ -28,23 +28,19 @@ export const Link = forwardRef<HTMLAnchorElement, Props>(({ url, renderIcon, nam
 	if (allowedRoles.length > 0 && (!role || !allowedRoles.includes(role))) return null
 
 	return (
-		<NextLink
-			href={url}
-			passHref
+		<Tooltip
+			show={isSidebarCollapsed && !isMobile}
+			tip={tooltip ?? name}
+			position='right'
+			onClick={() => isMobile ? setResponsiveState({ showMenu: false }) : undefined}
 		>
-			<Tooltip
-				show={isSidebarCollapsed && !isMobile}
-				tip={name}
-				position='right'
-				onClick={() => isMobile ? setResponsiveState({ showMenu: false }) : undefined}
+			<NavLink
+				href={url}
+				isActive={isActive ?? pathname === url}
+				ref={ref}
 			>
-				<NavLink
-					isActive={isActive ?? pathname === url}
-					ref={ref}
-				>
-					{renderIcon()}<Text>{name}</Text>
-				</NavLink>
-			</Tooltip>
-		</NextLink>
+				{renderIcon()}<Text>{name}</Text>
+			</NavLink>
+		</Tooltip>
 	)
 })

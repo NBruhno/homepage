@@ -14,6 +14,7 @@ const config = {
 	moduleFileExtensions: ['ts', 'js'],
 	moduleDirectories: ['node_modules', 'src'],
 	collectCoverage: false,
+	setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
 }
 
 module.exports = createConfig(config)

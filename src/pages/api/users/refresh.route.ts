@@ -1,11 +1,11 @@
 import { UserTokenType } from 'types'
 
-import { setUser, withSentry } from '@sentry/nextjs'
+import { setUser } from '@sentry/nextjs'
 
 import { apiHandler, getJwtToken, updateTransaction } from 'lib/api'
 import { authenticate, setRefreshCookie } from 'lib/middleware'
 
-const handler = apiHandler({ validMethods: ['GET'], cacheStrategy: 'NoCache' })
+export default apiHandler({ validMethods: ['GET'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
 		const { sub, username, role, userId, steamId } = authenticate(req, { type: UserTokenType.Refresh })
 
@@ -19,5 +19,3 @@ const handler = apiHandler({ validMethods: ['GET'], cacheStrategy: 'NoCache' })
 		updateTransaction({ data: [{ label: 'user', value: userId }] })
 		return res.status(200).json({ accessToken })
 	})
-
-export default withSentry(handler)

@@ -2,7 +2,6 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 import { IconCookie, IconSpy, IconMail, IconBrandLinkedin, IconBrandGithub, IconBrandGitlab } from '@tabler/icons'
 import { getYear } from 'date-fns'
-import NextLink from 'next/link'
 
 import { Tooltip } from 'components/Tooltip'
 
@@ -48,20 +47,16 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 			</Tooltip>
 			<Tooltip tip='Cookies'>
 				<ListItem>
-					<NextLink href='/cookies' passHref>
-						<Link isTransparent={isTransparent} shouldOpenInNewTab={false} aria-label='Cookies'>
-							<IconCookie size={22} />
-						</Link>
-					</NextLink>
+					<Link isTransparent={isTransparent} href='/cookies' shouldOpenInNewTab={false} aria-label='Cookies'>
+						<IconCookie size={22} />
+					</Link>
 				</ListItem>
 			</Tooltip>
 			<Tooltip tip='Privacy Policy'>
 				<ListItem>
-					<NextLink href='/privacy-policy' passHref>
-						<Link isTransparent={isTransparent} shouldOpenInNewTab={false} aria-label='Cookies'>
-							<IconSpy size={22} />
-						</Link>
-					</NextLink>
+					<Link isTransparent={isTransparent} href='/privacy-policy' shouldOpenInNewTab={false} aria-label='Cookies'>
+						<IconSpy size={22} />
+					</Link>
 				</ListItem>
 			</Tooltip>
 		</SocialList>

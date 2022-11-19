@@ -1,7 +1,6 @@
 import type { GameWebsite, IgdbGame } from 'types'
 import type { SteamOwnedGames } from 'types/steam'
 
-import { withSentry } from '@sentry/nextjs'
 import { create, object, string, coerce, number } from 'superstruct'
 
 import { config } from 'config.server'
@@ -17,7 +16,7 @@ const Query = object({
 	id: coerce(number(), string(), (value) => parseInt(value, 10)),
 })
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['GET'],
 	cacheStrategy: 'NoCache',
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/user-status`,
@@ -83,5 +82,3 @@ const handler = apiHandler({
 
 		return res.status(200).json({ isFollowing, isInSteamLibrary })
 	})
-
-export default withSentry(handler)

@@ -1,7 +1,6 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
 import { IconMenu2 } from '@tabler/icons'
-import Link from 'next/link'
 
 import { useResponsive } from 'states/page'
 
@@ -24,19 +23,17 @@ export const Header = (props: ComponentPropsWithoutRef<'nav'>) => {
 					label={<IconMenu2 css={(theme) => ({ color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted })} />}
 					onClick={() => setResponsiveState({ showMenu: !showMenu })}
 				/>
-				<Link href='/' passHref>
-					<NavLink css={{ alignItems: 'center' }} onClick={() => setResponsiveState({ showMenu: false })}>
-						<Logo
-							css={(theme) => ({
-								width: '32px',
-								height: '32px',
-								margin: '0 8px 0 -6px',
-								transition: `margin 300ms ${theme.animation.default}`,
-							})}
-						/>
-						Bruhno
-					</NavLink>
-				</Link>
+				<NavLink css={{ alignItems: 'center' }} href='/' onClick={() => setResponsiveState({ showMenu: false })}>
+					<Logo
+						css={(theme) => ({
+							width: '32px',
+							height: '32px',
+							margin: '0 8px 0 -6px',
+							transition: `margin 300ms ${theme.animation.default}`,
+						})}
+					/>
+					Bruhno
+				</NavLink>
 			</HeaderComponent>
 		</>
 	)

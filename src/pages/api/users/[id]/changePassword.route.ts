@@ -1,5 +1,4 @@
 import { UserRole } from '@prisma/client'
-import { withSentry } from '@sentry/nextjs'
 import { verify, hash } from 'argon2'
 import { create, object, string } from 'superstruct'
 
@@ -10,7 +9,7 @@ import { ApiError } from 'lib/errors'
 import { authenticate } from 'lib/middleware'
 import { monitorAsync } from 'lib/sentryMonitor'
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['POST'],
 	cacheStrategy: 'NoCache',
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}/changePassword`,
@@ -52,5 +51,3 @@ const handler = apiHandler({
 
 		return res.status(200).json({ message: 'Password has been updated' })
 	})
-
-export default withSentry(handler)

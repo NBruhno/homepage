@@ -1,5 +1,4 @@
 import { UserRole } from '@prisma/client'
-import { withSentry } from '@sentry/nextjs'
 import { create, object, string } from 'superstruct'
 
 import { apiHandler } from 'lib/api'
@@ -9,7 +8,7 @@ const Query = object({
 	id: string(),
 })
 
-const handler = apiHandler({
+export default apiHandler({
 	validMethods: ['POST'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/revalidate`,
 })
@@ -20,5 +19,3 @@ const handler = apiHandler({
 		await res.revalidate(`/games/${id}`)
 		return res.status(200).json({ message: `Cache for /games/${id} has been cleared and re-rendered` })
 	})
-
-export default withSentry(handler)

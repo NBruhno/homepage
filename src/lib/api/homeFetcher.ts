@@ -47,14 +47,11 @@ export const homeFetcher = async <ReturnType>(url: string, { accessToken, body, 
 		credentials: 'same-origin',
 		mode: 'cors',
 	}).then(async (response) => {
-		if (response.redirected || response.url !== urlToFetch) throw ApiError.fromCode(421)
+		if (response.redirected || response.url !== urlToFetch) throw ApiError.fromCodeWithCause(421, new Error('Response was redirected or the respondent did not match what was expected'))
 		if (response.status >= 400) {
 			const payload = await response.json() as { message?: string }
 			logger.error(payload.message)
-			throw ApiError.fromCodeWithError(
-				response.status as unknown as keyof typeof statusCodes,
-				new Error(payload.message ?? 'Unknown error'),
-			)
+			throw ApiError.fromCodeWithCause(500, ApiError.fromCode(response.status as unknown as keyof typeof statusCodes, payload.message))
 		}
 		return response.json() as Promise<ReturnType>
 	}), 'http:home', nickname ?? '', span)

@@ -1,8 +1,10 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-import Link from 'next/link'
+import NextLink from 'next/link'
 
 import { useCookieBanner } from 'states/page'
+
+import { adjustHsl } from 'lib/client'
 
 import { ButtonBorder } from 'components/Buttons'
 
@@ -47,15 +49,19 @@ export const CookieBanner = (props: ComponentPropsWithoutRef<'div'>) => {
 					borderTop: `1px solid ${theme.color.border}`,
 					justifyContent: 'center',
 				},
+
+				'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
+					backdropFilter: 'blur(8px)',
+					backgroundColor: theme.isDarkTheme ? adjustHsl(theme.color.backgroundHover, { alpha: 0.85 }) : adjustHsl(theme.color.gray010, { alpha: 0.85 }),
+				},
 			})}
 			{...props}
 		>
 			<div>
 				<div>This website uses cookies to maintain login sessions</div>
-				<Link href='/cookies' passHref>
-					{/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
-					<a css={{ textDecoration: 'none' }} onClick={() => setIsDismissed()} role='button' tabIndex={0}>You can learn more about cookies on this website here</a>
-				</Link>
+				<NextLink href='/cookies' passHref css={{ textDecoration: 'none' }} onClick={() => setIsDismissed()} role='button' tabIndex={0}>
+					You can learn more about cookies on this website here
+				</NextLink>
 			</div>
 			<ButtonBorder label='Dismiss' onClick={() => setIsDismissed()} css={{ flexShrink: 0 }} />
 		</div>

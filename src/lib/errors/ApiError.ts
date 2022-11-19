@@ -1,5 +1,3 @@
-import type { NextApiResponse } from 'next'
-
 import { CustomError } from 'ts-custom-error'
 
 export const statusCodes = {
@@ -75,34 +73,24 @@ export const statusCodes = {
 
 export class ApiError extends CustomError {
 	public statusCode: number
-	public error?: Error
+	public cause?: Error
 
-	public constructor(code: number, message: string, error?: Error) {
+	public constructor(code: number, message: string, cause?: Error) {
 		super(message)
 
-		if (error) this.error = error
+		if (cause) this.cause = cause
 		this.statusCode = code
 	}
 
-	public static fromCode(code: keyof typeof statusCodes) {
-		return new ApiError(code, statusCodes[code])
+	public static fromCode(code: keyof typeof statusCodes, message?: string) {
+		return new ApiError(code, message ?? statusCodes[code])
 	}
 
-	public static fromCodeWithError(code: keyof typeof statusCodes, error: Error) {
-		return new ApiError(code, error.message, error)
+	public static fromCodeWithError(code: keyof typeof statusCodes, cause: Error, message?: string) {
+		return new ApiError(code, message ?? cause.message, cause)
 	}
-}
 
-/**
- * @param statusCode - Any HTTP status code
- * @param res - The Next.js response object
- * @param error - Any Error class
- * @returns ApiError class
- */
-export const createAndAttachError = (statusCode: keyof typeof statusCodes, res: NextApiResponse, error?: Error) => {
-	let apiError
-	if (error) apiError = ApiError.fromCodeWithError(statusCode, error)
-	else apiError = ApiError.fromCode(statusCode)
-	res.status(apiError.statusCode).json({ error: error?.message ?? apiError.message })
-	return apiError
+	public static fromCodeWithCause(code: keyof typeof statusCodes, cause: Error, message?: string) {
+		return new ApiError(code, message ?? statusCodes[code], cause)
+	}
 }

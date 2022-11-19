@@ -1,6 +1,6 @@
 import { UserTokenType } from 'types'
 
-import { setUser, withSentry } from '@sentry/nextjs'
+import { setUser } from '@sentry/nextjs'
 import { verify } from 'argon2'
 import { object, create } from 'superstruct'
 
@@ -16,7 +16,7 @@ const Body = object({
 	password: password(),
 })
 
-export const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
+export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.post(async (req, res) => {
 		const { email: loginEmail, password } = create(req.body, Body)
 
@@ -56,5 +56,3 @@ export const handler = apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCa
 			return res.status(200).json({ accessToken })
 		}
 	})
-
-export default withSentry(handler)

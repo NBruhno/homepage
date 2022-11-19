@@ -24,11 +24,12 @@ type Props = {
 }
 
 const DefaultContent = ({ Button, onClick, label }: Props) => (
-	<Card contentCss={{ display: 'grid', columnGap: '12px', alignItems: 'center', justifyContent: 'space-around', gridTemplateColumns: 'auto auto auto auto auto' }}>
+	<Card contentCss={{ display: 'grid', columnGap: '12px', alignItems: 'center', justifyContent: 'space-around', gridTemplateColumns: 'repeat(6, auto)' }}>
 		<p>Default</p>
 		<p>Promise</p>
 		<p>Form submission</p>
 		<p>Loading</p>
+		<p>Skeleton</p>
 		<p>Disabled</p>
 		<Button label={label ?? 'Default'} onClick={onClick} />
 		<Button
@@ -46,6 +47,7 @@ const DefaultContent = ({ Button, onClick, label }: Props) => (
 			render={() => <Button label={label ?? 'Submit'} type='submit' />}
 		/>
 		<Button label={label ?? 'Loading'} onClick={onClick} isLoadingManual />
+		<Button label={label ?? 'Loading'} onClick={onClick} isLoading />
 		<Button label={label ?? 'Disabled'} onClick={onClick} isDisabled />
 	</Card>
 )

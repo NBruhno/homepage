@@ -2,8 +2,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 import { useModal } from 'states/page'
 
-import { Card } from 'components/Card'
-
+import { Card } from './Card'
 import { Container } from './Container'
 import { Shade } from './Shade'
 

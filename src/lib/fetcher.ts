@@ -60,9 +60,9 @@ export const fetcher = async <ReturnType>(
 		if (response.status >= 400) {
 			const payload = await response.json() as { message?: string }
 			logger.error(payload.message)
-			throw ApiError.fromCodeWithError(
+			throw ApiError.fromCode(
 				response.status as unknown as keyof typeof statusCodes,
-				new Error(payload.message ?? 'Unknown error'),
+				payload.message,
 			)
 		}
 
