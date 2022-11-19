@@ -1,4 +1,4 @@
-import type { AnyStruct } from 'superstruct/lib/utils'
+import type { AnyStruct } from 'superstruct/dist/utils'
 
 export const inferFieldType = (struct: AnyStruct | undefined) => {
 	if (!struct) return undefined

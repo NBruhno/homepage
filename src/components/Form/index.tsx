@@ -1,7 +1,7 @@
 import type { ReactNode, BaseSyntheticEvent } from 'react'
 import type { CriteriaMode, DeepPartial, FieldPath, FieldPathValue, FieldValues, UseFormReturn, ValidationMode } from 'react-hook-form'
 import type { Struct } from 'superstruct'
-import type { AnyStruct, StructSchema } from 'superstruct/lib/utils'
+import type { AnyStruct, StructSchema } from 'superstruct/dist/utils'
 import type { Promisable } from 'type-fest'
 
 import { superstructResolver } from '@hookform/resolvers/superstruct'
