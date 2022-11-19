@@ -27,7 +27,7 @@ import { handleKeyboardInput } from './handleKeyboardInput'
 
 type Props<Path> = CommonSelectProps<Path>
 
-const getFilteredOptions = (options: Array<SelectOption>, selectedOptions: Array<SelectOption>, inputValue: string) => {
+const getFilteredOptions = (options: Array<SelectOption>, inputValue: string) => {
 	if (isEmpty(inputValue)) return options
 	return matchSorter(options, inputValue, { keys: ['label'] })
 }
@@ -63,7 +63,7 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 	} = useMultipleSelection<SelectOption>({
 		initialSelectedItems: initialValues ? initialValues.map((initialValue) => options.find(({ value }) => value === initialValue)!) : [],
 		onSelectedItemsChange: ({ selectedItems: selectedOptions }) => {
-			setFilteredOptions(getFilteredOptions(options, selectedOptions ?? [], inputValue))
+			setFilteredOptions(getFilteredOptions(options, inputValue))
 			if (selectedOptions === undefined || selectedOptions.length === 0) return field.onChange(undefined)
 			return field.onChange(selectedOptions.map(({ value }) => value))
 		},
@@ -87,9 +87,9 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 		itemToString: () => '',
 		onInputValueChange: ({ inputValue }) => {
 			setInputValue(inputValue ?? '')
-			setFilteredOptions(getFilteredOptions(options, selectedOptions, inputValue ?? ''))
+			setFilteredOptions(getFilteredOptions(options, inputValue ?? ''))
 		},
-		stateReducer: useCallback((state: UseComboboxState<SelectOption>, actionAndChanges: UseComboboxStateChangeOptions<SelectOption>) => {
+		stateReducer: useCallback((_: UseComboboxState<SelectOption>, actionAndChanges: UseComboboxStateChangeOptions<SelectOption>) => {
 			const { type, changes } = actionAndChanges
 			switch (type) {
 				// Prevent menu from exiting after selecting an option
