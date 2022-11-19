@@ -1,6 +1,6 @@
 import type { GameReferenceExtended } from 'types'
 
-import Link from 'next/link'
+import NextLink from 'next/link'
 
 import { Placeholder } from 'components/Placeholder'
 import { Tooltip } from 'components/Tooltip'
@@ -25,13 +25,11 @@ export const SimilarGames = ({ similarGames = [] }: Props) => {
 			</h2>
 			<Container>
 				{similarGames.map(({ name, cover, id, coverProps }, index) => (
-					<Link href={`/games/${id}`} passHref key={id}>
-						<Tooltip tip={name} timeToHover={0} key={index}>
-							<a>
-								<Cover coverUrl={cover} imageProps={coverProps ?? undefined} />
-							</a>
-						</Tooltip>
-					</Link>
+					<Tooltip tip={name} timeToHover={0} key={index}>
+						<NextLink href={`/games/${id}`}>
+							<Cover coverUrl={cover} imageProps={coverProps ?? undefined} />
+						</NextLink>
+					</Tooltip>
 				))}
 			</Container>
 		</>

@@ -2,8 +2,7 @@ import type { GamePrice } from 'types'
 
 import sortBy from 'lodash/sortBy'
 
-import { useLoading } from 'states/page'
-import { useModal } from 'states/page'
+import { useLoading, useModal } from 'states/page'
 
 import { Container } from './Container'
 import { Empty } from './Empty'

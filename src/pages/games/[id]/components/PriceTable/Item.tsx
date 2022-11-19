@@ -2,6 +2,8 @@
 
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { adjustHsl } from 'lib/client'
+
 type Props = ComponentPropsWithoutRef<'a'> & {
 	isFirst?: boolean,
 }
@@ -9,7 +11,7 @@ type Props = ComponentPropsWithoutRef<'a'> & {
 export const Item = ({ isFirst, ...rest }: Props) => (
 	<a
 		css={(theme) => ({
-			backgroundColor: theme.color.background,
+			backgroundColor: 'transparent',
 			borderTopLeftRadius: '4px',
 			borderTopRightRadius: '4px',
 			borderBottomLeftRadius: isFirst ? 0 : '4px',
@@ -24,8 +26,9 @@ export const Item = ({ isFirst, ...rest }: Props) => (
 			textDecoration: 'none',
 			transition: `background-color 135ms ${theme.animation.default}`,
 
-			'&:hover': {
-				backgroundColor: theme.color.gray020,
+			'&:hover, &:focus, &:active': {
+				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.3 }),
+				borderColor: theme.color.primary,
 			},
 		})}
 		target='_blank'

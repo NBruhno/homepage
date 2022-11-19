@@ -1,5 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { adjustHsl } from 'lib/client'
+
 export const Container = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={(theme) => ({
@@ -12,7 +14,7 @@ export const Container = (props: ComponentPropsWithoutRef<'div'>) => (
 			fontSize: theme.font.size.s90,
 			rowGap: '18px',
 			marginBottom: '12px',
-			backgroundColor: theme.color.background,
+			backgroundColor: adjustHsl(theme.color.background, { alpha: 0.5 }),
 
 			'&:last-child': {
 				marginBottom: 0,

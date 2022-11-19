@@ -42,19 +42,19 @@ export const News = ({ gameNews }: Props) => {
 		<>
 			<Grid>
 				<List>
-					<h3 css={{ marginTop: 0, marginBottom: '4px' }}>
+					<h3 css={(theme) => ({ marginTop: 0, marginBottom: '4px', color: theme.color.textSubtitle })}>
 						<Placeholder isLoading={isLoading}>Steam news</Placeholder>
 					</h3>
 					{steamNews.length > 0
-						? steamNews.map((newsItem) => <Item isLoading={isLoading} {...newsItem} />)
+						? steamNews.map((newsItem, index) => <Item isLoading={isLoading} {...newsItem} key={index} />)
 						: <Empty>There are no Steam news</Empty>}
 				</List>
 				<List>
-					<h3 css={{ marginTop: 0, marginBottom: '4px' }}>
+					<h3 css={(theme) => ({ marginTop: 0, marginBottom: '4px', color: theme.color.textSubtitle })}>
 						<Placeholder isLoading={isLoading}>Other news</Placeholder>
 					</h3>
 					{otherNews.length > 0
-						? otherNews.map((newsItem) => <Item isLoading={isLoading} {...newsItem} />)
+						? otherNews.map((newsItem, index) => <Item isLoading={isLoading} {...newsItem} key={index} />)
 						: <Empty>There are no other news</Empty>}
 				</List>
 			</Grid>

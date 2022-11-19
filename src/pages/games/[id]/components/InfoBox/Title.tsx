@@ -5,7 +5,7 @@ export const Title = (props: ComponentPropsWithoutRef<'h4'>) => (
 		css={(theme) => ({
 			margin: '0 0 4px',
 			fontSize: theme.font.size.s80,
-			color: theme.color.textFaded,
+			color: theme.color.textSubtitle,
 		})}
 		{...props}
 	>

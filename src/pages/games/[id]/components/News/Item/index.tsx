@@ -23,6 +23,6 @@ export const Item = ({ title, date, url, isLoading }: Props) => (
 				</Placeholder>
 			</div>
 		</div>
-		<IconChevronRight />
+		<IconChevronRight css={{ flexShrink: 0 }} />
 	</Container>
 )

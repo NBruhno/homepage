@@ -1,5 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { adjustHsl } from 'lib/client'
+
 export const Empty = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={(theme) => ({
@@ -14,6 +16,7 @@ export const Empty = (props: ComponentPropsWithoutRef<'div'>) => (
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'space-around',
+			backgroundColor: adjustHsl(theme.color.background, { alpha: 0.5 }),
 
 			[theme.mediaQueries.maxTablet]: {
 				padding: '0 10px',

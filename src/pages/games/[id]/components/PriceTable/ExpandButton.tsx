@@ -1,3 +1,5 @@
+import { adjustHsl } from 'lib/client'
+
 import type { Props as AsyncProps } from 'components/Buttons/Async'
 import { ButtonAsync } from 'components/Buttons/Async'
 
@@ -17,8 +19,9 @@ export const ExpandButton = (props: AsyncProps) => (
 			outline: 'none',
 			width: '100%',
 
-			'&:hover': {
-				backgroundColor: theme.color.gray020,
+			'&:hover, &:focus, &:active': {
+				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.3 }),
+				borderColor: theme.color.primary,
 			},
 		})}
 		{...props}
