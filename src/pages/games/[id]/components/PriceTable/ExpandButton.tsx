@@ -11,7 +11,7 @@ export const ExpandButton = (props: AsyncProps) => (
 			border: 'none',
 			borderBottomLeftRadius: '4px',
 			borderBottomRightRadius: '4px',
-			borderTop: `1px solid ${theme.color.gray020}`,
+			borderTop: `1px solid ${theme.color.border}`,
 			fontSize: theme.font.size.s90,
 			color: theme.color.text,
 			cursor: 'pointer',

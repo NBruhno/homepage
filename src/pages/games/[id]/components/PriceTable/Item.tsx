@@ -22,7 +22,7 @@ export const Item = ({ isFirst, ...rest }: Props) => (
 			alignItems: 'center',
 			justifyContent: 'space-between',
 			margin: 0,
-			padding: isFirst ? '12px 10px' : '6px 10px',
+			padding: '6px 10px',
 			textDecoration: 'none',
 			transition: `background-color 135ms ${theme.animation.default}`,
 

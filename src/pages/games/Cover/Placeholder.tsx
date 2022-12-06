@@ -7,6 +7,8 @@ export const Placeholder = ({ ...rest }: ComponentPropsWithoutRef<'div'>) => (
 			aspectRatio: '3/4',
 			height: '100%',
 			width: '100%',
+			maxHeight: '352px',
+			maxWidth: '264px',
 		})}
 		{...rest}
 	/>

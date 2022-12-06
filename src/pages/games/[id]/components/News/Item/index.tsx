@@ -19,7 +19,7 @@ export const Item = ({ title, date, url, isLoading }: Props) => (
 			</div>
 			<div css={(theme) => ({ color: theme.color.textFaded, fontSize: theme.font.size.s80 })}>
 				<Placeholder isLoading={isLoading} width='50%'>
-					{parseISO(date).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}
+					<time>{parseISO(date).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
 				</Placeholder>
 			</div>
 		</div>

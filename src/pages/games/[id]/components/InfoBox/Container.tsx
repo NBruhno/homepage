@@ -2,12 +2,12 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 import { adjustHsl } from 'lib/client'
 
-export const Container = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
+export const Container = (props: ComponentPropsWithoutRef<'aside'>) => (
+	<aside
 		css={(theme) => ({
 			display: 'flex',
 			flexDirection: 'column',
-			border: `1px solid ${theme.color.gray020}`,
+			border: `1px solid ${theme.color.border}`,
 			maxWidth: '400px',
 			padding: '12px 10px',
 			borderRadius: '4px',

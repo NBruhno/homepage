@@ -202,8 +202,8 @@ export const InfoBox = ({
 								<ul css={(theme) => ({ paddingLeft: '20px', margin: 0, color: theme.color.textFaded })}>
 									{groupedReleaseDates.map(({ date, platforms }, index) => (
 										<li key={index} css={(theme) => ({ color: theme.color.text, marginBottom: '8px', '&:last-child': { margin: 0 } })}>
-											{dateOrYear(date)}
-											<div css={(theme) => ({ color: theme.color.textFaded, fontSize: theme.font.size.s80 })}>
+											<time>{dateOrYear(date)}</time>
+											<div css={(theme) => ({ color: theme.color.textFaded, fontSize: theme.font.size.s80, lineHeight: 1 })}>
 												{listFormatter.format(platforms)}
 											</div>
 										</li>
@@ -270,9 +270,11 @@ export const InfoBox = ({
 								Created at
 							</Placeholder>
 						</Title>
-						<Placeholder width='70%'>
-							{parseISO(createdAt).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}
-						</Placeholder>
+						<time>
+							<Placeholder width='70%'>
+								{parseISO(createdAt).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}
+							</Placeholder>
+						</time>
 					</div>
 				)}
 				{updatedAt && (
@@ -282,9 +284,11 @@ export const InfoBox = ({
 								Last updated
 							</Placeholder>
 						</Title>
-						<Placeholder width='65%'>
-							{formatRelative(parseISO(updatedAt), new Date(), { locale: enGB })}
-						</Placeholder>
+						<time>
+							<Placeholder width='65%'>
+								{formatRelative(parseISO(updatedAt), new Date(), { locale: enGB })}
+							</Placeholder>
+						</time>
 					</div>
 				)}
 				{lastCheckedAt && (
@@ -294,9 +298,11 @@ export const InfoBox = ({
 								Last checked
 							</Placeholder>
 						</Title>
-						<Placeholder width='75%'>
-							{formatRelative(parseISO(lastCheckedAt), new Date(), { locale: enGB })}
-						</Placeholder>
+						<time>
+							<Placeholder width='75%'>
+								{formatRelative(parseISO(lastCheckedAt), new Date(), { locale: enGB })}
+							</Placeholder>
+						</time>
 					</div>
 				)}
 			</Container>

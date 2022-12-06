@@ -9,6 +9,7 @@ import { Empty } from './Empty'
 import { ExpandButton } from './ExpandButton'
 import { Item } from './Item'
 import { Muted } from './Muted'
+import { Savings } from './Savings'
 
 type Props = {
 	prices: Array<GamePrice> | undefined,
@@ -28,22 +29,28 @@ export const PriceTable = ({ prices }: Props) => {
 
 	const sortedPrices = sortBy(prices, [({ current }) => current])
 
-	const [{ name, current, currency, url }] = sortedPrices
+	const [{ name, current, currency, difference, url }] = sortedPrices
 
 	return (
 		<Container>
 			<Item href={url} isFirst>
-				<h3 css={{ margin: 0 }}>{name}</h3>
-				<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
+				<h4 css={{ margin: 0 }}>{name}</h4>
+				<div css={{ alignItems: 'center', columnGap: '12px' }}>
+					<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
+					<Savings difference={difference} />
+				</div>
 			</Item>
 			{prices.length > 1 ? (
 				<ExpandButton
 					onClick={() => onOpenModal(
 						<>
-							{sortedPrices.slice(1).map(({ name, current, currency, url }, index) => (
+							{sortedPrices.slice(1).map(({ name, current, currency, difference, url }, index) => (
 								<Item href={url} key={index}>
 									<span css={{ margin: 0 }}>{name}</span>
-									<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
+									<div css={{ alignItems: 'center', columnGap: '12px' }}>
+										<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
+										<Savings difference={difference} />
+									</div>
 								</Item>
 							))}
 						</>,

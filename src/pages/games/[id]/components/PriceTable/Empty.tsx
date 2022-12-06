@@ -9,7 +9,7 @@ export const Empty = (props: ComponentPropsWithoutRef<'div'>) => (
 			fontSize: theme.font.size.s90,
 			padding: '0 12px',
 			opacity: 0.7,
-			border: `1px solid ${theme.color.gray020}`,
+			border: `1px solid ${theme.color.border}`,
 			borderRadius: '4px',
 			maxWidth: '400px',
 			height: '86px',

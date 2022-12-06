@@ -39,5 +39,9 @@ export const ReleaseDate = (props: ComponentPropsWithoutRef<'h1'>) => (
 			},
 		})}
 		{...props}
-	/>
+	>
+		<time>
+			{props.children}
+		</time>
+	</h1>
 )

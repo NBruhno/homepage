@@ -20,23 +20,20 @@ const placeholderNews: Array<GameNewsItem> = Array.from({ length: 5 }).map((_, i
 }))
 
 type Props = {
-	gameNews: GameNews | null | undefined,
+	news: GameNews | null | undefined,
 }
 
-export const News = ({ gameNews }: Props) => {
-	if (gameNews === null) {
-		return (
-			<Empty>This game does not exist on Steam, so no news could be gathered</Empty>
-		)
-	}
-	const isLoading = !gameNews
-	const gameNewsToRender = gameNews ?? {
+export const News = ({ news }: Props) => {
+	if (news === null) return <Empty>This game does not exist on Steam, so no news could be gathered</Empty>
+
+	const isLoading = !news
+	const newsToRender = news ?? {
 		steamNews: placeholderNews,
 		otherNews: placeholderNews,
 		newsUrl: 'https://steampowered.com',
 	}
 
-	const { steamNews, otherNews, newsUrl } = gameNewsToRender
+	const { steamNews, otherNews, newsUrl } = newsToRender
 
 	return (
 		<>

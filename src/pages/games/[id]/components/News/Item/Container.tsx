@@ -17,7 +17,7 @@ export const Container = ({ isLoading, ...rest }: Props) => (
 				alignItems: 'center',
 				padding: '16px 20px',
 				textDecoration: 'none',
-				border: `1px solid ${theme.color.gray020}`,
+				border: `1px solid ${theme.color.border}`,
 				backgroundColor: theme.color.backgroundHover,
 				borderRadius: '4px',
 				transition: `background-color 135ms ${theme.animation.default}, border-color 135ms ${theme.animation.default}`,
