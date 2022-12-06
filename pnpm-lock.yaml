@@ -6,7 +6,7 @@ specifiers:
   '@hookform/resolvers': 2.9.10
   '@ladle/react': 2.4.5
   '@next/bundle-analyzer': 13.0.6
-  '@next/font': ^13.0.6
+  '@next/font': 13.0.6
   '@plaiceholder/next': 2.5.0
   '@prisma/client': 4.7.1
   '@react-aria/focus': 3.10.0
@@ -30,7 +30,7 @@ specifiers:
   '@types/three': 0.146.0
   '@typescript-eslint/eslint-plugin': 5.45.1
   '@typescript-eslint/parser': 5.45.1
-  '@vercel/analytics': ^0.1.5
+  '@vercel/analytics': 0.1.5
   '@vitejs/plugin-react': 2.2.0
   argon2: 0.30.2
   concurrently: 7.6.0
