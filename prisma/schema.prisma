@@ -20,6 +20,7 @@ model GameUserData {
 
   @@id([gameId, ownerId], name: "id")
   @@index(fields: [gameId])
+  @@index(fields: [gameId, isFollowing])
   @@index(fields: [ownerId])
 }
 
@@ -61,7 +62,9 @@ model Game {
 
   @@index(fields: [name])
   @@index(fields: [releaseDate])
-  @@index(fields: [releaseDate, hype])
+  @@index(fields: [lastCheckedAt(sort: Asc)])
+  @@index(fields: [releaseDate, lastCheckedAt(sort: Asc), hype(sort: Desc)])
+  @@index(fields: [releaseDate, hype(sort: Desc)])
 }
 
 enum GameStatus {
