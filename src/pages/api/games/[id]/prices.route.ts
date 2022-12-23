@@ -40,7 +40,7 @@ export default apiHandler({
 			return null
 		})
 
-		if (!plain) return res.status(200).json({ prices: [] })
+		if (!plain) return res.status(200).json([])
 
 		const prices = await itadFetcher<ItadPrices>('/game/prices', {
 			version: 1,
@@ -58,5 +58,5 @@ export default apiHandler({
 		})))
 
 		setCache({ strategy: 'Default', duration: 5, res })
-		res.status(200).json({ prices })
+		res.status(200).json(prices)
 	})

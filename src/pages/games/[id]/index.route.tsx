@@ -11,6 +11,7 @@ import { useLoading, useTitle, useResponsive } from 'states/page'
 import { useUser } from 'states/users'
 
 import { fetcher } from 'lib/fetcher'
+import { getSteamAppId } from 'lib/getSteamAppId'
 import { logger } from 'lib/logger'
 
 import { ButtonSolid } from 'components/Buttons'
@@ -212,7 +213,7 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 					/>
 					<Section
 						title='Reviews'
-						content={<Reviews rating={game?.rating} ratingCount={game?.ratingCount} reviews={reviews} />}
+						content={<Reviews steamAppId={getSteamAppId(game?.websites)} rating={game?.rating} ratingCount={game?.ratingCount} reviews={reviews} />}
 						contentType='other'
 						titlePlaceholderWidth='28%'
 					/>

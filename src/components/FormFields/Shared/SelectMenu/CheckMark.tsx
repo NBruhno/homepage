@@ -1,5 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { IconCheck } from '@tabler/icons'
+
 type Props = ComponentPropsWithoutRef<'div'> & {
 	isChecked: boolean,
 	isDisabled: boolean,
@@ -8,30 +10,19 @@ type Props = ComponentPropsWithoutRef<'div'> & {
 export const CheckMark = ({ isChecked, isDisabled, ...rest }: Props) => (
 	<div
 		css={(theme) => ({
-			position: 'relative',
+			display: 'flex',
+			alignItems: 'center',
+			justifyContent: 'center',
 			width: '20px',
 			height: '20px',
 			flexShrink: 0,
-			outline: 0,
-			margin: 'auto',
 			backgroundColor: isDisabled ? theme.color.gray : theme.color.primary,
+			color: theme.color.textInverted,
 			opacity: isChecked ? 1 : 0,
 			borderRadius: '100%',
-
-			'&:after': {
-				content: '""',
-				position: 'absolute',
-				left: '7px',
-				top: '3px',
-				width: '4px',
-				height: '9px',
-				borderStyle: 'solid',
-				borderColor: theme.color.background,
-				borderWidth: '0 2px 2px 0',
-				transform: 'rotate(37deg)',
-				transition: `opacity 135ms ${theme.animation.default}`,
-			},
 		})}
 		{...rest}
-	/>
+	>
+		<IconCheck size={14} />
+	</div>
 )

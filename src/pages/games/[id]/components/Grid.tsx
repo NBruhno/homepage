@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
+export const Grid = (props: ComponentPropsWithoutRef<'article'>) => (
+	<article
 		css={(theme) => ({
 			display: 'grid',
 			gridTemplate: `
