@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "@emotion/eslint-plugin": "11.10.0",
-    "@ladle/react": "2.9.0",
+    "@ladle/react": "2.5.1",
     "@next/bundle-analyzer": "13.2.0",
     "@plaiceholder/next": "2.5.0",
     "@sentry/types": "7.38.0",
