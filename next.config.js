@@ -60,6 +60,7 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		// fallbackNodePolyfills: false,
+		outputFileTracingIgnores: ['**swc+core**', '**esbuild**'],
 		esmExternals: true,
 	},
 
@@ -73,6 +74,7 @@ const nextConfig = {
 		],
 	},
 
+	swcMinify: true,
 	compiler: {
 		emotion: true,
 	},

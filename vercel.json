@@ -2,9 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
   "functions": {
-    "src/pages/api/**/*.route.ts": {
-      "memory": 256,
-      "excludeFiles": "{public/**/*,node_modules/@swc/core-*}"
+    "src/pages/api/**/*.ts": {
+      "memory": 256
     }
   },
   "rewrites": [
