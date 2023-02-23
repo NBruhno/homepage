@@ -64,7 +64,7 @@ export const Rating = ({ rating, ratingCount, steamReviews }: Props) => {
 							</div>
 						</SteamItem>
 					</SteamContainer>
-				) : <span>No recent reviews</span>}
+				) : <span css={{ marginTop: '12px', display: 'flex', justifyContent: 'center' }}>No recent reviews</span>}
 			</Item>
 		</Container>
 	)
