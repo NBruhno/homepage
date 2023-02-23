@@ -11,7 +11,6 @@ import { useLoading, useTitle, useResponsive } from 'states/page'
 import { useUser } from 'states/users'
 
 import { fetcher } from 'lib/fetcher'
-import { getSteamAppId } from 'lib/getSteamAppId'
 import { logger } from 'lib/logger'
 
 import { ButtonSolid } from 'components/Buttons'
@@ -23,22 +22,21 @@ import { Tooltip } from 'components/Tooltip'
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
 
-import { Grid } from './components/Grid'
-import { Background } from './components/Header/Background'
-import { BackgroundCutoff } from './components/Header/BackgroundCutoff'
-import { BackgroundWrapper } from './components/Header/BackgroundWrapper'
-import { Developer } from './components/Header/Developer'
-import { ReleaseDate } from './components/Header/ReleaseDate'
-import { Title } from './components/Header/Title'
-import { InfoBox } from './components/InfoBox'
-import { News } from './components/News'
-import { PriceTable } from './components/PriceTable'
-import { Rating } from './components/Rating'
-import { Reviews } from './components/Reviews'
-import { Section } from './components/Section'
-import { SimilarGames } from './components/SimilarGames'
-import { VideoTabs } from './components/VideoTabs'
-import { WebsiteIcons } from './components/WebsiteIcons'
+import { Grid } from './Grid'
+import { Background } from './Header/Background'
+import { BackgroundCutoff } from './Header/BackgroundCutoff'
+import { BackgroundWrapper } from './Header/BackgroundWrapper'
+import { Developer } from './Header/Developer'
+import { ReleaseDate } from './Header/ReleaseDate'
+import { Title } from './Header/Title'
+import { InfoBox } from './InfoBox'
+import { News } from './News'
+import { PriceTable } from './PriceTable'
+import { Rating } from './Rating'
+import { Section } from './Section'
+import { SimilarGames } from './SimilarGames'
+import { VideoTabs } from './VideoTabs'
+import { WebsiteIcons } from './WebsiteIcons'
 
 type State = {
 	game: GameExtended | null,
@@ -165,7 +163,6 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 							isLoading={isLoading}
 						/>
 					</Tooltip>
-					<Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} />
 					{isInSteamLibrary && (
 						<Tooltip tip='You already own this game on Steam'>
 							<div css={(theme) => ({ backgroundColor: theme.color.sidebarBackground, padding: '5px 16px', borderRadius: '4px' })}>
@@ -180,6 +177,13 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 				</GridContainer>
 				<GridContainer name='priceTable'>
 					<PriceTable prices={prices} />
+				</GridContainer>
+				<GridContainer name='ratings'>
+					<Rating
+						rating={game?.rating ?? null}
+						ratingCount={game?.ratingCount ?? null}
+						steamReviews={reviews?.steam ?? null}
+					/>
 				</GridContainer>
 				<GridContainer name='info'>
 					<InfoBox
@@ -210,12 +214,6 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 						content={(game?.videos.length !== 0) ? <VideoTabs videos={game?.videos} /> : null}
 						contentType='other'
 						titlePlaceholderWidth='25%'
-					/>
-					<Section
-						title='Reviews'
-						content={<Reviews steamAppId={getSteamAppId(game?.websites)} rating={game?.rating} ratingCount={game?.ratingCount} reviews={reviews} />}
-						contentType='other'
-						titlePlaceholderWidth='28%'
 					/>
 					<Section
 						title='Latest news'

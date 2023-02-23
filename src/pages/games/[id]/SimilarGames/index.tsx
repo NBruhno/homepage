@@ -5,7 +5,7 @@ import NextLink from 'next/link'
 import { Placeholder } from 'components/Placeholder'
 import { Tooltip } from 'components/Tooltip'
 
-import { Cover } from '../../../Cover'
+import { Cover } from '../../Cover'
 
 import { Container } from './Container'
 

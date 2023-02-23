@@ -1,4 +1,4 @@
-import { IconX } from '@tabler/icons'
+import { IconX } from '@tabler/icons-react'
 
 import { ButtonIcon } from 'components/Buttons'
 

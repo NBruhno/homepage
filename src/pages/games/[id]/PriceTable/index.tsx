@@ -44,7 +44,7 @@ export const PriceTable = ({ prices }: Props) => {
 				<ExpandButton
 					onClick={() => onOpenModal(
 						<>
-							{sortedPrices.slice(1).map(({ name, current, currency, difference, url }, index) => (
+							{sortedPrices.map(({ name, current, currency, difference, url }, index) => (
 								<Item href={url} key={index}>
 									<span css={{ margin: 0 }}>{name}</span>
 									<div css={{ alignItems: 'center', columnGap: '12px' }}>

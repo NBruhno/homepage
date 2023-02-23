@@ -119,7 +119,4 @@ const nextConfig = {
 	basePath,
 }
 
-module.exports = (phase, defaults) => {
-	const config = withPwa(withSentryConfig(withPlaiceholder(nextConfig), SentryWebpackPluginOptions)(phase, defaults))
-	return withBundleAnalyzer(config)
-}
+module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), SentryWebpackPluginOptions)))

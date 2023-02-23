@@ -6,8 +6,8 @@ import { enGB } from 'date-fns/locale'
 import { Placeholder } from 'components/Placeholder'
 import { Tooltip } from 'components/Tooltip'
 
-import { dateOrYear } from '../../../dateOrYear'
-import { groupByReleaseDate } from '../../../groupByReleaseDate'
+import { dateOrYear } from '../../dateOrYear'
+import { groupByReleaseDate } from '../../groupByReleaseDate'
 
 import { Container } from './Container'
 import { Title } from './Title'

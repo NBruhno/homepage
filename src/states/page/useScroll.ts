@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import create from 'zustand'
+import { useCallback, useEffect } from 'react'
+import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 type PageScrollState = {
@@ -49,7 +49,7 @@ const emptyRect = {
 export const useScroll = () => {
 	const setScrollState = useScrollStore((state) => state.setScrollState)
 
-	const listener = () => {
+	const listener = useCallback(() => {
 		const bodyOffset = typeof window === 'undefined'
 			? emptyRect
 			: document.body.getBoundingClientRect()
@@ -62,14 +62,16 @@ export const useScroll = () => {
 				? { windowScrollX: 0, windowScrollY: 0 }
 				: { windowScrollX: window.scrollX, windowScrollY: window.scrollY }),
 		})
-	}
+	}, [setScrollState])
 
 	useEffect(() => {
 		window.addEventListener('scroll', listener)
+		window.addEventListener('resize', listener)
 		return () => {
 			window.removeEventListener('scroll', listener)
+			window.removeEventListener('resize', listener)
 		}
-	}, [])
+	}, [listener])
 
 	useEffect(() => {
 		listener()

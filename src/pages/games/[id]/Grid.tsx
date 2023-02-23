@@ -5,12 +5,12 @@ export const Grid = (props: ComponentPropsWithoutRef<'article'>) => (
 		css={(theme) => ({
 			display: 'grid',
 			gridTemplate: `
-				"cover headlines headlines" 214px
-				"cover actions info" auto
-				"cover priceTable info" auto
-				"content content info" 1fr
-				"similarGames similarGames similarGames" auto
-				/ 264px 1fr 330px
+				"cover headlines headlines headlines" 214px
+				"cover actions actions info" auto
+				"cover priceTable ratings info" auto
+				"content content content info" 1fr
+				"similarGames similarGames similarGames similarGames" auto
+				/ 264px 1fr 1fr 330px
 			`,
 			margin: '262px auto 0',
 			zIndex: 1,
@@ -22,23 +22,24 @@ export const Grid = (props: ComponentPropsWithoutRef<'article'>) => (
 
 			[theme.mediaQueries.desktopToDesktopLarge]: {
 				gridTemplate: `
-					"cover headlines headlines" 214px
-					"cover actions actions" auto
-					"cover priceTable info" auto
-					"content content info" 1fr
-					"similarGames similarGames similarGames" auto
-					/ 264px 1fr 330px
+					"cover headlines headlines headlines" 214px
+					"cover actions actions actions" auto
+					"cover priceTable priceTable ratings" auto
+					"content content content info" 1fr
+					"similarGames similarGames similarGames similarGames" auto
+					/ 264px 1fr 1fr 330px
 				`,
 			},
 
 			[theme.mediaQueries.tabletToDesktop]: {
 				gridTemplate: `
-					"cover headlines headlines" 214px
-					"cover actions actions" auto
-					"priceTable priceTable info" auto
-					"content content info" 1fr
-					"similarGames similarGames similarGames" auto
-					/ 180px 1fr minmax(auto, 250px)
+					"cover headlines headlines headlines" 214px
+					"cover actions actions actions" auto
+					"priceTable priceTable priceTable info" auto
+					"ratings ratings ratings info" auto
+					"content content content info" 1fr
+					"similarGames similarGames similarGames similarGames" auto
+					/ 180px 1fr 1fr minmax(auto, 250px)
 				`,
 			},
 
@@ -47,6 +48,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'article'>) => (
 					"cover headlines headlines" 214px
 					"actions actions actions" auto
 					"priceTable priceTable priceTable" auto
+					"ratings ratings ratings" auto
 					"content content info" 1fr
 					"similarGames similarGames similarGames" auto
 					/ 153px 1fr minmax(auto, 200px)
@@ -61,6 +63,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'article'>) => (
 					"actions actions" auto
 					"websites websites" auto
 					"priceTable priceTable" auto
+					"ratings ratings" auto
 					"content content" auto
 					"info info" auto
 					"similarGames similarGames" auto

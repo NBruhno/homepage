@@ -1,6 +1,6 @@
 import type { GameNews, GameNewsItem } from 'types'
 
-import { IconChevronRight } from '@tabler/icons'
+import { IconChevronRight } from '@tabler/icons-react'
 
 import { Placeholder } from 'components/Placeholder'
 

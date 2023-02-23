@@ -4,7 +4,7 @@ import toLower from 'lodash/toLower'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import useSWR from 'swr'
-import create from 'zustand'
+import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 import { useFormStore, useLoading } from 'states/page'
@@ -34,7 +34,7 @@ export const useSearchGames = () => {
 
 	const { data } = useSWR<{ games: Array<Game> }>(gameSearch && typeof gameSearch === 'string'
 		? ['/games?search=', encodeURIComponent(toLower(gameSearch))]
-		: null, ([link, searchParameter]: [string, string]) => fetcher(`${link}${searchParameter}`), { revalidateOnFocus: false })
+		: null, ([link, searchParameter]: [string, string]) => fetcher<{ games: Array<Game> }>(`${link}${searchParameter}`), { revalidateOnFocus: false })
 
 	const { setIsLoading, isLoading } = useLoading()
 	// Every time we update the search form, we also want to update the URL to match the search query for easy sharing

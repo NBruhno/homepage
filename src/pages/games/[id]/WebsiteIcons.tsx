@@ -2,7 +2,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 import type { GameWebsite } from 'types'
 import { GameWebsiteType } from 'types'
 
-import { IconBrandApple, IconBrandDiscord, IconBrandGooglePlay, IconBrandReddit, IconBrandSteam, IconBrandTwitter, IconQuestionMark, IconWorld } from '@tabler/icons'
+import { IconBrandApple, IconBrandDiscord, IconBrandGooglePlay, IconBrandReddit, IconBrandSteam, IconBrandTwitter, IconQuestionMark, IconWorld } from '@tabler/icons-react'
 
 import { useLoading, useResponsive } from 'states/page'
 

@@ -57,14 +57,14 @@ export default apiHandler({
 		const { 'steam-app-id': appId } = create(req.query, Query)
 		const total = await monitorAsync(() => fetch(`https://store.steampowered.com/appreviews/${appId}?json=1&language=all&purchase_type=all&num_per_page=0`, {
 			method: 'GET',
-		}), 'http:steam', 'game reviews').then(async (response) => {
+		}), 'http:steam', 'total game reviews').then(async (response) => {
 			if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
 			const reviews = await response.json() as SteamReviews
 			return steamReviewMapper(reviews)
 		})
 		const recent = await monitorAsync(() => fetch(`https://store.steampowered.com/appreviews/${appId}?json=1&language=english&purchase_type=steam&day_range=31&num_per_page=10`, {
 			method: 'GET',
-		}), 'http:steam', 'game reviews').then(async (response) => {
+		}), 'http:steam', 'recent game reviews').then(async (response) => {
 			if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
 			const reviews = await response.json() as SteamReviews
 			return steamReviewMapper(reviews, true)

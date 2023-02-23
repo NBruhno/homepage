@@ -1,4 +1,4 @@
-import type { GameExtended, GameNews, GamePrice, GameReviews } from 'types'
+import type { GameExtended, GameInsights, GameNews, GamePrice, GameReviews } from 'types'
 
 import { useState, useEffect } from 'react'
 import useSWR from 'swr'
@@ -19,7 +19,7 @@ export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 	const [isFollowing, setIsFollowing] = useState<boolean | undefined>(undefined)
 	const accessToken = useUser((state) => state.accessToken)
 
-	const { data: game } = useSWR(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
+	const { data: game } = useSWR<GameExtended>(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
 	const { data: prices } = useSWR<Array<GamePrice>>(id && game?.name
 		? `/games/${id}/prices?name=${encodeURIComponent(game.name)}`
 		: null, null, { fallbackData: initialPrices ?? undefined })
@@ -33,6 +33,9 @@ export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 		: null, null)
 	const { data: reviews } = useSWR<GameReviews>(id && steamAppId
 		? `/games/${id}/reviews?steam-app-id=${encodeURIComponent(steamAppId)}`
+		: null, null)
+	const { data: insights } = useSWR<GameInsights>(id && steamAppId
+		? `/games/${id}/insights?steam-app-id=${encodeURIComponent(steamAppId)}`
 		: null, null)
 	const { isLoading } = useLoading(Boolean(!game) && Boolean(!initialGame))
 
@@ -48,5 +51,5 @@ export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 
 	useEffect(() => setIsFollowing(userData?.isFollowing), [userData?.isFollowing])
 
-	return { game, prices, news: ((id && steamAppId) || isLoading) ? news : null, reviews: ((id && steamAppId) || isLoading) ? reviews : null, isFollowing, isInSteamLibrary: Boolean(userData?.isInSteamLibrary), onFollow, onUnfollow }
+	return { game, prices, news: ((id && steamAppId) || isLoading) ? news : null, reviews: ((id && steamAppId) || isLoading) ? reviews : null, insights: ((id && steamAppId) || isLoading) ? insights : null, isFollowing, isInSteamLibrary: Boolean(userData?.isInSteamLibrary), onFollow, onUnfollow }
 }

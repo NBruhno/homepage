@@ -1,4 +1,4 @@
-import { IconLogin, IconLogout } from '@tabler/icons'
+import { IconLogin, IconLogout } from '@tabler/icons-react'
 
 import { useResponsive } from 'states/page'
 import { useAuth, useUser } from 'states/users'

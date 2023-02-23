@@ -3,7 +3,7 @@ import type { GameSimple, GameSimpleExtended } from 'types'
 
 import { getPlaiceholder } from 'plaiceholder'
 import { useMemo, useState } from 'react'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 
 import { config } from 'config.server'
 

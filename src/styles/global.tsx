@@ -36,6 +36,7 @@ export const globalCss = (theme: Theme) => css([
 		html: {
 			fontFamily: 'Roboto, sans-serif',
 			fontSize: '100%',
+			backgroundColor: theme.color.background,
 		},
 
 		body: {

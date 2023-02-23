@@ -1,7 +1,7 @@
 import { UserRole } from '@prisma/client'
-import { IconApps, IconHome, IconInfoCircle, IconListCheck, IconListNumbers, IconListSearch, IconSmartHome, IconTools, IconUser, IconUserOff } from '@tabler/icons'
+import { IconApps, IconHome, IconInfoCircle, IconListCheck, IconListNumbers, IconListSearch, IconSmartHome, IconTools, IconUser, IconUserOff } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 
 import { useUser } from 'states/users'
 

@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-import { IconCheck } from '@tabler/icons'
+import { IconCheck } from '@tabler/icons-react'
 
 type Props = ComponentPropsWithoutRef<'div'> & {
 	isChecked: boolean,
