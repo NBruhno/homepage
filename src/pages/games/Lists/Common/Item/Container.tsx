@@ -21,6 +21,7 @@ const Component = ({ isLoading, ...rest }: Props, ref: Ref<HTMLAnchorElement>) =
 			marginBottom: '12px',
 			overflow: 'hidden',
 			textDecoration: 'none',
+			height: '168px',
 			transition: `
 				border 200ms ${theme.animation.default},
 				box-shadow 200ms ${theme.animation.default},

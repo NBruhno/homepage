@@ -4,6 +4,8 @@ import type { ReactNode } from 'react'
 import { css } from '@emotion/react'
 import { useMemo, useRef } from 'react'
 
+import { adjustHsl } from 'lib/client'
+
 import { sharedStyles } from './sharedStyles'
 
 const getTransform = (position: TooltipPosition) => {
@@ -60,6 +62,11 @@ export const TooltipContainer = ({ children, isHovered, position, timeToHover, c
 					whiteSpace: 'pre-wrap',
 					transform: `${getTransform(position)} scale(0.5)`,
 					height: 'auto',
+
+					'@supports ((-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px)))': {
+						backdropFilter: 'blur(4px)',
+						backgroundColor: adjustHsl(theme.color.background, { alpha: 0.85 }),
+					},
 				},
 				isHovered ? css({
 					transitionDelay: `${timeToHover}ms`,

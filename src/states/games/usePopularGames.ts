@@ -2,7 +2,7 @@ import type { GameData } from './types'
 
 import { useEffect } from 'react'
 import useSWR from 'swr'
-import create from 'zustand'
+import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 import { useLoading } from 'states/page'
@@ -24,7 +24,7 @@ export const usePopularGamesStore = create<PopularGamesState>()(devtools((set) =
 export const usePopularGames = (newSkip = 0) => {
 	const { data } = useSWR<GameData>(
 		['/games', newSkip],
-		([link, skip]: [string, number]) => fetcher(`${link}?is-popular=yes${skip ? `&skip=${skip}` : ''}`),
+		([link, skip]: [string, number]) => fetcher<GameData>(`${link}?is-popular=yes${skip ? `&skip=${skip}` : ''}`),
 		{ revalidateOnFocus: false },
 	)
 

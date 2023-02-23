@@ -22,7 +22,7 @@ export const Modal = (props: ComponentPropsWithoutRef<'div'>) => {
 			/>
 			<Container show={show} hasNoWrapper={hasNoWrapper}>
 				{hasNoWrapper ? content : (
-					<Card {...props} css={{ textAlign: 'center', width: '100%' }}>
+					<Card {...props}>
 						{content}
 					</Card>
 				)}

@@ -144,7 +144,6 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		publishers: mapCompanies(companies, 'publisher') ?? [],
 		rating: rating ? Math.round(rating) : undefined,
 		ratingCount: ratingCount ? Math.round(ratingCount) : undefined,
-		// FIXME: Set a high date for unknown, since it's currently not possible to sort null last with Prisma
 		releaseDate: releaseDate ? new Date(fromUnixTime(releaseDate)).toISOString() : null,
 		releaseDates: releaseDates.length > 0 ? releaseDates.map(({ date, platform }) => ({
 			platform: {
@@ -152,7 +151,6 @@ export const mapIgdbGame = (game: IgdbGame) => {
 				name: platform.name,
 				abbreviation: platform.abbreviation ?? null,
 			},
-			// FIXME: Set a high date for unknown, since it's currently not possible to sort null last with Prisma
 			date: date ? new Date(fromUnixTime(date)).toISOString() : null,
 		})) : [],
 		screenshot: sample(screenshotUrls) ?? undefined,

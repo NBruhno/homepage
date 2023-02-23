@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { IconWorld } from '@tabler/icons'
+import { IconWorld } from '@tabler/icons-react'
 
 import { delay } from 'lib/delay'
 

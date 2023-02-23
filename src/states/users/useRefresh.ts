@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 
 import { config } from 'config.client'
 

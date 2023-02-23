@@ -1,7 +1,7 @@
 import { UserTokenType } from 'types'
 
 import { UserRole } from '@prisma/client'
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { setUser } from '@sentry/nextjs'
 import { hash } from 'argon2'
 import { object, create } from 'superstruct'

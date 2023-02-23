@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { differenceInMilliseconds } from 'date-fns'
-import create from 'zustand'
+import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 export type Snackbar = {

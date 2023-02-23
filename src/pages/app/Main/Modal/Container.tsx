@@ -36,17 +36,23 @@ export const Container = ({ hasNoWrapper, show, children, ...rest }: Props) => {
 		>
 			{hasNoWrapper ? children : (
 				<div
-					css={{
+					css={(theme) => ({
 						display: 'flex',
 						margin: 'auto',
 						maxWidth: '100%',
 						padding: '24px',
-						pointerEvents: show ? 'auto' : 'none',
+						pointerEvents: 'none',
 						visibility: show ? 'visible' : 'hidden',
 						width: '450px',
-					}}
+
+						[theme.mediaQueries.maxMobile]: {
+							padding: 0,
+							width: '100%',
+							marginBottom: 0,
+						},
+					})}
 				>
-					{children}
+					<div css={{ pointerEvents: show ? 'auto' : 'none', width: '100%' }}>{children}</div>
 				</div>
 			)}
 		</div>

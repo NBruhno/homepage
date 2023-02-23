@@ -46,13 +46,14 @@ export const Select = <TFieldValues extends FieldValues, Path extends FieldPathB
 			// If the user clears the field and exits the menu, we assume the user wants to reset the field
 			if (!isOpen && (inputValue === '' || inputValue === undefined)) {
 				field.onChange(undefined)
-				setInputValue('')
+				reset()
 			// If the user closes the menu and an item has already been selected, we reset to the already selected item
 			} else if (!isOpen) setInputValue(selectedItem?.label ?? '')
 		},
 		onInputValueChange: ({ inputValue }) => {
-			if (isEmpty(inputValue) || inputValue === undefined) setFilteredOptions(options)
-			else setFilteredOptions(matchSorter(options, inputValue, { keys: ['label'] }))
+			if (isEmpty(inputValue) || inputValue === undefined) {
+				setFilteredOptions(options)
+			} else setFilteredOptions(matchSorter(options, inputValue, { keys: ['label'] }))
 		},
 	})
 

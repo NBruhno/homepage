@@ -22,20 +22,21 @@ import { Tooltip } from 'components/Tooltip'
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
 
-import { Grid } from './components/Grid'
-import { Background } from './components/Header/Background'
-import { BackgroundCutoff } from './components/Header/BackgroundCutoff'
-import { BackgroundWrapper } from './components/Header/BackgroundWrapper'
-import { Developer } from './components/Header/Developer'
-import { ReleaseDate } from './components/Header/ReleaseDate'
-import { Title } from './components/Header/Title'
-import { InfoBox } from './components/InfoBox'
-import { News } from './components/News'
-import { PriceTable } from './components/PriceTable'
-import { Rating } from './components/Rating'
-import { SimilarGames } from './components/SimilarGames'
-import { VideoTabs } from './components/VideoTabs'
-import { WebsiteIcons } from './components/WebsiteIcons'
+import { Grid } from './Grid'
+import { Background } from './Header/Background'
+import { BackgroundCutoff } from './Header/BackgroundCutoff'
+import { BackgroundWrapper } from './Header/BackgroundWrapper'
+import { Developer } from './Header/Developer'
+import { ReleaseDate } from './Header/ReleaseDate'
+import { Title } from './Header/Title'
+import { InfoBox } from './InfoBox'
+import { News } from './News'
+import { PriceTable } from './PriceTable'
+import { Rating } from './Rating'
+import { Section } from './Section'
+import { SimilarGames } from './SimilarGames'
+import { VideoTabs } from './VideoTabs'
+import { WebsiteIcons } from './WebsiteIcons'
 
 type State = {
 	game: GameExtended | null,
@@ -114,7 +115,7 @@ export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
 
 const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ game: incomingGame }) => {
 	const { query } = useRouter()
-	const { game, prices, gameNews, isFollowing, isInSteamLibrary, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined })
+	const { game, prices, news, reviews, isFollowing, isInSteamLibrary, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined })
 	const accessToken = useUser((state) => state.accessToken)
 	const { isMobile } = useResponsive()
 	const { isLoading } = useLoading()
@@ -129,28 +130,26 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 			<BackgroundCutoff />
 			<Grid>
 				<GridContainer name='cover' css={(theme) => ({ maxHeight: '354px', [theme.mediaQueries.minTablet]: { marginTop: '10px' } })}>
-					<Cover
-						coverUrl={game?.cover ?? null}
-						imageProps={game?.coverProps ?? undefined}
-						isPriority
-					/>
+					<Cover coverUrl={game?.cover ?? null} imageProps={game?.coverProps ?? undefined} isPriority />
 				</GridContainer>
 				<GridContainer name='headlines'>
-					<Title>
-						<Placeholder width='55%'>
-							{game?.name}
-						</Placeholder>
-					</Title>
-					<ReleaseDate>
-						<Placeholder width='30%'>
-							{dateOrYear(game?.releaseDate)}
-						</Placeholder>
-					</ReleaseDate>
-					<Developer>
-						<Placeholder width='25%'>
-							{game?.developers[0]?.name && `By ${game.developers[0].name}`}
-						</Placeholder>
-					</Developer>
+					<header>
+						<Title>
+							<Placeholder width='55%'>
+								{game?.name}
+							</Placeholder>
+						</Title>
+						<ReleaseDate>
+							<Placeholder width='30%'>
+								{dateOrYear(game?.releaseDate)}
+							</Placeholder>
+						</ReleaseDate>
+						<Developer>
+							<Placeholder width='25%'>
+								{game?.developers[0]?.name && `By ${game.developers[0].name}`}
+							</Placeholder>
+						</Developer>
+					</header>
 				</GridContainer>
 				<GridContainer
 					name='actions'
@@ -164,7 +163,6 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 							isLoading={isLoading}
 						/>
 					</Tooltip>
-					<Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} />
 					{isInSteamLibrary && (
 						<Tooltip tip='You already own this game on Steam'>
 							<div css={(theme) => ({ backgroundColor: theme.color.sidebarBackground, padding: '5px 16px', borderRadius: '4px' })}>
@@ -179,6 +177,13 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 				</GridContainer>
 				<GridContainer name='priceTable'>
 					<PriceTable prices={prices} />
+				</GridContainer>
+				<GridContainer name='ratings'>
+					<Rating
+						rating={game?.rating ?? null}
+						ratingCount={game?.ratingCount ?? null}
+						steamReviews={reviews?.steam ?? null}
+					/>
 				</GridContainer>
 				<GridContainer name='info'>
 					<InfoBox
@@ -202,48 +207,20 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 					/>
 				</GridContainer>
 				<GridContainer name='content'>
-					{(isLoading || game?.summary) && (
-						<>
-							<h2 css={{ marginTop: '12px' }}>
-								<Placeholder width='30%'>
-									Summary
-								</Placeholder>
-							</h2>
-							<p>
-								<Placeholder lines={5}>
-									{game?.summary}
-								</Placeholder>
-							</p>
-						</>
-					)}
-					{(isLoading || game?.storyline) && (
-						<>
-							<h2>
-								<Placeholder width='35%'>
-									Storyline
-								</Placeholder>
-							</h2>
-							<p>
-								<Placeholder lines={5}>
-									{game?.storyline}
-								</Placeholder>
-							</p>
-						</>
-					)}
-					{(isLoading || (game?.videos && game.videos.length > 0)) && (
-						<h2>
-							<Placeholder width='25%'>
-								Videos
-							</Placeholder>
-						</h2>
-					)}
-					<VideoTabs videos={game?.videos} />
-					<h2>
-						<Placeholder width='25%'>
-							Latest news
-						</Placeholder>
-					</h2>
-					<News gameNews={gameNews} />
+					<Section title='Summary' content={game?.summary} titlePlaceholderWidth='30%' css={{ marginTop: '12px' }} />
+					<Section title='Storyline' content={game?.storyline} titlePlaceholderWidth='35%' />
+					<Section
+						title='Videos'
+						content={(game?.videos.length !== 0) ? <VideoTabs videos={game?.videos} /> : null}
+						contentType='other'
+						titlePlaceholderWidth='25%'
+					/>
+					<Section
+						title='Latest news'
+						content={<News news={news} />}
+						contentType='other'
+						titlePlaceholderWidth='40%'
+					/>
 				</GridContainer>
 				<GridContainer name='similarGames'>
 					<SimilarGames similarGames={game?.similarGames ?? []} />

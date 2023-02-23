@@ -1,4 +1,4 @@
-import { IconAlertCircle } from '@tabler/icons'
+import { IconAlertCircle } from '@tabler/icons-react'
 
 export const Icon = () => (
 	<IconAlertCircle

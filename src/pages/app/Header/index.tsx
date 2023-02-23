@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-import { IconMenu2 } from '@tabler/icons'
+import { IconMenu2 } from '@tabler/icons-react'
 
 import { useResponsive } from 'states/page'
 

@@ -2,6 +2,8 @@ import type { TooltipPosition } from '.'
 
 import { css } from '@emotion/react'
 
+import { adjustHsl } from 'lib/client'
+
 import { sharedStyles } from './sharedStyles'
 
 export const getAfterScale = (position: 'bottom' | 'left' | 'right' | 'top', amount: number) => {
@@ -52,10 +54,10 @@ export const TooltipArrow = ({ isHovered, position, timeToHover, childRect }: Pr
 				})(),
 				borderColor: (() => {
 					switch (position) {
-						case 'top': return `${theme.color.inputBackground} transparent transparent transparent`
-						case 'bottom': return `transparent transparent ${theme.color.inputBackground} transparent`
-						case 'right': return `transparent ${theme.color.inputBackground} transparent transparent`
-						case 'left': return `transparent transparent transparent ${theme.color.inputBackground}`
+						case 'top': return `${adjustHsl(theme.color.background, { alpha: 0.8 })} transparent transparent transparent`
+						case 'bottom': return `transparent transparent ${adjustHsl(theme.color.background, { alpha: 0.8 })} transparent`
+						case 'right': return `transparent ${adjustHsl(theme.color.background, { alpha: 0.8 })} transparent transparent`
+						case 'left': return `transparent transparent transparent ${adjustHsl(theme.color.background, { alpha: 0.8 })}`
 					}
 				})(),
 				transitionDuration: '0s',
@@ -75,6 +77,10 @@ export const TooltipArrow = ({ isHovered, position, timeToHover, childRect }: Pr
 				transitionDelay: `${timeToHover + 200}ms`,
 				transitionDuration: '200ms',
 				transform: `${getAfterTranslate(position)} ${getAfterScale(position, 1)}`,
+
+				'@supports ((-webkit-backdrop-filter: blur(4px)) or (backdrop-filter: blur(4px)))': {
+					backdropFilter: 'blur(4px)',
+				},
 			}) : null,
 		])}
 		style={{

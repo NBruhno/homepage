@@ -1,6 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "version": 2,
+  "functions": {
+    "src/pages/api/**/*.ts": {
+      "memory": 256
+    }
+  },
   "rewrites": [
     {
       "source": "/service-worker.js",

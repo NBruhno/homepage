@@ -1,4 +1,4 @@
-import { IconMoon, IconSun } from '@tabler/icons'
+import { IconMoon, IconSun } from '@tabler/icons-react'
 
 import { useDarkMode, useResponsive } from 'states/page'
 
