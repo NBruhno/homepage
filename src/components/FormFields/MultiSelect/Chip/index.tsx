@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import type { ComponentPropsWithRef, ReactNode } from 'react'
 
-import { IconX } from '@tabler/icons'
+import { IconX } from '@tabler/icons-react'
 import { forwardRef } from 'react'
 
 import { ButtonIcon } from 'components/Buttons'

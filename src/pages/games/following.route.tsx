@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useMemo, useState } from 'react'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 
 import { useFollowingGamesStore } from 'states/games/useFollowingGames'
 import { useUser } from 'states/users'

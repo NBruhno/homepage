@@ -39,10 +39,8 @@ export const SelectMenu = forwardRef<HTMLDivElement, Props>(({
 	const windowScrollX = useScrollStore((state) => state.scrollX)
 	const windowScrollY = useScrollStore((state) => state.scrollY)
 	const childRect = useMemo(() => {
-		if (!containerRef.current || typeof window === 'undefined') {
-			return {
-				height: 0, width: 0, top: 0, right: 0, left: 0, tooltipHeight: 0, tooltipWidth: 0,
-			}
+		if (!containerRef.current || typeof window === 'undefined' || !isOpen) {
+			return { height: 0, width: 0, top: 0, right: 0, left: 0, tooltipHeight: 0, tooltipWidth: 0 }
 		}
 		const { height, width, top, left, right } = containerRef.current.getBoundingClientRect()
 		return {
@@ -52,7 +50,7 @@ export const SelectMenu = forwardRef<HTMLDivElement, Props>(({
 			left: left + windowScrollX,
 			right: right + windowScrollX,
 		}
-	}, undefined)
+	}, [windowScrollX, windowScrollY, containerRef, isOpen])
 
 	return (
 		<div

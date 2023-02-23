@@ -1,5 +1,5 @@
 import isEqual from 'lodash/isEqual'
-import create from 'zustand'
+import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 import type { SearchGamesModel } from 'pages/games/search.route'

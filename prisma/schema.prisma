@@ -1,12 +1,12 @@
 datasource db {
-  provider             = "mysql"
-  url                  = env("DATABASE_URL")
-  referentialIntegrity = "prisma"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["referentialIntegrity", "orderByNulls", "tracing"]
+  previewFeatures = ["orderByNulls", "tracing"]
 }
 
 model GameUserData {
@@ -19,7 +19,9 @@ model GameUserData {
   updatedAt   DateTime @updatedAt
 
   @@id([gameId, ownerId], name: "id")
-  @@index(fields: [isFollowing, gameId, ownerId])
+  @@index(fields: [gameId])
+  @@index(fields: [gameId, isFollowing])
+  @@index(fields: [ownerId])
 }
 
 model Game {
@@ -60,7 +62,9 @@ model Game {
 
   @@index(fields: [name])
   @@index(fields: [releaseDate])
-  @@index(fields: [releaseDate, hype])
+  @@index(fields: [lastCheckedAt(sort: Asc)])
+  @@index(fields: [releaseDate, lastCheckedAt(sort: Asc), hype(sort: Desc)])
+  @@index(fields: [releaseDate, hype(sort: Desc)])
 }
 
 enum GameStatus {

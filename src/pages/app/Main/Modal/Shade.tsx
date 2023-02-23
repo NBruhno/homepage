@@ -19,6 +19,7 @@ export const Shade = ({ show, ...rest }: Props) => (
 			pointerEvents: show ? 'auto' : 'none',
 			visibility: show ? 'visible' : 'hidden',
 			transition: `background-color 135ms ${theme.animation.default}`,
+			overscrollBehavior: 'contain',
 
 			'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
 				backdropFilter: show ? 'blur(5px)' : 'none',

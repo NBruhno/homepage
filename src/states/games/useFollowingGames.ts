@@ -3,7 +3,7 @@ import type { ParsedUrlQuery } from 'querystring'
 
 import { useEffect } from 'react'
 import useSWR from 'swr'
-import create from 'zustand'
+import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
 import { useLoading } from 'states/page'
@@ -26,7 +26,7 @@ export const useFollowingGames = (query: ParsedUrlQuery, newSkip = 0) => {
 	const { data } = useSWR<GameData>(
 		query.user
 			? ['/games', query.user, newSkip]
-			: null, ([link, followedGamesUser, skip]: [string, string, number]) => fetcher(`${link}?user=${followedGamesUser}${skip ? `&skip=${skip}` : ''}`), {
+			: null, ([link, followedGamesUser, skip]: [string, string, number]) => fetcher<GameData>(`${link}?user=${followedGamesUser}${skip ? `&skip=${skip}` : ''}`), {
 			revalidateOnFocus: false,
 		},
 	)

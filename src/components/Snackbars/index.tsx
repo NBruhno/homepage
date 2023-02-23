@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import shallow from 'zustand/shallow'
+import { shallow } from 'zustand/shallow'
 
 import { useSnackbar } from 'states/page'
 

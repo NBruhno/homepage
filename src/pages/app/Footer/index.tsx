@@ -1,6 +1,6 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
-import { IconCookie, IconSpy, IconMail, IconBrandLinkedin, IconBrandGithub, IconBrandGitlab } from '@tabler/icons'
+import { IconCookie, IconSpy, IconMail, IconBrandLinkedin, IconBrandGithub, IconBrandGitlab } from '@tabler/icons-react'
 import { getYear } from 'date-fns'
 
 import { Tooltip } from 'components/Tooltip'
