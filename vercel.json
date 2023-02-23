@@ -4,7 +4,7 @@
   "functions": {
     "src/pages/api/**/*.route.ts": {
       "memory": 256,
-      "excludeFiles": "{public/**/*,node_modules/@react-three}"
+      "excludeFiles": "{public/**/*,node_modules/@swc/core-*}"
     }
   },
   "rewrites": [
