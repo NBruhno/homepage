@@ -26,7 +26,7 @@ export const useLights = () => {
 
 	const { data } = useSWR<LightCollection, ApiError>(
 		accessToken ? ['/home/lights', accessToken] : null, ([url, accessToken]: DependencyKeys) => (
-			fetcher(url, { accessToken })
+			fetcher<LightCollection>(url, { accessToken })
 		), {
 			refreshInterval: 30000,
 			errorRetryInterval: 10000,

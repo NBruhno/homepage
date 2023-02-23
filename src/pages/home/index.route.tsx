@@ -16,7 +16,6 @@ type Props = {
 const Home: NextPage<Props> = () => {
 	useTitle('Smart home')
 	const { lights, rooms, onToggleLight } = useLights()
-	// const { sensors } = useSensors()
 
 	return (
 		<Page>
