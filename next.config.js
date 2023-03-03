@@ -62,7 +62,24 @@ const nextConfig = {
 	experimental: {
 		// fallbackNodePolyfills: false,
 		outputFileTracingExcludes: {
-			'/*': ['**swc/core**', '**esbuild**', '**terser**', '**prisma/client**'],
+			'/**/*': [
+				'node_modules/@swc/core-linux-x64-gnu',
+				'node_modules/@swc/core-linux-x64-musl',
+				'node_modules/@esbuild/linux-x64',
+				'node_modules/@prisma/client',
+				'node_modules/webpack',
+				'node_modules/terser',
+				'node_modules/rollup',
+				'node_modules/@tabler/icons-react',
+				'node_modules/iconv-lite',
+			],
+			'api/**/*': [
+				'node_modules/react-dom',
+				'node_modules/react',
+				'node_modules/sharp',
+				'node_modules/plaiceholder',
+				'node_modules/caniuse-lite',
+			],
 		},
 		esmExternals: true,
 	},
