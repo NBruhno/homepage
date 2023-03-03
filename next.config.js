@@ -61,6 +61,7 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		// fallbackNodePolyfills: false,
+		turbotrace: {},
 		outputFileTracingExcludes: {
 			'/**/*': [
 				'node_modules/.pnpm/@swc/core-linux-x64-gnu@1.3.36',
