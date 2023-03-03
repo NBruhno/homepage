@@ -62,7 +62,7 @@ const nextConfig = {
 	experimental: {
 		// fallbackNodePolyfills: false,
 		outputFileTracingExcludes: {
-			'/**/*.tsx': [
+			'/**/*': [
 				'node_modules/.pnpm/@swc/core-linux-x64-gnu**',
 				'node_modules/.pnpm/@swc/core-linux-x64-musl**',
 				'node_modules/.pnpm/@esbuild/linux-x64**',
@@ -71,7 +71,7 @@ const nextConfig = {
 				'node_modules/.pnpm/terser**',
 				'node_modules/.pnpm/rollup**',
 			],
-			'/**/*.ts': [
+			'api/**/*': [
 				'node_modules/.pnpm/@swc/core-linux-x64-gnu**',
 				'node_modules/.pnpm/@swc/core-linux-x64-musl**',
 				'node_modules/.pnpm/@esbuild/linux-x64**',
