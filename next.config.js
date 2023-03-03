@@ -55,12 +55,15 @@ const SentryWebpackPluginOptions = {
 	}) : undefined,
 }
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
 	productionBrowserSourceMaps: true,
 	reactStrictMode: true,
 	experimental: {
 		// fallbackNodePolyfills: false,
-		outputFileTracingExcludes: ['**swc/core**', '**esbuild**', '**terser**', '**prisma/client**'],
+		outputFileTracingExcludes: {
+			'/*': ['**swc/core**', '**esbuild**', '**terser**', '**prisma/client**'],
+		},
 		esmExternals: true,
 	},
 
