@@ -61,33 +61,6 @@ const nextConfig = {
 	reactStrictMode: true,
 	experimental: {
 		// fallbackNodePolyfills: false,
-		turbotrace: {},
-		outputFileTracingExcludes: {
-			'/**/*': [
-				'node_modules/.pnpm/@swc/core-linux-x64-gnu@1.3.36',
-				'node_modules/.pnpm/@swc/core-linux-x64-musl@1.3.36',
-				'node_modules/.pnpm/@esbuild/linux-x64@0.16.17',
-				'node_modules/.pnpm/@prisma/client@4.11.0_prisma@4.11.0',
-				'node_modules/.pnpm/webpack@5.75.0',
-				'node_modules/.pnpm/terser@5.15.1',
-				'node_modules/.pnpm/rollup@2.78.0',
-			],
-			'api/**/*': [
-				'node_modules/.pnpm/@swc/core-linux-x64-gnu@1.3.36',
-				'node_modules/.pnpm/@swc/core-linux-x64-musl@1.3.36',
-				'node_modules/.pnpm/@esbuild/linux-x64@0.16.17',
-				'node_modules/.pnpm/@prisma/client@4.11.0_prisma@4.11.0',
-				'node_modules/.pnpm/webpack@5.75.0',
-				'node_modules/.pnpm/terser@5.15.1',
-				'node_modules/.pnpm/rollup@2.78.0',
-				'node_modules/.pnpm/iconv-lite@0.6.3',
-				'node_modules/.pnpm/@tabler/icons-react**',
-				'node_modules/.pnpm/react-dom@18.2.0_react@18.2.0',
-				'node_modules/.pnpm/sharp@0.31.3 ',
-				'node_modules/.pnpm/plaiceholder@2.5.0_sharp@0.31.3',
-				'node_modules/.pnpm/caniuse-lite@1.0.30001460',
-			],
-		},
 		esmExternals: true,
 	},
 
