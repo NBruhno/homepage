@@ -62,6 +62,9 @@ const nextConfig = {
 	experimental: {
 		// fallbackNodePolyfills: false,
 		esmExternals: true,
+		outputFileTracingIgnores: [
+			'node_modules/**/*',
+		],
 	},
 
 	images: {
