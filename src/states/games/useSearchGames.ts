@@ -32,9 +32,9 @@ export const useSearchGames = () => {
 	const setHasSearch = useSearchGamesStore((state) => state.setHasSearch)
 	const hasSearch = useSearchGamesStore((state) => state.hasSearch)
 
-	const { data } = useSWR<{ games: Array<Game> }>(gameSearch && typeof gameSearch === 'string'
+	const { data } = useSWR(gameSearch && typeof gameSearch === 'string'
 		? ['/games?search=', encodeURIComponent(toLower(gameSearch))]
-		: null, ([link, searchParameter]: [string, string]) => fetcher<{ games: Array<Game> }>(`${link}${searchParameter}`), { revalidateOnFocus: false })
+		: null, ([link, searchParameter]) => fetcher<{ games: Array<Game> }>(`${link}${searchParameter}`), { revalidateOnFocus: false })
 
 	const { setIsLoading, isLoading } = useLoading()
 	// Every time we update the search form, we also want to update the URL to match the search query for easy sharing

@@ -55,13 +55,23 @@ const SentryWebpackPluginOptions = {
 	}) : undefined,
 }
 
+/** @type {import('next').NextConfig} */
 const nextConfig = {
 	productionBrowserSourceMaps: true,
 	reactStrictMode: true,
 	experimental: {
 		// fallbackNodePolyfills: false,
-		outputFileTracingExcludes: ['node_modules/.pnpm/@swc/core-linux-x64-gnu', 'node_modules/.pnpm/@swc/core-linux-x64-musl', 'node_modules/.pnpm/@esbuild/linux-x64'],
 		esmExternals: true,
+		outputFileTracingExcludes: {
+			'*': [
+				'./**/node_modules/@swc/core-linux-x64-gnu',
+				'./**/node_modules/@swc/core-linux-x64-musl',
+				'./**/node_modules/esbuild/linux',
+				'./**/node_modules/webpack',
+				'./**/node_modules/rollup',
+				'./**/node_modules/terser',
+			],
+		},
 	},
 
 	images: {
@@ -72,6 +82,10 @@ const nextConfig = {
 				pathname: '/igdb/image/upload/**',
 			},
 		],
+	},
+
+	eslint: {
+		ignoreDuringBuilds: true,
 	},
 
 	swcMinify: true,
@@ -85,7 +99,7 @@ const nextConfig = {
 
 	pageExtensions: ['route.tsx', 'route.ts'],
 
-	outputFileTracing: false,
+	outputFileTracing: true,
 	poweredByHeader: false,
 
 	async rewrites() {

@@ -19,8 +19,8 @@ export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 	const [isFollowing, setIsFollowing] = useState<boolean | undefined>(undefined)
 	const accessToken = useUser((state) => state.accessToken)
 
-	const { data: game } = useSWR<GameExtended>(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
-	const { data: prices } = useSWR<Array<GamePrice>>(id && game?.name
+	const { data: game } = useSWR<GameExtended | undefined>(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
+	const { data: prices } = useSWR<Array<GamePrice> | undefined>(id && game?.name
 		? `/games/${id}/prices?name=${encodeURIComponent(game.name)}`
 		: null, null, { fallbackData: initialPrices ?? undefined })
 	const { data: userData } = useSWR<{ isFollowing: boolean, isInSteamLibrary: boolean }>((id && accessToken)
@@ -28,13 +28,13 @@ export const useGame = ({ id, initialGame, initialPrices }: Props) => {
 		: null, (link: string) => fetcher(link, { accessToken }))
 
 	const steamAppId = getSteamAppId(game?.websites)
-	const { data: news } = useSWR<GameNews>(id && steamAppId
+	const { data: news } = useSWR<GameNews | undefined>(id && steamAppId
 		? `/games/${id}/news?steam-app-id=${encodeURIComponent(steamAppId)}`
 		: null, null)
-	const { data: reviews } = useSWR<GameReviews>(id && steamAppId
+	const { data: reviews } = useSWR<GameReviews | undefined>(id && steamAppId
 		? `/games/${id}/reviews?steam-app-id=${encodeURIComponent(steamAppId)}`
 		: null, null)
-	const { data: insights } = useSWR<GameInsights>(id && steamAppId
+	const { data: insights } = useSWR<GameInsights | undefined>(id && steamAppId
 		? `/games/${id}/insights?steam-app-id=${encodeURIComponent(steamAppId)}`
 		: null, null)
 	const { isLoading } = useLoading(Boolean(!game) && Boolean(!initialGame))

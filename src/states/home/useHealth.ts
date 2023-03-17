@@ -52,7 +52,7 @@ export const useHealth = (): Return => {
 		return () => clearInterval(interval)
 	})
 
-	const { data: health, error } = useSWR<Health, ApiError>(
+	const { data: health, error } = useSWR<Health | undefined, ApiError>(
 		accessToken ? '/home/health' : null, (link: string) => (
 			fetcher(link, { accessToken })
 		), {
