@@ -62,9 +62,6 @@ const nextConfig = {
 	experimental: {
 		// fallbackNodePolyfills: false,
 		esmExternals: true,
-		outputFileTracingExcludes: {
-			'/api/*': ['node_modules/**/*'],
-		},
 	},
 
 	images: {
@@ -75,6 +72,10 @@ const nextConfig = {
 				pathname: '/igdb/image/upload/**',
 			},
 		],
+	},
+
+	eslint: {
+		ignoreDuringBuilds: true,
 	},
 
 	swcMinify: true,
@@ -88,7 +89,7 @@ const nextConfig = {
 
 	pageExtensions: ['route.tsx', 'route.ts'],
 
-	outputFileTracing: false,
+	outputFileTracing: true,
 	poweredByHeader: false,
 
 	async rewrites() {
