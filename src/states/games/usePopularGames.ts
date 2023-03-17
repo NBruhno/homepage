@@ -22,7 +22,7 @@ export const usePopularGamesStore = create<PopularGamesState>()(devtools((set) =
 }), { anonymousActionType: 'usePopularGamesStore' }))
 
 export const usePopularGames = (newSkip = 0) => {
-	const { data } = useSWR<GameData>(
+	const { data } = useSWR(
 		['/games', newSkip],
 		([link, skip]: [string, number]) => fetcher<GameData>(`${link}?is-popular=yes${skip ? `&skip=${skip}` : ''}`),
 		{ revalidateOnFocus: false },

@@ -10,7 +10,7 @@ import { fetcher } from 'lib/fetcher'
 export const useSensors = () => {
 	const accessToken = useUser((state) => state.accessToken)
 
-	const { data } = useSWR<{ sensors: Array<Sensor> }, ApiError>(
+	const { data } = useSWR<{ sensors: Array<Sensor> } | undefined, ApiError>(
 		accessToken ? '/home/sensors' : null, (link: string) => (
 			fetcher(link, { accessToken })
 		), {

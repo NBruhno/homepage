@@ -109,7 +109,6 @@ export const Input = ({
 		type: inputType,
 		inputMode,
 		isDisabled,
-		labeledBy: labelId,
 		onKeyDown: async (event: KeyboardEvent<HTMLInputElement>) => {
 			// Some password managers prevent a proper exit when tabbing out
 			if (event.key === 'Tab') {

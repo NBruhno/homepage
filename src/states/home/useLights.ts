@@ -24,7 +24,7 @@ type DependencyKeys = [url: string, accessToken: string]
 export const useLights = () => {
 	const accessToken = useUser((state) => state.accessToken)
 
-	const { data } = useSWR<LightCollection, ApiError>(
+	const { data } = useSWR<LightCollection | undefined, ApiError>(
 		accessToken ? ['/home/lights', accessToken] : null, ([url, accessToken]: DependencyKeys) => (
 			fetcher<LightCollection>(url, { accessToken })
 		), {

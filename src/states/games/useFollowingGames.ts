@@ -23,10 +23,10 @@ export const useFollowingGamesStore = create<FollowingGamesState>()(devtools((se
 }), { anonymousActionType: 'useFollowingGamesStore' }))
 
 export const useFollowingGames = (query: ParsedUrlQuery, newSkip = 0) => {
-	const { data } = useSWR<GameData>(
+	const { data } = useSWR(
 		query.user
-			? ['/games', query.user, newSkip]
-			: null, ([link, followedGamesUser, skip]: [string, string, number]) => fetcher<GameData>(`${link}?user=${followedGamesUser}${skip ? `&skip=${skip}` : ''}`), {
+			? ['/games', query.user as string, newSkip]
+			: null, ([link, followedGamesUser, skip]) => fetcher<GameData>(`${link}?user=${followedGamesUser}${skip ? `&skip=${skip}` : ''}`), {
 			revalidateOnFocus: false,
 		},
 	)

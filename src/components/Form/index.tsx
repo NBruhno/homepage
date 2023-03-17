@@ -1,5 +1,5 @@
 import type { ReactNode, BaseSyntheticEvent } from 'react'
-import type { CriteriaMode, DeepPartial, FieldPath, FieldPathValue, FieldValues, UseFormReturn, ValidationMode } from 'react-hook-form'
+import type { CriteriaMode, DeepPartial, FieldPath, FieldValues, PathValue, UseFormReturn, ValidationMode } from 'react-hook-form'
 import type { Struct } from 'superstruct'
 import type { AnyStruct, StructSchema } from 'superstruct/dist/utils'
 import type { Promisable } from 'type-fest'
@@ -156,7 +156,7 @@ export const Form = <T extends FieldValues>({
 		if (shouldUpdateFieldsOnStateChange && !shouldPersistStateOnChange && formState) {
 			Object.entries(formState).forEach(([key, value]) => {
 				const fieldName = key as FieldPath<T>
-				const fieldValue = value as FieldPathValue<T, FieldPath<T>>
+				const fieldValue = value as PathValue<T, FieldPath<T>>
 				if (!isEqual(formValues[fieldName], fieldValue)) setValue(fieldName, fieldValue)
 			})
 		}
@@ -166,7 +166,7 @@ export const Form = <T extends FieldValues>({
 		if (formState) {
 			Object.entries(formState).forEach(([key, value]) => {
 				const fieldName = key as FieldPath<T>
-				const fieldValue = value as FieldPathValue<T, FieldPath<T>>
+				const fieldValue = value as PathValue<T, FieldPath<T>>
 				if (!isEqual(formValues[fieldName], fieldValue)) setValue(fieldName, fieldValue)
 			})
 		}
