@@ -62,9 +62,9 @@ const nextConfig = {
 	experimental: {
 		// fallbackNodePolyfills: false,
 		esmExternals: true,
-		outputFileTracingIgnores: [
-			'node_modules/**/*',
-		],
+		outputFileTracingExcludes: {
+			'/api/*': ['node_modules/**/*'],
+		},
 	},
 
 	images: {
