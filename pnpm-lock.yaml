@@ -65,7 +65,7 @@ specifiers:
   qrcode: 1.5.1
   react: 18.2.0
   react-dom: 18.2.0
-  react-hook-form: 7.43.6
+  react-hook-form: 7.43.7
   react-inspector: 6.0.1
   react-lite-youtube-embed: 2.3.52
   react-textarea-autosize: 8.4.0
@@ -85,7 +85,7 @@ specifiers:
 
 dependencies:
   '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
-  '@hookform/resolvers': 2.9.11_react-hook-form@7.43.6
+  '@hookform/resolvers': 2.9.11_react-hook-form@7.43.7
   '@prisma/client': 4.11.0_prisma@4.11.0
   '@react-aria/focus': 3.11.0_react@18.2.0
   '@react-aria/interactions': 3.14.0_react@18.2.0
@@ -110,7 +110,7 @@ dependencies:
   qrcode: 1.5.1
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  react-hook-form: 7.43.6_react@18.2.0
+  react-hook-form: 7.43.7_react@18.2.0
   react-lite-youtube-embed: 2.3.52_biqbaboplfbrettd7655fr4n2y
   react-textarea-autosize: 8.4.0_pmekkgnqduwlme35zpnqhenc34
   resize-observer-polyfill: 1.5.1
@@ -1731,12 +1731,12 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@hookform/resolvers/2.9.11_react-hook-form@7.43.6:
+  /@hookform/resolvers/2.9.11_react-hook-form@7.43.7:
     resolution: {integrity: sha512-bA3aZ79UgcHj7tFV7RlgThzwSSHZgvfbt2wprldRkYBcMopdMvHyO17Wwp/twcJasNFischFfS7oz8Katz8DdQ==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
-      react-hook-form: 7.43.6_react@18.2.0
+      react-hook-form: 7.43.7_react@18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.8:
@@ -8742,8 +8742,8 @@ packages:
       react-dom: 18.2.0_react@18.2.0
     dev: true
 
-  /react-hook-form/7.43.6_react@18.2.0:
-    resolution: {integrity: sha512-zEXpju7XnrszIW5AMIjGw3ta/NmhkXG02fnSbIt4MfCegdQhmLkAfeM8bba87Co3oyBDsp8wONP8POcRToPBVw==}
+  /react-hook-form/7.43.7_react@18.2.0:
+    resolution: {integrity: sha512-38yehQkQQ5uufaPKFScs7jhLE8n3+LG9H/BZfFAiBL2+7piDmw/BrdNJV4irzMaPnWZGhmGLHVICHXNVGIuXZg==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18

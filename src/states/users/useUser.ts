@@ -1,4 +1,4 @@
-import type { UserRole } from '@prisma/client'
+import type { UserRole } from 'types'
 
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'

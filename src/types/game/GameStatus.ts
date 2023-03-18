@@ -1,8 +1,10 @@
 export enum GameStatus {
+	Released = 'Released',
 	Alpha = 'Alpha',
 	Beta = 'Beta',
-	EarlyAccess = 'Early access',
+	EarlyAccess = 'EarlyAccess',
 	Offline = 'Offline',
-	Released = 'Released',
+	Cancelled = 'Cancelled',
 	Rumored = 'Rumored',
+	Delisted = 'Delisted',
 }

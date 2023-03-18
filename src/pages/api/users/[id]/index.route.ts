@@ -1,4 +1,5 @@
-import { UserRole } from '@prisma/client'
+import { UserRole } from 'types'
+
 import { object, string, create, optional } from 'superstruct'
 
 import { email, username } from 'validation/shared'

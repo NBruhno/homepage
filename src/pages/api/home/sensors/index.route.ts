@@ -1,4 +1,4 @@
-import { UserRole } from '@prisma/client'
+import { UserRole } from 'types'
 
 import { apiHandler, homeFetcher } from 'lib/api'
 import { authenticate } from 'lib/middleware'

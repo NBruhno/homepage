@@ -1,4 +1,5 @@
-import { UserRole } from '@prisma/client'
+import { UserRole } from 'types'
+
 import { verify, hash } from 'argon2'
 import { create, object, string } from 'superstruct'
 

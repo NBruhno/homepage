@@ -1,14 +1,28 @@
+import type { GameCategory } from './GameCategory'
 import type { GameCompany } from './GameCompany'
 import type { GameDefaultEntity } from './GameDefaultEntity'
 import type { GameMultiplayerMode } from './GameMultiplayerMode'
 import type { GamePlatform } from './GamePlatform'
 import type { GameReference } from './GameReference'
 import type { GameReleaseDate } from './GameReleaseDate'
+import type { GameStatus } from './GameStatus'
 import type { GameVideo } from './GameVideo'
 import type { GameWebsite } from './GameWebsite'
-import type { Game as PrismaGame } from '@prisma/client'
 
-export type Game = Omit<PrismaGame, 'createdAt' | 'developers' | 'dlcs' | 'engines' | 'franchies' | 'genres' | 'lastCheckedAt' | 'modes' | 'multiplayerModes' | 'platforms' | 'playerPerspectives' | 'porters' | 'publishers' | 'releaseDate' | 'releaseDates' | 'similarGames' | 'supporters' | 'themes' | 'updatedAt' | 'videos' | 'websites'> & {
+export type Game = {
+	id: number,
+	name: string,
+	category: GameCategory | null,
+	cover: string | null,
+	hype: number | null,
+	parentId: number | null,
+	rating: number | null,
+	ratingCount: number | null,
+	screenshot: string | null,
+	status: GameStatus | null,
+	storyline: string | null,
+	summary: string | null,
+
 	createdAt: string,
 	developers: Array<GameCompany>,
 	dlcs: Array<GameReference>,

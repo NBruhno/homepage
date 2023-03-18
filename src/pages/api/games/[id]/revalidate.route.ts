@@ -1,4 +1,5 @@
-import { UserRole } from '@prisma/client'
+import { UserRole } from 'types'
+
 import { create, object, string } from 'superstruct'
 
 import { apiHandler } from 'lib/api'

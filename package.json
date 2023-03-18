@@ -62,7 +62,7 @@
     "qrcode": "1.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "7.43.6",
+    "react-hook-form": "7.43.7",
     "react-lite-youtube-embed": "2.3.52",
     "react-textarea-autosize": "8.4.0",
     "resize-observer-polyfill": "1.5.1",
