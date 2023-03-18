@@ -1,4 +1,5 @@
-import { UserRole } from '@prisma/client'
+import { UserRole } from 'types'
+
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 
 import { getJwtToken } from 'lib/api'

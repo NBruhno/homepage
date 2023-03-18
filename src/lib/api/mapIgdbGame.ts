@@ -1,7 +1,6 @@
 import type { IgdbGame, IgdbCompany, IgdbWebsite, IgdbMultiplayerMode } from 'types'
-import { GameWebsiteType, IgdbWebsiteCategory, IgdbStatus, IgdbCategory } from 'types'
+import { GameWebsiteType, IgdbWebsiteCategory, IgdbStatus, IgdbCategory, GameStatus, GameCategory } from 'types'
 
-import { GameStatus, GameCategory } from '@prisma/client'
 import { fromUnixTime } from 'date-fns'
 import sample from 'lodash/sample'
 

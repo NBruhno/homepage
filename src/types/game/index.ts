@@ -1,3 +1,4 @@
+export { GameCategory } from './GameCategory'
 export { GameStatus } from './GameStatus'
 export { GameWebsiteType } from './GameWebsiteType'
 

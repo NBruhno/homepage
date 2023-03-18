@@ -1,6 +1,5 @@
-import { UserTokenType } from 'types'
+import { UserRole, UserTokenType } from 'types'
 
-import { UserRole } from '@prisma/client'
 import { authenticator as otpAuthenticator } from 'otplib'
 import { toDataURL as getQRCodeImage } from 'qrcode'
 import { create, object, string } from 'superstruct'

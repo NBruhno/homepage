@@ -9,6 +9,7 @@ Sentry.init({
 		if (context.transactionContext.op === 'pageload' || context.transactionContext.op === 'navigation') return 0.2
 		return 0.3
 	},
+	replaysSessionSampleRate: 0.1,
 	replaysOnErrorSampleRate: 1.0,
 	environment: process.env.VERCEL_ENV as string,
 })

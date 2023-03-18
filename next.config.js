@@ -45,7 +45,7 @@ const securityHeaders = [
 ]
 
 const GIT_COMMIT_MESSAGE = process.env.VERCEL_GIT_COMMIT_MESSAGE
-const SentryWebpackPluginOptions = {
+const sentryConfig = {
 	hideSourceMaps: false,
 	silent: process.env.VERCEL_ENV === 'development',
 	deploy: process.env.VERCEL_ENV !== 'development' ? ({
@@ -62,6 +62,8 @@ const nextConfig = {
 	experimental: {
 		// fallbackNodePolyfills: false,
 		esmExternals: true,
+		// Some files are included in the Nexts tracing which is incorrect and the files are huge, so we are excluding
+		// them to make sure we don't hit the size limit for our lambda functions
 		outputFileTracingExcludes: {
 			'*': [
 				'./**/node_modules/@swc/core-linux-x64-gnu',
@@ -85,11 +87,13 @@ const nextConfig = {
 	},
 
 	eslint: {
+		// We already lint when building on Vercel and in MRs
 		ignoreDuringBuilds: true,
 	},
 
 	swcMinify: true,
 	compiler: {
+		// Enables the emotion.js plugin
 		emotion: true,
 	},
 
@@ -103,6 +107,8 @@ const nextConfig = {
 	poweredByHeader: false,
 
 	async rewrites() {
+		// Ensures our service-worker is reachable from the build folder
+		// This is not build by Next so it is not part of the router
 		return [
 			{
 				source: '/service-worker.js',
@@ -126,6 +132,7 @@ const nextConfig = {
 
 	webpack: (config) => {
 		config.plugins.push(
+			// Modifies lodash to reduce bundle size by replacing some features with simpler alternatives
 			new LodashModuleReplacementPlugin(),
 		)
 
@@ -134,4 +141,4 @@ const nextConfig = {
 	basePath,
 }
 
-module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), SentryWebpackPluginOptions)))
+module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), sentryConfig)))

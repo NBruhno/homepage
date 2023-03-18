@@ -1,4 +1,4 @@
-import type { UserRole } from '@prisma/client'
+import type { UserRole } from 'types'
 
 import { useRouter } from 'next/router'
 import { forwardRef } from 'react'

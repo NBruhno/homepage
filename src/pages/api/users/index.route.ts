@@ -1,6 +1,5 @@
-import { UserTokenType } from 'types'
+import { UserRole, UserTokenType } from 'types'
 
-import { UserRole } from '@prisma/client'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { setUser } from '@sentry/nextjs'
 import { hash } from 'argon2'
