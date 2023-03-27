@@ -25,6 +25,8 @@ const Query = union([
 export default apiHandler({
 	validMethods: ['GET'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/prices`,
+	cacheStrategy: 'Default',
+	cacheDuration: 60,
 })
 	.get(async (req, res) => {
 		const { store, id, name } = create(req.query, Query)

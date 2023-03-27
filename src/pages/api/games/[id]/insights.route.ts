@@ -17,6 +17,8 @@ const Query = object({
 export default apiHandler({
 	validMethods: ['GET'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/insights`,
+	cacheStrategy: 'StaleWhileRevalidate',
+	cacheDuration: 240,
 })
 	.get(async (req, res) => {
 		const { 'steam-app-id': appId } = create(req.query, Query)

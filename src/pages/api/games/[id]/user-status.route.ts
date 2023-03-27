@@ -18,7 +18,8 @@ const Query = object({
 
 export default apiHandler({
 	validMethods: ['GET'],
-	cacheStrategy: 'NoCache',
+	cacheStrategy: 'Default',
+	cacheDuration: 60,
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/user-status`,
 })
 	.get(async (req, res) => {
