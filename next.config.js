@@ -94,6 +94,11 @@ const nextConfig = {
 		ignoreDuringBuilds: true,
 	},
 
+	typescript: {
+		// We already lint when building on Vercel and in MRs
+		ignoreBuildErrors: true,
+	},
+
 	swcMinify: true,
 	compiler: {
 		// Enables the emotion.js plugin
