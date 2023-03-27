@@ -40,8 +40,6 @@ const createEnv = async () => {
 				if (error) throw error
 				console.log('VG Insights token appended to .env')
 			})
-
-			console.log(fs.readFileSync('.env', 'utf-8'))
 		} catch (error) {
 			console.log(error)
 			throw new Error('Failed to generate deploy env')
