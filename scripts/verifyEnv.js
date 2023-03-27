@@ -1,7 +1,5 @@
 /* eslint-disable no-console */
 
-const fs = require('node:fs')
-
 require('dotenv').config()
 
 const { VERCEL_ENV } = process.env
@@ -56,6 +54,5 @@ if (missingValues.length > 0) {
 	console.log('Error: Missing the above mentioned env variables')
 	process.exit(1)
 } else {
-	console.log(fs.readFileSync('.env', 'utf-8'))
 	console.log('All required env variables are available')
 }

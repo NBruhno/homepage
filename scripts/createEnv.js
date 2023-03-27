@@ -17,10 +17,12 @@ const createEnv = async () => {
 				return responseBody.access_token
 			})
 
-			fs.appendFile('.env', `IGDB_TOKEN="${igdbToken}"\n`, (error) => {
-				if (error) throw error
-				console.log('IGDB token appended to .env')
-			})
+			if (igdbToken) {
+				fs.appendFile('.env', `IGDB_TOKEN="${igdbToken}"\n`, (error) => {
+					if (error) throw error
+					console.log('IGDB token appended to .env')
+				})
+			}
 
 			const vgInsightsToken = await fetch(`https://vginsights.com/api/v1/auth/email/login`, {
 				method: 'POST',
@@ -36,10 +38,12 @@ const createEnv = async () => {
 				return responseBody.token
 			})
 
-			fs.appendFile('.env', `VGINSIGHTS_TOKEN="${vgInsightsToken}"\n`, (error) => {
-				if (error) throw error
-				console.log('VG Insights token appended to .env')
-			})
+			if (vgInsightsToken) {
+				fs.appendFile('.env', `VGINSIGHTS_TOKEN="${vgInsightsToken}"\n`, (error) => {
+					if (error) throw error
+					console.log('VG Insights token appended to .env')
+				})
+			}
 		} catch (error) {
 			console.log(error)
 			throw new Error('Failed to generate deploy env')
