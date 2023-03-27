@@ -34,8 +34,8 @@ jobs:
       run: pnpm test
       env:
         ACCESS_CODE: ${{ secrets.ACCESS_CODE }}
-        AUTH_PRIVATE_KEY: ${{ secrets.AUTH_IV }}
-        AUTH_PUBLIC_KEY: ${{ secrets.AUTH_IV }}
+        AUTH_PRIVATE_KEY: ${{ secrets.AUTH_PRIVATE_KEY }}
+        AUTH_PUBLIC_KEY: ${{ secrets.AUTH_PUBLIC_KEY }}
         AUTH_SYSTEM_TOKEN: ${{ secrets.AUTH_SYSTEM_TOKEN }}
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         NODE_ENV: ${{ secrets.NODE_ENV }}
