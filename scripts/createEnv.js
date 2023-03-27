@@ -46,7 +46,7 @@ const createEnv = async () => {
 				})(),
 			])
 
-			console.log(fs.readFile('.env', 'utf-8'))
+			console.log(fs.readFileSync('.env', 'utf-8'))
 		} catch (error) {
 			console.log(error)
 			throw new Error('Failed to generate deploy env')
