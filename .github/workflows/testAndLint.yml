@@ -18,7 +18,7 @@ jobs:
     - name: Set up node
       uses: actions/setup-node@v2
       with:
-        node-version: '16'
+        node-version: '18'
         cache: 'pnpm'
     
     - name: Install ca-certificates
@@ -34,8 +34,8 @@ jobs:
       run: pnpm test
       env:
         ACCESS_CODE: ${{ secrets.ACCESS_CODE }}
-        AUTH_IV: ${{ secrets.AUTH_IV }}
-        AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+        AUTH_PRIVATE_KEY: ${{ secrets.AUTH_IV }}
+        AUTH_PUBLIC_KEY: ${{ secrets.AUTH_IV }}
         AUTH_SYSTEM_TOKEN: ${{ secrets.AUTH_SYSTEM_TOKEN }}
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
         NODE_ENV: ${{ secrets.NODE_ENV }}
