@@ -33,20 +33,6 @@ export const Default: DefaultProps = ({ label, hint, name, isDisabled, isFullWid
 					isDisabled={isDisabled}
 					isFullWidth={isFullWidth}
 				/>
-				<Toggle
-					{...fieldProps(name)}
-					label={label}
-					hint={hint}
-					isDisabled={isDisabled}
-					isFullWidth={isFullWidth}
-				/>
-				<Toggle
-					{...fieldProps(name)}
-					label={label}
-					hint={hint}
-					isDisabled={isDisabled}
-					isFullWidth={isFullWidth}
-				/>
 				<ButtonSolid label='Submit' type='submit' />
 			</FormWrapper>
 		)}

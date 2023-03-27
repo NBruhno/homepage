@@ -55,7 +55,7 @@ export const TooltipContainer = ({ children, isHovered, position, timeToHover, c
 					width: 'max-content',
 					borderRadius: '4px',
 					fontSize: theme.font.size.s90,
-					backgroundColor: theme.color.inputBackground,
+					backgroundColor: theme.color.input.background,
 					boxShadow: '0px 0px 24px rgba(0, 0, 0, 0.2)',
 					color: theme.color.text,
 					textAlign: 'center',

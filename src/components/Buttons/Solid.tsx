@@ -1,4 +1,4 @@
-import type { Props as AsyncProps } from './Async'
+import type { Props } from './Async'
 
 import { forwardRef } from 'react'
 
@@ -6,17 +6,12 @@ import { adjustHsl } from 'lib/client'
 
 import { ButtonAsync } from './Async'
 
-type Props = AsyncProps & {
-	backgroundColor?: keyof Theme['color'],
-	color?: keyof Theme['color'],
-}
-
-export const ButtonSolid = forwardRef<HTMLButtonElement, Props>(({ color, backgroundColor, ...rest }, ref) => (
+export const ButtonSolid = forwardRef<HTMLButtonElement, Props>((props, ref) => (
 	<ButtonAsync
 		css={(theme) => ({
-			backgroundColor: backgroundColor ? theme.color[backgroundColor] : theme.color.primary,
+			backgroundColor: theme.color.primary,
 			borderRadius: '4px',
-			color: color ? theme.color.textInverted : theme.color.black,
+			color: theme.color.black,
 
 			'&:disabled': {
 				color: theme.color.gray040,
@@ -28,6 +23,6 @@ export const ButtonSolid = forwardRef<HTMLButtonElement, Props>(({ color, backgr
 			},
 		})}
 		ref={ref}
-		{...rest}
+		{...props}
 	/>
 ))

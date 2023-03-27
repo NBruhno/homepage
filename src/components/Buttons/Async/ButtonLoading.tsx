@@ -12,7 +12,7 @@ import { LoaderWrapper } from './LoaderWrapper'
 
 type Props = Omit<ComponentPropsWithoutRef<'button'>, 'onClick' | 'type'> & {
 	isDisabled?: boolean,
-	isFullWidth?: boolean,
+	isFocusVisible: boolean,
 	isLoading?: boolean,
 	showPlaceholder?: boolean,
 	label: ReactNode,
@@ -29,8 +29,8 @@ type Props = Omit<ComponentPropsWithoutRef<'button'>, 'onClick' | 'type'> & {
 
 export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
 	isDisabled = false,
-	isFullWidth = false,
 	isLoading = false,
+	isFocusVisible,
 	showPlaceholder = true,
 	label,
 	onClick,
@@ -40,10 +40,10 @@ export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
 }, ref) => (
 	<Button
 		disabled={isDisabled || isLoading || showPlaceholder}
-		isFullWidth={isFullWidth}
 		showPlaceholder={showPlaceholder}
 		onClick={onClick}
 		type={type}
+		isFocusVisible={isFocusVisible}
 		ref={ref}
 		{...rest}
 	>

@@ -7,30 +7,29 @@ import { adjustHsl } from 'lib/client'
 type Props = ComponentPropsWithoutRef<'div'> & {
 	isHighlighted: boolean,
 	isSelected: boolean,
-	isDisabled: boolean,
 }
 
-export const Item = forwardRef<HTMLDivElement, Props>(({ isHighlighted, isSelected, isDisabled, ...rest }, ref) => (
+export const Item = forwardRef<HTMLDivElement, Props>(({ isHighlighted, isSelected, ...rest }, ref) => (
 	<div
 		css={(theme) => ({
 			backgroundColor: (() => {
-				if (isHighlighted) return isDisabled ? theme.color.gray : adjustHsl(theme.color.primary, { alpha: 0.4 })
-				if (isSelected) return isDisabled ? adjustHsl(theme.color.primaryLight, { alpha: 0.2 }) : adjustHsl(theme.color.primary, { alpha: 0.2 })
-				return isDisabled ? theme.color.grayDark : theme.color.inputBackground
+				if (isHighlighted) return adjustHsl(theme.color.primary, { alpha: 0.4 })
+				if (isSelected) return adjustHsl(theme.color.primary, { alpha: 0.2 })
+				return theme.color.input.background
 			})(),
 			color: theme.color.text,
 			margin: '4px 6px',
 			padding: '8px 10px',
 			borderRadius: '4px',
 			transition: `background-color 135ms ${theme.animation.default}`,
-			cursor: isDisabled ? 'auto' : 'pointer',
+			cursor: 'pointer',
 			display: 'flex',
 			alignItems: 'center',
 			justifyContent: 'space-between',
 			columnGap: '8px',
 
 			'&:hover': {
-				backgroundColor: isDisabled ? theme.color.grayDark : adjustHsl(theme.color.primary, { alpha: 0.4 }),
+				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.4 }),
 			},
 		})}
 		{...rest}

@@ -4,10 +4,9 @@ import { IconCheck } from '@tabler/icons-react'
 
 type Props = ComponentPropsWithoutRef<'div'> & {
 	isChecked: boolean,
-	isDisabled: boolean,
 }
 
-export const CheckMark = ({ isChecked, isDisabled, ...rest }: Props) => (
+export const CheckMark = ({ isChecked, ...rest }: Props) => (
 	<div
 		css={(theme) => ({
 			display: 'flex',
@@ -16,7 +15,7 @@ export const CheckMark = ({ isChecked, isDisabled, ...rest }: Props) => (
 			width: '20px',
 			height: '20px',
 			flexShrink: 0,
-			backgroundColor: isDisabled ? theme.color.gray : theme.color.primary,
+			backgroundColor: theme.color.primary,
 			color: theme.color.textInverted,
 			opacity: isChecked ? 1 : 0,
 			borderRadius: '100%',

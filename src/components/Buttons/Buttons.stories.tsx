@@ -11,7 +11,6 @@ import { ButtonBorder } from './Border'
 import { ButtonIcon } from './Icon'
 import { ButtonSolid } from './Solid'
 import { ButtonText } from './Text'
-import { ButtonToggle } from './Toggle'
 
 export default {
 	title: 'Buttons',
@@ -71,14 +70,6 @@ Border.argTypes = {
 export const Text = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonText} />
 
 Text.argTypes = {
-	onClick: {
-		action: 'submitted',
-	},
-}
-
-export const Toggle = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonToggle} />
-
-Toggle.argTypes = {
 	onClick: {
 		action: 'submitted',
 	},

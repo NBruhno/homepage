@@ -34,7 +34,7 @@ export const FormChangePassword = () => {
 					<>
 						<Input label='Current password' {...fieldProps('currentPassword')} isRequired />
 						<Input label='New password' {...fieldProps('newPassword')} isRequired />
-						<ButtonSolid label='Change password' type='submit' isFullWidth />
+						<ButtonSolid label='Change password' type='submit' />
 					</>
 				)}
 			/>

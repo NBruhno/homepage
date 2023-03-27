@@ -9,7 +9,7 @@ export const CoverWrapper = ({ size, ...rest }: Props) => (
 	<div
 		css={(theme) => ({
 			flexShrink: 0,
-			background: [theme.color.inputBackgroundHover, `linear-gradient(134deg, ${theme.color.inputBorder} 0%, ${theme.color.inputBackgroundHover} 63%, ${theme.color.inputBackground} 100%)`],
+			background: [theme.color.input.backgroundHover, `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`],
 			height: size === 'big' ? '352px' : '160px',
 			width: size === 'big' ? '264px' : '120px',
 			overflow: 'hidden',

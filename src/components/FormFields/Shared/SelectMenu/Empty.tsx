@@ -3,7 +3,7 @@ import type { ComponentPropsWithoutRef } from 'react'
 export const Empty = (props: ComponentPropsWithoutRef<'div'>) => (
 	<div
 		css={(theme) => ({
-			backgroundColor: theme.color.inputBackground,
+			backgroundColor: theme.color.input.background,
 			color: theme.color.text,
 			opacity: 0.6,
 			textAlign: 'center',

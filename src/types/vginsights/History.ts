@@ -3,5 +3,10 @@
 export type VGInsightsHistory = Array<{
 	steam_id: number,
 	date: string,
-	players_avg: 0,
+	players_avg: number,
+	units: number,
+	units_increase: number,
+	members: number,
+	reviews: number,
+	rating: string,
 }>

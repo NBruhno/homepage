@@ -24,11 +24,6 @@ export const ToggleComponent = ({ isChecked, isDisabled, isLoading, isFocusVisib
 		else return isChecked ? theme.color.primary : theme.color.gray
 	}
 
-	const boxShadow = (theme: Theme) => {
-		if (isChecked) return isFocusVisible ? `0 0 0 2px ${theme.color.primary}` : 'none'
-		else return isFocusVisible ? `0 0 0 1px ${theme.color.gray}` : 'none'
-	}
-
 	const transform = () => {
 		if (isLoading) return 'translateX(9px)'
 		else if (isChecked) return 'translateX(18px)'
@@ -41,38 +36,44 @@ export const ToggleComponent = ({ isChecked, isDisabled, isLoading, isFocusVisib
 		else return '2px 0 0 -18px'
 	}
 
-	const styling = (theme: Theme) => css({
-		position: 'relative',
-		borderRadius: '22px',
-		width: '40px',
-		height: '22px',
-		backgroundColor: backgroundColor(theme),
-		boxShadow: boxShadow(theme),
-		outline: 0,
-		flexShrink: 0,
-		margin: 'auto',
-		cursor: (isDisabled || isLoading) ? 'auto' : 'pointer',
+	const styling = (theme: Theme) => css([
+		{
+			position: 'relative',
+			borderRadius: '22px',
+			width: '40px',
+			height: '22px',
+			backgroundColor: backgroundColor(theme),
+			outline: 0,
+			flexShrink: 0,
+			margin: 'auto',
+			cursor: (isDisabled || isLoading) ? 'auto' : 'pointer',
 
-		transition: 'boxShadow 0.15s ease-in-out, background-color 0.15s ease-in-out',
+			transition: 'boxShadow 0.15s ease-in-out, background-color 0.15s ease-in-out',
 
-		'&:before': {
-			position: 'absolute',
-			content: '""',
-			height: '18px',
-			width: '18px',
-			left: '2px',
-			bottom: '2px',
-			backgroundColor: isDisabled ? theme.color.grayLighter : theme.color.white,
-			transition: 'transform 0.15s',
-			borderRadius: '50px',
-			transform: transform(),
+			'&:before': {
+				position: 'absolute',
+				content: '""',
+				height: '18px',
+				width: '18px',
+				left: '2px',
+				bottom: '2px',
+				backgroundColor: isDisabled ? theme.color.grayLighter : theme.color.white,
+				transition: 'transform 0.15s',
+				borderRadius: '50px',
+				transform: transform(),
+			},
 		},
-	})
+		isFocusVisible && {
+			outline: `${theme.color.focusOutline} solid 2px`,
+			outlineOffset: '2px',
+		},
+	])
 
 	if (onClick) {
 		return (
 			<button
 				aria-label={label}
+				aria-pressed={isChecked}
 				type='button'
 				onClick={(event) => {
 					if (isDisabled || isLoading) return undefined

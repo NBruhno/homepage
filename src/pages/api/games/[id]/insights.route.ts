@@ -2,6 +2,8 @@ import type { VGInsightsGame, VGInsightsHistory, VGInsightsStats } from 'types/v
 
 import { create, object, string } from 'superstruct'
 
+import { config } from 'config.server'
+
 import { apiHandler } from 'lib/api'
 import type { statusCodes } from 'lib/errors'
 import { ApiError } from 'lib/errors'
@@ -15,11 +17,17 @@ const Query = object({
 export default apiHandler({
 	validMethods: ['GET'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/insights`,
+	cacheStrategy: 'StaleWhileRevalidate',
+	cacheDuration: 240,
 })
 	.get(async (req, res) => {
 		const { 'steam-app-id': appId } = create(req.query, Query)
+
 		const insights = await monitorAsync(() => fetch(`https://vginsights.com/api/v1/game/${appId}`, {
 			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${config.vgInsights.token}`,
+			},
 		}), 'http:vginsights', 'game insights').then(async (response) => {
 			if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
 			const game = await response.json() as VGInsightsGame
@@ -31,19 +39,30 @@ export default apiHandler({
 		})
 
 		if (insights.rating && insights.unitsSold) {
-			const [playerHistory, stats] = await Promise.all([
+			const [history, stats] = await Promise.all([
 				monitorAsync(() => fetch(`https://vginsights.com/api/v1/game/${appId}/history`, {
 					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${config.vgInsights.token}`,
+					},
 				}), 'http:vginsights', 'game player history').then(async (response) => {
 					if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
 					const history = await response.json() as VGInsightsHistory
-					return history.map(({ date, players_avg: playersOnAverage }) => ({
+					return history.map(({ date, players_avg: playersOnAverage, units: unitsSoldTotal, units_increase: unitsSold, members: followers, reviews, rating }) => ({
 						date,
 						playersOnAverage,
+						unitsSold,
+						unitsSoldTotal,
+						followers,
+						reviews,
+						rating,
 					}))
 				}),
 				monitorAsync(() => fetch(`https://vginsights.com/api/v1/game/${appId}/quick-stats`, {
 					method: 'GET',
+					headers: {
+						Authorization: `Bearer ${config.vgInsights.token}`,
+					},
 				}), 'http:vginsights', 'game stats').then(async (response) => {
 					if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
 					const quickStats = await response.json() as VGInsightsStats
@@ -60,7 +79,7 @@ export default apiHandler({
 			return res.status(200).json({
 				...insights,
 				...stats,
-				playerHistory,
+				history,
 			})
 		}
 
@@ -71,6 +90,6 @@ export default apiHandler({
 			peakLast24Hours: null,
 			currentlyPlaying: null,
 			minutesSinceUpdate: null,
-			playerHistory: [],
+			history: [],
 		})
 	})

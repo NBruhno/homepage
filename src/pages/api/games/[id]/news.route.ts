@@ -28,6 +28,8 @@ const Query = object({
 export default apiHandler({
 	validMethods: ['GET'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/news`,
+	cacheStrategy: 'Default',
+	cacheDuration: 60,
 })
 	.get(async (req, res) => {
 		const { 'steam-app-id': appId, take = 5 } = create(req.query, Query)

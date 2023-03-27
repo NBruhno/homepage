@@ -19,7 +19,7 @@ export const Background = ({ src, imageProps, ...rest }: Props) => {
 				height: 'calc(100% + 500px)',
 				maxHeight: '100vh',
 				filter: 'blur(6px) brightness(0.8)',
-				background: [theme.color.inputBackgroundHover, `linear-gradient(134deg, ${theme.color.inputBorder} 0%, ${theme.color.inputBackgroundHover} 63%, ${theme.color.inputBackground} 100%)`],
+				background: [theme.color.input.backgroundHover, `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`],
 				objectFit: 'cover',
 				objectPosition: 'center',
 				margin: '-15px',

@@ -52,6 +52,8 @@ const steamReviewMapper = (reviews: SteamReviews, shouldIncludeReviews = false) 
 export default apiHandler({
 	validMethods: ['GET'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/reviews`,
+	cacheStrategy: 'StaleWhileRevalidate',
+	cacheDuration: 240,
 })
 	.get(async (req, res) => {
 		const { 'steam-app-id': appId } = create(req.query, Query)

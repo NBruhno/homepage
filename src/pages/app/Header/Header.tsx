@@ -12,7 +12,7 @@ export const Header = (props: ComponentPropsWithoutRef<'header'>) => {
 			css={(theme) => ({
 				alignItems: 'center',
 				backdropFilter: 'saturate(150%) blur(5px)',
-				backgroundColor: theme.isDarkTheme ? theme.color.inputBackgroundHover : theme.color.sidebarBackground,
+				backgroundColor: theme.isDarkTheme ? theme.color.input.backgroundHover : theme.color.sidebarBackground,
 				boxShadow: !theme.isDarkTheme && scrollY > 10 ? '0 2px 8px rgba(0, 0, 0, 0.15)' : 'none',
 				display: 'flex',
 				height: '30px',
@@ -24,7 +24,7 @@ export const Header = (props: ComponentPropsWithoutRef<'header'>) => {
 
 				'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
 					backdropFilter: 'saturate(150%) blur(5px)',
-					backgroundColor: adjustHsl(theme.isDarkTheme ? theme.color.inputBackgroundHover : theme.color.sidebarBackground, { alpha: 0.9 }),
+					backgroundColor: adjustHsl(theme.isDarkTheme ? theme.color.input.backgroundHover : theme.color.sidebarBackground, { alpha: 0.9 }),
 				},
 
 				[theme.mediaQueries.minMobile]: {
