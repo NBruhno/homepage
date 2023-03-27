@@ -74,8 +74,40 @@ export const mediaQueries = Object.freeze({
 	minDesktopLarge: `@media only screen and (min-width: ${screenSizes.desktopLarge}px)`,
 } as const)
 
+const colors = {
+	primary: 'hsl(21, 80%, 51%)',
+	grayLightest: 'hsl(0, 0%, 98%)',
+	grayLight: 'hsl(0, 0%, 80%)',
+	grayDark: 'hsl(215, 15%, 18%)',
+	grayDarkest: 'hsl(214, 28%, 7%)',
+
+	white: 'hsl(0, 0%, 100%)',
+	black: 'hsl(0,  0%, 0%)',
+
+	accentRedDark: 'hsl(0, 65%, 50%)',
+	accentRed: 'hsl(0, 80%, 51%)',
+}
+
 export const theme = (isDarkTheme = true) => Object.freeze({
 	color: {
+		focusOutline: 'hsl(230, 80%, 65%)',
+
+		input: {
+			focus: colors.primary,
+			border: isDarkTheme ? colors.grayDark : colors.grayLight,
+			borderHover: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(0, 0%, 70%)',
+			borderError: isDarkTheme ? colors.accentRedDark : colors.accentRed,
+			background: isDarkTheme ? colors.grayDarkest : colors.grayLightest,
+			backgroundHover: isDarkTheme ? 'hsl(214, 28%, 7%)' : 'hsl(0, 0%, 100%)',
+			backgroundError: isDarkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
+			backgroundErrorHover: isDarkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
+			errorBackgroundHover: isDarkTheme ? 'hsl(0, 65%, 20%)' : 'hsl(0, 80%, 85%)',
+		},
+
+		button: {
+			backgroundToggle: 'hsl(215, 28%, 50%)',
+		},
+
 		primary: 'hsl(21, 80%, 51%)',
 		primaryLight: 'hsl(21, 80%, 56%)',
 		primaryLighter: 'hsl(21, 80%, 61%)',
@@ -113,10 +145,6 @@ export const theme = (isDarkTheme = true) => Object.freeze({
 
 		sidebarBackground: isDarkTheme ? 'hsl(215, 21%, 11%)' : 'hsl(210, 12%, 16%)',
 		sidebarBorder: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(215, 15%, 25%)',
-		inputBackground: isDarkTheme ? 'hsl(214, 28%, 5%)' : 'hsl(0, 0%, 98%)',
-		inputBackgroundHover: isDarkTheme ? 'hsl(214, 28%, 7%)' : 'hsl(0, 0%, 100%)',
-		inputBorder: isDarkTheme ? 'hsl(215, 15%, 18%)' : 'hsl(0, 0%, 80%)',
-		inputBorderHover: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(0, 0%, 70%)',
 	},
 	font: {
 		size: {

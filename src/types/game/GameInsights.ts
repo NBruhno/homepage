@@ -1,3 +1,5 @@
+import type { GameHistory } from './GameHistory'
+
 export type GameInsights = {
 	rating: number | null,
 	unitsSold: number | null,
@@ -7,8 +9,5 @@ export type GameInsights = {
 	peakLast24Hours: number | null,
 	currentlyPlaying: number | null,
 	minutesSinceUpdate: number | null,
-	playerHistory: Array<{
-		date: string,
-		playersOnAverage: number,
-	}>,
+	history: Array<GameHistory>,
 }

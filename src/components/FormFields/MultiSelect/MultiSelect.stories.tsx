@@ -14,7 +14,6 @@ export default {
 const options = Array.from({ length: 100 }).map((_, index) => ({
 	label: `Option ${index + 1}`,
 	value: index + 1,
-	isDisabled: index % 7 === 0,
 }))
 
 type DefaultProps = Story<Omit<ComponentProps<typeof MultiSelect>, 'options'> & { onSubmit: (value: any) => void }>

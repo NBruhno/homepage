@@ -49,7 +49,7 @@ export const handleKeyboardInput = (event: KeyboardEvent<HTMLInputElement>, {
 			case 'Enter': {
 				// Enter should always submit the highlighted option in the menu, as long as there is anything to submit
 				event.preventDefault()
-				if (highlightedChipIndex === -1 && filteredOptions.length > 0 && !filteredOptions[highlightedOptionIndex === -1 ? 0 : highlightedOptionIndex].isDisabled) {
+				if (highlightedChipIndex === -1 && filteredOptions.length > 0) {
 					onAddChip(filteredOptions[highlightedOptionIndex === -1 ? 0 : highlightedOptionIndex])
 					inputRef.current?.select()
 				}

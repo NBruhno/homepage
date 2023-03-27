@@ -55,7 +55,7 @@ export const SelectMenu = forwardRef<HTMLDivElement, Props>(({
 	return (
 		<div
 			css={(theme) => ({
-				background: theme.color.inputBackground,
+				background: theme.color.input.background,
 				position: 'absolute',
 				zIndex: 4,
 				borderRadius: '4px',
@@ -93,14 +93,13 @@ export const SelectMenu = forwardRef<HTMLDivElement, Props>(({
 				<Empty>Nothing matches your search</Empty>
 			) : options.slice(0, maxNumberOfOptionsVisible).map((item, index: number) => (
 				<Item
-					{...getItemProps({ key: `${item.label}-${index}`, index, item, onClick: (onSelectOption && !item.isDisabled) ? () => onSelectOption(item) : undefined }) as Record<string, unknown>}
+					{...getItemProps({ key: `${item.label}-${index}`, index, item, onClick: onSelectOption ? () => onSelectOption(item) : undefined }) as Record<string, unknown>}
 					isHighlighted={highlightedOptionIndex === index}
 					isSelected={selectedItems.some((selectedItem) => isEqual(selectedItem, item))}
-					isDisabled={item.isDisabled ?? false}
 					key={index}
 				>
 					<div style={{ width: '100%' }}>{item.label}</div>
-					<CheckMark isChecked={selectedItems.some((selectedItem) => isEqual(selectedItem, item))} isDisabled={item.isDisabled ?? false} />
+					<CheckMark isChecked={selectedItems.some((selectedItem) => isEqual(selectedItem, item))} />
 				</Item>
 			))}
 		</div>

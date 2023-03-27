@@ -6,6 +6,7 @@ export const Wrapper = (props: ComponentPropsWithoutRef<'div'>) => (
 			display: 'flex',
 			borderRadius: '4px',
 			marginRight: '-1px',
+			marginBottom: '18px',
 		}}
 		{...props}
 	/>

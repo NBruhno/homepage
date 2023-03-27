@@ -28,6 +28,10 @@ export const config = Object.freeze({
 		apiKey: process.env.STEAM_API_KEY as string,
 	},
 
+	vgInsights: {
+		token: process.env.VGINSIGHTS_TOKEN as string,
+	},
+
 	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV as Environment,
 	staticHost: process.env.STATIC_HOST as string,
 	smartHomeHost: process.env.SMART_HOME_HOST as string,

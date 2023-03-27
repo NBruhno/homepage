@@ -30,7 +30,7 @@ const Component = ({ isLoading, ...rest }: Props, ref: Ref<HTMLAnchorElement>) =
 			'&:hover': {
 				border: `1px solid ${theme.color.primaryLighter}`,
 				// backgroundColor: theme.color.backgroundHover,
-				background: [theme.color.inputBackgroundHover, `linear-gradient(134deg, ${theme.color.inputBorder} 0%, ${theme.color.inputBackgroundHover} 63%, ${theme.color.inputBackground} 100%)`],
+				background: [theme.color.input.backgroundHover, `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`],
 				boxShadow: `${theme.isDarkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
 			},
 

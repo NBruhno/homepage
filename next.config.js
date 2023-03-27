@@ -46,7 +46,6 @@ const securityHeaders = [
 
 const GIT_COMMIT_MESSAGE = process.env.VERCEL_GIT_COMMIT_MESSAGE
 const sentryConfig = {
-	hideSourceMaps: false,
 	silent: process.env.VERCEL_ENV === 'development',
 	deploy: process.env.VERCEL_ENV !== 'development' ? ({
 		env: process.env.VERCEL_ENV,
@@ -62,7 +61,7 @@ const nextConfig = {
 	experimental: {
 		// fallbackNodePolyfills: false,
 		esmExternals: true,
-		// Some files are included in the Nexts tracing which is incorrect and the files are huge, so we are excluding
+		// Some files are included in the Next tracing which is incorrect and the files are huge, so we are excluding
 		// them to make sure we don't hit the size limit for our lambda functions
 		outputFileTracingExcludes: {
 			'*': [
@@ -84,6 +83,10 @@ const nextConfig = {
 				pathname: '/igdb/image/upload/**',
 			},
 		],
+	},
+
+	sentry: {
+		hideSourceMaps: false,
 	},
 
 	eslint: {
@@ -133,7 +136,7 @@ const nextConfig = {
 	webpack: (config) => {
 		config.plugins.push(
 			// Modifies lodash to reduce bundle size by replacing some features with simpler alternatives
-			new LodashModuleReplacementPlugin(),
+			new LodashModuleReplacementPlugin({ shorthands: true }),
 		)
 
 		return config

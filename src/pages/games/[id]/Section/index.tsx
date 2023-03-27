@@ -19,7 +19,7 @@ export const Section = ({ title, content, titlePlaceholderWidth = '50%', content
 
 	return (
 		<section>
-			<h2 {...rest}>
+			<h2 css={{ marginTop: 0 }} {...rest}>
 				<Placeholder width={titlePlaceholderWidth}>
 					{title}
 				</Placeholder>

@@ -128,7 +128,7 @@ export const FormLogin = () => {
 					render={({ name }) => (
 						<>
 							<Input label='One time password' name={name('otp')} isRequired autoComplete='otp' />
-							<ButtonSolid label='Verify code' type='submit' isFullWidth />
+							<ButtonSolid label='Verify code' type='submit' />
 						</>
 					)}
 				/>
@@ -138,7 +138,7 @@ export const FormLogin = () => {
 			<div>
 				<Title>You are already logged in</Title>
 				<Subtitle />
-				<ButtonSolid label='Logout' onClick={async () => { await onLogout() }} isFullWidth />
+				<ButtonSolid label='Logout' onClick={async () => { await onLogout() }} />
 			</div>
 		)
 		default: return null

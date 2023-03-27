@@ -29,8 +29,6 @@ export type SelectOption = {
 	label: string,
 	/** The value of the option. This is the value that will be reflected in the submission and attached to the `name` of the field. */
 	value: boolean | number | string,
-	/** Defaults to `false`. This will disable all interaction with the option. */
-	isDisabled?: boolean,
 }
 
 export type CommonSelectProps<Path> = CommonInputProps<Path> & {

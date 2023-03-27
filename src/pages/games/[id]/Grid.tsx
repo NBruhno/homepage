@@ -49,7 +49,8 @@ export const Grid = (props: ComponentPropsWithoutRef<'article'>) => (
 					"actions actions actions" auto
 					"priceTable priceTable priceTable" auto
 					"ratings ratings ratings" auto
-					"content content info" 1fr
+					"content content content" auto
+					"info info info" auto
 					"similarGames similarGames similarGames" auto
 					/ 153px 1fr minmax(auto, 200px)
 				`,

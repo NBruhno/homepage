@@ -1,7 +1,8 @@
 import type { Interpolation } from '@emotion/react'
-import type { ReactNode, MouseEvent, ComponentPropsWithoutRef } from 'react'
 import type { Promisable } from 'type-fest'
 
+import { useFocusRing } from '@react-aria/focus'
+import { type ReactNode, type MouseEvent, type ComponentPropsWithoutRef } from 'react'
 import { forwardRef, useState } from 'react'
 
 import { delay } from 'lib/delay'
@@ -11,7 +12,6 @@ import { SubmitWrapper } from './SubmitWrapper'
 
 export type Props = Omit<ComponentPropsWithoutRef<'button'>, 'disabled' | 'onClick' | 'type'> & {
 	isDisabled?: boolean,
-	isFullWidth?: boolean,
 	isLoading?: boolean,
 	isLoadingManual?: boolean,
 	label: ReactNode,
@@ -35,11 +35,11 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 	minDelay = 0,
 	onClick,
 	type = 'button',
-	isFullWidth = false,
 	labelCss,
 	...rest
 }, ref) => {
 	const [isLoadingInternal, setInternalLoading] = useState(false)
+	const { isFocusVisible, focusProps } = useFocusRing()
 
 	const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
 		event.stopPropagation()
@@ -60,9 +60,10 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 	const defaultProps = {
 		showPlaceholder: isLoading,
 		label,
-		isFullWidth,
 		isDisabled,
 		ref,
+		isFocusVisible,
+		...focusProps,
 		...rest,
 	}
 
@@ -72,9 +73,10 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 				render={({ isSubmitting }) => (
 					<ButtonLoading
 						isLoading={isSubmitting || isLoadingManual || isLoadingInternal}
-						type='submit'
 						labelCss={labelCss}
 						{...defaultProps}
+						onClick={undefined}
+						type='submit'
 					/>
 				)}
 			/>

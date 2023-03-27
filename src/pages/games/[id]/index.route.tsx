@@ -29,6 +29,7 @@ import { BackgroundWrapper } from './Header/BackgroundWrapper'
 import { Developer } from './Header/Developer'
 import { ReleaseDate } from './Header/ReleaseDate'
 import { Title } from './Header/Title'
+import { History } from './History'
 import { InfoBox } from './InfoBox'
 import { News } from './News'
 import { PriceTable } from './PriceTable'
@@ -115,7 +116,7 @@ export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
 
 const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ game: incomingGame }) => {
 	const { query } = useRouter()
-	const { game, prices, news, reviews, isFollowing, isInSteamLibrary, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined })
+	const { game, prices, news, reviews, insights, isFollowing, isInSteamLibrary, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined })
 	const accessToken = useUser((state) => state.accessToken)
 	const { isMobile } = useResponsive()
 	const { isLoading } = useLoading()
@@ -204,17 +205,25 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 						createdAt={game?.createdAt}
 						lastCheckedAt={game?.lastCheckedAt ?? null}
 						updatedAt={game?.updatedAt}
+						revenue={insights?.revenue ?? undefined}
+						unitsSold={insights?.unitsSold ?? undefined}
 					/>
 				</GridContainer>
-				<GridContainer name='content'>
-					<Section title='Summary' content={game?.summary} titlePlaceholderWidth='30%' css={{ marginTop: '12px' }} />
-					<Section title='Storyline' content={game?.storyline} titlePlaceholderWidth='35%' />
+				<GridContainer name='content' css={{ display: 'flex', flexDirection: 'column', rowGap: '24px', marginTop: '12px' }}>
+					<Section title='Summary' content={game?.summary} titlePlaceholderWidth='30%' />
+					<Section
+						title='History'
+						content={insights && insights.history.length > 0 ? <History history={insights.history} /> : null}
+						contentType='other'
+						titlePlaceholderWidth='45%'
+					/>
 					<Section
 						title='Videos'
 						content={(game?.videos.length !== 0) ? <VideoTabs videos={game?.videos} /> : null}
 						contentType='other'
 						titlePlaceholderWidth='25%'
 					/>
+					<Section title='Storyline' content={game?.storyline} titlePlaceholderWidth='35%' />
 					<Section
 						title='Latest news'
 						content={<News news={news} />}

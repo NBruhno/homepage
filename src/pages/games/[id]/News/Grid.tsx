@@ -8,7 +8,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
 			columnGap: '8px',
 			rowGap: '24px',
 
-			[theme.mediaQueries.maxTablet]: {
+			[theme.mediaQueries.maxDesktop]: {
 				gridTemplateColumns: '1fr',
 			},
 		})}
