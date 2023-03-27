@@ -8,9 +8,10 @@ type Options = {
 	inputEncoding?: Encoding,
 }
 
-const encryptAes256gcm = (payload: string, secret: string | undefined, { iv, outputEncoding = 'base64', inputEncoding = 'utf8' }: Options) => {
+export const encryptAes256gcm = (payload: string, secret: string | undefined, { iv, outputEncoding = 'base64', inputEncoding = 'utf8' }: Options) => {
 	if (!secret) throw new Error('Missing secret for encryption')
 	if (!payload) throw new Error('Missing payload to encrypt')
+
 	let ivBuffer: Buffer
 	if (iv) ivBuffer = Buffer.from(iv)
 	else ivBuffer = randomBytes(12)
@@ -23,7 +24,7 @@ const encryptAes256gcm = (payload: string, secret: string | undefined, { iv, out
 	else return `${ivBuffer.toString(outputEncoding)}:${cipher.getAuthTag().toString(outputEncoding)}:${encryptedContent}`
 }
 
-const decryptAes256gcm = (payload: string, secret: string | undefined, { iv, outputEncoding = 'utf8', inputEncoding = 'base64' }: Options) => {
+export const decryptAes256gcm = (payload: string, secret: string | undefined, { iv, outputEncoding = 'utf8', inputEncoding = 'base64' }: Options) => {
 	if (!secret) throw new Error('Missing secret for decryption')
 	if (!payload) throw new Error('Missing payload to decrypt')
 
@@ -45,8 +46,3 @@ const decryptAes256gcm = (payload: string, secret: string | undefined, { iv, out
 		return decrypt(Buffer.from(includedIv, inputEncoding), authTag, encryptedContent)
 	}
 }
-
-export const encrypt = (payload: string) => encryptAes256gcm(payload, process.env.AUTH_SECRET, {})
-export const decrypt = (payload: string): string => decryptAes256gcm(payload, process.env.AUTH_SECRET, {})
-export const encryptConfig = (payload: string) => encryptAes256gcm(payload, process.env.AUTH_SECRET, { iv: process.env.AUTH_IV })
-export const decryptConfig = (payload: string) => decryptAes256gcm(payload, process.env.AUTH_SECRET, { iv: process.env.AUTH_IV })

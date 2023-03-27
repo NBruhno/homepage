@@ -33,8 +33,8 @@ const verifyVariable = (value, isDeployOnly = false) => {
 
 console.log(`Current environment:${new Array(characterSpacing - 18).join(' ')}${VERCEL_ENV ? VERCEL_ENV.charAt(0).toUpperCase() + VERCEL_ENV.slice(1) : 'Undefined'}`)
 verifyVariable('ACCESS_CODE')
-verifyVariable('AUTH_IV')
-verifyVariable('AUTH_SECRET')
+verifyVariable('AUTH_PRIVATE_KEY')
+verifyVariable('AUTH_PUBLIC_KEY')
 verifyVariable('AUTH_SYSTEM_TOKEN')
 verifyVariable('IGDB_TOKEN')
 verifyVariable('ITAD_TOKEN')
