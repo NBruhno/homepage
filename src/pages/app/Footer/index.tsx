@@ -47,14 +47,14 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 			</Tooltip>
 			<Tooltip tip='Cookies'>
 				<ListItem>
-					<Link isTransparent={isTransparent} href='/cookies' shouldOpenInNewTab={false} aria-label='Cookies'>
+					<Link isInternal isTransparent={isTransparent} href='/cookies' shouldOpenInNewTab={false} aria-label='Cookies'>
 						<IconCookie size={22} />
 					</Link>
 				</ListItem>
 			</Tooltip>
 			<Tooltip tip='Privacy Policy'>
 				<ListItem>
-					<Link isTransparent={isTransparent} href='/privacy-policy' shouldOpenInNewTab={false} aria-label='Cookies'>
+					<Link isInternal isTransparent={isTransparent} href='/privacy-policy' shouldOpenInNewTab={false} aria-label='Privacy policy'>
 						<IconSpy size={22} />
 					</Link>
 				</ListItem>

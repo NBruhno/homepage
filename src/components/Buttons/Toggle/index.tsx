@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 
+import { delay } from 'lib/delay'
+
 import { ButtonAsync } from '../Async'
 
 type Option<T> = {
@@ -19,21 +21,27 @@ export const ButtonToggle = <T extends number | string>({ options, label, initia
 	const buttons = useRef<Array<HTMLButtonElement | null>>([])
 	const [selectedIndex, setSelectedIndex] = useState<number>(options.findIndex(({ value }) => value === initialValue))
 	const [hoveredButton, setHoveredButton] = useState<HTMLButtonElement | null>(buttons.current[selectedIndex])
+	const [shouldTransition, setShouldTransition] = useState(false)
 	const selectedValue = options[selectedIndex]?.value ?? initialValue
 
 	useEffect(() => {
 		onValueChange(selectedValue)
 	}, [selectedIndex, selectedValue, onValueChange])
 
-	const listener = useCallback(() => {
+	const getButtonToHighlight = useCallback(async () => {
 		const currentHoveredButton = buttons.current.find((element) => element?.matches(':hover')) ?? buttons.current[selectedIndex]
-		if (hoveredButton !== currentHoveredButton) setHoveredButton(currentHoveredButton)
+		if (hoveredButton !== currentHoveredButton) {
+			setHoveredButton(currentHoveredButton)
+			await delay(0.2)
+			setShouldTransition(true)
+		}
 	}, [buttons, hoveredButton, selectedIndex])
 
 	useEffect(() => {
-		document.addEventListener('mousemove', listener)
-		return () => document.removeEventListener('mousemove', listener)
-	}, [listener, hoveredButton])
+		document.addEventListener('mousemove', getButtonToHighlight)
+		void getButtonToHighlight()
+		return () => document.removeEventListener('mousemove', getButtonToHighlight)
+	}, [getButtonToHighlight, hoveredButton])
 
 	return (
 		<>
@@ -57,8 +65,13 @@ export const ButtonToggle = <T extends number | string>({ options, label, initia
 						top: '2px',
 						bottom: '2px',
 						borderRadius: '4px',
-						transition: `width 135ms ${theme.animation.default}, transform 135ms ${theme.animation.default}, opacity 135ms ${theme.animation.default}`,
+						transition: `width ${theme.animation.default}, transform ${theme.animation.default}, opacity ${theme.animation.default}, background-color ${theme.animation.default}`,
+						transitionDuration: shouldTransition ? '135ms' : '0s',
 						pointerEvents: 'none',
+
+						'&:has(+ div > button:active:not(:focus-visible))': {
+							backgroundColor: theme.color.primary,
+						},
 					})}
 					style={{
 						width: `calc(${hoveredButton?.getBoundingClientRect().width ?? 0}px - 2px)`,

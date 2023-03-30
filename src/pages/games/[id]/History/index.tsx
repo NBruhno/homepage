@@ -26,7 +26,7 @@ type Props = {
 
 export const History = ({ history }: Props) => {
 	const [daysToShow, setDaysToShow] = useState(31)
-	const [dataToShow, setDataToShow] = useState<'playersOnAverage' | 'rating' | 'reviews' | 'unitsSold' | 'unitsSoldTotal'>('playersOnAverage')
+	const [dataToShow, setDataToShow] = useState<'playersOnAverage' | 'rating' | 'reviews' | 'unitsSold'>('playersOnAverage')
 	const numberFormat = Intl.NumberFormat('en-DK', { notation: 'compact' })
 	const theme = useTheme()
 	const { isMobile } = useResponsive()
@@ -52,11 +52,6 @@ export const History = ({ history }: Props) => {
 				color: theme.color.success,
 				data: dataSet.map(({ date, unitsSold }) => ({ x: date, y: unitsSold })),
 			} : undefined,
-			dataToShow === 'unitsSoldTotal' ? {
-				id: 'Units sold total',
-				color: theme.color.success,
-				data: dataSet.map(({ date, unitsSoldTotal }) => ({ x: date, y: unitsSoldTotal })),
-			} : undefined,
 			dataToShow === 'reviews' ? {
 				id: 'Reviews',
 				color: theme.color.success,
@@ -79,7 +74,6 @@ export const History = ({ history }: Props) => {
 						options={[
 							{ label: 'Players', value: 'playersOnAverage' },
 							{ label: 'Units sold', value: 'unitsSold' },
-							{ label: 'Units sold in total', value: 'unitsSoldTotal' },
 							{ label: 'Reviews', value: 'reviews' },
 							{ label: 'Rating', value: 'rating' },
 						]}
