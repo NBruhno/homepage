@@ -53,7 +53,7 @@ export const Rating = ({ rating, ratingCount, steamReviews }: Props) => {
 							<Indicator rating={Math.floor((steamReviews.recent.totalPositive / steamReviews.recent.total) * 100)} />
 							<div css={{ marginTop: '2px' }}>
 								<Title>Recent</Title>
-								{steamReviews.recent.total ? <span>{Math.floor((steamReviews.recent.totalPositive / steamReviews.recent.total) * 100)}%</span> : <span>No recent reviews</span>}
+								{steamReviews.recent.total ? <span>{Math.floor((steamReviews.recent.totalPositive / steamReviews.recent.total) * 100)}%</span> : <span>None</span>}
 							</div>
 						</SteamItem>
 						<SteamItem href={steamReviews.url}>
