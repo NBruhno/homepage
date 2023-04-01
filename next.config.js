@@ -114,6 +114,13 @@ const nextConfig = {
 	outputFileTracing: true,
 	poweredByHeader: false,
 
+	modularizeImports: {
+		lodash: {
+			transform: 'lodash/{{member}}',
+			preventFullImport: true,
+		},
+	},
+
 	async rewrites() {
 		// Ensures our service-worker is reachable from the build folder
 		// This is not build by Next so it is not part of the router
@@ -144,9 +151,14 @@ const nextConfig = {
 			new LodashModuleReplacementPlugin({ shorthands: true }),
 		)
 
+		config.experiments = {
+			...config.experiments,
+			topLevelAwait: true,
+		}
+
 		return config
 	},
 	basePath,
 }
 
-module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), sentryConfig)))
+module.exports = withBundleAnalyzer(withPwa(withPlaiceholder(withSentryConfig(nextConfig, sentryConfig))))

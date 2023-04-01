@@ -1,6 +1,6 @@
 import type { Span } from '@sentry/types'
 
-import pickBy from 'lodash/pickBy'
+import { pickBy } from 'lodash'
 import { fetch, setGlobalDispatcher, Agent } from 'undici'
 
 import { config } from 'config.server'

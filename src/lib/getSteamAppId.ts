@@ -1,7 +1,7 @@
 import type { GameWebsite } from 'types'
 import { GameWebsiteType } from 'types'
 
-import isNaN from 'lodash/isNaN'
+import { isNaN } from 'lodash'
 
 export const getSteamAppId = (websites: Array<GameWebsite> | null | undefined) => {
 	if (!websites) return null

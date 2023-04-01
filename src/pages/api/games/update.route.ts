@@ -1,9 +1,5 @@
 import { compareAsc, getUnixTime, isAfter, sub } from 'date-fns'
-import chunk from 'lodash/chunk'
-import differenceBy from 'lodash/differenceBy'
-import differenceWith from 'lodash/differenceWith'
-import intersectionBy from 'lodash/intersectionBy'
-import partition from 'lodash/partition'
+import { chunk, differenceBy, differenceWith, intersectionBy, partition } from 'lodash'
 import { array, create, object, optional, coerce, number, pattern, string, assign, enums, literal } from 'superstruct'
 
 import { config } from 'config.server'

@@ -13,7 +13,7 @@ export const noMatchHandler = (methods: Array<'DELETE' | 'GET' | 'METHOD' | 'PAT
 		updateTransaction({ status: apiError.statusCode })
 		res.status(apiError.statusCode).json({ message: apiError.message })
 	} else {
-		const apiError = ApiError.fromCodeWithCause(405, new Error(`No valid route with the given method found. Expected one of [${methods.join(', ')}] but received "${req.method ?? 'UNSPECIFIED'}"`))
+		const apiError = ApiError.fromCodeWithCause(405, new Error(`Method not allowed. Expected one of [${methods.join(', ')}] but received "${req.method ?? 'UNSPECIFIED'}"`))
 		updateTransaction({ status: apiError.statusCode })
 		res.setHeader('Allow', methods)
 		res.status(apiError.statusCode).json({ message: apiError.message })

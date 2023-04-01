@@ -2,7 +2,7 @@ import type { SelectOption } from '../../CommonProps'
 import type { UseComboboxGetItemPropsOptions } from 'downshift'
 import type { ComponentPropsWithRef, RefObject } from 'react'
 
-import isEqual from 'lodash/isEqual'
+import { isEqual } from 'lodash'
 import { useMemo, forwardRef } from 'react'
 
 import { useScrollStore } from 'states/page'

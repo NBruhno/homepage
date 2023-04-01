@@ -1,8 +1,8 @@
-import * as Sentry from '@sentry/nextjs'
+import { getCurrentHub, init } from '@sentry/nextjs'
 
 const SENTRY_DSN = process.env.SENTRY_DSN ?? process.env.NEXT_PUBLIC_SENTRY_DSN
 
-Sentry.init({
+init({
 	dsn: SENTRY_DSN as string,
 	tracesSampler: (context) => {
 		if (context.parentSampled) return true
@@ -13,3 +13,8 @@ Sentry.init({
 	replaysOnErrorSampleRate: 1.0,
 	environment: process.env.VERCEL_ENV as string,
 })
+
+const { Replay } = await import('@sentry/nextjs')
+
+// @ts-expect-error Nothing to worry about
+getCurrentHub().getClient()?.addIntegration(new Replay())

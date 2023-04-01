@@ -1,6 +1,6 @@
 import type { Game } from 'types'
 
-import toLower from 'lodash/toLower'
+import { toLower } from 'lodash'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import useSWR from 'swr'

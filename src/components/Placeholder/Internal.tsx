@@ -1,4 +1,4 @@
-import times from 'lodash/times'
+import { times } from 'lodash'
 
 import { Fill } from './Fill'
 import { Line } from './Line'

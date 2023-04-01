@@ -5,9 +5,7 @@ import type { AnyStruct, StructSchema } from 'superstruct/dist/utils'
 import type { Promisable } from 'type-fest'
 
 import { superstructResolver } from '@hookform/resolvers/superstruct'
-import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
-import isEqual from 'lodash/isEqual'
+import { get, isEmpty, isEqual } from 'lodash'
 import { useEffect } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 
