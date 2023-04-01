@@ -151,9 +151,14 @@ const nextConfig = {
 			new LodashModuleReplacementPlugin({ shorthands: true }),
 		)
 
+		config.experiments = {
+			...config.experiments,
+			topLevelAwait: true,
+		}
+
 		return config
 	},
 	basePath,
 }
 
-module.exports = withBundleAnalyzer(withPwa(withSentryConfig(withPlaiceholder(nextConfig), sentryConfig)))
+module.exports = withBundleAnalyzer(withPwa(withPlaiceholder(withSentryConfig(nextConfig, sentryConfig))))

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
+import { captureException } from '@sentry/nextjs'
 import { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 import { StructError } from 'superstruct'
 
@@ -24,6 +25,7 @@ export const errorHandler = (error: Error, _req: NextApiRequest, res: NextApiRes
 	if (error instanceof ApiError) {
 		if (shouldLogWarnings) logger.warn(error)
 		updateTransaction({ status: error.statusCode })
+		captureException(error)
 		return res.status(error.statusCode).json({ message: error.message })
 	} else if (error instanceof StructError) {
 		const badRequestError = ApiError.fromCodeWithError(400, error)
@@ -35,12 +37,12 @@ export const errorHandler = (error: Error, _req: NextApiRequest, res: NextApiRes
 		if (shouldLogWarnings) logger.warn(unauthorizedError)
 		updateTransaction({ status: unauthorizedError.statusCode })
 		return res.status(unauthorizedError.statusCode).json({ message: unauthorizedError.message })
-	// } else if (false) {
-	// 	const notFoundError = ApiError.fromCodeWithError(404, error)
-	// 	return res.status(notFoundError.statusCode).json({ message: notFoundError.message })
-	// } else if (false) {
-	// 	const invalidMethodError = ApiError.fromCodeWithError(405, error)
-	// 	return res.status(invalidMethodError.statusCode).json({ message: invalidMethodError.message })
+		// } else if (false) {
+		// 	const notFoundError = ApiError.fromCodeWithError(404, error)
+		// 	return res.status(notFoundError.statusCode).json({ message: notFoundError.message })
+		// } else if (false) {
+		// 	const invalidMethodError = ApiError.fromCodeWithError(405, error)
+		// 	return res.status(invalidMethodError.statusCode).json({ message: invalidMethodError.message })
 	} else {
 		const unexpectedError = ApiError.fromCodeWithCause(500, error)
 		updateTransaction({ status: unexpectedError.statusCode })

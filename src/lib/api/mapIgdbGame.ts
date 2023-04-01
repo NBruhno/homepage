@@ -2,7 +2,7 @@ import type { IgdbGame, IgdbCompany, IgdbWebsite, IgdbMultiplayerMode } from 'ty
 import { GameWebsiteType, IgdbWebsiteCategory, IgdbStatus, IgdbCategory, GameStatus, GameCategory } from 'types'
 
 import { fromUnixTime } from 'date-fns'
-import sample from 'lodash/sample'
+import { sample } from 'lodash'
 
 export const igdbImageUrl = 'https://images.igdb.com/igdb/image/upload'
 
