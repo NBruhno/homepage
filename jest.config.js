@@ -6,9 +6,6 @@ const createConfig = nextJest({ dir: './' })
 
 const config = {
 	testRegex: TEST_REGEX,
-	transformIgnorePatterns: [
-		'<rootDir>/node_modules/(?!lodash-es)',
-	],
 	testEnvironment: 'jsdom',
 	testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/', '<rootDir>/public/'],
 	moduleFileExtensions: ['ts', 'js'],

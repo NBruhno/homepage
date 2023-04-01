@@ -114,6 +114,13 @@ const nextConfig = {
 	outputFileTracing: true,
 	poweredByHeader: false,
 
+	modularizeImports: {
+		lodash: {
+			transform: 'lodash/{{member}}',
+			preventFullImport: true,
+		},
+	},
+
 	async rewrites() {
 		// Ensures our service-worker is reachable from the build folder
 		// This is not build by Next so it is not part of the router

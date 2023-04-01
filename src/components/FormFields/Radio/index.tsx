@@ -1,6 +1,4 @@
-import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
-import isString from 'lodash/isString'
+import { get, isEmpty, isString } from 'lodash'
 import { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 

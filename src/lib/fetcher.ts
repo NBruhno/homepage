@@ -1,4 +1,4 @@
-import pickBy from 'lodash/pickBy'
+import { pickBy } from 'lodash'
 
 import { ApiError } from 'lib/errors'
 import type { statusCodes } from 'lib/errors'

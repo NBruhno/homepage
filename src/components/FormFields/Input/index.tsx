@@ -2,9 +2,7 @@ import type { FocusEvent, KeyboardEvent } from 'react'
 
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
-import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
-import isString from 'lodash/isString'
+import { get, isEmpty, isString } from 'lodash'
 import { useMemo, useRef, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 

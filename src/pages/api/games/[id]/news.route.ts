@@ -1,7 +1,7 @@
 import type { SteamNews } from 'types/steam'
 
 import { fromUnixTime } from 'date-fns'
-import partition from 'lodash/partition'
+import { partition } from 'lodash'
 import { create, object, string, coerce, optional, number, pattern } from 'superstruct'
 
 import { apiHandler } from 'lib/api'

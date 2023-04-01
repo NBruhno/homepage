@@ -1,6 +1,6 @@
 import { PerspectiveCamera } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import random from 'lodash/random'
+import { random } from 'lodash'
 import { Suspense, useMemo } from 'react'
 
 import { Dust } from './Dust'

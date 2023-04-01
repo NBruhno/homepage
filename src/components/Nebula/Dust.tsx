@@ -2,7 +2,7 @@ import type { Mesh } from 'three'
 
 import { useTexture } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
-import random from 'lodash/random'
+import { random } from 'lodash'
 import { useRef } from 'react'
 
 type DustProps = {
@@ -14,7 +14,7 @@ type DustProps = {
 
 export const Dust = ({ opacity, position, shouldAnimate = true, rotation }: DustProps) => {
 	const ref = useRef<Mesh>()
-	const texture = useTexture('./images/smoke.png')
+	const texture = useTexture('images/smoke.png')
 	useFrame(() => {
 		if (ref.current && shouldAnimate) {
 			ref.current.rotation.z -= random(0.6, 2) / 1000
