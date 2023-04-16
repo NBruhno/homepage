@@ -11,7 +11,6 @@ export const Empty = (props: ComponentPropsWithoutRef<'div'>) => (
 			opacity: 0.7,
 			border: `1px solid ${theme.color.border}`,
 			borderRadius: '4px',
-			maxWidth: '400px',
 			height: '86px',
 			display: 'flex',
 			alignItems: 'center',
