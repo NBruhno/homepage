@@ -116,7 +116,7 @@ export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
 
 const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ game: incomingGame }) => {
 	const { query } = useRouter()
-	const { game, prices, news, reviews, insights, isFollowing, isInSteamLibrary, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined })
+	const { game, prices, news, insights, isFollowing, isInSteamLibrary, onFollow, onUnfollow } = useGame({ id: query.id as string, initialGame: incomingGame ?? undefined })
 	const accessToken = useUser((state) => state.accessToken)
 	const { isMobile } = useResponsive()
 	const { isLoading } = useLoading()
@@ -180,11 +180,7 @@ const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ ga
 					<PriceTable prices={prices} />
 				</GridContainer>
 				<GridContainer name='ratings'>
-					<Rating
-						rating={game?.rating ?? null}
-						ratingCount={game?.ratingCount ?? null}
-						steamReviews={reviews?.steam ?? null}
-					/>
+					<Rating rating={game?.rating ?? null} ratingCount={game?.ratingCount ?? null} />
 				</GridContainer>
 				<GridContainer name='info'>
 					<InfoBox

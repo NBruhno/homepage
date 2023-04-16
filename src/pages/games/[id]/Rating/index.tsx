@@ -1,7 +1,6 @@
-import type { GameReviews } from 'types'
+import { useSteamReviews } from 'states/games'
 
-import { useLoading } from 'states/page'
-
+import { Placeholder } from 'components/Placeholder'
 import { Tooltip } from 'components/Tooltip'
 
 import { Container } from './Container'
@@ -14,12 +13,10 @@ import { Title } from './Title'
 type Props = {
 	rating: number | null,
 	ratingCount: number | null,
-	steamReviews: GameReviews['steam'] | null,
 }
 
-export const Rating = ({ rating, ratingCount, steamReviews }: Props) => {
-	const { isLoading } = useLoading()
-	if (isLoading) return null
+export const Rating = ({ rating, ratingCount }: Props) => {
+	const { reviews, isLoading, hasReviews } = useSteamReviews()
 
 	return (
 		<Container>
@@ -47,20 +44,24 @@ export const Rating = ({ rating, ratingCount, steamReviews }: Props) => {
 			</Tooltip>
 			<Item>
 				<Title>Steam reviews</Title>
-				{steamReviews && steamReviews.total.total > 0 ? (
+				{hasReviews ? (
 					<SteamContainer>
-						<SteamItem href={steamReviews.url}>
-							<Indicator rating={Math.floor((steamReviews.recent.totalPositive / steamReviews.recent.total) * 100)} />
+						<SteamItem href={isLoading ? '' : reviews.steam.url}>
+							<Indicator rating={isLoading ? null : Math.floor((reviews.steam.recent.totalPositive / reviews.steam.recent.total) * 100)} />
 							<div css={{ marginTop: '2px' }}>
 								<Title>Recent</Title>
-								{steamReviews.recent.total ? <span>{Math.floor((steamReviews.recent.totalPositive / steamReviews.recent.total) * 100)}%</span> : <span>None</span>}
+								<Placeholder isLoading={isLoading}>
+									{!isLoading && reviews.steam.recent.total ? <span>{Math.floor((reviews.steam.recent.totalPositive / reviews.steam.recent.total) * 100)}%</span> : <span>None</span>}
+								</Placeholder>
 							</div>
 						</SteamItem>
-						<SteamItem href={steamReviews.url}>
-							<Indicator rating={Math.floor((steamReviews.total.totalPositive / steamReviews.total.total) * 100)} />
+						<SteamItem href={isLoading ? '' : reviews.steam.url}>
+							<Indicator rating={isLoading ? null : Math.floor((reviews.steam.total.totalPositive / reviews.steam.total.total) * 100)} />
 							<div css={{ marginTop: '2px' }}>
 								<Title>Total</Title>
-								<span>{Math.floor((steamReviews.total.totalPositive / steamReviews.total.total) * 100)}%</span>
+								<Placeholder isLoading={isLoading}>
+									<span>{isLoading ? 0 : Math.floor((reviews.steam.total.totalPositive / reviews.steam.total.total) * 100)}%</span>
+								</Placeholder>
 							</div>
 						</SteamItem>
 					</SteamContainer>
