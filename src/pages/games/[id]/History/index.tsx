@@ -102,6 +102,7 @@ export const History = ({ history }: Props) => {
 					enablePoints={false}
 					enableArea
 					useMesh
+					animate={false}
 					margin={{ top: 16, right: 24, bottom: 24, left: 36 }}
 					xScale={{ type: 'time', format: '%Y-%m-%d', useUTC: false, precision: 'day' }}
 					xFormat={(date) => new Date(date).toLocaleString('en-DK', { month: 'long', day: 'numeric', year: 'numeric' })}
