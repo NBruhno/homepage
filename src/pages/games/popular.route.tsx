@@ -2,13 +2,12 @@ import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import type { GameSimple, GameSimpleExtended } from 'types'
 
 import { getPlaiceholder } from 'plaiceholder'
-import { useMemo, useState } from 'react'
-import { shallow } from 'zustand/shallow'
+import { useMemo } from 'react'
 
 import { config } from 'config.server'
 
-import { usePopularGamesStore } from 'states/games'
-import { useTitle } from 'states/page'
+import { usePopularGames } from 'states/games'
+import { useLoading, useTitle } from 'states/page'
 
 import { fetcher } from 'lib/fetcher'
 import { logger } from 'lib/logger'
@@ -54,14 +53,14 @@ export const getStaticProps: GetStaticProps<State> = async () => {
 	}
 }
 
-const Games: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ games }) => {
-	const { take, isLimitReached } = usePopularGamesStore((state) => state, shallow)
-	const [skips, setSkips] = useState([0])
+const Games: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ games: preloadedGames }) => {
+	const { games, isLoading, setSize, size, isLimitReached } = usePopularGames(preloadedGames ? { games: preloadedGames, before: null, after: null, skip: 0, take: 50 } : undefined)
 	useTitle('Popular games')
+	useLoading(false)
 
-	const gamesToRender = useMemo(() => skips.map((skip, index) => (
-		<PopularGames skip={skip} key={index} preloadedGames={index === 0 ? games : null} />
-	)), [games, skips])
+	const gamesToRender = useMemo(() => games.map(({ games }, index) => (
+		<PopularGames games={games} key={index} />
+	)), [games])
 
 	return (
 		<Page>
@@ -73,9 +72,7 @@ const Games: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ games
 						<ButtonBorder
 							label='Show more'
 							isDisabled={isLimitReached}
-							onClick={() => {
-								if (!isLimitReached) setSkips([...skips, take * skips.length])
-							}}
+							onClick={() => setSize(size + 1)}
 						/>
 					</Tooltip>
 				</div>

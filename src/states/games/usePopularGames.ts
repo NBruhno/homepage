@@ -1,11 +1,8 @@
 import type { GameData } from './types'
 
-import { useEffect } from 'react'
-import useSWR from 'swr'
+import useSWRInfinite from 'swr/infinite'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
-
-import { useLoading } from 'states/page'
 
 import { fetcher } from 'lib/fetcher'
 
@@ -21,23 +18,32 @@ export const usePopularGamesStore = create<PopularGamesState>()(devtools((set) =
 	setIsLimitReached: (isLimitReached) => set({ isLimitReached }, false, 'setIsLimitReached'),
 }), { anonymousActionType: 'usePopularGamesStore' }))
 
-export const usePopularGames = (newSkip = 0) => {
-	const { data } = useSWR(
-		['/games', newSkip],
-		([link, skip]: [string, number]) => fetcher<GameData>(`${link}?is-popular=yes${skip ? `&skip=${skip}` : ''}`),
-		{ revalidateOnFocus: false },
+const getKey = (pageIndex: number, previousData: GameData | undefined) => {
+	if (previousData && !previousData.after) return null
+	if (pageIndex === 0 && !previousData) return `/games?is-popular=yes`
+	return `/games?is-popular=yes&skip=${previousData ? (previousData.skip === 0 ? 1 : previousData.skip) + previousData.take : 0}`
+}
+
+export const usePopularGames = (preloadedGames?: GameData) => {
+	const { data, isLoading, size, setSize } = useSWRInfinite<GameData>(
+		getKey,
+		fetcher,
+		{
+			revalidateOnFocus: false,
+			fallbackData: preloadedGames ? [preloadedGames] : undefined,
+			revalidateFirstPage: false,
+			keepPreviousData: true,
+		},
 	)
 
-	const setIsLimitReached = usePopularGamesStore((state) => state.setIsLimitReached)
-	const { setIsLoading } = useLoading()
-	useEffect(() => {
-		setIsLimitReached(data?.after === null)
-		setIsLoading(Boolean(!data))
-	}, [data, setIsLimitReached, setIsLoading])
+	const isLimitReached = data?.[data.length]?.after === null
 
 	return {
-		games: data?.games,
-		after: data?.after,
+		games: data,
+		isLoading: !data || isLoading,
 		setIsLimitReached: usePopularGamesStore((state) => state.setIsLimitReached),
+		size,
+		setSize,
+		isLimitReached,
 	}
 }
