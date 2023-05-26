@@ -88,7 +88,7 @@ export const History = ({ history }: Props) => {
 							{ label: 'Week', value: 7 },
 							{ label: 'Two weeks', value: 14 },
 							{ label: 'Month', value: 31 },
-							{ label: 'Three months', value: 90 },
+							{ label: 'Three months', value: history.length },
 						]}
 						initialValue={31}
 						onValueChange={setDaysToShow}
