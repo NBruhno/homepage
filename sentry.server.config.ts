@@ -9,7 +9,7 @@ Sentry.init({
 	dsn: SENTRY_DSN as string,
 	tracesSampler: (context) => {
 		if (context.parentSampled) return true
-		return 0.2
+		return 0.1
 	},
 	environment: process.env.VERCEL_ENV as string,
 	integrations: [new Integrations.Prisma({ client: prisma })],

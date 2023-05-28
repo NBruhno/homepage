@@ -25,7 +25,7 @@ export const errorHandler = (error: Error, _req: NextApiRequest, res: NextApiRes
 	if (error instanceof ApiError) {
 		if (shouldLogWarnings) logger.warn(error)
 		updateTransaction({ status: error.statusCode })
-		captureException(error)
+		if (error.statusCode >= 500) captureException(error)
 		return res.status(error.statusCode).json({ message: error.message })
 	} else if (error instanceof StructError) {
 		const badRequestError = ApiError.fromCodeWithError(400, error)
