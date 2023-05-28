@@ -1,7 +1,6 @@
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { type GameSimple } from 'types'
 
-import { useFollowingGames } from 'states/games'
+import { useRouter } from 'next/router'
 
 import { Container } from '../Common/Container'
 import { Item } from '../Common/Item'
@@ -11,50 +10,25 @@ const undefinedMessage = 'You need to be logged in to see what games you are fol
 const emptyMessage = 'You are not following any games'
 
 type Props = {
-	skip: number | undefined,
+	games: Array<GameSimple>,
+	isLoading: boolean,
 }
 
-export const Following = ({ skip }: Props) => {
+export const Following = ({ games, isLoading }: Props) => {
 	const { query } = useRouter()
-	const { games, after, setIsLimitReached } = useFollowingGames(query, skip)
-
-	useEffect(() => {
-		if (after === null) setIsLimitReached(true)
-	}, [after])
-
-	if (!query.user) {
-		return (
-			<Container>
-				<Subtitle>{undefinedMessage}</Subtitle>
-			</Container>
-		)
-	}
-
-	if (!games) {
-		return (
-			<Container>
-				{Array.from(Array(15)).map((_, index: number) => (
-					<Item
-						id={index}
-						cover={null}
-						coverProps={null}
-						name=''
-						releaseDate={null}
-						status={null}
-						index={index}
-						isPriority={index <= 10}
-						isLoading
-						key={index}
-					/>
-				))}
-			</Container>
-		)
-	}
 
 	if (games.length === 0) {
 		return (
 			<Container>
 				<Subtitle>{emptyMessage}</Subtitle>
+			</Container>
+		)
+	}
+
+	if (!query.user) {
+		return (
+			<Container>
+				<Subtitle>{undefinedMessage}</Subtitle>
 			</Container>
 		)
 	}
@@ -70,7 +44,7 @@ export const Following = ({ skip }: Props) => {
 					releaseDate={releaseDate}
 					status={status}
 					index={index}
-					isPriority={index <= 10}
+					isPriority={isLoading}
 					isLoading={!games}
 					key={id}
 				/>

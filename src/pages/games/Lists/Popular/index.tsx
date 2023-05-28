@@ -1,4 +1,4 @@
-import type { GameSimpleExtended } from 'types'
+import type { GameSimple, GameSimpleExtended } from 'types'
 
 import { Container } from '../Common/Container'
 import { Item } from '../Common/Item'
@@ -7,31 +7,11 @@ import { Subtitle } from '../Common/Subtitle'
 const emptyMessage = 'Could not find any popular games at the moment'
 
 type Props = {
-	games: Array<GameSimpleExtended>,
+	games: Array<GameSimple | GameSimpleExtended>,
+	isLoading: boolean,
 }
 
-export const Popular = ({ games }: Props) => {
-	// if (isLoading) {
-	// 	return (
-	// 		<Container>
-	// 			{Array.from(Array(15)).map((_, index: number) => (
-	// 				<Item
-	// 					id={index}
-	// 					cover={null}
-	// 					coverProps={null}
-	// 					name=''
-	// 					releaseDate={null}
-	// 					status={null}
-	// 					index={index}
-	// 					isPriority={index <= 10}
-	// 					isLoading
-	// 					key={index}
-	// 				/>
-	// 			))}
-	// 		</Container>
-	// 	)
-	// }
-
+export const Popular = ({ games, isLoading }: Props) => {
 	if (games.length === 0) {
 		return (
 			<Container>
@@ -52,6 +32,7 @@ export const Popular = ({ games }: Props) => {
 					status={status}
 					index={index}
 					isPriority={index <= 10}
+					isLoading={isLoading}
 					key={id}
 				/>
 			))}

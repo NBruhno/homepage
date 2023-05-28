@@ -1,5 +1,6 @@
 export { useFollowingGamesStore, useFollowingGames } from './useFollowingGames'
 export { useGame } from './useGame'
+export { useGameInsights } from './useGameInsights'
 export { usePopularGames, usePopularGamesStore } from './usePopularGames'
 export { useSearchGames } from './useSearchGames'
 export { useSteamReviews } from './useSteamReviews'

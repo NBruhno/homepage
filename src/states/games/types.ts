@@ -1,7 +1,7 @@
-import type { GameSimple } from 'types'
+import type { GameSimple, GameSimpleExtended } from 'types'
 
 export type GameData = {
-	games: Array<GameSimple>,
+	games: Array<GameSimpleExtended>,
 	after: GameSimple | null,
 	before: GameSimple | null,
 	skip: number,

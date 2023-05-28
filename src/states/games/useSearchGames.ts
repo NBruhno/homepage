@@ -40,8 +40,8 @@ export const useSearchGames = () => {
 	// Every time we update the search form, we also want to update the URL to match the search query for easy sharing
 	useEffect(() => {
 		if (gameSearch && !hasSearch) setHasSearch(true)
-		if (router.query.title !== gameSearch) {
-			void router.push(`/games/search${gameSearch ? `?title=${encodeURIComponent(gameSearch)}` : ''}`, undefined, { shallow: true })
+		if (gameSearch && router.query.title !== gameSearch) {
+			void router.push({ query: { title: encodeURIComponent(gameSearch) } }, undefined, { shallow: true })
 		}
 	}, [gameSearch, hasSearch])
 

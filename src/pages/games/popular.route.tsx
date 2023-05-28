@@ -1,8 +1,8 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import type { GameSimple, GameSimpleExtended } from 'types'
 
+import { useRouter } from 'next/router'
 import { getPlaiceholder } from 'plaiceholder'
-import { useMemo } from 'react'
 
 import { config } from 'config.server'
 
@@ -57,22 +57,24 @@ const Games: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ games
 	const { games, isLoading, setSize, size, isLimitReached } = usePopularGames(preloadedGames ? { games: preloadedGames, before: null, after: null, skip: 0, take: 50 } : undefined)
 	useTitle('Popular games')
 	useLoading(false)
-
-	const gamesToRender = useMemo(() => games.map(({ games }, index) => (
-		<PopularGames games={games} key={index} />
-	)), [games])
+	const router = useRouter()
 
 	return (
 		<Page>
 			<PageContent maxWidth={700}>
 				<h2>Popular games</h2>
-				{gamesToRender}
+				{games ? games.map(({ games }, index) => (
+					<PopularGames games={games} isLoading={isLoading} key={index} />
+				)) : null}
 				<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
 					<Tooltip tip="That's all the popular games" show={isLimitReached}>
 						<ButtonBorder
 							label='Show more'
 							isDisabled={isLimitReached}
-							onClick={() => setSize(size + 1)}
+							onClick={async () => {
+								await setSize(size + 1)
+								await router.push({ query: { pages: size + 1 } }, undefined, { shallow: true })
+							}}
 						/>
 					</Tooltip>
 				</div>
