@@ -1,6 +1,8 @@
 import type { GameWebsite, IgdbGame } from 'types'
 import type { SteamOwnedGames } from 'types/steam'
 
+import { fromUnixTime } from 'date-fns'
+import { round } from 'lodash'
 import { create, object, string, coerce, number } from 'superstruct'
 
 import { config } from 'config.server'
@@ -63,9 +65,14 @@ export default apiHandler({
 			})(),
 		]), 'Promise.all()', '')
 
-		let isInSteamLibrary = false
+		const steamInfo = {
+			isInSteamLibrary: false,
+			timePlayed: null as number | null,
+			timePlayedLastTwoWeeks: null as number | null,
+			lastPlayedAt: null as string | null,
+		}
 		const isFollowing = Boolean(userData?.isFollowing)
-		if (!userData && (!steamId || !game)) return res.status(200).json({ isFollowing, isInSteamLibrary })
+		if (!userData && (!steamId || !game)) return res.status(200).json({ isFollowing, ...steamInfo })
 
 		const steamAppId = getSteamAppId(game?.websites as Array<GameWebsite>)
 		if (steamAppId && steamId) {
@@ -77,9 +84,13 @@ export default apiHandler({
 			), 'http:steam', 'game news').then(async (response) => {
 				if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
 				const payload = await response.json() as SteamOwnedGames
-				isInSteamLibrary = payload.response.games.some(({ appid }) => appid === parseInt(steamAppId, 10))
+				const game = payload.response.games.find(({ appid }) => appid === parseInt(steamAppId, 10))
+				steamInfo.isInSteamLibrary = Boolean(game)
+				steamInfo.timePlayed = game ? round(game.playtime_forever / 60, 1) : null
+				steamInfo.timePlayedLastTwoWeeks = game ? round((game.playtime_2weeks ?? 0) / 60, 1) : null
+				steamInfo.lastPlayedAt = game?.rtime_last_played ? fromUnixTime(game.rtime_last_played).toISOString() : null
 			})
 		}
 
-		return res.status(200).json({ isFollowing, isInSteamLibrary })
+		return res.status(200).json({ isFollowing, ...steamInfo })
 	})

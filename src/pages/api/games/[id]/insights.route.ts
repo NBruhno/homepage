@@ -30,12 +30,15 @@ export default apiHandler({
 			},
 		}), 'http:vginsights', 'game insights').then(async (response) => {
 			if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
-			const game = await response.json() as VGInsightsGame
-			return {
-				rating: game.rating === undefined ? null : parseFloat(game.rating),
-				unitsSold: game.units_sold_vgi ?? null,
-				revenue: game.revenue_vgi ?? null,
+			if (response.headers.has('Content-Type')) {
+				const game = await response.json() as VGInsightsGame
+				return {
+					rating: game.rating === undefined ? null : parseFloat(game.rating),
+					unitsSold: game.units_sold_vgi ?? null,
+					revenue: game.revenue_vgi ?? null,
+				}
 			}
+			return {}
 		})
 
 		if (insights.rating && insights.unitsSold) {
@@ -48,7 +51,7 @@ export default apiHandler({
 				}), 'http:vginsights', 'game player history').then(async (response) => {
 					if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
 					const history = await response.json() as VGInsightsHistory
-					return history.map(({ date, players_avg: playersOnAverage, units: unitsSoldTotal, units_increase: unitsSold, members: followers, reviews, rating }) => ({
+					return history.performance.map(({ date, players_avg: playersOnAverage, units: unitsSoldTotal, units_increase: unitsSold, members: followers, reviews, rating }) => ({
 						date,
 						playersOnAverage,
 						unitsSold,

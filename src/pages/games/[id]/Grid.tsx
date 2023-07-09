@@ -18,7 +18,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'article'>) => (
 			maxWidth: '1300px',
 			transition: `width 300ms ${theme.animation.default}`,
 			position: 'relative',
-			gap: '12px',
+			gap: '12px 14px',
 
 			[theme.mediaQueries.desktopToDesktopLarge]: {
 				gridTemplate: `
@@ -39,7 +39,7 @@ export const Grid = (props: ComponentPropsWithoutRef<'article'>) => (
 					"ratings ratings ratings info" auto
 					"content content content info" 1fr
 					"similarGames similarGames similarGames similarGames" auto
-					/ 180px 1fr 1fr minmax(auto, 250px)
+					/ 196px 1fr 1fr minmax(auto, 250px)
 				`,
 			},
 

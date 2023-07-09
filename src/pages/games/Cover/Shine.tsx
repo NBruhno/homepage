@@ -20,11 +20,11 @@ export const Shine = ({ isVisible }: Props) => (
 			left: 0,
 			right: 0,
 			height: '760px',
-			background: 'linear-gradient(134deg, transparent, rgba(255, 255, 255, 0.1), transparent)',
+			background: 'linear-gradient(134deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
 			position: 'absolute',
 			transition: 'opacity 150ms ease-in-out',
 			opacity: isVisible ? 1 : 0,
-			animation: isVisible ? `${animation} 6s ease-in-out infinite` : 'none',
+			animation: isVisible ? `${animation} 5s ease-in-out infinite` : 'none',
 		})}
 	/>
 )

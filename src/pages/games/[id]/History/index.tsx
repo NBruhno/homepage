@@ -1,9 +1,8 @@
-import type { GameHistory } from 'types'
-
 import { useTheme } from '@emotion/react'
 import dynamic from 'next/dynamic'
 import { useMemo, useState } from 'react'
 
+import { useGameInsights } from 'states/games'
 import { useResponsive } from 'states/page'
 
 import { filterUnspecified } from 'lib/filterUnspecified'
@@ -20,11 +19,8 @@ const ResponsiveLine = dynamic(async () => {
 	),
 })
 
-type Props = {
-	history: Array<GameHistory>,
-}
-
-export const History = ({ history }: Props) => {
+export const History = () => {
+	const { insights, isLoading } = useGameInsights()
 	const [daysToShow, setDaysToShow] = useState(31)
 	const [dataToShow, setDataToShow] = useState<'playersOnAverage' | 'rating' | 'reviews' | 'unitsSold'>('playersOnAverage')
 	const numberFormat = Intl.NumberFormat('en-DK', { notation: 'compact' })
@@ -39,7 +35,8 @@ export const History = ({ history }: Props) => {
 	}, [daysToShow, isMobile])
 
 	const data = useMemo(() => {
-		const dataSet = history.slice(history.length - daysToShow)
+		if (!insights || insights.history.length === 0 || isLoading) return []
+		const dataSet = insights.history.slice(insights.history.length - daysToShow)
 
 		return filterUnspecified([
 			dataToShow === 'playersOnAverage' ? {
@@ -63,10 +60,17 @@ export const History = ({ history }: Props) => {
 				data: dataSet.map(({ date, rating }) => ({ x: date, y: rating })),
 			} : undefined,
 		])
-	}, [history, dataToShow, theme.color, daysToShow])
+	}, [insights, dataToShow, theme.color, daysToShow, isLoading])
+
+	if (!isLoading && data.length === 0) {
+		return (
+			<p>There is no history to share</p>
+		)
+	}
 
 	return (
 		<>
+			<h3 css={(theme) => ({ marginTop: 0, marginBottom: '8px', color: theme.color.textSubtitle })}>Steam data</h3>
 			<div css={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
 				<div>
 					<ButtonToggle
@@ -88,7 +92,7 @@ export const History = ({ history }: Props) => {
 							{ label: 'Week', value: 7 },
 							{ label: 'Two weeks', value: 14 },
 							{ label: 'Month', value: 31 },
-							{ label: 'Three months', value: history.length },
+							{ label: 'Three months', value: insights?.history.length ?? 0 },
 						]}
 						initialValue={31}
 						onValueChange={setDaysToShow}

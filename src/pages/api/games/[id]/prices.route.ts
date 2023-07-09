@@ -50,9 +50,9 @@ export default apiHandler({
 				country: 'DK',
 				plains: plain,
 			},
-		}).then((response) => response.data[plain].list.map(({ shop, price_new: current, price_cut: difference, url }) => ({
+		}).then((response) => response.data[plain].list.map(({ shop, price_new: amount, price_cut: difference, url }) => ({
 			currency: response['.meta'].currency,
-			current,
+			amount,
 			difference,
 			id: shop.id,
 			name: shop.name,

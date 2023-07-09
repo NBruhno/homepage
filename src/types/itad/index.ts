@@ -1,4 +1,7 @@
 export { ItadDrm } from './ItadDrm'
+export type { ItadHistoricLow } from './ItadHistoricLow'
 export type { ItadPlain } from './ItadPlain'
 export type { ItadPrices } from './ItadPrices'
 export type { ItadShop } from './ItadShop'
+export type { ItadStoreHistoricLows } from './ItadStoreHistoricLows'
+export type { ItadStores } from './ItadStores'

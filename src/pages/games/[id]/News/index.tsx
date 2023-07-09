@@ -1,6 +1,8 @@
-import type { GameNews, GameNewsItem } from 'types'
+import type { GameNewsItem } from 'types'
 
 import { IconChevronRight } from '@tabler/icons-react'
+
+import { useGameNews } from 'states/games'
 
 import { Placeholder } from 'components/Placeholder'
 
@@ -19,14 +21,10 @@ const placeholderNews: Array<GameNewsItem> = Array.from({ length: 5 }).map((_, i
 	date: '',
 }))
 
-type Props = {
-	news: GameNews | null | undefined,
-}
+export const News = () => {
+	const { news, isLoading } = useGameNews()
+	if (news === undefined && !isLoading) return <Empty>This game does not exist on Steam, so no news could be gathered</Empty>
 
-export const News = ({ news }: Props) => {
-	if (news === null) return <Empty>This game does not exist on Steam, so no news could be gathered</Empty>
-
-	const isLoading = !news
 	const newsToRender = news ?? {
 		steamNews: placeholderNews,
 		otherNews: placeholderNews,
