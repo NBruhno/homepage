@@ -24,7 +24,7 @@ export const Dust = ({ opacity, position, shouldAnimate = true, rotation }: Dust
 	return (
 		// @ts-expect-error The ref is valid
 		<mesh position={position} rotation={rotation} ref={ref}>
-			<planeBufferGeometry args={[500, 500]} />
+			<planeGeometry args={[500, 500]} />
 			<meshLambertMaterial map={texture} opacity={opacity} transparent />
 		</mesh>
 	)
