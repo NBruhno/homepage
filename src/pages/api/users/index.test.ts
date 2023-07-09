@@ -1,36 +1,15 @@
 import supertest from 'supertest'
 
-import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { ApiError } from 'lib/errors'
-import type { TestResponse } from 'lib/test'
-import { createCredentials, accessTokenMatch, refreshTokenMatch, createTestServer } from 'lib/test'
+import { type TestResponse, userDelete, createCredentials, accessTokenMatch, refreshTokenMatch, createTestServer } from 'lib/test'
 
-import user from './[id]/index.route'
 import handler from './index.route'
-import login from './login.route'
 
 const { email, username, accessCode, defaultPassword } = createCredentials({ label: 'register' })
 
 describe('/api/users', () => {
 	beforeAll(async () => {
-		const loginServer = createTestServer(login)
-		const loginRes = await supertest(loginServer)
-			.post('/api/users/login')
-			.send({
-				email,
-				password: defaultPassword,
-			}) as unknown as TestResponse & { body: { accessToken: string } }
-
-		if (loginRes.status === 200) {
-			const { userId } = decodeJwtToken(loginRes.body.accessToken)
-
-			const deleteServer = createTestServer(user, { id: userId })
-			await supertest(deleteServer)
-				.delete(`/api/users/${userId}`)
-				.set('authorization', `Bearer ${loginRes.body.accessToken}`)
-			deleteServer.close()
-		}
-		loginServer.close()
+		await userDelete({ label: 'register' })
 	})
 
 	test('POST › Register successfully', async () => {

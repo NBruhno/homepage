@@ -6,13 +6,21 @@ import { useMemo } from 'react'
 
 import { adjustHsl } from 'lib/client'
 
+import { Spinner } from 'components/Spinner'
+
 type Props = ComponentPropsWithoutRef<'div'> & {
-	rating: number,
+	rating: number | null,
 }
 
 export const Indicator = ({ rating, children, ...rest }: Props) => {
 	const theme = useTheme()
 	const reviewState = useMemo(() => {
+		if (rating === null) {
+			return {
+				color: theme.color.gray,
+				icon: <Spinner size={20} animationDuration={1.25} />,
+			}
+		}
 		if (rating >= 70) {
 			return {
 				color: theme.color.success,

@@ -1,14 +1,13 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
 import type { GameSimple, GameSimpleExtended } from 'types'
 
+import { useRouter } from 'next/router'
 import { getPlaiceholder } from 'plaiceholder'
-import { useMemo, useState } from 'react'
-import { shallow } from 'zustand/shallow'
 
 import { config } from 'config.server'
 
-import { usePopularGamesStore } from 'states/games'
-import { useTitle } from 'states/page'
+import { usePopularGames } from 'states/games'
+import { useLoading, useTitle } from 'states/page'
 
 import { fetcher } from 'lib/fetcher'
 import { logger } from 'lib/logger'
@@ -54,27 +53,27 @@ export const getStaticProps: GetStaticProps<State> = async () => {
 	}
 }
 
-const Games: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ games }) => {
-	const { take, isLimitReached } = usePopularGamesStore((state) => state, shallow)
-	const [skips, setSkips] = useState([0])
+const Games: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ games: preloadedGames }) => {
+	const { games, isLoading, setSize, size, isLimitReached } = usePopularGames(preloadedGames ? { games: preloadedGames, before: null, after: null, skip: 0, take: 50 } : undefined)
 	useTitle('Popular games')
-
-	const gamesToRender = useMemo(() => skips.map((skip, index) => (
-		<PopularGames skip={skip} key={index} preloadedGames={index === 0 ? games : null} />
-	)), [games, skips])
+	useLoading(false)
+	const router = useRouter()
 
 	return (
 		<Page>
 			<PageContent maxWidth={700}>
 				<h2>Popular games</h2>
-				{gamesToRender}
+				{games ? games.map(({ games }, index) => (
+					<PopularGames games={games} isLoading={isLoading} key={index} />
+				)) : null}
 				<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
 					<Tooltip tip="That's all the popular games" show={isLimitReached}>
 						<ButtonBorder
 							label='Show more'
 							isDisabled={isLimitReached}
-							onClick={() => {
-								if (!isLimitReached) setSkips([...skips, take * skips.length])
+							onClick={async () => {
+								await setSize(size + 1)
+								await router.push({ query: { pages: size + 1 } }, undefined, { shallow: true })
 							}}
 						/>
 					</Tooltip>

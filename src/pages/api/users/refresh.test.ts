@@ -1,28 +1,16 @@
 import supertest from 'supertest'
 
 import { ApiError } from 'lib/errors'
-import type { TestResponse } from 'lib/test'
-import { createCredentials, accessTokenMatch, refreshTokenMatch, createTestServer } from 'lib/test'
+import { type TestResponse, createCredentials, accessTokenMatch, refreshTokenMatch, createTestServer, userLogin } from 'lib/test'
 
-import login from './login.route'
 import handler from './refresh.route'
 
-let refreshToken = null as unknown as string
-const { email, defaultPassword } = createCredentials()
+let refreshToken: string
+const { email, username, defaultPassword, accessCode } = createCredentials({ label: 'refresh' })
 
 describe('/api/users/refresh', () => {
 	beforeAll(async () => {
-		const server = createTestServer(login)
-		const res = await supertest(server)
-			.post('/api/users/login')
-			.send({
-				email,
-				password: defaultPassword,
-			// eslint-disable-next-line @typescript-eslint/naming-convention
-			}) as unknown as TestResponse & { headers: { 'set-cookie': Array<string> } }
-
-		refreshToken = res.headers['set-cookie'][0]
-		server.close()
+		refreshToken = (await userLogin({ email, username, accessCode, password: defaultPassword })).refreshToken!
 	})
 
 	test('GET › Refresh token', async () => {

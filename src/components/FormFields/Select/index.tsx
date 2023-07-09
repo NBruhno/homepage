@@ -1,4 +1,4 @@
-import type { CommonSelectProps } from '../CommonProps'
+import type { CommonSelectProps, SelectOption } from '../CommonProps'
 import type { FieldPathByValue, FieldValues } from 'react-hook-form'
 
 import { useFocusRing } from '@react-aria/focus'
@@ -20,17 +20,17 @@ import { InputError } from '../InputError'
 import { LabelContainer } from '../LabelContainer'
 import { InputButtonContainer, InputClearButton, InputMenuIndicator, SelectMenu, InputComponent, InputContainer } from '../Shared'
 
-type Props<Path> = CommonSelectProps<Path>
+type Props<TPath> = CommonSelectProps<TPath>
 
-export const Select = <TFieldValues extends FieldValues, Path extends FieldPathByValue<TFieldValues, string>>({
+export const Select = <TFieldValues extends FieldValues, TPath extends FieldPathByValue<TFieldValues, SelectOption['value'] | null>>({
 	showOptionalHint = true, isFullWidth = true, isRequired = false, maxNumberOfOptionsVisible = 40,
 	isDisabled = false, name, label, hint, placeholder, options, shouldAutofocus = false, isLoading = false,
-}: Props<Path>) => {
+}: Props<TPath>) => {
 	const id = useUnique(name)
 	const { formState: { errors }, control } = useFormContext<TFieldValues>()
 	const [filteredOptions, setFilteredOptions] = useState(options)
 	const [isInputFocus, setIsInputFocus] = useState(false)
-	const { field } = useController<TFieldValues, Path>({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
+	const { field } = useController<TFieldValues, TPath>({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
 	const containerRef = useRef<HTMLDivElement>(null)
 	const inputRef = useRef<HTMLInputElement>(null)
 
@@ -40,11 +40,15 @@ export const Select = <TFieldValues extends FieldValues, Path extends FieldPathB
 		initialSelectedItem: options.find(({ value }) => value === field.value),
 		items: filteredOptions,
 		itemToString: (item) => item?.label ?? '',
-		onSelectedItemChange: ({ selectedItem }) => field.onChange(selectedItem?.value),
+		// A controversial change broke custom controlled inputs with unnecessarily harsh type-safety https://github.com/react-hook-form/react-hook-form/pull/10342
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		onSelectedItemChange: ({ selectedItem }) => field.onChange(selectedItem?.value as any),
 		onIsOpenChange: ({ isOpen, selectedItem, inputValue }) => {
 			// If the user clears the field and exits the menu, we assume the user wants to reset the field
 			if (!isOpen && (inputValue === '' || inputValue === undefined)) {
-				field.onChange(undefined)
+				// A controversial change broke custom controlled inputs with unnecessarily harsh type-safety https://github.com/react-hook-form/react-hook-form/pull/10342
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+				field.onChange(undefined as any)
 				reset()
 			// If the user closes the menu and an item has already been selected, we reset to the already selected item
 			} else if (!isOpen) setInputValue(selectedItem?.label ?? '')
@@ -127,7 +131,7 @@ export const Select = <TFieldValues extends FieldValues, Path extends FieldPathB
 					selectedItems={filterUnspecified([selectedItem])}
 				/>
 			</Portal>
-			<InputError hasError={hasError} errorMessage={error?.message as string | undefined} hasFocus={isFocusVisible} />
+			<InputError hasError={hasError} errorMessage={error?.message as string | undefined} />
 		</FieldWrapper>
 	)
 }

@@ -3,6 +3,8 @@ import type { GameDefaultEntity, GameMultiplayerMode, GamePlatform, GameReleaseD
 import { formatRelative, parseISO } from 'date-fns'
 import { enGB } from 'date-fns/locale'
 
+import { useGameInsights } from 'states/games'
+
 import { Placeholder } from 'components/Placeholder'
 import { Tooltip } from 'components/Tooltip'
 
@@ -25,10 +27,8 @@ type Props = {
 	publishers: Array<GameDefaultEntity> | undefined,
 	releaseDate: string | null,
 	releaseDates: Array<GameReleaseDate> | undefined,
-	revenue: number | undefined,
 	supporters: Array<GameDefaultEntity> | undefined,
 	themes: Array<GameDefaultEntity> | undefined,
-	unitsSold: number | undefined,
 
 	createdAt: string | undefined,
 	lastCheckedAt: string | null,
@@ -37,9 +37,10 @@ type Props = {
 
 export const InfoBox = ({
 	genres = [], themes = [], platforms = [], engines = [], franchises = [], modes = [], multiplayerModes = [],
-	playerPerspectives = [], porters = [], publishers = [], supporters = [], releaseDates = [], developers = [], releaseDate,
-	revenue, unitsSold, createdAt, updatedAt, lastCheckedAt,
+	playerPerspectives = [], porters = [], publishers = [], supporters = [], releaseDates = [], developers = [],
+	releaseDate, createdAt, updatedAt, lastCheckedAt,
 }: Props) => {
+	const { insights } = useGameInsights()
 	const groupedReleaseDates = groupByReleaseDate(releaseDates, ({ date }) => date, releaseDate)
 	const listFormatter = new Intl.ListFormat('en-DK', { style: 'short', type: 'conjunction' })
 
@@ -189,7 +190,7 @@ export const InfoBox = ({
 							</Placeholder>
 						</div>
 					)}
-					{Boolean(revenue ?? null) && revenue! > 0 && (
+					{insights && Boolean(insights.revenue ?? null) && insights.revenue! > 0 && (
 						<div>
 							<Title>
 								<Placeholder width='60%'>
@@ -197,11 +198,11 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='30%'>
-								{Intl.NumberFormat('en-DK', { currency: 'USD', style: 'currency', notation: 'compact' }).format(revenue!)}
+								{Intl.NumberFormat('en-DK', { currency: 'USD', style: 'currency', notation: 'compact' }).format(insights.revenue!)}
 							</Placeholder>
 						</div>
 					)}
-					{Boolean(unitsSold ?? null) && unitsSold! > 0 && (
+					{insights && Boolean(insights.unitsSold ?? null) && insights.unitsSold! > 0 && (
 						<div>
 							<Title>
 								<Placeholder width='45%'>
@@ -209,7 +210,7 @@ export const InfoBox = ({
 								</Placeholder>
 							</Title>
 							<Placeholder width='25%'>
-								{Intl.NumberFormat('en-DK', { notation: 'compact' }).format(unitsSold!)}
+								{Intl.NumberFormat('en-DK', { notation: 'compact' }).format(insights.unitsSold!)}
 							</Placeholder>
 						</div>
 					)}

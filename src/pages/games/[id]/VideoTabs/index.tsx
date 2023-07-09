@@ -40,6 +40,7 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 					borderWidth: '1px 0',
 					borderStyle: 'solid',
 					borderColor: theme.color.border,
+					paddingBottom: '1px',
 				})}
 				>
 					<Video id={videos[videoIndex]?.videoId ?? ''} name={videos[videoIndex]?.name ?? ''} />

@@ -1,28 +1,15 @@
 import supertest from 'supertest'
 
 import { ApiError } from 'lib/errors'
-import { createCredentials, createTestServer } from 'lib/test'
-
-import login from '../../users/login.route'
+import { createTestServer, userLogin } from 'lib/test'
 
 import handler from './follows.route'
-
-const { email, defaultPassword } = createCredentials()
 
 let accessToken = null as unknown as string
 
 describe('/api/games/{id}/follows', () => {
 	beforeAll(async () => {
-		const loginServer = createTestServer(login)
-		const loginRes = await supertest(loginServer)
-			.post('/api/users/login')
-			.send({
-				email,
-				password: defaultPassword,
-			}) as unknown as Omit<Response, 'body'> & { body: { accessToken: string } }
-
-		accessToken = loginRes.body.accessToken
-		loginServer.close()
+		accessToken = (await userLogin({ label: 'follow.game' })).accessToken!
 
 		await Promise.all([
 			async () => {

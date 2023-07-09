@@ -1,55 +1,68 @@
-import type { GameExtended, GameInsights, GameNews, GamePrice, GameReviews } from 'types'
+import type { GameExtended } from 'types'
 
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import useSWR from 'swr'
+import { create } from 'zustand'
+import { devtools } from 'zustand/middleware'
+import { shallow } from 'zustand/shallow'
 
 import { useLoading } from 'states/page'
-import { useUser } from 'states/users'
 
-import { fetcher, Method } from 'lib/fetcher'
 import { getSteamAppId } from 'lib/getSteamAppId'
 
 type Props = {
-	id: string,
+	id: number | null,
 	initialGame?: GameExtended,
-	initialPrices?: Array<GamePrice>,
 }
 
-export const useGame = ({ id, initialGame, initialPrices }: Props) => {
-	const [isFollowing, setIsFollowing] = useState<boolean | undefined>(undefined)
-	const accessToken = useUser((state) => state.accessToken)
+type GameState = {
+	id: number | undefined,
+	name: string | undefined,
+	steamAppId: string | null | undefined,
+	isLoading: boolean,
 
-	const { data: game } = useSWR<GameExtended | undefined>(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
-	const { data: prices } = useSWR<Array<GamePrice> | undefined>(id && game?.name
-		? `/games/${id}/prices?name=${encodeURIComponent(game.name)}`
-		: null, null, { fallbackData: initialPrices ?? undefined })
-	const { data: userData } = useSWR<{ isFollowing: boolean, isInSteamLibrary: boolean }>((id && accessToken)
-		? `/games/${id}/user-status`
-		: null, (link: string) => fetcher(link, { accessToken }))
+	resetGame: () => void,
+	setGameName: (name: string) => void,
+	setGameIds: (id: number, steamAppId: string | null) => void,
+	setGameIsLoading: (isLoading: boolean) => void,
+}
+
+const initialState = {
+	id: undefined,
+	name: undefined,
+	steamAppId: undefined,
+	isLoading: true,
+}
+
+export const useGameStore = create<GameState>()(devtools((set) => ({
+	...initialState,
+	resetGame: () => set({ ...initialState }, false, 'resetGame'),
+	setGameName: (name) => set({ name }, false, 'setGame'),
+	setGameIds: (id, steamAppId) => set({ id, steamAppId }, false, 'setGameIds'),
+	setGameIsLoading: (isLoading) => set({ isLoading }, false, 'setGameIsLoading'),
+}), { anonymousActionType: 'useGame' }))
+
+export const useGame = ({ id, initialGame }: Props) => {
+	const { setGameIds, setGameName, setGameIsLoading, resetGame } = useGameStore((state) => state, shallow)
+
+	const { data: game, isLoading: isGameLoading } = useSWR<GameExtended | undefined>(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
+
+	useEffect(() => {
+		if (game) {
+			setGameName(game.name)
+			setGameIds(game.id, getSteamAppId(game.websites))
+		}
+
+		return () => resetGame()
+	}, [game])
+
+	useEffect(() => {
+		setGameIsLoading(isGameLoading)
+		return () => resetGame()
+	}, [isGameLoading])
 
 	const steamAppId = getSteamAppId(game?.websites)
-	const { data: news } = useSWR<GameNews | undefined>(id && steamAppId
-		? `/games/${id}/news?steam-app-id=${encodeURIComponent(steamAppId)}`
-		: null, null)
-	const { data: reviews } = useSWR<GameReviews | undefined>(id && steamAppId
-		? `/games/${id}/reviews?steam-app-id=${encodeURIComponent(steamAppId)}`
-		: null, null)
-	const { data: insights } = useSWR<GameInsights | undefined>(id && steamAppId
-		? `/games/${id}/insights?steam-app-id=${encodeURIComponent(steamAppId)}`
-		: null, null)
-	const { isLoading } = useLoading(Boolean(!game) && Boolean(!initialGame))
+	const { isLoading } = useLoading(isGameLoading && Boolean(!game) && Boolean(!initialGame))
 
-	const onFollow = async () => {
-		const response = await fetcher<{ message?: string }>(`/games/${id}/follows`, { accessToken, method: Method.Post, body: { isFollowing: true } })
-		if (response.message) setIsFollowing(true)
-	}
-
-	const onUnfollow = async () => {
-		const response = await fetcher<{ message?: string }>(`/games/${id}/follows`, { accessToken, method: Method.Post, body: { isFollowing: false } })
-		if (response.message) setIsFollowing(false)
-	}
-
-	useEffect(() => setIsFollowing(userData?.isFollowing), [userData?.isFollowing])
-
-	return { game, prices, news: ((id && steamAppId) || isLoading) ? news : null, reviews: ((id && steamAppId) || isLoading) ? reviews : null, insights: ((id && steamAppId) || isLoading) ? insights : null, isFollowing, isInSteamLibrary: Boolean(userData?.isInSteamLibrary), onFollow, onUnfollow }
+	return { game, isLoading, steamAppId }
 }

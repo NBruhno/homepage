@@ -124,7 +124,7 @@ module.exports = {
 		}],
 		'@typescript-eslint/ban-types': ['error'],
 		'@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
-		'@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+		'@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports', fixStyle: 'inline-type-imports' }],
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/explicit-member-accessibility': 'off',
 		'@typescript-eslint/indent': ['error', 'tab', {

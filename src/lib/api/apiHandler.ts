@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 
 import nc from 'next-connect'
 
-import { errorHandler, noMatchHandler, withCaching, withTracking } from 'lib/middleware'
+import { errorHandler, noMatchHandler, withCaching, withCors, withTracking } from 'lib/middleware'
 
 type Options = {
 	/** To properly figure out when a call hit a valid method or not, we need to specify which are being used, eg. `['GET', 'POST']` */
@@ -35,5 +35,6 @@ export const apiHandler = (
 ) => (
 	nc<NextApiRequest, NextApiResponse>({ onError: errorHandler, onNoMatch: noMatchHandler(validMethods) })
 		.use(withCaching({ strategy: cacheStrategy ?? null, duration: cacheDuration }))
+		.use(withCors({ methods: validMethods }))
 		.use(withTracking({ name: transactionName }))
 )

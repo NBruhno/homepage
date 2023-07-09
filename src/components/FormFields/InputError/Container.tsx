@@ -2,10 +2,9 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 type Props = ComponentPropsWithoutRef<'div'> & {
 	isVisible: boolean,
-	hasFocus: boolean,
 }
 
-export const Container = ({ isVisible, hasFocus, ...rest }: Props) => (
+export const Container = ({ isVisible, ...rest }: Props) => (
 	<div
 		css={(theme) => ({
 			backgroundColor: theme.color.error,
@@ -13,7 +12,6 @@ export const Container = ({ isVisible, hasFocus, ...rest }: Props) => (
 			transition: 'height 135ms ease, box-shadow 135ms ease',
 			width: 'calc(100% + 2px)',
 			borderRadius: '4px',
-			boxShadow: isVisible && hasFocus ? `0 0 0 2px ${theme.color.error}` : 'none',
 			overflow: 'hidden',
 			textAlign: 'left',
 		})}

@@ -1,6 +1,6 @@
 export type GamePrice = {
 	currency: string,
-	current: number,
+	amount: number,
 	difference: number,
 	id: string,
 	name: string,

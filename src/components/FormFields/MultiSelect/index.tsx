@@ -30,7 +30,7 @@ const getFilteredOptions = (options: Array<SelectOption>, inputValue: string) =>
 	return matchSorter(options, inputValue, { keys: ['label'] })
 }
 
-export const MultiSelect = <TFieldValues extends FieldValues, Path extends FieldPathByValue<TFieldValues, string>>({
+export const MultiSelect = <TFieldValues extends FieldValues, Path extends FieldPathByValue<TFieldValues, Array<SelectOption['value']>>>({
 	showOptionalHint = true, isFullWidth = true, isRequired = false, maxNumberOfOptionsVisible = 40,
 	isDisabled = false, name, label, hint, placeholder, options, shouldAutofocus = false, isLoading = false,
 }: Props<Path>) => {
@@ -62,8 +62,12 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 		initialSelectedItems: initialValues ? initialValues.map((initialValue) => options.find(({ value }) => value === initialValue)!) : [],
 		onSelectedItemsChange: ({ selectedItems: selectedOptions }) => {
 			setFilteredOptions(getFilteredOptions(options, inputValue))
-			if (selectedOptions === undefined || selectedOptions.length === 0) return field.onChange(undefined)
-			return field.onChange(selectedOptions.map(({ value }) => value))
+			// A controversial change broke custom controlled inputs with unnecessarily harsh type-safety https://github.com/react-hook-form/react-hook-form/pull/10342
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			if (selectedOptions === undefined || selectedOptions.length === 0) return field.onChange(undefined as any)
+			// A controversial change broke custom controlled inputs with unnecessarily harsh type-safety https://github.com/react-hook-form/react-hook-form/pull/10342
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			return field.onChange(selectedOptions.map(({ value }) => value) as any)
 		},
 	})
 
@@ -230,7 +234,7 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 					selectedItems={selectedOptions}
 				/>
 			</Portal>
-			<InputError hasError={hasError} errorMessage={error?.message as string | undefined} hasFocus={isFocusVisible} />
+			<InputError hasError={hasError} errorMessage={error?.message as string | undefined} />
 		</FieldWrapper>
 	)
 }

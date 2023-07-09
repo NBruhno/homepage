@@ -2,30 +2,17 @@ import supertest from 'supertest'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { ApiError } from 'lib/errors'
-import type { TestResponse } from 'lib/test'
-import { createCredentials, createTestServer } from 'lib/test'
-
-import login from '../login.route'
+import { type TestResponse, createTestServer, userLogin } from 'lib/test'
 
 import handler from './logout.route'
 
 let accessToken = null as unknown as string
 let id = null as unknown as string
-const { email, defaultPassword } = createCredentials()
 
 describe('/api/users/{userId}/logout', () => {
 	beforeAll(async () => {
-		const server = createTestServer(login)
-		const res = await supertest(server)
-			.post('/api/users/login')
-			.send({
-				email,
-				password: defaultPassword,
-			}) as unknown as TestResponse & { body: { accessToken: string } }
-
-		accessToken = res.body.accessToken
-		id = decodeJwtToken(res.body.accessToken).userId
-		server.close()
+		accessToken = (await userLogin({})).accessToken!
+		id = decodeJwtToken(accessToken).userId
 	})
 
 	test('POST › Logout', async () => {

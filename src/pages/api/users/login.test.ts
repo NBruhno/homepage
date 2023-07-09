@@ -2,14 +2,31 @@ import supertest from 'supertest'
 
 import { ApiError } from 'lib/errors'
 import type { TestResponse } from 'lib/test'
-import { createCredentials, accessTokenMatch, createTestServer, intermediateTokenMatch, refreshTokenMatch } from 'lib/test'
+import { userDelete, userEnableTwoFactor, userCreate, createCredentials, accessTokenMatch, createTestServer, intermediateTokenMatch, refreshTokenMatch } from 'lib/test'
 
 import handler from './login.route'
 
-const { email, defaultPassword } = createCredentials()
-const { email: twoFactorEmail } = createCredentials({ label: '2fa' })
+const { email, defaultPassword, username } = createCredentials({ label: 'login' })
+const { email: twoFactorEmail, username: twoFactorUsername } = createCredentials({ label: 'login.2fa' })
 
 describe('/api/users/login', () => {
+	beforeAll(async () => {
+		await Promise.all([
+			userCreate({ email, username }),
+			(async () => {
+				const { accessToken } = await userCreate({ email: twoFactorEmail, username: twoFactorUsername })
+				await userEnableTwoFactor({ accessToken, email: twoFactorEmail, username: twoFactorUsername })
+			})(),
+		])
+	})
+
+	afterAll(async () => {
+		await Promise.all([
+			userDelete({ email }),
+			userDelete({ email: twoFactorEmail }),
+		])
+	})
+
 	test('POST › Successful login', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)

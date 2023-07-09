@@ -5,9 +5,7 @@ import supertest from 'supertest'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { ApiError } from 'lib/errors'
-import { accessTokenMatch, refreshTokenMatch, retryWrapper, createTestServer, createCredentials } from 'lib/test'
-
-import login from '../login.route'
+import { accessTokenMatch, refreshTokenMatch, retryWrapper, createTestServer, createCredentials, userCreate, userEnableTwoFactor, userLogin } from 'lib/test'
 
 import handler from './2fa.route'
 
@@ -15,45 +13,15 @@ let intermediateToken = null as unknown as string
 let accessToken = null as unknown as string
 let id = null as unknown as string
 
-const { email, defaultPassword, twoFactorSecret } = createCredentials({ label: '2fa' })
+const { twoFactorSecret } = createCredentials({ label: '2fa' })
 
 describe('/api/users/{id}/2fa', () => {
 	beforeAll(async () => {
-		const loginServer = createTestServer(login)
-		const loginRes = await supertest(loginServer)
-			.post('/api/users/login')
-			.send({
-				email,
-				password: defaultPassword,
-			}) as unknown as Omit<Response, 'body'> & { body: { intermediateToken: string } }
-
-		intermediateToken = loginRes.body.intermediateToken
-		id = decodeJwtToken(intermediateToken).userId
-		loginServer.close()
-
-		const twoFactorServer = createTestServer(handler, { id })
-		const twoFactorRes = await retryWrapper(() => supertest(twoFactorServer)
-			.post(`/api/users/${id}/2fa`)
-			.set('authorization', `Bearer ${intermediateToken}`)
-			.send({
-				otp: authenticator.generate(twoFactorSecret),
-			// eslint-disable-next-line @typescript-eslint/naming-convention
-			}), 3) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
-
-		accessToken = twoFactorRes.body.accessToken
-		twoFactorServer.close()
-	})
-
-	afterAll(async () => {
-		const server = createTestServer(handler, { id })
-		await retryWrapper(() => supertest(server)
-			.patch(`/api/users/${id}/2fa`)
-			.set('authorization', `Bearer ${accessToken}`)
-			.send({
-				otp: authenticator.generate(twoFactorSecret),
-				secret: twoFactorSecret,
-			}), 3)
-		server.close()
+		await userCreate({ label: '2fa' })
+		await userEnableTwoFactor({ label: '2fa' })
+		intermediateToken = (await userLogin({ label: '2fa' }, { shouldSkipTwoFactor: true })).intermediateToken!
+		accessToken = (await userLogin({ label: '2fa' })).accessToken!
+		id = decodeJwtToken(accessToken).userId
 	})
 
 	/** ------- GET method ------- */

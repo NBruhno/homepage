@@ -1,8 +1,7 @@
-import type { GamePrice } from 'types'
-
 import { sortBy } from 'lodash'
 
-import { useLoading, useModal } from 'states/page'
+import { useGamePrices } from 'states/games'
+import { useModal } from 'states/page'
 
 import { Container } from './Container'
 import { Empty } from './Empty'
@@ -11,32 +10,27 @@ import { Item } from './Item'
 import { Muted } from './Muted'
 import { Savings } from './Savings'
 
-type Props = {
-	prices: Array<GamePrice> | undefined,
-}
-
 const priceWithCurrency = (price: number, currency: string) => (
 	new Intl.NumberFormat('en-DK', { style: 'currency', currency }).format(price)
 )
 
-export const PriceTable = ({ prices }: Props) => {
-	const { isLoading } = useLoading()
+export const PriceTable = () => {
+	const { prices, isLoading } = useGamePrices()
 	const { onOpenModal } = useModal()
 
-	if (isLoading) return null
-	if (!prices) return <Empty>Looking for prices...</Empty>
-	if (prices.length === 0) return <Empty>There are no known prices for this game</Empty>
+	if (isLoading) return <Empty>Looking for prices...</Empty>
+	if (!prices || prices.length === 0) return <Empty>There are no known prices for this game</Empty>
 
-	const sortedPrices = sortBy(prices, [({ current }) => current])
+	const sortedPrices = sortBy(prices, [({ amount }) => amount])
 
-	const [{ name, current, currency, difference, url }] = sortedPrices
+	const [{ name, amount, currency, difference, url }] = sortedPrices
 
 	return (
 		<Container>
 			<Item href={url} isFirst>
 				<h4 css={{ margin: 0 }}>{name}</h4>
 				<div css={{ alignItems: 'center', columnGap: '12px' }}>
-					<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
+					<span>{amount === 0 ? 'Free to play' : priceWithCurrency(amount, currency)}</span>
 					<Savings difference={difference} />
 				</div>
 			</Item>
@@ -44,11 +38,11 @@ export const PriceTable = ({ prices }: Props) => {
 				<ExpandButton
 					onClick={() => onOpenModal(
 						<>
-							{sortedPrices.map(({ name, current, currency, difference, url }, index) => (
+							{sortedPrices.map(({ name, amount, currency, difference, url }, index) => (
 								<Item href={url} key={index}>
 									<span css={{ margin: 0 }}>{name}</span>
 									<div css={{ alignItems: 'center', columnGap: '12px' }}>
-										<span>{current === 0 ? 'Free to play' : priceWithCurrency(current, currency)}</span>
+										<span>{amount === 0 ? 'Free to play' : priceWithCurrency(amount, currency)}</span>
 										<Savings difference={difference} />
 									</div>
 								</Item>
