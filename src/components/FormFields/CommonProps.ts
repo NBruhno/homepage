@@ -28,7 +28,7 @@ export type SelectOption = {
 	/** The displayed name of the option. This does not affect the submitted result. */
 	label: string,
 	/** The value of the option. This is the value that will be reflected in the submission and attached to the `name` of the field. */
-	value: boolean | number | string,
+	value: number | string,
 }
 
 export type CommonSelectProps<Path> = CommonInputProps<Path> & {

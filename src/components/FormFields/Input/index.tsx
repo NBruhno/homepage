@@ -176,11 +176,7 @@ export const Input = ({
 					</InputButtonContainer>
 				</InputContainer>
 				{hint && !hasError && <Hint>{hint}</Hint>}
-				<InputError
-					hasError={hasError}
-					errorMessage={error?.message as string | undefined}
-					hasFocus={isFocusVisible}
-				/>
+				<InputError hasError={hasError} errorMessage={error?.message as string | undefined} />
 			</ColumnLabel>
 		</FieldWrapper>
 	)

@@ -129,7 +129,7 @@ export const Form = <T extends FieldValues>({
 	const resolver = schema ? superstructResolver(schema) : undefined
 	const methods = useForm<T>({
 		resolver,
-		defaultValues: initialValues,
+		defaultValues: initialValues ?? {} as DeepPartial<T>,
 		mode: validationMode,
 		reValidateMode,
 		criteriaMode,
