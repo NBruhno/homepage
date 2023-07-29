@@ -74,7 +74,7 @@
     "sharp": "0.32.4",
     "superstruct": "1.0.3",
     "swr": "2.2.0",
-    "three": "0.155.0",
+    "three": "0.154.0",
     "ts-custom-error": "3.3.1",
     "ua-parser-js": "^1.0.35",
     "undici": "5.22.1",

@@ -113,7 +113,7 @@ type Props<T extends FieldValues> = {
  * 	render={({ fieldProps, name }) => (
  * 		<>
  * 			<input {...fieldProps('text')} />
- * 			<Input name={name('number')} type='number' label='Number' required />
+ * 			<Input name={name('number')} label='Number' required />
  * 			<button type='submit'>Submit</button>
  * 		</>
  * 	)}
