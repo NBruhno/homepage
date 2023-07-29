@@ -49,7 +49,7 @@ export const Input = ({
 	const [isInputFocus, setIsInputFocus] = useState(false)
 	const [isForcedTextInput, setIsForcedTextInput] = useState(false)
 	const containerRef = useRef<HTMLDivElement>(null)
-	const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(null)
+	const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>()
 
 	const inputMode = useMemo(() => {
 		switch (type) {
@@ -132,7 +132,7 @@ export const Input = ({
 		<FieldWrapper isFullWidth={isFullWidth} minWidth={170} isHidden={inputType === 'hidden'}>
 			<ColumnLabel>
 				<LabelContainer htmlFor={id} id={labelId}>
-					<span>{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>} {maxLength && <Hint> {(value && typeof value === 'string' && value.length) || 0} / {maxLength}</Hint>}</span>
+					<span>{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>} {maxLength && <Hint> {(value && typeof value === 'string' && value.length) ?? 0} / {maxLength}</Hint>}</span>
 				</LabelContainer>
 				<InputContainer
 					{...hoverProps}
@@ -156,8 +156,7 @@ export const Input = ({
 							isFocusVisible={isFocusVisible}
 							ref={(event) => {
 								inputProps.ref(event)
-								// @ts-expect-error It claims that current on the ref is a read-only property, which is not the case.
-								inputRef.current = event
+								inputRef.current = event ?? undefined
 							}}
 						/>
 					) : (
@@ -165,8 +164,7 @@ export const Input = ({
 							{...defaultProps}
 							ref={(event) => {
 								inputProps.ref(event)
-								// @ts-expect-error It claims that current on the ref is a read-only property, which is not the case.
-								inputRef.current = event
+								inputRef.current = event ?? undefined
 							}}
 						/>
 					)}

@@ -85,7 +85,7 @@ export const ButtonToggle = <T extends number | string>({ options, label, initia
 						return (
 							<ButtonAsync
 								label={label}
-								id={`${index}`}
+								id={index.toString()}
 								onClick={() => {
 									if (!isSelected) {
 										setSelectedIndex(index)

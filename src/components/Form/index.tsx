@@ -1,5 +1,5 @@
 import type { ReactNode, BaseSyntheticEvent } from 'react'
-import type { CriteriaMode, DeepPartial, FieldPath, FieldValues, PathValue, UseFormReturn, ValidationMode } from 'react-hook-form'
+import type { CriteriaMode, DefaultValues, FieldPath, FieldValues, PathValue, UseFormReturn, ValidationMode } from 'react-hook-form'
 import type { Struct } from 'superstruct'
 import type { AnyStruct, StructSchema } from 'superstruct/dist/utils'
 import type { Promisable } from 'type-fest'
@@ -52,7 +52,7 @@ type Props<T extends FieldValues> = {
 	 */
 	schema?: Struct<T, StructSchema<T>>,
 	/** Avoid setting values to `undefined` intentionally. Prefer `null` instead if it has to be defined without a value. */
-	initialValues?: DeepPartial<T>,
+	initialValues?: DefaultValues<T>,
 	/** Changes when validation is done. The prop is described [here](https://react-hook-form.com/api/useform) */
 	validationMode?: keyof ValidationMode,
 	/** Changes when validation is done **after** the user has submitted. The prop is described [here](https://react-hook-form.com/api/useform) */
@@ -129,7 +129,7 @@ export const Form = <T extends FieldValues>({
 	const resolver = schema ? superstructResolver(schema) : undefined
 	const methods = useForm<T>({
 		resolver,
-		defaultValues: initialValues ?? {} as DeepPartial<T>,
+		defaultValues: initialValues,
 		mode: validationMode,
 		reValidateMode,
 		criteriaMode,

@@ -38,7 +38,7 @@ export const authenticate = (req: NextApiRequest,
 
 	const tokenToUse = ((): string => {
 		if (token) return token
-		if (type === UserTokenType.Refresh && (cookies['__Host-refreshToken'] || cookies['refreshToken'])) {
+		if (type === UserTokenType.Refresh && (cookies['__Host-refreshToken'] ?? cookies['refreshToken'])) {
 			return config.environment !== 'development'
 				? cookies['__Host-refreshToken']!
 				: cookies['refreshToken']!
