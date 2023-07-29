@@ -8,7 +8,7 @@ import useSWRInfinite from 'swr/infinite'
 import { fetcher } from 'lib/fetcher'
 
 const getKey = (userId: string | null) => (pageIndex: number, previousData: GameData | undefined) => {
-	if ((previousData && !previousData.after) || !userId) return null
+	if ((previousData && !previousData.after) ?? !userId) return null
 	const defaultLink = `/games?user=${userId}`
 	if (pageIndex === 0 && !previousData) return defaultLink
 	return `${defaultLink}&skip=${previousData ? (previousData.skip === 0 ? 1 : previousData.skip) + previousData.take : 0}`

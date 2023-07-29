@@ -95,6 +95,7 @@ module.exports = {
 				'@typescript-eslint/no-var-requires': ['error'],
 				'@typescript-eslint/prefer-includes': ['error'],
 				'@typescript-eslint/prefer-nullish-coalescing': ['error'],
+				'@typescript-eslint/prefer-optional-chain': ['error'],
 				'@typescript-eslint/prefer-readonly-parameter-types': 'off',
 				'@typescript-eslint/prefer-readonly': ['error'],
 				'@typescript-eslint/prefer-reduce-type-parameter': ['error'],
@@ -180,9 +181,7 @@ module.exports = {
 		'@typescript-eslint/prefer-interface': 'off',
 		'@typescript-eslint/prefer-literal-enum-member': ['error'],
 		'@typescript-eslint/prefer-namespace-keyword': ['error'],
-		'@typescript-eslint/prefer-optional-chain': ['error'],
 		'@typescript-eslint/prefer-ts-expect-error': ['error'],
-		'@typescript-eslint/sort-type-union-intersection-members': ['error'],
 		'@typescript-eslint/triple-slash-reference': ['error'],
 		'@typescript-eslint/unified-signatures': ['warn'],
 

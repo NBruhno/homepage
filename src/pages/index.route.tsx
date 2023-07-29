@@ -12,7 +12,7 @@ const Nebula = dynamic(async () => {
 	// If the browser does not support WebGL, there is no point in fetching the Nebula component
 	try {
 		const canvas = document.createElement('canvas')
-		if (Boolean(window.WebGLRenderingContext) && (canvas.getContext('experimental-webgl') || canvas.getContext('webgl'))) {
+		if (Boolean(window.WebGLRenderingContext) && (canvas.getContext('experimental-webgl') ?? canvas.getContext('webgl'))) {
 			const component = await import('components/Nebula')
 			return component.Nebula
 		}
