@@ -1,11 +1,10 @@
 import { useTheme } from '@emotion/react'
+import { addDays, isWithinInterval, subDays } from 'date-fns'
 import dynamic from 'next/dynamic'
 import { useMemo, useState } from 'react'
 
 import { useGameInsights } from 'states/games'
 import { useResponsive } from 'states/page'
-
-import { filterUnspecified } from 'lib/filterUnspecified'
 
 import { ButtonToggle } from 'components/Buttons'
 
@@ -22,45 +21,41 @@ const ResponsiveLine = dynamic(async () => {
 export const History = () => {
 	const { insights, isLoading } = useGameInsights()
 	const [daysToShow, setDaysToShow] = useState(31)
-	const [dataToShow, setDataToShow] = useState<'playersOnAverage' | 'rating' | 'reviews' | 'unitsSold'>('playersOnAverage')
 	const numberFormat = Intl.NumberFormat('en-DK', { notation: 'compact' })
 	const theme = useTheme()
 	const { isMobile } = useResponsive()
 
-	const dateInterval = useMemo(() => {
-		if (daysToShow === 7) return 'every day'
-		if (daysToShow === 14) return 'every 2 days'
-		if (daysToShow === 31) return isMobile ? 'every 5 days' : 'every 3 days'
-		return isMobile ? 'every 13 days' : 'every 8 days'
-	}, [daysToShow, isMobile])
-
 	const data = useMemo(() => {
 		if (!insights || insights.history.length === 0 || isLoading) return []
-		const dataSet = insights.history.slice(insights.history.length - daysToShow)
+		const dataSet = insights.history.filter(({ date }) => isWithinInterval(new Date(date), { start: subDays(new Date(), daysToShow), end: addDays(new Date(), 1) }))
 
-		return filterUnspecified([
-			dataToShow === 'playersOnAverage' ? {
-				id: 'Players',
-				color: theme.color.link,
-				data: dataSet.map(({ date, playersOnAverage }) => ({ x: date, y: playersOnAverage })),
-			} : undefined,
-			dataToShow === 'unitsSold' ? {
-				id: 'Units sold',
-				color: theme.color.success,
-				data: dataSet.map(({ date, unitsSold }) => ({ x: date, y: unitsSold })),
-			} : undefined,
-			dataToShow === 'reviews' ? {
-				id: 'Reviews',
-				color: theme.color.success,
-				data: dataSet.map(({ date, reviews }) => ({ x: date, y: reviews })),
-			} : undefined,
-			dataToShow === 'rating' ? {
-				id: 'Rating',
-				color: theme.color.success,
-				data: dataSet.map(({ date, rating }) => ({ x: date, y: rating })),
-			} : undefined,
-		])
-	}, [insights, dataToShow, theme.color, daysToShow, isLoading])
+		return [{
+			id: 'Players',
+			color: theme.color.link,
+			data: dataSet.map(({ date, playersOnAverage }) => ({ x: date, y: playersOnAverage })),
+		}]
+	}, [insights, theme.color, daysToShow, isLoading])
+
+	const dateInterval = useMemo(() => {
+		if (isLoading || !data[0]) return 'every day'
+		if (daysToShow === 7) return 'every day'
+		if (daysToShow === 14) return 'every 2 days'
+		if (daysToShow === 31) {
+			if (data[0].data.length < 31) return isMobile ? 'every 4 days' : 'every 3 days'
+			return isMobile ? 'every 5 days' : 'every 3 days'
+		}
+		if (daysToShow === 93) {
+			if (data[0].data.length < 32) return isMobile ? 'every 5 days' : 'every 3 days'
+			if (data[0].data.length < 63) return isMobile ? 'every 9 days' : 'every 7 days'
+			return isMobile ? 'every 14 days' : 'every 10 days'
+		}
+		if (data[0].data.length < 32) return isMobile ? 'every 4 days' : 'every 3 days'
+		if (data[0].data.length < 63) return isMobile ? 'every 9 days' : 'every 7 days'
+		if (data[0].data.length < 94) return isMobile ? 'every 14 days' : 'every 10 days'
+		if (data[0].data.length < 160) return isMobile ? 'every 2 months' : 'every 1 months'
+		if (data[0].data.length < 360) return isMobile ? 'every 4 months' : 'every 2 months'
+		return isMobile ? 'every 6 months' : 'every 3 months'
+	}, [isLoading, daysToShow, isMobile, data])
 
 	if (!isLoading && data.length === 0) {
 		return (
@@ -70,35 +65,18 @@ export const History = () => {
 
 	return (
 		<>
-			<h3 css={(theme) => ({ marginTop: 0, marginBottom: '8px', color: theme.color.textSubtitle })}>Steam data</h3>
-			<div css={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-				<div>
-					<ButtonToggle
-						label='Data'
-						options={[
-							{ label: 'Players', value: 'playersOnAverage' },
-							{ label: 'Units sold', value: 'unitsSold' },
-							{ label: 'Reviews', value: 'reviews' },
-							{ label: 'Rating', value: 'rating' },
-						]}
-						initialValue='playersOnAverage'
-						onValueChange={setDataToShow}
-					/>
-				</div>
-				<div>
-					<ButtonToggle
-						label='Range'
-						options={[
-							{ label: 'Week', value: 7 },
-							{ label: 'Two weeks', value: 14 },
-							{ label: 'Month', value: 31 },
-							{ label: 'Three months', value: insights?.history.length ?? 0 },
-						]}
-						initialValue={31}
-						onValueChange={setDaysToShow}
-					/>
-				</div>
-			</div>
+			<h3 css={(theme) => ({ marginTop: 0, marginBottom: '8px', color: theme.color.textSubtitle })}>Steam concurrent players</h3>
+			<ButtonToggle
+				options={[
+					{ label: 'Week', value: 7 },
+					{ label: 'Two weeks', value: 14 },
+					{ label: 'Month', value: 31 },
+					{ label: 'Three months', value: 93 },
+					{ label: 'All time', value: insights?.history.length ?? 0 },
+				]}
+				initialValue={31}
+				onValueChange={setDaysToShow}
+			/>
 			<div css={{ position: 'relative', height: isMobile ? '225px' : '300px', marginBottom: '32px' }}>
 				<ResponsiveLine
 					data={data}
@@ -108,10 +86,10 @@ export const History = () => {
 					useMesh
 					animate={false}
 					margin={{ top: 16, right: 24, bottom: 24, left: 36 }}
-					xScale={{ type: 'time', format: '%Y-%m-%d', useUTC: false, precision: 'day' }}
+					xScale={{ type: 'time', format: '%Y-%m-%d %H:%M:%S.%L', useUTC: false, precision: 'hour' }}
 					xFormat={(date) => new Date(date).toLocaleString('en-DK', { month: 'long', day: 'numeric', year: 'numeric' })}
 					axisBottom={{
-						format: (value: number) => new Date(value).toLocaleString('en-DK', { month: 'short', day: 'numeric' }),
+						format: (value: number) => new Date(value).toLocaleString('en-DK', { month: 'short', day: (daysToShow > 182 && data[0].data.length > 182) ? undefined : 'numeric', year: (daysToShow > 182 && data[0].data.length > 182) ? 'numeric' : undefined }),
 						tickValues: dateInterval,
 					}}
 					yScale={{
@@ -120,9 +98,9 @@ export const History = () => {
 						max: 'auto',
 					}}
 					// @ts-expect-error Typings poop
-					yFormat={(value: number) => dataToShow === 'rating' ? `${value}%` : numberFormat.format(value)}
+					yFormat={(value: number) => numberFormat.format(value)}
 					axisLeft={{
-						format: (value: number) => dataToShow === 'rating' ? `${value}%` : numberFormat.format(value),
+						format: (value: number) => numberFormat.format(value),
 						tickValues: 4,
 					}}
 					colors={[

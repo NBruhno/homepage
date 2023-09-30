@@ -1,5 +1,6 @@
-import type { VGInsightsGame, VGInsightsHistory, VGInsightsStats } from 'types/vginsights'
+import type { VGInsightsGame, VGInsightsStats } from 'types/vginsights'
 
+import { format } from 'date-fns'
 import { create, object, string } from 'superstruct'
 
 import { config } from 'config.server'
@@ -43,22 +44,14 @@ export default apiHandler({
 
 		if (insights.rating && insights.unitsSold) {
 			const [history, stats] = await Promise.all([
-				monitorAsync(() => fetch(`https://vginsights.com/api/v1/game/${appId}/history`, {
+				monitorAsync(() => fetch(`https://steamcharts.com/app/${appId}/chart-data.json`, {
 					method: 'GET',
-					headers: {
-						Authorization: `Bearer ${config.vgInsights.token}`,
-					},
-				}), 'http:vginsights', 'game player history').then(async (response) => {
+				}), 'http:steamcharts', 'game player history').then(async (response) => {
 					if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
-					const history = await response.json() as VGInsightsHistory
-					return history.performance.map(({ date, players_avg: playersOnAverage, units: unitsSoldTotal, units_increase: unitsSold, members: followers, reviews, rating }) => ({
-						date,
-						playersOnAverage,
-						unitsSold,
-						unitsSoldTotal,
-						followers,
-						reviews,
-						rating,
+					const history = await response.json() as Array<[date: number, value: number]>
+					return history.map(([date, value]) => ({
+						date: format(date, 'yyyy-MM-dd HH:mm:ss.SSS'),
+						playersOnAverage: value,
 					}))
 				}),
 				monitorAsync(() => fetch(`https://vginsights.com/api/v1/game/${appId}/quick-stats`, {
