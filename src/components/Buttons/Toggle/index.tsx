@@ -17,7 +17,7 @@ type Props<T> = {
 	onValueChange: (value: T) => any,
 }
 
-export const ButtonToggle = <T extends number | string>({ options, label, initialValue = options[0].value, onValueChange, ...rest }: Props<T>) => {
+export const ButtonToggle = <T extends number | string | boolean>({ options, label, initialValue = options[0].value, onValueChange, ...rest }: Props<T>) => {
 	const buttons = useRef<Array<HTMLButtonElement | null>>([])
 	const [selectedIndex, setSelectedIndex] = useState<number>(options.findIndex(({ value }) => value === initialValue))
 	const [hoveredButton, setHoveredButton] = useState<HTMLButtonElement | null>(buttons.current[selectedIndex])
