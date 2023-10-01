@@ -1,5 +1,5 @@
 import { useTheme } from '@emotion/react'
-import { addDays, isWithinInterval, subDays } from 'date-fns'
+import { addDays, differenceInDays, isWithinInterval, subDays } from 'date-fns'
 import dynamic from 'next/dynamic'
 import { useMemo, useState } from 'react'
 
@@ -36,26 +36,33 @@ export const History = () => {
 		}]
 	}, [insights, theme.color, daysToShow, isLoading])
 
+	const daysOfData = useMemo(() => {
+		if (isLoading || !data[0]) return 0
+		const dataPoints = data[0].data
+		return differenceInDays(new Date(dataPoints[dataPoints.length - 1].x), new Date(dataPoints[0].x))
+	}, [data, isLoading])
+
 	const dateInterval = useMemo(() => {
-		if (isLoading || !data[0]) return 'every day'
+		if (isLoading || daysOfData === 0) return 'every day'
+
 		if (daysToShow === 7) return 'every day'
 		if (daysToShow === 14) return 'every 2 days'
 		if (daysToShow === 31) {
-			if (data[0].data.length < 31) return isMobile ? 'every 4 days' : 'every 3 days'
+			if (daysOfData < 31) return isMobile ? 'every 4 days' : 'every 3 days'
 			return isMobile ? 'every 5 days' : 'every 3 days'
 		}
 		if (daysToShow === 93) {
-			if (data[0].data.length < 32) return isMobile ? 'every 5 days' : 'every 3 days'
-			if (data[0].data.length < 63) return isMobile ? 'every 9 days' : 'every 7 days'
+			if (daysOfData < 32) return isMobile ? 'every 5 days' : 'every 3 days'
+			if (daysOfData < 63) return isMobile ? 'every 9 days' : 'every 7 days'
 			return isMobile ? 'every 14 days' : 'every 10 days'
 		}
-		if (data[0].data.length < 32) return isMobile ? 'every 4 days' : 'every 3 days'
-		if (data[0].data.length < 63) return isMobile ? 'every 9 days' : 'every 7 days'
-		if (data[0].data.length < 94) return isMobile ? 'every 14 days' : 'every 10 days'
-		if (data[0].data.length < 160) return isMobile ? 'every 2 months' : 'every 1 months'
-		if (data[0].data.length < 360) return isMobile ? 'every 4 months' : 'every 2 months'
+		if (daysOfData < 32) return isMobile ? 'every 4 days' : 'every 3 days'
+		if (daysOfData < 63) return isMobile ? 'every 9 days' : 'every 7 days'
+		if (daysOfData < 94) return isMobile ? 'every 14 days' : 'every 10 days'
+		if (daysOfData < 160) return isMobile ? 'every 2 months' : 'every 1 months'
+		if (daysOfData < 360) return isMobile ? 'every 4 months' : 'every 2 months'
 		return isMobile ? 'every 6 months' : 'every 3 months'
-	}, [isLoading, daysToShow, isMobile, data])
+	}, [isLoading, daysToShow, isMobile, daysOfData])
 
 	if (!isLoading && data.length === 0) {
 		return (
@@ -87,9 +94,9 @@ export const History = () => {
 					animate={false}
 					margin={{ top: 16, right: 24, bottom: 24, left: 36 }}
 					xScale={{ type: 'time', format: '%Y-%m-%d %H:%M:%S.%L', useUTC: false, precision: 'hour' }}
-					xFormat={(date) => new Date(date).toLocaleString('en-DK', { month: 'long', day: 'numeric', year: 'numeric' })}
+					xFormat={(date) => new Date(date).toLocaleString('en-DK', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
 					axisBottom={{
-						format: (value: number) => new Date(value).toLocaleString('en-DK', { month: 'short', day: (daysToShow > 182 && data[0].data.length > 182) ? undefined : 'numeric', year: (daysToShow > 182 && data[0].data.length > 182) ? 'numeric' : undefined }),
+						format: (value: number) => new Date(value).toLocaleString('en-DK', { month: 'short', day: (daysToShow > 182 && daysOfData > 182) ? undefined : 'numeric', year: (daysToShow > 182 && daysOfData > 182) ? 'numeric' : undefined }),
 						tickValues: dateInterval,
 					}}
 					yScale={{
