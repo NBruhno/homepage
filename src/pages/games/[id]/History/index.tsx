@@ -33,14 +33,17 @@ export const History = () => {
 
 	const data = useMemo(() => {
 		if (!insights || insights.history.length === 0 || isLoading) return []
-		const dataSet = insights.history.filter(({ date }) => isWithinInterval(new Date(date), { start: subDays(new Date(), daysToShow === 0 ? daysOfData : daysToShow), end: addDays(new Date(), 1) }))
+		const dataSet = insights.history.filter(({ date }) => isWithinInterval(new Date(date), {
+			start: subDays(new Date(), daysToShow),
+			end: addDays(new Date(), 1),
+		}))
 
 		return [{
 			id: 'Players',
 			color: theme.color.link,
 			data: dataSet.map(({ date, playersOnAverage }) => ({ x: date, y: playersOnAverage })),
 		}]
-	}, [insights, theme.color, daysToShow, daysOfData, isLoading])
+	}, [insights, theme.color, daysToShow, isLoading])
 
 	const dateInterval = useMemo(() => {
 		if (isLoading || daysOfData === 0) return 'every day'
@@ -75,14 +78,16 @@ export const History = () => {
 
 	return (
 		<>
-			<h3 css={(theme) => ({ marginTop: 0, marginBottom: '8px', color: theme.color.textSubtitle })}>Steam concurrent players</h3>
+			<h3 css={(theme) => ({ marginTop: 0, marginBottom: '8px', color: theme.color.textSubtitle })}>
+				Steam concurrent players
+			</h3>
 			<ButtonToggle
 				options={[
 					{ label: 'Week', value: 7 },
 					{ label: 'Two weeks', value: 14 },
 					{ label: 'Month', value: 31 },
 					{ label: 'Three months', value: 93 },
-					{ label: 'All time', value: 0 },
+					{ label: 'All time', value: daysOfData },
 				]}
 				initialValue={31}
 				onValueChange={setDaysToShow}
@@ -99,7 +104,11 @@ export const History = () => {
 					xScale={{ type: 'time', format: '%Y-%m-%d %H:%M:%S.%L', useUTC: false, precision: 'hour' }}
 					xFormat={(date) => new Date(date).toLocaleString('en-DK', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
 					axisBottom={{
-						format: (value: number) => new Date(value).toLocaleString('en-DK', { month: 'short', day: (daysToShow > 182 && daysOfData > 182) ? undefined : 'numeric', year: (daysToShow > 182 && daysOfData > 182) ? 'numeric' : undefined }),
+						format: (value: number) => new Date(value).toLocaleString('en-DK', {
+							month: (daysToShow > 2480 && daysOfData > 2480) ? undefined : 'short',
+							day: (daysToShow > 182 && daysOfData > 182) ? undefined : 'numeric',
+							year: (daysToShow > 182 && daysOfData > 182) ? 'numeric' : undefined,
+						}),
 						tickValues: dateInterval,
 					}}
 					yScale={{
