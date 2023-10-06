@@ -20,27 +20,27 @@ const ResponsiveLine = dynamic(async () => {
 
 export const History = () => {
 	const { insights, isLoading } = useGameInsights()
-	const [daysToShow, setDaysToShow] = useState(31)
+	const [daysToShow, setDaysToShow] = useState<number>(31)
 	const numberFormat = Intl.NumberFormat('en-DK', { notation: 'compact' })
 	const theme = useTheme()
 	const { isMobile } = useResponsive()
 
+	const daysOfData = useMemo(() => {
+		if (isLoading || !insights?.history) return 0
+		const dataPoints = insights.history
+		return differenceInDays(new Date(dataPoints[dataPoints.length - 1].date), new Date(dataPoints[0].date))
+	}, [isLoading, insights?.history])
+
 	const data = useMemo(() => {
 		if (!insights || insights.history.length === 0 || isLoading) return []
-		const dataSet = insights.history.filter(({ date }) => isWithinInterval(new Date(date), { start: subDays(new Date(), daysToShow), end: addDays(new Date(), 1) }))
+		const dataSet = insights.history.filter(({ date }) => isWithinInterval(new Date(date), { start: subDays(new Date(), daysToShow === 0 ? daysOfData : daysToShow), end: addDays(new Date(), 1) }))
 
 		return [{
 			id: 'Players',
 			color: theme.color.link,
 			data: dataSet.map(({ date, playersOnAverage }) => ({ x: date, y: playersOnAverage })),
 		}]
-	}, [insights, theme.color, daysToShow, isLoading])
-
-	const daysOfData = useMemo(() => {
-		if (isLoading || !data[0]) return 0
-		const dataPoints = data[0].data
-		return differenceInDays(new Date(dataPoints[dataPoints.length - 1].x), new Date(dataPoints[0].x))
-	}, [data, isLoading])
+	}, [insights, theme.color, daysToShow, daysOfData, isLoading])
 
 	const dateInterval = useMemo(() => {
 		if (isLoading || daysOfData === 0) return 'every day'
@@ -61,7 +61,10 @@ export const History = () => {
 		if (daysOfData < 94) return isMobile ? 'every 14 days' : 'every 10 days'
 		if (daysOfData < 160) return isMobile ? 'every 2 months' : 'every 1 months'
 		if (daysOfData < 360) return isMobile ? 'every 4 months' : 'every 2 months'
-		return isMobile ? 'every 6 months' : 'every 3 months'
+		if (daysOfData < 720) return isMobile ? 'every 6 months' : 'every 3 months'
+		if (daysOfData < 1400) return isMobile ? 'every 8 months' : 'every 4 months'
+		if (daysOfData < 2480) return isMobile ? 'every 10 months' : 'every 5 months'
+		return isMobile ? 'every 2 years' : 'every year'
 	}, [isLoading, daysToShow, isMobile, daysOfData])
 
 	if (!isLoading && data.length === 0) {
@@ -79,7 +82,7 @@ export const History = () => {
 					{ label: 'Two weeks', value: 14 },
 					{ label: 'Month', value: 31 },
 					{ label: 'Three months', value: 93 },
-					{ label: 'All time', value: insights?.history.length ?? 0 },
+					{ label: 'All time', value: 0 },
 				]}
 				initialValue={31}
 				onValueChange={setDaysToShow}
