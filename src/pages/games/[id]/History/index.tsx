@@ -26,7 +26,7 @@ export const History = () => {
 	const { isMobile } = useResponsive()
 
 	const daysOfData = useMemo(() => {
-		if (isLoading || !insights?.history) return 0
+		if (isLoading || !insights?.history || insights.history.length === 0) return 0
 		const dataPoints = insights.history
 		return differenceInDays(new Date(dataPoints[dataPoints.length - 1].date), new Date(dataPoints[0].date))
 	}, [isLoading, insights?.history])

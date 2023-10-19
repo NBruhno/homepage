@@ -1,18 +1,11 @@
-import type { GetStaticPaths, GetStaticProps, InferGetStaticPropsType, NextPage } from 'next'
-import type { Game, GameExtended, GameSimple } from 'types'
+import type { NextPage } from 'next'
 
 import { isString } from 'lodash'
 import { useRouter } from 'next/router'
-import { getPlaiceholder } from 'plaiceholder'
-
-import { config } from 'config.server'
 
 import { useGame, useGameUserStatus } from 'states/games'
 import { useTitle, useResponsive } from 'states/page'
 import { useUser } from 'states/users'
-
-import { fetcher } from 'lib/fetcher'
-import { logger } from 'lib/logger'
 
 import { ButtonSolid } from 'components/Buttons'
 import { GridContainer } from 'components/Layout'
@@ -41,84 +34,9 @@ import { SimilarGames } from './SimilarGames'
 import { VideoTabs } from './VideoTabs'
 import { WebsiteIcons } from './WebsiteIcons'
 
-type State = {
-	game: GameExtended | null,
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-	const { games } = await fetcher<{ games: Array<GameSimple> }>('/games?is-popular=yes&take=10', { absoluteUrl: config.staticHost })
-	return {
-		paths: games.map(({ id }) => ({ params: { id: id.toString() } })),
-		fallback: true,
-	}
-}
-
-export const getStaticProps: GetStaticProps<State> = async ({ params }) => {
-	if (!params?.id) {
-		return {
-			props: {
-				game: null,
-				prices: null,
-			},
-		}
-	}
-
-	try {
-		const game = await fetcher<Game | undefined>(`/games/${params.id as string}`, { absoluteUrl: config.staticHost })
-		if (!game) return { notFound: true }
-		const [{ img: coverProps, base64: coverBlurUrl }, { img: screenshotProps, base64: screenshotBlurUrl }, ...similarGames] = await Promise.all([
-			game.cover ? getPlaiceholder(game.cover) : { img: null, base64: null },
-			game.screenshot ? getPlaiceholder(game.screenshot) : { img: null, base64: null },
-			...game.similarGames.map(async (game) => {
-				if (!game.cover) {
-					return {
-						...game,
-						coverProps: null,
-					}
-				}
-				const { img, base64 } = await getPlaiceholder(game.cover)
-
-				return ({
-					...game,
-					coverProps: {
-						...img,
-						blurDataURL: base64,
-					},
-				})
-			}),
-		])
-
-		return {
-			props: {
-				game: {
-					...game,
-					coverProps: (coverProps && coverBlurUrl) ? {
-						...coverProps,
-						blurDataURL: coverBlurUrl,
-					} : null,
-					screenshotProps: (screenshotProps && screenshotBlurUrl) ? {
-						...screenshotProps,
-						blurDataURL: screenshotBlurUrl,
-					} : null,
-					similarGames,
-				},
-			},
-			revalidate: 60 * 10, // in seconds
-		}
-	} catch (error) {
-		logger.error(error)
-		return {
-			props: {
-				game: null,
-				prices: null,
-			},
-		}
-	}
-}
-
-const GamePage: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({ game: incomingGame }) => {
+const GamePage: NextPage = () => {
 	const { query } = useRouter()
-	const { game, isLoading } = useGame({ id: isString(query.id) ? parseInt(query.id, 10) : null, initialGame: incomingGame ?? undefined })
+	const { game, isLoading } = useGame({ id: isString(query.id) ? parseInt(query.id, 10) : null })
 	const { userStatus, onToggleFollowing } = useGameUserStatus()
 	const accessToken = useUser((state) => state.accessToken)
 	const { isMobile } = useResponsive()
