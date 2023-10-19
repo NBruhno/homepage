@@ -13,6 +13,7 @@ export const Button = (props: ComponentProps<typeof ButtonAsync>) => (
 			borderBottomLeftRadius: '4px',
 			borderBottomRightRadius: '4px',
 			fontSize: theme.font.size.s90,
+			color: theme.color.text,
 
 			'&:hover, &:focus, &:active': {
 				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.3 }),
