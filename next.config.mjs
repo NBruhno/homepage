@@ -1,10 +1,13 @@
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-	enabled: process.env.ANALYZE_BUILD === 'true',
-})
-const { withPlaiceholder } = require('@plaiceholder/next')
-const { withSentryConfig } = require('@sentry/nextjs')
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-const withPwa = require('next-pwa')({
+/* eslint-disable import/no-import-module-exports */
+
+import bundleAnalyzer from '@next/bundle-analyzer'
+import withPlaiceholder from '@plaiceholder/next'
+import { withSentryConfig } from '@sentry/nextjs'
+import LodashModuleReplacementPlugin from 'lodash-webpack-plugin'
+import pwa from 'next-pwa'
+
+const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE_BUILD === 'true' })
+const withPwa = pwa({
 	disable: process.env.VERCEL_ENV === 'development',
 	dest: 'public',
 })
@@ -105,10 +108,6 @@ const nextConfig = {
 		emotion: true,
 	},
 
-	serverRuntimeConfig: {
-		rootDir: __dirname,
-	},
-
 	pageExtensions: ['route.tsx', 'route.ts'],
 
 	outputFileTracing: true,
@@ -161,4 +160,4 @@ const nextConfig = {
 	basePath,
 }
 
-module.exports = withBundleAnalyzer(withPwa(withPlaiceholder(withSentryConfig(nextConfig, sentryConfig))))
+export default withBundleAnalyzer(withPwa(withPlaiceholder(withSentryConfig(nextConfig, sentryConfig))))
