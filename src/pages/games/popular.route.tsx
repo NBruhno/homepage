@@ -28,11 +28,11 @@ export const getStaticProps: GetStaticProps<State> = async () => {
 		const extendedGames = await Promise.all(games.map(async (game): Promise<GameSimpleExtended> => {
 			if (game.cover) {
 				const image = await fetch(game.cover).then(async (res) => Buffer.from(await res.arrayBuffer()))
-				const { img, base64 } = game.cover ? await getPlaiceholder(image) : { img: null, base64: null }
+				const { metadata, base64 } = game.cover ? await getPlaiceholder(image) : { metadata: null, base64: null }
 				return ({
 					...game,
-					coverProps: (img && base64) ? {
-						...img,
+					coverProps: (metadata && base64) ? {
+						...metadata,
 						blurDataURL: base64,
 					} : null,
 				})

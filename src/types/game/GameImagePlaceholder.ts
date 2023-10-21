@@ -1,5 +1,5 @@
-import type { IGetPlaiceholderReturn } from 'plaiceholder'
+import type { GetPlaiceholderReturn } from 'plaiceholder'
 
-export type GameImagePlaceholder = IGetPlaiceholderReturn['img'] & {
-	blurDataURL: IGetPlaiceholderReturn['base64'],
+export type GameImagePlaceholder = GetPlaiceholderReturn['metadata'] & {
+	blurDataURL: GetPlaiceholderReturn['base64'],
 }
