@@ -17,7 +17,7 @@ export const Dust = ({ opacity, position, shouldAnimate = true, rotation }: Dust
 	const texture = useTexture('images/smoke.png')
 	useFrame(() => {
 		if (ref.current && shouldAnimate) {
-			ref.current.rotation.z -= random(0.6, 2) / 1000
+			ref.current.rotation.z -= random(0.6, 2) / 2000
 		}
 	})
 
