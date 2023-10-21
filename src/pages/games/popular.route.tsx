@@ -26,13 +26,20 @@ export const getStaticProps: GetStaticProps<State> = async () => {
 	try {
 		const { games } = await fetcher<{ games: Array<GameSimple>, skip: number, take: number, before: GameSimple | null, after: GameSimple | null }>(`/games?is-popular=yes`, { absoluteUrl: config.staticHost })
 		const extendedGames = await Promise.all(games.map(async (game): Promise<GameSimpleExtended> => {
-			const { img, base64 } = game.cover ? await getPlaiceholder(game.cover) : { img: null, base64: null }
+			if (game.cover) {
+				const image = await fetch(game.cover).then(async (res) => Buffer.from(await res.arrayBuffer()))
+				const { metadata, base64 } = game.cover ? await getPlaiceholder(image) : { metadata: null, base64: null }
+				return ({
+					...game,
+					coverProps: (metadata && base64) ? {
+						...metadata,
+						blurDataURL: base64,
+					} : null,
+				})
+			}
 			return ({
 				...game,
-				coverProps: (img && base64) ? {
-					...img,
-					blurDataURL: base64,
-				} : null,
+				coverProps: null,
 			})
 		}))
 
