@@ -1,7 +1,7 @@
 import type { Span, Transaction } from '@sentry/types'
 import type { NextApiResponse } from 'next'
 
-import { set as serialize } from 'js-cookie'
+import { serialize } from 'cookie'
 
 import { config } from 'config.server'
 
