@@ -1,10 +1,10 @@
 /* eslint-disable import/no-import-module-exports */
 
+import pwa from '@ducanh2912/next-pwa'
 import bundleAnalyzer from '@next/bundle-analyzer'
 import withPlaiceholder from '@plaiceholder/next'
 import { withSentryConfig } from '@sentry/nextjs'
 import LodashModuleReplacementPlugin from 'lodash-webpack-plugin'
-import pwa from 'next-pwa'
 
 const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE_BUILD === 'true' })
 const withPwa = pwa({
