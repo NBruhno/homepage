@@ -1,7 +1,7 @@
 import type { Span, Transaction } from '@sentry/types'
 import type { NextApiResponse } from 'next'
 
-import { serialize } from 'cookie'
+import { set as serialize } from 'js-cookie'
 
 import { config } from 'config.server'
 
@@ -40,7 +40,9 @@ export const setRefreshCookie = (res: NextApiResponse, token: string, transactio
 		secure: isProduction,
 	})
 
-	res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
+	if (refreshCookie && refreshCookieCheck) {
+		res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
+	} else throw new Error('Failed to create refresh cookie')
 }, 'setRefreshCookie()', '', transaction)
 
 /**
@@ -61,7 +63,6 @@ export const removeRefreshCookie = (res: NextApiResponse, transaction?: Span | T
 		expires: new Date('1970'),
 		secure: isProduction,
 	})
-	res.setHeader('Set-Cookie', refreshCookie)
 
 	const refreshCookieCheck = serialize(isProduction ? '__Host-refreshTokenExists' : 'refreshTokenExists', '', {
 		httpOnly: false,
@@ -71,5 +72,7 @@ export const removeRefreshCookie = (res: NextApiResponse, transaction?: Span | T
 		expires: new Date('1970'),
 		secure: isProduction,
 	})
-	res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
+	if (refreshCookie && refreshCookieCheck) {
+		res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
+	} else throw new Error('Failed to remove refresh cookie')
 }, 'removeRefreshCookie()', '', transaction)
