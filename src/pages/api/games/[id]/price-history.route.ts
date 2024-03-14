@@ -53,14 +53,17 @@ export default apiHandler({
 					country: 'DK',
 				},
 			}).then((response) => {
-				const { price, cut, shop } = response[0].low
-				return {
-					currency: price.currency,
-					amount: price.amount,
-					difference: cut,
-					id: shop.id,
-					name: shop.name,
+				if (response[0]) {
+					const { price, cut, shop } = response[0].low
+					return {
+						currency: price.currency,
+						amount: price.amount,
+						difference: cut,
+						id: shop.id,
+						name: shop.name,
+					}
 				}
+				return null
 			}),
 			itadFetcher<Array<ItadStoreHistoricLows>>('/games/storelow', {
 				method: 'POST',
@@ -69,11 +72,16 @@ export default apiHandler({
 				query: {
 					country: 'DK',
 				},
-			}).then((response) => sortBy(response[0].lows.map(({ shop, price }) => ({
-				currency: price.currency,
-				shop,
-				amount: price.amount,
-			})), 'amount')),
+			}).then((response) => {
+				if (response[0]) {
+					return sortBy(response[0].lows.map(({ shop, price }) => ({
+						currency: price.currency,
+						shop,
+						amount: price.amount,
+					})), 'amount')
+				}
+				return []
+			}),
 			itadFetcher<Array<ItadShops>>('/service/shops', {
 				version: 1,
 				query: {
