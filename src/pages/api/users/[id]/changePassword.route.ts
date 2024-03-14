@@ -19,7 +19,7 @@ export default apiHandler({
 		const { userId: requestUserId, role } = authenticate(req)
 		const { id } = create(req.query, object({ id: string() }))
 
-		const user = await monitorAsync(() => prisma.user.findUnique({
+		const user = await monitorAsync(() => prisma.users.findUnique({
 			where: {
 				id,
 			},
@@ -41,7 +41,7 @@ export default apiHandler({
 		}
 
 		const passwordHash = await monitorAsync(() => hash(newPassword, argonDefaultOptions), 'argon2', 'hash()')
-		await monitorAsync(() => prisma.user.update({
+		await monitorAsync(() => prisma.users.update({
 			where: {
 				id,
 			},

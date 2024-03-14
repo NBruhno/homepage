@@ -34,7 +34,7 @@ export default apiHandler({
 		const { sub, username, role, userId: requestUserId } = authenticate(req, { type: UserTokenType.Intermediate })
 		if (requestUserId !== id) throw ApiError.fromCode(403)
 
-		const user = await monitorAsync(() => prisma.user.findUnique({
+		const user = await monitorAsync(() => prisma.users.findUnique({
 			where: {
 				id: requestUserId,
 			},
@@ -68,7 +68,7 @@ export default apiHandler({
 			if (!otpAuthenticator.verify({ token: otp, secret })) throw ApiError.fromCode(401)
 		}, 'otplib', 'verify()')
 
-		await monitorAsync(() => prisma.user.update({
+		await monitorAsync(() => prisma.users.update({
 			where: {
 				id,
 			},
@@ -84,7 +84,7 @@ export default apiHandler({
 		const { userId: requestUserId, role } = authenticate(req)
 		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
 
-		await monitorAsync(() => prisma.user.update({
+		await monitorAsync(() => prisma.users.update({
 			where: {
 				id,
 			},

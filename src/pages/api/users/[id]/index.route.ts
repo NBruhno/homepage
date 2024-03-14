@@ -18,7 +18,7 @@ export default apiHandler({
 		authenticate(req, { allowedRoles: [UserRole.Admin] })
 		const { id } = create(req.query, object({ id: string() }))
 
-		const user = await monitorAsync(() => prisma.user.findUnique({
+		const user = await monitorAsync(() => prisma.users.findUnique({
 			where: {
 				id,
 			},
@@ -46,7 +46,7 @@ export default apiHandler({
 			username: optional(username()),
 		}))
 
-		await monitorAsync(() => prisma.user.update({
+		await monitorAsync(() => prisma.users.update({
 			where: {
 				id,
 			},
@@ -60,7 +60,7 @@ export default apiHandler({
 		const { id } = create(req.query, object({ id: string() }))
 		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
 
-		await monitorAsync(() => prisma.user.delete({
+		await monitorAsync(() => prisma.users.delete({
 			where: {
 				id,
 			},

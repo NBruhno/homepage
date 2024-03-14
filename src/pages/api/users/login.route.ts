@@ -20,7 +20,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.post(async (req, res) => {
 		const { email: loginEmail, password } = create(req.body, Body)
 
-		const user = await monitorAsync(() => prisma.user.findUnique({
+		const user = await monitorAsync(() => prisma.users.findUnique({
 			where: {
 				email: loginEmail,
 			},

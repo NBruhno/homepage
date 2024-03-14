@@ -23,7 +23,7 @@ export default apiHandler({
 	.get(async (req, res) => {
 		const { id } = create(req.query, Query)
 
-		const game = await monitorAsync(() => prisma.game.findUnique({
+		const game = await monitorAsync(() => prisma.games.findUnique({
 			where: {
 				id,
 			},
@@ -57,7 +57,7 @@ export default apiHandler({
 		const { id } = create(req.query, Query)
 		const game = create(req.body, gameValidator)
 
-		const createdGame = await monitorAsync(() => prisma.game.upsert({
+		const createdGame = await monitorAsync(() => prisma.games.upsert({
 			where: { id },
 			update: game,
 			create: game,
@@ -71,7 +71,7 @@ export default apiHandler({
 		const { id } = create(req.query, Query)
 		const game = create(req.body, gameValidator)
 
-		const updatedGame = await monitorAsync(() => prisma.game.update({
+		const updatedGame = await monitorAsync(() => prisma.games.update({
 			where: { id },
 			data: game,
 		}), 'db:prisma', 'update()')
