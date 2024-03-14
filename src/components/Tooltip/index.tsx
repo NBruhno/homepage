@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { useHover } from '@react-aria/interactions'
-import { Fragment, isValidElement, Children, cloneElement, useMemo, useRef } from 'react'
+import { Fragment, isValidElement, Children, cloneElement, useRef } from 'react'
 
 import { useScrollStore } from 'states/page'
 
@@ -32,7 +32,7 @@ export const Tooltip = ({
 	const windowScrollX = useScrollStore((state) => state.scrollX)
 	const windowScrollY = useScrollStore((state) => state.scrollY)
 	const { hoverProps, isHovered } = useHover({})
-	const childRect = useMemo(() => {
+	const childRect = (() => {
 		if (!contentRef.current || typeof window === 'undefined') {
 			return {
 				height: 0, width: 0, top: 0, right: 0, left: 0, tooltipHeight: 0, tooltipWidth: 0,
@@ -46,7 +46,7 @@ export const Tooltip = ({
 			left: left + windowScrollX,
 			right: right + windowScrollX,
 		}
-	}, undefined)
+	})()
 	const defaultTooltipProps = { isHovered, position, timeToHover, childRect }
 	const defaultChildProps = { ref: contentRef, ...hoverProps, ...rest }
 
