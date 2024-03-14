@@ -36,7 +36,7 @@ export default apiHandler({
 		}))
 
 		if (!user) throw ApiError.fromCode(404)
-		if (!await monitorAsync(async () => verify(user.passwordHash, currentPassword, argonDefaultOptions), 'argon2', 'verify()')) {
+		if (!await monitorAsync(async () => verify(user.passwordHash, currentPassword), 'argon2', 'verify()')) {
 			throw ApiError.fromCodeWithError(401, new Error('Invalid password'))
 		}
 

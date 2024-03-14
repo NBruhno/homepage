@@ -30,7 +30,7 @@
     "dev:ladle": "ladle serve",
     "dev:next": "next",
     "dev": "concurrently -p \"[{name}]\" -n \"next,ladle\" -c \"blue,white\" -s \"all\" -k \"true\" \"pnpm dev:next\" \"pnpm dev:ladle\"",
-    "lint:eslint": "TIMING=1 eslint . --ext js,mjs,ts,tsx --quiet",
+    "lint:eslint": "eslint . --ext js,mjs,ts,tsx --quiet",
     "lint:tsc": "tsc --project tsconfig.json --noEmit",
     "lint": "concurrently -p \"[{name}]\" -n \"eslint,tsc\" -c \"magenta,blue\" -s \"all\" -r \"pnpm lint:eslint\" \"pnpm lint:tsc\"",
     "postinstall": "pnpm db:generate-schema",

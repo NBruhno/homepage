@@ -12,8 +12,8 @@ import { useLayoutEffect, useEffect } from 'react'
  */
 export const useIsomorphicLayoutEffect = (effect: EffectCallback, deps?: DependencyList) => {
 	const canUseDom = Boolean(
-		// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
 		typeof window !== 'undefined'
+		// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
 		&& typeof window.document !== 'undefined'
 		&& typeof window.document.createElement !== 'undefined',
 	)

@@ -127,7 +127,9 @@ export const History = () => {
 						theme.color.success,
 					]}
 					theme={{
-						textColor: theme.color.text,
+						text: {
+							color: theme.color.text,
+						},
 						axis: {
 							ticks: {
 								line: {
