@@ -1,19 +1,19 @@
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = []
+  previewFeatures = ["relationJoins"]
 }
 
 model GameUserData {
   isFollowing Boolean  @default(false)
-  game        Game     @relation(fields: [gameId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  game        Games    @relation(fields: [gameId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   gameId      Int
-  owner       User     @relation(fields: [ownerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  owner       Users    @relation(fields: [ownerId], references: [id], onUpdate: NoAction, onDelete: NoAction)
   ownerId     String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -24,7 +24,7 @@ model GameUserData {
   @@index(fields: [ownerId])
 }
 
-model Game {
+model Games {
   id                 Int            @id @unique
   name               String
   category           GameCategory?
@@ -94,7 +94,7 @@ enum GameCategory {
   Fork
 }
 
-model User {
+model Users {
   id              String         @id @unique @default(uuid())
   email           String         @unique
   gameUserData    GameUserData[]

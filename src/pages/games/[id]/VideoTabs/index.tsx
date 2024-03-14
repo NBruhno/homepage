@@ -1,5 +1,5 @@
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useLoading } from 'states/page'
 
@@ -18,11 +18,20 @@ type Props = {
 export const VideoTabs = ({ videos = [] }: Props) => {
 	const [videoIndex, setVideoIndex] = useState(0)
 	const { isLoading } = useLoading()
+
+	const sortedVideos = useMemo(() => (
+		[...videos].reverse().sort((a, b) => {
+			const last = (b.name !== null && (b.name.toLowerCase().includes('trailer') || b.name.toLowerCase().includes('cinematic'))) ? 1 : 0
+			const current = (a.name !== null && (a.name.toLowerCase().includes('trailer') || a.name.toLowerCase().includes('cinematic'))) ? 1 : 0
+			return last - current
+		})
+	), [videos])
+
 	useEffect(() => {
 		setVideoIndex(0)
-	}, [videos]) // We need to reset to 0 if route changes to a different game
+	}, [sortedVideos]) // We need to reset to 0 if route changes to a different game
 
-	if (videos.length === 0 && !isLoading) return null
+	if (sortedVideos.length === 0 && !isLoading) return null
 
 	return (
 		<Wrapper>
@@ -30,7 +39,7 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 				label={<IconChevronLeft />}
 				aria-label='Previous video'
 				orientation='left'
-				onClick={() => videoIndex === 0 ? setVideoIndex(videos.length - 1) : setVideoIndex(videoIndex - 1)}
+				onClick={() => videoIndex === 0 ? setVideoIndex(sortedVideos.length - 1) : setVideoIndex(videoIndex - 1)}
 			/>
 			{isLoading ? (
 				<div css={(theme) => ({ width: '100%', height: '100%', paddingBottom: '56.25%', backgroundColor: theme.color.gray })} />
@@ -43,14 +52,17 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 					paddingBottom: '1px',
 				})}
 				>
-					<Video id={videos[videoIndex]?.videoId ?? ''} name={videos[videoIndex]?.name ?? ''} />
+					<Video
+						id={sortedVideos[videoIndex]?.videoId ?? ''}
+						name={sortedVideos[videoIndex]?.name ?? ''}
+					/>
 				</div>
 			)}
 			<Button
 				label={<IconChevronRight />}
 				aria-label='Next video'
 				orientation='right'
-				onClick={() => videoIndex === videos.length - 1 ? setVideoIndex(0) : setVideoIndex(videoIndex + 1)}
+				onClick={() => videoIndex === sortedVideos.length - 1 ? setVideoIndex(0) : setVideoIndex(videoIndex + 1)}
 			/>
 		</Wrapper>
 	)

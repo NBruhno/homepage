@@ -28,7 +28,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 
 		const twoMonthsBackDate = sub(Date.now(), { months: 2 })
 		// Get all games that has not been checked after 24 hours
-		const staleGames = await monitorAsync(() => prisma.game.findMany({
+		const staleGames = await monitorAsync(() => prisma.games.findMany({
 			where: {
 				OR: [
 					{
@@ -94,7 +94,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 					nickname: `popular, 0-${take}`,
 				}).then((igdbGames) => igdbGames.map(mapIgdbGame))
 
-				const existingGames = await monitorAsync(() => prisma.game.findMany({
+				const existingGames = await monitorAsync(() => prisma.games.findMany({
 					where: {
 						OR: popularGames.map(({ id }) => ({
 							id,
@@ -120,7 +120,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 
 				const [createdGamesResponse, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
 					(async () => newGames.length > 0
-						? monitorAsync(() => prisma.game.createMany({ data: newGames, skipDuplicates: true }), 'db:prisma', 'createMany(new games)', span)
+						? monitorAsync(() => prisma.games.createMany({ data: newGames, skipDuplicates: true }), 'db:prisma', 'createMany(new games)', span)
 						: undefined
 					)(),
 					...outdatedGames.length > 0 ? chunk(outdatedGames, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
@@ -187,7 +187,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 
 					if (gamesToUpdate.length > 0) {
 						const [markedAsCheckedGames, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
-							monitorAsync(() => prisma.game.updateMany({
+							monitorAsync(() => prisma.games.updateMany({
 								where: {
 									OR: existingGames.map(({ id }) => ({ id })),
 								},
@@ -219,7 +219,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 						})
 					}
 
-					const markedAsCheckedGames = await monitorAsync(() => prisma.game.updateMany({
+					const markedAsCheckedGames = await monitorAsync(() => prisma.games.updateMany({
 						where: {
 							OR: existingGames.map(({ id }) => ({ id })),
 						},
@@ -254,7 +254,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 		const { take = 100, 'exclude-followed': excludeFollowed, 'hours-since-last-checked': hoursSinceLastChecked = 2 } = create(req.query, UpdateQuery)
 
 		// Get all games in the library that hasn't been checked for updates
-		const potentiallyOutdatedGames = await monitorAsync(() => prisma.game.findMany({
+		const potentiallyOutdatedGames = await monitorAsync(() => prisma.games.findMany({
 			orderBy: [{
 				lastCheckedAt: 'asc',
 			}],
@@ -299,7 +299,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 
 			if (gamesToUpdate.length > 0) {
 				const [markedAsCheckedGames, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
-					monitorAsync(() => prisma.game.updateMany({
+					monitorAsync(() => prisma.games.updateMany({
 						where: {
 							OR: existingGames.map(({ id }) => ({ id })),
 						},
@@ -331,7 +331,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 				})
 			}
 
-			const markedAsCheckedGames = await monitorAsync(() => prisma.game.updateMany({
+			const markedAsCheckedGames = await monitorAsync(() => prisma.games.updateMany({
 				where: {
 					OR: existingGames.map(({ id }) => ({ id })),
 				},

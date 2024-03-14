@@ -6,7 +6,7 @@ import { object, create } from 'superstruct'
 
 import { email, password } from 'validation/shared'
 
-import { getJwtToken, apiHandler, prisma, argonDefaultOptions } from 'lib/api'
+import { getJwtToken, apiHandler, prisma } from 'lib/api'
 import { ApiError } from 'lib/errors'
 import { setRefreshCookie } from 'lib/middleware'
 import { monitorAsync } from 'lib/sentryMonitor'
@@ -20,7 +20,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.post(async (req, res) => {
 		const { email: loginEmail, password } = create(req.body, Body)
 
-		const user = await monitorAsync(() => prisma.user.findUnique({
+		const user = await monitorAsync(() => prisma.users.findUnique({
 			where: {
 				email: loginEmail,
 			},
@@ -38,7 +38,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		if (!user) throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
 		const { id, email, role, passwordHash, twoFactorSecret, username, steamId } = user
 
-		if (!await monitorAsync(async () => verify(passwordHash, password, argonDefaultOptions), 'argon2', 'verify()')) {
+		if (!await monitorAsync(async () => verify(passwordHash, password), 'argon2', 'verify()')) {
 			throw ApiError.fromCodeWithError(401, new Error('Invalid email and/or password'))
 		}
 

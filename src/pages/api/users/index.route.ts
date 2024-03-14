@@ -23,7 +23,7 @@ const Body = object({
 export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
 		authenticate(req, { allowedRoles: [UserRole.Admin] })
-		const result = await monitorAsync(() => prisma.user.findMany(), 'db:prisma', 'findMany()')
+		const result = await monitorAsync(() => prisma.users.findMany(), 'db:prisma', 'findMany()')
 
 		return res.status(200).json(result)
 	})
@@ -32,7 +32,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			const { email, password, username } = create(req.body, Body)
 			const passwordHash = await monitorAsync(() => hash(password, argonDefaultOptions), 'argon2', 'hash()')
 
-			const user = await monitorAsync(() => prisma.user.create({
+			const user = await monitorAsync(() => prisma.users.create({
 				data: {
 					email,
 					username,

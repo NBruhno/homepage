@@ -3,7 +3,7 @@
 require('dotenv').config()
 const fs = require('fs')
 
-const format = require('date-fns/format')
+const { format } = require('date-fns')
 
 const { log } = console
 const domains = ['bruhno.com', 'bruhno.dev']
@@ -64,7 +64,7 @@ const sitemapEntries = []
 domains.forEach((domain) => {
 	sitemapEntries.push(Object.keys(pages).map((page) => `<url>
 		<loc>https://${domain}/${page}</loc>
-		<lastmod>${format(new Date(pages[page].lastModified), 'yyyy-MM-dd')}</lastmod>
+		<lastmod>${format(pages[page].lastModified, 'yyyy-MM-dd')}</lastmod>
 	</url>`).join('\n	'))
 })
 

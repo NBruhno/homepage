@@ -40,7 +40,7 @@ export default apiHandler({
 			}), 'db:prisma', 'findFirst()', span),
 			(async () => {
 				let game = null
-				game = await monitorAsync(() => prisma.game.findFirst({
+				game = await monitorAsync(() => prisma.games.findFirst({
 					where: {
 						id,
 					},

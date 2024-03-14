@@ -19,7 +19,7 @@ export default apiHandler({
 		const { userId: requestUserId, role } = authenticate(req)
 		const { id } = create(req.query, object({ id: string() }))
 
-		const user = await monitorAsync(() => prisma.user.findUnique({
+		const user = await monitorAsync(() => prisma.users.findUnique({
 			where: {
 				id,
 			},
@@ -36,12 +36,12 @@ export default apiHandler({
 		}))
 
 		if (!user) throw ApiError.fromCode(404)
-		if (!await monitorAsync(async () => verify(user.passwordHash, currentPassword, argonDefaultOptions), 'argon2', 'verify()')) {
+		if (!await monitorAsync(async () => verify(user.passwordHash, currentPassword), 'argon2', 'verify()')) {
 			throw ApiError.fromCodeWithError(401, new Error('Invalid password'))
 		}
 
 		const passwordHash = await monitorAsync(() => hash(newPassword, argonDefaultOptions), 'argon2', 'hash()')
-		await monitorAsync(() => prisma.user.update({
+		await monitorAsync(() => prisma.users.update({
 			where: {
 				id,
 			},

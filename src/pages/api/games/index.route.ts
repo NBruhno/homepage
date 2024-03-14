@@ -33,7 +33,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		const computedSkip = hasSkip ? skip - 1 : skip
 
 		if (user) {
-			const games = await monitorAsync(() => prisma.game.findMany({
+			const games = await monitorAsync(() => prisma.games.findMany({
 				where: {
 					userData: {
 						some: { ownerId: user, isFollowing: true },
@@ -51,7 +51,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 					releaseDate: true,
 					status: true,
 				},
-			}), 'db:prisma', 'findMany(user)')
+			}), 'db:prisma', 'findMany(games)')
 
 			setCache({ strategy: 'NoCache', res })
 			return res.status(200).json({
@@ -71,7 +71,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 				body: `${gameFields}; limit ${take}; search "${search}";`,
 				nickname: 'search',
 			}).then((games) => games.map(mapIgdbGame))
-			: await monitorAsync(() => prisma.game.findMany({
+			: await monitorAsync(() => prisma.games.findMany({
 				orderBy: [{ hype: 'desc' }, { releaseDate: 'asc' }],
 				where: {
 					OR: [
@@ -113,7 +113,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		authenticateSystem(req)
 		const gameToCreate = create(req.body, gameValidator)
 
-		const game = await monitorAsync(() => prisma.game.create({
+		const game = await monitorAsync(() => prisma.games.create({
 			data: { ...gameToCreate, updatedAt: undefined },
 		}), 'db:prisma', 'create()')
 
@@ -123,7 +123,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	.put(async (req, res) => {
 		authenticateSystem(req)
 		const { games } = create(req.body, object({ games: array(assign(partial(gameValidator), pick(gameValidator, ['id']))) }))
-		const updateQueries = games.map(({ id, ...rest }) => prisma.game.update({
+		const updateQueries = games.map(({ id, ...rest }) => prisma.games.update({
 			where: { id },
 			data: { ...rest, updatedAt: undefined },
 		}))
@@ -134,7 +134,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	.patch(async (req, res) => {
 		authenticateSystem(req)
 		const { games } = create(req.body, object({ games: array(gameValidator) }))
-		const transactions = games.map(({ id, ...rest }) => prisma.game.upsert({
+		const transactions = games.map(({ id, ...rest }) => prisma.games.upsert({
 			where: { id },
 			create: { id, ...rest, updatedAt: undefined },
 			update: { id, ...rest, updatedAt: undefined },

@@ -12,6 +12,8 @@ export const Classes = () => (
   background-position: 50%;
   background-size: cover;
   cursor: pointer;
+	margin-block: 0;
+	margin-inline: 0;
 }
 .yt-lite:before {
   content: "";

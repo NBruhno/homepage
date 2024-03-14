@@ -25,9 +25,12 @@ export const useDarkMode = () => {
 	useEffect(() => {
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		const localTheme = window?.localStorage?.getItem('theme') as Theme | null | undefined
-		if (localTheme) setTheme(localTheme)
-		else setTheme(didSystemPreferDark ? 'dark' : 'light')
-	}, [])
+		if (localTheme) {
+			setTheme(localTheme)
+		} else {
+			setTheme(didSystemPreferDark ? 'dark' : 'light')
+		}
+	}, [didSystemPreferDark, setTheme])
 
-	return { globalTheme, toggleTheme }
+	return { globalTheme, toggleTheme, setTheme: setMode }
 }
