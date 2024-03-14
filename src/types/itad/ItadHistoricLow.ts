@@ -1,17 +1,15 @@
+import { type ItadPrice } from './ItadPrice'
 import { type ItadShop } from './ItadShop'
 
 export type ItadHistoricLow = {
-	'.meta': {
-		currency: string,
-	},
-	data: Record<string, {
+	/** UUID */
+	id: string,
+	low: {
 		shop: ItadShop,
-		price: number,
+		price: ItadPrice,
+		regular: ItadPrice,
+		/** In percentage, 0-100 */
 		cut: number,
-		added: number,
-		urls: {
-			game: string,
-			history: string,
-		},
-	}>,
+		timestamp: string,
+	},
 }

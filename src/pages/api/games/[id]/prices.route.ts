@@ -1,4 +1,4 @@
-import type { ItadPlain, ItadPrices } from 'types'
+import type { ItadLookup, ItadPrices } from 'types'
 
 import { create, object, optional, string, union } from 'superstruct'
 
@@ -29,35 +29,41 @@ export default apiHandler({
 	cacheDuration: 60,
 })
 	.get(async (req, res) => {
-		const { store, id, name } = create(req.query, Query)
-		const plain = await itadFetcher<ItadPlain>('/game/plain', {
-			version: 2,
+		const { id, name } = create(req.query, Query)
+		const game = await itadFetcher<ItadLookup>('/games/lookup', {
+			version: 1,
 			query: {
-				gameId: id,
-				shop: store,
+				appid: id,
 				title: name,
 			},
 		}).then((response) => {
-			if (response['.meta'].match) return response.data.plain
+			if (response.found) return response.game!
 			return null
 		})
 
-		if (!plain) return res.status(200).json([])
+		if (!game) return res.status(200).json([])
 
-		const prices = await itadFetcher<ItadPrices>('/game/prices', {
-			version: 1,
+		const prices = await itadFetcher<Array<ItadPrices>>('/games/prices', {
+			method: 'POST',
+			version: 2,
+			body: JSON.stringify([game.id]),
 			query: {
 				country: 'DK',
-				plains: plain,
 			},
-		}).then((response) => response.data[plain].list.map(({ shop, price_new: amount, price_cut: difference, url }) => ({
-			currency: response['.meta'].currency,
-			amount,
-			difference,
-			id: shop.id,
-			name: shop.name,
-			url,
-		})))
+		}).then((response) => {
+			if (response[0]) {
+				return response[0].deals.map(({ shop, price, cut, url }) => ({
+					currency: price.currency,
+					amount: price.amount,
+					difference: cut,
+					id: shop.id,
+					name: shop.name,
+					url,
+				}))
+			}
+
+			return []
+		})
 
 		setCache({ strategy: 'Default', duration: 5, res })
 		res.status(200).json(prices)

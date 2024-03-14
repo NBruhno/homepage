@@ -10,9 +10,10 @@ type Options = {
 	span?: Span,
 	query?: Record<string, any>,
 	version: number,
+	method?: 'GET' | 'POST',
 }
 
-export const itadFetcher = async <T>(url: string, { body = null, span, nickname, query, version }: Options): Promise<T> => {
+export const itadFetcher = async <T>(url: string, { body = null, span, nickname, query, version, method = 'GET' }: Options): Promise<T> => {
 	// We assume that the env variables are always available, but this is just an extra precaution
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (config.itad.apiKey === undefined) throw new Error('ITAD API key needs to be set')
@@ -23,8 +24,8 @@ export const itadFetcher = async <T>(url: string, { body = null, span, nickname,
 	})
 
 	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-	const data = await monitorAsync(() => fetch(`https://api.isthereanydeal.com/v0${version}${url}?${params}`, {
-		method: 'GET',
+	const data = await monitorAsync(() => fetch(`https://api.isthereanydeal.com/${url}/v${version}?${params}`, {
+		method,
 		body,
 		headers: new Headers({
 			'Content-Type': 'text/plain',

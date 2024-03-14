@@ -1,4 +1,4 @@
-import type { ItadHistoricLow, ItadPlain, ItadStoreHistoricLows, ItadStores } from 'types'
+import type { ItadHistoricLow, ItadLookup, ItadStoreHistoricLows, ItadShops } from 'types'
 
 import { sortBy } from 'lodash'
 import { create, object, optional, string, union } from 'superstruct'
@@ -30,59 +30,58 @@ export default apiHandler({
 	cacheDuration: 60,
 })
 	.get(async (req, res) => {
-		const { store, id, name } = create(req.query, Query)
-		const plain = await itadFetcher<ItadPlain>('/game/plain', {
-			version: 2,
+		const { id, name } = create(req.query, Query)
+		const game = await itadFetcher<ItadLookup>('/games/lookup', {
+			version: 1,
 			query: {
-				gameId: id,
-				shop: store,
+				appid: id,
 				title: name,
 			},
 		}).then((response) => {
-			if (response['.meta'].match) return response.data.plain
+			if (response.found) return response.game!
 			return null
 		})
 
-		if (!plain) return res.status(200).json([])
+		if (!game) return res.status(200).json([])
 
 		const [historicLow, storeHistoricLows, stores] = await Promise.all([
-			itadFetcher<ItadHistoricLow>('/game/lowest', {
+			itadFetcher<Array<ItadHistoricLow>>('/games/historylow', {
+				method: 'POST',
 				version: 1,
+				body: JSON.stringify([game.id]),
 				query: {
 					country: 'DK',
-					plains: plain,
 				},
 			}).then((response) => {
-				const { price, cut, shop, urls } = response.data[plain]
+				const { price, cut, shop } = response[0].low
 				return {
-					currency: response['.meta'].currency,
-					amount: price,
+					currency: price.currency,
+					amount: price.amount,
 					difference: cut,
 					id: shop.id,
 					name: shop.name,
-					urls,
 				}
 			}),
-			itadFetcher<ItadStoreHistoricLows>('/game/storelow', {
+			itadFetcher<Array<ItadStoreHistoricLows>>('/games/storelow', {
+				method: 'POST',
+				version: 2,
+				body: JSON.stringify([game.id]),
+				query: {
+					country: 'DK',
+				},
+			}).then((response) => sortBy(response[0].lows.map(({ shop, price }) => ({
+				currency: price.currency,
+				shop,
+				amount: price.amount,
+			})), 'amount')),
+			itadFetcher<Array<ItadShops>>('/service/shops', {
 				version: 1,
 				query: {
 					country: 'DK',
-					plains: plain,
 				},
-			}).then((response) => sortBy(response.data[plain].map(({ shop, price: amount }) => ({
-				currency: response['.meta'].currency,
-				shop,
-				amount,
-			})), 'amount')),
-			itadFetcher<ItadStores>('/web/stores', {
-				version: 2,
-				query: {
-					region: 'eu1',
-					country: 'DK',
-				},
-			}).then((response) => response.data.map((shop) => shop)),
+			}).then((response) => response.map((shop) => shop)),
 		])
 
 		setCache({ strategy: 'Default', duration: 5, res })
-		res.status(200).json({ historicLow, storeHistoricLows: storeHistoricLows.map(({ shop, ...rest }) => ({ ...rest, id: shop, name: stores.find(({ id }) => id === shop)?.title ?? shop })) })
+		res.status(200).json({ historicLow, storeHistoricLows: storeHistoricLows.map(({ shop, ...rest }) => ({ ...rest, id: shop, name: stores.find(({ id }) => id === shop.id)?.title ?? shop })) })
 	})
