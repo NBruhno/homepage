@@ -1,6 +1,5 @@
 import { chunk } from 'lodash'
-import { headers } from 'next/headers'
-import { create, object, string, type as optionalObject, StructError, validate } from 'superstruct'
+import { create, object, string, type as optionalObject, StructError } from 'superstruct'
 
 import { config } from 'config.server'
 
