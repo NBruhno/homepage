@@ -18,6 +18,10 @@ export const config = Object.freeze({
 		apiKey: process.env.ITAD_TOKEN as string,
 	},
 
+	redis: {
+		url: process.env.REDIS_URL as string,
+	},
+
 	steam: {
 		apiKey: process.env.STEAM_API_KEY as string,
 	},
