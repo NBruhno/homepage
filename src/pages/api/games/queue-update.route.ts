@@ -74,7 +74,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		})
 	})
 	.post(async (req, res) => {
-		if (req.headers['X-Secret'] !== config.igdb.webhookSecret) {
+		if (req.headers['x-secret'] !== config.igdb.webhookSecret) {
 			throw ApiError.fromCodeWithCause(401, new Error(`Invalid secret`))
 		}
 		let updateRequest: { id: string } | null = null
