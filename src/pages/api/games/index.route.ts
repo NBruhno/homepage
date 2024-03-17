@@ -120,6 +120,16 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		res.setHeader('Location', `/api/games/${game.id}`)
 		return res.status(201).json(game)
 	})
+	.delete(async (req, res) => {
+		authenticateSystem(req)
+		const { games } = create(req.body, object({ games: array(assign(partial(gameValidator), pick(gameValidator, ['id']))) }))
+		const deleteQueries = games.map(({ id }) => prisma.games.delete({
+			where: { id },
+		}))
+
+		const deletedGames = await monitorAsync(() => prisma.$transaction(deleteQueries), 'db:prisma', 'transaction(delete())')
+		return res.status(200).json({ count: deletedGames.length })
+	})
 	.put(async (req, res) => {
 		authenticateSystem(req)
 		const { games } = create(req.body, object({ games: array(assign(partial(gameValidator), pick(gameValidator, ['id']))) }))

@@ -11,6 +11,7 @@ export const config = Object.freeze({
 	igdb: {
 		clientId: process.env.IGDB_CLIENT_ID as string,
 		token: process.env.IGDB_TOKEN as string,
+		webhookSecret: process.env.IGDB_WEBHOOK_SECRET as string,
 	},
 
 	itad: {
