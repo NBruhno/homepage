@@ -24,7 +24,11 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 			take: optional(coerce(number(), pattern(string(), /[1-100000]/), (value) => parseInt(value, 10))),
 		})
 		authenticateSystem(req)
-		const { take = 10000, 'hours-since-last-checked': hoursSinceLastChecked = 72, 'hours-since-last-checked-priority': hoursSinceLastCheckedPriority = 24 } = create(req.query, UpdateQuery)
+		const {
+			take = 10000,
+			'hours-since-last-checked': hoursSinceLastChecked = 72,
+			'hours-since-last-checked-priority': hoursSinceLastCheckedPriority = 24,
+		} = create(req.query, UpdateQuery)
 
 		const twoMonthsBackDate = sub(Date.now(), { months: 2 })
 		// Get all games that has not been checked after 24 hours
@@ -83,7 +87,10 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 			'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
 		}))
 		authenticateSystem(req)
-		const { take = 500, type, 'hours-since-last-checked': hoursSinceLastChecked = 1 } = create(req.query, UpdateQuery)
+		const {
+			take = 500,
+			type, 'hours-since-last-checked': hoursSinceLastChecked = 12,
+		} = create(req.query, UpdateQuery)
 
 		switch (type) {
 			case 'popular': {
