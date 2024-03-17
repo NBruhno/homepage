@@ -1,5 +1,5 @@
 import { chunk } from 'lodash'
-import { create, object, string, type as optionalObject, StructError } from 'superstruct'
+import { create, object, number, type as optionalObject, StructError } from 'superstruct'
 
 import { config } from 'config.server'
 
@@ -8,11 +8,11 @@ import { ApiError } from 'lib/errors'
 import { authenticateSystem } from 'lib/middleware'
 
 const deleteValidator = object({
-	id: string(),
+	id: number(),
 })
 
 const updateValidator = optionalObject({
-	id: string(),
+	id: number(),
 })
 
 export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
@@ -77,7 +77,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		if (req.headers['x-secret'] !== config.igdb.webhookSecret) {
 			throw ApiError.fromCodeWithCause(401, new Error(`Invalid secret`))
 		}
-		let updateRequest: { id: string } | null = null
+		let updateRequest: { id: number } | null = null
 		let typeOfRequest: 'delete' | 'update' = 'delete'
 		try {
 			updateRequest = create(req.body, deleteValidator)
@@ -90,7 +90,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			}
 		}
 
-		const existingGame = await prisma.games.findUnique({ where: { id: parseInt(updateRequest.id, 10) } })
+		const existingGame = await prisma.games.findUnique({ where: { id: updateRequest.id } })
 
 		if (existingGame) {
 			const redis = await createRedis()
