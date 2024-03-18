@@ -23,13 +23,13 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		const amqp = await createAmqp()
 		const updateRequests: Array<AMQPMessage> = []
 		const deleteRequests: Array<AMQPMessage> = []
-		await amqp.channel.basicConsume('game:update', { noAck: true }, async (message) => {
+		await amqp.channel.basicConsume('game:update', { noAck: false }, async (message) => {
 			if (message.body === null) {
 				return message.reject()
 			}
 			return updateRequests.push(message)
 		})
-		await amqp.channel.basicConsume('game:delete', { noAck: true }, async (message) => {
+		await amqp.channel.basicConsume('game:delete', { noAck: false }, async (message) => {
 			if (message.body === null) {
 				return message.reject()
 			}
