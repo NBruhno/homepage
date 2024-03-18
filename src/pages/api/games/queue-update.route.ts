@@ -90,7 +90,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			}
 		}
 
-		const existingGame = await prisma.games.findUnique({ where: { id: updateRequest.id } })
+		const existingGame = await prisma.games.findUnique({ where: { id: updateRequest.id }, select: { id: true } })
 
 		if (existingGame) {
 			const redis = await createRedis()
