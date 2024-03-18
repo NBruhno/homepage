@@ -36,10 +36,12 @@
     "lint": "concurrently -p \"[{name}]\" -n \"eslint,tsc\" -c \"magenta,blue\" -s \"all\" -r \"pnpm lint:eslint\" \"pnpm lint:tsc\"",
     "postinstall": "pnpm db:generate-schema",
     "start": "next start",
+    "start:amqp": "sudo lavinmq -D /var/lib/lavinmq",
     "test": "jest",
     "verify:env": "node scripts/verifyEnv.js"
   },
   "dependencies": {
+    "@cloudamqp/amqp-client": "^3.1.1",
     "@emotion/react": "11.11.4",
     "@emotion/server": "^11.11.0",
     "@hookform/resolvers": "3.3.4",
@@ -76,7 +78,6 @@
     "react-textarea-autosize": "8.5.3",
     "redis": "^4.6.13",
     "resize-observer-polyfill": "1.5.1",
-    "sharp": "0.33.2",
     "superstruct": "1.0.4",
     "swr": "2.2.5",
     "three": "0.162.0",
@@ -132,5 +133,10 @@
     "vite": "4.5.0",
     "web-streams-polyfill": "^4.0.0",
     "webpack": "5.90.3"
+  },
+  "pnpm": {
+    "overrides": {
+      "sharp": "0.32.6"
+    }
   }
 }

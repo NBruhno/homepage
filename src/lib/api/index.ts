@@ -1,6 +1,7 @@
 export { absoluteUrl } from './absoluteUrl'
 export { apiHandler } from './apiHandler'
 export { argonDefaultOptions } from './argonDefaultOptions'
+export { createAmqp } from './amqp'
 export { createRedis } from './redis'
 export { gameFields } from './gameFields'
 export { getJwtToken } from './getJwtToken'

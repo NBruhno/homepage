@@ -1,10 +1,12 @@
-import { chunk } from 'lodash'
+import { type AMQPMessage } from '@cloudamqp/amqp-client'
+import { chunk, difference, uniq } from 'lodash'
 import { create, object, number, type as optionalObject, StructError } from 'superstruct'
 
 import { config } from 'config.server'
 
-import { apiHandler, createRedis, gameFields, igdbFetcher, mapIgdbGame, prisma } from 'lib/api'
+import { apiHandler, createAmqp, gameFields, igdbFetcher, mapIgdbGame, prisma } from 'lib/api'
 import { ApiError } from 'lib/errors'
+import { filterUnspecified } from 'lib/filterUnspecified'
 import { authenticateSystem } from 'lib/middleware'
 
 const deleteValidator = object({
@@ -18,64 +20,90 @@ const updateValidator = optionalObject({
 export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
 		authenticateSystem(req)
-		const redis = await createRedis()
-		const requestedChanges = await redis.hGetAll('game')
+		const amqp = await createAmqp()
+		const updateRequests: Array<AMQPMessage> = []
+		const deleteRequests: Array<AMQPMessage> = []
+		await amqp.channel.basicConsume('game:update', { noAck: true }, async (message) => {
+			if (message.body === null) {
+				return message.reject()
+			}
+			return updateRequests.push(message)
+		})
+		await amqp.channel.basicConsume('game:delete', { noAck: true }, async (message) => {
+			if (message.body === null) {
+				return message.reject()
+			}
+			return deleteRequests.push(message)
+		})
 
-		if (!requestedChanges || Object.entries(requestedChanges).length === 0) {
-			await redis.disconnect()
-			return res.status(200).json({
-				message: 'No updates in the queue to process',
-				updatedGames: [],
-				deletedGames: [],
-			})
-		}
-
-		const gamesToUpdate = Object.entries(requestedChanges)
-			.filter(([, value]) => value === 'update' as const)
-			.map(([key]) => key)
-
-		const gamesToDelete = Object.entries(requestedChanges)
-			.filter(([, value]) => value === 'delete' as const)
-			.map(([key]) => key)
-
-		await Promise.all([
-			async () => {
-				if (gamesToUpdate.length === 0) return
-				const games = (await Promise.all(chunk(gamesToUpdate, 100).map(async (ids) => igdbFetcher('/games', res, {
-					shouldReturnFirst: false,
-					body: `${gameFields}; limit 100; where id = (${ids.join(',')});`,
-					nickname: `outdated games, 0-100`,
-				}).then((igdbGames) => igdbGames.map(mapIgdbGame))))).flat()
-
-				const updateQueries = games.map(({ id, ...rest }) => prisma.games.update({
-					where: { id },
-					data: { ...rest, updatedAt: undefined },
+		const [updatedGames, deletedGames] = await Promise.all([
+			(async () => {
+				const updateRequestExists = uniq(difference(updateRequests, deleteRequests)).map((message) => prisma.games.findUnique({
+					where: { id: parseInt(message.bodyToString()!, 10) },
+					select: { id: true },
 				}))
-				return prisma.$transaction(updateQueries)
-			},
-			async () => {
-				if (gamesToDelete.length === 0) return
-				const gamesChunks = chunk(gamesToDelete.map((id) => parseInt(id, 10)), 100).flat()
-				const deleteQueries = gamesChunks.map((id) => prisma.games.delete({
-					where: { id },
+
+				if (updateRequestExists.length > 0) {
+					const toUpdate = filterUnspecified(await prisma.$transaction(updateRequestExists)).map(({ id }) => id)
+
+					const games = (await Promise.all(chunk(toUpdate, 100).map(async (ids) => igdbFetcher('/games', res, {
+						shouldReturnFirst: false,
+						body: `${gameFields}; limit 100; where id = (${ids.join(',')});`,
+						nickname: `outdated games, 0-100`,
+					}).then((igdbGames) => igdbGames.map(mapIgdbGame))))).flat()
+
+					const updateQueries = games.map(({ id, ...rest }) => prisma.games.update({
+						where: { id },
+						data: { ...rest, updatedAt: undefined },
+						select: { id: true, name: true },
+					}))
+
+					const [result] = await Promise.all([
+						prisma.$transaction(updateQueries),
+						...updateRequests.map(async (message) => message.ack()),
+					])
+
+					return result
+				}
+				return []
+			})(),
+			(async () => {
+				const deleteRequestExists = uniq(deleteRequests).map((message) => prisma.games.findUnique({
+					where: { id: parseInt(message.bodyToString()!, 10) },
+					select: { id: true, name: true },
 				}))
-				return prisma.$transaction(deleteQueries)
-			},
-			redis.hDel('game', [...gamesToDelete, ...gamesToUpdate]),
+
+				if (deleteRequestExists.length > 0) {
+					const toDelete = filterUnspecified(await prisma.$transaction(deleteRequestExists)).map(({ id }) => id)
+
+					const deleteQueries = toDelete.map((id) => prisma.games.delete({
+						where: { id },
+						select: { id: true },
+					}))
+
+					const [result] = await Promise.all([
+						prisma.$transaction(deleteQueries),
+						...updateRequests.map(async (message) => message.ack()),
+					])
+
+					return result
+				}
+				return []
+			})(),
 		])
 
-		await redis.disconnect()
+		await amqp.client.close()
 
 		return res.status(200).json({
-			message: `Updated ${gamesToUpdate.length} game(s) and deleted ${gamesToDelete.length} game(s).`,
-			updatedGames: gamesToUpdate,
-			deletedGames: gamesToDelete,
+			message: `Updated ${updatedGames.length} game(s) and deleted ${deletedGames.length} game(s).`,
+			updatedGames,
+			deletedGames,
 		})
 	})
 	.post(async (req, res) => {
-		if (req.headers['x-secret'] !== config.igdb.webhookSecret) {
-			throw ApiError.fromCodeWithCause(401, new Error(`Invalid secret`))
-		}
+		if (req.headers['x-secret'] !== config.igdb.webhookSecret) throw ApiError.fromCodeWithCause(401, new Error(`Invalid secret`))
+		const amqp = await createAmqp()
+
 		let updateRequest: { id: number } | null = null
 		let typeOfRequest: 'delete' | 'update' = 'delete'
 		try {
@@ -89,15 +117,9 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			}
 		}
 
-		const existingGame = await prisma.games.findUnique({ where: { id: updateRequest.id }, select: { id: true } })
+		await amqp.channel.queue(`game:${typeOfRequest}`, { durable: true })
+		await amqp.channel.basicPublish('', `game:${typeOfRequest}`, updateRequest.id.toString(), {})
+		await amqp.client.close()
 
-		if (existingGame) {
-			const redis = await createRedis()
-			await redis.hSet('game', updateRequest.id, typeOfRequest)
-			await redis.disconnect()
-
-			return res.status(200).json({ message: `Added ${typeOfRequest} request for game with ID ${updateRequest.id}.` })
-		}
-
-		return res.status(200).json({ message: `Game with ID ${updateRequest.id} does not exist in catalogue, skipping change.` })
+		return res.status(200).json({ message: `Added ${typeOfRequest} request for game with ID ${updateRequest.id} to queue.` })
 	})

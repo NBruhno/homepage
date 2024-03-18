@@ -33,6 +33,7 @@ const verifyVariable = (value, isDeployOnly = false) => {
 
 console.log(`Current environment:${new Array(characterSpacing - 18).join(' ')}${VERCEL_ENV ? VERCEL_ENV.charAt(0).toUpperCase() + VERCEL_ENV.slice(1) : 'Undefined'}`)
 verifyVariable('ACCESS_CODE')
+verifyVariable('AMQP_URL')
 verifyVariable('AUTH_PRIVATE_KEY')
 verifyVariable('AUTH_PUBLIC_KEY')
 verifyVariable('AUTH_SYSTEM_TOKEN')
