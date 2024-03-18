@@ -1,6 +1,10 @@
 import type { Environment } from 'types'
 
 export const config = Object.freeze({
+	amqp: {
+		url: process.env.AMQP_URL as string,
+	},
+
 	auth: {
 		accessCode: process.env.ACCESS_CODE as string,
 		privateKey: process.env.AUTH_PRIVATE_KEY as string,
