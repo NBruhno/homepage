@@ -21,7 +21,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		const redis = await createRedis()
 		const requestedChanges = await redis.hGetAll('game')
 
-		if (Object.entries(requestedChanges).length === 0) {
+		if (!requestedChanges || Object.entries(requestedChanges).length === 0) {
 			await redis.disconnect()
 			return res.status(200).json({
 				message: 'No updates in the queue to process',
@@ -68,7 +68,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		])
 
 		return res.status(200).json({
-			message: `Updated ${gamesToUpdate.length} game(s) and deleted ${gamesToDelete.length} game(s)`,
+			message: `Updated ${gamesToUpdate.length} game(s) and deleted ${gamesToDelete.length} game(s).`,
 			updatedGames: gamesToUpdate,
 			deletedGames: gamesToDelete,
 		})
