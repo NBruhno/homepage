@@ -61,11 +61,10 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 				}))
 				return prisma.$transaction(deleteQueries)
 			},
-			async () => {
-				await redis.hDel('game', [...gamesToDelete, ...gamesToUpdate])
-				await redis.disconnect()
-			},
+			redis.hDel('game', [...gamesToDelete, ...gamesToUpdate]),
 		])
+
+		await redis.disconnect()
 
 		return res.status(200).json({
 			message: `Updated ${gamesToUpdate.length} game(s) and deleted ${gamesToDelete.length} game(s).`,
