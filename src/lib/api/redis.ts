@@ -22,23 +22,23 @@ export const createRedis = async (): ReturnType => {
 			.connect()
 
 		return {
-			hDel: async (hash, ...keys) => client.hDel(hash, ...keys),
+			hDel: (hash, keys) => client.hDel(hash, keys),
 			hGet: async (hash, key) => {
 				const result = await client.hGet(hash, key)
 				return result ?? null
 			},
-			hGetAll: async (hash) => client.hGetAll(hash),
-			hSet: async (hash, key, value) => client.hSet(hash, key, value),
-			disconnect: async () => client.disconnect(),
+			hGetAll: (hash) => client.hGetAll(hash),
+			hSet: (hash, key, value) => client.hSet(hash, key, value),
+			disconnect: () => client.disconnect(),
 		}
 	} else {
 		const client = kv
 
 		return {
-			hDel: async (hash, keys) => client.hdel(hash, ...keys),
-			hGet: async (hash, key) => client.hget(hash, key),
-			hGetAll: async (hash) => client.hgetall(hash),
-			hSet: async (hash, key, value) => client.hset(hash, { [key]: value }),
+			hDel: (hash, keys) => client.hdel(hash, ...keys),
+			hGet: (hash, key) => client.hget(hash, key),
+			hGetAll: (hash) => client.hgetall(hash),
+			hSet: (hash, key, value) => client.hset(hash, { [key]: value }),
 			disconnect: async () => undefined,
 		}
 	}
