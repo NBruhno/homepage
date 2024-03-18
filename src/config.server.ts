@@ -18,8 +18,13 @@ export const config = Object.freeze({
 		apiKey: process.env.ITAD_TOKEN as string,
 	},
 
-	redis: {
-		url: process.env.REDIS_URL as string,
+	kv: {
+		url: process.env.KV_URL as string,
+		api: {
+			url: process.env.KV_REST_API_URL as string,
+			token: process.env.KV_REST_API_TOKEN as string,
+			readOnlyToken: process.env.KV_REST_API_READ_ONLY_TOKEN as string,
+		},
 	},
 
 	steam: {
