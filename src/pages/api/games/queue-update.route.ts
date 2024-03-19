@@ -23,13 +23,15 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		const amqp = await createAmqp()
 		const updateRequests: Array<AMQPMessage> = []
 		const deleteRequests: Array<AMQPMessage> = []
-		await amqp.channel.basicConsume('game:update', { noAck: false }, async (message) => {
+		const gameUpdateChannel = await amqp.channel()
+		await gameUpdateChannel.basicConsume('game:update', { noAck: false }, async (message) => {
 			if (message.body === null) {
 				return message.reject()
 			}
 			return updateRequests.push(message)
 		})
-		await amqp.channel.basicConsume('game:delete', { noAck: false }, async (message) => {
+		const gameDeleteChannel = await amqp.channel()
+		await gameDeleteChannel.basicConsume('game:delete', { noAck: false }, async (message) => {
 			if (message.body === null) {
 				return message.reject()
 			}
@@ -58,10 +60,8 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 						select: { id: true, name: true },
 					}))
 
-					const [result] = await Promise.all([
-						prisma.$transaction(updateQueries),
-						...updateRequests.map(async (message) => message.ack()),
-					])
+					const result = await prisma.$transaction(updateQueries)
+					await Promise.all(updateRequests.map(async (message) => message.ack()))
 
 					return result
 				}
@@ -81,10 +81,8 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 						select: { id: true },
 					}))
 
-					const [result] = await Promise.all([
-						prisma.$transaction(deleteQueries),
-						...updateRequests.map(async (message) => message.ack()),
-					])
+					const result = await prisma.$transaction(deleteQueries)
+					await Promise.all(deleteRequests.map(async (message) => message.ack()))
 
 					return result
 				}
@@ -92,8 +90,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			})(),
 		])
 
-		await amqp.client.close()
-
+		await amqp.close()
 		return res.status(200).json({
 			message: `Updated ${updatedGames.length} game(s) and deleted ${deletedGames.length} game(s).`,
 			updatedGames,
@@ -103,6 +100,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.post(async (req, res) => {
 		if (req.headers['x-secret'] !== config.igdb.webhookSecret) throw ApiError.fromCodeWithCause(401, new Error(`Invalid secret`))
 		const amqp = await createAmqp()
+		const channel = await amqp.channel()
 
 		let updateRequest: { id: number } | null = null
 		let typeOfRequest: 'delete' | 'update' = 'delete'
@@ -117,9 +115,9 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			}
 		}
 
-		await amqp.channel.queue(`game:${typeOfRequest}`, { durable: true })
-		await amqp.channel.basicPublish('', `game:${typeOfRequest}`, updateRequest.id.toString(), {})
-		await amqp.client.close()
+		await channel.queue(`game:${typeOfRequest}`, { durable: true })
+		await channel.basicPublish('', `game:${typeOfRequest}`, updateRequest.id.toString(), {})
+		await amqp.close()
 
 		return res.status(200).json({ message: `Added ${typeOfRequest} request for game with ID ${updateRequest.id} to queue.` })
 	})
