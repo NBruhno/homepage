@@ -64,7 +64,7 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 			setFilteredOptions(getFilteredOptions(options, inputValue))
 			// A controversial change broke custom controlled inputs with unnecessarily harsh type-safety https://github.com/react-hook-form/react-hook-form/pull/10342
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			if (selectedOptions === undefined || selectedOptions.length === 0) return field.onChange(undefined as any)
+			if (selectedOptions.length === 0) return field.onChange(undefined as any)
 			// A controversial change broke custom controlled inputs with unnecessarily harsh type-safety https://github.com/react-hook-form/react-hook-form/pull/10342
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			return field.onChange(selectedOptions.map(({ value }) => value) as any)
@@ -88,8 +88,8 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 		items: filteredOptions,
 		itemToString: () => '',
 		onInputValueChange: ({ inputValue }) => {
-			setInputValue(inputValue ?? '')
-			setFilteredOptions(getFilteredOptions(options, inputValue ?? ''))
+			setInputValue(inputValue)
+			setFilteredOptions(getFilteredOptions(options, inputValue))
 		},
 		stateReducer: useCallback((_: UseComboboxState<SelectOption>, actionAndChanges: UseComboboxStateChangeOptions<SelectOption>) => {
 			const { type, changes } = actionAndChanges

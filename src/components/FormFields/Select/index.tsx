@@ -42,7 +42,7 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 		itemToString: (item) => item?.label ?? '',
 		// A controversial change broke custom controlled inputs with unnecessarily harsh type-safety https://github.com/react-hook-form/react-hook-form/pull/10342
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		onSelectedItemChange: ({ selectedItem }) => field.onChange(selectedItem?.value as any),
+		onSelectedItemChange: ({ selectedItem }) => field.onChange(selectedItem.value as any),
 		onIsOpenChange: ({ isOpen, selectedItem, inputValue }) => {
 			// If the user clears the field and exits the menu, we assume the user wants to reset the field
 			if (!isOpen && (inputValue === '' || inputValue === undefined)) {
@@ -54,7 +54,7 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 			} else if (!isOpen) setInputValue(selectedItem?.label ?? '')
 		},
 		onInputValueChange: ({ inputValue }) => {
-			if (isEmpty(inputValue) || inputValue === undefined) {
+			if (isEmpty(inputValue)) {
 				setFilteredOptions(options)
 			} else setFilteredOptions(matchSorter(options, inputValue, { keys: ['label'] }))
 		},
