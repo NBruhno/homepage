@@ -48,10 +48,10 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 				if (updateRequestExists.length > 0) {
 					const toUpdate = filterUnspecified(await prisma.$transaction(updateRequestExists)).map(({ id }) => id)
 
-					const games = (await Promise.all(chunk(toUpdate, 100).map(async (ids) => igdbFetcher('/games', res, {
+					const games = (await Promise.all(chunk(toUpdate, 500).map(async (ids) => igdbFetcher('/games', res, {
 						shouldReturnFirst: false,
-						body: `${gameFields}; limit 100; where id = (${ids.join(',')});`,
-						nickname: `outdated games, 0-100`,
+						body: `${gameFields}; limit 500; where id = (${ids.join(',')});`,
+						nickname: `outdated games, 0-500`,
 					}).then((igdbGames) => igdbGames.map(mapIgdbGame))))).flat()
 
 					const updateQueries = games.map(({ id, ...rest }) => prisma.games.update({

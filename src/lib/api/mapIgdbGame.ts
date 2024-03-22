@@ -110,7 +110,7 @@ export const mapIgdbGame = (game: IgdbGame) => {
 	const {
 		id, aggregated_rating: rating, aggregated_rating_count: ratingCount, genres = [], summary,
 		involved_companies: companies = [], updated_at: updatedAt, name, platforms = [], first_release_date: releaseDate, dlcs = [],
-		release_dates: releaseDates = [], game_engines: engines = [], screenshots, cover, status, websites, hypes: hype, follows,
+		release_dates: releaseDates = [], game_engines: engines = [], screenshots, cover, status, websites, hypes: hype,
 		category, franchises = [], game_modes: modes = [], multiplayer_modes: multiplayerModes = [], parent_game: parentGame,
 		player_perspectives: playerPerspectives = [], similar_games: similarGames = [], storyline, themes = [], videos = [],
 	} = game
@@ -133,7 +133,7 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		engines: engines.length > 0 ? engines : [],
 		franchises: franchises.length > 0 ? franchises : [],
 		genres: genres.length > 0 ? genres : [],
-		hype: Math.round((follows ?? 0) + (hype ?? 0)),
+		hype: Math.round(hype ?? 0),
 		modes: modes.length > 0 ? modes : [],
 		multiplayerModes: multiplayerModes.length > 0 ? mapMultiplayerMode(multiplayerModes) : [],
 		parentId: parentGame,

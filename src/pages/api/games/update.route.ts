@@ -18,17 +18,8 @@ const Query = object({
 
 export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
-		const UpdateQuery = object({
-			'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
-			'hours-since-last-checked-priority': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
-			take: optional(coerce(number(), pattern(string(), /[1-100000]/), (value) => parseInt(value, 10))),
-		})
 		authenticateSystem(req)
-		const {
-			take = 10000,
-			'hours-since-last-checked': hoursSinceLastChecked = 72,
-			'hours-since-last-checked-priority': hoursSinceLastCheckedPriority = 24,
-		} = create(req.query, UpdateQuery)
+		const { take = 10000 } = create(req.query, Query)
 
 		const twoMonthsBackDate = sub(Date.now(), { months: 2 })
 		// Get all games that has not been checked after 24 hours
@@ -36,15 +27,9 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 			where: {
 				OR: [
 					{
-						lastCheckedAt: { lte: sub(Date.now(), { hours: hoursSinceLastChecked }) },
-						userData: { some: { isFollowing: false } },
-					},
-					{
-						lastCheckedAt: { lte: sub(Date.now(), { hours: hoursSinceLastCheckedPriority }) },
 						userData: { some: { isFollowing: true } },
 					},
 					{
-						lastCheckedAt: { lte: sub(Date.now(), { hours: hoursSinceLastCheckedPriority }) },
 						OR: [
 							{ releaseDate: { gte: twoMonthsBackDate } },
 							{ releaseDate: null },
@@ -56,7 +41,6 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 			take,
 			select: {
 				id: true,
-				lastCheckedAt: true,
 				hype: true,
 				releaseDate: true,
 				userData: {
@@ -87,10 +71,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 			'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
 		}))
 		authenticateSystem(req)
-		const {
-			take = 500,
-			type, 'hours-since-last-checked': hoursSinceLastChecked = 12,
-		} = create(req.query, UpdateQuery)
+		const { take = 500, type } = create(req.query, UpdateQuery)
 
 		switch (type) {
 			case 'popular': {
@@ -155,11 +136,6 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 				// Get all followed games in the library that hasn't been updated in the last 1 hour
 				const potentiallyOutdatedFollowedGames = await monitorAsync(() => prisma.gameUserData.findMany({
 					where: {
-						game: {
-							lastCheckedAt: {
-								lte: sub(Date.now(), { hours: hoursSinceLastChecked }),
-							},
-						},
 						isFollowing: true,
 					},
 					take,
@@ -190,20 +166,10 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 							: false,
 					)
 
-					const existingGames = differenceBy(potentiallyOutdatedFollowedGames, gamesToUpdate, 'id')
-
 					if (gamesToUpdate.length > 0) {
-						const [markedAsCheckedGames, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
-							monitorAsync(() => prisma.games.updateMany({
-								where: {
-									OR: existingGames.map(({ id }) => ({ id })),
-								},
-								data: {
-									lastCheckedAt: new Date().toISOString(),
-								},
-							}), 'db:prisma', 'updateMany()', span),
+						const [...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
 							...chunk(gamesToUpdate, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
-								body: { games: batch.map((game) => ({ ...game, lastCheckedAt: new Date().toISOString() })) },
+								body: { games: batch },
 								absoluteUrl: absoluteUrl(req).origin,
 								accessToken: config.auth.systemToken,
 								method: Method.Put,
@@ -219,30 +185,17 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 								outdatedGames: gamesToUpdate.length,
 							},
 							resolution: {
-								markedAsCheckedGames: markedAsCheckedGames.count,
 								updatedGames: filterUnspecified(updatedGamesResponse.map((response) => response.count)).reduce((a, b) => a + b, 0),
 							},
 							message: `Successfully updated ${updatedGamesCount} games`,
 						})
 					}
 
-					const markedAsCheckedGames = await monitorAsync(() => prisma.games.updateMany({
-						where: {
-							OR: existingGames.map(({ id }) => ({ id })),
-						},
-						data: {
-							lastCheckedAt: new Date().toISOString(),
-						},
-					}), 'db:prisma', 'updateMany()')
-
 					return res.status(200).json({
 						status: {
 							potentiallyOutdatedFollowedGames: potentiallyOutdatedFollowedGames.length,
 							foundGames: updatedGames.length,
 							outdatedGames: gamesToUpdate.length,
-						},
-						resolution: {
-							markedAsCheckedGames: markedAsCheckedGames.count,
 						},
 						message: `Found no games to update`,
 					})
@@ -256,19 +209,12 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 		authenticateSystem(req)
 		const UpdateQuery = assign(Query, object({
 			'exclude-followed': optional(literal('yes')),
-			'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
 		}))
-		const { take = 100, 'exclude-followed': excludeFollowed, 'hours-since-last-checked': hoursSinceLastChecked = 2 } = create(req.query, UpdateQuery)
+		const { take = 100, 'exclude-followed': excludeFollowed } = create(req.query, UpdateQuery)
 
 		// Get all games in the library that hasn't been checked for updates
 		const potentiallyOutdatedGames = await monitorAsync(() => prisma.games.findMany({
-			orderBy: [{
-				lastCheckedAt: 'asc',
-			}],
 			where: {
-				lastCheckedAt: {
-					lte: sub(Date.now(), { hours: hoursSinceLastChecked }),
-				},
 				NOT: excludeFollowed === 'yes' ? [
 					{
 						userData: {
@@ -302,20 +248,10 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 					: false,
 			)
 
-			const existingGames = differenceBy(potentiallyOutdatedGames, gamesToUpdate, 'id')
-
 			if (gamesToUpdate.length > 0) {
-				const [markedAsCheckedGames, ...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
-					monitorAsync(() => prisma.games.updateMany({
-						where: {
-							OR: existingGames.map(({ id }) => ({ id })),
-						},
-						data: {
-							lastCheckedAt: new Date().toISOString(),
-						},
-					}), 'db:prisma', 'updateMany()', span),
+				const [...updatedGamesResponse] = await monitorAsync((span) => Promise.all([
 					...chunk(gamesToUpdate, 50).map((batch) => monitorAsync(() => fetcher<{ count: number }>(`/games`, {
-						body: { games: batch.map((game) => ({ ...game, lastCheckedAt: new Date().toISOString() })) },
+						body: { games: batch },
 						absoluteUrl: absoluteUrl(req).origin,
 						accessToken: config.auth.systemToken,
 						method: Method.Put,
@@ -331,30 +267,17 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 						outdatedGames: gamesToUpdate.length,
 					},
 					resolution: {
-						markedAsCheckedGames: markedAsCheckedGames.count,
 						updatedGames: filterUnspecified(updatedGamesResponse.map((response) => response.count)).reduce((a, b) => a + b, 0),
 					},
 					message: `Successfully updated ${updatedGamesCount} games`,
 				})
 			}
 
-			const markedAsCheckedGames = await monitorAsync(() => prisma.games.updateMany({
-				where: {
-					OR: existingGames.map(({ id }) => ({ id })),
-				},
-				data: {
-					lastCheckedAt: new Date().toISOString(),
-				},
-			}), 'db:prisma', 'updateMany()')
-
 			return res.status(200).json({
 				status: {
 					potentiallyOutdatedGames: potentiallyOutdatedGames.length,
 					foundGames: updatedGames.length,
 					outdatedGames: gamesToUpdate.length,
-				},
-				resolution: {
-					markedAsCheckedGames: markedAsCheckedGames.count,
 				},
 				message: `Found no games to update`,
 			})

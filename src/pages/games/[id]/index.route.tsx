@@ -119,7 +119,6 @@ const GamePage: NextPage = () => {
 						supporters={game?.supporters}
 						themes={game?.themes}
 						createdAt={game?.createdAt}
-						lastCheckedAt={game?.lastCheckedAt ?? null}
 						updatedAt={game?.updatedAt}
 					/>
 				</GridContainer>
