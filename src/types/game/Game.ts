@@ -29,7 +29,6 @@ export type Game = {
 	engines: Array<GameDefaultEntity>,
 	franchises: Array<GameDefaultEntity>,
 	genres: Array<GameDefaultEntity>,
-	lastCheckedAt: string,
 	modes: Array<GameDefaultEntity>,
 	multiplayerModes: Array<GameMultiplayerMode>,
 	platforms: Array<GamePlatform>,

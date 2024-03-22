@@ -25,7 +25,6 @@ export type IgdbGame = {
 	cover?: IgdbImage,
 	dlcs?: Array<Pick<IgdbGame, 'cover' | 'id' | 'name'>>,
 	first_release_date: number | null,
-	follows?: number | null,
 	franchises?: Array<IgdbFranchise>,
 	game_engines?: Array<IgdbEngine>,
 	game_modes?: Array<IgdbMode>,

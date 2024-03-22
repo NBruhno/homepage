@@ -57,13 +57,10 @@ model Games {
   videos             Json?
   websites           Json?
   createdAt          DateTime       @default(now())
-  lastCheckedAt      DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
 
   @@index(fields: [name])
   @@index(fields: [releaseDate])
-  @@index(fields: [lastCheckedAt(sort: Asc)])
-  @@index(fields: [releaseDate, lastCheckedAt(sort: Asc), hype(sort: Desc)])
   @@index(fields: [releaseDate, hype(sort: Desc)])
 }
 

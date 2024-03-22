@@ -31,14 +31,13 @@ type Props = {
 	themes: Array<GameDefaultEntity> | undefined,
 
 	createdAt: string | undefined,
-	lastCheckedAt: string | null,
 	updatedAt: string | undefined,
 }
 
 export const InfoBox = ({
 	genres = [], themes = [], platforms = [], engines = [], franchises = [], modes = [], multiplayerModes = [],
 	playerPerspectives = [], porters = [], publishers = [], supporters = [], releaseDates = [], developers = [],
-	releaseDate, createdAt, updatedAt, lastCheckedAt,
+	releaseDate, createdAt, updatedAt,
 }: Props) => {
 	const { insights } = useGameInsights()
 	const groupedReleaseDates = groupByReleaseDate(releaseDates, ({ date }) => date, releaseDate)
@@ -314,20 +313,6 @@ export const InfoBox = ({
 						<time>
 							<Placeholder width='65%'>
 								{formatRelative(parseISO(updatedAt), new Date(), { locale: enGB })}
-							</Placeholder>
-						</time>
-					</div>
-				)}
-				{lastCheckedAt && (
-					<div>
-						<Title>
-							<Placeholder width='40%'>
-								Last checked
-							</Placeholder>
-						</Title>
-						<time>
-							<Placeholder width='75%'>
-								{formatRelative(parseISO(lastCheckedAt), new Date(), { locale: enGB })}
 							</Placeholder>
 						</time>
 					</div>

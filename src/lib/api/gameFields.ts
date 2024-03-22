@@ -1,6 +1,6 @@
 const root = [
 	'aggregated_rating_count', 'aggregated_rating', 'first_release_date', 'category', 'multiplayer_modes.*',
-	'id', 'name', 'storyline', 'summary', 'status', 'updated_at', 'hypes', 'follows', 'parent_game',
+	'id', 'name', 'storyline', 'summary', 'status', 'updated_at', 'hypes', 'parent_game',
 ]
 const companies = ['involved_companies.company.name', 'involved_companies.developer', 'involved_companies.porting', 'involved_companies.publisher', 'involved_companies.supporting']
 const cover = ['cover.alpha_channel', 'cover.animated', 'cover.image_id']
