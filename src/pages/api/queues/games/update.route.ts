@@ -18,7 +18,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			const amqp = await createAmqp()
 			try {
 				const channel = await amqp.channel()
-	
+
 				await channel.queue(`game:update`, { durable: true })
 				await channel.basicPublish('', `game:update`, id.toString(), {})
 			} finally {
