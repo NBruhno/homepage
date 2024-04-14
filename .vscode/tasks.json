@@ -2,9 +2,29 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "PlanetScale main database",
+      "label": "Postgres DB",
       "type": "shell",
-      "command": "pscale connect main develop --port 3309 --debug",
+      "command": "sudo pg_ctcluster 14 main start",
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "development"
+      }
+    },
+    {
+      "label": "LavinMQ",
+      "type": "shell",
+      "command": "sudo lavinmq -D /var/lib/lavinmq",
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "development"
+      }
+    },
+    {
+      "label": "Redis server",
+      "type": "shell",
+      "command": "redis-server",
       "presentation": {
         "panel": "dedicated",
         "reveal": "always",
@@ -38,8 +58,24 @@
       "command": "",
       "type": "process",
       "dependsOn": [
-        "PlanetScale main database",
+        "Postgres DB",
         "Prisma studio"
+      ],
+      "dependsOrder": "parallel",
+      "runOptions": {
+        "runOn": "default"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Start data dependencies",
+      "command": "",
+      "type": "process",
+      "dependsOn": [
+        "Postgres DB",
+        "Prisma studio",
+        "LavinMQ",
+        "Redis server"
       ],
       "dependsOrder": "parallel",
       "runOptions": {

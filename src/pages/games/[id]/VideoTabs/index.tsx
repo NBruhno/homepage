@@ -1,3 +1,5 @@
+import { type GameVideo } from 'types'
+
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react'
 import { useEffect, useMemo, useState } from 'react'
 
@@ -9,10 +11,7 @@ import { Button } from './Button'
 import { Wrapper } from './Wrapper'
 
 type Props = {
-	videos: Array<{
-		videoId: string,
-		name: string | null,
-	}> | undefined,
+	videos: Array<GameVideo> | undefined,
 }
 
 export const VideoTabs = ({ videos = [] }: Props) => {

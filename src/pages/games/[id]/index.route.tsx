@@ -46,12 +46,12 @@ const GamePage: NextPage = () => {
 	return (
 		<Page>
 			<BackgroundWrapper>
-				<Background src={game?.screenshot ?? game?.cover ?? null} imageProps={game?.screenshotProps ?? undefined} />
+				<Background src={game?.screenshot ?? game?.cover ?? null} />
 			</BackgroundWrapper>
 			<BackgroundCutoff />
 			<Grid>
 				<GridContainer name='cover' css={(theme) => ({ maxHeight: '354px', [theme.mediaQueries.minTablet]: { marginTop: '10px' } })}>
-					<Cover coverUrl={game?.cover ?? null} imageProps={game?.coverProps ?? undefined} isPriority />
+					<Cover coverUrl={game?.cover ?? null} isPriority />
 				</GridContainer>
 				<GridContainer name='headlines'>
 					<header>

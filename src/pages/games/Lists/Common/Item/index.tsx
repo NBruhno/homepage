@@ -1,4 +1,4 @@
-import type { GameSimpleExtended } from 'types'
+import { type GameSimple } from 'types'
 
 import { useHover } from '@react-aria/interactions'
 
@@ -12,19 +12,19 @@ import { Container } from './Container'
 import { Subtitle } from './Subtitle'
 import { Title } from './Title'
 
-type Props = Pick<GameSimpleExtended, 'cover' | 'coverProps' | 'id' | 'name' | 'status'> & {
+type Props = Pick<GameSimple, 'cover' | 'id' | 'name' | 'status'> & {
 	index?: number,
 	isLoading: boolean,
 	releaseDate: string | null,
 	isPriority?: boolean,
 }
 
-export const Item = ({ id, name, releaseDate, cover, coverProps, status, isPriority, isLoading, index = 0 }: Props) => {
+export const Item = ({ id, name, releaseDate, cover, status, isPriority, isLoading, index = 0 }: Props) => {
 	const { isHovered, hoverProps } = useHover({})
 
 	return (
 		<Container href={`/games/${id}`} isLoading={isLoading} {...hoverProps}>
-			<Cover coverUrl={cover} isPriority={isPriority} imageProps={coverProps ?? undefined} isShineVisible={isHovered} />
+			<Cover coverUrl={cover} isPriority={isPriority} isShineVisible={isHovered} />
 			<div css={{ padding: '12px' }}>
 				<Title>
 					<Placeholder isLoading={isLoading} width={index % 2 === 0 ? 100 : 90}>

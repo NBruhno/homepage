@@ -22,13 +22,8 @@ export const config = Object.freeze({
 		apiKey: process.env.ITAD_TOKEN as string,
 	},
 
-	kv: {
-		url: process.env.KV_URL as string,
-		api: {
-			url: process.env.KV_REST_API_URL as string,
-			token: process.env.KV_REST_API_TOKEN as string,
-			readOnlyToken: process.env.KV_REST_API_READ_ONLY_TOKEN as string,
-		},
+	redis: {
+		url: process.env.REDIS_URL as string,
 	},
 
 	steam: {
@@ -40,6 +35,7 @@ export const config = Object.freeze({
 	},
 
 	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV as Environment,
-	staticHost: process.env.STATIC_HOST as string,
+	queueStrategy: process.env.QUEUE_STRATEGY as 'redis' | 'amqp',
 	smartHomeHost: process.env.SMART_HOME_HOST as string,
+	staticHost: process.env.STATIC_HOST as string,
 } as const)

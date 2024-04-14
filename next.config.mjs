@@ -2,7 +2,6 @@
 
 import pwa from '@ducanh2912/next-pwa'
 import bundleAnalyzer from '@next/bundle-analyzer'
-import withPlaiceholder from '@plaiceholder/next'
 import { withSentryConfig } from '@sentry/nextjs'
 import LodashModuleReplacementPlugin from 'lodash-webpack-plugin'
 
@@ -160,4 +159,4 @@ const nextConfig = {
 	basePath,
 }
 
-export default withBundleAnalyzer(withPwa(withPlaiceholder(withSentryConfig(nextConfig, sentryConfig))))
+export default withBundleAnalyzer(withPwa(withSentryConfig(nextConfig, sentryConfig)))
