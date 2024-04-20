@@ -75,6 +75,7 @@ const nextConfig = {
 				'./**/node_modules/terser',
 			],
 		},
+		serverComponentsExternalPackages: ['argon2'],
 	},
 
 	images: {
