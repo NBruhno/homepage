@@ -77,7 +77,7 @@ const nextConfig = {
 		},
 		outputFileTracingIncludes: {
 			'*': [
-				'./**/node_modules/argon2/prebuilds/linux-x64',
+				'./**/node_modules/argon2/prebuilds/linux-x64/argon2.glibc.node',
 			],
 		},
 	},
