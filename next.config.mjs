@@ -75,6 +75,11 @@ const nextConfig = {
 				'./**/node_modules/terser',
 			],
 		},
+		outputFileTracingIncludes: {
+			'*': [
+				'./**/node_modules/argon2/prebuilds/linux-x64',
+			],
+		},
 	},
 
 	images: {
