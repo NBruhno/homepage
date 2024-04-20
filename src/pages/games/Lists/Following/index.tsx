@@ -39,7 +39,6 @@ export const Following = ({ games, isLoading }: Props) => {
 				<Item
 					id={id}
 					cover={cover}
-					coverProps={null}
 					name={name}
 					releaseDate={releaseDate}
 					status={status}

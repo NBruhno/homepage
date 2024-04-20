@@ -24,7 +24,6 @@ export const SearchList = ({
 					<Item
 						id={index}
 						cover={null}
-						coverProps={null}
 						name=''
 						releaseDate={null}
 						status={null}
@@ -59,7 +58,6 @@ export const SearchList = ({
 				<Item
 					id={id}
 					cover={cover}
-					coverProps={null}
 					name={name}
 					releaseDate={releaseDate}
 					status={status}

@@ -1,4 +1,4 @@
-import type { GameExtended } from 'types'
+import { type Game } from 'types'
 
 import { useEffect } from 'react'
 import useSWR from 'swr'
@@ -12,7 +12,7 @@ import { getSteamAppId } from 'lib/getSteamAppId'
 
 type Props = {
 	id: number | null,
-	initialGame?: GameExtended,
+	initialGame?: Game,
 }
 
 type GameState = {
@@ -45,7 +45,7 @@ export const useGameStore = create<GameState>()(devtools((set) => ({
 export const useGame = ({ id, initialGame }: Props) => {
 	const { setGameIds, setGameName, setGameIsLoading, resetGame } = useGameStore((state) => state, shallow)
 
-	const { data: game, isLoading: isGameLoading } = useSWR<GameExtended | undefined>(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
+	const { data: game, isLoading: isGameLoading } = useSWR<Game | undefined>(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
 
 	useEffect(() => {
 		if (game) {

@@ -1,6 +1,6 @@
 import { UserRole } from 'types'
 
-import { verify, hash } from 'argon2'
+import { verify, hash } from '@node-rs/argon2'
 import { create, object, string } from 'superstruct'
 
 import { password } from 'validation/shared'

@@ -1,4 +1,4 @@
-import type { GameSimple, GameSimpleExtended } from 'types'
+import type { GameSimple } from 'types'
 
 import { Container } from '../Common/Container'
 import { Item } from '../Common/Item'
@@ -7,7 +7,7 @@ import { Subtitle } from '../Common/Subtitle'
 const emptyMessage = 'Could not find any popular games at the moment'
 
 type Props = {
-	games: Array<GameSimple | GameSimpleExtended>,
+	games: Array<GameSimple>,
 	isLoading: boolean,
 }
 
@@ -26,7 +26,6 @@ export const Popular = ({ games, isLoading }: Props) => {
 				<Item
 					id={id}
 					cover={cover}
-					coverProps={null}
 					name={name}
 					releaseDate={releaseDate}
 					status={status}

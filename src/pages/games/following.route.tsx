@@ -49,7 +49,6 @@ const Games: NextPage = () => {
 									<Item
 										id={0}
 										cover={null}
-										coverProps={null}
 										name=''
 										releaseDate={null}
 										status={null}
@@ -85,7 +84,6 @@ const Games: NextPage = () => {
 								<Item
 									id={id}
 									cover={cover}
-									coverProps={null}
 									name={name}
 									releaseDate={releaseDate}
 									status={status}

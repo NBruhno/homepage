@@ -1,14 +1,10 @@
-import type { GameImagePlaceholder } from 'types'
-
 import NextImage from 'next/image'
 
-/* eslint-disable @next/next/no-img-element */
 type Props = {
 	src: string | null,
-	imageProps: GameImagePlaceholder | undefined,
 }
 
-export const Background = ({ src, imageProps, ...rest }: Props) => {
+export const Background = ({ src, ...rest }: Props) => {
 	if (!src) return null
 
 	return (
@@ -44,9 +40,7 @@ export const Background = ({ src, imageProps, ...rest }: Props) => {
 			priority
 			width={1}
 			height={1}
-			placeholder={imageProps ? 'blur' : 'empty'}
 			src={src}
-			{...imageProps}
 			{...rest}
 		/>
 	)
