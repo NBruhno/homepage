@@ -1,7 +1,7 @@
-import { argon2id } from 'argon2'
+import { type Options } from '@node-rs/argon2'
 
-export const argonDefaultOptions = {
-	hashLength: 64,
+export const argonDefaultOptions: Options = {
+	outputLen: 64,
 	timeCost: 20,
-	type: argon2id,
+	algorithm: 2,
 }

@@ -1,7 +1,7 @@
 import { UserTokenType } from 'types'
 
+import { verify } from '@node-rs/argon2'
 import { setUser } from '@sentry/nextjs'
-import { verify } from 'argon2'
 import { object, create } from 'superstruct'
 
 import { email, password } from 'validation/shared'
