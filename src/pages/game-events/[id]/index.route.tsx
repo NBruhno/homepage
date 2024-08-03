@@ -74,12 +74,12 @@ const GameEvents: NextPage = () => {
 
 				<p>{event.description}</p>
 
-				<div css={{ display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: '24px' }}>
+				<div css={(theme) => ({ display: 'flex', columnGap: '24px', [theme.mediaQueries.maxTablet]: { flexDirection: 'column' } })}>
 					<div css={{ rowGap: '12px', display: 'flex', flexDirection: 'column' }}>
 						<h2>Games released before the event</h2>
 						{releasedGames.map(({ name, cover, id, releaseDate }, index) => (
 							<Item href={`/games/${id}`} key={index}>
-								<Cover coverUrl={cover} css={{ maxWidth: 'calc(80px + 16px)', margin: '-16px 0 -16px -16px' }} />
+								<Cover coverUrl={cover} css={{ maxWidth: 'calc(80px + 16px)', margin: '-16px 0 -16px -16px', flexShrink: 0 }} />
 								<div>
 									<h3 css={{ gridArea: 'title', margin: '0 0 12px' }}>{name}</h3>
 									<h4 css={{ gridArea: 'date', margin: 0 }}>{dateOrYear(releaseDate)}</h4>
@@ -91,7 +91,7 @@ const GameEvents: NextPage = () => {
 						<h2>Games to be released after the event</h2>
 						{upcomingGames.map(({ name, cover, id, releaseDate }, index) => (
 							<Item href={`/games/${id}`} key={index}>
-								<Cover coverUrl={cover} css={{ maxWidth: 'calc(80px + 16px)', margin: '-16px 0 -16px -16px' }} />
+								<Cover coverUrl={cover} css={{ maxWidth: 'calc(80px + 16px)', margin: '-16px 0 -16px -16px', flexShrink: 0 }} />
 								<div>
 									<h3 css={{ gridArea: 'title', margin: '0 0 12px' }}>{name}</h3>
 									<h4 css={{ gridArea: 'date', margin: 0 }}>{dateOrYear(releaseDate)}</h4>

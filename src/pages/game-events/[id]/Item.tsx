@@ -22,18 +22,6 @@ const Component = ({ isLoading, ...rest }: Props, ref: Ref<HTMLAnchorElement>) =
 			textDecoration: 'none',
 			padding: '16px',
 
-			[theme.mediaQueries.maxLaptop]: {
-				textAlign: 'center',
-				flex: '100%',
-				gridTemplate: `
-					"logo" 1fr
-					"title" auto
-					"date" auto
-					"games" auto
-					/ auto
-				`,
-			},
-
 			transition: `
 				border 200ms ${theme.animation.default},
 				box-shadow 200ms ${theme.animation.default},
