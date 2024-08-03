@@ -15,9 +15,9 @@ type Options = {
 }
 
 const defaultPayload = {
-	aud: ['https://bruhno.com', 'https://bruhno.dev'],
+	aud: ['https://bruhno.com', 'https://bruhno.dev', 'https://bruhn.dev'],
 	iat: Math.floor(Date.now() / 1000) - 10,
-	iss: 'https://bruhno.dev',
+	iss: 'https://bruhn.dev',
 	nbf: Math.floor(Date.now() / 1000) - 30,
 }
 

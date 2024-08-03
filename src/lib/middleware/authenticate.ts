@@ -9,6 +9,7 @@ import { setUser } from '@sentry/nextjs'
 import { config } from 'config.server'
 
 import { ApiError } from 'lib/errors'
+import { logger } from 'lib/logger'
 import { monitor } from 'lib/sentryMonitor'
 
 export type Options = {
@@ -71,6 +72,7 @@ export const authenticate = async (req: NextApiRequest,
 			},
 		) as UserToken
 	} catch (error) {
+		logger.error('Failed to verify token', error)
 		throw ApiError.fromCode(400)
 	}
 
