@@ -14,7 +14,7 @@ export default apiHandler({
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/revalidate`,
 })
 	.post(async (req, res) => {
-		authenticate(req, { allowedRoles: [UserRole.Admin] })
+		await authenticate(req, { allowedRoles: [UserRole.Admin] })
 		const { id } = create(req.query, Query)
 
 		await res.revalidate(`/games/${id}`)

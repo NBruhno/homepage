@@ -220,6 +220,7 @@ module.exports = {
 		'no-await-in-loop': 'off',
 		'no-confusing-arrow': 'off',
 		'no-console': ['error'],
+		'no-constant-binary-expression': ['error'],
 		'no-else-return': 'off',
 		'no-implied-eval': ['error'],
 		'no-mixed-operators': [

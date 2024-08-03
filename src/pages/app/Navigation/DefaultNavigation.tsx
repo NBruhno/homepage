@@ -1,6 +1,6 @@
 import { UserRole } from 'types'
 
-import { IconApps, IconHome, IconInfoCircle, IconListCheck, IconListNumbers, IconListSearch, IconSmartHome, IconTools, IconUser, IconUserOff } from '@tabler/icons-react'
+import { IconApps, IconHome, IconInfoCircle, IconListCheck, IconListNumbers, IconListSearch, IconSmartHome, IconTicket, IconTools, IconUser, IconUserOff } from '@tabler/icons-react'
 import { useRouter } from 'next/router'
 import { shallow } from 'zustand/shallow'
 
@@ -57,6 +57,13 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 				tooltip='Games you follow'
 				isActive={pathname.includes('/games/following')}
 				renderIcon={() => <IconListCheck size={22} css={{ flexShrink: 0 }} />}
+			/>
+			<Link
+				url='/game-events'
+				name='Events'
+				tooltip='Game events'
+				isActive={pathname.includes('/game-events')}
+				renderIcon={() => <IconTicket size={22} css={{ flexShrink: 0 }} />}
 			/>
 			<Link
 				url='/games/search'

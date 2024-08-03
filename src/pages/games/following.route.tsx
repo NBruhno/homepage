@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 
-import { isString } from 'lodash'
 import { useRouter } from 'next/router'
+import { isString } from 'radash'
 
 import { useFollowingGames } from 'states/games/useFollowingGames'
 import { useLoading, useTitle } from 'states/page'

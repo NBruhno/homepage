@@ -22,7 +22,7 @@ export default apiHandler({
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/home/lights/{entityId}`,
 })
 	.patch(async (req, res) => {
-		const { token } = authenticate(req, { allowedRoles: [UserRole.Admin] })
+		const { token } = await authenticate(req, { allowedRoles: [UserRole.Admin] })
 		const { id } = create(req.query, Query)
 		const { isLightOn, brightness, color } = create(req.query, Body)
 

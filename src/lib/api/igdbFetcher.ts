@@ -27,21 +27,21 @@ export const retry = async (functionToRetry: () => Promise<Response>, retries: n
 	return result.json() as unknown as Array<IgdbGame>
 }
 
-type Options<T> = {
+type Options<TFirst> = {
 	body?: string | null,
 	nickname?: string,
-	shouldReturnFirst: T,
+	shouldReturnFirst: TFirst,
 	span?: Span | undefined,
 }
 
-type ReturnType<T> = T extends true ? IgdbGame : Array<IgdbGame>
+type ReturnType<TFirst, TData> = TFirst extends true ? TData | undefined : Array<TData>
 
-export const igdbFetcher = async <T extends boolean>(url: string, res: NextApiResponse, {
+export const igdbFetcher = async <TData, TFirst extends boolean>(url: string, res: NextApiResponse, {
 	body = null,
 	shouldReturnFirst,
 	span,
 	nickname,
-}: Options<T>): Promise<ReturnType<T>> => {
+}: Options<TFirst>): Promise<ReturnType<TFirst, TData>> => {
 	// We assume that the env variables are always available, but this is just an extra precaution
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (config.igdb.token === undefined || config.igdb.clientId === undefined) throw new Error('igdbFetcher(): Both IGDB Token and Client ID needs to be set')
@@ -59,5 +59,5 @@ export const igdbFetcher = async <T extends boolean>(url: string, res: NextApiRe
 
 	const result = shouldReturnFirst ? data[0] : data
 
-	return result as ReturnType<T>
+	return result as ReturnType<TFirst, TData>
 }

@@ -1,4 +1,5 @@
 export { Environment } from './Environment'
+export { TokenType } from './TokenType'
 
 export type { DeepNullable } from './DeepNullable'
 export type { Nullable } from './Nullable'

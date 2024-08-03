@@ -1,6 +1,6 @@
-import { get, isEmpty, isString } from 'lodash'
+import { get, isEmpty, isString } from 'radash'
 import { useState } from 'react'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, type FieldError } from 'react-hook-form'
 
 import { useUnique } from 'lib/hooks'
 
@@ -35,7 +35,7 @@ export const Radio = ({ isRequired = false, isFullWidth = true, options, isDisab
 	const fieldValue = watch(name) as string
 	const [isFocus, setIsFocus] = useState(false)
 
-	const error = get(errors, name)
+	const error = get<FieldError | undefined>(errors, name)
 	const isGloballyDisabled = isDisabled
 	const hasError = Boolean(error)
 
@@ -70,7 +70,7 @@ export const Radio = ({ isRequired = false, isFullWidth = true, options, isDisab
 					</RowLabel>
 				)
 			})}
-			<InputError hasError={hasError} errorMessage={error?.message as string | undefined} />
+			<InputError hasError={hasError} errorMessage={error?.message} />
 		</FieldWrapper>
 	)
 }

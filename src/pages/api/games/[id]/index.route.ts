@@ -30,11 +30,11 @@ export default apiHandler({
 		}), 'db:prisma', 'findUnique()')
 
 		if (!game) {
-			const igdbGame = await igdbFetcher('/games', res, {
+			const igdbGame = await igdbFetcher<IgdbGame, true>('/games', res, {
 				body: `${gameFields}; where id = ${id};`,
 				shouldReturnFirst: true,
 				nickname: 'find unknown game',
-			}).then((game: IgdbGame | undefined) => {
+			}).then((game) => {
 				if (game) return mapIgdbGame(game)
 				throw ApiError.fromCodeWithCause(404, new Error(`Failed to find IGDB game with ID ${id}`))
 			})

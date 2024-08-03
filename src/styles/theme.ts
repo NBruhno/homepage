@@ -142,6 +142,7 @@ export const theme = (isDarkTheme = true) => Object.freeze({
 		textInverted: isDarkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 95%)',
 		border: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(0, 0%, 90%)',
 		success: 'hsl(151, 65%, 37%)',
+		gold: isDarkTheme ? 'hsl(47, 100%, 48%)' : 'hsl(48, 100%, 35%)',
 
 		sidebarBackground: isDarkTheme ? 'hsl(215, 21%, 11%)' : 'hsl(210, 12%, 16%)',
 		sidebarBorder: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(215, 15%, 25%)',

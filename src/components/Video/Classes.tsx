@@ -1,6 +1,10 @@
 import { css, Global } from '@emotion/react'
 
-export const Classes = () => (
+type Props = {
+	hasRoundedCorners?: boolean,
+}
+
+export const Classes = ({ hasRoundedCorners }: Props) => (
 	<Global
 		// eslint-disable-next-line @emotion/syntax-preference
 		styles={css`
@@ -14,6 +18,7 @@ export const Classes = () => (
   cursor: pointer;
 	margin-block: 0;
 	margin-inline: 0;
+	border-radius: ${hasRoundedCorners ? '8px' : 0};	
 }
 .yt-lite:before {
   content: "";

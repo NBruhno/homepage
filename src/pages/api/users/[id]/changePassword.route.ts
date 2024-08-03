@@ -16,7 +16,7 @@ export default apiHandler({
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}/changePassword`,
 })
 	.post(async (req, res) => {
-		const { userId: requestUserId, role } = authenticate(req)
+		const { userId: requestUserId, role } = await authenticate(req)
 		const { id } = create(req.query, object({ id: string() }))
 
 		const user = await monitorAsync(() => prisma.users.findUnique({

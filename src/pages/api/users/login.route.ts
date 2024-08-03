@@ -1,4 +1,4 @@
-import { UserTokenType } from 'types'
+import { TokenType } from 'types'
 
 import { verify } from '@node-rs/argon2'
 import { setUser } from '@sentry/nextjs'
@@ -45,12 +45,14 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		setUser({ id, username, email })
 
 		if (twoFactorSecret) {
-			const intermediateToken = getJwtToken({ sub: email, username, role, userId: id }, { type: UserTokenType.Intermediate })
+			const intermediateToken = getJwtToken({ sub: email, username, role, userId: id }, { type: TokenType.Intermediate })
 
 			return res.status(200).json({ intermediateToken })
 		} else {
-			const accessToken = getJwtToken({ sub: email, username, role, userId: id, steamId })
-			const refreshToken = getJwtToken({ sub: email, username, role, userId: id, steamId }, { type: UserTokenType.Refresh })
+			const [accessToken, refreshToken] = await Promise.all([
+				getJwtToken({ sub: email, username, role, userId: id, steamId }),
+				getJwtToken({ sub: email, username, role, userId: id, steamId }, { type: TokenType.Refresh }),
+			])
 			setRefreshCookie(res, refreshToken)
 
 			return res.status(200).json({ accessToken })

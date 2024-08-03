@@ -1,4 +1,4 @@
-import type { GameSimple } from 'types'
+import type { GameEvent, GameSimple } from 'types'
 
 export type GameData = {
 	games: Array<GameSimple>,
@@ -13,4 +13,12 @@ export type PageData = {
 	numberOfPages: number,
 	take: number,
 	skips: Array<number>,
+}
+
+export type GameEventData = {
+	events: Array<GameEvent>,
+	after: GameEvent | null,
+	before: GameEvent | null,
+	skip: number,
+	take: number,
 }

@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 
-import { isString } from 'lodash'
 import { useRouter } from 'next/router'
+import { isString } from 'radash'
 
 import { useGame, useGameUserStatus } from 'states/games'
 import { useTitle, useResponsive } from 'states/page'
@@ -12,6 +12,7 @@ import { GridContainer } from 'components/Layout'
 import { Page } from 'components/Layout/Page'
 import { Placeholder } from 'components/Placeholder'
 import { Tooltip } from 'components/Tooltip'
+import { VideoTabs } from 'components/VideoTabs'
 
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
@@ -31,7 +32,6 @@ import { PriceTable } from './PriceTable'
 import { Rating } from './Rating'
 import { Section } from './Section'
 import { SimilarGames } from './SimilarGames'
-import { VideoTabs } from './VideoTabs'
 import { WebsiteIcons } from './WebsiteIcons'
 
 const GamePage: NextPage = () => {

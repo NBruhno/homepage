@@ -19,7 +19,7 @@ const themes = ['themes.name']
 const videos = ['videos.video_id', 'videos.name']
 const websites = ['websites.category', 'websites.trusted', 'websites.url']
 
-export const gameFields = `fields ${[
+const fields = [
 	...root,
 	...companies,
 	...cover,
@@ -37,4 +37,8 @@ export const gameFields = `fields ${[
 	...themes,
 	...videos,
 	...websites,
-].join(', ')}`
+]
+
+export const gameFields = `fields ${fields.join(', ')}`
+
+export const gameFieldsAsList = fields

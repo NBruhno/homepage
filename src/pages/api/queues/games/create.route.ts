@@ -2,7 +2,8 @@ import { create, number, type } from 'superstruct'
 
 import { config } from 'config.server'
 
-import { apiHandler, createAmqp, redis } from 'lib/api'
+import { apiHandler, createAmqp } from 'lib/api'
+import { redis } from 'lib/api/redis'
 import { ApiError } from 'lib/errors'
 
 const valiator = type({

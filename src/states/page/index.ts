@@ -11,4 +11,4 @@ export { useSnackbar } from './useSnackbar'
 export { useTitle } from './useTitle'
 
 export type { Snackbar } from './useSnackbar'
-export type { Forms } from './useFormStore'
+export type { FormState } from './useFormStore'

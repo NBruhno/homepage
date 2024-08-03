@@ -4,7 +4,7 @@
     {
       "label": "Postgres DB",
       "type": "shell",
-      "command": "sudo pg_ctcluster 14 main start",
+      "command": "sudo service postgresql start",
       "presentation": {
         "panel": "dedicated",
         "reveal": "always",
@@ -34,7 +34,7 @@
     {
       "label": "Prisma studio",
       "type": "shell",
-      "command": "prisma studio",
+      "command": "pnpm db:studio",
       "presentation": {
         "panel": "dedicated",
         "reveal": "always",

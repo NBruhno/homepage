@@ -87,10 +87,6 @@ const nextConfig = {
 		],
 	},
 
-	sentry: {
-		hideSourceMaps: false,
-	},
-
 	eslint: {
 		// We already lint when building on Vercel and in MRs
 		ignoreDuringBuilds: true,

@@ -1,3 +1,5 @@
+import { type IgdbGame } from 'types'
+
 import { compareAsc, getUnixTime, isAfter, sub } from 'date-fns'
 import { chunk, differenceBy, differenceWith, intersectionBy, partition } from 'lodash'
 import { array, create, object, optional, coerce, number, pattern, string, assign, enums, literal } from 'superstruct'
@@ -76,7 +78,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 		switch (type) {
 			case 'popular': {
 				const twoMonthsBackTimestamp = getUnixTime(sub(Date.now(), { months: 2 }))
-				const popularGames = await igdbFetcher('/games', res, {
+				const popularGames = await igdbFetcher<IgdbGame, false>('/games', res, {
 					shouldReturnFirst: false,
 					body: `${gameFields}; limit ${take}; where (first_release_date >= ${twoMonthsBackTimestamp} & hypes >= 3) | (first_release_date >= ${twoMonthsBackTimestamp} & follows >= 3); sort id asc;`,
 					nickname: `popular, 0-${take}`,
@@ -151,7 +153,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 					.then((potentiallyOutdatedFollowedGames) => potentiallyOutdatedFollowedGames.map(({ game }) => game))
 
 				if (potentiallyOutdatedFollowedGames.length > 0) {
-					const updatedGames = await igdbFetcher('/games', res, {
+					const updatedGames = await igdbFetcher<IgdbGame, false>('/games', res, {
 						shouldReturnFirst: false,
 						body: `${gameFields}; limit ${take}; where id = (${potentiallyOutdatedFollowedGames.map(({ id }) => id).join(',')});`,
 						nickname: `potentially outdated, 0-${take}`,
@@ -233,7 +235,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 		}), 'db:prisma', 'findMany(potentially outdated games)')
 
 		if (potentiallyOutdatedGames.length > 0) {
-			const updatedGames = await igdbFetcher('/games', res, {
+			const updatedGames = await igdbFetcher<IgdbGame, false>('/games', res, {
 				shouldReturnFirst: false,
 				body: `${gameFields}; limit ${take}; where id = (${potentiallyOutdatedGames.map(({ id }) => id).join(',')});`,
 				nickname: `potentially outdated, 0-${take}`,

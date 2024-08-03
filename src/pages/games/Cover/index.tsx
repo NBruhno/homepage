@@ -17,8 +17,8 @@ export const Cover = ({ coverUrl, isPriority = false, isShineVisible = false, ..
 
 	if (!coverUrl || isLoading) return <Placeholder />
 	return (
-		<div css={{ position: 'relative', overflow: 'hidden' }}>
-			<Image isPriority={isPriority} src={coverUrl} {...rest} />
+		<div css={{ position: 'relative', overflow: 'hidden' }} {...rest}>
+			<Image isPriority={isPriority} src={coverUrl} />
 			<Shine isVisible={isShineVisible} />
 		</div>
 	)

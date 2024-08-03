@@ -5,11 +5,12 @@ type Props = {
 	isPriority: boolean,
 }
 
-export const Image = ({ src, isPriority }: Props) => (
+export const Image = ({ src, isPriority, ...rest }: Props) => (
 	<NextImage
 		css={{
 			height: '100%',
 			width: '100%',
+			aspectRatio: '264 / 353',
 			objectFit: 'cover',
 			color: 'transparent',
 			borderRadius: '4px',
@@ -23,8 +24,9 @@ export const Image = ({ src, isPriority }: Props) => (
 		loading={isPriority ? 'eager' : 'lazy'}
 		priority={isPriority}
 		width={264}
-		height={352}
+		height={353}
 		unoptimized
 		src={src}
+		{...rest}
 	/>
 )

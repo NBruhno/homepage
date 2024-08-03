@@ -6,7 +6,7 @@ Sentry.init({
 	dsn: SENTRY_DSN as string,
 	tracesSampler: (context) => {
 		if (context.parentSampled) return true
-		return 0.1
+		return 0.01
 	},
 	environment: process.env.VERCEL_ENV as string,
 })
