@@ -1,5 +1,3 @@
-import { times } from 'lodash'
-
 import { Fill } from './Fill'
 import { Line } from './Line'
 
@@ -15,7 +13,7 @@ export const Internal = ({ lines = 1, width = '80%' }: Props) => {
 
 	return (
 		<>
-			{times(lines, (idx) => {
+			{Array.from({ length: lines }).map((_, idx) => {
 				const factor = lineLengths[idx % lineLengths.length]
 				return (
 					<Line key={idx}>

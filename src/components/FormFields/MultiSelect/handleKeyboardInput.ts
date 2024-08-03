@@ -1,7 +1,7 @@
 import type { SelectOption } from '../CommonProps'
 import type { KeyboardEvent, RefObject } from 'react'
 
-import { isEmpty } from 'lodash'
+import { isEmpty } from 'radash'
 
 type Props = {
 	filteredOptions: Array<SelectOption>,

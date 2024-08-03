@@ -2,7 +2,7 @@ import type { GameWebsite, IgdbGame } from 'types'
 import type { SteamOwnedGames } from 'types/steam'
 
 import { fromUnixTime } from 'date-fns'
-import { round } from 'lodash'
+import { toFloat, toInt } from 'radash'
 import { create, object, string, coerce, number } from 'superstruct'
 
 import { config } from 'config.server'
@@ -25,7 +25,7 @@ export default apiHandler({
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/user-status`,
 })
 	.get(async (req, res) => {
-		const { userId, steamId } = authenticate(req)
+		const { userId, steamId } = await authenticate(req)
 		const { id } = create(req.query, Query)
 
 		const [userData, game] = await monitorAsync((span) => Promise.all([
@@ -50,12 +50,12 @@ export default apiHandler({
 				}), 'db:prisma', 'findFirst()', span)
 
 				if (!game) {
-					game = await igdbFetcher('/games', res, {
+					game = await igdbFetcher<IgdbGame, true>('/games', res, {
 						body: `${gameFields}; where id = ${id};`,
 						shouldReturnFirst: true,
 						nickname: 'find unknown game',
 						span,
-					}).then((game: IgdbGame | undefined) => {
+					}).then((game) => {
 						if (game) return { websites: mapIgdbGame(game).websites }
 						return null
 					})
@@ -86,8 +86,8 @@ export default apiHandler({
 				const payload = await response.json() as SteamOwnedGames
 				const game = payload.response.games.find(({ appid }) => appid === parseInt(steamAppId, 10))
 				steamInfo.isInSteamLibrary = Boolean(game)
-				steamInfo.timePlayed = game ? round(game.playtime_forever / 60, 1) : null
-				steamInfo.timePlayedLastTwoWeeks = game ? round((game.playtime_2weeks ?? 0) / 60, 1) : null
+				steamInfo.timePlayed = game ? toInt(toFloat(game.playtime_forever / 60).toFixed(1)) : null
+				steamInfo.timePlayedLastTwoWeeks = game ? toInt(toFloat((game.playtime_2weeks ?? 0) / 60).toFixed(1)) : null
 				steamInfo.lastPlayedAt = game?.rtime_last_played ? fromUnixTime(game.rtime_last_played).toISOString() : null
 			})
 		}

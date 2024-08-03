@@ -14,7 +14,7 @@ export default apiHandler({
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/follows`,
 })
 	.post(async (req, res) => {
-		const { userId } = authenticate(req)
+		const { userId } = await authenticate(req)
 		const { id } = create(req.query, Query)
 		const { isFollowing } = create(req.body, object({ isFollowing: boolean() }))
 

@@ -21,6 +21,12 @@ export const Indicator = ({ rating, children, ...rest }: Props) => {
 				icon: <Spinner size={20} animationDuration={1.25} />,
 			}
 		}
+		if (rating >= 90) {
+			return {
+				color: theme.color.gold,
+				icon: <IconThumbUp size={28} strokeWidth={1.5} />,
+			}
+		}
 		if (rating >= 70) {
 			return {
 				color: theme.color.success,
@@ -41,19 +47,30 @@ export const Indicator = ({ rating, children, ...rest }: Props) => {
 
 	return (
 		<div
-			css={(theme) => ({
-				minWidth: '38px',
-				minHeight: '38px',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				borderRadius: '2px',
-				color: reviewState.color,
-				fontWeight: theme.font.weight.medium,
-				fontFamily: theme.font.family.poppins,
-				fontSize: theme.font.size.s140,
-				backgroundColor: adjustHsl(reviewState.color, { alpha: 0.2 }),
-			})}
+			css={(theme) => ([
+				{
+					minWidth: '38px',
+					minHeight: '38px',
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					borderRadius: '2px',
+					color: reviewState.color,
+					fontWeight: theme.font.weight.medium,
+					fontFamily: theme.font.family.poppins,
+					fontSize: theme.font.size.s140,
+					backgroundColor: adjustHsl(reviewState.color, { alpha: 0.2 }),
+				},
+				rating !== null && rating >= 90 && ({
+					'> span': {
+						filter: `drop-shadow(0px 0px 3px ${theme.color.gold})`,
+					},
+
+					'> svg': {
+						filter: `drop-shadow(0px 0px 3px ${theme.color.gold})`,
+					},
+				}),
+			])}
 			{...rest}
 		>
 			{children ?? reviewState.icon}

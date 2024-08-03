@@ -1,7 +1,7 @@
 import type { GameData } from './types'
 
-import { isString } from 'lodash'
 import { useRouter } from 'next/router'
+import { isString } from 'radash'
 import { useEffect } from 'react'
 import useSWRInfinite from 'swr/infinite'
 

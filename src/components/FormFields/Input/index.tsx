@@ -2,9 +2,9 @@ import type { FocusEvent, KeyboardEvent } from 'react'
 
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
-import { get, isEmpty, isString } from 'lodash'
+import { get, isEmpty, isString } from 'radash'
 import { useMemo, useRef, useState } from 'react'
-import { useFormContext } from 'react-hook-form'
+import { type FieldError, useFormContext } from 'react-hook-form'
 
 import { useUnique } from 'lib/hooks'
 
@@ -89,7 +89,7 @@ export const Input = ({
 		},
 	})
 
-	const error = get(errors, name)
+	const error = get<FieldError | undefined>(errors, name)
 	const hasError = Boolean(error)
 	const labelId = `${id}-label`
 
@@ -174,7 +174,7 @@ export const Input = ({
 					</InputButtonContainer>
 				</InputContainer>
 				{hint && !hasError && <Hint>{hint}</Hint>}
-				<InputError hasError={hasError} errorMessage={error?.message as string | undefined} />
+				<InputError hasError={hasError} errorMessage={error?.message} />
 			</ColumnLabel>
 		</FieldWrapper>
 	)

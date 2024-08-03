@@ -1,23 +1,24 @@
-import type { Span, Transaction } from '@sentry/types'
+import type { Span } from '@sentry/types'
 import type { NextApiRequest } from 'next'
 import type { UserToken } from 'types'
-import { UserTokenType, UserRole } from 'types'
+import { TokenType, UserRole } from 'types'
 
+import { verify, decodeHeader } from '@node-rs/jsonwebtoken'
 import { setUser } from '@sentry/nextjs'
-import jwt from 'jsonwebtoken'
 
 import { config } from 'config.server'
 
 import { ApiError } from 'lib/errors'
+import { logger } from 'lib/logger'
 import { monitor } from 'lib/sentryMonitor'
 
 export type Options = {
 	/** A token is automatically inferred through the request, but can be supplied manually here. */
 	token?: string,
 	/** Switch between authenticating an access, refresh or intermediate token. Defaults to access. */
-	type?: UserTokenType,
+	type?: TokenType,
 	/** The Sentry transaction or span used for performance monitoring. */
-	transaction?: Span | Transaction,
+	transaction?: Span,
 	/** Will return a `403` if the user does not have the roles from this list. */
 	allowedRoles?: Array<UserRole>,
 }
@@ -32,45 +33,52 @@ export type Options = {
  * const token = authenticate(req, { transaction })
  * ```
  */
-export const authenticate = (req: NextApiRequest,
-	{ token, type = UserTokenType.Access, transaction, allowedRoles = [] }: Options = {}) => monitor(() => {
+export const authenticate = async (req: NextApiRequest,
+	{ token, type = TokenType.Access, transaction, allowedRoles = [] }: Options = {}) => monitor(async () => {
 	const { headers: { authorization }, cookies } = req
 
 	const tokenToUse = ((): string => {
 		if (token) return token
-		if (type === UserTokenType.Refresh && (cookies['__Host-refreshToken'] ?? cookies['refreshToken'])) {
+		if (type === TokenType.Refresh && (cookies['__Host-refreshToken'] ?? cookies['refreshToken'])) {
 			return config.environment !== 'development'
 				? cookies['__Host-refreshToken']!
 				: cookies['refreshToken']!
 		}
 		if (authorization) return authorization.split('Bearer ')[1]
-		throw ApiError.fromCodeWithCause(401, new Error('No JWT attached to the request'))
+		throw ApiError.fromCodeWithCause(400, new Error('No JWT attached to the request'))
 	})()
 
-	const { header, payload } = <{ header: { typ: UserTokenType }, payload: Omit<UserToken, 'typ'> }><unknown>jwt.verify(
-		tokenToUse,
-		config.auth.publicKey,
-		{
-			algorithms: ['RS256'],
-			audience: ['https://bruhno.com', 'https://bruhno.dev'],
-			issuer: 'https://bruhno.dev',
-			complete: true,
-			ignoreExpiration: false,
-			ignoreNotBefore: false,
-		},
-	)
+	const { keyId, algorithm } = decodeHeader(tokenToUse)
 
-	// Return a 403 if the type of the token is not the same as the one required
-	if (header.typ !== type) throw ApiError.fromCodeWithCause(403, new Error(`Invalid JWT header, expected "${type}" but received "${header.typ}"`))
+	const keyPair = config.auth.keyPairs.find(({ id }) => id === keyId)
 
-	const decodedToken: UserToken = {
-		...payload,
-		typ: header.typ,
+	if (!keyPair) throw ApiError.fromCodeWithCause(400, new Error(`No key pair found for the supplied key ID ${keyId}`))
+	if (keyPair.type !== type) throw ApiError.fromCodeWithCause(400, new Error(`Key type mismatch, expected ${keyPair.type} but received ${type}`))
+	if (keyPair.algorithm !== algorithm) throw ApiError.fromCodeWithCause(400, new Error(`Algorithm mismatch, expected ${keyPair.algorithm} but received ${algorithm}`))
+
+	let decodedToken: UserToken | null = null
+
+	try {
+		decodedToken = await verify(
+			tokenToUse,
+			keyPair.publicKey,
+			{
+				requiredSpecClaims: ['exp', 'nbf', 'aud', 'iss', 'sub'],
+				algorithms: [keyPair.algorithm],
+				aud: ['https://bruhno.com', 'https://bruhno.dev', 'https://bruhn.dev'],
+				iss: ['https://bruhn.dev'],
+				validateExp: true,
+				validateNbf: true,
+			},
+		) as UserToken
+	} catch (error) {
+		logger.error('Failed to verify token', error)
+		throw ApiError.fromCode(400)
 	}
 
-	// Return a 403 if the user does not have the any of the known roles
+	// Return a 400 if the user does not have the any of the known roles
 	if (!Object.values(UserRole).includes(decodedToken.role)) {
-		throw ApiError.fromCodeWithCause(403, new Error(`Invalid JWT role, expected one of [${Object.values(UserRole).join(', ')}] but received "${decodedToken.role}"`))
+		throw ApiError.fromCodeWithCause(400, new Error(`Invalid JWT role, expected one of [${Object.values(UserRole).join(', ')}] but received "${decodedToken.role}"`))
 	}
 
 	// Return a 403 if the user does not have the any of required roles if specified

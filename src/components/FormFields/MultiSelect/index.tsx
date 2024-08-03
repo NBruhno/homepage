@@ -1,12 +1,12 @@
 import type { CommonSelectProps, SelectOption } from '../CommonProps'
 import type { UseComboboxState, UseComboboxStateChangeOptions } from 'downshift'
-import type { FieldPathByValue, FieldValues } from 'react-hook-form'
+import type { FieldError, FieldPathByValue, FieldValues } from 'react-hook-form'
 
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
 import { useCombobox, useMultipleSelection } from 'downshift'
-import { get, isEmpty, isEqual } from 'lodash'
 import { matchSorter } from 'match-sorter'
+import { get, isEmpty, isEqual } from 'radash'
 import { useRef, useState, useCallback } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 
@@ -106,7 +106,7 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 		}, []),
 	})
 
-	const error = get(errors, name)
+	const error = get<FieldError | undefined>(errors, name)
 	const hasError = Boolean(error)
 
 	const onResetHighlightedChip = () => onSetHighlightedChip(-1)
@@ -234,7 +234,7 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 					selectedItems={selectedOptions}
 				/>
 			</Portal>
-			<InputError hasError={hasError} errorMessage={error?.message as string | undefined} />
+			<InputError hasError={hasError} errorMessage={error?.message} />
 		</FieldWrapper>
 	)
 }

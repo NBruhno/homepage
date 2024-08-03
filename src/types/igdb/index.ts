@@ -4,6 +4,7 @@ export { IgdbWebsiteCategory } from './websiteCategory'
 
 export type { IgdbCompany } from './company'
 export type { IgdbEngine } from './engine'
+export type { IgdbEvent } from './event'
 export type { IgdbFranchise } from './franchise'
 export type { IgdbGame } from './game'
 export type { IgdbGenre } from './genre'

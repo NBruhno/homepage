@@ -9,7 +9,7 @@ export default apiHandler({
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}/logout`,
 })
 	.post(async (req, res) => {
-		authenticate(req)
+		await authenticate(req)
 		assert(req.query, object({ id: string() }))
 
 		removeRefreshCookie(res)

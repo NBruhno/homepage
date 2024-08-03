@@ -1,11 +1,11 @@
 import type { CommonSelectProps, SelectOption } from '../CommonProps'
-import type { FieldPathByValue, FieldValues } from 'react-hook-form'
+import type { FieldError, FieldPathByValue, FieldValues } from 'react-hook-form'
 
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
 import { useCombobox } from 'downshift'
-import { get, isEmpty } from 'lodash'
 import { matchSorter } from 'match-sorter'
+import { get, isEmpty } from 'radash'
 import { useRef, useState } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 
@@ -63,7 +63,7 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 	const { hoverProps, isHovered } = useHover({})
 	const { isFocusVisible, focusProps } = useFocusRing({ isTextInput: true, autoFocus: shouldAutofocus })
 
-	const error = get(errors, name)
+	const error = get<FieldError | undefined>(errors, name)
 	const hasError = Boolean(error)
 
 	return (
@@ -131,7 +131,7 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 					selectedItems={filterUnspecified([selectedItem])}
 				/>
 			</Portal>
-			<InputError hasError={hasError} errorMessage={error?.message as string | undefined} />
+			<InputError hasError={hasError} errorMessage={error?.message} />
 		</FieldWrapper>
 	)
 }

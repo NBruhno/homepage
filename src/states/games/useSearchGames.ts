@@ -1,6 +1,5 @@
 import type { Game } from 'types'
 
-import { toLower } from 'lodash'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import useSWR from 'swr'
@@ -33,7 +32,7 @@ export const useSearchGames = () => {
 	const hasSearch = useSearchGamesStore((state) => state.hasSearch)
 
 	const { data } = useSWR(gameSearch && typeof gameSearch === 'string'
-		? ['/games?search=', encodeURIComponent(toLower(gameSearch))]
+		? ['/games?search=', encodeURIComponent(gameSearch.toLowerCase())]
 		: null, ([link, searchParameter]) => fetcher<{ games: Array<Game> }>(`${link}${searchParameter}`), { revalidateOnFocus: false })
 
 	const { setIsLoading, isLoading } = useLoading()

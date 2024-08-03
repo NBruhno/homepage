@@ -15,7 +15,7 @@ export default apiHandler({
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}`,
 })
 	.get(async (req, res) => {
-		authenticate(req, { allowedRoles: [UserRole.Admin] })
+		await authenticate(req, { allowedRoles: [UserRole.Admin] })
 		const { id } = create(req.query, object({ id: string() }))
 
 		const user = await monitorAsync(() => prisma.users.findUnique({
@@ -36,7 +36,7 @@ export default apiHandler({
 		return res.status(200).json(user)
 	})
 	.patch(async (req, res) => {
-		const { userId: requestUserId, role } = authenticate(req)
+		const { userId: requestUserId, role } = await authenticate(req)
 		const { id } = create(req.query, object({ id: string() }))
 		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
 
@@ -56,7 +56,7 @@ export default apiHandler({
 		return res.status(200).json({ message: 'The user has been updated' })
 	})
 	.delete(async (req, res) => {
-		const { userId: requestUserId, role } = authenticate(req)
+		const { userId: requestUserId, role } = await authenticate(req)
 		const { id } = create(req.query, object({ id: string() }))
 		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
 

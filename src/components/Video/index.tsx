@@ -8,9 +8,10 @@ type Props = {
 	name: string,
 	shouldAutoplay?: boolean,
 	isMuted?: boolean,
+	hasRoundedCorners?: boolean,
 }
 
-export const Video = ({ id, name, shouldAutoplay = true, isMuted = true }: Props) => {
+export const Video = ({ id, name, shouldAutoplay = true, isMuted = true, hasRoundedCorners = true }: Props) => {
 	const containerRef = useRef<HTMLDivElement | null>(null)
 	const [hasBeenClicked, setHasBeenClicked] = useState(false)
 
@@ -24,7 +25,7 @@ export const Video = ({ id, name, shouldAutoplay = true, isMuted = true }: Props
 
 	return (
 		<div ref={containerRef}>
-			<Classes />
+			<Classes hasRoundedCorners={hasRoundedCorners} />
 			<YouTubeEmbed
 				id={id}
 				title={name}

@@ -1,4 +1,4 @@
-import { UserRole, UserTokenType } from 'types'
+import { UserRole, TokenType } from 'types'
 
 import { hash } from '@node-rs/argon2'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
@@ -22,7 +22,7 @@ const Body = object({
 
 export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
-		authenticate(req, { allowedRoles: [UserRole.Admin] })
+		await authenticate(req, { allowedRoles: [UserRole.Admin] })
 		const result = await monitorAsync(() => prisma.users.findMany(), 'db:prisma', 'findMany()')
 
 		return res.status(200).json(result)
@@ -41,8 +41,8 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			}), 'db:prisma', 'create()')
 
 			setUser({ id: user.id, username: user.username, email: user.email })
-			const accessToken = getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id, steamId: user.steamId })
-			const refreshToken = getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id, steamId: user.steamId }, { type: UserTokenType.Refresh })
+			const accessToken = await getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id, steamId: user.steamId })
+			const refreshToken = await getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id, steamId: user.steamId }, { type: TokenType.Refresh })
 			setRefreshCookie(res, refreshToken)
 
 			return res.status(200).json({ accessToken })

@@ -5,7 +5,7 @@ import { authenticate } from 'lib/middleware'
 
 export default apiHandler({ validMethods: ['GET'], cacheStrategy: 'NoCache' })
 	.get(async (req, res) => {
-		const { token } = authenticate(req, { allowedRoles: [UserRole.Admin] })
+		const { token } = await authenticate(req, { allowedRoles: [UserRole.Admin] })
 		const sensors = await homeFetcher('/sensors', { accessToken: token })
 		return res.status(200).json(sensors)
 	})

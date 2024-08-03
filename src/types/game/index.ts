@@ -1,9 +1,11 @@
 export { GameCategory } from './GameCategory'
 export { GameStatus } from './GameStatus'
 export { GameWebsiteType } from './GameWebsiteType'
+
 export type { Game } from './Game'
 export type { GameCompany } from './GameCompany'
 export type { GameDefaultEntity } from './GameDefaultEntity'
+export type { GameEvent } from './GameEvent'
 export type { GameHistory } from './GameHistory'
 export type { GameInsights } from './GameInsights'
 export type { GameMultiplayerMode } from './GameMultiplayerMode'

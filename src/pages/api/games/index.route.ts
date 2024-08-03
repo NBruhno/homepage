@@ -1,3 +1,5 @@
+import { type IgdbGame } from 'types'
+
 import { sub } from 'date-fns'
 import { optional, string, object, create, pattern, coerce, number, array, partial, assign, pick, literal } from 'superstruct'
 
@@ -5,6 +7,7 @@ import { game as gameValidator } from 'validation/api'
 import { uuid } from 'validation/shared'
 
 import { gameFields, igdbFetcher, apiHandler, setCache, prisma, mapIgdbGame } from 'lib/api'
+import { ApiError, type statusCodes } from 'lib/errors'
 import { authenticateSystem } from 'lib/middleware'
 import { monitorAsync } from 'lib/sentryMonitor'
 
@@ -14,6 +17,7 @@ const Query = object({
 	take: optional(coerce(number(), pattern(string(), /[1-50]/), (value) => parseInt(value, 10))),
 	skip: optional(coerce(number(), pattern(string(), /[0-9]+/), (value) => parseInt(value, 10))),
 	'is-popular': optional(literal('yes')),
+	'is-trending': optional(literal('yes')),
 })
 
 const getHasAfter = (returnCount: number, takeCount: number, hasSkip: boolean) => {
@@ -27,10 +31,55 @@ const getHasAfter = (returnCount: number, takeCount: number, hasSkip: boolean) =
 
 export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	.get(async (req, res) => {
-		const { search, take = 50, skip = 0, user, 'is-popular': isPopular } = create(req.query, Query)
+		const { search, take = 50, skip = 0, user, 'is-popular': isPopular, 'is-trending': isTrending } = create(req.query, Query)
 		const hasSkip = skip > 0
 		const computedTake = hasSkip ? take + 2 : take + 1
 		const computedSkip = hasSkip ? skip - 1 : skip
+
+		if (isTrending) {
+			const steamChartGroups = await monitorAsync(() => fetch(`https://steamcharts.com/`, {
+				method: 'GET',
+			}), 'http:steamcharts', 'trending games').then(async (response) => {
+				if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
+				const history = await response.text()
+
+				const tables = [...history.matchAll(/<table id="(.+)" .+>([\s\S]+?)<\/table>/gm)]
+
+				let trending: { games: Array<{ id: string }>, id: string } = { games: [], id: '' }
+				let top: { games: Array<{ id: string }>, id: string } = { games: [], id: '' }
+				let peak: { games: Array<{ id: string }>, id: string } = { games: [], id: '' }
+				tables.forEach(([, id, content], index) => {
+					const games = [...content.matchAll(/^\s*<a href="\/app\/(.+)">[\s]*(.+[ .+]*)+[\s]+?<\/a>/gm)]
+						.map(([, id, name]) => ({ id, name }))
+
+					if (index === 0) trending = { id, games }
+					if (index === 1) top = { id, games }
+					else peak = { id, games }
+				})
+
+				return { trending, top, peak }
+			})
+
+			const [trending, top, peak] = await Promise.all([
+				igdbFetcher<IgdbGame, false>('/games', res, {
+					shouldReturnFirst: false,
+					body: `${gameFields}; limit ${take}; where external_games.uid = (${steamChartGroups.trending.games.map(({ id }) => id).join(',')}) & external_games.category = 1;`,
+					nickname: 'search',
+				}).then((games) => games.map(mapIgdbGame)),
+				igdbFetcher<IgdbGame, false>('/games', res, {
+					shouldReturnFirst: false,
+					body: `${gameFields}; limit ${take}; where external_games.uid = (${steamChartGroups.top.games.map(({ id }) => id).join(',')}) & external_games.category = 1;`,
+					nickname: 'search',
+				}).then((games) => games.map(mapIgdbGame)),
+				igdbFetcher<IgdbGame, false>('/games', res, {
+					shouldReturnFirst: false,
+					body: `${gameFields}; limit ${take}; where external_games.uid = (${steamChartGroups.peak.games.map(({ id }) => id).join(',')}) & external_games.category = 1;`,
+					nickname: 'search',
+				}).then((games) => games.map(mapIgdbGame)),
+			])
+
+			return res.status(200).send({ trending, top, peak })
+		}
 
 		if (user) {
 			const games = await monitorAsync(() => prisma.games.findMany({
@@ -66,7 +115,7 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		const twoMonthsBackDate = sub(Date.now(), { months: 2 })
 
 		const games = search
-			? await igdbFetcher('/games', res, {
+			? await igdbFetcher<IgdbGame, false>('/games', res, {
 				shouldReturnFirst: false,
 				body: `${gameFields}; limit ${take}; search "${search}";`,
 				nickname: 'search',

@@ -1,5 +1,8 @@
+import { type IgdbGame } from 'types'
+
 import { type AMQPMessage } from '@cloudamqp/amqp-client'
-import { chunk, difference, uniq } from 'lodash'
+import { chunk } from 'lodash'
+import { diff, unique } from 'radash'
 import { create, object, number, type as optionalObject, StructError } from 'superstruct'
 
 import { config } from 'config.server'
@@ -40,7 +43,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 
 		const [updatedGames, deletedGames] = await Promise.all([
 			(async () => {
-				const updateRequestExists = uniq(difference(updateRequests, deleteRequests)).map((message) => prisma.games.findUnique({
+				const updateRequestExists = unique(diff(updateRequests, deleteRequests)).map((message) => prisma.games.findUnique({
 					where: { id: parseInt(message.bodyToString()!, 10) },
 					select: { id: true },
 				}))
@@ -48,7 +51,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 				if (updateRequestExists.length > 0) {
 					const toUpdate = filterUnspecified(await prisma.$transaction(updateRequestExists)).map(({ id }) => id)
 
-					const games = (await Promise.all(chunk(toUpdate, 500).map(async (ids) => igdbFetcher('/games', res, {
+					const games = (await Promise.all(chunk(toUpdate, 500).map(async (ids) => igdbFetcher<IgdbGame, false>('/games', res, {
 						shouldReturnFirst: false,
 						body: `${gameFields}; limit 500; where id = (${ids.join(',')});`,
 						nickname: `outdated games, 0-500`,
@@ -68,7 +71,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 				return []
 			})(),
 			(async () => {
-				const deleteRequestExists = uniq(deleteRequests).map((message) => prisma.games.findUnique({
+				const deleteRequestExists = unique(deleteRequests).map((message) => prisma.games.findUnique({
 					where: { id: parseInt(message.bodyToString()!, 10) },
 					select: { id: true, name: true },
 				}))

@@ -59,6 +59,9 @@ model Games {
   createdAt          DateTime       @default(now())
   updatedAt          DateTime       @updatedAt
 
+  // steamAppId  Int?
+  // epicGamesId String?
+
   @@index(fields: [name])
   @@index(fields: [releaseDate])
   @@index(fields: [releaseDate, hype(sort: Desc)])

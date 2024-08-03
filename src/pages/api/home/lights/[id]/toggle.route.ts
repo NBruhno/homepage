@@ -17,7 +17,7 @@ export default apiHandler({
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/home/lights/{entityId}/toggle`,
 })
 	.post(async (req, res) => {
-		const { token } = authenticate(req, { allowedRoles: [UserRole.Admin] })
+		const { token } = await authenticate(req, { allowedRoles: [UserRole.Admin] })
 		const { id } = create(req.query, Query)
 
 		await homeFetcher(`/lights/${id}/toggle`, { accessToken: token, method: Method.Post, body: {} })

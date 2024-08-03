@@ -1,6 +1,5 @@
 import type { Interpolation } from '@emotion/react'
-import type { ReactNode, ComponentPropsWithoutRef, MouseEvent } from 'react'
-import type { Promisable } from 'type-fest'
+import type { ReactNode, ComponentPropsWithRef } from 'react'
 
 import { forwardRef } from 'react'
 
@@ -10,22 +9,14 @@ import { Button } from './Button'
 import { Label } from './Label'
 import { LoaderWrapper } from './LoaderWrapper'
 
-type Props = Omit<ComponentPropsWithoutRef<'button'>, 'onClick' | 'type'> & {
+type Props = ComponentPropsWithRef<'button'> & {
 	isDisabled?: boolean,
 	isFocusVisible: boolean,
 	isLoading?: boolean,
 	showPlaceholder?: boolean,
 	label: ReactNode,
 	labelCss?: Interpolation<Theme>,
-} & (
-	{
-		onClick?: never,
-		type: 'submit',
-	} | {
-		type?: 'button' | 'reset',
-		onClick: (event: MouseEvent<HTMLButtonElement>) => Promisable<any>,
-	}
-)
+}
 
 export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
 	isDisabled = false,

@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import { isEqual } from 'radash'
 import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 
@@ -7,7 +7,7 @@ import type { SearchGamesModel } from 'pages/games/search.route'
 import type { ChangePasswordModel } from 'components/Forms/ChangePassword'
 import type { LoginModel, RegisterModel, TwoFactorModel } from 'components/Forms/Login'
 
-export type Forms = {
+export type FormState = {
 	searchGames: Partial<SearchGamesModel>,
 	login: Partial<LoginModel>,
 	register: Partial<RegisterModel>,
@@ -15,12 +15,12 @@ export type Forms = {
 	changePassword: Partial<ChangePasswordModel>,
 }
 
-export type FormState = Forms & {
-	setFormState: (name: keyof Forms, formState: Forms[keyof Forms]) => void,
-	resetFormState: (name: keyof Forms) => void,
+export type FormActions = {
+	setFormState: (name: keyof FormState, formState: FormState[keyof FormState]) => void,
+	resetFormState: (name: keyof FormState) => void,
 }
 
-const initialValues: Forms = {
+const initialValues: FormState = {
 	searchGames: {},
 	login: {},
 	register: {},
@@ -28,8 +28,8 @@ const initialValues: Forms = {
 	changePassword: {},
 }
 
-export const useFormStore = create<FormState>()(devtools((set, state) => ({
+export const useFormStore = create<FormState & FormActions>()(devtools((set, state) => ({
 	...initialValues,
 	setFormState: (name, formState) => !isEqual(state()[name], formState) && set({ [name]: formState }, false, 'setFormState'),
-	resetFormState: (name) => !isEqual(state()[name], initialValues) && set({ [name]: initialValues[name] }, false, 'resetFormState'),
+	resetFormState: (name) => !isEqual(state(), initialValues) && set({ [name]: initialValues[name] }, false, 'resetFormState'),
 }), { anonymousActionType: 'useFormStore' }))

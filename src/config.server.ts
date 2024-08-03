@@ -1,4 +1,6 @@
-import type { Environment } from 'types'
+import { type TokenType, type Environment } from 'types'
+
+import { type Algorithm } from '@node-rs/jsonwebtoken'
 
 export const config = Object.freeze({
 	amqp: {
@@ -7,9 +9,15 @@ export const config = Object.freeze({
 
 	auth: {
 		accessCode: process.env.ACCESS_CODE as string,
-		privateKey: process.env.AUTH_PRIVATE_KEY as string,
-		publicKey: process.env.AUTH_PUBLIC_KEY as string,
 		systemToken: process.env.AUTH_SYSTEM_TOKEN as string,
+
+		keyPairs: JSON.parse(process.env.AUTH_KEY_PAIRS as string) as Array<{
+			id: string,
+			type: TokenType,
+			algorithm: Algorithm,
+			privateKey: string,
+			publicKey: string,
+		}>,
 	},
 
 	igdb: {

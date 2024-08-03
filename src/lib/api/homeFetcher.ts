@@ -1,6 +1,6 @@
 import type { Span } from '@sentry/types'
 
-import { pickBy } from 'lodash'
+import { shake } from 'radash'
 import { fetch, setGlobalDispatcher, Agent } from 'undici'
 
 import { config } from 'config.server'
@@ -39,11 +39,11 @@ export const homeFetcher = async <ReturnType>(url: string, { accessToken, body, 
 		method,
 		body: body ? JSON.stringify(body) : null,
 		// Create headers object and remove falsy variables to exclude them from call
-		headers: pickBy({
+		headers: shake({
 			'Content-Type': 'application/json',
 			Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
 			'sentry-trace': span?.traceId,
-		}, (value) => value !== undefined) as Record<string, string>,
+		}, (value) => value === undefined) as Record<string, string>,
 		credentials: 'same-origin',
 		mode: 'cors',
 	}).then(async (response) => {

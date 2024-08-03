@@ -1,41 +1,97 @@
-import { UserTokenType } from 'types'
+import { TokenType } from 'types'
+
+import { config } from 'config.server'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
-import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch } from 'lib/test'
+import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch, systemTokenMatch } from 'lib/test'
 
 import { getJwtToken } from './getJwtToken'
 
 const defaultPayload = { sub: 'mail+test@bruhno.dev', username: 'Test', role: 'user' }
 const expectedJwtContent = {
-	alg: 'RS256',
 	aud: ['https://bruhno.com', 'https://bruhno.dev'],
-	username: 'Test',
 	iss: 'https://bruhno.dev',
 	role: 'user',
 	sub: 'mail+test@bruhno.dev',
+	typ: 'JWT',
+	username: 'Test',
 }
 
 describe('/lib/api/getJwtToken', () => {
-	test('Token › Access token', async () => {
-		const token = getJwtToken(defaultPayload)
+	test('Token › Default access token', async () => {
+		const keyPair = config.auth.keyPairs.find(({ type }) => type === TokenType.Access)!
+
+		const token = await getJwtToken(defaultPayload)
 		expect(token).toMatch(accessTokenMatch)
-		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({ ...expectedJwtContent, typ: UserTokenType.Access }))
+		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
+			...expectedJwtContent,
+			alg: keyPair.algorithm,
+			kid: keyPair.id,
+		}))
+	})
+
+	test('Token › Access token', async () => {
+		const keyPair = config.auth.keyPairs.find(({ type }) => type === TokenType.Access)!
+
+		const token = await getJwtToken(defaultPayload, { type: TokenType.Access })
+		expect(token).toMatch(accessTokenMatch)
+		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
+			...expectedJwtContent,
+			alg: keyPair.algorithm,
+			kid: keyPair.id,
+		}))
 	})
 
 	test('Token › Refresh token', async () => {
-		const token = getJwtToken(defaultPayload, { type: UserTokenType.Refresh })
+		const keyPair = config.auth.keyPairs.find(({ type }) => type === TokenType.Refresh)!
+
+		const token = await getJwtToken(defaultPayload, { type: TokenType.Refresh })
 		expect(token).toMatch(refreshTokenMatch)
-		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({ ...expectedJwtContent, typ: UserTokenType.Refresh }))
+		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
+			...expectedJwtContent,
+			alg: keyPair.algorithm,
+			kid: keyPair.id,
+		}))
 	})
 
 	test('Token › Intermediate token', async () => {
-		const token = getJwtToken(defaultPayload, { type: UserTokenType.Intermediate })
+		const keyPair = config.auth.keyPairs.find(({ type }) => type === TokenType.Intermediate)!
+
+		const token = await getJwtToken(defaultPayload, { type: TokenType.Intermediate })
 		expect(token).toMatch(intermediateTokenMatch)
-		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({ ...expectedJwtContent, typ: UserTokenType.Intermediate }))
+		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
+			...expectedJwtContent,
+			alg: keyPair.algorithm,
+			kid: keyPair.id,
+		}))
+	})
+
+	test('Token › System token', async () => {
+		const keyPair = config.auth.keyPairs.find(({ type }) => type === TokenType.System)!
+
+		const token = await getJwtToken(defaultPayload, { type: TokenType.System })
+		expect(token).toMatch(systemTokenMatch)
+		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
+			...expectedJwtContent,
+			alg: keyPair.algorithm,
+			kid: keyPair.id,
+		}))
+	})
+
+	test('Token › Token from key', async () => {
+		const keyPair = config.auth.keyPairs.find(({ type }) => type === TokenType.Access)!
+
+		const token = await getJwtToken(defaultPayload, { type: TokenType.Access, keyId: keyPair.id })
+		expect(token).toMatch(accessTokenMatch)
+		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
+			...expectedJwtContent,
+			alg: keyPair.algorithm,
+			kid: keyPair.id,
+		}))
 	})
 
 	test('Token › Invalid type', async () => {
 		// @ts-expect-error: We expect an error here because we are testing an invalid type
-		expect(() => getJwtToken(defaultPayload, { type: 'invalid' })).toThrow('Invalid type supplied')
+		await expect(getJwtToken(defaultPayload, { type: 'invalid' })).rejects.toThrow('No key pair found for the supplied key ID or token type')
 	})
 })

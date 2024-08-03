@@ -14,10 +14,11 @@ type Props = {
 	videos: Array<GameVideo> | undefined,
 }
 
-export const VideoTabs = ({ videos = [] }: Props) => {
+export const VideoTabs = ({ videos = [], ...rest }: Props) => {
 	const [videoIndex, setVideoIndex] = useState(0)
 	const { isLoading } = useLoading()
 
+	// Sorted videos attempting to highlight videos named as trailers or cinematics first
 	const sortedVideos = useMemo(() => (
 		[...videos].reverse().sort((a, b) => {
 			const last = (b.name !== null && (b.name.toLowerCase().includes('trailer') || b.name.toLowerCase().includes('cinematic'))) ? 1 : 0
@@ -28,12 +29,12 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 
 	useEffect(() => {
 		setVideoIndex(0)
-	}, [sortedVideos]) // We need to reset to 0 if route changes to a different game
+	}, [sortedVideos]) // We need to reset to 0 if route changes to a different context of the same page
 
 	if (sortedVideos.length === 0 && !isLoading) return null
 
 	return (
-		<Wrapper>
+		<Wrapper {...rest}>
 			<Button
 				label={<IconChevronLeft />}
 				aria-label='Previous video'
@@ -54,6 +55,9 @@ export const VideoTabs = ({ videos = [] }: Props) => {
 					<Video
 						id={sortedVideos[videoIndex]?.videoId ?? ''}
 						name={sortedVideos[videoIndex]?.name ?? ''}
+						shouldAutoplay={false}
+						isMuted={false}
+						hasRoundedCorners={false}
 					/>
 				</div>
 			)}
