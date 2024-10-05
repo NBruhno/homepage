@@ -1,22 +1,17 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
+type Props = {
 	showPlaceholder: boolean,
 }
 
-export const Label = ({ showPlaceholder, ...rest }: Props) => (
-	<div
-		css={(theme) => ({
-			opacity: showPlaceholder ? 0 : 1,
-			overflow: 'hidden',
-			textOverflow: 'ellipsis',
-			whiteSpace: 'nowrap',
-			padding: '5px 0',
-			fontFamily: theme.font.family.poppins,
-			zIndex: 1,
-			lineHeight: theme.font.size.s100,
-			transition: `opacity 0.1s ${theme.animation.default}`,
-		})}
-		{...rest}
-	/>
-)
+export const Label = styled.div<Props>`
+	opacity: ${({ showPlaceholder }) => showPlaceholder ? 0 : 1};
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 5px 0;
+	font-family: ${({ theme }) => theme.font.family.poppins};
+	z-index: 1;
+	line-height: ${({ theme }) => theme.font.size.s100};
+	transition: opacity 0.1s ${({ theme }) => theme.animation.default};
+`

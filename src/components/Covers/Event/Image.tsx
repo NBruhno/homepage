@@ -1,39 +1,30 @@
 import NextImage from 'next/image'
+import { styled } from 'styled-components'
 
-type Props = {
-	src: string,
-}
+export const Image = styled(NextImage).attrs({
+	loading: 'eager',
+	priority: true,
+	width: 1920,
+	height: 1080,
+	unoptimized: true,
+})`
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+	color: transparent;
+	margin: 0;
+	border-radius: 8px;
+	aspect-ratio: 16 / 9;
 
-export const Image = ({ src, ...rest }: Props) => (
-	<NextImage
-		css={(theme) => ({
-			height: '100%',
-			width: '100%',
-			objectFit: 'cover',
-			color: 'transparent',
-			margin: '0',
-			borderRadius: '8px',
-			aspectRatio: '16 / 9',
+	// Prevent alt text from showing during image fetch
+	img:-moz-loading {
+		visibility: hidden;
+	}
 
-			// Prevent alt text from showing during image fetch
-			'img:-moz-loading': {
-				visibility: 'hidden',
-			},
-
-			[theme.mediaQueries.maxMobile]: {
-				width: '100%',
-				maxWidth: 'unset',
-				height: 'auto',
-				maxHeight: 'unset',
-			},
-		})}
-		alt='game event logo'
-		loading='eager'
-		priority
-		width={1920}
-		height={1080}
-		unoptimized
-		src={src}
-		{...rest}
-	/>
-)
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		width: 100%;
+		max-width: unset;
+		height: auto;
+		max-height: unset;
+	}
+`

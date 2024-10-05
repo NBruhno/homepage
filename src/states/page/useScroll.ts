@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from 'react'
-import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn  } from 'zustand/traditional'
 
 type PageScrollState = {
 	bottom: number,
@@ -18,7 +19,7 @@ type PageScrollState = {
 	setScrollState: (scrollState: Omit<PageScrollState, 'setScrollState'>) => void,
 }
 
-export const useScrollStore = create<PageScrollState>()(devtools((set) => ({
+export const useScrollStore = createWithEqualityFn<PageScrollState>()(devtools((set) => ({
 	bottom: 0,
 	height: 0,
 	left: 0,
@@ -32,7 +33,7 @@ export const useScrollStore = create<PageScrollState>()(devtools((set) => ({
 	windowScrollX: 0,
 	windowScrollY: 0,
 	setScrollState: (scrollState) => set(scrollState),
-}), { anonymousActionType: 'useScrollStore' }))
+}), { anonymousActionType: 'useScrollStore' }), shallow)
 
 const emptyRect = {
 	bottom: 0,

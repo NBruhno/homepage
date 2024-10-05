@@ -1,7 +1,8 @@
 import type { UserRole } from 'types'
 
-import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn } from 'zustand/traditional'
 
 type User = {
 	accessToken: string,
@@ -42,7 +43,7 @@ export type UserState = {
 	setUser: (user: User) => void,
 }
 
-export const useUser = create<UserState>()(devtools((set) => ({
+export const useUser = createWithEqualityFn<UserState>()(devtools((set) => ({
 	...initialState,
 	resetUser: () => set({ ...initialState, isStateKnown: true }, false, 'resetUser'),
 	setIntermediateToken: (intermediateUser) => set(intermediateUser, false, 'setIntermediateToken'),
@@ -50,4 +51,4 @@ export const useUser = create<UserState>()(devtools((set) => ({
 	setShouldRefresh: (shouldRefresh) => set({ shouldRefresh }, false, 'setShouldRefresh'),
 	setTwoFactorSecret: (twoFactorSecret) => set({ twoFactorSecret }, false, 'setTwoFactorSecret'),
 	setUser: (user) => set(user, false, 'setUser'),
-}), { anonymousActionType: 'useUser' }))
+}), { anonymousActionType: 'useUser' }), shallow)

@@ -23,7 +23,7 @@ type Props = {
 }
 
 const DefaultContent = ({ Button, onClick, label }: Props) => (
-	<Card contentCss={{ display: 'grid', columnGap: '12px', alignItems: 'center', justifyContent: 'space-around', gridTemplateColumns: 'repeat(6, auto)' }}>
+	<Card style={{ display: 'grid', columnGap: '12px', alignItems: 'center', justifyContent: 'space-around', gridTemplateColumns: 'repeat(6, auto)' }}>
 		<p>Default</p>
 		<p>Promise</p>
 		<p>Form submission</p>

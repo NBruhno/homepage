@@ -1,12 +1,14 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import type NextImage from 'next/image'
+import type { ComponentPropsWithRef } from 'react'
 
 import { useLoading } from 'states/page'
 
+import { Container } from './Container'
 import { Image } from './Image'
 import { Placeholder } from './Placeholder'
 import { Shine } from './Shine'
 
-type Props = ComponentPropsWithoutRef<'img'> & {
+type Props = ComponentPropsWithRef<typeof NextImage> & {
 	coverUrl: string | null,
 	isPriority?: boolean,
 	isShineVisible?: boolean,
@@ -17,9 +19,15 @@ export const GameCover = ({ coverUrl, isPriority = false, isShineVisible = false
 
 	if (!coverUrl || isLoading) return <Placeholder />
 	return (
-		<div css={{ position: 'relative', overflow: 'hidden' }}>
-			<Image isPriority={isPriority} src={coverUrl} {...rest} />
+		<Container>
+			<Image
+				{...rest}
+				loading={isPriority ? 'eager' : 'lazy'}
+				priority={isPriority}
+				alt='game cover'
+				src={coverUrl}
+			/>
 			<Shine isVisible={isShineVisible} />
-		</div>
+		</Container>
 	)
 }

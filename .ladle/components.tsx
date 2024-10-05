@@ -1,7 +1,6 @@
 import type { GlobalProvider } from "@ladle/react";
 import React from 'react'
-
-import { ThemeProvider, css } from '@emotion/react'
+import { ThemeProvider } from 'styled-components'
 
 import { useDarkMode, useLoading, useScroll } from '../src/states/page'
 

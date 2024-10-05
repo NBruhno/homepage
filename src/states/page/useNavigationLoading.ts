@@ -1,17 +1,18 @@
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
-import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn  } from 'zustand/traditional'
 
 type NavigationLoadingState = {
 	isNavigationLoading: boolean,
 	setIsNavigationLoading: (isNavigationLoading: boolean) => void,
 }
 
-export const useNavigationLoadingStore = create<NavigationLoadingState>()(devtools((set) => ({
+export const useNavigationLoadingStore = createWithEqualityFn<NavigationLoadingState>()(devtools((set) => ({
 	isNavigationLoading: false,
 	setIsNavigationLoading: (isNavigationLoading) => set({ isNavigationLoading }),
-}), { anonymousActionType: 'useNavigationLoadingStore' }))
+}), { anonymousActionType: 'useNavigationLoadingStore' }), shallow)
 
 export const useNavigationLoading = () => {
 	const setIsNavigationLoading = useNavigationLoadingStore((state) => state.setIsNavigationLoading)

@@ -1,3 +1,5 @@
+import { styled } from 'styled-components'
+
 import { ChevronFlip } from 'components/ChevronFlip'
 import { Spinner } from 'components/Spinner'
 
@@ -6,23 +8,15 @@ type Props = {
 	isLoading: boolean,
 }
 
-export const InputMenuIndicator = ({ isMenuOpen, isLoading }: Props) => (
-	<div
-		css={(theme) => ({
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			height: 'calc(100% - 12px)',
-			margin: '0',
-			color: theme.color.gray050,
-			borderLeft: `1px solid ${theme.color.gray020}`,
-			padding: '0 10px',
-		})}
-	>
-		{isLoading ? (
-			<Spinner size={22} />
-		) : (
-			<ChevronFlip isActive={!isMenuOpen} />
-		)}
-	</div>
-)
+export const InputMenuIndicator = styled.div.attrs<Props>(({ isLoading, isMenuOpen }) => ({
+	children: isLoading ? <Spinner size={22} /> : <ChevronFlip isActive={!isMenuOpen} />,
+}))<Props>`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: calc(100% - 12px);
+	margin: 0;
+	color: ${({ theme }) => theme.color.gray050};
+	border-left: 1px solid ${({ theme }) => theme.color.gray020};
+	padding: 0 10px;
+`

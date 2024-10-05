@@ -1,5 +1,6 @@
-import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn  } from 'zustand/traditional'
 
 type Responsive = {
 	isLoading: boolean,
@@ -25,7 +26,7 @@ export type PageState = Responsive & {
 	setTitle: (title: string) => void,
 }
 
-export const usePage = create<PageState>()(devtools((set) => ({
+export const usePage = createWithEqualityFn<PageState>()(devtools((set) => ({
 	title: 'Bruhno',
 	isLoading: true,
 	isSidebarCollapsed: false,
@@ -44,4 +45,4 @@ export const usePage = create<PageState>()(devtools((set) => ({
 	setResponsive: (responsiveParams) => set(responsiveParams, false, 'setResponsive'),
 	setTheme: (theme) => set({ theme }, false, 'setTheme'),
 	setTitle: (title) => set({ title }, false, 'setTitle'),
-}), { anonymousActionType: 'usePage' }))
+}), { anonymousActionType: 'usePage' }), shallow)

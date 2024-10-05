@@ -1,5 +1,4 @@
 import { useEffect, useCallback } from 'react'
-import { shallow } from 'zustand/shallow'
 
 import { config } from 'config.client'
 
@@ -15,7 +14,7 @@ import { useUser } from './useUser'
 const isProduction = config.environment !== 'development'
 
 export const useRefresh = () => {
-	const { setUser, setShouldRefresh, setIsStateKnown, accessToken, shouldRefresh } = useUser((state) => state, shallow)
+	const { setUser, setShouldRefresh, setIsStateKnown, accessToken, shouldRefresh } = useUser((state) => state)
 	const setResponsive = usePage((state) => state.setResponsive)
 
 	const onRefresh = useCallback(async () => {

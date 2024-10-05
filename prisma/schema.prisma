@@ -30,13 +30,14 @@ model Games {
   category           GameCategory?
   cover              String?
   developers         Json?
-  dlcs               Json?
+  relatedGames       Games[]        @relation("RelatedGames")
   engines            Json?
   franchises         Json?
   genres             Json?
   hype               Int?           @default(0)
   modes              Json?
   multiplayerModes   Json?
+  parentGame         Games?         @relation("RelatedGames", fields: [parentId], references: [id])
   parentId           Int?
   platforms          Json?
   playerPerspectives Json?

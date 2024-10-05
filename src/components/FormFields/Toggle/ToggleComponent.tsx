@@ -1,11 +1,6 @@
-import type { MouseEvent } from 'react'
-import type { Promisable } from 'type-fest'
-
-import { css } from '@emotion/react'
+import { styled, css } from 'styled-components'
 
 import { adjustHsl } from 'lib/client'
-
-import { Spinner } from 'components/Spinner'
 
 type Props = {
 	isChecked: boolean,
@@ -13,93 +8,44 @@ type Props = {
 	isFocusVisible: boolean,
 	isHovered: boolean,
 	isLoading?: boolean,
-	onClick?: (event: MouseEvent<HTMLButtonElement>) => Promisable<any>,
-	label: string,
 }
 
-export const ToggleComponent = ({ isChecked, isDisabled, isLoading, isFocusVisible, isHovered, onClick, label }: Props) => {
-	const backgroundColor = (theme: Theme) => {
+export const ToggleComponent = styled.div<Props>`
+	position: relative;
+	border-radius: 22px;
+	width: 40px;
+	height: 22px;
+	background-color: ${({ theme, isChecked, isHovered, isLoading, isDisabled }) => {
 		if (isHovered && !isLoading && !isDisabled) return isChecked ? theme.color.primaryLighter : theme.color.grayLight
 		if (isDisabled || isLoading) return isChecked ? theme.color.primaryLight : adjustHsl(theme.color.gray, { light: '34%' })
 		else return isChecked ? theme.color.primary : theme.color.gray
-	}
+	}};
+	outline: 0;
+	flex-shrink: 0;
+	margin: auto;
+	cursor: ${({ isDisabled, isLoading }) => (isDisabled || isLoading) ? 'auto' : 'pointer'};
 
-	const transform = () => {
+	transition: box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out;
+
+	&:before {
+		position: absolute;
+		content: '';
+		height: 18px;
+		width: 18px;
+		left: 2px;
+		bottom: 2px;
+		background-color: ${({ theme, isDisabled }) => isDisabled ? theme.color.grayLighter : theme.color.white};
+		transition: transform 0.15s;
+		border-radius: 50px;
+		transform: ${({ isLoading, isChecked }) => {
 		if (isLoading) return 'translateX(9px)'
 		else if (isChecked) return 'translateX(18px)'
 		else return 'translateX(0)'
+	}};
 	}
 
-	const marginSpinner = () => {
-		if (isLoading) return '2px 0 0'
-		else if (isChecked) return '2px -18px 0 0'
-		else return '2px 0 0 -18px'
-	}
-
-	const styling = (theme: Theme) => css([
-		{
-			position: 'relative',
-			borderRadius: '22px',
-			width: '40px',
-			height: '22px',
-			backgroundColor: backgroundColor(theme),
-			outline: 0,
-			flexShrink: 0,
-			margin: 'auto',
-			cursor: (isDisabled || isLoading) ? 'auto' : 'pointer',
-
-			transition: 'boxShadow 0.15s ease-in-out, background-color 0.15s ease-in-out',
-
-			'&:before': {
-				position: 'absolute',
-				content: '""',
-				height: '18px',
-				width: '18px',
-				left: '2px',
-				bottom: '2px',
-				backgroundColor: isDisabled ? theme.color.grayLighter : theme.color.white,
-				transition: 'transform 0.15s',
-				borderRadius: '50px',
-				transform: transform(),
-			},
-		},
-		isFocusVisible && {
-			outline: `${theme.color.focusOutline} solid 2px`,
-			outlineOffset: '2px',
-		},
-	])
-
-	if (onClick) {
-		return (
-			<button
-				aria-label={label}
-				aria-pressed={isChecked}
-				type='button'
-				onClick={(event) => {
-					if (isDisabled || isLoading) return undefined
-					else onClick(event)
-				}}
-				css={(theme) => [
-					styling(theme),
-					{
-						border: 'none',
-					},
-				]}
-			>
-				<Spinner
-					css={{
-						opacity: isLoading ? 1 : 0,
-						transition: 'margin 0.15s, opacity 0.15s',
-						margin: marginSpinner(),
-						position: 'relative',
-					}}
-					size={16}
-				/>
-			</button>
-		)
-	}
-
-	return (
-		<div css={(theme) => styling(theme)} />
-	)
-}
+	${({ isFocusVisible }) => isFocusVisible && css`
+		outline: ${({ theme }) => `${theme.color.focusOutline} solid 2px`};
+		outline-offset: 2px;
+	`}
+`

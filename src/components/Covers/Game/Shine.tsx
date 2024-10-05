@@ -1,4 +1,6 @@
-import { keyframes } from '@emotion/react'
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
+/* eslint-disable @typescript-eslint/no-base-to-string */
+import { keyframes, styled } from 'styled-components'
 
 const animation = keyframes`
 	0%, 100% {
@@ -13,18 +15,14 @@ type Props = {
 	isVisible: boolean,
 }
 
-export const Shine = ({ isVisible }: Props) => (
-	<div
-		css={() => ({
-			top: 0,
-			left: 0,
-			right: 0,
-			height: '760px',
-			background: 'linear-gradient(134deg, transparent, rgba(255, 255, 255, 0.2), transparent)',
-			position: 'absolute',
-			transition: 'opacity 150ms ease-in-out',
-			opacity: isVisible ? 1 : 0,
-			animation: isVisible ? `${animation} 5s ease-in-out infinite` : 'none',
-		})}
-	/>
-)
+export const Shine = styled.div<Props>`
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 760px;
+	background: linear-gradient(134deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+	position: absolute;
+	transition: opacity 150ms ease-in-out;
+	opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
+	animation: ${({ isVisible }) => (isVisible ? `${animation} 5s ease-in-out infinite` : 'none')};
+`

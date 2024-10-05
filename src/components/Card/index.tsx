@@ -1,5 +1,4 @@
-import type { Interpolation } from '@emotion/react'
-import type { ReactNode } from 'react'
+import type { CSSProperties, ReactNode } from 'react'
 
 import Collapse from 'components/Collapse'
 
@@ -15,17 +14,27 @@ type Props = {
 	isExpanded?: boolean,
 	isLoading?: boolean,
 	shouldAnimate?: boolean,
-	contentCss?: Interpolation<Theme>,
+
+	style?: CSSProperties,
+	className?: string,
 }
 
-export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, shouldAnimate = true, contentCss, ...rest }: Props) => (
-	<Container {...rest}>
+export const Card = ({
+	children,
+	hasError = false,
+	isExpanded = true,
+	isLoading = false,
+	header,
+	shouldAnimate = true,
+	...rest
+}: Props) => (
+	<Container>
 		<Collapse isOpen={isExpanded} transitionTime={shouldAnimate ? 0.2 : 0}>
 			<>
 				{isExpanded && hasError && <Error>Failed to load content</Error>}
 				{isExpanded && !hasError && isLoading && <Loader />}
 				{!hasError && !isLoading && (
-					<Content header={header} isVisible={isExpanded} css={contentCss}>
+					<Content hasHeader={Boolean(header)} isVisible={isExpanded} {...rest}>
 						{children}
 					</Content>
 				)}

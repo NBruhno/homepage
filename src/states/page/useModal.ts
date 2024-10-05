@@ -1,7 +1,8 @@
 import type { ReactNode } from 'react'
 
-import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn  } from 'zustand/traditional'
 
 type Options = {
 	allowClosure?: boolean,
@@ -22,7 +23,7 @@ type ModalState = {
 	onOpenModal: (content: ReactNode, options?: Options) => void,
 }
 
-export const useModal = create<ModalState>()(devtools((set, state) => ({
+export const useModal = createWithEqualityFn<ModalState>()(devtools((set, state) => ({
 	allowClosure: true,
 	show: false,
 	content: null,
@@ -35,4 +36,4 @@ export const useModal = create<ModalState>()(devtools((set, state) => ({
 		hasNoWrapper: false,
 	}, false, 'onCloseModal') : undefined,
 	onOpenModal: (content, options) => set({ show: true, content, ...options }, false, 'onOpenModal'),
-}), { anonymousActionType: 'useModal' }))
+}), { anonymousActionType: 'useModal' }), shallow)

@@ -26,6 +26,10 @@ export const config = Object.freeze({
 		webhookSecret: process.env.IGDB_WEBHOOK_SECRET as string,
 	},
 
+	instantGaming: {
+		queryUrl: process.env.INSTANT_GAMING_QUERY_URL as string,
+	},
+
 	itad: {
 		apiKey: process.env.ITAD_TOKEN as string,
 	},

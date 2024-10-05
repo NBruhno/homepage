@@ -1,4 +1,3 @@
-import type { Interpolation } from '@emotion/react'
 import type { ReactNode, ComponentPropsWithRef } from 'react'
 
 import { forwardRef } from 'react'
@@ -15,7 +14,6 @@ type Props = ComponentPropsWithRef<'button'> & {
 	isLoading?: boolean,
 	showPlaceholder?: boolean,
 	label: ReactNode,
-	labelCss?: Interpolation<Theme>,
 }
 
 export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
@@ -26,7 +24,6 @@ export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
 	label,
 	onClick,
 	type = 'button',
-	labelCss,
 	...rest
 }, ref) => (
 	<Button
@@ -38,7 +35,7 @@ export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
 		ref={ref}
 		{...rest}
 	>
-		<LoaderWrapper showPlaceholder={isLoading}>{isLoading && <Spinner size={24} css={{ marginTop: '4px' }} />}</LoaderWrapper>
-		<Label showPlaceholder={isLoading || showPlaceholder} css={labelCss}>{label}</Label>
+		<LoaderWrapper showPlaceholder={isLoading}>{isLoading && <Spinner size={24} style={{ marginTop: '4px' }} />}</LoaderWrapper>
+		<Label showPlaceholder={isLoading || showPlaceholder}>{label}</Label>
 	</Button>
 ))

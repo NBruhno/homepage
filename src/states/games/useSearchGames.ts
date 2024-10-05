@@ -3,8 +3,9 @@ import type { Game } from 'types'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
 import useSWR from 'swr'
-import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn } from 'zustand/traditional'
 
 import { useFormStore, useLoading } from 'states/page'
 
@@ -19,10 +20,10 @@ type SearchGamesState = {
 	setHasSearch: (hasSearch: boolean) => void,
 }
 
-export const useSearchGamesStore = create<SearchGamesState>()(devtools((set) => ({
+export const useSearchGamesStore = createWithEqualityFn<SearchGamesState>()(devtools((set) => ({
 	hasSearch: false,
 	setHasSearch: (hasSearch) => set({ hasSearch }, false, 'setHasSearch'),
-}), { anonymousActionType: 'useSearchGamesStore' }))
+}), { anonymousActionType: 'useSearchGamesStore' }), shallow)
 
 export const useSearchGames = () => {
 	const router = useRouter()

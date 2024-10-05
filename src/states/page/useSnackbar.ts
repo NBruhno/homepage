@@ -1,8 +1,9 @@
 import type { ReactNode } from 'react'
 
 import { differenceInMilliseconds } from 'date-fns'
-import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn } from 'zustand/traditional'
 
 export type Snackbar = {
 	actions?: Array<ReactNode>,
@@ -19,7 +20,7 @@ type SnackbarState = {
 	removeOutdatedSnackbars: () => void,
 }
 
-export const useSnackbar = create<SnackbarState>()(devtools((set, state) => ({
+export const useSnackbar = createWithEqualityFn<SnackbarState>()(devtools((set, state) => ({
 	snackbars: [],
 	addSnackbar: ({ duration, type, ...rest }) => set({
 		snackbars: [
@@ -40,4 +41,4 @@ export const useSnackbar = create<SnackbarState>()(devtools((set, state) => ({
 			}, false, 'removeOutdatedSnackbars')
 		}
 	},
-}), { anonymousActionType: 'useSnackbar' }))
+}), { anonymousActionType: 'useSnackbar' }), shallow)

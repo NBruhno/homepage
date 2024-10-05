@@ -1,6 +1,6 @@
 import type { ComponentProps } from 'react'
 
-import { useTheme } from '@emotion/react'
+import { useTheme } from 'styled-components'
 
 type Props = ComponentProps<'svg'> & {
 	size?: number,

@@ -1,12 +1,20 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'span'> & {
+type Props = {
 	isActive?: boolean,
 	isBold?: boolean,
 	isHorizontal: boolean,
 	isSlim?: boolean,
 	shouldMirror?: boolean,
 }
+
+const ChevronLine = styled.span`
+	background-color: currentColor;
+	bottom: 0.1em;
+	position: absolute;
+	width: 0.6em;
+	transition: transform 150ms ${({ theme }) => theme.animation.default};
+`
 
 export const Line = ({ isSlim, isBold, shouldMirror, isActive, isHorizontal, ...rest }: Props) => {
 	let size = 0.1
@@ -21,19 +29,14 @@ export const Line = ({ isSlim, isBold, shouldMirror, isActive, isHorizontal, ...
 	const isHorizontalTransform = `translateY(${isActive ? -0.4 : -0.40}em) rotate(${0 + (shouldMirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
 
 	return (
-		<span
-			css={(theme) => ({
-				backgroundColor: 'currentColor',
+		<ChevronLine
+			style={{
 				borderRadius: `${size / 2}em`,
-				bottom: '0.1em',
 				height: `${size}em`,
 				left: `${0.7 - size / 2}em`,
-				position: 'absolute',
 				transform: isHorizontal ? isHorizontalTransform : verticalTransform,
 				transformOrigin: `${size / 2}em ${size / 2}em`,
-				transition: `transform 150ms ${theme.animation.default}`,
-				width: '0.6em',
-			})}
+			}}
 			{...rest}
 		/>
 	)

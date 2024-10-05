@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { shallow } from 'zustand/shallow'
 
 import { useModal, useSnackbar } from 'states/page'
 
@@ -32,7 +31,7 @@ export const useAuth = () => {
 	const {
 		setUser, setShouldRefresh, setIsStateKnown, setIntermediateToken, setTwoFactorSecret, resetUser,
 		userId, accessToken, intermediateToken,
-	} = useUser((state) => state, shallow)
+	} = useUser((state) => state)
 
 	const createErrorSnackbar = (error: unknown) => {
 		addSnackbar({ message: error instanceof ApiError ? error.message : 'Unknown error occurred', type: 'Alert' })

@@ -99,11 +99,8 @@ const nextConfig = {
 
 	swcMinify: true,
 	compiler: {
-		// Enables the emotion.js plugin
-		emotion: true,
+		styledComponents: true,
 	},
-
-	pageExtensions: ['route.tsx', 'route.ts'],
 
 	outputFileTracing: true,
 	poweredByHeader: false,

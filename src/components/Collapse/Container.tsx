@@ -1,24 +1,18 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { css, styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
+type Props = {
 	shouldFill?: boolean,
 	transitionTime?: number,
 	isAnimated?: boolean,
 }
 
-export const Container = ({ isAnimated, transitionTime = 0, shouldFill, ...rest }: Props) => (
-	<div
-		css={[
-			{
-				overflow: 'hidden',
-				transition: `${isAnimated ? `height ${transitionTime}s` : 'none'}`,
-			},
-			shouldFill ? {
-				display: 'flex',
-				flexDirection: 'column',
-				flexGrow: 1,
-			} : undefined,
-		]}
-		{...rest}
-	/>
-)
+export const Container = styled.div<Props>`
+	overflow: hidden;
+	transition: ${({ isAnimated, transitionTime }) => (isAnimated ? `height ${transitionTime}s` : 'none')};
+
+	${({ shouldFill }) => shouldFill && css`
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	`}
+`

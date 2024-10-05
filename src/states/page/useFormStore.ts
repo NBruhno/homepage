@@ -1,6 +1,7 @@
 import { isEqual } from 'radash'
-import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
+import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn } from 'zustand/traditional'
 
 import type { SearchGamesModel } from 'pages/games/search.route'
 
@@ -28,8 +29,8 @@ const initialValues: FormState = {
 	changePassword: {},
 }
 
-export const useFormStore = create<FormState & FormActions>()(devtools((set, state) => ({
+export const useFormStore = createWithEqualityFn<FormState & FormActions>()(devtools((set, state) => ({
 	...initialValues,
 	setFormState: (name, formState) => !isEqual(state()[name], formState) && set({ [name]: formState }, false, 'setFormState'),
 	resetFormState: (name) => !isEqual(state(), initialValues) && set({ [name]: initialValues[name] }, false, 'resetFormState'),
-}), { anonymousActionType: 'useFormStore' }))
+}), { anonymousActionType: 'useFormStore' }), shallow)

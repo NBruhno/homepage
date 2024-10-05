@@ -11,7 +11,6 @@
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "jsxImportSource": "@emotion/react",
     "lib": [
       "dom",
       "dom.iterable",
@@ -37,7 +36,12 @@
     "typeRoots": [
       "./node_modules/@types"
     ],
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "exclude": [
     "**/*.spec.ts",
@@ -51,6 +55,7 @@
     "**/*.tsx",
     "emotion.d.ts",
     "global.d.ts",
-    "next-env.d.ts"
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
   ]
 }

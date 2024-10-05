@@ -1,6 +1,6 @@
 import path from 'path'
 
-import react from '@vitejs/plugin-react'
+import react from '@vitejs/plugin-react-swc'
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -23,10 +23,7 @@ export default defineConfig({
 	publicDir: 'public',
 	plugins: [
 		react({
-			jsxImportSource: '@emotion/react',
-			babel: {
-				plugins: ['@emotion'],
-			},
+			plugins: [['@swc/plugin-styled-components', {}]],
 		}),
 	],
 	esbuild: {

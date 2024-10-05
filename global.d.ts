@@ -1,5 +1,4 @@
-/* eslint-disable vars-on-top */
-/* eslint-disable no-var */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 
 import type { PrismaClient } from '@prisma/client'
 

@@ -1,6 +1,6 @@
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
-import { useFormContext } from 'react-hook-form'
+import { useFormContext, useWatch } from 'react-hook-form'
 
 import { useUnique } from 'lib/hooks'
 
@@ -23,8 +23,8 @@ type Props = {
 
 export const Toggle = ({ isFullWidth = true, label, hint, isDisabled = false, name }: Props) => {
 	const id = useUnique(name)
-	const { register, watch } = useFormContext()
-	const isChecked = watch(name) as boolean
+	const { register } = useFormContext()
+	const isChecked = useWatch({ name }) as boolean
 	const { isFocusVisible, focusProps } = useFocusRing({ within: true })
 	const { hoverProps, isHovered } = useHover({})
 
@@ -37,8 +37,8 @@ export const Toggle = ({ isFullWidth = true, label, hint, isDisabled = false, na
 	return (
 		<FieldWrapper isFullWidth={isFullWidth}>
 			<RowLabel htmlFor={id} {...focusProps} {...hoverProps}>
-				<ToggleComponent label={label} isChecked={isChecked} isDisabled={isDisabled} isFocusVisible={isFocusVisible} isHovered={isHovered} />
-				<LabelContainer htmlFor={id} css={{ margin: '0 0 0 6px' }}>
+				<ToggleComponent isChecked={isChecked} isDisabled={isDisabled} isFocusVisible={isFocusVisible} isHovered={isHovered} />
+				<LabelContainer htmlFor={id} style={{ margin: '0 0 0 6px' }}>
 					<span>{label}</span>
 					{hint && <Hint>{hint}</Hint>}
 				</LabelContainer>

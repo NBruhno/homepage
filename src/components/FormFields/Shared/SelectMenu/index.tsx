@@ -8,6 +8,7 @@ import { useMemo, forwardRef } from 'react'
 import { useScrollStore } from 'states/page'
 
 import { CheckMark } from './CheckMark'
+import { Container } from './Container'
 import { Empty } from './Empty'
 import { Item } from './Item'
 
@@ -53,29 +54,8 @@ export const SelectMenu = forwardRef<HTMLDivElement, Props>(({
 	}, [windowScrollX, windowScrollY, containerRef, isOpen])
 
 	return (
-		<div
-			css={(theme) => ({
-				background: theme.color.input.background,
-				position: 'absolute',
-				zIndex: 4,
-				borderRadius: '4px',
-				overflowY: 'auto',
-				boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
-				visibility: isOpen ? 'visible' : 'hidden',
-				height: isOpen ? 'unset' : 0,
-				opacity: isOpen ? 1 : 0,
-				border: `1px solid ${theme.color.border}`,
-				transition: `height 500ms ${theme.animation.default}, opacity 200ms ${theme.animation.default}`,
-				maxHeight: '350px',
-				padding: '6px 0',
-				pointerEvents: isOpen ? 'auto' : 'none',
-
-				'::-webkit-scrollbar': {
-					backgroundColor: 'transparent',
-					marginLeft: '-8px',
-					borderRadius: '0 4px 4px 0',
-				},
-			})}
+		<Container
+			isOpen={isOpen}
 			style={{
 				top: (() => {
 					switch (position) {
@@ -102,6 +82,6 @@ export const SelectMenu = forwardRef<HTMLDivElement, Props>(({
 					<CheckMark isChecked={selectedItems.some((selectedItem) => isEqual(selectedItem, item))} />
 				</Item>
 			))}
-		</div>
+		</Container>
 	)
 })

@@ -2,7 +2,6 @@ import { type GameUserData } from 'types'
 
 import useSWR from 'swr'
 import useSWRMutation from 'swr/mutation'
-import { shallow } from 'zustand/shallow'
 
 import { useUser } from 'states/users'
 
@@ -17,7 +16,7 @@ type ToggleFollow = {
 }
 
 export const useGameUserStatus = () => {
-	const { id } = useGameStore((state) => ({ steamAppId: state.steamAppId, id: state.id, isGameLoading: state.isLoading }), shallow)
+	const { id } = useGameStore((state) => ({ steamAppId: state.steamAppId, id: state.id, isGameLoading: state.isLoading }))
 	const accessToken = useUser((state) => state.accessToken)
 
 	const { data: userStatus, isLoading } = useSWR((id && accessToken)

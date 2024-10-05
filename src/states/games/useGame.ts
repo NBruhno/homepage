@@ -2,9 +2,9 @@ import { type Game } from 'types'
 
 import { useEffect } from 'react'
 import useSWR from 'swr'
-import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn } from 'zustand/traditional'
 
 import { useLoading } from 'states/page'
 
@@ -34,13 +34,13 @@ const initialState = {
 	isLoading: true,
 }
 
-export const useGameStore = create<GameState>()(devtools((set) => ({
+export const useGameStore = createWithEqualityFn<GameState>()(devtools((set) => ({
 	...initialState,
 	resetGame: () => set({ ...initialState }, false, 'resetGame'),
 	setGameName: (name) => set({ name }, false, 'setGame'),
 	setGameIds: (id, steamAppId) => set({ id, steamAppId }, false, 'setGameIds'),
 	setGameIsLoading: (isLoading) => set({ isLoading }, false, 'setGameIsLoading'),
-}), { anonymousActionType: 'useGame' }))
+}), { anonymousActionType: 'useGame' }), shallow)
 
 export const useGame = ({ id, initialGame }: Props) => {
 	const { setGameIds, setGameName, setGameIsLoading, resetGame } = useGameStore((state) => state, shallow)

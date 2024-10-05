@@ -4,7 +4,7 @@ import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
 import { get, isEmpty, isString } from 'radash'
 import { useMemo, useRef, useState } from 'react'
-import { type FieldError, useFormContext } from 'react-hook-form'
+import { type FieldError, useFormContext, useWatch } from 'react-hook-form'
 
 import { useUnique } from 'lib/hooks'
 
@@ -42,8 +42,8 @@ export const Input = ({
 	label, hint, placeholder, shouldAutofocus,
 }: Props) => {
 	const id = useUnique(name)
-	const { register, formState: { errors }, watch, resetField } = useFormContext()
-	const value = watch(name, undefined) as Date | number | string | undefined
+	const { register, formState: { errors }, resetField } = useFormContext()
+	const value = useWatch({ name, defaultValue: undefined }) as Date | number | string | undefined
 	const { isFocusVisible, focusProps } = useFocusRing({ isTextInput: true, autoFocus: shouldAutofocus })
 	const { hoverProps, isHovered } = useHover({})
 	const [isInputFocus, setIsInputFocus] = useState(false)

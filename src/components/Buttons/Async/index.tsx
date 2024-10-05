@@ -1,4 +1,3 @@
-import type { Interpolation } from '@emotion/react'
 import type { Promisable } from 'type-fest'
 
 import { useFocusRing } from '@react-aria/focus'
@@ -16,7 +15,6 @@ export type Props = Omit<ComponentPropsWithoutRef<'button'>, 'disabled' | 'onCli
 	isLoadingManual?: boolean,
 	label: ReactNode,
 	minDelay?: number,
-	labelCss?: Interpolation<Theme>,
 } & (
 	{
 		onClick?: never,
@@ -35,7 +33,6 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 	minDelay = 0,
 	onClick,
 	type = 'button',
-	labelCss,
 	...rest
 }, ref) => {
 	const [isLoadingInternal, setInternalLoading] = useState(false)
@@ -73,7 +70,6 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 				render={({ isSubmitting }) => (
 					<ButtonLoading
 						isLoading={isSubmitting || isLoadingManual || isLoadingInternal}
-						labelCss={labelCss}
 						{...defaultProps}
 						onClick={undefined}
 						type='submit'
@@ -88,7 +84,6 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(({
 			isLoading={isLoadingManual || isLoadingInternal}
 			type={type}
 			onClick={(event) => handleClick(event)}
-			labelCss={labelCss}
 			{...defaultProps}
 		/>
 	)

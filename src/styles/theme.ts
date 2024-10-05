@@ -178,12 +178,6 @@ export const theme = (isDarkTheme = true) => Object.freeze({
 	mediaQueries,
 } as const)
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-declare module '@emotion/react' {
-	// eslint-disable-next-line @typescript-eslint/no-empty-interface
-	export interface Theme extends ReturnType<typeof theme> {}
-}
-
 declare global {
 	type Theme = ReturnType<typeof theme>
 }

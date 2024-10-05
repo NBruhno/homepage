@@ -6,6 +6,6 @@ type Props = {
 }
 
 export const EventCover = ({ coverUrl, ...rest }: Props) => {
-	if (coverUrl) return <Image src={coverUrl} {...rest} />
+	if (coverUrl) return <Image src={coverUrl} alt='game event logo' {...rest} />
 	return <Placeholder {...rest} />
 }

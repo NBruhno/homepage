@@ -18,7 +18,7 @@ export const Table = (props: ComponentProps<'table'>) => (
 				color: theme.color.text,
 				backgroundColor: theme.color.gray010,
 
-				'&:first-child': {
+				'&:first-of-type': {
 					borderTopLeftRadius: '4px',
 				},
 
@@ -39,7 +39,7 @@ export const Table = (props: ComponentProps<'table'>) => (
 			},
 
 			'tr:last-child': {
-				'td:first-child': {
+				'td:first-of-tyåe': {
 					borderBottomLeftRadius: '4px',
 				},
 
