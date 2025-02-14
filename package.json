@@ -8,8 +8,9 @@
   "private": true,
   "engines": {
     "node": ">=22.13.0",
-    "pnpm": ">=10.3"
+    "pnpm": ">=10.4"
   },
+  "packageManager": "pnpm@10.4.0",
   "browserslist": ["last 2 versions", "not dead", "not op_mini all", "node > 20"],
   "scripts": {
     "build:analyze": "cross-env ANALYZE_BUILD=true next build",
