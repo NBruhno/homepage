@@ -1,13 +1,8 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Wrapper = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={{
-			display: 'flex',
-			borderRadius: '4px',
-			marginRight: '-1px',
-			marginBottom: '18px',
-		}}
-		{...props}
-	/>
-)
+export const Wrapper = styled.div`
+	display: flex;
+	border-radius: 4px;
+	margin-right: -1px;
+	margin-bottom: 18px;
+`

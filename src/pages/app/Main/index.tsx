@@ -2,11 +2,10 @@ import type { ComponentPropsWithoutRef } from 'react'
 
 import { useMediaQuery } from '@react-hook/media-query'
 import { setUser } from '@sentry/nextjs'
+import { useRouter } from 'next/compat/router'
 import dynamic from 'next/dynamic'
 import NextLink from 'next/link'
-import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
-import { shallow } from 'zustand/shallow'
 
 import { useModal, useResponsive } from 'states/page'
 import { useUser } from 'states/users'
@@ -18,36 +17,33 @@ import { Footer } from '../Footer'
 import { CookieBanner } from './CookieBanner'
 import { MainContent } from './MainContent'
 import { Modal } from './Modal'
-import { Shade } from './Shade'
 
-const FormLogin = dynamic(async () => {
-	const component = await import('components/Forms/Login')
-	return component.FormLogin
-}, { ssr: false })
+const FormLogin = dynamic(
+	async () => {
+		const component = await import('components/Forms/Login')
+		return component.FormLogin
+	},
+	{ ssr: false },
+)
 
-const protectedRoutes = [
-	'/users/profile',
-]
+const protectedRoutes = ['/users/profile']
 
-const roleProtectedRoutes = [
-	'/users',
-	'/home',
-]
+const roleProtectedRoutes = ['/users', '/home']
 
 type Props = ComponentPropsWithoutRef<'main'> & {
-	isNebulaVisible: boolean,
+	isNebulaVisible: boolean
 }
 
 export const Main = ({ children, isNebulaVisible }: Props) => {
-	const { pathname } = useRouter()
+	const pathname = useRouter()?.pathname ?? ''
 	const { showLogin, setResponsiveState } = useResponsive()
 	const { onOpenModal, onCloseModal } = useModal()
-	const { isStateKnown, accessToken, role, userId, username, email } = useUser((state) => state, shallow)
+	const { isStateKnown, accessToken, role, userId, username, email } = useUser((state) => state)
 
 	// Internal state for handling the auth guard on routes
 	const [isRouteProtected, setIsRouteProtected] = useState(false)
 	const [isRouteRoleProtected, setIsRouteRoleProtected] = useState(false)
-	const show = (isRouteProtected || isRouteRoleProtected || showLogin) || false
+	const show = isRouteProtected || isRouteRoleProtected || showLogin || false
 
 	// Store media queries for use in our theme (useResponsive())
 	const isMobile = useMediaQuery(mediaQueries.maxMobile.replace('@media ', ''))
@@ -71,7 +67,8 @@ export const Main = ({ children, isNebulaVisible }: Props) => {
 				setIsRouteRoleProtected(false)
 			}
 
-			if (userId && username && email) { // We want to add an user to our transactions if available
+			if (userId && username && email) {
+				// We want to add an user to our transactions if available
 				setUser({ id: userId, username, email })
 			}
 		}
@@ -79,26 +76,28 @@ export const Main = ({ children, isNebulaVisible }: Props) => {
 
 	useEffect(() => {
 		setResponsiveState({ isMobile, isTablet, isLaptop, isDesktop, isDesktopLarge, isDesktopMax, isSidebarCollapsed })
-	// DO NOT set updateResponsive as part of the dependency, since that function updates every time the state is updated
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// DO NOT set updateResponsive as part of the dependency, since that function updates every time the state is updated
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isMobile, isTablet, isLaptop, isDesktop, isDesktopLarge, isDesktopMax, isSidebarCollapsed])
 
 	useEffect(() => {
 		if (isRouteProtected || isRouteRoleProtected || showLogin) {
-			onOpenModal((
-				<>
-					{!accessToken ? (
-						<>
-							{show && <FormLogin />}
-						</>
-					) : (
-						<>
-							<h1 css={{ margin: '0 0 24px', fontSize: '1.5em' }}>You are not authorized to access this resource</h1>
-							<NextLink href='/' passHref css={(theme) => ({ color: theme.color.text })}>Home</NextLink>
-						</>
-					)}
-				</>
-			), { allowClosure: !isRouteProtected || !isRouteRoleProtected, onClose: () => setResponsiveState({ showLogin: !showLogin }) })
+			onOpenModal(
+				!accessToken ? (
+					<>{show && <FormLogin />}</>
+				) : (
+					<>
+						<h1 style={{ margin: '0 0 24px', fontSize: '1.5em' }}>You are not authorized to access this resource</h1>
+						<NextLink href='/' passHref>
+							Home
+						</NextLink>
+					</>
+				),
+				{
+					allowClosure: !isRouteProtected || !isRouteRoleProtected,
+					onClose: () => setResponsiveState({ showLogin: !showLogin }),
+				},
+			)
 		}
 	}, [isRouteProtected, isRouteRoleProtected, showLogin])
 
@@ -106,7 +105,6 @@ export const Main = ({ children, isNebulaVisible }: Props) => {
 		<MainContent>
 			{children}
 			<Modal />
-			<Shade />
 			<CookieBanner />
 			<Footer isTransparent={isNebulaVisible} />
 		</MainContent>

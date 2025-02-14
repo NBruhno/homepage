@@ -3,8 +3,8 @@
 import type { IgdbWebsiteCategory } from './websiteCategory'
 
 export type IgdbWebsite = {
-	id: number,
-	category: IgdbWebsiteCategory,
-	trusted: boolean,
-	url: string,
+	id: number
+	category: IgdbWebsiteCategory
+	trusted: boolean
+	url: string
 }

@@ -1,4 +1,4 @@
-import { optional, string, object, number, array, enums, boolean, nullable } from 'superstruct'
+import { array, boolean, enums, nullable, number, object, optional, string } from 'superstruct'
 
 const status = optional(enums(['Alpha', 'Beta', 'EarlyAccess', 'Offline', 'Released', 'Cancelled', 'Rumored', 'Delisted']))
 
@@ -33,7 +33,23 @@ const platform = object({
 export const game = object({
 	id: number(),
 	name: string(),
-	category: optional(enums(['Bundle', 'DLCAddon', 'Episode', 'ExpandedGame', 'Expansion', 'Fork', 'MainGame', 'Mod', 'Port', 'Remake', 'Remaster', 'Season', 'StandaloneExpansion'])),
+	category: optional(
+		enums([
+			'Bundle',
+			'DLCAddon',
+			'Episode',
+			'ExpandedGame',
+			'Expansion',
+			'Fork',
+			'MainGame',
+			'Mod',
+			'Port',
+			'Remake',
+			'Remaster',
+			'Season',
+			'StandaloneExpansion',
+		]),
+	),
 	cover: optional(string()),
 	developers: optional(array(company)),
 	dlcs: optional(array(simpleGame)),
@@ -42,20 +58,24 @@ export const game = object({
 	genres: optional(array(defaultEntity)),
 	hype: optional(number()),
 	modes: optional(array(defaultEntity)),
-	multiplayerModes: optional(array(object({
-		hasCampaignCoop: optional(boolean()),
-		hasDropIn: optional(boolean()),
-		hasLanCoop: optional(boolean()),
-		hasOfflineCoop: optional(boolean()),
-		hasOnlineCoop: optional(boolean()),
-		hasOnlineSplitScreen: optional(boolean()),
-		hasSplitScreen: optional(boolean()),
-		offlineCoopMax: optional(number()),
-		offlineMax: optional(number()),
-		onlineCoopMax: optional(number()),
-		onlineMax: optional(number()),
-		platform: optional(platform),
-	}))),
+	multiplayerModes: optional(
+		array(
+			object({
+				hasCampaignCoop: optional(boolean()),
+				hasDropIn: optional(boolean()),
+				hasLanCoop: optional(boolean()),
+				hasOfflineCoop: optional(boolean()),
+				hasOnlineCoop: optional(boolean()),
+				hasOnlineSplitScreen: optional(boolean()),
+				hasSplitScreen: optional(boolean()),
+				offlineCoopMax: optional(number()),
+				offlineMax: optional(number()),
+				onlineCoopMax: optional(number()),
+				onlineMax: optional(number()),
+				platform: optional(platform),
+			}),
+		),
+	),
 	parentId: optional(number()),
 	platforms: optional(array(platform)),
 	playerPerspectives: optional(array(defaultEntity)),
@@ -64,10 +84,14 @@ export const game = object({
 	rating: optional(number()),
 	ratingCount: optional(number()),
 	releaseDate: nullable(string()),
-	releaseDates: optional(array(object({
-		date: nullable(string()),
-		platform,
-	}))),
+	releaseDates: optional(
+		array(
+			object({
+				date: nullable(string()),
+				platform,
+			}),
+		),
+	),
 	screenshot: optional(string()),
 	similarGames: optional(array(simpleGame)),
 	status,
@@ -76,9 +100,13 @@ export const game = object({
 	supporters: optional(array(company)),
 	themes: optional(array(defaultEntity)),
 	updatedAt: optional(string()),
-	videos: optional(array(object({
-		name: nullable(string()),
-		videoId: string(),
-	}))),
+	videos: optional(
+		array(
+			object({
+				name: nullable(string()),
+				videoId: string(),
+			}),
+		),
+	),
 	websites: optional(array(website)),
 })

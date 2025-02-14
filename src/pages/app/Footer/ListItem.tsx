@@ -1,19 +1,11 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-import { forwardRef } from 'react'
+export const ListItem = styled.li`
+	border-right: 1px solid ${({ theme }) => theme.color.gray020};
+	padding: 0 12px;
+	display: inline-flex;
 
-export const ListItem = forwardRef<HTMLLIElement, ComponentPropsWithoutRef<'li'>>((props, ref) => (
-	<li
-		css={(theme) => ({
-			borderRight: `1px solid ${theme.color.gray020}`,
-			padding: '0 12px',
-			display: 'inline-flex',
-
-			'&:last-of-type': {
-				borderRight: 'none',
-			},
-		})}
-		ref={ref}
-		{...props}
-	/>
-))
+	&:last-of-type {
+		border-right: none;
+	}
+`

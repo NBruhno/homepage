@@ -7,15 +7,17 @@ const { VERCEL_ENV } = process.env
 const characterSpacing = 37
 const missingValues = []
 
-const log = (value, result) => {
+const log = (_value, result) => {
 	const ending = () => {
 		switch (result) {
-			case 'exists': return 'Exists'
-			case 'missing': return 'Missing'
-			case 'deploy': return 'Deployment only'
+			case 'exists':
+				return 'Exists'
+			case 'missing':
+				return 'Missing'
+			case 'deploy':
+				return 'Deployment only'
 		}
 	}
-	console.log(`${value}:${new Array(characterSpacing - value.length).join(' ')} ${ending()}`)
 }
 
 const verifyVariable = (value, isDeployOnly = false) => {
@@ -30,8 +32,6 @@ const verifyVariable = (value, isDeployOnly = false) => {
 		log(value, 'exists')
 	}
 }
-
-console.log(`Current environment:${new Array(characterSpacing - 18).join(' ')}${VERCEL_ENV ? VERCEL_ENV.charAt(0).toUpperCase() + VERCEL_ENV.slice(1) : 'Undefined'}`)
 verifyVariable('ACCESS_CODE')
 verifyVariable('AMQP_URL')
 verifyVariable('AUTH_PRIVATE_KEY')
@@ -58,8 +58,6 @@ verifyVariable('SENTRY_PROJECT', true)
 verifyVariable('SENTRY_URL', true)
 
 if (missingValues.length > 0) {
-	console.log('Error: Missing the above mentioned env variables')
 	process.exit(1)
 } else {
-	console.log('All required env variables are available')
 }

@@ -1,12 +1,7 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Empty = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={(theme) => ({
-			padding: '16px 0 8px',
-			textAlign: 'center',
-			color: theme.color.textSubtitle,
-		})}
-		{...props}
-	/>
-)
+export const Empty = styled.div`
+	padding: 16px 0 8px;
+	text-align: center;
+	color: ${({ theme }) => theme.color.textSubtitle};
+`

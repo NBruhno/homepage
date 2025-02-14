@@ -1,30 +1,25 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	size: string,
-	loading?: string | undefined,
+type Props = {
+	size: string
+	loading?: string | undefined
 }
 
-export const CoverWrapper = ({ size, ...rest }: Props) => (
-	<div
-		css={(theme) => ({
-			flexShrink: 0,
-			background: [theme.color.input.backgroundHover, `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`],
-			height: size === 'big' ? '352px' : '160px',
-			width: size === 'big' ? '264px' : '120px',
-			overflow: 'hidden',
-			objectFit: 'cover',
+export const CoverWrapper = styled.div<Props>`
+	flex-shrink: 0;
+	background: ${({ theme }) => [theme.color.input.backgroundHover, `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`]};
+	height: ${({ size }) => (size === 'big' ? '352px' : '160px')};
+	width: ${({ size }) => (size === 'big' ? '264px' : '120px')};
+	overflow: hidden;
+	object-fit: cover;
 
-			[theme.mediaQueries.maxMobile]: {
-				height: '160px',
-				width: '120px',
-			},
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		height: 160px;
+		width: 120px;
+	}
 
-			[theme.mediaQueries.mobileToLaptop]: {
-				height: size === 'big' ? '235px' : '160px',
-				width: size === 'big' ? '176px' : '120px',
-			},
-		})}
-		{...rest}
-	/>
-)
+	${({ theme }) => theme.mediaQueries.mobileToLaptop} {
+		height: ${({ size }) => (size === 'big' ? '235px' : '160px')};
+		width: ${({ size }) => (size === 'big' ? '176px' : '120px')};
+	}
+`

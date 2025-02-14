@@ -1,52 +1,51 @@
 import type { ReactNode } from 'react'
 
-import { css } from '@emotion/react'
 import NextLink from 'next/link'
+import { styled } from 'styled-components'
 
 type Props = {
-	href: string,
-	isTransparent: boolean,
-	shouldOpenInNewTab?: boolean,
-	isInternal?: boolean,
-	children: ReactNode,
-	target?: string,
+	href: string
+	isTransparent: boolean
+	shouldOpenInNewTab?: boolean
+	isInternal?: boolean
+	children: ReactNode
+	target?: string
 }
 
+export const LinkComponent = styled(NextLink)<Props>`
+	color: ${({ theme, isTransparent }) => (isTransparent ? theme.color.white : theme.color.text)};
+	display: flex;
+	opacity: 0.7;
+	transition: opacity 200ms ${({ theme }) => theme.animation.default};
+
+	&:hover {
+		opacity: 1;
+	}
+`
+
+export const NativeLink = styled(LinkComponent).attrs({
+	as: 'a',
+})<Props>``
+
 export const Link = ({ isTransparent, children, isInternal = false, shouldOpenInNewTab = true, ...rest }: Props) => {
-	const openInNewTabProps = shouldOpenInNewTab ? {
-		target: '_blank',
-		rel: 'noreferrer noopener',
-	} : {}
-
-	const styling = ({ theme }: { theme: Theme }) => css({
-		color: isTransparent ? theme.color.white : theme.color.text,
-		display: 'flex',
-		opacity: 0.7,
-		transition: `opacity 200ms ${theme.animation.default}`,
-
-		'&:hover': {
-			opacity: 1,
-		},
-	})
+	const openInNewTabProps = shouldOpenInNewTab
+		? {
+				target: '_blank',
+				rel: 'noreferrer noopener',
+			}
+		: {}
 
 	if (isInternal) {
 		return (
-			<NextLink
-				css={(theme) => styling({ theme })}
-				{...rest}
-			>
+			<LinkComponent isTransparent={isTransparent} {...rest}>
 				{children}
-			</NextLink>
+			</LinkComponent>
 		)
 	}
 
 	return (
-		<a
-			css={(theme) => styling({ theme })}
-			{...openInNewTabProps}
-			{...rest}
-		>
+		<NativeLink isTransparent={isTransparent} {...rest} {...openInNewTabProps}>
 			{children}
-		</a>
+		</NativeLink>
 	)
 }

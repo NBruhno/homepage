@@ -1,25 +1,20 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	isNebulaVisible: boolean,
+type Props = {
+	isNebulaVisible: boolean
 }
 
-export const Grid = ({ isNebulaVisible, ...rest }: Props) => (
-	<div
-		css={(theme) => ({
-			backgroundColor: isNebulaVisible ? 'transparent' : theme.color.background,
-			display: 'grid',
-			gridTemplateColumns: 'auto 1fr',
-			gridTemplateRows: '1fr',
-			maxWidth: '100vw',
-			minHeight: '100vh',
-			position: 'relative',
+export const Grid = styled.div<Props>`
+	background-color: ${({ isNebulaVisible, theme }) => (isNebulaVisible ? 'transparent' : theme.color.background)};
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: 1fr;
+	max-width: 100vw;
+	min-height: 100vh;
+	position: relative;
 
-			[theme.mediaQueries.maxMobile]: {
-				gridTemplateColumns: '1fr',
-				gridTemplateRows: 'auto 1fr',
-			},
-		})}
-		{...rest}
-	/>
-)
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		grid-template-columns: 1fr;
+		grid-template-rows: auto 1fr;
+	}
+`

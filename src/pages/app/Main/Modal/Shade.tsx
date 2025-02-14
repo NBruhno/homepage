@@ -1,31 +1,17 @@
-import type { ComponentPropsWithoutRef } from 'react'
-
+import { FloatingOverlay } from '@floating-ui/react'
 import { adjustHsl } from 'lib/client'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	show?: boolean,
+type Props = {
+	show?: boolean
 }
 
-export const Shade = ({ show, ...rest }: Props) => (
-	<div
-		css={(theme) => ({
-			backgroundColor: show ? adjustHsl(theme.color.background, { alpha: 0.5 }) : 'unset',
-			position: 'absolute',
-			top: 0,
-			left: 0,
-			right: 0,
-			bottom: 0,
-			zIndex: 4,
-			pointerEvents: show ? 'auto' : 'none',
-			visibility: show ? 'visible' : 'hidden',
-			transition: `background-color 135ms ${theme.animation.default}`,
-			overscrollBehavior: 'contain',
-
-			'@supports ((-webkit-backdrop-filter: blur(8px)) or (backdrop-filter: blur(8px)))': {
-				backdropFilter: show ? 'blur(5px)' : 'none',
-				backgroundColor: show ? adjustHsl(theme.color.background, { alpha: 0.5 }) : 'unset',
-			},
-		})}
-		{...rest}
-	/>
-)
+export const Shade = styled(FloatingOverlay)<Props>`
+	display: grid;
+	place-items: center;
+	background-color: ${({ show, theme }) => (show ? adjustHsl(theme.color.black, { alpha: 0.4 }) : 'unset')};
+	z-index: 4;
+	transition: background-color 200ms ${({ theme }) => theme.animation.default};
+	pointer-events: ${({ show }) => (show ? 'auto' : 'none')};
+	visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
+`

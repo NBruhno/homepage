@@ -9,32 +9,40 @@ import { Stars } from './Stars'
 import { Wrapper } from './Wrapper'
 
 export const Nebula = () => {
-	const movingClouds = useMemo(() => Array.from({ length: 40 }).map(() => ({
-		position: {
-			x: Math.random() * 800 - 400,
-			y: 500,
-			z: Math.random() * 500 - 500,
-		},
-		rotation: {
-			x: 1.16,
-			y: -0.12,
-			z: Math.random() * 2 * Math.PI,
-		},
-		opacity: random(0.4, 0.9),
-	})), [])
-	const stationaryClouds = useMemo(() => Array.from({ length: 40 }).map(() => ({
-		position: {
-			x: Math.random() * 800 - 400,
-			y: 500,
-			z: Math.random() * 5000 - 500,
-		},
-		rotation: {
-			x: 1.16,
-			y: -0.12,
-			z: Math.random() * 2 * Math.PI,
-		},
-		opacity: random(0.4, 0.9),
-	})), [])
+	const movingClouds = useMemo(
+		() =>
+			Array.from({ length: 40 }).map(() => ({
+				position: {
+					x: Math.random() * 800 - 400,
+					y: 500,
+					z: Math.random() * 500 - 500,
+				},
+				rotation: {
+					x: 1.16,
+					y: -0.12,
+					z: Math.random() * 2 * Math.PI,
+				},
+				opacity: random(0.4, 0.9),
+			})),
+		[],
+	)
+	const stationaryClouds = useMemo(
+		() =>
+			Array.from({ length: 40 }).map(() => ({
+				position: {
+					x: Math.random() * 800 - 400,
+					y: 500,
+					z: Math.random() * 5000 - 500,
+				},
+				rotation: {
+					x: 1.16,
+					y: -0.12,
+					z: Math.random() * 2 * Math.PI,
+				},
+				opacity: random(0.4, 0.9),
+			})),
+		[],
+	)
 
 	return (
 		<Wrapper>
@@ -44,12 +52,7 @@ export const Nebula = () => {
 					<PerspectiveCamera makeDefault fov={60} position={[1, 0, 0]} rotation={[1.16, -0.12, 0.27]} near={1} far={1000} />
 					<Lights />
 					{movingClouds.map(({ position, rotation, opacity }, index) => (
-						<Dust
-							position={[position.x, position.y, position.z]}
-							rotation={[rotation.x, rotation.y, rotation.z]}
-							opacity={opacity}
-							key={index}
-						/>
+						<Dust position={[position.x, position.y, position.z]} rotation={[rotation.x, rotation.y, rotation.z]} opacity={opacity} key={index} />
 					))}
 					{stationaryClouds.map(({ position, rotation, opacity }, index) => (
 						<Dust

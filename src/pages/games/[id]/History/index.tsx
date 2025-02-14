@@ -1,22 +1,27 @@
-import { useTheme } from '@emotion/react'
 import { addDays, differenceInDays, isWithinInterval, subDays } from 'date-fns'
 import dynamic from 'next/dynamic'
 import { useMemo, useState } from 'react'
+import { useTheme } from 'styled-components'
 
 import { useGameInsights } from 'states/games'
 import { useResponsive } from 'states/page'
 
 import { ButtonToggle } from 'components/Buttons'
 
-const ResponsiveLine = dynamic(async () => {
-	const component = await import('@nivo/line')
-	return component.ResponsiveLine
-}, {
-	ssr: false,
-	loading: () => (
-		<div css={(theme) => ({ height: '250px', backgroundColor: theme.color.textFaded, opacity: 0.2, borderRadius: '4px' })} />
-	),
-})
+import { Heading } from './Heading'
+import { Placeholder } from './Placeholder'
+import { Wrapper } from './Wrapper'
+
+const ResponsiveLine = dynamic(
+	async () => {
+		const component = await import('@nivo/line')
+		return component.ResponsiveLine
+	},
+	{
+		ssr: false,
+		loading: () => <Placeholder />,
+	},
+)
 
 export const History = () => {
 	const { insights, isLoading } = useGameInsights()
@@ -33,16 +38,20 @@ export const History = () => {
 
 	const data = useMemo(() => {
 		if (!insights || insights.history.length === 0 || isLoading) return []
-		const dataSet = insights.history.filter(({ date }) => isWithinInterval(new Date(date), {
-			start: subDays(new Date(), daysToShow),
-			end: addDays(new Date(), 1),
-		}))
+		const dataSet = insights.history.filter(({ date }) =>
+			isWithinInterval(new Date(date), {
+				start: subDays(new Date(), daysToShow),
+				end: addDays(new Date(), 1),
+			}),
+		)
 
-		return [{
-			id: 'Players',
-			color: theme.color.link,
-			data: dataSet.map(({ date, playersOnAverage }) => ({ x: date, y: playersOnAverage })),
-		}]
+		return [
+			{
+				id: 'Players',
+				color: theme.color.link,
+				data: dataSet.map(({ date, playersOnAverage }) => ({ x: date, y: playersOnAverage })),
+			},
+		]
 	}, [insights, theme.color, daysToShow, isLoading])
 
 	const dateInterval = useMemo(() => {
@@ -71,16 +80,12 @@ export const History = () => {
 	}, [isLoading, daysToShow, isMobile, daysOfData])
 
 	if (!isLoading && data.length === 0) {
-		return (
-			<p>There is no history to share</p>
-		)
+		return <p>There is no history to share</p>
 	}
 
 	return (
 		<>
-			<h3 css={(theme) => ({ marginTop: 0, marginBottom: '8px', color: theme.color.textSubtitle })}>
-				Steam concurrent players
-			</h3>
+			<Heading>Steam concurrent players</Heading>
 			<ButtonToggle
 				options={[
 					{ label: 'Week', value: 7 },
@@ -92,7 +97,7 @@ export const History = () => {
 				initialValue={31}
 				onValueChange={setDaysToShow}
 			/>
-			<div css={{ position: 'relative', height: isMobile ? '225px' : '300px', marginBottom: '32px' }}>
+			<Wrapper>
 				<ResponsiveLine
 					data={data}
 					curve='basis'
@@ -102,13 +107,22 @@ export const History = () => {
 					animate={false}
 					margin={{ top: 16, right: 24, bottom: 24, left: 36 }}
 					xScale={{ type: 'time', format: '%Y-%m-%d %H:%M:%S.%L', useUTC: false, precision: 'hour' }}
-					xFormat={(date) => new Date(date).toLocaleString('en-DK', { month: 'long', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+					xFormat={(date) =>
+						new Date(date).toLocaleString('en-DK', {
+							month: 'long',
+							day: 'numeric',
+							year: 'numeric',
+							hour: '2-digit',
+							minute: '2-digit',
+						})
+					}
 					axisBottom={{
-						format: (value: number) => new Date(value).toLocaleString('en-DK', {
-							month: (daysToShow > 2480 && daysOfData > 2480) ? undefined : 'short',
-							day: (daysToShow > 182 && daysOfData > 182) ? undefined : 'numeric',
-							year: (daysToShow > 182 && daysOfData > 182) ? 'numeric' : undefined,
-						}),
+						format: (value: number) =>
+							new Date(value).toLocaleString('en-DK', {
+								month: daysToShow > 2480 && daysOfData > 2480 ? undefined : 'short',
+								day: daysToShow > 182 && daysOfData > 182 ? undefined : 'numeric',
+								year: daysToShow > 182 && daysOfData > 182 ? 'numeric' : undefined,
+							}),
 						tickValues: dateInterval,
 					}}
 					yScale={{
@@ -122,10 +136,7 @@ export const History = () => {
 						format: (value: number) => numberFormat.format(value),
 						tickValues: 4,
 					}}
-					colors={[
-						theme.color.link,
-						theme.color.success,
-					]}
+					colors={[theme.color.link, theme.color.success]}
 					theme={{
 						text: {
 							color: theme.color.text,
@@ -152,7 +163,7 @@ export const History = () => {
 					enableGridX={false}
 					enableGridY={false}
 				/>
-			</div>
+			</Wrapper>
 		</>
 	)
 }

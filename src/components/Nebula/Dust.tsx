@@ -6,14 +6,14 @@ import { random } from 'radash'
 import { useRef } from 'react'
 
 type DustProps = {
-	opacity: number,
-	position: [x: number, y: number, z: number],
-	rotation: [x: number, y: number, z: number],
-	shouldAnimate?: boolean,
+	opacity: number
+	position: [x: number, y: number, z: number]
+	rotation: [x: number, y: number, z: number]
+	shouldAnimate?: boolean
 }
 
 export const Dust = ({ opacity, position, shouldAnimate = true, rotation }: DustProps) => {
-	const ref = useRef<Mesh>()
+	const ref = useRef<Mesh>(null)
 	const texture = useTexture('images/smoke.png')
 	useFrame(() => {
 		if (ref.current && shouldAnimate) {
@@ -22,7 +22,6 @@ export const Dust = ({ opacity, position, shouldAnimate = true, rotation }: Dust
 	})
 
 	return (
-		// @ts-expect-error The ref is valid
 		<mesh position={position} rotation={rotation} ref={ref}>
 			<planeGeometry args={[500, 500]} />
 			<meshLambertMaterial map={texture} opacity={opacity} transparent />

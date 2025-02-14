@@ -1,47 +1,44 @@
 import type { Props as AsyncProps } from './Async'
 
-import { forwardRef } from 'react'
+import { css, styled } from 'styled-components'
 
 import { adjustHsl } from 'lib/client'
 
 import { ButtonAsync } from './Async'
+import { Label } from './Async/Label'
 
 type Props = AsyncProps & {
-	isActive?: boolean,
+	isActive?: boolean
 }
 
-export const ButtonIcon = forwardRef<HTMLButtonElement, Props>(({ isActive, ...rest }, ref) => (
-	<ButtonAsync
-		css={(theme) => [
-			{
-				backgroundColor: 'transparent',
-				borderRadius: '4px',
-				minWidth: '36px',
-				padding: '0 8px',
-				color: theme.isDarkTheme ? theme.color.text : theme.color.text,
+export const ButtonIcon = styled(ButtonAsync)<Props>`
+	background-color: transparent;
+	border-radius: 4px;
+	min-width: 36px;
+	padding: 0 8px;
+	color: ${({ theme }) => (theme.isDarkTheme ? theme.color.text : theme.color.text)};
+	
+	&:disabled {
+		color: ${({ theme }) => theme.color.gray040};
+	}
+	
+	&:hover:enabled, &:focus:enabled {
+		background-color: ${({ theme }) => adjustHsl(theme.color.primary, { alpha: 0.4 })};
+	}
+	
+	${({ isActive }) =>
+		isActive &&
+		css`
+		background-color: ${({ theme }) => adjustHsl(theme.color.primary, { alpha: 0.4 })};
+		
+		&:hover:enabled, &:focus:enabled {
+			background-color: ${({ theme }) => adjustHsl(theme.color.primary, { alpha: 0.6 })};
+		}
+	`}
 
-				'&:disabled': {
-					color: theme.color.gray040,
-				},
-
-				'&:hover:enabled, &:focus:enabled': {
-					backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.4 }),
-				},
-			},
-			isActive && {
-				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.4 }),
-
-				'&:hover:enabled, &:focus:enabled': {
-					backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.6 }),
-				},
-			},
-		]}
-		ref={ref}
-		labelCss={{
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-		}}
-		{...rest}
-	/>
-))
+	${Label} {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+`

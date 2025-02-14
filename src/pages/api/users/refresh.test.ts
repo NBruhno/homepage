@@ -1,7 +1,7 @@
 import supertest from 'supertest'
 
 import { ApiError } from 'lib/errors'
-import { type TestResponse, createCredentials, accessTokenMatch, refreshTokenMatch, createTestServer, userLogin } from 'lib/test'
+import { type TestResponse, accessTokenMatch, createCredentials, createTestServer, refreshTokenMatch, userLogin } from 'lib/test'
 
 import handler from './refresh.route'
 
@@ -17,10 +17,13 @@ describe('/api/users/refresh', () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)
 
-		const res = await supertest(server)
+		const res = (await supertest(server)
 			.get('/api/users/refresh')
 			// eslint-disable-next-line @typescript-eslint/naming-convention
-			.set('Cookie', refreshToken) as unknown as TestResponse & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
+			.set('Cookie', refreshToken)) as unknown as TestResponse & {
+			body: { accessToken: string }
+			headers: { 'set-cookie': Array<string> | undefined }
+		}
 
 		expect(res.status).toBe(200)
 		expect(res.body.accessToken).toMatch(accessTokenMatch)
@@ -33,8 +36,7 @@ describe('/api/users/refresh', () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)
 
-		const res = await supertest(server)
-			.get('/api/users/refresh')
+		const res = await supertest(server).get('/api/users/refresh')
 
 		expect(res.status).toBe(401)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(401).message })
@@ -45,9 +47,7 @@ describe('/api/users/refresh', () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)
 
-		const res = await supertest(server)
-			.post('/api/users/refresh')
-			.set('Cookie', refreshToken)
+		const res = await supertest(server).post('/api/users/refresh').set('Cookie', refreshToken)
 
 		expect(res.status).toBe(405)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(405).message })

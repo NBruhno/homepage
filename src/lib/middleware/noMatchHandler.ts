@@ -9,11 +9,17 @@ import { ApiError } from 'lib/errors'
 export const noMatchHandler = (methods: Array<'DELETE' | 'GET' | 'METHOD' | 'PATCH' | 'POST' | 'PUT'>) => (req: NextApiRequest, res: NextApiResponse) => {
 	const allowedMethods = [...methods, 'OPTIONS']
 	if (allowedMethods.includes(req.method ?? '')) {
-		const apiError = ApiError.fromCodeWithCause(404, new Error(`Could not find any matching route with the given method. Received "${req.method ?? 'UNSPECIFIED'}" - "${req.url ?? 'Unknown URL'}"`))
+		const apiError = ApiError.fromCodeWithCause(
+			404,
+			new Error(`Could not find any matching route with the given method. Received "${req.method ?? 'UNSPECIFIED'}" - "${req.url ?? 'Unknown URL'}"`),
+		)
 		updateTransaction({ status: apiError.statusCode })
 		res.status(apiError.statusCode).json({ message: apiError.message })
 	} else {
-		const apiError = ApiError.fromCodeWithCause(405, new Error(`Method not allowed. Expected one of [${allowedMethods.join(', ')}] but received "${req.method ?? 'UNSPECIFIED'}"`))
+		const apiError = ApiError.fromCodeWithCause(
+			405,
+			new Error(`Method not allowed. Expected one of [${allowedMethods.join(', ')}] but received "${req.method ?? 'UNSPECIFIED'}"`),
+		)
 		updateTransaction({ status: apiError.statusCode })
 		res.setHeader('Allow', allowedMethods)
 		res.status(apiError.statusCode).json({ message: apiError.message })

@@ -1,6 +1,6 @@
 import { UserRole } from 'types'
 
-import { object, string, create, optional } from 'superstruct'
+import { create, object, optional, string } from 'superstruct'
 
 import { email, username } from 'validation/shared'
 
@@ -18,20 +18,25 @@ export default apiHandler({
 		await authenticate(req, { allowedRoles: [UserRole.Admin] })
 		const { id } = create(req.query, object({ id: string() }))
 
-		const user = await monitorAsync(() => prisma.users.findUnique({
-			where: {
-				id,
-			},
-			select: {
-				id: true,
-				email: true,
-				role: true,
-				steamId: true,
-				username: true,
-				createdAt: true,
-				updatedAt: true,
-			},
-		}), 'db:prisma', 'findUnique()')
+		const user = await monitorAsync(
+			() =>
+				prisma.users.findUnique({
+					where: {
+						id,
+					},
+					select: {
+						id: true,
+						email: true,
+						role: true,
+						steamId: true,
+						username: true,
+						createdAt: true,
+						updatedAt: true,
+					},
+				}),
+			'db:prisma',
+			'findUnique()',
+		)
 
 		return res.status(200).json(user)
 	})
@@ -40,18 +45,26 @@ export default apiHandler({
 		const { id } = create(req.query, object({ id: string() }))
 		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
 
-		const data = create(req.body, object({
-			steamId: optional(string()),
-			email: optional(email()),
-			username: optional(username()),
-		}))
+		const data = create(
+			req.body,
+			object({
+				steamId: optional(string()),
+				email: optional(email()),
+				username: optional(username()),
+			}),
+		)
 
-		await monitorAsync(() => prisma.users.update({
-			where: {
-				id,
-			},
-			data,
-		}), 'db:prisma', 'update()')
+		await monitorAsync(
+			() =>
+				prisma.users.update({
+					where: {
+						id,
+					},
+					data,
+				}),
+			'db:prisma',
+			'update()',
+		)
 
 		return res.status(200).json({ message: 'The user has been updated' })
 	})
@@ -60,11 +73,16 @@ export default apiHandler({
 		const { id } = create(req.query, object({ id: string() }))
 		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
 
-		await monitorAsync(() => prisma.users.delete({
-			where: {
-				id,
-			},
-		}), 'db:prisma', 'delete()')
+		await monitorAsync(
+			() =>
+				prisma.users.delete({
+					where: {
+						id,
+					},
+				}),
+			'db:prisma',
+			'delete()',
+		)
 
 		if (requestUserId === id) removeRefreshCookie(res)
 		return res.status(200).json({ message: 'The user has been deleted' })

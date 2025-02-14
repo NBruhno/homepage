@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import YouTubeEmbed from 'react-lite-youtube-embed'
 
-import { Classes } from './Classes'
+import { Wrapper } from './Wrapper'
 
 type Props = {
-	id: string,
-	name: string,
-	shouldAutoplay?: boolean,
-	isMuted?: boolean,
-	hasRoundedCorners?: boolean,
+	id: string
+	name: string
+	shouldAutoplay?: boolean
+	isMuted?: boolean
+	hasRoundedCorners?: boolean
 }
 
 export const Video = ({ id, name, shouldAutoplay = true, isMuted = true, hasRoundedCorners = true }: Props) => {
@@ -24,18 +24,18 @@ export const Video = ({ id, name, shouldAutoplay = true, isMuted = true, hasRoun
 	}, [containerRef, shouldAutoplay, hasBeenClicked])
 
 	return (
-		<div ref={containerRef}>
-			<Classes hasRoundedCorners={hasRoundedCorners} />
+		<Wrapper ref={containerRef} hasRoundedCorners={hasRoundedCorners}>
 			<YouTubeEmbed
 				id={id}
 				title={name}
 				adNetwork={false}
 				poster='maxresdefault'
 				playlist={false}
+				// @ts-expect-error The `containerElement` is in fact a valid prop.
 				containerElement='figure'
 				noCookie
 				muted={isMuted}
 			/>
-		</div>
+		</Wrapper>
 	)
 }

@@ -1,30 +1,30 @@
-import { type Game } from 'types'
+import type { Game } from 'types'
 
 import { useEffect } from 'react'
-import useSWR from 'swr'
-import { create } from 'zustand'
+import useSwr from 'swr'
 import { devtools } from 'zustand/middleware'
 import { shallow } from 'zustand/shallow'
+import { createWithEqualityFn } from 'zustand/traditional'
 
 import { useLoading } from 'states/page'
 
 import { getSteamAppId } from 'lib/getSteamAppId'
 
 type Props = {
-	id: number | null,
-	initialGame?: Game,
+	id: number | null
+	initialGame?: Game
 }
 
 type GameState = {
-	id: number | undefined,
-	name: string | undefined,
-	steamAppId: string | null | undefined,
-	isLoading: boolean,
+	id: number | undefined
+	name: string | undefined
+	steamAppId: string | null | undefined
+	isLoading: boolean
 
-	resetGame: () => void,
-	setGameName: (name: string) => void,
-	setGameIds: (id: number, steamAppId: string | null) => void,
-	setGameIsLoading: (isLoading: boolean) => void,
+	resetGame: () => void
+	setGameName: (name: string) => void
+	setGameIds: (id: number, steamAppId: string | null) => void
+	setGameIsLoading: (isLoading: boolean) => void
 }
 
 const initialState = {
@@ -34,18 +34,26 @@ const initialState = {
 	isLoading: true,
 }
 
-export const useGameStore = create<GameState>()(devtools((set) => ({
-	...initialState,
-	resetGame: () => set({ ...initialState }, false, 'resetGame'),
-	setGameName: (name) => set({ name }, false, 'setGame'),
-	setGameIds: (id, steamAppId) => set({ id, steamAppId }, false, 'setGameIds'),
-	setGameIsLoading: (isLoading) => set({ isLoading }, false, 'setGameIsLoading'),
-}), { anonymousActionType: 'useGame' }))
+export const useGameStore = createWithEqualityFn<GameState>()(
+	devtools(
+		(set) => ({
+			...initialState,
+			resetGame: () => set({ ...initialState }, false, 'resetGame'),
+			setGameName: (name) => set({ name }, false, 'setGame'),
+			setGameIds: (id, steamAppId) => set({ id, steamAppId }, false, 'setGameIds'),
+			setGameIsLoading: (isLoading) => set({ isLoading }, false, 'setGameIsLoading'),
+		}),
+		{ anonymousActionType: 'useGame' },
+	),
+	shallow,
+)
 
 export const useGame = ({ id, initialGame }: Props) => {
 	const { setGameIds, setGameName, setGameIsLoading, resetGame } = useGameStore((state) => state, shallow)
 
-	const { data: game, isLoading: isGameLoading } = useSWR<Game | undefined>(id ? `/games/${id}` : null, null, { fallbackData: initialGame })
+	const { data: game, isLoading: isGameLoading } = useSwr<Game | undefined>(id ? `/games/${id}` : null, null, {
+		fallbackData: initialGame,
+	})
 
 	useEffect(() => {
 		if (game) {

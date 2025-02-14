@@ -1,12 +1,6 @@
-/* eslint-disable jsx-a11y/heading-has-content */
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Title = (props: ComponentPropsWithoutRef<'h1'>) => (
-	<h1
-		css={(theme) => ({
-			fontSize: theme.font.size.s200,
-			margin: 0,
-		})}
-		{...props}
-	/>
-)
+export const Title = styled.h1`
+	font-size: ${({ theme }) => theme.font.size.s200};
+	margin: 0;
+`

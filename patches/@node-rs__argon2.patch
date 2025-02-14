@@ -1,0 +1,19 @@
+diff --git a/README.md b/README.md
+index 10a590b50bcf2316cdba5629e276e0c9a92a069f..51b20636e630162e1796c071b2e7cdd7940c9a13 100644
+--- a/README.md
++++ b/README.md
+@@ -34,12 +34,12 @@ See [benchmark/](benchmark/argon2.ts).
+ ## API
+ 
+ ```typescript
+-export const enum Algorithm {
++export enum Algorithm {
+   Argon2d = 0,
+   Argon2i = 1,
+   Argon2id = 2,
+ }
+-export const enum Version {
++export enum Version {
+   /** Version 16 (0x10 in hex) */
+   V0x10 = 0,
+   /**

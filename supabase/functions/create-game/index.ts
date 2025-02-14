@@ -26,8 +26,8 @@ Deno.serve(async (req) => {
 		await amqp.close()
 	}
 
-	return new Response(
-		JSON.stringify({ message: `Added create request for game with ID ${id} to queue.` }),
-		{ status: 200, headers: { 'Content-Type': 'application/json' } },
-	)
+	return new Response(JSON.stringify({ message: `Added create request for game with ID ${id} to queue.` }), {
+		status: 200,
+		headers: { 'Content-Type': 'application/json' },
+	})
 })

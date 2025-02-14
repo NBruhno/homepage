@@ -7,8 +7,8 @@ import { Subtitle } from '../Common/Subtitle'
 const emptyMessage = 'Could not find any popular games at the moment'
 
 type Props = {
-	games: Array<GameSimple>,
-	isLoading: boolean,
+	games: Array<GameSimple>
+	isLoading: boolean
 }
 
 export const Popular = ({ games, isLoading }: Props) => {
@@ -35,7 +35,7 @@ export const Popular = ({ games, isLoading }: Props) => {
 					key={id}
 				/>
 			))}
-			{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
+			{games.length === 0 && <Subtitle>{emptyMessage}</Subtitle>}
 		</Container>
 	)
 }

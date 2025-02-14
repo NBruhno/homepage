@@ -17,22 +17,18 @@ export default {
 	title: 'Form fields/Toggle',
 }
 
-type DefaultProps = Story<Pick<ComponentProps<typeof Toggle>, 'hint' | 'isDisabled' | 'isFullWidth' | 'label' | 'name'> & {
-	onSubmit: (fields: any) => void,
-}>
+type DefaultProps = Story<
+	Pick<ComponentProps<typeof Toggle>, 'hint' | 'isDisabled' | 'isFullWidth' | 'label' | 'name'> & {
+		onSubmit: (fields: any) => void
+	}
+>
 
 export const Default: DefaultProps = ({ label, hint, name, isDisabled, isFullWidth, onSubmit }) => (
 	<Form
 		onSubmit={(fields) => onSubmit(fields)}
 		render={({ fieldProps }) => (
 			<FormWrapper title='Default'>
-				<Toggle
-					{...fieldProps(name)}
-					label={label}
-					hint={hint}
-					isDisabled={isDisabled}
-					isFullWidth={isFullWidth}
-				/>
+				<Toggle {...fieldProps(name)} label={label} hint={hint} isDisabled={isDisabled} isFullWidth={isFullWidth} />
 				<ButtonSolid label='Submit' type='submit' />
 			</FormWrapper>
 		)}

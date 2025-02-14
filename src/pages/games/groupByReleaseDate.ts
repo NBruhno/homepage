@@ -1,6 +1,10 @@
 import type { GameReleaseDate } from 'types'
 
-export const groupByReleaseDate = (releaseDates: Array<GameReleaseDate>, keyGetter: ({ date }: GameReleaseDate) => string | null, firstReleaseDate: string | null) => {
+export const groupByReleaseDate = (
+	releaseDates: Array<GameReleaseDate>,
+	keyGetter: ({ date }: GameReleaseDate) => string | null,
+	firstReleaseDate: string | null,
+) => {
 	const map = new Map<string, Array<string>>()
 	releaseDates.forEach((item) => {
 		const key = keyGetter(item)
@@ -14,5 +18,5 @@ export const groupByReleaseDate = (releaseDates: Array<GameReleaseDate>, keyGett
 			}
 		}
 	})
-	return [...map].map<{ date: string, platforms: Array<string> }>(([date, platforms]) => ({ date, platforms }))
+	return [...map].map<{ date: string; platforms: Array<string> }>(([date, platforms]) => ({ date, platforms }))
 }

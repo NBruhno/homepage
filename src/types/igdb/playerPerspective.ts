@@ -1,4 +1,4 @@
 export type IgdbPlayerPerspective = {
-	id: number,
-	name: string,
+	id: number
+	name: string
 }

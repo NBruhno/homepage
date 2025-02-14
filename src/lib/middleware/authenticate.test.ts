@@ -27,7 +27,10 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Expired token', async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload, exp: Math.floor(Date.now() / 1000) - 90 }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload, exp: Math.floor(Date.now() / 1000) - 90 },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -40,7 +43,10 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Invalid issuer', async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload, iss: 'https://something.else' }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload, iss: 'https://something.else' },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -53,7 +59,10 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Invalid audience', async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload, aud: ['https://something.else'] }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload, aud: ['https://something.else'] },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -66,7 +75,7 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Tampered token', async () => {
-		const accessToken = (await getJwtToken({ ...defaultPayload }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id }))
+		const accessToken = await getJwtToken({ ...defaultPayload }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -118,7 +127,7 @@ describe('/lib/middleware/authenticate', () => {
 		return expect(authenticate(req)).rejects.toThrow(ApiError)
 	})
 
-	test('Authenticate › No role (don\'t expect)', async () => {
+	test("Authenticate › No role (don't expect)", async () => {
 		const accessToken = await getJwtToken({ ...defaultPayload, role: undefined }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
 		const { req } = createHttpMock({
 			reqOptions: {

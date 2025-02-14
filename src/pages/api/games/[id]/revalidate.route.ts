@@ -12,11 +12,10 @@ const Query = object({
 export default apiHandler({
 	validMethods: ['POST'],
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/games/{gameId}/revalidate`,
-})
-	.post(async (req, res) => {
-		await authenticate(req, { allowedRoles: [UserRole.Admin] })
-		const { id } = create(req.query, Query)
+}).post(async (req, res) => {
+	await authenticate(req, { allowedRoles: [UserRole.Admin] })
+	const { id } = create(req.query, Query)
 
-		await res.revalidate(`/games/${id}`)
-		return res.status(200).json({ message: `Cache for /games/${id} has been cleared and re-rendered` })
-	})
+	await res.revalidate(`/games/${id}`)
+	return res.status(200).json({ message: `Cache for /games/${id} has been cleared and re-rendered` })
+})

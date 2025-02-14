@@ -1,11 +1,6 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Page = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={{
-			padding: '24px',
-			position: 'relative',
-		}}
-		{...props}
-	/>
-)
+export const Page = styled.div`
+	padding: 24px;
+	position: relative;
+`

@@ -1,28 +1,20 @@
-import { forwardRef } from 'react'
 import AutosizeTextarea from 'react-textarea-autosize'
+import { styled } from 'styled-components'
 
 import { DefaultInputStyle } from '../DefaultInputStyle'
 
 type Props = {
-	isDisabled: boolean,
-	hasError: boolean,
-	maxRows: number,
-	minRows: number,
-	isHovered: boolean,
-	isFocusVisible: boolean,
+	isDisabled: boolean
+	hasError: boolean
+	maxRows: number
+	minRows: number
+	isHovered: boolean
+	isFocusVisible: boolean
 }
 
-export const Textarea = forwardRef<HTMLTextAreaElement, Props>(({ hasError, isDisabled, isHovered, isFocusVisible, ...rest }, ref) => (
-	<AutosizeTextarea
-		{...rest}
-		disabled={isDisabled}
-		css={(theme) => ({
-			...DefaultInputStyle({ theme, hasError, isDisabled, isHovered, isFocusVisible }),
-			minHeight: 'none',
-		})}
-		style={{
-			resize: 'none',
-		}}
-		ref={ref}
-	/>
-))
+export const Textarea = styled(AutosizeTextarea).attrs<Props>(({ isDisabled }) => ({
+	disabled: isDisabled,
+}))<Props>`
+	${DefaultInputStyle}
+	min-height: none;
+`

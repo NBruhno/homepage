@@ -7,9 +7,9 @@ import { Placeholder } from './Placeholder'
 import { Shine } from './Shine'
 
 type Props = ComponentPropsWithoutRef<'img'> & {
-	coverUrl?: string | null,
-	isPriority?: boolean,
-	isShineVisible?: boolean,
+	coverUrl?: string | null
+	isPriority?: boolean
+	isShineVisible?: boolean
 }
 
 export const Cover = ({ coverUrl, isPriority = false, isShineVisible = false, ...rest }: Props) => {
@@ -17,8 +17,8 @@ export const Cover = ({ coverUrl, isPriority = false, isShineVisible = false, ..
 
 	if (!coverUrl || isLoading) return <Placeholder />
 	return (
-		<div css={{ position: 'relative', overflow: 'hidden' }} {...rest}>
-			<Image isPriority={isPriority} src={coverUrl} />
+		<div style={{ position: 'relative', overflow: 'hidden' }} {...rest}>
+			<Image isPriority={isPriority} src={coverUrl} alt='' />
 			<Shine isVisible={isShineVisible} />
 		</div>
 	)

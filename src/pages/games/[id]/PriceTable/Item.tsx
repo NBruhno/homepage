@@ -2,37 +2,34 @@
 
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { styled } from 'styled-components'
+
 import { adjustHsl } from 'lib/client'
 
 type Props = ComponentPropsWithoutRef<'a'> & {
-	isFirst?: boolean,
+	isFirst?: boolean
 }
 
-export const Item = ({ isFirst, ...rest }: Props) => (
-	<a
-		css={(theme) => ({
-			backgroundColor: 'transparent',
-			borderTopLeftRadius: '4px',
-			borderTopRightRadius: '4px',
-			borderBottomLeftRadius: isFirst ? 0 : '4px',
-			borderBottomRightRadius: isFirst ? 0 : '4px',
-			color: theme.color.text,
-			display: 'flex',
-			fontFamily: theme.font.family.poppins,
-			alignItems: 'center',
-			justifyContent: 'space-between',
-			margin: 0,
-			padding: '6px 10px',
-			textDecoration: 'none',
-			transition: `background-color 135ms ${theme.animation.default}`,
+export const Item = styled.a<Props>`
+	background-color: transparent;
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-left-radius: ${({ isFirst }) => (isFirst ? 0 : '4px')};
+	border-bottom-right-radius: ${({ isFirst }) => (isFirst ? 0 : '4px')};
+	color: ${({ theme }) => theme.color.text};
+	display: flex;
+	font-family: ${({ theme }) => theme.font.family.poppins};
+	align-items: center;
+	justify-content: space-between;
+	margin: 0;
+	padding: 6px 10px;
+	text-decoration: none;
+	transition: background-color 135ms ${({ theme }) => theme.animation.default};
 
-			'&:hover, &:focus, &:active': {
-				backgroundColor: adjustHsl(theme.color.primary, { alpha: 0.3 }),
-				borderColor: theme.color.primary,
-			},
-		})}
-		target='_blank'
-		rel='noreferrer noopener'
-		{...rest}
-	/>
-)
+	&:hover,
+	&:focus,
+	&:active {
+		background-color: ${({ theme }) => adjustHsl(theme.color.primary, { alpha: 0.3 })};
+		border-color: ${({ theme }) => theme.color.primary};
+	}
+`

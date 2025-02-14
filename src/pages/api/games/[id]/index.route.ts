@@ -6,9 +6,9 @@ import { config } from 'config.server'
 
 import { game as gameValidator } from 'validation/api'
 
-import { absoluteUrl, igdbFetcher, gameFields, mapIgdbGame, setCache, apiHandler, prisma } from 'lib/api'
+import { absoluteUrl, apiHandler, gameFields, igdbFetcher, mapIgdbGame, prisma, setCache } from 'lib/api'
 import { ApiError } from 'lib/errors'
-import { fetcher, Method } from 'lib/fetcher'
+import { Method, fetcher } from 'lib/fetcher'
 import { authenticateSystem } from 'lib/middleware'
 import { monitorAsync } from 'lib/sentryMonitor'
 
@@ -23,11 +23,16 @@ export default apiHandler({
 	.get(async (req, res) => {
 		const { id } = create(req.query, Query)
 
-		const game = await monitorAsync(() => prisma.games.findUnique({
-			where: {
-				id,
-			},
-		}), 'db:prisma', 'findUnique()')
+		const game = await monitorAsync(
+			() =>
+				prisma.games.findUnique({
+					where: {
+						id,
+					},
+				}),
+			'db:prisma',
+			'findUnique()',
+		)
 
 		if (!game) {
 			const igdbGame = await igdbFetcher<IgdbGame, true>('/games', res, {
@@ -39,12 +44,17 @@ export default apiHandler({
 				throw ApiError.fromCodeWithCause(404, new Error(`Failed to find IGDB game with ID ${id}`))
 			})
 
-			const createdGame = await monitorAsync(() => fetcher(`/games`, {
-				body: igdbGame,
-				absoluteUrl: absoluteUrl(req).origin,
-				accessToken: config.auth.systemToken,
-				method: Method.Post,
-			}), 'http:internal', 'POST /games')
+			const createdGame = await monitorAsync(
+				() =>
+					fetcher(`/games`, {
+						body: igdbGame,
+						absoluteUrl: absoluteUrl(req).origin,
+						accessToken: config.auth.systemToken,
+						method: Method.Post,
+					}),
+				'http:internal',
+				'POST /games',
+			)
 			setCache({ strategy: 'Default', duration: 5, res })
 			return res.status(200).json(createdGame)
 		}
@@ -57,11 +67,16 @@ export default apiHandler({
 		const { id } = create(req.query, Query)
 		const game = create(req.body, gameValidator)
 
-		const createdGame = await monitorAsync(() => prisma.games.upsert({
-			where: { id },
-			update: game,
-			create: game,
-		}), 'db:prisma', 'upsert()')
+		const createdGame = await monitorAsync(
+			() =>
+				prisma.games.upsert({
+					where: { id },
+					update: game,
+					create: game,
+				}),
+			'db:prisma',
+			'upsert()',
+		)
 
 		res.setHeader('Location', `/api/games/${createdGame.id}`)
 		return res.status(200).json(createdGame)
@@ -71,10 +86,15 @@ export default apiHandler({
 		const { id } = create(req.query, Query)
 		const game = create(req.body, gameValidator)
 
-		const updatedGame = await monitorAsync(() => prisma.games.update({
-			where: { id },
-			data: game,
-		}), 'db:prisma', 'update()')
+		const updatedGame = await monitorAsync(
+			() =>
+				prisma.games.update({
+					where: { id },
+					data: game,
+				}),
+			'db:prisma',
+			'update()',
+		)
 
 		res.setHeader('Location', `/api/games/${updatedGame.id}`)
 		return res.status(200).json(updatedGame)

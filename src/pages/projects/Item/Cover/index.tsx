@@ -5,8 +5,8 @@ import { Image } from './Image'
 import { Placeholder } from './Placeholder'
 
 type Props = ComponentPropsWithoutRef<'img'> & {
-	coverSrc?: string | undefined,
-	size?: string,
+	coverSrc?: string | undefined
+	size?: string
 }
 
 export const Cover = ({ size = 'big', coverSrc, alt, ...rest }: Props) => {

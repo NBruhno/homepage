@@ -1,12 +1,7 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Empty = (props: ComponentPropsWithoutRef<'span'>) => (
-	<span
-		css={(theme) => ({
-			color: theme.color.textFaded,
-			textAlign: 'center',
-			margin: '24px 0',
-		})}
-		{...props}
-	/>
-)
+export const Empty = styled.span`
+	color: ${({ theme }) => theme.color.textFaded};
+	text-align: center;
+	margin: 24px 0;
+`

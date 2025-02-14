@@ -1,21 +1,16 @@
-import type { NextPage } from 'next'
-import type { Game, GameEvent } from 'types'
-
-import { parseISO, subHours } from 'date-fns'
-import { useRouter } from 'next/router'
-
-import { Cover } from 'pages/games/Cover'
-
-import { useGameEvents } from 'states/games'
-import type { GameEventData } from 'states/games/types'
-import { useLoading, useResponsive } from 'states/page'
-
 import { ButtonBorder } from 'components/Buttons'
 import { EventCover } from 'components/Covers'
 import { Page, PageContent } from 'components/Layout'
 import { Placeholder } from 'components/Placeholder'
 import { Tooltip } from 'components/Tooltip'
-
+import { parseISO, subHours } from 'date-fns'
+import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { Cover } from 'pages/games/Cover'
+import { useGameEvents } from 'states/games'
+import type { GameEventData } from 'states/games/types'
+import { useLoading, useResponsive } from 'states/page'
+import type { Game, GameEvent } from 'types'
 import { AllGamesLink } from './AllGamesLink'
 import { Empty } from './Empty'
 import { Games } from './Games'
@@ -54,27 +49,43 @@ const GameEvents: NextPage = () => {
 			<PageContent maxWidth={1200}>
 				<h1>Game events</h1>
 				{dataToUse.map(({ events }) => (
-					<div css={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '16px' }}>
+					<div style={{ display: 'flex', flexWrap: 'wrap', gap: '16px', marginBottom: '16px' }}>
 						{events.map((event, index) => (
 							<Item href={`/game-events/${event.id}`}>
-								<EventCover coverUrl={event.logo} css={{ gridArea: 'logo' }} />
-								<h2 css={{ marginTop: '0', gridArea: 'title', margin: 0 }}>
-									<Placeholder
-										lines={index % 3 === 0 ? 1 : 2}
-										width={index % 4 === 0 ? '100%' : '80%'}
-									>
+								<EventCover coverUrl={event.logo} style={{ gridArea: 'logo' }} />
+								<h2 style={{ marginTop: '0', gridArea: 'title', margin: 0 }}>
+									<Placeholder lines={index % 3 === 0 ? 1 : 2} width={index % 4 === 0 ? '100%' : '80%'}>
 										{event.name}
 									</Placeholder>
 								</h2>
-								<div css={{ gridArea: 'date' }}>
+								<div style={{ gridArea: 'date' }}>
 									{event.startTime && (
-										<span>Starts: {subHours(parseISO(event.startTime), 1).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+										<span>
+											Starts:{' '}
+											{subHours(parseISO(event.startTime), 1).toLocaleString('en-DK', {
+												year: 'numeric',
+												month: 'long',
+												day: 'numeric',
+												hour: '2-digit',
+												minute: '2-digit',
+											})}
+										</span>
 									)}
 									{event.endTime && (
-										<span><br />Ends: {subHours(parseISO(event.endTime), 1).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+										<span>
+											<br />
+											Ends:{' '}
+											{subHours(parseISO(event.endTime), 1).toLocaleString('en-DK', {
+												year: 'numeric',
+												month: 'long',
+												day: 'numeric',
+												hour: '2-digit',
+												minute: '2-digit',
+											})}
+										</span>
 									)}
 								</div>
-								<div css={{ gridArea: 'games' }}>
+								<div style={{ gridArea: 'games' }}>
 									{event.games.length > 0 ? (
 										<Games>
 											{event.games.slice(0, event.games.length === maxGames ? maxGames : maxGames - 1).map(({ cover }, index) => (
@@ -82,9 +93,7 @@ const GameEvents: NextPage = () => {
 											))}
 											{event.games.length > maxGames && (
 												<AllGamesLink>
-													<Placeholder>
-														+{event.games.length - maxGames + 1}
-													</Placeholder>
+													<Placeholder>+{event.games.length - maxGames + 1}</Placeholder>
 												</AllGamesLink>
 											)}
 										</Games>
@@ -96,18 +105,23 @@ const GameEvents: NextPage = () => {
 						))}
 					</div>
 				))}
-				<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
-					<Tooltip tip="That's all the popular games" show={isLimitReached}>
-						<ButtonBorder
-							label='Show more'
-							isDisabled={isLimitReached}
-							isLoadingManual={isLoading}
-							onClick={async () => {
-								await setSize(size + 1)
-								await router.push({ query: { pages: size + 1 } }, undefined, { shallow: true })
-							}}
-						/>
-					</Tooltip>
+				<div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
+					<Tooltip
+						tip="That's all the popular games"
+						show={isLimitReached}
+						render={(props) => (
+							<ButtonBorder
+								{...props}
+								label='Show more'
+								isDisabled={isLimitReached}
+								isLoadingManual={isLoading}
+								onClick={async () => {
+									await setSize(size + 1)
+									await router.push({ query: { pages: size + 1 } }, undefined, { shallow: true })
+								}}
+							/>
+						)}
+					></Tooltip>
 				</div>
 			</PageContent>
 		</Page>

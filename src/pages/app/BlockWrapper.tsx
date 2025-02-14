@@ -1,16 +1,11 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const BlockWrapper = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={{
-			height: '100vh',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'space-around',
-			margin: 'auto',
-			fontSize: '42px',
-			textAlign: 'center',
-		}}
-		{...props}
-	/>
-)
+export const BlockWrapper = styled.div`
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	margin: auto;
+	font-size: 42px;
+	text-align: center;
+`

@@ -5,7 +5,7 @@ import supertest from 'supertest'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { ApiError } from 'lib/errors'
-import { accessTokenMatch, refreshTokenMatch, retryWrapper, createTestServer, createCredentials, userCreate, userEnableTwoFactor, userLogin } from 'lib/test'
+import { accessTokenMatch, createCredentials, createTestServer, refreshTokenMatch, retryWrapper, userCreate, userEnableTwoFactor, userLogin } from 'lib/test'
 
 import handler from './2fa.route'
 
@@ -28,9 +28,9 @@ describe('/api/users/{id}/2fa', () => {
 	test('GET › Get 2FA secret', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.get(`/api/users/${id}/2fa`)
-			.set('authorization', `Bearer ${accessToken}`) as unknown as Omit<Response, 'body'> & { body: { twoFactorSecret: string } }
+		const res = (await supertest(server).get(`/api/users/${id}/2fa`).set('authorization', `Bearer ${accessToken}`)) as unknown as Omit<Response, 'body'> & {
+			body: { twoFactorSecret: string }
+		}
 
 		expect(res.status).toBe(200)
 		expect(typeof res.body.twoFactorSecret).toBe('string')
@@ -39,8 +39,7 @@ describe('/api/users/{id}/2fa', () => {
 	test('GET › Unauthorized', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.get(`/api/users/${id}/2fa`)
+		const res = await supertest(server).get(`/api/users/${id}/2fa`)
 
 		expect(res.status).toBe(401)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(401).message })
@@ -51,13 +50,17 @@ describe('/api/users/{id}/2fa', () => {
 	test('PATCH › Activate 2FA', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await retryWrapper(() => supertest(server)
-			.patch(`/api/users/${id}/2fa`)
-			.set('authorization', `Bearer ${accessToken}`)
-			.send({
-				otp: authenticator.generate(twoFactorSecret),
-				secret: twoFactorSecret,
-			}), 3)
+		const res = await retryWrapper(
+			() =>
+				supertest(server)
+					.patch(`/api/users/${id}/2fa`)
+					.set('authorization', `Bearer ${accessToken}`)
+					.send({
+						otp: authenticator.generate(twoFactorSecret),
+						secret: twoFactorSecret,
+					}),
+			3,
+		)
 
 		expect(res.status).toBe(200)
 		expect(res.body).toStrictEqual({ message: '2FA has been activated' })
@@ -83,9 +86,9 @@ describe('/api/users/{id}/2fa', () => {
 	test('PATCH › Invalid body', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.patch(`/api/users/${id}/2fa`)
-			.set('authorization', `Bearer ${accessToken}`) as unknown as Omit<Response, 'body'> & { body: { message: string } }
+		const res = (await supertest(server).patch(`/api/users/${id}/2fa`).set('authorization', `Bearer ${accessToken}`)) as unknown as Omit<Response, 'body'> & {
+			body: { message: string }
+		}
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)
@@ -111,13 +114,20 @@ describe('/api/users/{id}/2fa', () => {
 	test('POST › Verify 2FA', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await retryWrapper(() => supertest(server)
-			.post(`/api/users/${id}/2fa`)
-			.set('authorization', `Bearer ${intermediateToken}`)
-			.send({
-				otp: authenticator.generate(twoFactorSecret),
-			// eslint-disable-next-line @typescript-eslint/naming-convention
-			}), 3) as unknown as Omit<Response, 'body' | 'headers'> & { body: { accessToken: string }, headers: { 'set-cookie': Array<string> | undefined } }
+		const res = (await retryWrapper(
+			() =>
+				supertest(server)
+					.post(`/api/users/${id}/2fa`)
+					.set('authorization', `Bearer ${intermediateToken}`)
+					.send({
+						otp: authenticator.generate(twoFactorSecret),
+						// eslint-disable-next-line @typescript-eslint/naming-convention
+					}),
+			3,
+		)) as unknown as Omit<Response, 'body' | 'headers'> & {
+			body: { accessToken: string }
+			headers: { 'set-cookie': Array<string> | undefined }
+		}
 
 		expect(res.status).toBe(200)
 		expect(res.body.accessToken).toMatch(accessTokenMatch)
@@ -144,9 +154,12 @@ describe('/api/users/{id}/2fa', () => {
 	test('POST › Invalid body', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.post(`/api/users/${id}/2fa`)
-			.set('authorization', `Bearer ${intermediateToken}`) as unknown as Omit<Response, 'body'> & { body: { message: string } }
+		const res = (await supertest(server).post(`/api/users/${id}/2fa`).set('authorization', `Bearer ${intermediateToken}`)) as unknown as Omit<
+			Response,
+			'body'
+		> & {
+			body: { message: string }
+		}
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)
@@ -171,9 +184,7 @@ describe('/api/users/{id}/2fa', () => {
 	test('DELETE › Remove 2FA', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.delete(`/api/users/${id}/2fa`)
-			.set('authorization', `Bearer ${accessToken}`)
+		const res = await supertest(server).delete(`/api/users/${id}/2fa`).set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(200)
 		expect(res.body).toStrictEqual({ message: '2FA has been removed' })
@@ -183,8 +194,7 @@ describe('/api/users/{id}/2fa', () => {
 	test('DELETE › Unauthorized', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.delete(`/api/users/${id}/2fa`)
+		const res = await supertest(server).delete(`/api/users/${id}/2fa`)
 
 		expect(res.status).toBe(401)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(401).message })
@@ -195,9 +205,7 @@ describe('/api/users/{id}/2fa', () => {
 	test('Invalid method', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.put(`/api/users/${id}/2fa`)
-			.send({ foo: 'bar' })
+		const res = await supertest(server).put(`/api/users/${id}/2fa`).send({ foo: 'bar' })
 
 		expect(res.status).toBe(405)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(405).message })

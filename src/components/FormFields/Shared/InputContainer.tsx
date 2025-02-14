@@ -1,32 +1,26 @@
-import type { ComponentPropsWithoutRef } from 'react'
-
-import { forwardRef } from 'react'
+import { css, styled } from 'styled-components'
 
 import { DefaultInputStyle } from '../DefaultInputStyle'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	hasError: boolean,
-	isDisabled: boolean,
-	isHovered: boolean,
-	isFocusVisible: boolean,
-	isFocus: boolean,
+type Props = {
+	hasError: boolean
+	isDisabled: boolean
+	isFocus: boolean
+	isFocusVisible: boolean
+	isHovered: boolean
 }
 
-export const InputContainer = forwardRef<HTMLDivElement, Props>(({ hasError, isDisabled, isFocusVisible, isHovered, isFocus, ...rest }, ref) => (
-	<div
-		css={(theme) => ([
-			DefaultInputStyle({ theme, hasError, isDisabled, isFocusVisible, isHovered }),
-			{
-				cursor: 'text',
-				display: 'flex',
-				columnGap: '8px',
-				justifyContent: 'space-between',
-			},
-			isFocus ? {
-				borderColor: hasError ? theme.color.error : theme.color.primary,
-			} : undefined,
-		])}
-		ref={ref}
-		{...rest}
-	/>
-))
+export const InputContainer = styled.div<Props>`
+	display: flex;
+	column-gap: 8px;
+	justify-content: space-between;
+	cursor: text;
+
+	${DefaultInputStyle}
+
+	${({ isFocus, hasError, theme }) =>
+		isFocus &&
+		css`
+		border-color: ${hasError ? theme.color.error : theme.color.primary};
+	`}
+`

@@ -1,22 +1,16 @@
-import type { ComponentPropsWithRef } from 'react'
-
-import { forwardRef } from 'react'
+import { styled } from 'styled-components'
 
 import { DefaultInputStyle } from '../DefaultInputStyle'
 
-type Props = ComponentPropsWithRef<'input'> & {
-	hasError: boolean,
-	isHovered: boolean,
-	isFocusVisible: boolean,
+export type Props = {
+	hasError: boolean
+	isHovered: boolean
+	isFocusVisible: boolean
+	isDisabled: boolean
 }
 
-export const InputComponent = forwardRef<HTMLInputElement, Props>(({ hasError, disabled: isDisabled = false, isFocusVisible, isHovered, ...rest }, ref) => (
-	<input
-		css={(theme) => ({
-			...DefaultInputStyle({ hasError, isDisabled, isHovered, isFocusVisible, theme }),
-		})}
-		disabled={isDisabled}
-		ref={ref}
-		{...rest}
-	/>
-))
+export const InputComponent = styled.input.attrs<Props>(({ isDisabled }) => ({
+	disabled: isDisabled,
+}))<Props>`
+	${DefaultInputStyle}
+`

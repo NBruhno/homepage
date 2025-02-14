@@ -1,24 +1,22 @@
-import type { CommonSelectProps, SelectOption } from '../CommonProps'
 import type { UseComboboxState, UseComboboxStateChangeOptions } from 'downshift'
 import type { FieldError, FieldPathByValue, FieldValues } from 'react-hook-form'
+import type { CommonSelectProps, SelectOption } from '../CommonProps'
 
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
 import { useCombobox, useMultipleSelection } from 'downshift'
 import { matchSorter } from 'match-sorter'
 import { get, isEmpty, isEqual } from 'radash'
-import { useRef, useState, useCallback } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 
 import { useUnique } from 'lib/hooks'
-
-import { Portal } from 'components/Portal'
 
 import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
 import { InputError } from '../InputError'
 import { LabelContainer } from '../LabelContainer'
-import { InputClearButton, InputButtonContainer, InputMenuIndicator, SelectMenu, InputContainer, InputComponent } from '../Shared'
+import { InputButtonContainer, InputClearButton, InputComponent, InputContainer, InputMenuIndicator, SelectMenu } from '../Shared'
 
 import { Chip } from './Chip'
 import { handleKeyboardInput } from './handleKeyboardInput'
@@ -31,18 +29,31 @@ const getFilteredOptions = (options: Array<SelectOption>, inputValue: string) =>
 }
 
 export const MultiSelect = <TFieldValues extends FieldValues, Path extends FieldPathByValue<TFieldValues, Array<SelectOption['value']>>>({
-	showOptionalHint = true, isFullWidth = true, isRequired = false, maxNumberOfOptionsVisible = 40,
-	isDisabled = false, name, label, hint, placeholder, options, shouldAutofocus = false, isLoading = false,
+	showOptionalHint = true,
+	isFullWidth = true,
+	isRequired = false,
+	maxNumberOfOptionsVisible = 40,
+	isDisabled = false,
+	name,
+	label,
+	hint,
+	placeholder,
+	options,
+	shouldAutofocus = false,
+	isLoading = false,
 }: Props<Path>) => {
 	const id = useUnique(name)
-	const { formState: { errors }, control } = useFormContext()
+	const {
+		formState: { errors },
+		control,
+	} = useFormContext()
 	const { field } = useController({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
 	const initialValues = field.value as Array<SelectOption['value']> | undefined
 
 	const [filteredOptions, setFilteredOptions] = useState(options)
 	const [isInputFocus, setIsInputFocus] = useState(false)
 	const [inputValue, setInputValue] = useState<string>('')
-	const containerRef = useRef<HTMLDivElement>(null)
+	const [reactiveContainerRef, setReactiveContainerRef] = useState<HTMLDivElement | null>(null)
 	const inputRef = useRef<HTMLInputElement>(null)
 
 	const { hoverProps, isHovered } = useHover({ isDisabled })
@@ -101,7 +112,8 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 						isOpen: true,
 					}
 				}
-				default: return changes
+				default:
+					return changes
 			}
 		}, []),
 	})
@@ -126,7 +138,9 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 	return (
 		<FieldWrapper isFullWidth={isFullWidth} minWidth={170}>
 			<LabelContainer {...getLabelProps()} htmlFor={id}>
-				<span>{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>}</span>
+				<span>
+					{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>}
+				</span>
 				{hint && <Hint>{hint}</Hint>}
 			</LabelContainer>
 			<InputContainer
@@ -143,9 +157,9 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 						inputRef.current?.focus()
 					}
 				}}
-				ref={containerRef}
+				ref={setReactiveContainerRef}
 			>
-				<div css={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+				<div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
 					{selectedOptions.map((option, index) => (
 						<Chip
 							key={index}
@@ -161,7 +175,7 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 					))}
 					<InputComponent
 						{...getInputProps({
-							...getDropdownProps({ preventKeyAction: isMenuOpen, ref: inputRef }) as object,
+							...(getDropdownProps({ preventKeyAction: isMenuOpen, ref: inputRef }) as object),
 							name,
 							placeholder,
 							onFocus: onOpenMenu,
@@ -221,20 +235,18 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 					<InputMenuIndicator isMenuOpen={isMenuOpen} isLoading={isLoading} />
 				</InputButtonContainer>
 			</InputContainer>
-			<Portal>
-				<SelectMenu
-					{...getMenuProps() as Record<string, unknown>}
-					containerRef={containerRef}
-					getItemProps={getItemProps}
-					highlightedOptionIndex={highlightedOptionIndex === -1 ? 0 : highlightedOptionIndex}
-					isOpen={isMenuOpen}
-					maxNumberOfOptionsVisible={maxNumberOfOptionsVisible}
-					onSelectOption={onAddChip}
-					options={filteredOptions}
-					selectedItems={selectedOptions}
-				/>
-			</Portal>
 			<InputError hasError={hasError} errorMessage={error?.message} />
+			<SelectMenu
+				{...(getMenuProps() as Record<string, unknown>)}
+				containerRef={reactiveContainerRef}
+				getItemProps={getItemProps}
+				highlightedOptionIndex={highlightedOptionIndex === -1 ? 0 : highlightedOptionIndex}
+				isOpen={isMenuOpen}
+				maxNumberOfOptionsVisible={maxNumberOfOptionsVisible}
+				onSelectOption={onAddChip}
+				options={filteredOptions}
+				selectedItems={selectedOptions}
+			/>
 		</FieldWrapper>
 	)
 }

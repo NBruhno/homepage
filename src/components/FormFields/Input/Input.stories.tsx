@@ -15,11 +15,28 @@ export default {
 	title: 'Form fields/Input',
 }
 
-type DefaultProps = Story<Pick<ComponentProps<typeof Input>, 'hint' | 'isDisabled' | 'isFullWidth' | 'isRequired' | 'label' | 'name' | 'placeholder' | 'shouldAutofocus' | 'showOptionalHint' | 'type'> & {
-	onSubmit: (fields: any) => void,
-}>
+type DefaultProps = Story<
+	Pick<
+		ComponentProps<typeof Input>,
+		'hint' | 'isDisabled' | 'isFullWidth' | 'isRequired' | 'label' | 'name' | 'placeholder' | 'shouldAutofocus' | 'showOptionalHint' | 'type'
+	> & {
+		onSubmit: (fields: any) => void
+	}
+>
 
-export const Default: DefaultProps = ({ label, hint, type, isRequired, name, isDisabled, isFullWidth, placeholder, showOptionalHint, shouldAutofocus, onSubmit }) => (
+export const Default: DefaultProps = ({
+	label,
+	hint,
+	type,
+	isRequired,
+	name,
+	isDisabled,
+	isFullWidth,
+	placeholder,
+	showOptionalHint,
+	shouldAutofocus,
+	onSubmit,
+}) => (
 	<Form
 		onSubmit={(fields) => onSubmit(fields)}
 		render={({ fieldProps }) => (

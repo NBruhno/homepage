@@ -1,19 +1,14 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	width: number | string,
-	height: number | string,
+type Props = {
+	width: number | string
+	height: number | string
 }
 
-export const Placeholder = ({ height, width, ...rest }: Props) => (
-	<div
-		css={(theme) => ({
-			flexShrink: 0,
-			backgroundColor: theme.color.grayDark,
-			height: `${height}px`,
-			width: `${width}px`,
-			marginTop: '12px',
-		})}
-		{...rest}
-	/>
-)
+export const Placeholder = styled.div<Props>`
+	flex-shrink: 0;
+	background-color: ${({ theme }) => theme.color.grayDark};
+	height: ${({ height }) => `${height}px`};
+	width: ${({ width }) => `${width}px`};
+	margin-top: 12px;
+`

@@ -1,11 +1,6 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Subtitle = (props: ComponentPropsWithoutRef<'span'>) => (
-	<span
-		css={(theme) => ({
-			fontSize: theme.font.size.s90,
-			opacity: 0.6,
-		})}
-		{...props}
-	/>
-)
+export const Subtitle = styled.span`
+	font-size: 0.9rem;
+	opacity: 0.6;
+`

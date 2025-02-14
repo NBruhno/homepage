@@ -1,22 +1,17 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const SteamItem = (props: ComponentPropsWithoutRef<'a'>) => (
-	<a
-		css={(theme) => ({
-			marginTop: '10px',
-			overflow: 'none',
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			columnGap: '8px',
-			color: theme.color.text,
-			fontFamily: theme.font.family.poppins,
-			textDecoration: 'none',
-		})}
-		target='_blank'
-		rel='noreferrer noopener'
-		aria-label='Steam reviews'
-		{...props}
-	/>
-)
+export const SteamItem = styled.a.attrs({
+	target: '_blank',
+	rel: 'noreferrer noopener',
+	'aria-label': 'Steam reviews',
+})`
+	margin-top: 10px;
+	overflow: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	column-gap: 8px;
+	color: ${({ theme }) => theme.color.text};
+	font-family: ${({ theme }) => theme.font.family.poppins};
+	text-decoration: none;
+`

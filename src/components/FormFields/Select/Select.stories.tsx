@@ -16,11 +16,24 @@ const options = Array.from({ length: 100 }).map((_, index) => ({
 	value: index + 1,
 }))
 
-type DefaultProps = Story<Omit<ComponentProps<typeof Select>, 'options'> & {
-	onSubmit: (fields: any) => void,
-}>
+type DefaultProps = Story<
+	Omit<ComponentProps<typeof Select>, 'options'> & {
+		onSubmit: (fields: any) => void
+	}
+>
 
-export const Default: DefaultProps = ({ label, hint, isRequired, isDisabled, isFullWidth, isLoading, placeholder, showOptionalHint, shouldAutofocus, onSubmit }) => (
+export const Default: DefaultProps = ({
+	label,
+	hint,
+	isRequired,
+	isDisabled,
+	isFullWidth,
+	isLoading,
+	placeholder,
+	showOptionalHint,
+	shouldAutofocus,
+	onSubmit,
+}) => (
 	<Form
 		initialValues={{ select: options[20].value }}
 		onSubmit={(fields) => onSubmit(fields)}

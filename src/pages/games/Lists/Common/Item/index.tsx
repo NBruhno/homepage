@@ -1,4 +1,4 @@
-import { type GameSimple } from 'types'
+import type { GameSimple } from 'types'
 
 import { useHover } from '@react-aria/interactions'
 
@@ -13,10 +13,10 @@ import { Subtitle } from './Subtitle'
 import { Title } from './Title'
 
 type Props = Pick<GameSimple, 'cover' | 'id' | 'name' | 'status'> & {
-	index?: number,
-	isLoading: boolean,
-	releaseDate: string | null,
-	isPriority?: boolean,
+	index?: number
+	isLoading: boolean
+	releaseDate: string | null
+	isPriority?: boolean
 }
 
 export const Item = ({ id, name, releaseDate, cover, status, isPriority, isLoading, index = 0 }: Props) => {
@@ -25,7 +25,7 @@ export const Item = ({ id, name, releaseDate, cover, status, isPriority, isLoadi
 	return (
 		<Container href={`/games/${id}`} isLoading={isLoading} {...hoverProps}>
 			<Cover coverUrl={cover} isPriority={isPriority} isShineVisible={isHovered} />
-			<div css={{ padding: '12px' }}>
+			<div style={{ padding: '12px' }}>
 				<Title>
 					<Placeholder isLoading={isLoading} width={index % 2 === 0 ? 100 : 90}>
 						{name}
@@ -36,11 +36,7 @@ export const Item = ({ id, name, releaseDate, cover, status, isPriority, isLoadi
 						{dateOrYear(releaseDate)}
 					</Placeholder>
 				</Subtitle>
-				<div>
-					{status && (
-						<Status>{status}</Status>
-					)}
-				</div>
+				<div>{status && <Status>{status}</Status>}</div>
 			</div>
 		</Container>
 	)

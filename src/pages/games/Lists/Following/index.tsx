@@ -1,4 +1,4 @@
-import { type GameSimple } from 'types'
+import type { GameSimple } from 'types'
 
 import { useRouter } from 'next/router'
 
@@ -10,8 +10,8 @@ const undefinedMessage = 'You need to be logged in to see what games you are fol
 const emptyMessage = 'You are not following any games'
 
 type Props = {
-	games: Array<GameSimple>,
-	isLoading: boolean,
+	games: Array<GameSimple>
+	isLoading: boolean
 }
 
 export const Following = ({ games, isLoading }: Props) => {
@@ -36,19 +36,9 @@ export const Following = ({ games, isLoading }: Props) => {
 	return (
 		<Container>
 			{games.map(({ id, cover, name, releaseDate, status }, index: number) => (
-				<Item
-					id={id}
-					cover={cover}
-					name={name}
-					releaseDate={releaseDate}
-					status={status}
-					index={index}
-					isPriority={isLoading}
-					isLoading={!games}
-					key={id}
-				/>
+				<Item id={id} cover={cover} name={name} releaseDate={releaseDate} status={status} index={index} isPriority={isLoading} isLoading={!games} key={id} />
 			))}
-			{games.length === 0 && (<Subtitle>{emptyMessage}</Subtitle>)}
+			{games.length === 0 && <Subtitle>{emptyMessage}</Subtitle>}
 		</Container>
 	)
 }

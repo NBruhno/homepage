@@ -1,31 +1,29 @@
 import { IconTicket } from '@tabler/icons-react'
-
+import type { ComponentProps } from 'react'
 import { useLoading } from 'states/page'
+import { styled } from 'styled-components'
 
-export const Placeholder = () => {
+export const PlaceholderLine = styled.div`
+	background: ${({ theme }) => theme.color.input.background};
+	background: ${({ theme }) => `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`};
+	border-radius: 8px;
+	color: ${({ theme }) => theme.color.grayLight};
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	object-fit: cover;
+	aspect-ratio: 16 / 9;
+
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		width: 100%;
+		max-width: unset;
+		height: auto;
+		max-height: unset;
+	}
+`
+
+export const Placeholder = (props: ComponentProps<typeof PlaceholderLine>) => {
 	const { isLoading } = useLoading()
 
-	return (
-		<div
-			css={(theme) => ({
-				height: '100%',
-				width: '100%',
-				objectFit: 'cover',
-				margin: '0',
-				borderRadius: '8px',
-				aspectRatio: '16 / 9',
-				color: theme.color.grayLight,
-				background: [theme.color.input.backgroundHover, `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`],
-
-				[theme.mediaQueries.maxMobile]: {
-					width: '100%',
-					maxWidth: 'unset',
-					height: 'auto',
-					maxHeight: 'unset',
-				},
-			})}
-		>
-			{!isLoading && <IconTicket size={48} />}
-		</div>
-	)
+	return <PlaceholderLine {...props}>{!isLoading && <IconTicket size={48} />}</PlaceholderLine>
 }

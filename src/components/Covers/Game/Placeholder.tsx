@@ -1,16 +1,11 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Placeholder = ({ ...rest }: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={(theme) => ({
-			background: [theme.color.input.backgroundHover, `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`],
-			aspectRatio: '3/4',
-			height: '100%',
-			width: '100%',
-			maxHeight: '352px',
-			maxWidth: '264px',
-			borderRadius: '4px',
-		})}
-		{...rest}
-	/>
-)
+export const Placeholder = styled.div`
+	background: ${({ theme }) => theme.color.input.background};
+	background: ${({ theme }) => `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`};
+	border-radius: 4px;
+	height: 100%;
+	width: 100%;
+	max-height: 352px;
+	max-width: 264px;
+`

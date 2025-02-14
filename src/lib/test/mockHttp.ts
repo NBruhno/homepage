@@ -4,8 +4,7 @@ import type { MockResponse, RequestOptions, ResponseOptions } from 'node-mocks-h
 
 import { createMocks } from 'node-mocks-http'
 
-export const createHttpMock = <T>({ reqOptions, resOptions }: { reqOptions?: RequestOptions, resOptions?: ResponseOptions } = {}) => (
+export const createHttpMock = <T>({ reqOptions, resOptions }: { reqOptions?: RequestOptions; resOptions?: ResponseOptions } = {}) =>
 	createMocks<NextApiRequest, NextApiResponse<T>>(reqOptions, resOptions)
-)
 
 export const parseHeaders = (res: MockResponse<NextApiResponse>) => res._getHeaders()

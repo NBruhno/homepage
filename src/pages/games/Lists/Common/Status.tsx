@@ -1,14 +1,9 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Status = (props: ComponentPropsWithoutRef<'span'>) => (
-	<span
-		css={(theme) => ({
-			backgroundColor: theme.isDarkTheme ? theme.color.grayDark : theme.color.grayDarker,
-			borderRadius: '4px',
-			fontSize: theme.font.size.s80,
-			fontFamily: theme.font.family.roboto,
-			padding: '3px 6px',
-		})}
-		{...props}
-	/>
-)
+export const Status = styled.span`
+	background-color: ${({ theme }) => (theme.isDarkTheme ? theme.color.grayDark : theme.color.grayDarker)};
+	border-radius: 4px;
+	font-size: ${({ theme }) => theme.font.size.s80};
+	font-family: ${({ theme }) => theme.font.family.roboto};
+	padding: 3px 6px;
+`

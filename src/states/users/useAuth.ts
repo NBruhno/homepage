@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { shallow } from 'zustand/shallow'
 
 import { useModal, useSnackbar } from 'states/page'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { ApiError } from 'lib/errors'
-import { fetcher, Method } from 'lib/fetcher'
+import { Method, fetcher } from 'lib/fetcher'
 import { logger } from 'lib/logger'
 
 import type { ChangePasswordModel } from 'components/Forms/ChangePassword'
@@ -13,36 +12,45 @@ import type { ChangePasswordModel } from 'components/Forms/ChangePassword'
 import { useUser } from './useUser'
 
 export type User = {
-	accessToken?: string | undefined,
-	username: string | null,
-	email: string | null,
-	intermediateToken?: string | undefined,
-	isStateKnown: boolean,
-	role?: string | undefined,
-	secret?: string,
-	shouldRefresh: boolean,
-	twoFactorSecret?: string,
-	userId: string | null,
+	accessToken?: string | undefined
+	username: string | null
+	email: string | null
+	intermediateToken?: string | undefined
+	isStateKnown: boolean
+	role?: string | undefined
+	secret?: string
+	shouldRefresh: boolean
+	twoFactorSecret?: string
+	userId: string | null
 }
 
 export const useAuth = () => {
 	const [currentFlow, setCurrentFlow] = useState<'2fa' | 'loggedIn' | 'login' | 'register'>('login')
 	const addSnackbar = useSnackbar((state) => state.addSnackbar)
 	const { onCloseModal } = useModal()
-	const {
-		setUser, setShouldRefresh, setIsStateKnown, setIntermediateToken, setTwoFactorSecret, resetUser,
-		userId, accessToken, intermediateToken,
-	} = useUser((state) => state, shallow)
+	const { setUser, setShouldRefresh, setIsStateKnown, setIntermediateToken, setTwoFactorSecret, resetUser, userId, accessToken, intermediateToken } = useUser(
+		(state) => state,
+	)
 
 	const createErrorSnackbar = (error: unknown) => {
 		addSnackbar({ message: error instanceof ApiError ? error.message : 'Unknown error occurred', type: 'Alert' })
 	}
 
-	const onRegister = async ({ email, password, username, accessCode }: { email: string, password: string, username: string, accessCode: string }) => {
+	const onRegister = async ({ email, password, username, accessCode }: { email: string; password: string; username: string; accessCode: string }) => {
 		try {
-			const { accessToken } = await fetcher<{ accessToken: string }>('/users', { method: Method.Post, body: { email, password, username, accessCode }, cacheControl: 'no-cache' })
+			const { accessToken } = await fetcher<{ accessToken: string }>('/users', {
+				method: Method.Post,
+				body: { email, password, username, accessCode },
+				cacheControl: 'no-cache',
+			})
 			const decodedToken = decodeJwtToken(accessToken)
-			setUser({ accessToken, email: decodedToken.sub, username: decodedToken.username, role: decodedToken.role, userId: null })
+			setUser({
+				accessToken,
+				email: decodedToken.sub,
+				username: decodedToken.username,
+				role: decodedToken.role,
+				userId: null,
+			})
 			setShouldRefresh(true)
 			setIsStateKnown(true)
 		} catch (error) {
@@ -51,9 +59,13 @@ export const useAuth = () => {
 		}
 	}
 
-	const onLogin = async ({ email, password }: { email: string, password: string }) => {
+	const onLogin = async ({ email, password }: { email: string; password: string }) => {
 		try {
-			const { accessToken, intermediateToken } = await fetcher<{ accessToken?: string, intermediateToken?: string }>('/users/login', { method: Method.Post, body: { email, password }, cacheControl: 'no-cache' })
+			const { accessToken, intermediateToken } = await fetcher<{ accessToken?: string; intermediateToken?: string }>('/users/login', {
+				method: Method.Post,
+				body: { email, password },
+				cacheControl: 'no-cache',
+			})
 
 			if (accessToken) {
 				const { sub, username, role, userId } = decodeJwtToken(accessToken)
@@ -119,7 +131,7 @@ export const useAuth = () => {
 		}
 	}
 
-	const onRegister2fa = async ({ otp, secret }: { otp: string, secret: string }) => {
+	const onRegister2fa = async ({ otp, secret }: { otp: string; secret: string }) => {
 		try {
 			if (userId) {
 				await fetcher(`/users/${userId}/2fa`, {
@@ -158,5 +170,15 @@ export const useAuth = () => {
 		}
 	}
 
-	return { onRegister, onChangePassword, onInitialize2fa, onLogin, onLogout, onRegister2fa, onVerify2fa, currentFlow, setCurrentFlow }
+	return {
+		onRegister,
+		onChangePassword,
+		onInitialize2fa,
+		onLogin,
+		onLogout,
+		onRegister2fa,
+		onVerify2fa,
+		currentFlow,
+		setCurrentFlow,
+	}
 }

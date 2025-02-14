@@ -1,17 +1,12 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Item = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={(theme) => ({
-			padding: '6px 10px',
-			borderRight: `1px solid ${theme.color.border}`,
-			maxHeight: '86px',
-			overflow: 'none',
+export const Item = styled.div`
+	padding: 6px 10px;
+	border-right: 1px solid ${({ theme }) => theme.color.border};
+	max-height: 86px;
+	overflow: none;
 
-			'&:last-child': {
-				borderRight: 'none',
-			},
-		})}
-		{...props}
-	/>
-)
+	&:last-child {
+		border-right: none;
+	}
+`

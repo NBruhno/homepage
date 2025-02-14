@@ -3,8 +3,8 @@ import { Icon } from './Icon'
 import { Text } from './Text'
 
 type Props = {
-	hasError: boolean,
-	errorMessage?: string,
+	hasError: boolean
+	errorMessage?: string
 }
 
 export const InputError = ({ hasError, errorMessage }: Props) => (

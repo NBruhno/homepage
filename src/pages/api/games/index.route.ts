@@ -1,12 +1,12 @@
-import { type IgdbGame } from 'types'
+import type { IgdbGame } from 'types'
 
 import { sub } from 'date-fns'
-import { optional, string, object, create, pattern, coerce, number, array, partial, assign, pick, literal } from 'superstruct'
+import { array, assign, coerce, create, literal, number, object, optional, partial, pattern, pick, string } from 'superstruct'
 
 import { game as gameValidator } from 'validation/api'
 import { uuid } from 'validation/shared'
 
-import { gameFields, igdbFetcher, apiHandler, setCache, prisma, mapIgdbGame } from 'lib/api'
+import { apiHandler, gameFields, igdbFetcher, mapIgdbGame, prisma, setCache } from 'lib/api'
 import { ApiError, type statusCodes } from 'lib/errors'
 import { authenticateSystem } from 'lib/middleware'
 import { monitorAsync } from 'lib/sentryMonitor'
@@ -37,20 +37,24 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		const computedSkip = hasSkip ? skip - 1 : skip
 
 		if (isTrending) {
-			const steamChartGroups = await monitorAsync(() => fetch(`https://steamcharts.com/`, {
-				method: 'GET',
-			}), 'http:steamcharts', 'trending games').then(async (response) => {
+			const steamChartGroups = await monitorAsync(
+				() =>
+					fetch(`https://steamcharts.com/`, {
+						method: 'GET',
+					}),
+				'http:steamcharts',
+				'trending games',
+			).then(async (response) => {
 				if (!response.ok) throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes)
 				const history = await response.text()
 
 				const tables = [...history.matchAll(/<table id="(.+)" .+>([\s\S]+?)<\/table>/gm)]
 
-				let trending: { games: Array<{ id: string }>, id: string } = { games: [], id: '' }
-				let top: { games: Array<{ id: string }>, id: string } = { games: [], id: '' }
-				let peak: { games: Array<{ id: string }>, id: string } = { games: [], id: '' }
+				let trending: { games: Array<{ id: string }>; id: string } = { games: [], id: '' }
+				let top: { games: Array<{ id: string }>; id: string } = { games: [], id: '' }
+				let peak: { games: Array<{ id: string }>; id: string } = { games: [], id: '' }
 				tables.forEach(([, id, content], index) => {
-					const games = [...content.matchAll(/^\s*<a href="\/app\/(.+)">[\s]*(.+[ .+]*)+[\s]+?<\/a>/gm)]
-						.map(([, id, name]) => ({ id, name }))
+					const games = [...content.matchAll(/^\s*<a href="\/app\/(.+)">[\s]*(.+[ .+]*)+[\s]+?<\/a>/gm)].map(([, id, name]) => ({ id, name }))
 
 					if (index === 0) trending = { id, games }
 					if (index === 1) top = { id, games }
@@ -82,25 +86,30 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		}
 
 		if (user) {
-			const games = await monitorAsync(() => prisma.games.findMany({
-				where: {
-					userData: {
-						some: { ownerId: user, isFollowing: true },
-					},
-				},
-				orderBy: {
-					releaseDate: { sort: 'asc', nulls: 'last' },
-				},
-				take: computedTake,
-				skip: computedSkip,
-				select: {
-					id: true,
-					name: true,
-					cover: true,
-					releaseDate: true,
-					status: true,
-				},
-			}), 'db:prisma', 'findMany(games)')
+			const games = await monitorAsync(
+				() =>
+					prisma.games.findMany({
+						where: {
+							userData: {
+								some: { ownerId: user, isFollowing: true },
+							},
+						},
+						orderBy: {
+							releaseDate: { sort: 'asc', nulls: 'last' },
+						},
+						take: computedTake,
+						skip: computedSkip,
+						select: {
+							id: true,
+							name: true,
+							cover: true,
+							releaseDate: true,
+							status: true,
+						},
+					}),
+				'db:prisma',
+				'findMany(games)',
+			)
 
 			setCache({ strategy: 'NoCache', res })
 			return res.status(200).json({
@@ -116,37 +125,45 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 
 		const games = search
 			? await igdbFetcher<IgdbGame, false>('/games', res, {
-				shouldReturnFirst: false,
-				body: `${gameFields}; limit ${take}; search "${search}";`,
-				nickname: 'search',
-			}).then((games) => games.map(mapIgdbGame))
-			: await monitorAsync(() => prisma.games.findMany({
-				orderBy: [{ hype: 'desc' }, { releaseDate: 'asc' }],
-				where: {
-					OR: [
-						{
-							releaseDate: {
-								gte: twoMonthsBackDate,
+					shouldReturnFirst: false,
+					body: `${gameFields}; limit ${take}; search "${search}";`,
+					nickname: 'search',
+				}).then((games) => games.map(mapIgdbGame))
+			: await monitorAsync(
+					() =>
+						prisma.games.findMany({
+							orderBy: [{ hype: 'desc' }, { releaseDate: 'asc' }],
+							where: {
+								OR: [
+									{
+										releaseDate: {
+											gte: twoMonthsBackDate,
+										},
+									},
+									{
+										releaseDate: null,
+									},
+								],
+								hype:
+									isPopular === 'yes'
+										? {
+												gt: 0,
+											}
+										: undefined,
 							},
-						},
-						{
-							releaseDate: null,
-						},
-					],
-					hype: isPopular === 'yes' ? {
-						gt: 0,
-					} : undefined,
-				},
-				take: computedTake,
-				skip: computedSkip,
-				select: {
-					id: true,
-					name: true,
-					cover: true,
-					releaseDate: true,
-					status: true,
-				},
-			}), 'db:prisma', 'findMany()')
+							take: computedTake,
+							skip: computedSkip,
+							select: {
+								id: true,
+								name: true,
+								cover: true,
+								releaseDate: true,
+								status: true,
+							},
+						}),
+					'db:prisma',
+					'findMany()',
+				)
 
 		setCache({ strategy: 'StaleWhileRevalidate', duration: 30, res })
 
@@ -162,9 +179,14 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 		authenticateSystem(req)
 		const gameToCreate = create(req.body, gameValidator)
 
-		const game = await monitorAsync(() => prisma.games.create({
-			data: { ...gameToCreate, updatedAt: undefined },
-		}), 'db:prisma', 'create()')
+		const game = await monitorAsync(
+			() =>
+				prisma.games.create({
+					data: { ...gameToCreate, updatedAt: undefined },
+				}),
+			'db:prisma',
+			'create()',
+		)
 
 		res.setHeader('Location', `/api/games/${game.id}`)
 		return res.status(201).json(game)
@@ -172,9 +194,11 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	.delete(async (req, res) => {
 		authenticateSystem(req)
 		const { games } = create(req.body, object({ games: array(assign(partial(gameValidator), pick(gameValidator, ['id']))) }))
-		const deleteQueries = games.map(({ id }) => prisma.games.delete({
-			where: { id },
-		}))
+		const deleteQueries = games.map(({ id }) =>
+			prisma.games.delete({
+				where: { id },
+			}),
+		)
 
 		const deletedGames = await monitorAsync(() => prisma.$transaction(deleteQueries), 'db:prisma', 'transaction(delete())')
 		return res.status(200).json({ count: deletedGames.length })
@@ -182,10 +206,12 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	.put(async (req, res) => {
 		authenticateSystem(req)
 		const { games } = create(req.body, object({ games: array(assign(partial(gameValidator), pick(gameValidator, ['id']))) }))
-		const updateQueries = games.map(({ id, ...rest }) => prisma.games.update({
-			where: { id },
-			data: { ...rest, updatedAt: undefined },
-		}))
+		const updateQueries = games.map(({ id, ...rest }) =>
+			prisma.games.update({
+				where: { id },
+				data: { ...rest, updatedAt: undefined },
+			}),
+		)
 
 		const updatedGames = await monitorAsync(() => prisma.$transaction(updateQueries), 'db:prisma', 'transaction(update())')
 		return res.status(200).json({ count: updatedGames.length })
@@ -193,11 +219,13 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	.patch(async (req, res) => {
 		authenticateSystem(req)
 		const { games } = create(req.body, object({ games: array(gameValidator) }))
-		const transactions = games.map(({ id, ...rest }) => prisma.games.upsert({
-			where: { id },
-			create: { id, ...rest, updatedAt: undefined },
-			update: { id, ...rest, updatedAt: undefined },
-		}))
+		const transactions = games.map(({ id, ...rest }) =>
+			prisma.games.upsert({
+				where: { id },
+				create: { id, ...rest, updatedAt: undefined },
+				update: { id, ...rest, updatedAt: undefined },
+			}),
+		)
 
 		const result = await monitorAsync(() => prisma.$transaction(transactions), 'db:prisma', 'transaction(upsert())')
 

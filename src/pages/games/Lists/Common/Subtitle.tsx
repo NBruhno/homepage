@@ -1,13 +1,8 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Subtitle = (props: ComponentPropsWithoutRef<'p'>) => (
-	<p
-		css={(theme) => ({
-			color: theme.color.text,
-			opacity: 0.6,
-			marginTop: '36px',
-			textAlign: 'center',
-		})}
-		{...props}
-	/>
-)
+export const Subtitle = styled.p`
+	color: ${({ theme }) => theme.color.text};
+	opacity: 0.6;
+	margin-top: 36px;
+	text-align: center;
+`

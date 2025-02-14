@@ -1,13 +1,8 @@
-import type { ComponentProps } from 'react'
+import { styled } from 'styled-components'
 
-export const InputButtonContainer = (props: ComponentProps<'div'>) => (
-	<div
-		css={() => ({
-			display: 'flex',
-			alignItems: 'center',
-			pointerEvents: 'none',
-			margin: '-10px -6px',
-		})}
-		{...props}
-	/>
-)
+export const InputButtonContainer = styled.div`
+	display: flex;
+	align-items: center;
+	pointer-events: none;
+	margin: -10px -6px;
+`

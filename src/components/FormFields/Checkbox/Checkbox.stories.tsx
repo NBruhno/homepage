@@ -11,9 +11,11 @@ export default {
 	title: 'Form fields/Checkbox',
 }
 
-type DefaultProps = Story<Pick<ComponentProps<typeof Checkbox>, 'hint' | 'isDisabled' | 'isFullWidth' | 'label' | 'name'> & {
-	onSubmit: (fields: any) => void,
-}>
+type DefaultProps = Story<
+	Pick<ComponentProps<typeof Checkbox>, 'hint' | 'isDisabled' | 'isFullWidth' | 'label' | 'name'> & {
+		onSubmit: (fields: any) => void
+	}
+>
 
 export const Default: DefaultProps = ({ label, hint, name, isDisabled, isFullWidth, onSubmit }) => (
 	<Form
@@ -21,13 +23,7 @@ export const Default: DefaultProps = ({ label, hint, name, isDisabled, isFullWid
 		onSubmit={(fields) => onSubmit(fields)}
 		render={({ fieldProps }) => (
 			<FormWrapper title='Default'>
-				<Checkbox
-					{...fieldProps(name)}
-					label={label}
-					hint={hint}
-					isDisabled={isDisabled}
-					isFullWidth={isFullWidth}
-				/>
+				<Checkbox {...fieldProps(name)} label={label} hint={hint} isDisabled={isDisabled} isFullWidth={isFullWidth} />
 				<ButtonSolid label='Submit' type='submit' />
 			</FormWrapper>
 		)}

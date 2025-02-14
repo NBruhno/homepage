@@ -1,23 +1,18 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'img'> & {
-	loading?: string,
+type Props = {
+	loading?: string
 }
 
-export const Image = ({ loading = 'lazy', ...rest }: Props) => (
-	<img
-		css={{
-			height: '100%',
-			width: '100%',
-			objectFit: 'cover',
+export const Image = styled.img.attrs({
+	alt: 'project cover',
+})<Props>`
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
 
-			// Prevent alt text from showing during image fetch
-			'img:-moz-loading': {
-				visibility: 'hidden',
-			},
-		}}
-		alt='project cover'
-		loading={loading}
-		{...rest}
-	/>
-)
+	/* Prevent alt text from showing during image fetch */
+	img:-moz-loading {
+		visibility: hidden;
+	}
+`

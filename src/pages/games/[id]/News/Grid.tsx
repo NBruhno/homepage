@@ -1,17 +1,12 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Grid = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={(theme) => ({
-			display: 'grid',
-			gridTemplateColumns: '1fr 1fr',
-			columnGap: '8px',
-			rowGap: '24px',
+export const Grid = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 8px;
+	row-gap: 24px;
 
-			[theme.mediaQueries.maxDesktop]: {
-				gridTemplateColumns: '1fr',
-			},
-		})}
-		{...props}
-	/>
-)
+	${({ theme }) => theme.mediaQueries.maxDesktop} {
+		grid-template-columns: 1fr;
+	}
+`

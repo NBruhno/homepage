@@ -1,73 +1,56 @@
-import type { ComponentPropsWithoutRef } from 'react'
-
-import { css } from '@emotion/react'
+import { styled } from 'styled-components'
 
 import { adjustHsl } from 'lib/client'
 
-type Props = ComponentPropsWithoutRef<'nav'> & {
-	isCollapsed?: boolean,
+type Props = {
+	isCollapsed?: boolean
 }
 
-const defaultCss = (theme: Theme, isCollapsed: boolean) => css({
-	alignItems: 'stretch',
-	backgroundColor: theme.color.sidebarBackground,
-	flexDirection: 'column',
-	justifyContent: 'space-between',
-	padding: '0',
-	opacity: 0,
-	visibility: 'hidden',
-	zIndex: 10,
-	display: 'none',
+const DefaultSidebar = styled.nav<Props>`
+	display: none;
+	align-items: stretch;
+	background-color: ${({ theme }) => theme.color.sidebarBackground};
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 0;
+	opacity: 0;
+	visibility: hidden;
+	z-index: 10;
+	
 
-	'> ::-webkit-scrollbar': {
-		width: isCollapsed ? 0 : '8px',
-	},
-})
+	> ::-webkit-scrollbar {
+		width: ${({ isCollapsed }) => (isCollapsed ? 0 : '8px')};
+	}
+`
 
-export const DesktopSidebar = ({ isCollapsed = false, ...rest }: Props) => (
-	<nav
-		css={(theme) => ([
-			defaultCss(theme, isCollapsed),
-			{
-				[theme.mediaQueries.minMobile]: {
-					display: 'flex',
-					height: '100vh',
-					opacity: 1,
-					position: 'sticky',
-					top: 0,
-					transition: `width 300ms ${theme.animation.default}`,
-					visibility: 'visible',
-					width: isCollapsed ? '70px' : '250px',
-				},
-			},
-		])}
-		{...rest}
-	/>
-)
+export const DesktopSidebar = styled(DefaultSidebar)<Props>`
+	${({ theme }) => theme.mediaQueries.minMobile} {
+		display: flex;
+		height: 100vh;
+		opacity: 1;
+		position: sticky;
+		top: 0;
+		transition: width 300ms ${({ theme }) => theme.animation.default};
+		visibility: visible;
+		width: ${({ isCollapsed }) => (isCollapsed ? '70px' : '250px')};
+	}
+`
 
-export const MobileSidebar = ({ show, ...rest }: Props & { show: boolean }) => (
-	<nav
-		css={(theme) => ([
-			defaultCss(theme, !show),
-			{
-				[theme.mediaQueries.maxMobile]: {
-					display: 'flex',
-					height: 'calc(100vh - 53px)',
-					opacity: 1,
-					position: 'fixed',
-					top: '54px',
-					transform: show ? 'none' : 'translate(-251px)',
-					transition: `transform 300ms ${theme.animation.default}`,
-					visibility: 'visible',
-					width: '250px',
+export const MobileSidebar = styled(DefaultSidebar)<Props & { show: boolean }>`
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		display: flex;
+		height: calc(100vh - 53px);
+		opacity: 1;
+		position: fixed;
+		top: 54px;
+		transform: ${({ show }) => (show ? 'none' : 'translate(-251px)')};
+		transition: transform 300ms ${({ theme }) => theme.animation.default};
+		visibility: visible;
+		width: 250px;
 
-					'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
-						backdropFilter: 'saturate(150%) blur(16px) brightness(150%)',
-						backgroundColor: adjustHsl(theme.color.sidebarBackground, { alpha: 0.9 }),
-					},
-				},
-			},
-		])}
-		{...rest}
-	/>
-)
+		@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px))) {
+			backdrop-filter: blur(5px) brightness(150%) saturate(150%);
+			background: linear-gradient(154deg, ${({ theme }) => adjustHsl(theme.color.sidebarBackground, { alpha: 0.75 })} 4.87%, ${({ theme }) => adjustHsl(theme.color.sidebarBackground, { alpha: 0.95 })} 75.88%);
+		}
+	}
+`

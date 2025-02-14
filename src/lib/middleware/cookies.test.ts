@@ -1,9 +1,9 @@
 import { TokenType } from 'types'
 
 import { getJwtToken } from 'lib/api'
-import { parseHeaders, refreshTokenMatch, createHttpMock } from 'lib/test'
+import { createHttpMock, parseHeaders, refreshTokenMatch } from 'lib/test'
 
-import { setRefreshCookie, removeRefreshCookie } from './cookies'
+import { removeRefreshCookie, setRefreshCookie } from './cookies'
 
 describe('/lib/middleware/cookie', () => {
 	test('setRefreshCookie › Set cookie', async () => {

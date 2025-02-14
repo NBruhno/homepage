@@ -1,14 +1,9 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Hint = (props: ComponentPropsWithoutRef<'span'>) => (
-	<span
-		css={(theme) => ({
-			color: theme.color.textFaded,
-			flexShrink: 0,
-			fontFamily: theme.font.family.roboto,
-			fontSize: theme.font.size.s70,
-			verticalAlign: '1.5px',
-		})}
-		{...props}
-	/>
-)
+export const Hint = styled.span`
+	color: ${({ theme }) => theme.color.textFaded};
+	flex-shrink: 0;
+	font-family: ${({ theme }) => theme.font.family.roboto};
+	font-size: ${({ theme }) => theme.font.size.s70};
+	vertical-align: 1.5px;
+`

@@ -1,19 +1,14 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	showPlaceholder: boolean,
+type Props = {
+	showPlaceholder: boolean
 }
 
-export const LoaderWrapper = ({ showPlaceholder, ...rest }: Props) => (
-	<div
-		css={(theme) => ({
-			left: '50%',
-			opacity: showPlaceholder ? 1 : 0,
-			position: 'absolute',
-			top: '50%',
-			transform: 'translate(-50%, -50%)',
-			transition: `opacity 0.2s ${theme.animation.default}`,
-		})}
-		{...rest}
-	/>
-)
+export const LoaderWrapper = styled.div<Props>`
+	left: 50%;
+	opacity: ${({ showPlaceholder }) => (showPlaceholder ? 1 : 0)};
+	position: absolute;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	transition: opacity 0.2s ${({ theme }) => theme.animation.default};
+`
