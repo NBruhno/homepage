@@ -16,18 +16,27 @@ import { Spinner } from './Spinner'
 import { ToggleButton as ToggleButtonComponent } from './ToggleButton'
 
 type Props = {
-	label: string,
-	isChecked: boolean,
-	onClick: (event: MouseEvent<HTMLButtonElement>) => Promisable<any>,
+	label: string
+	isChecked: boolean
+	onClick: (event: MouseEvent<HTMLButtonElement>) => Promisable<any>
 
-	minDelay?: number,
-	hint?: string,
-	isDisabled?: boolean,
-	isFullWidth?: boolean,
-	isLoading?: boolean,
+	minDelay?: number
+	hint?: string
+	isDisabled?: boolean
+	isFullWidth?: boolean
+	isLoading?: boolean
 }
 
-export const ToggleButton = ({ isFullWidth = true, label, hint, isDisabled = false, isChecked = false, onClick, minDelay = 0, isLoading: isLoadingManually }: Props) => {
+export const ToggleButton = ({
+	isFullWidth = true,
+	label,
+	hint,
+	isDisabled = false,
+	isChecked = false,
+	onClick,
+	minDelay = 0,
+	isLoading: isLoadingManually,
+}: Props) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const { isFocusVisible, focusProps } = useFocusRing({ within: true })
 	const { hoverProps, isHovered } = useHover({})

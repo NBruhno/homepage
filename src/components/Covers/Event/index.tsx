@@ -1,8 +1,11 @@
+import type { CSSProperties } from 'styled-components'
 import { Image } from './Image'
 import { Placeholder } from './Placeholder'
 
 type Props = {
-	coverUrl: string | null,
+	coverUrl: string | null
+	style?: CSSProperties
+	className?: string
 }
 
 export const EventCover = ({ coverUrl, ...rest }: Props) => {

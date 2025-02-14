@@ -1,5 +1,5 @@
 export type GameReference = {
-	id: number,
-	name: string,
-	cover: string | null,
+	id: number
+	name: string
+	cover: string | null
 }

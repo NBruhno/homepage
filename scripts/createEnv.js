@@ -10,9 +10,12 @@ const { VERCEL_ENV, IGDB_CLIENT_ID, IGDB_CLIENT_SECRET, VGINSIGHTS_EMAIL, VGINSI
 const createEnv = async () => {
 	if (VERCEL_ENV && VERCEL_ENV !== 'development') {
 		try {
-			const igdbToken = await fetch(`https://id.twitch.tv/oauth2/token?client_id=${IGDB_CLIENT_ID}&client_secret=${IGDB_CLIENT_SECRET}&grant_type=client_credentials`, {
-				method: 'POST',
-			}).then(async (response) => {
+			const igdbToken = await fetch(
+				`https://id.twitch.tv/oauth2/token?client_id=${IGDB_CLIENT_ID}&client_secret=${IGDB_CLIENT_SECRET}&grant_type=client_credentials`,
+				{
+					method: 'POST',
+				},
+			).then(async (response) => {
 				const responseBody = await response.json()
 				return responseBody.access_token
 			})
@@ -20,6 +23,7 @@ const createEnv = async () => {
 			if (igdbToken) {
 				fs.appendFile('.env', `IGDB_TOKEN="${igdbToken}"\n`, (error) => {
 					if (error) throw error
+					// biome-ignore lint/suspicious/noConsole: <explanation>
 					console.log('IGDB token appended to .env')
 				})
 			}
@@ -41,13 +45,16 @@ const createEnv = async () => {
 			if (vgInsightsToken) {
 				fs.appendFile('.env', `VGINSIGHTS_TOKEN="${vgInsightsToken}"\n`, (error) => {
 					if (error) throw error
+					// biome-ignore lint/suspicious/noConsole: <explanation>
 					console.log('VG Insights token appended to .env')
 				})
 			}
 		} catch (error) {
+			// biome-ignore lint/suspicious/noConsole: <explanation>
 			console.log(error)
 			throw new Error('Failed to generate deploy env')
 		}
+		// biome-ignore lint/suspicious/noConsole: <explanation>
 	} else console.log('Building locally, skipping deploy env generation')
 }
 

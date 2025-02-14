@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { useState, useContext, useEffect, useCallback } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import { useSize } from 'lib/hooks'
 
@@ -8,10 +8,10 @@ import { Container } from './Container'
 import { context } from './context'
 
 type Props = {
-	children: ReactNode,
-	shouldFill?: boolean,
-	isOpen?: boolean,
-	transitionTime?: number,
+	children: ReactNode
+	shouldFill?: boolean
+	isOpen?: boolean
+	transitionTime?: number
 }
 
 const Collapse = ({ children, isOpen = true, shouldFill = false, transitionTime = 0.2 }: Props) => {
@@ -36,8 +36,8 @@ const Collapse = ({ children, isOpen = true, shouldFill = false, transitionTime 
 		} else if (onTransitionStart) {
 			onTransitionStart(transitionTime)
 		}
-	// Only height and isOpen should trigger transition changes
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// Only height and isOpen should trigger transition changes
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [height, isOpen])
 
 	// Run a timeout everytime a transition-end is set
@@ -68,16 +68,9 @@ const Collapse = ({ children, isOpen = true, shouldFill = false, transitionTime 
 	}
 
 	return (
-		<Container
-			shouldFill={shouldFill}
-			isAnimated={isAnimated}
-			transitionTime={transitionTime}
-			style={{ height: getHeight() }}
-		>
+		<Container shouldFill={shouldFill} isAnimated={isAnimated} transitionTime={transitionTime} style={{ height: getHeight() }}>
 			<div ref={ref}>
-				<context.Provider value={onChildTransitionStart}>
-					{children}
-				</context.Provider>
+				<context.Provider value={onChildTransitionStart}>{children}</context.Provider>
 			</div>
 		</Container>
 	)

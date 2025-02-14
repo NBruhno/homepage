@@ -4,8 +4,8 @@ import { ChevronFlip } from 'components/ChevronFlip'
 import { Spinner } from 'components/Spinner'
 
 type Props = {
-	isMenuOpen: boolean,
-	isLoading: boolean,
+	isMenuOpen: boolean
+	isLoading: boolean
 }
 
 export const InputMenuIndicator = styled.div.attrs<Props>(({ isLoading, isMenuOpen }) => ({

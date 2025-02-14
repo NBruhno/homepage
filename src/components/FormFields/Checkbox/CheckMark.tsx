@@ -3,14 +3,14 @@ import type { ComponentPropsWithoutRef } from 'react'
 import { css, styled } from 'styled-components'
 
 type Props = ComponentPropsWithoutRef<'div'> & {
-	isChecked: boolean,
-	isDisabled: boolean,
-	isFocusVisible: boolean,
-	isHovered: boolean,
+	isChecked: boolean
+	isDisabled: boolean
+	isFocusVisible: boolean
+	isHovered: boolean
 }
 
 export const CheckMark = styled.div<Props>`
-	cursor: ${({ isDisabled }) => isDisabled ? 'auto' : 'pointer'};
+	cursor: ${({ isDisabled }) => (isDisabled ? 'auto' : 'pointer')};
 	position: relative;
 	border: 1px solid;
 	border-radius: 4px;
@@ -33,7 +33,7 @@ export const CheckMark = styled.div<Props>`
 	transition: box-shadow 0.15s ease-in-out, border-color 0.15s ease-in-out, background-color 0.15s ease-in-out;
 
 	&:after {
-		cursor: ${({ isDisabled }) => isDisabled ? 'auto' : 'pointer'};
+		cursor: ${({ isDisabled }) => (isDisabled ? 'auto' : 'pointer')};
 		content: '';
 		position: absolute;
 		left: 7px;
@@ -41,13 +41,15 @@ export const CheckMark = styled.div<Props>`
 		width: 6px;
 		height: 14px;
 		border-style: solid;
-		border-color: ${({ theme }) => theme.isDarkTheme ? theme.color.gray100 : theme.color.gray080};
-		border-width: ${({ isChecked }) => isChecked ? '0 2px 2px 0' : 0};
+		border-color: ${({ theme }) => (theme.isDarkTheme ? theme.color.gray100 : theme.color.gray080)};
+		border-width: ${({ isChecked }) => (isChecked ? '0 2px 2px 0' : 0)};
 		transform: rotate(37deg);
 		transition: border-width 0.15s ease-in-out;
 	}
 
-	${({ isFocusVisible, theme }) => isFocusVisible && css`
+	${({ isFocusVisible, theme }) =>
+		isFocusVisible &&
+		css`
 		outline: ${theme.color.focusOutline} solid 2px;
 		outline-offset: 2px;
 	`}

@@ -7,30 +7,38 @@ import supertest from 'supertest'
 
 import { createTestServer } from './createTestServer'
 
-import { type TestResponse } from '.'
+import type { TestResponse } from '.'
 
 type Props = {
-	path: string,
-	query?: Record<string, string>,
-	handler: NextConnect<NextApiRequest, NextApiResponse>,
+	path: string
+	query?: Record<string, string>
+	handler: NextConnect<NextApiRequest, NextApiResponse>
 	/** Defaults to `get` */
-	method?: 'delete' | 'get' | 'patch' | 'post' | 'put',
-	body?: JsonObject,
-	authToken?: string,
-	headers?: Record<string, string>,
+	method?: 'delete' | 'get' | 'patch' | 'post' | 'put'
+	body?: JsonObject
+	authToken?: string
+	headers?: Record<string, string>
 }
 
-export const fetchFromServer = async <TBody = Record<string, any> | undefined, THeaders = Record<string, Array<string> | string | undefined>>
-({ path, query = {}, handler, method = 'get', body: requestBody, headers: requestHeaders = {}, authToken }: Props): Promise<{ body: TBody, headers: THeaders, status: number }> => {
+export const fetchFromServer = async <TBody = Record<string, any> | undefined, THeaders = Record<string, Array<string> | string | undefined>>({
+	path,
+	query = {},
+	handler,
+	method = 'get',
+	body: requestBody,
+	headers: requestHeaders = {},
+	authToken,
+}: Props): Promise<{ body: TBody; headers: THeaders; status: number }> => {
 	const server = createTestServer(handler, query)
 
-	const response = await supertest(server)[method](path)
+	const response = (await supertest(server)
+		[method](path)
 		.query(query)
 		.set({
 			Authorization: authToken ? `Bearer ${authToken}` : '',
 			...requestHeaders,
 		})
-		.send(requestBody) as unknown as TestResponse & { body: TBody, headers: THeaders }
+		.send(requestBody)) as unknown as TestResponse & { body: TBody; headers: THeaders }
 
 	server.close()
 

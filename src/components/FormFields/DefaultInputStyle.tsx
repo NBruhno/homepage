@@ -3,10 +3,10 @@ import { css } from 'styled-components'
 import { adjustHsl } from 'lib/client'
 
 type Props = {
-	hasError: boolean,
-	isDisabled: boolean,
-	isFocusVisible: boolean,
-	isHovered: boolean,
+	hasError: boolean
+	isDisabled: boolean
+	isFocusVisible: boolean
+	isHovered: boolean
 }
 
 export const DefaultInputStyle = css<Props>`
@@ -20,7 +20,6 @@ export const DefaultInputStyle = css<Props>`
 	}};
 	border-radius: 4px;
 	color: ${({ theme }) => theme.color.text};
-	display: block;
 	font-family: ${({ theme }) => theme.font.family.roboto};
 	font-size: ${({ theme }) => theme.font.size.s100};
 	margin: 0 0 -5px;
@@ -34,7 +33,7 @@ export const DefaultInputStyle = css<Props>`
 	outline: none;
 
 	&::placeholder {
-		color: ${({ theme, hasError }) => hasError ? adjustHsl(theme.color.grayLight, { alpha: 0.65 }) : theme.color.gray};
+		color: ${({ theme, hasError }) => (hasError ? adjustHsl(theme.color.grayLight, { alpha: 0.65 }) : theme.color.gray)};
 	}
 
 	&:disabled {
@@ -44,10 +43,12 @@ export const DefaultInputStyle = css<Props>`
 	}
 
 	&:focus {
-		border-color: ${({ theme, hasError }) => hasError ? theme.color.error : theme.color.primary};
+		border-color: ${({ theme, hasError }) => (hasError ? theme.color.error : theme.color.primary)};
 	}
 
-	${({ isFocusVisible }) => isFocusVisible && css`
+	${({ isFocusVisible }) =>
+		isFocusVisible &&
+		css`
 		outline: ${({ theme }) => `${theme.color.focusOutline} solid 2px`};
 		outline-offset: 2px;
 	`}

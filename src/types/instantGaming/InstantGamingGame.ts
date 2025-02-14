@@ -1,85 +1,85 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 
 export type InstantGamingGame = {
-	prod_id: number,
-	type: string,
-	region: string,
-	is_dlc: number,
-	preorder: number,
-	is_draft: number,
-	is_delivered: number,
-	retail_currency: string,
-	is_show_out_of_stock: number,
-	other_platforms_prod_id: string,
-	similar_prod_id: string,
-	promo: number,
+	prod_id: number
+	type: string
+	region: string
+	is_dlc: number
+	preorder: number
+	is_draft: number
+	is_delivered: number
+	retail_currency: string
+	is_show_out_of_stock: number
+	other_platforms_prod_id: string
+	similar_prod_id: string
+	promo: number
 	/** In percentage */
-	discount: number,
+	discount: number
 	currency_prices: {
-		EUR: number,
-		USD: number,
-		GBP: number,
-		DKK: number,
-		CHF: number,
-		CAD: number,
-		RSD: number,
-		CZK: number,
-		AUD: number,
-		SEK: number,
-		PLN: number,
-		NOK: number,
-		AED: number,
-		BRL: number,
-	},
-	sites: Array<string>,
-	sites_prices: Array<Record<string, number>>,
-	platforms: Array<string>,
-	publisher_ids: Array<string>,
-	developer_ids: Array<string>,
-	price: number,
-	retail: string,
-	search_tags: Array<string>,
-	avail_date: number,
-	vpn_countries: null,
-	exclude_from_search: number,
-	langs: Array<string>,
-	is_free_to_play: number,
-	updated_at: number,
-	has_video_preview: number,
-	video_preview_updated_at: number,
-	is_prepaid: number,
-	is_subscription: number,
-	can_display_video_preview: number,
-	badges: Array<string>,
-	platform: string,
-	is_timestamp_avail_date: number,
-	has_stock: number,
-	reviews_avg: number,
-	developer_name: Array<string>,
-	publisher_name: Array<string>,
-	price_eur: string,
-	lang: string,
-	name: string,
-	seo_name: string,
-	small_name: string,
-	cat_ids: Array<string>,
-	features: Array<string>,
-	objectID: string,
+		EUR: number
+		USD: number
+		GBP: number
+		DKK: number
+		CHF: number
+		CAD: number
+		RSD: number
+		CZK: number
+		AUD: number
+		SEK: number
+		PLN: number
+		NOK: number
+		AED: number
+		BRL: number
+	}
+	sites: Array<string>
+	sites_prices: Array<Record<string, number>>
+	platforms: Array<string>
+	publisher_ids: Array<string>
+	developer_ids: Array<string>
+	price: number
+	retail: string
+	search_tags: Array<string>
+	avail_date: number
+	vpn_countries: null
+	exclude_from_search: number
+	langs: Array<string>
+	is_free_to_play: number
+	updated_at: number
+	has_video_preview: number
+	video_preview_updated_at: number
+	is_prepaid: number
+	is_subscription: number
+	can_display_video_preview: number
+	badges: Array<string>
+	platform: string
+	is_timestamp_avail_date: number
+	has_stock: number
+	reviews_avg: number
+	developer_name: Array<string>
+	publisher_name: Array<string>
+	price_eur: string
+	lang: string
+	name: string
+	seo_name: string
+	small_name: string
+	cat_ids: Array<string>
+	features: Array<string>
+	objectID: string
 	_highlightResult: {
-		search_tags: Array<{ value: string, matchLevel: string, matchedWords: Array<string> }>,
-		developer_name: Array<{ value: string, matchLevel: string, matchedWords: Array<string> }>,
-		publisher_name: Array<{ value: string, matchLevel: string, matchedWords: Array<string> }>,
+		search_tags: Array<{ value: string; matchLevel: string; matchedWords: Array<string> }>
+		developer_name: Array<{ value: string; matchLevel: string; matchedWords: Array<string> }>
+		publisher_name: Array<{ value: string; matchLevel: string; matchedWords: Array<string> }>
 		name: {
-			value: string,
-			matchLevel: string,
-			fullyHighlighted: boolean,
-			matchedWords: Array<string>,
-		},
+			value: string
+			matchLevel: string
+			fullyHighlighted: boolean
+			matchedWords: Array<string>
+		}
 		small_name: {
-			value: string,
-			matchLevel: string,
-			fullyHighlighted: boolean,
-			matchedWords: Array<string>,
-		},
-	},
+			value: string
+			matchLevel: string
+			fullyHighlighted: boolean
+			matchedWords: Array<string>
+		}
+	}
 }

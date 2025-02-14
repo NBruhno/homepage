@@ -1,0 +1,114 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "ignore": ["./node_modules/**/*", "./public/**/*", "./.vercel/**/*", "./.next/**/*", "./supabase/**/*", "./.vscode/**/*"]
+  },
+  "formatter": {
+    "enabled": true,
+    "useEditorconfig": true,
+    "indentStyle": "tab",
+    "lineWidth": 160
+  },
+  "organizeImports": {
+    "enabled": true
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": false,
+      "a11y": {
+        "useValidAnchor": "off"
+      },
+      "complexity": {
+        "noStaticOnlyClass": "error",
+        "noUselessFragments": "error",
+        "noUselessThisAlias": "error",
+        "noUselessTypeConstraint": "error",
+        "noVoid": "warn",
+        "useLiteralKeys": "off"
+      },
+      "correctness": {
+        "noInvalidUseBeforeDeclaration": "error",
+        "noUndeclaredVariables": "off",
+        "noUnusedVariables": "off",
+        "noUnusedFunctionParameters": "warn",
+        "useExhaustiveDependencies": "warn",
+        "useHookAtTopLevel": "error"
+      },
+      "style": {
+        "noNonNullAssertion": "warn",
+        "noParameterAssign": "off",
+        "noUselessElse": "off",
+        "useAsConstAssertion": "error",
+        "useNamingConvention": "warn",
+        "useConsistentArrayType": {
+          "level": "error",
+          "options": {
+            "syntax": "generic"
+          }
+        },
+        "useDefaultSwitchClause": "off",
+        "useEnumInitializers": "error",
+        "useImportType": "error",
+        "useLiteralEnumMembers": "error",
+        "useShorthandFunctionType": "error",
+        "useTemplate": "off"
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off",
+        "noConfusingVoidType": "error",
+        "noConsole": "error",
+        "noEmptyInterface": "error",
+        "noExplicitAny": "off",
+        "noExtraNonNullAssertion": "error",
+        "noMisleadingInstantiator": "off",
+        "useNamespaceKeyword": "error"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "enabled": true,
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "single",
+      "semicolons": "asNeeded",
+      "arrowParentheses": "always",
+      "attributePosition": "auto",
+      "bracketSameLine": false,
+      "bracketSpacing": true,
+      "trailingCommas": "all",
+      "quoteProperties": "asNeeded"
+    },
+    "globals": ["React"]
+  },
+  "overrides": [
+    {
+      "include": ["*.ts", "*.tsx"],
+      "linter": {
+        "rules": {
+          "complexity": {
+            "useOptionalChain": "error"
+          },
+          "correctness": {
+            "noUnusedVariables": "error"
+          },
+          "style": {
+            "useExportType": "error",
+            "useNamingConvention": {
+              "level": "warn",
+              "options": {
+                "strictCase": true
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

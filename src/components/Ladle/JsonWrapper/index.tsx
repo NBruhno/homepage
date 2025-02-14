@@ -4,8 +4,8 @@ import { useTheme } from 'styled-components'
 import { Container } from './Container'
 
 type Props = {
-	data: Record<string, any>,
-	name?: string,
+	data: Record<string, any>
+	name?: string
 }
 
 export const JsonWrapper = ({ data, name }: Props) => {

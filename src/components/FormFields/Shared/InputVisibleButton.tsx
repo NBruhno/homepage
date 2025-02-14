@@ -2,13 +2,24 @@ import { IconEye, IconEyeOff } from '@tabler/icons-react'
 import { styled } from 'styled-components'
 
 import { ButtonIcon } from 'components/Buttons'
+import type { ComponentPropsWithRef } from 'react'
+import type { Merge } from 'type-fest'
 
-type Props = {
-	isVisible?: boolean,
-	isEnabled: boolean,
+type InternalProps = {
+	isVisible?: boolean
+	isEnabled: boolean
 }
 
-export const InputVisibleButton = styled(ButtonIcon).attrs<Props>(({ isEnabled, onClick }) => ({
+type Props = Merge<
+	ComponentPropsWithRef<typeof ButtonIcon>,
+	{
+		isVisible?: boolean
+		isEnabled: boolean
+		label?: never
+	}
+>
+
+export const InputVisibleButton = styled(ButtonIcon).attrs<InternalProps>(({ isEnabled, onClick }) => ({
 	label: isEnabled ? <IconEyeOff size={22} /> : <IconEye size={22} />,
 	onClick: (event) => {
 		event.preventDefault()

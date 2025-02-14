@@ -1,4 +1,4 @@
-import { keyframes, styled } from 'styled-components'
+import { css, keyframes, styled } from 'styled-components'
 
 const fadeIn = keyframes`
 	0% { opacity: 0; }
@@ -6,7 +6,7 @@ const fadeIn = keyframes`
 
 export const Error = styled.div`
 	align-items: center;
-	animation: ${fadeIn} 0.2s;
+	animation: ${css`${fadeIn} 0.2s;`} 0.2s;
 	display: flex;
 	flex-direction: column;
 	font-size: ${({ theme }) => theme.font.size.s80};

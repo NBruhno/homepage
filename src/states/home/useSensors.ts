@@ -1,6 +1,6 @@
 import type { Sensor } from 'types'
 
-import useSWR from 'swr'
+import useSwr from 'swr'
 
 import { useUser } from 'states/users'
 
@@ -10,10 +10,10 @@ import { fetcher } from 'lib/fetcher'
 export const useSensors = () => {
 	const accessToken = useUser((state) => state.accessToken)
 
-	const { data } = useSWR<{ sensors: Array<Sensor> } | undefined, ApiError>(
-		accessToken ? '/home/sensors' : null, (link: string) => (
-			fetcher(link, { accessToken })
-		), {
+	const { data } = useSwr<{ sensors: Array<Sensor> } | undefined, ApiError>(
+		accessToken ? '/home/sensors' : null,
+		(link: string) => fetcher(link, { accessToken }),
+		{
 			refreshInterval: 60000,
 			errorRetryInterval: 10000,
 			revalidateOnFocus: false,

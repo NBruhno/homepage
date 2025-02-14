@@ -1,6 +1,6 @@
-import type { EffectCallback, DependencyList } from 'react'
+import type { DependencyList, EffectCallback } from 'react'
 
-import { useLayoutEffect, useEffect } from 'react'
+import { useEffect, useLayoutEffect } from 'react'
 
 /**
  * Uses either useEffect or useLayoutEffect based on wether this is being computed on the server or client.
@@ -12,10 +12,10 @@ import { useLayoutEffect, useEffect } from 'react'
  */
 export const useIsomorphicLayoutEffect = (effect: EffectCallback, deps?: DependencyList) => {
 	const canUseDom = Boolean(
-		typeof window !== 'undefined'
-		// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
-		&& typeof window.document !== 'undefined'
-		&& typeof window.document.createElement !== 'undefined',
+		typeof window !== 'undefined' &&
+			// eslint-disable-next-line @typescript-eslint/prefer-optional-chain
+			typeof window.document !== 'undefined' &&
+			typeof window.document.createElement !== 'undefined',
 	)
 
 	const useRelevantEffect = canUseDom ? useLayoutEffect : useEffect

@@ -49,11 +49,14 @@ const securityHeaders = [
 const GIT_COMMIT_MESSAGE = process.env.VERCEL_GIT_COMMIT_MESSAGE
 const sentryConfig = {
 	silent: process.env.VERCEL_ENV === 'development',
-	deploy: process.env.VERCEL_ENV !== 'development' ? ({
-		env: process.env.VERCEL_ENV,
-		name: GIT_COMMIT_MESSAGE.length > 60 ? GIT_COMMIT_MESSAGE.substring(0, 60 - 3) + '...' : GIT_COMMIT_MESSAGE,
-		url: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
-	}) : undefined,
+	deploy:
+		process.env.VERCEL_ENV !== 'development'
+			? {
+					env: process.env.VERCEL_ENV,
+					name: GIT_COMMIT_MESSAGE.length > 60 ? GIT_COMMIT_MESSAGE.substring(0, 60 - 3) + '...' : GIT_COMMIT_MESSAGE,
+					url: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : undefined,
+				}
+			: undefined,
 }
 
 /** @type {import('next').NextConfig} */
@@ -63,21 +66,28 @@ const nextConfig = {
 	experimental: {
 		// fallbackNodePolyfills: false,
 		esmExternals: true,
-		// Some files are included in the Next tracing which is incorrect and the files are huge, so we are excluding
-		// them to make sure we don't hit the size limit for our lambda functions
-		outputFileTracingExcludes: {
-			'*': [
-				'./**/node_modules/@swc/core-linux-x64-gnu',
-				'./**/node_modules/@swc/core-linux-x64-musl',
-				'./**/node_modules/esbuild/linux',
-				'./**/node_modules/webpack',
-				'./**/node_modules/rollup',
-				'./**/node_modules/terser',
-			],
-		},
+	},
+
+	// Some files are included in the Next tracing which is incorrect and the files are huge, so we are excluding
+	// them to make sure we don't hit the size limit for our lambda functions
+	outputFileTracingExcludes: {
+		'*': [
+			'./**/node_modules/@swc/core-linux-x64-gnu',
+			'./**/node_modules/@swc/core-linux-x64-musl',
+			'./**/node_modules/esbuild/linux',
+			'./**/node_modules/webpack',
+			'./**/node_modules/rollup',
+			'./**/node_modules/terser',
+		],
 	},
 
 	images: {
+		localPatterns: [
+			{
+				pathname: '/images/**',
+				search: '',
+			},
+		],
 		remotePatterns: [
 			{
 				protocol: 'https',
@@ -97,12 +107,12 @@ const nextConfig = {
 		ignoreBuildErrors: true,
 	},
 
-	swcMinify: true,
 	compiler: {
 		styledComponents: true,
 	},
 
-	outputFileTracing: true,
+	pageExtensions: ['route.tsx', 'route.ts'],
+
 	poweredByHeader: false,
 
 	modularizeImports: {

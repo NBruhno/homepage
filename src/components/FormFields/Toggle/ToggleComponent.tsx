@@ -1,13 +1,13 @@
-import { styled, css } from 'styled-components'
+import { css, styled } from 'styled-components'
 
 import { adjustHsl } from 'lib/client'
 
 type Props = {
-	isChecked: boolean,
-	isDisabled: boolean,
-	isFocusVisible: boolean,
-	isHovered: boolean,
-	isLoading?: boolean,
+	isChecked: boolean
+	isDisabled: boolean
+	isFocusVisible: boolean
+	isHovered: boolean
+	isLoading?: boolean
 }
 
 export const ToggleComponent = styled.div<Props>`
@@ -23,7 +23,7 @@ export const ToggleComponent = styled.div<Props>`
 	outline: 0;
 	flex-shrink: 0;
 	margin: auto;
-	cursor: ${({ isDisabled, isLoading }) => (isDisabled || isLoading) ? 'auto' : 'pointer'};
+	cursor: ${({ isDisabled, isLoading }) => (isDisabled || isLoading ? 'auto' : 'pointer')};
 
 	transition: box-shadow 0.15s ease-in-out, background-color 0.15s ease-in-out;
 
@@ -34,17 +34,19 @@ export const ToggleComponent = styled.div<Props>`
 		width: 18px;
 		left: 2px;
 		bottom: 2px;
-		background-color: ${({ theme, isDisabled }) => isDisabled ? theme.color.grayLighter : theme.color.white};
+		background-color: ${({ theme, isDisabled }) => (isDisabled ? theme.color.grayLighter : theme.color.white)};
 		transition: transform 0.15s;
 		border-radius: 50px;
 		transform: ${({ isLoading, isChecked }) => {
-		if (isLoading) return 'translateX(9px)'
-		else if (isChecked) return 'translateX(18px)'
-		else return 'translateX(0)'
-	}};
+			if (isLoading) return 'translateX(9px)'
+			else if (isChecked) return 'translateX(18px)'
+			else return 'translateX(0)'
+		}};
 	}
 
-	${({ isFocusVisible }) => isFocusVisible && css`
+	${({ isFocusVisible }) =>
+		isFocusVisible &&
+		css`
 		outline: ${({ theme }) => `${theme.color.focusOutline} solid 2px`};
 		outline-offset: 2px;
 	`}

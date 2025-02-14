@@ -4,7 +4,7 @@ import { IconCheck } from '@tabler/icons-react'
 import { styled } from 'styled-components'
 
 type Props = ComponentPropsWithoutRef<'div'> & {
-	isChecked: boolean,
+	isChecked: boolean
 }
 
 export const CheckMark = styled.div.attrs({
@@ -18,6 +18,6 @@ export const CheckMark = styled.div.attrs({
 	flex-shrink: 0;
 	background-color: ${({ theme }) => theme.color.primary};
 	color: ${({ theme }) => theme.color.textInverted};
-	opacity: ${({ isChecked }) => isChecked ? 1 : 0};
+	opacity: ${({ isChecked }) => (isChecked ? 1 : 0)};
 	border-radius: 100%;
 `

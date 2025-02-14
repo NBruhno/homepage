@@ -1,10 +1,10 @@
 export type GameUserData = {
-	isFollowing: boolean,
-	isInSteamLibrary: boolean,
+	isFollowing: boolean
+	isInSteamLibrary: boolean
 	/** In hours */
-	timePlayed: number | null,
+	timePlayed: number | null
 	/** In hours */
-	timePlayedLastTwoWeeks: number | null,
+	timePlayedLastTwoWeeks: number | null
 	/** ISO date */
-	lastPlayedAt: string | null,
+	lastPlayedAt: string | null
 }

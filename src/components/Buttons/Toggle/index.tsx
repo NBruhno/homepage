@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { delay } from 'lib/delay'
 
@@ -8,16 +8,18 @@ import { Container } from './Container'
 import { Label } from './Label'
 
 type Option<T> = {
-	label: string,
-	value: T,
+	label: string
+	value: T
 }
 
 type Props<T> = {
-	options: Array<Option<T>>,
-	label?: string,
-	initialValue?: T,
+	options: Array<Option<T>>
+	label?: string
+	initialValue?: T
+	style?: React.CSSProperties
+	className?: string
 
-	onValueChange: (value: T) => any,
+	onValueChange: (value: T) => any
 }
 
 export const ButtonToggle = <T extends number | string | boolean>({ options, label, initialValue = options[0].value, onValueChange, ...rest }: Props<T>) => {

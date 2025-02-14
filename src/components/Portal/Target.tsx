@@ -1,8 +1,7 @@
-export const PortalTarget = () => (
-	<div
-		id='portal'
-		css={{
-			overflow: 'hidden',
-		}}
-	/>
-)
+import { styled } from 'styled-components'
+
+export const PortalTarget = styled.div.attrs({
+	id: 'portal',
+})`
+	overflow: hidden;
+`

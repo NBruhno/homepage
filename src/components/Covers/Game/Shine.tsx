@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-base-to-string */
-import { keyframes, styled } from 'styled-components'
+import { css, keyframes, styled } from 'styled-components'
 
-const animation = keyframes`
+const shine = keyframes`
 	0%, 100% {
 		margin-top: -400px;
 	}
@@ -12,7 +12,7 @@ const animation = keyframes`
 `
 
 type Props = {
-	isVisible: boolean,
+	isVisible: boolean
 }
 
 export const Shine = styled.div<Props>`
@@ -24,5 +24,5 @@ export const Shine = styled.div<Props>`
 	position: absolute;
 	transition: opacity 150ms ease-in-out;
 	opacity: ${({ isVisible }) => (isVisible ? 1 : 0)};
-	animation: ${({ isVisible }) => (isVisible ? `${animation} 5s ease-in-out infinite` : 'none')};
+	animation: ${({ isVisible }) => (isVisible ? css`${shine} 5s ease-in-out infinite;` : 'none')};
 `

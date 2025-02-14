@@ -1,11 +1,11 @@
 import { styled } from 'styled-components'
 
 type Props = {
-	isActive?: boolean,
-	isBold?: boolean,
-	isHorizontal: boolean,
-	isSlim?: boolean,
-	shouldMirror?: boolean,
+	isActive?: boolean
+	isBold?: boolean
+	isHorizontal: boolean
+	isSlim?: boolean
+	shouldMirror?: boolean
 }
 
 const ChevronLine = styled.span`
@@ -26,7 +26,7 @@ export const Line = ({ isSlim, isBold, shouldMirror, isActive, isHorizontal, ...
 	}
 
 	const verticalTransform = `translateY(${isActive ? -0.4 : 0}em) rotate(${-90 + (shouldMirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
-	const isHorizontalTransform = `translateY(${isActive ? -0.4 : -0.40}em) rotate(${0 + (shouldMirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
+	const isHorizontalTransform = `translateY(${isActive ? -0.4 : -0.4}em) rotate(${0 + (shouldMirror ? -1 : 1) * (isActive ? 135 : 45)}deg)`
 
 	return (
 		<ChevronLine

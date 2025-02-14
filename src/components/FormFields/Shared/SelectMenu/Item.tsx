@@ -5,8 +5,8 @@ import { styled } from 'styled-components'
 import { adjustHsl } from 'lib/client'
 
 type Props = ComponentPropsWithoutRef<'div'> & {
-	isHighlighted: boolean,
-	isSelected: boolean,
+	isHighlighted: boolean
+	isSelected: boolean
 }
 
 export const Item = styled.div<Props>`

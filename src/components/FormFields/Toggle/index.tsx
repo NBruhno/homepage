@@ -13,12 +13,12 @@ import { Checkbox } from './Checkbox'
 import { ToggleComponent } from './ToggleComponent'
 
 type Props = {
-	label: string,
-	name: string,
+	label: string
+	name: string
 
-	hint?: string,
-	isDisabled?: boolean,
-	isFullWidth?: boolean,
+	hint?: string
+	isDisabled?: boolean
+	isFullWidth?: boolean
 }
 
 export const Toggle = ({ isFullWidth = true, label, hint, isDisabled = false, name }: Props) => {
@@ -31,7 +31,7 @@ export const Toggle = ({ isFullWidth = true, label, hint, isDisabled = false, na
 	const inputProps = register(name, {
 		disabled: isDisabled,
 		value: false,
-		setValueAs: (value: unknown) => value === undefined || value === '' ? false : value,
+		setValueAs: (value: unknown) => (value === undefined || value === '' ? false : value),
 	})
 
 	return (
@@ -42,12 +42,7 @@ export const Toggle = ({ isFullWidth = true, label, hint, isDisabled = false, na
 					<span>{label}</span>
 					{hint && <Hint>{hint}</Hint>}
 				</LabelContainer>
-				<Checkbox
-					{...inputProps}
-					disabled={isDisabled}
-					id={id}
-					type='checkbox'
-				/>
+				<Checkbox {...inputProps} disabled={isDisabled} id={id} type='checkbox' />
 			</RowLabel>
 		</FieldWrapper>
 	)

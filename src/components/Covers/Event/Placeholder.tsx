@@ -1,7 +1,7 @@
 import { IconTicket } from '@tabler/icons-react'
-import { styled } from 'styled-components'
-
+import type { ComponentProps } from 'react'
 import { useLoading } from 'states/page'
+import { styled } from 'styled-components'
 
 export const PlaceholderLine = styled.div`
 	background: ${({ theme }) => theme.color.input.background};
@@ -22,12 +22,8 @@ export const PlaceholderLine = styled.div`
 	}
 `
 
-export const Placeholder = () => {
+export const Placeholder = (props: ComponentProps<typeof PlaceholderLine>) => {
 	const { isLoading } = useLoading()
 
-	return (
-		<PlaceholderLine>
-			{!isLoading && <IconTicket size={48} />}
-		</PlaceholderLine>
-	)
+	return <PlaceholderLine {...props}>{!isLoading && <IconTicket size={48} />}</PlaceholderLine>
 }

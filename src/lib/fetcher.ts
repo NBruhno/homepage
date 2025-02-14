@@ -14,14 +14,14 @@ export enum Method {
 }
 
 export type Options = {
-	absoluteUrl?: string,
-	accessToken?: string | undefined,
-	body?: Record<string, any>,
-	cacheControl?: string,
-	credentials?: RequestCredentials,
-	customHeaders?: Record<string, any>,
-	method?: Method,
-	mode?: RequestMode,
+	absoluteUrl?: string
+	accessToken?: string | undefined
+	body?: Record<string, any>
+	cacheControl?: string
+	credentials?: RequestCredentials
+	customHeaders?: Record<string, any>
+	method?: Method
+	mode?: RequestMode
 }
 
 /**
@@ -38,17 +38,19 @@ export type Options = {
  * ```
  */
 export const fetcher = async <ReturnType>(
-	url: string, {
-		accessToken, body, method = Method.Get, absoluteUrl,
-		credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders,
-	}: Options = {}) => {
+	url: string,
+	{ accessToken, body, method = Method.Get, absoluteUrl, credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders }: Options = {},
+) => {
 	// Create headers object and remove falsy variables to exclude them from call
-	const headers = shake({
-		'Content-Type': 'application/json',
-		'Cache-Control': cacheControl,
-		Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-		...customHeaders,
-	}, (value) => value === undefined) as Record<string, string>
+	const headers = shake(
+		{
+			'Content-Type': 'application/json',
+			'Cache-Control': cacheControl,
+			Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
+			...customHeaders,
+		},
+		(value) => value === undefined,
+	) as Record<string, string>
 
 	return fetch(`${absoluteUrl ?? ''}/api${url}`, {
 		method,
@@ -58,12 +60,9 @@ export const fetcher = async <ReturnType>(
 		mode,
 	}).then(async (response) => {
 		if (response.status >= 400) {
-			const payload = await response.json() as { message?: string }
+			const payload = (await response.json()) as { message?: string }
 			logger.error(payload.message)
-			throw ApiError.fromCode(
-				response.status as unknown as keyof typeof statusCodes,
-				payload.message,
-			)
+			throw ApiError.fromCode(response.status as unknown as keyof typeof statusCodes, payload.message)
 		}
 
 		return response.json() as Promise<ReturnType>

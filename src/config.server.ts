@@ -1,6 +1,6 @@
-import { type TokenType, type Environment } from 'types'
+import type { Environment, TokenType } from 'types'
 
-import { type Algorithm } from '@node-rs/jsonwebtoken'
+import type { Algorithm } from '@node-rs/jsonwebtoken'
 
 export const config = Object.freeze({
 	amqp: {
@@ -12,11 +12,11 @@ export const config = Object.freeze({
 		systemToken: process.env.AUTH_SYSTEM_TOKEN as string,
 
 		keyPairs: JSON.parse(process.env.AUTH_KEY_PAIRS as string) as Array<{
-			id: string,
-			type: TokenType,
-			algorithm: Algorithm,
-			privateKey: string,
-			publicKey: string,
+			id: string
+			type: TokenType
+			algorithm: Algorithm
+			privateKey: string
+			publicKey: string
 		}>,
 	},
 
@@ -46,7 +46,7 @@ export const config = Object.freeze({
 		token: process.env.VGINSIGHTS_TOKEN as string,
 	},
 
-	environment: process.env.NODE_ENV === 'test' ? 'development' : process.env.NODE_ENV as Environment,
+	environment: process.env.NODE_ENV === 'test' ? 'development' : (process.env.NODE_ENV as Environment),
 	queueStrategy: process.env.QUEUE_STRATEGY as 'redis' | 'amqp',
 	smartHomeHost: process.env.SMART_HOME_HOST as string,
 	staticHost: process.env.STATIC_HOST as string,

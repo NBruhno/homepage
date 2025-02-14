@@ -3,8 +3,8 @@ import type { ReactNode } from 'react'
 import { styled } from 'styled-components'
 
 type Props = {
-	hasHeader?: ReactNode,
-	isVisible: boolean,
+	hasHeader?: ReactNode
+	isVisible: boolean
 }
 
 export const Content = styled.div<Props>`

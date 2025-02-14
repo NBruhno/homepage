@@ -1,8 +1,8 @@
 import { css, styled } from 'styled-components'
 
 type Props = {
-	isFocusVisible: boolean,
-	showPlaceholder: boolean,
+	isFocusVisible: boolean
+	showPlaceholder: boolean
 }
 
 export const Button = styled.button<Props>`
@@ -36,7 +36,9 @@ export const Button = styled.button<Props>`
 		box-shadow: none;
 	}
 
-	${({ isFocusVisible }) => isFocusVisible && css`
+	${({ isFocusVisible }) =>
+		isFocusVisible &&
+		css`
 		outline: ${({ theme }) => `${theme.color.focusOutline} solid 2px`};
 		outline-offset: 3px;
 	`}

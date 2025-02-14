@@ -1,4 +1,4 @@
-import { TextEncoder, TextDecoder, ReadableStream } from 'util'
+import { ReadableStream, TextDecoder, TextEncoder } from 'util'
 
 global.TextEncoder = TextEncoder
 global.TextDecoder = TextDecoder

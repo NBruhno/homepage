@@ -1,5 +1,10 @@
-import type { ComponentProps } from 'react'
+import Image from 'next/image'
+import { styled } from 'styled-components'
+import type { Stylable } from 'types/Stylable'
+import logo from './Logo.svg'
 
-export const Logo = (props: ComponentProps<'img'>) => (
-	<img alt='logo' src='./images/Logo.svg' {...props} />
-)
+const StyledImage = styled(Image)``
+
+type Props = Stylable
+
+export const Logo = (props: Props) => <StyledImage unoptimized alt='Logo' src={logo} {...props} />

@@ -1,7 +1,7 @@
 import { styled } from 'styled-components'
 
 type Props = {
-	shouldTransition: boolean,
+	shouldTransition: boolean
 }
 
 export const ActiveIndicator = styled.div<Props>`
@@ -13,7 +13,7 @@ export const ActiveIndicator = styled.div<Props>`
 	bottom: 2px;
 	border-radius: 4px;
 	transition: width ${({ theme }) => theme.animation.default}, transform ${({ theme }) => theme.animation.default}, opacity ${({ theme }) => theme.animation.default}, background-color ${({ theme }) => theme.animation.default};
-	transition-duration: ${({ shouldTransition }) => shouldTransition ? '135ms' : '0s'};
+	transition-duration: ${({ shouldTransition }) => (shouldTransition ? '135ms' : '0s')};
 	pointer-events: none;
 
 	&:has(+ div > button:active:not(:focus-visible)) {

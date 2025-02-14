@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/bruno/**/node_modules
 .pnp.*
 .pnpm-debug.log
 
@@ -16,12 +17,11 @@
 /public/workbox-*.js
 /public/workbox-*.js.map
 
-# misc
-.env
-.env*
-
 # Automatically generated files
 tsconfig.tsbuildinfo
 /public/sitemap.xml
 .vercel
 .eslintcache
+.swc
+dump.rdb
+git-crypt-key

@@ -9,16 +9,16 @@ import { Hint } from '../Hint'
 import { LabelContainer } from '../LabelContainer'
 import { RowLabel } from '../RowLabel'
 
-import { CheckboxComponent } from './CheckboxComponent'
 import { CheckMark } from './CheckMark'
+import { CheckboxComponent } from './CheckboxComponent'
 
 type Props = {
-	label: string,
-	name: string,
+	label: string
+	name: string
 
-	hint?: string,
-	isDisabled?: boolean,
-	isFullWidth?: boolean,
+	hint?: string
+	isDisabled?: boolean
+	isFullWidth?: boolean
 }
 
 export const Checkbox = ({ isFullWidth = true, label, hint, isDisabled = false, name }: Props) => {
@@ -31,7 +31,7 @@ export const Checkbox = ({ isFullWidth = true, label, hint, isDisabled = false, 
 	const inputProps = register(name, {
 		disabled: isDisabled,
 		value: false,
-		setValueAs: (value: unknown) => value === undefined || value === '' ? false : value,
+		setValueAs: (value: unknown) => (value === undefined || value === '' ? false : value),
 	})
 
 	return (
@@ -42,11 +42,7 @@ export const Checkbox = ({ isFullWidth = true, label, hint, isDisabled = false, 
 					<span>{label}</span>
 					{hint && <Hint>{hint}</Hint>}
 				</LabelContainer>
-				<CheckboxComponent
-					{...inputProps}
-					id={id}
-					type='checkbox'
-				/>
+				<CheckboxComponent {...inputProps} id={id} type='checkbox' />
 			</RowLabel>
 		</FieldWrapper>
 	)

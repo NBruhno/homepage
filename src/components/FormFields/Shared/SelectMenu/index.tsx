@@ -1,31 +1,41 @@
-import type { SelectOption } from '../../CommonProps'
 import type { UseComboboxGetItemPropsOptions } from 'downshift'
-import type { ComponentPropsWithRef, RefObject } from 'react'
+import type { ComponentPropsWithRef } from 'react'
+import type { SelectOption } from '../../CommonProps'
 
 import { isEqual } from 'radash'
-import { useMemo, forwardRef } from 'react'
 
-import { useScrollStore } from 'states/page'
-
+import {
+	FloatingPortal,
+	type Placement,
+	autoUpdate,
+	flip,
+	offset,
+	size,
+	useDismiss,
+	useFloating,
+	useInteractions,
+	useMergeRefs,
+	useRole,
+} from '@floating-ui/react'
 import { CheckMark } from './CheckMark'
 import { Container } from './Container'
 import { Empty } from './Empty'
 import { Item } from './Item'
 
 type Props = ComponentPropsWithRef<'div'> & {
-	highlightedOptionIndex: number,
-	isOpen: boolean,
-	maxNumberOfOptionsVisible: number,
-	options: Array<SelectOption>,
-	selectedItems: Array<SelectOption>,
-	position?: 'bottom' | 'top',
-	containerRef: RefObject<HTMLDivElement>,
+	highlightedOptionIndex: number
+	isOpen: boolean
+	maxNumberOfOptionsVisible: number
+	options: Array<SelectOption>
+	selectedItems: Array<SelectOption>
+	position?: Placement
+	containerRef: HTMLDivElement | null
 
-	getItemProps: (options: UseComboboxGetItemPropsOptions<SelectOption>) => any,
-	onSelectOption?: (item: SelectOption) => void,
+	getItemProps: (options: UseComboboxGetItemPropsOptions<SelectOption>) => any
+	onSelectOption?: (item: SelectOption) => void
 }
 
-export const SelectMenu = forwardRef<HTMLDivElement, Props>(({
+export const SelectMenu = ({
 	containerRef,
 	getItemProps,
 	highlightedOptionIndex,
@@ -35,53 +45,64 @@ export const SelectMenu = forwardRef<HTMLDivElement, Props>(({
 	options,
 	position = 'bottom',
 	selectedItems,
+	ref,
+	style,
 	...rest
-}, ref) => {
-	const windowScrollX = useScrollStore((state) => state.scrollX)
-	const windowScrollY = useScrollStore((state) => state.scrollY)
-	const childRect = useMemo(() => {
-		if (!containerRef.current || typeof window === 'undefined' || !isOpen) {
-			return { height: 0, width: 0, top: 0, right: 0, left: 0, tooltipHeight: 0, tooltipWidth: 0 }
-		}
-		const { height, width, top, left, right } = containerRef.current.getBoundingClientRect()
-		return {
-			height,
-			width,
-			top: top + windowScrollY,
-			left: left + windowScrollX,
-			right: right + windowScrollX,
-		}
-	}, [windowScrollX, windowScrollY, containerRef, isOpen])
+}: Props) => {
+	const { refs, floatingStyles, context } = useFloating({
+		open: isOpen,
+		elements: {
+			reference: containerRef,
+		},
+		placement: position,
+		// Make sure the tooltip stays on the screen
+		whileElementsMounted: autoUpdate,
+		middleware: [
+			offset(6),
+			flip({
+				fallbackPlacements: ['top'],
+			}),
+			size({
+				apply: ({ rects, elements, availableHeight }) => {
+					Object.assign(elements.floating.style, {
+						maxHeight: `${Math.min(availableHeight, 350)}px`,
+						width: `${rects.reference.width}px`,
+					})
+				},
+				padding: 10,
+			}),
+		],
+	})
+
+	const dismiss = useDismiss(context)
+	const role = useRole(context, { role: 'listbox' })
+	const { getFloatingProps } = useInteractions([role, dismiss])
+
+	const mergedRef = useMergeRefs([ref, refs.setFloating])
 
 	return (
-		<Container
-			isOpen={isOpen}
-			style={{
-				top: (() => {
-					switch (position) {
-						case 'top': return `calc(${childRect.top}px - 50px - 5px)`
-						case 'bottom': return `calc(${childRect.top}px + ${childRect.height}px + 5px)`
-					}
-				})(),
-				left: `${childRect.left}px`,
-				width: `calc(${childRect.width}px - 2px)`,
-			}}
-			{...rest}
-			ref={ref}
-		>
-			{options.length === 0 ? (
-				<Empty>Nothing matches your search</Empty>
-			) : options.slice(0, maxNumberOfOptionsVisible).map((item, index: number) => (
-				<Item
-					{...getItemProps({ key: `${item.label}-${index}`, index, item, onClick: onSelectOption ? () => onSelectOption(item) : undefined }) as Record<string, unknown>}
-					isHighlighted={highlightedOptionIndex === index}
-					isSelected={selectedItems.some((selectedItem) => isEqual(selectedItem, item))}
-					key={index}
-				>
-					<div style={{ width: '100%' }}>{item.label}</div>
-					<CheckMark isChecked={selectedItems.some((selectedItem) => isEqual(selectedItem, item))} />
-				</Item>
-			))}
-		</Container>
+		<FloatingPortal>
+			<Container isOpen={isOpen} {...rest} style={{ ...style, ...floatingStyles }} {...getFloatingProps} ref={mergedRef}>
+				{options.length === 0 ? (
+					<Empty>Nothing matches your search</Empty>
+				) : (
+					options.slice(0, maxNumberOfOptionsVisible).map((item, index: number) => (
+						<Item
+							{...(getItemProps({
+								index,
+								item,
+								onClick: onSelectOption ? () => onSelectOption(item) : undefined,
+							}) as Record<string, unknown>)}
+							key={`${item.label}-${index}`}
+							isHighlighted={highlightedOptionIndex === index}
+							isSelected={selectedItems.some((selectedItem) => isEqual(selectedItem, item))}
+						>
+							<div style={{ width: '100%' }}>{item.label}</div>
+							<CheckMark isChecked={selectedItems.some((selectedItem) => isEqual(selectedItem, item))} />
+						</Item>
+					))
+				)}
+			</Container>
+		</FloatingPortal>
 	)
-})
+}

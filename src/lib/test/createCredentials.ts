@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto'
 
-export const createCredentials = ({ label, shouldPrefixEmail = false }: { label?: string, shouldPrefixEmail?: boolean } = {}) => ({
+export const createCredentials = ({ label, shouldPrefixEmail = false }: { label?: string; shouldPrefixEmail?: boolean } = {}) => ({
 	accessCode: process.env.ACCESS_CODE!,
 	defaultPassword: process.env.TESTING_CREDENTIALS_PASSWORD!,
 	email: `${shouldPrefixEmail ? randomBytes(10).toString('hex') : 'test'}${label ? `+${label}` : ''}@${process.env.TESTING_DOMAIN!}`,

@@ -5,7 +5,7 @@ import { adjustHsl } from 'lib/client'
 import { ButtonAsync } from './Async'
 
 type Props = {
-	isSlim?: boolean,
+	isSlim?: boolean
 }
 
 export const ButtonText = styled(ButtonAsync)<Props>`
@@ -15,8 +15,8 @@ export const ButtonText = styled(ButtonAsync)<Props>`
 	padding: 6px 12px;
 	margin: 4px 0;
 	min-width: 0px;
-	height: ${({ isSlim }) => isSlim ? '35px' : 'unset'};
-	font-size: ${({ theme, isSlim }) => isSlim ? theme.font.size.s90 : theme.font.size.s100};
+	height: ${({ isSlim }) => (isSlim ? '35px' : 'unset')};
+	font-size: ${({ theme, isSlim }) => (isSlim ? theme.font.size.s90 : theme.font.size.s100)};
 	
 	&:disabled {
 		color: ${({ theme }) => adjustHsl(theme.color.white, { alpha: 0.3 })};

@@ -14,7 +14,11 @@ export const Snackbars = () => {
 
 	return (
 		<>
-			{snackbars.map(({ message, type }, index) => <Snackbar isError={type === 'Alert'} key={index}>{message}</Snackbar>)}
+			{snackbars.map(({ message, type }, index) => (
+				<Snackbar isError={type === 'Alert'} key={index}>
+					{message}
+				</Snackbar>
+			))}
 		</>
 	)
 }

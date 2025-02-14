@@ -8,7 +8,7 @@ import { useId } from 'react'
  * ```tsx
  * const [id] = useUnique()
  * ```
-*/
+ */
 export const useUnique = (name?: string) => {
 	const generatedId = useId()
 	return name ? `${name}-${generatedId}` : generatedId

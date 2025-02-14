@@ -1,7 +1,7 @@
 import { styled } from 'styled-components'
 
 type Props = {
-	isSlim?: boolean,
+	isSlim?: boolean
 }
 
 export const RowLabel = styled.label<Props>`

@@ -1,11 +1,11 @@
 import { styled } from 'styled-components'
 
 type Props = {
-	showPlaceholder: boolean,
+	showPlaceholder: boolean
 }
 
 export const Label = styled.div<Props>`
-	opacity: ${({ showPlaceholder }) => showPlaceholder ? 0 : 1};
+	opacity: ${({ showPlaceholder }) => (showPlaceholder ? 0 : 1)};
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

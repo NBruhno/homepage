@@ -19,31 +19,37 @@ const isProduction = config.environment !== 'development'
  * setRefreshCookie(res, refreshToken, transaction)
  * ```
  */
-export const setRefreshCookie = (res: NextApiResponse, token: string, transaction?: Span | Transaction) => monitor(() => {
-	const expiration = Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3)
+export const setRefreshCookie = (res: NextApiResponse, token: string, transaction?: Span | Transaction) =>
+	monitor(
+		() => {
+			const expiration = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 3
 
-	const refreshCookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', token, {
-		expires: new Date(expiration * 1000),
-		httpOnly: true,
-		maxAge: 60 * 60 * 24 * 3,
-		path: '/',
-		sameSite: 'strict',
-		secure: isProduction,
-	})
+			const refreshCookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', token, {
+				expires: new Date(expiration * 1000),
+				httpOnly: true,
+				maxAge: 60 * 60 * 24 * 3,
+				path: '/',
+				sameSite: 'strict',
+				secure: isProduction,
+			})
 
-	const refreshCookieCheck = serialize(isProduction ? '__Host-refreshTokenExists' : 'refreshTokenExists', 'true', {
-		expires: new Date(expiration * 1000),
-		httpOnly: false,
-		maxAge: 60 * 60 * 24 * 3,
-		path: '/',
-		sameSite: 'strict',
-		secure: isProduction,
-	})
+			const refreshCookieCheck = serialize(isProduction ? '__Host-refreshTokenExists' : 'refreshTokenExists', 'true', {
+				expires: new Date(expiration * 1000),
+				httpOnly: false,
+				maxAge: 60 * 60 * 24 * 3,
+				path: '/',
+				sameSite: 'strict',
+				secure: isProduction,
+			})
 
-	if (refreshCookie && refreshCookieCheck) {
-		res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
-	} else throw new Error('Failed to create refresh cookie')
-}, 'setRefreshCookie()', '', transaction)
+			if (refreshCookie && refreshCookieCheck) {
+				res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
+			} else throw new Error('Failed to create refresh cookie')
+		},
+		'setRefreshCookie()',
+		'',
+		transaction,
+	)
 
 /**
  * Function that sets a cookie that removes the current refresh token.
@@ -54,25 +60,31 @@ export const setRefreshCookie = (res: NextApiResponse, token: string, transactio
  * removeRefreshCookie(res, transaction)
  * ```
  */
-export const removeRefreshCookie = (res: NextApiResponse, transaction?: Span | Transaction) => monitor(() => {
-	const refreshCookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', '', {
-		httpOnly: true,
-		maxAge: -1,
-		path: '/',
-		sameSite: 'strict',
-		expires: new Date('1970'),
-		secure: isProduction,
-	})
+export const removeRefreshCookie = (res: NextApiResponse, transaction?: Span | Transaction) =>
+	monitor(
+		() => {
+			const refreshCookie = serialize(isProduction ? '__Host-refreshToken' : 'refreshToken', '', {
+				httpOnly: true,
+				maxAge: -1,
+				path: '/',
+				sameSite: 'strict',
+				expires: new Date('1970'),
+				secure: isProduction,
+			})
 
-	const refreshCookieCheck = serialize(isProduction ? '__Host-refreshTokenExists' : 'refreshTokenExists', '', {
-		httpOnly: false,
-		maxAge: -1,
-		path: '/',
-		sameSite: 'strict',
-		expires: new Date('1970'),
-		secure: isProduction,
-	})
-	if (refreshCookie && refreshCookieCheck) {
-		res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
-	} else throw new Error('Failed to remove refresh cookie')
-}, 'removeRefreshCookie()', '', transaction)
+			const refreshCookieCheck = serialize(isProduction ? '__Host-refreshTokenExists' : 'refreshTokenExists', '', {
+				httpOnly: false,
+				maxAge: -1,
+				path: '/',
+				sameSite: 'strict',
+				expires: new Date('1970'),
+				secure: isProduction,
+			})
+			if (refreshCookie && refreshCookieCheck) {
+				res.setHeader('Set-Cookie', [refreshCookie, refreshCookieCheck])
+			} else throw new Error('Failed to remove refresh cookie')
+		},
+		'removeRefreshCookie()',
+		'',
+		transaction,
+	)

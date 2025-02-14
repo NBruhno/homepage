@@ -8,8 +8,16 @@ export const igdbImageUrl = 'https://images.igdb.com/igdb/image/upload'
 
 export const mapIgdbEvent = (event: IgdbEvent) => {
 	const {
-		id, name, description, event_logo: eventLogo, start_time: startTime, games,
-		end_time: endTime, time_zone: timezone, live_stream_url: liveStreamUrl, videos,
+		id,
+		name,
+		description,
+		event_logo: eventLogo,
+		start_time: startTime,
+		games,
+		end_time: endTime,
+		time_zone: timezone,
+		live_stream_url: liveStreamUrl,
+		videos,
 	} = event
 
 	return {
@@ -22,6 +30,6 @@ export const mapIgdbEvent = (event: IgdbEvent) => {
 		liveStreamUrl,
 		logo: eventLogo?.image_id ? `${igdbImageUrl}/t_1080p/${eventLogo.image_id}.jpg` : null,
 		games: games ? games.map(mapIgdbGame) : [],
-		videos: (videos && videos.length > 0) ? videos.map(({ name, video_id: videoId }) => ({ name: name ?? null, videoId })) : [],
+		videos: videos && videos.length > 0 ? videos.map(({ name, video_id: videoId }) => ({ name: name ?? null, videoId })) : [],
 	}
 }

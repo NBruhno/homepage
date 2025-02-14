@@ -4,13 +4,7 @@ import type { ComponentProps } from 'react'
 import { Video } from '.'
 
 export const Default: Story<ComponentProps<typeof Video>> = ({ id, name, shouldAutoplay, isMuted, hasRoundedCorners }) => (
-	<Video
-		id={id}
-		name={name}
-		shouldAutoplay={shouldAutoplay}
-		isMuted={isMuted}
-		hasRoundedCorners={hasRoundedCorners}
-	/>
+	<Video id={id} name={name} shouldAutoplay={shouldAutoplay} isMuted={isMuted} hasRoundedCorners={hasRoundedCorners} />
 )
 
 Default.args = {

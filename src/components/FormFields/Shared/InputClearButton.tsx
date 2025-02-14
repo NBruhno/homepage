@@ -4,8 +4,8 @@ import { styled } from 'styled-components'
 import { ButtonIcon } from 'components/Buttons'
 
 type Props = {
-	label?: never,
-	isVisible?: boolean,
+	label?: never
+	isVisible?: boolean
 }
 
 export const InputClearButton = styled(ButtonIcon).attrs(({ onClick }) => ({

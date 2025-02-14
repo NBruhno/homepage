@@ -8,33 +8,25 @@ import { Error } from './Error'
 import { Loader } from './Loader'
 
 type Props = {
-	children: ReactNode,
-	hasError?: boolean,
-	header?: ReactNode,
-	isExpanded?: boolean,
-	isLoading?: boolean,
-	shouldAnimate?: boolean,
+	children: ReactNode
+	hasError?: boolean
+	header?: ReactNode
+	isExpanded?: boolean
+	isLoading?: boolean
+	shouldAnimate?: boolean
 
-	style?: CSSProperties,
-	className?: string,
+	style?: CSSProperties
+	className?: string
 }
 
-export const Card = ({
-	children,
-	hasError = false,
-	isExpanded = true,
-	isLoading = false,
-	header,
-	shouldAnimate = true,
-	...rest
-}: Props) => (
-	<Container>
+export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, shouldAnimate = true, ...rest }: Props) => (
+	<Container {...rest}>
 		<Collapse isOpen={isExpanded} transitionTime={shouldAnimate ? 0.2 : 0}>
 			<>
 				{isExpanded && hasError && <Error>Failed to load content</Error>}
 				{isExpanded && !hasError && isLoading && <Loader />}
 				{!hasError && !isLoading && (
-					<Content hasHeader={Boolean(header)} isVisible={isExpanded} {...rest}>
+					<Content hasHeader={Boolean(header)} isVisible={isExpanded}>
 						{children}
 					</Content>
 				)}

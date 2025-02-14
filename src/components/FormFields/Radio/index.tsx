@@ -1,6 +1,6 @@
 import { get, isEmpty, isString } from 'radash'
 import { useState } from 'react'
-import { useFormContext, type FieldError } from 'react-hook-form'
+import { type FieldError, useFormContext } from 'react-hook-form'
 
 import { useUnique } from 'lib/hooks'
 
@@ -13,25 +13,29 @@ import { RadioCircle } from './RadioCircle'
 import { RadioComponent } from './RadioComponent'
 
 export type Option = {
-	label: string,
-	value: number | string,
-	options?: Array<Omit<Option, 'options'>>,
-	hint?: string,
-	isDisabled?: boolean,
+	label: string
+	value: number | string
+	options?: Array<Omit<Option, 'options'>>
+	hint?: string
+	isDisabled?: boolean
 }
 
 type Props = {
-	name: string,
-	options: Array<Option>,
+	name: string
+	options: Array<Option>
 
-	isDisabled?: boolean,
-	isFullWidth?: boolean,
-	isRequired?: boolean,
+	isDisabled?: boolean
+	isFullWidth?: boolean
+	isRequired?: boolean
 }
 
 export const Radio = ({ isRequired = false, isFullWidth = true, options, isDisabled = false, name }: Props) => {
 	const id = useUnique(name)
-	const { register, formState: { errors }, watch } = useFormContext()
+	const {
+		register,
+		formState: { errors },
+		watch,
+	} = useFormContext()
 	const fieldValue = watch(name) as string
 	const [isFocus, setIsFocus] = useState(false)
 
@@ -46,17 +50,12 @@ export const Radio = ({ isRequired = false, isFullWidth = true, options, isDisab
 					required: isRequired ? 'This field is required' : false,
 					disabled: isGloballyDisabled || isDisabled,
 					onBlur: () => isFocus && setIsFocus(false),
-					setValueAs: (value: unknown) => (isString(value) && isEmpty(value)) ? undefined : value,
+					setValueAs: (value: unknown) => (isString(value) && isEmpty(value) ? undefined : value),
 				})
 				const isChecked = value === fieldValue
 				return (
-					<RowLabel htmlFor={`${index}-${id}`} css={{ paddingBottom: '12px', marginBottom: 0 }} key={index}>
-						<RadioComponent
-							{...inputProps}
-							id={`${index}-${id}`}
-							type='radio'
-							value={value}
-						/>
+					<RowLabel htmlFor={`${index}-${id}`} style={{ paddingBottom: '12px', marginBottom: 0 }} key={index}>
+						<RadioComponent {...inputProps} id={`${index}-${id}`} type='radio' value={value} />
 						<RadioCircle
 							isChecked={isChecked}
 							isDisabled={Boolean(inputProps.disabled)}
@@ -64,7 +63,9 @@ export const Radio = ({ isRequired = false, isFullWidth = true, options, isDisab
 							hasError={hasError}
 						/>
 						<div>
-							<label htmlFor={`${index}-${id}`} css={{ marginTop: '2px' }}>{label}</label>
+							<label htmlFor={`${index}-${id}`} style={{ marginTop: '2px' }}>
+								{label}
+							</label>
 							{hint && <Hint>{hint}</Hint>}
 						</div>
 					</RowLabel>
