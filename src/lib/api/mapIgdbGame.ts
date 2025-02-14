@@ -169,6 +169,7 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		name,
 		platforms = [],
 		first_release_date: releaseDate,
+		dlcs = [],
 		release_dates: releaseDates = [],
 		game_engines: engines = [],
 		screenshots,
@@ -197,6 +198,14 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		category: category ? mapCategory(category) : undefined,
 		cover: cover?.image_id ? `${igdbImageUrl}/t_cover_big/${cover.image_id}.jpg` : undefined,
 		developers: mapCompanies(companies, 'developer') ?? [],
+		dlcs:
+			dlcs.length > 0
+				? dlcs.map(({ id, name, cover }) => ({
+						id,
+						name,
+						cover: cover?.image_id ? `${igdbImageUrl}/t_cover_big/${cover.image_id}.jpg` : undefined,
+					}))
+				: [],
 		engines: engines.length > 0 ? engines : [],
 		franchises: franchises.length > 0 ? franchises : [],
 		genres: genres.length > 0 ? genres : [],
