@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "ignore": ["./node_modules/**/*", "./public/**/*", "./.vercel/**/*", "./.next/**/*", "./supabase/**/*", "./.vscode/**/*"]
+    "ignore": ["./node_modules/**/*", "./public/**/*", "./.vercel/**/*", "./.next/**/*", "./supabase/**/*", "./.vscode/**/*", "./vercel.json"]
   },
   "formatter": {
     "enabled": true,
