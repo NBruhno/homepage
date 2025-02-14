@@ -6,10 +6,10 @@ settings:
 
 patchedDependencies:
   '@node-rs/argon2':
-    hash: 496ac7b1eabe12a78dd7a225230a571cd7a171ad31923c75c2776ce2bd15737b
+    hash: o2ssw7b3iuepfra3xtqpmmy7di
     path: patches/@node-rs__argon2.patch
   styled-components:
-    hash: 88f17fad7ff7b617e83dc9cbecbb6f82a3fdee233901fd1093bddff797dcaa72
+    hash: hrh5m74z7rdis2jevd25wzjymm
     path: patches/styled-components.patch
 
 importers:
@@ -33,7 +33,7 @@ importers:
         version: 0.88.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@node-rs/argon2':
         specifier: 2.0.2
-        version: 2.0.2(patch_hash=496ac7b1eabe12a78dd7a225230a571cd7a171ad31923c75c2776ce2bd15737b)
+        version: 2.0.2(patch_hash=o2ssw7b3iuepfra3xtqpmmy7di)
       '@node-rs/jsonwebtoken':
         specifier: 0.5.9
         version: 0.5.9
@@ -132,7 +132,7 @@ importers:
         version: 1.5.1
       styled-components:
         specifier: 6.1.15
-        version: 6.1.15(patch_hash=88f17fad7ff7b617e83dc9cbecbb6f82a3fdee233901fd1093bddff797dcaa72)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        version: 6.1.15(patch_hash=hrh5m74z7rdis2jevd25wzjymm)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       superstruct:
         specifier: 2.0.2
         version: 2.0.2
@@ -9438,7 +9438,7 @@ snapshots:
   '@node-rs/argon2-win32-x64-msvc@2.0.2':
     optional: true
 
-  '@node-rs/argon2@2.0.2(patch_hash=496ac7b1eabe12a78dd7a225230a571cd7a171ad31923c75c2776ce2bd15737b)':
+  '@node-rs/argon2@2.0.2(patch_hash=o2ssw7b3iuepfra3xtqpmmy7di)':
     optionalDependencies:
       '@node-rs/argon2-android-arm-eabi': 2.0.2
       '@node-rs/argon2-android-arm64': 2.0.2
@@ -15511,7 +15511,7 @@ snapshots:
     dependencies:
       inline-style-parser: 0.2.4
 
-  styled-components@6.1.15(patch_hash=88f17fad7ff7b617e83dc9cbecbb6f82a3fdee233901fd1093bddff797dcaa72)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  styled-components@6.1.15(patch_hash=hrh5m74z7rdis2jevd25wzjymm)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@emotion/is-prop-valid': 1.2.2
       '@emotion/unitless': 0.8.1
