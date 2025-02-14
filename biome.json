@@ -11,7 +11,6 @@
   },
   "formatter": {
     "enabled": true,
-    "useEditorconfig": true,
     "indentStyle": "tab",
     "lineWidth": 160
   },
@@ -86,6 +85,13 @@
       "quoteProperties": "asNeeded"
     },
     "globals": ["React"]
+  },
+  "json": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2
+    }
   },
   "overrides": [
     {
