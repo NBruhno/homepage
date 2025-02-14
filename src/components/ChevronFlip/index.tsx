@@ -2,10 +2,10 @@ import { Container } from './Container'
 import { Line } from './Line'
 
 type Props = {
-	isBold?: boolean,
-	isActive?: boolean,
-	isSlim?: boolean,
-	isHorizontal?: boolean,
+	isBold?: boolean
+	isActive?: boolean
+	isSlim?: boolean
+	isHorizontal?: boolean
 }
 
 export const ChevronFlip = ({ isActive = false, isSlim = false, isBold = false, isHorizontal = false }: Props) => (

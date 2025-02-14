@@ -1,32 +1,26 @@
 import NextImage from 'next/image'
+import { styled } from 'styled-components'
 
 type Props = {
-	src: string,
-	isPriority: boolean,
+	isPriority: boolean
 }
 
-export const Image = ({ src, isPriority, ...rest }: Props) => (
-	<NextImage
-		css={{
-			height: '100%',
-			width: '100%',
-			aspectRatio: '264 / 353',
-			objectFit: 'cover',
-			color: 'transparent',
-			borderRadius: '4px',
+export const Image = styled(NextImage).attrs(({ priority }) => ({
+	loading: priority ? 'eager' : 'lazy',
+	priority,
+	width: 264,
+	height: 353,
+	unoptimized: true,
+}))<Props>`
+	height: 100%;
+	width: 100%;
+	aspect-ratio: 264 / 353;
+	object-fit: cover;
+	color: transparent;
+	border-radius: 4px;
 
-			// Prevent alt text from showing during image fetch
-			'img:-moz-loading': {
-				visibility: 'hidden',
-			},
-		}}
-		alt='game cover'
-		loading={isPriority ? 'eager' : 'lazy'}
-		priority={isPriority}
-		width={264}
-		height={353}
-		unoptimized
-		src={src}
-		{...rest}
-	/>
-)
+	// Prevent alt text from showing during image fetch
+	img:-moz-loading {
+		visibility: hidden;
+	}
+`

@@ -1,19 +1,20 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
+import { styled } from 'styled-components'
+
 import { Spinner } from 'components/Spinner'
 
-export const Loader = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={{
-			alignItems: 'center',
-			display: 'flex',
-			flexDirection: 'column',
-			justifyContent: 'center',
-			minHeight: '100px',
-			minWidth: '100px',
-		}}
-		{...props}
-	>
+export const Loader = styled.div`
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	min-height: 100px;
+	min-width: 100px;
+`
+
+export const LoaderOld = (props: ComponentPropsWithoutRef<'div'>) => (
+	<Loader {...props}>
 		<Spinner size={32} />
-	</div>
+	</Loader>
 )

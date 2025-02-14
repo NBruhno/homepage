@@ -3,13 +3,13 @@
 import type { IgdbWebsite } from './website'
 
 export type IgdbCompany = {
-	developer: boolean,
-	publisher: boolean,
-	porting: boolean,
-	supporting: boolean,
+	developer: boolean
+	publisher: boolean
+	porting: boolean
+	supporting: boolean
 	company: {
-		id: number,
-		name: string,
-		websites: Array<IgdbWebsite>,
-	},
+		id: number
+		name: string
+		websites: Array<IgdbWebsite>
+	}
 }

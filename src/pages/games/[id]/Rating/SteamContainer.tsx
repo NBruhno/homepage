@@ -1,12 +1,7 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const SteamContainer = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={() => ({
-			display: 'grid',
-			gridTemplateColumns: '1fr 1fr',
-			columnGap: '12px',
-		})}
-		{...props}
-	/>
-)
+export const SteamContainer = styled.div`
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	column-gap: 12px;
+`

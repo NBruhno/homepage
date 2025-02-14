@@ -1,16 +1,11 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Container = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={(theme) => ({
-			backgroundColor: theme.color.background,
-			border: `1px solid ${theme.color.gray020}`,
-			borderRadius: '4px',
-			margin: '8px 0',
-			overflowWrap: 'break-word',
-			transition: `height 135ms ${theme.animation.default}`,
-			wordBreak: 'break-word',
-		})}
-		{...props}
-	/>
-)
+export const Container = styled.div`
+	background-color: ${({ theme }) => theme.color.background};
+	border: 1px solid ${({ theme }) => theme.color.gray020};
+	border-radius: 8px;
+	margin: 8px 0;
+	overflow-wrap: break-word;
+	transition: height 135ms ${({ theme }) => theme.animation.default};
+	word-break: break-word;
+`

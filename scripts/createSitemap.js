@@ -22,17 +22,17 @@ const walkSync = (dir) => {
 		if (fileStat.isDirectory()) walkSync(`${filePath}/`)
 		else {
 			if (!filePath.includes('.route')) return
-			const cleanFileName = filePath
-				.substr(0, filePath.lastIndexOf('.'))
-				.replace(pagesLocation, '')
-				.replace('.route', '')
+			const cleanFileName = filePath.substr(0, filePath.lastIndexOf('.')).replace(pagesLocation, '').replace('.route', '')
 
-			if (cleanFileName.includes('_document')
-				|| cleanFileName.includes('_error')
-				|| cleanFileName.includes('_app')
-				|| cleanFileName.includes('404')
-				|| cleanFileName.includes('api/')
-				|| cleanFileName.includes('/[')) return
+			if (
+				cleanFileName.includes('_document') ||
+				cleanFileName.includes('_error') ||
+				cleanFileName.includes('_app') ||
+				cleanFileName.includes('404') ||
+				cleanFileName.includes('api/') ||
+				cleanFileName.includes('/[')
+			)
+				return
 
 			if (cleanFileName.includes('/index')) {
 				pages[cleanFileName.replace('/index', '') || ''] = {
@@ -62,15 +62,24 @@ walkSync(pagesLocation)
 
 const sitemapEntries = []
 domains.forEach((domain) => {
-	sitemapEntries.push(Object.keys(pages).map((page) => `<url>
+	sitemapEntries.push(
+		Object.keys(pages)
+			.map(
+				(page) => `<url>
 		<loc>https://${domain}/${page}</loc>
 		<lastmod>${format(pages[page].lastModified, 'yyyy-MM-dd')}</lastmod>
-	</url>`).join('\n	'))
+	</url>`,
+			)
+			.join('\n	'),
+	)
 })
 
-fs.writeFileSync(`${outputLocation}/sitemap.xml`, `<?xml version="1.0" encoding="UTF-8"?>
+fs.writeFileSync(
+	`${outputLocation}/sitemap.xml`,
+	`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	${sitemapEntries.join('\n	')}
-</urlset>`)
+</urlset>`,
+)
 
 log(`Created successfully (/${outputLocation}/sitemap.xml)`)

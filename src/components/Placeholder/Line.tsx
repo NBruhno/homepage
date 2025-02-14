@@ -1,10 +1,5 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Line = (props: ComponentPropsWithoutRef<'div'>) => (
-	<span
-		css={{
-			display: 'block',
-		}}
-		{...props}
-	/>
-)
+export const Line = styled.span`
+	display: block;
+`

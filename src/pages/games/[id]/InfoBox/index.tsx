@@ -12,32 +12,50 @@ import { dateOrYear } from '../../dateOrYear'
 import { groupByReleaseDate } from '../../groupByReleaseDate'
 
 import { Container } from './Container'
+import { ListItem } from './ListItem'
+import { MultiplayerMode } from './MultiplayerMode'
+import { MultiplayerModeTitle } from './MultiplayerModeTitle'
+import { Platform } from './Platform'
 import { Title } from './Title'
+import { UnorderedList } from './UnorderedList'
 
 type Props = {
-	developers: Array<GameDefaultEntity> | undefined,
-	engines: Array<GameDefaultEntity> | undefined,
-	franchises: Array<GameDefaultEntity> | undefined,
-	genres: Array<GameDefaultEntity> | undefined,
-	modes: Array<GameDefaultEntity> | undefined,
-	multiplayerModes: Array<GameMultiplayerMode> | undefined,
-	platforms: Array<GamePlatform> | undefined,
-	playerPerspectives: Array<GameDefaultEntity> | undefined,
-	porters: Array<GameDefaultEntity> | undefined,
-	publishers: Array<GameDefaultEntity> | undefined,
-	releaseDate: string | null,
-	releaseDates: Array<GameReleaseDate> | undefined,
-	supporters: Array<GameDefaultEntity> | undefined,
-	themes: Array<GameDefaultEntity> | undefined,
+	developers: Array<GameDefaultEntity> | undefined
+	engines: Array<GameDefaultEntity> | undefined
+	franchises: Array<GameDefaultEntity> | undefined
+	genres: Array<GameDefaultEntity> | undefined
+	modes: Array<GameDefaultEntity> | undefined
+	multiplayerModes: Array<GameMultiplayerMode> | undefined
+	platforms: Array<GamePlatform> | undefined
+	playerPerspectives: Array<GameDefaultEntity> | undefined
+	porters: Array<GameDefaultEntity> | undefined
+	publishers: Array<GameDefaultEntity> | undefined
+	releaseDate: string | null
+	releaseDates: Array<GameReleaseDate> | undefined
+	supporters: Array<GameDefaultEntity> | undefined
+	themes: Array<GameDefaultEntity> | undefined
 
-	createdAt: string | undefined,
-	updatedAt: string | undefined,
+	createdAt: string | undefined
+	updatedAt: string | undefined
 }
 
 export const InfoBox = ({
-	genres = [], themes = [], platforms = [], engines = [], franchises = [], modes = [], multiplayerModes = [],
-	playerPerspectives = [], porters = [], publishers = [], supporters = [], releaseDates = [], developers = [],
-	releaseDate, createdAt, updatedAt,
+	genres = [],
+	themes = [],
+	platforms = [],
+	engines = [],
+	franchises = [],
+	modes = [],
+	multiplayerModes = [],
+	playerPerspectives = [],
+	porters = [],
+	publishers = [],
+	supporters = [],
+	releaseDates = [],
+	developers = [],
+	releaseDate,
+	createdAt,
+	updatedAt,
 }: Props) => {
 	const { insights } = useGameInsights()
 	const groupedReleaseDates = groupByReleaseDate(releaseDates, ({ date }) => date, releaseDate)
@@ -66,75 +84,58 @@ export const InfoBox = ({
 					{hasGenres && (
 						<div>
 							<Title>
-								<Placeholder width='40%'>
-									Genres
-								</Placeholder>
+								<Placeholder width='40%'>Genres</Placeholder>
 							</Title>
-							<Placeholder width='70%'>
-								{listFormatter.format(genres.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='70%'>{listFormatter.format(genres.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 					{hasThemes && (
 						<div>
 							<Title>
-								<Placeholder width='35%'>
-									Themes
-								</Placeholder>
+								<Placeholder width='35%'>Themes</Placeholder>
 							</Title>
-							<Placeholder width='65%'>
-								{listFormatter.format(themes.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='65%'>{listFormatter.format(themes.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 					{hasPlatforms && (
 						<div>
 							<Title>
-								<Placeholder width='50%'>
-									Platforms
-								</Placeholder>
+								<Placeholder width='50%'>Platforms</Placeholder>
 							</Title>
 							<Placeholder width='75%'>
-								<Tooltip tip={listFormatter.format(platforms.map(({ name }) => name))}>
-									<span>{listFormatter.format(platforms.map(({ abbreviation, name }) => abbreviation ?? name.match(/\b([A-Z])/g)!.join('')))}</span>
-								</Tooltip>
+								<Tooltip
+									tip={listFormatter.format(platforms.map(({ name }) => name))}
+									render={(props) => (
+										<span {...props}>
+											{listFormatter.format(platforms.map(({ abbreviation, name }) => abbreviation ?? name.match(/\b([A-Z])/g)?.join('') ?? ''))}
+										</span>
+									)}
+								></Tooltip>
 							</Placeholder>
 						</div>
 					)}
 					{hasModes && (
 						<div>
 							<Title>
-								<Placeholder width='35%'>
-									Modes
-								</Placeholder>
+								<Placeholder width='35%'>Modes</Placeholder>
 							</Title>
-							<Placeholder width='70%'>
-								{listFormatter.format(modes.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='70%'>{listFormatter.format(modes.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 					{hasFranchises && (
 						<div>
 							<Title>
-								<Placeholder width='40%'>
-									Franchises
-								</Placeholder>
+								<Placeholder width='40%'>Franchises</Placeholder>
 							</Title>
-							<Placeholder width='65%'>
-								{listFormatter.format(franchises.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='65%'>{listFormatter.format(franchises.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 					{hasEngines && (
 						<div>
 							<Title>
-								<Placeholder width='35%'>
-									Engines
-								</Placeholder>
+								<Placeholder width='35%'>Engines</Placeholder>
 							</Title>
-							<Placeholder width='75%'>
-								{listFormatter.format(engines.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='75%'>{listFormatter.format(engines.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 				</Container>
@@ -144,57 +145,39 @@ export const InfoBox = ({
 					{hasDevelopers && (
 						<div>
 							<Title>
-								<Placeholder width='50%'>
-									Developers
-								</Placeholder>
+								<Placeholder width='50%'>Developers</Placeholder>
 							</Title>
-							<Placeholder width='70%'>
-								{listFormatter.format(developers.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='70%'>{listFormatter.format(developers.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 					{hasPublishes && (
 						<div>
 							<Title>
-								<Placeholder width='35%'>
-									Publishers
-								</Placeholder>
+								<Placeholder width='35%'>Publishers</Placeholder>
 							</Title>
-							<Placeholder width='65%'>
-								{listFormatter.format(publishers.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='65%'>{listFormatter.format(publishers.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 					{hasSupporters && (
 						<div>
 							<Title>
-								<Placeholder width='40%'>
-									Supporters
-								</Placeholder>
+								<Placeholder width='40%'>Supporters</Placeholder>
 							</Title>
-							<Placeholder width='75%'>
-								{listFormatter.format(supporters.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='75%'>{listFormatter.format(supporters.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 					{hasPorters && (
 						<div>
 							<Title>
-								<Placeholder width='35%'>
-									Porters
-								</Placeholder>
+								<Placeholder width='35%'>Porters</Placeholder>
 							</Title>
-							<Placeholder width='70%'>
-								{listFormatter.format(porters.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='70%'>{listFormatter.format(porters.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 					{insights && Boolean(insights.revenue ?? null) && insights.revenue! > 0 && (
 						<div>
 							<Title>
-								<Placeholder width='60%'>
-									Estimated sales revenue
-								</Placeholder>
+								<Placeholder width='60%'>Estimated sales revenue</Placeholder>
 							</Title>
 							<Placeholder width='30%'>
 								{Intl.NumberFormat('en-DK', { currency: 'USD', style: 'currency', notation: 'compact' }).format(insights.revenue!)}
@@ -204,13 +187,9 @@ export const InfoBox = ({
 					{insights && Boolean(insights.unitsSold ?? null) && insights.unitsSold! > 0 && (
 						<div>
 							<Title>
-								<Placeholder width='45%'>
-									Units sold
-								</Placeholder>
+								<Placeholder width='45%'>Units sold</Placeholder>
 							</Title>
-							<Placeholder width='25%'>
-								{Intl.NumberFormat('en-DK', { notation: 'compact' }).format(insights.unitsSold!)}
-							</Placeholder>
+							<Placeholder width='25%'>{Intl.NumberFormat('en-DK', { notation: 'compact' }).format(insights.unitsSold!)}</Placeholder>
 						</div>
 					)}
 				</Container>
@@ -220,69 +199,48 @@ export const InfoBox = ({
 					{hasOtherReleaseDates && (
 						<div>
 							<Title>
-								<Placeholder width='50%'>
-									Other release dates
-								</Placeholder>
+								<Placeholder width='50%'>Other release dates</Placeholder>
 							</Title>
 							<Placeholder width='65%'>
-								<ul css={(theme) => ({ paddingLeft: '20px', margin: 0, color: theme.color.textFaded })}>
+								<UnorderedList>
 									{groupedReleaseDates.map(({ date, platforms }, index) => (
-										<li key={index} css={(theme) => ({ color: theme.color.text, marginBottom: '8px', '&:last-child': { margin: 0 } })}>
+										<ListItem key={index}>
 											<time>{dateOrYear(date)}</time>
-											<div css={(theme) => ({ color: theme.color.textFaded, fontSize: theme.font.size.s80, lineHeight: 1 })}>
-												{listFormatter.format(platforms)}
-											</div>
-										</li>
+											<Platform>{listFormatter.format(platforms)}</Platform>
+										</ListItem>
 									))}
-								</ul>
+								</UnorderedList>
 							</Placeholder>
 						</div>
 					)}
 					{hasPlayerPerspectives && (
 						<div>
 							<Title>
-								<Placeholder width='35%'>
-									Player perspectives
-								</Placeholder>
+								<Placeholder width='35%'>Player perspectives</Placeholder>
 							</Title>
-							<Placeholder width='75%'>
-								{listFormatter.format(playerPerspectives.map(({ name }) => name))}
-							</Placeholder>
+							<Placeholder width='75%'>{listFormatter.format(playerPerspectives.map(({ name }) => name))}</Placeholder>
 						</div>
 					)}
 					{hasMultiplayerModes && (
 						<div>
 							<Title>
-								<Placeholder width='50%'>
-									Multiplayer features
-								</Placeholder>
+								<Placeholder width='50%'>Multiplayer features</Placeholder>
 							</Title>
 							<Placeholder lines={6}>
-								{multiplayerModes.map(({ platform, hasCampaignCoop, hasDropIn, hasLanCoop, hasOfflineCoop, hasOnlineCoop, hasOnlineSplitScreen, hasSplitScreen }, index) => (
-									<div
-										css={(theme) => ({
-											marginBottom: '12px',
-											paddingBottom: '12px',
-											borderBottom: `1px solid ${theme.color.gray020}`,
-
-											':last-of-type': {
-												borderBottom: 'none',
-												paddingBottom: 0,
-												marginBottom: 0,
-											},
-										})}
-										key={index}
-									>
-										{platform && <h4 css={(theme) => ({ marginTop: '16px', marginBottom: '6px', color: theme.color.textFaded })}>{platform.name}</h4>}
-										<div>Has online coop: {hasOnlineCoop === true ? 'Yes' : 'No'}</div>
-										<div>Has campaign coop: {hasCampaignCoop === true ? 'Yes' : 'No'}</div>
-										<div>Has offline coop: {hasOfflineCoop === true ? 'Yes' : 'No'}</div>
-										<div>Has LAN coop: {hasLanCoop === true ? 'Yes' : 'No'}</div>
-										<div>Has split screen: {hasSplitScreen === true ? 'Yes' : 'No'}</div>
-										<div>Has online split screen: {hasOnlineSplitScreen === true ? 'Yes' : 'No'}</div>
-										<div>Has drop in: {hasDropIn === true ? 'Yes' : 'No'}</div>
-									</div>
-								))}
+								{multiplayerModes.map(
+									({ platform, hasCampaignCoop, hasDropIn, hasLanCoop, hasOfflineCoop, hasOnlineCoop, hasOnlineSplitScreen, hasSplitScreen }, index) => (
+										<MultiplayerMode key={index}>
+											{platform && <MultiplayerModeTitle>{platform.name}</MultiplayerModeTitle>}
+											<div>Has online coop: {hasOnlineCoop === true ? 'Yes' : 'No'}</div>
+											<div>Has campaign coop: {hasCampaignCoop === true ? 'Yes' : 'No'}</div>
+											<div>Has offline coop: {hasOfflineCoop === true ? 'Yes' : 'No'}</div>
+											<div>Has LAN coop: {hasLanCoop === true ? 'Yes' : 'No'}</div>
+											<div>Has split screen: {hasSplitScreen === true ? 'Yes' : 'No'}</div>
+											<div>Has online split screen: {hasOnlineSplitScreen === true ? 'Yes' : 'No'}</div>
+											<div>Has drop in: {hasDropIn === true ? 'Yes' : 'No'}</div>
+										</MultiplayerMode>
+									),
+								)}
 							</Placeholder>
 						</div>
 					)}
@@ -292,28 +250,20 @@ export const InfoBox = ({
 				{createdAt && (
 					<div>
 						<Title>
-							<Placeholder width='50%'>
-								Created at
-							</Placeholder>
+							<Placeholder width='50%'>Created at</Placeholder>
 						</Title>
 						<time>
-							<Placeholder width='70%'>
-								{parseISO(createdAt).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}
-							</Placeholder>
+							<Placeholder width='70%'>{parseISO(createdAt).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}</Placeholder>
 						</time>
 					</div>
 				)}
 				{updatedAt && (
 					<div>
 						<Title>
-							<Placeholder width='35%'>
-								Last updated
-							</Placeholder>
+							<Placeholder width='35%'>Last updated</Placeholder>
 						</Title>
 						<time>
-							<Placeholder width='65%'>
-								{formatRelative(parseISO(updatedAt), new Date(), { locale: enGB })}
-							</Placeholder>
+							<Placeholder width='65%'>{formatRelative(parseISO(updatedAt), new Date(), { locale: enGB })}</Placeholder>
 						</time>
 					</div>
 				)}

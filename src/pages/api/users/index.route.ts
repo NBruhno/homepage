@@ -1,14 +1,14 @@
-import { UserRole, TokenType } from 'types'
+import { TokenType, UserRole } from 'types'
 
 import { hash } from '@node-rs/argon2'
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library'
 import { setUser } from '@sentry/nextjs'
-import { object, create } from 'superstruct'
+import { create, object } from 'superstruct'
 
 import { accessCode } from 'validation/api'
-import { username, email, password } from 'validation/shared'
+import { email, password, username } from 'validation/shared'
 
-import { getJwtToken, apiHandler, prisma, argonDefaultOptions } from 'lib/api'
+import { apiHandler, argonDefaultOptions, getJwtToken, prisma } from 'lib/api'
 import { ApiError } from 'lib/errors'
 import { authenticate, setRefreshCookie } from 'lib/middleware'
 import { monitorAsync } from 'lib/sentryMonitor'
@@ -32,17 +32,31 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 			const { email, password, username } = create(req.body, Body)
 			const passwordHash = await monitorAsync(() => hash(password, argonDefaultOptions), 'argon2', 'hash()')
 
-			const user = await monitorAsync(() => prisma.users.create({
-				data: {
-					email,
-					username,
-					passwordHash,
-				},
-			}), 'db:prisma', 'create()')
+			const user = await monitorAsync(
+				() =>
+					prisma.users.create({
+						data: {
+							email,
+							username,
+							passwordHash,
+						},
+					}),
+				'db:prisma',
+				'create()',
+			)
 
 			setUser({ id: user.id, username: user.username, email: user.email })
-			const accessToken = await getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id, steamId: user.steamId })
-			const refreshToken = await getJwtToken({ sub: email, username: user.username, role: UserRole.User, userId: user.id, steamId: user.steamId }, { type: TokenType.Refresh })
+			const accessToken = await getJwtToken({
+				sub: email,
+				username: user.username,
+				role: UserRole.User,
+				userId: user.id,
+				steamId: user.steamId,
+			})
+			const refreshToken = await getJwtToken(
+				{ sub: email, username: user.username, role: UserRole.User, userId: user.id, steamId: user.steamId },
+				{ type: TokenType.Refresh },
+			)
 			setRefreshCookie(res, refreshToken)
 
 			return res.status(200).json({ accessToken })

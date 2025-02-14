@@ -13,7 +13,7 @@ import { PortalTarget } from 'components/Portal'
 import { App } from './app'
 
 type Props = AppProps & {
-	err: Error | undefined,
+	err: Error | undefined
 }
 
 const MyApp = ({ Component, pageProps, err }: Props) => {

@@ -16,33 +16,33 @@ import type { IgdbVideo } from './video'
 import type { IgdbWebsite } from './website'
 
 export type IgdbGame = {
-	id: number,
-	name: string,
-	aggregated_rating_count?: number,
-	aggregated_rating?: number,
-	category?: IgdbCategory,
-	companies?: Array<IgdbCompany>,
-	cover?: IgdbImage,
-	dlcs?: Array<Pick<IgdbGame, 'cover' | 'id' | 'name'>>,
-	first_release_date: number | null,
-	franchises?: Array<IgdbFranchise>,
-	game_engines?: Array<IgdbEngine>,
-	game_modes?: Array<IgdbMode>,
-	genres?: Array<IgdbGenre>,
-	hypes?: number | null,
-	involved_companies?: Array<IgdbCompany>,
-	multiplayer_modes?: Array<IgdbMultiplayerMode>,
-	parent_game?: number,
-	platforms?: Array<IgdbPlatform>,
-	player_perspectives?: Array<IgdbPlayerPerspective>,
-	release_dates?: Array<IgdbReleaseDate>,
-	screenshots?: Array<IgdbImage>,
-	similar_games?: Array<Pick<IgdbGame, 'cover' | 'id' | 'name'>>,
-	status?: IgdbStatus,
-	storyline?: string,
-	summary?: string,
-	themes?: Array<IgdbTheme>,
-	updated_at: number,
-	videos?: Array<IgdbVideo>,
-	websites?: Array<IgdbWebsite>,
+	id: number
+	name: string
+	aggregated_rating_count?: number
+	aggregated_rating?: number
+	category?: IgdbCategory
+	companies?: Array<IgdbCompany>
+	cover?: IgdbImage
+	dlcs?: Array<Pick<IgdbGame, 'cover' | 'id' | 'name'>>
+	first_release_date: number | null
+	franchises?: Array<IgdbFranchise>
+	game_engines?: Array<IgdbEngine>
+	game_modes?: Array<IgdbMode>
+	genres?: Array<IgdbGenre>
+	hypes?: number | null
+	involved_companies?: Array<IgdbCompany>
+	multiplayer_modes?: Array<IgdbMultiplayerMode>
+	parent_game?: number
+	platforms?: Array<IgdbPlatform>
+	player_perspectives?: Array<IgdbPlayerPerspective>
+	release_dates?: Array<IgdbReleaseDate>
+	screenshots?: Array<IgdbImage>
+	similar_games?: Array<Pick<IgdbGame, 'cover' | 'id' | 'name'>>
+	status?: IgdbStatus
+	storyline?: string
+	summary?: string
+	themes?: Array<IgdbTheme>
+	updated_at: number
+	videos?: Array<IgdbVideo>
+	websites?: Array<IgdbWebsite>
 }

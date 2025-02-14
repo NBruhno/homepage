@@ -1,7 +1,7 @@
-import { Algorithm, type Options } from '@node-rs/argon2'
+import type { Options } from '@node-rs/argon2'
 
 export const argonDefaultOptions: Options = {
 	outputLen: 64,
 	timeCost: 20,
-	algorithm: Algorithm.Argon2id,
+	algorithm: 2, // Algorithm.Argon2id
 }

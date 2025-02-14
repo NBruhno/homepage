@@ -7,23 +7,26 @@ import { Form } from 'components/Form'
 import { Input } from 'components/FormFields'
 import { Page, PageContent } from 'components/Layout'
 
+import { useTheme } from 'styled-components'
 import { SearchList } from './Lists'
 
 export type SearchGamesModel = {
-	search: string,
+	search: string
 }
 
 const Games: NextPage = () => {
 	const { games, hasSearch } = useSearchGames()
 	useTitle('Search for a game')
+	const theme = useTheme()
 
 	return (
 		<Page>
 			<PageContent maxWidth={700}>
-				<div css={(theme) => ({
-					marginTop: hasSearch ? 0 : '30vh',
-					transition: `margin-top 135ms ${theme.animation.default}`,
-				})}
+				<div
+					style={{
+						marginTop: hasSearch ? 0 : '30vh',
+						transition: `margin-top 135ms ${theme.animation.default}`,
+					}}
 				>
 					<div>
 						<Form
@@ -31,14 +34,9 @@ const Games: NextPage = () => {
 							onSubmit={async () => undefined}
 							shouldPersistStateOnSubmit
 							shouldUpdateFieldsOnStateChange
-							render={({ name }) => (
-								<Input label='Find a game' name={name('search')} showOptionalHint={false} />
-							)}
+							render={({ name }) => <Input label='Find a game' name={name('search')} showOptionalHint={false} />}
 						/>
-						<SearchList
-							games={games ?? null}
-							isLoading={!games && hasSearch}
-						/>
+						<SearchList games={games ?? null} isLoading={!games && hasSearch} />
 					</div>
 				</div>
 			</PageContent>

@@ -1,13 +1,8 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Text = (props: ComponentPropsWithoutRef<'span'>) => (
-	<span
-		css={{
-			overflow: 'hidden',
-			textOverflow: 'clip',
-			whiteSpace: 'nowrap',
-			color: 'currentColor',
-		}}
-		{...props}
-	/>
-)
+export const Text = styled.span`
+	overflow: hidden;
+	text-overflow: clip;
+	white-space: nowrap;
+	color: currentColor;
+`

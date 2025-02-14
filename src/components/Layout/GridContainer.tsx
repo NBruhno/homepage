@@ -1,26 +1,18 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	name?: string,
-	gap?: number,
-	rowGap?: number,
-	columnGap?: number,
-	shouldShow?: boolean,
+type Props = {
+	name?: string
+	gap?: number
+	rowGap?: number
+	columnGap?: number
+	shouldShow?: boolean
 }
 
-export const GridContainer = ({ name, gap, rowGap, columnGap, shouldShow = true, ...rest }: Props) => {
-	if (!shouldShow) return null
+export const GridContainer = styled.div<Props>`
+	grid-area: ${({ name }) => name};
+	gap: ${({ gap }) => (gap ? `${gap}px` : 'unset')};
+	row-gap: ${({ rowGap }) => (rowGap ? `${rowGap}px` : 'unset')};
+	column-gap: ${({ columnGap }) => (columnGap ? `${columnGap}px` : 'unset')};
 
-	return (
-		<div
-			css={{
-				gridArea: name,
-
-				gap: gap ? `${gap}px` : 'unset',
-				rowGap: rowGap ? `${rowGap}px` : 'unset',
-				columnGap: columnGap ? `${columnGap}px` : 'unset',
-			}}
-			{...rest}
-		/>
-	)
-}
+	${({ shouldShow = true }) => !shouldShow && 'display: none;'}
+`

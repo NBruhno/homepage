@@ -1,42 +1,45 @@
-import type { SelectOption } from '../CommonProps'
 import type { KeyboardEvent, RefObject } from 'react'
+import type { SelectOption } from '../CommonProps'
 
 import { isEmpty } from 'radash'
 
 type Props = {
-	filteredOptions: Array<SelectOption>,
-	selectedOptions: Array<SelectOption>,
-	highlightedChipIndex: number,
-	highlightedOptionIndex: number,
-	inputRef: RefObject<HTMLInputElement>,
-	inputValue: string,
-	isMenuOpen: boolean,
+	filteredOptions: Array<SelectOption>
+	selectedOptions: Array<SelectOption>
+	highlightedChipIndex: number
+	highlightedOptionIndex: number
+	inputRef: RefObject<HTMLInputElement | null>
+	inputValue: string
+	isMenuOpen: boolean
 
-	onAddChip: (item: SelectOption) => void,
-	onCloseMenu: () => void,
-	onRemoveChip: (item: SelectOption) => void,
-	onResetHighlightedChip: () => void,
-	onResetHighlightedOption: () => void,
-	onSetHighlightedChip: (index: number) => void,
-	onSetHighlightedOption: (index: number) => void,
+	onAddChip: (item: SelectOption) => void
+	onCloseMenu: () => void
+	onRemoveChip: (item: SelectOption) => void
+	onResetHighlightedChip: () => void
+	onResetHighlightedOption: () => void
+	onSetHighlightedChip: (index: number) => void
+	onSetHighlightedOption: (index: number) => void
 }
 
-export const handleKeyboardInput = (event: KeyboardEvent<HTMLInputElement>, {
-	filteredOptions,
-	selectedOptions,
-	highlightedChipIndex,
-	highlightedOptionIndex,
-	inputRef,
-	inputValue,
-	isMenuOpen,
-	onAddChip,
-	onCloseMenu,
-	onRemoveChip,
-	onResetHighlightedChip,
-	onResetHighlightedOption,
-	onSetHighlightedChip,
-	onSetHighlightedOption,
-}: Props) => {
+export const handleKeyboardInput = (
+	event: KeyboardEvent<HTMLInputElement>,
+	{
+		filteredOptions,
+		selectedOptions,
+		highlightedChipIndex,
+		highlightedOptionIndex,
+		inputRef,
+		inputValue,
+		isMenuOpen,
+		onAddChip,
+		onCloseMenu,
+		onRemoveChip,
+		onResetHighlightedChip,
+		onResetHighlightedOption,
+		onSetHighlightedChip,
+		onSetHighlightedOption,
+	}: Props,
+) => {
 	if (isMenuOpen) {
 		switch (event.key) {
 			case 'Tab': {
@@ -51,7 +54,7 @@ export const handleKeyboardInput = (event: KeyboardEvent<HTMLInputElement>, {
 				event.preventDefault()
 				if (highlightedChipIndex === -1 && filteredOptions.length > 0) {
 					onAddChip(filteredOptions[highlightedOptionIndex === -1 ? 0 : highlightedOptionIndex])
-					inputRef.current?.select()
+					inputRef?.current?.select()
 				}
 				break
 			}
@@ -86,7 +89,7 @@ export const handleKeyboardInput = (event: KeyboardEvent<HTMLInputElement>, {
 				if (isEmpty(inputValue)) {
 					if (highlightedChipIndex === selectedOptions.length) {
 						onResetHighlightedChip()
-						inputRef.current?.focus()
+						inputRef?.current?.focus()
 					} else if (highlightedChipIndex !== -1) onSetHighlightedChip(highlightedChipIndex + 1)
 				}
 				break
@@ -100,14 +103,16 @@ export const handleKeyboardInput = (event: KeyboardEvent<HTMLInputElement>, {
 						// Set the next highlighted chip to be the one before it, if any. Otherwise keep the same position
 						if (selectedOptions.length === 0) onResetHighlightedChip()
 						if (highlightedChipIndex !== 0) onSetHighlightedChip(highlightedChipIndex - 1)
-					} else if (event.key !== 'Delete') { // We only want the delete key to delete a selected chip
+					} else if (event.key !== 'Delete') {
+						// We only want the delete key to delete a selected chip
 						onRemoveChip(selectedOptions[selectedOptions.length - 1])
 						onResetHighlightedChip()
 					}
 				}
 				break
 			}
-			default: onResetHighlightedChip()
+			default:
+				onResetHighlightedChip()
 		}
 	}
 }

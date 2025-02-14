@@ -5,10 +5,10 @@ import { useLoading } from 'states/page'
 import { Internal } from './Internal'
 
 type Props = {
-	children: ReactNode,
-	isLoading?: boolean,
-	lines?: number,
-	width?: number | string,
+	children: ReactNode
+	isLoading?: boolean
+	lines?: number
+	width?: number | string
 }
 
 export const Placeholder = ({ children, isLoading: isLoadingProp, lines = 1, width = '80%' }: Props) => {

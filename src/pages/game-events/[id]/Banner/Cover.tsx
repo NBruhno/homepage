@@ -1,5 +1,6 @@
-import { keyframes } from '@emotion/react'
 import NextImage from 'next/image'
+import { css, keyframes } from 'styled-components'
+import { styled } from 'styled-components'
 
 const imageWidth = 264
 const imageHeight = 353
@@ -18,49 +19,46 @@ const scrollRight = keyframes`
 `
 
 type Props = {
-	src: string,
-	rowNumber: number,
-	index: number,
-	gamesRowLength: number,
+	rowNumber: number
+	index: number
+	gamesRowLength: number
 }
 
-export const Cover = ({ src, rowNumber, index, gamesRowLength }: Props) => (
+export const Cover = styled(NextImage).attrs(({ src }) => ({
+	loading: 'lazy',
+	priority: false,
+	width: imageWidth,
+	height: imageHeight,
+	unoptimized: true,
+	src,
+}))<Props>`
+	height: ${imageHeight}px;
+	width: ${imageWidth}px;
+	aspect-ratio: ${imageWidth} / ${imageHeight};
+	object-fit: cover;
+	border-radius: 0;
+	position: absolute;
+	top: 0;
+	animation-timing-function: linear;
+	animation-duration: ${animationDuration}s;
+	animation-iteration-count: infinite;
+	animation-delay: calc(${animationDuration}s / ${(props) => props.gamesRowLength} * (${({ gamesRowLength }) => gamesRowLength} - ${({ index }) => index + 1}) * -1);
 
-	<NextImage
-		css={[
-			{
-				height: `${imageHeight}px`,
-				width: `${imageWidth}px`,
-				aspectRatio: `${imageWidth} / ${imageHeight}`,
-				objectFit: 'cover',
-				borderRadius: 0,
-				position: 'absolute',
-				top: 0,
-				animationTimingFunction: 'linear',
-				animationDuration: `${animationDuration}s`,
-				animationIterationCount: 'infinite',
-				animationDelay: `calc(${animationDuration}s / ${gamesRowLength} * (${gamesRowLength} - ${index + 1}) * -1)`,
-				// Prevent alt text from showing during image fetch
-				'img:-moz-loading': {
-					visibility: 'hidden',
-				},
-			},
-			rowNumber % 2 === 0 ? {
-				left: `max(calc(${imageWidth - 15}px * ${gamesRowLength}), 100%)`,
-				animationName: scrollLeft,
-				willChange: 'left',
-			} : {
-				right: `max(calc(${imageWidth - 15}px * ${gamesRowLength}), 100%)`,
-				animationName: scrollRight,
-				willChange: 'right',
-			},
-		]}
-		alt='game cover'
-		loading='lazy'
-		priority={false}
-		width={imageWidth}
-		height={imageHeight}
-		unoptimized
-		src={src}
-	/>
-)
+	// Prevent alt text from showing during image fetch
+	img:-moz-loading {
+		visibility: hidden;
+	}
+
+	${(props) =>
+		props.rowNumber % 2 === 0
+			? css`
+				left: max(calc(${imageWidth - 15}px * ${props.gamesRowLength}), 100%);
+				animation-name: ${scrollLeft};
+				will-change: left;
+			`
+			: css`
+				right: max(calc(${imageWidth - 15}px * ${props.gamesRowLength}), 100%);
+				animation-name: ${scrollRight};
+				will-change: right;
+			`}
+`

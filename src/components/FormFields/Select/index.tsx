@@ -1,5 +1,5 @@
-import type { CommonSelectProps, SelectOption } from '../CommonProps'
 import type { FieldError, FieldPathByValue, FieldValues } from 'react-hook-form'
+import type { CommonSelectProps, SelectOption } from '../CommonProps'
 
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
@@ -12,29 +12,60 @@ import { useController, useFormContext } from 'react-hook-form'
 import { filterUnspecified } from 'lib/filterUnspecified'
 import { useUnique } from 'lib/hooks'
 
-import { Portal } from 'components/Portal'
-
+import { useMergeRefs } from '@floating-ui/react'
 import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
 import { InputError } from '../InputError'
 import { LabelContainer } from '../LabelContainer'
-import { InputButtonContainer, InputClearButton, InputMenuIndicator, SelectMenu, InputComponent, InputContainer } from '../Shared'
+import { InputButtonContainer, InputClearButton, InputComponent, InputContainer, InputMenuIndicator, SelectMenu } from '../Shared'
 
 type Props<TPath> = CommonSelectProps<TPath>
 
 export const Select = <TFieldValues extends FieldValues, TPath extends FieldPathByValue<TFieldValues, SelectOption['value'] | null>>({
-	showOptionalHint = true, isFullWidth = true, isRequired = false, maxNumberOfOptionsVisible = 40,
-	isDisabled = false, name, label, hint, placeholder, options, shouldAutofocus = false, isLoading = false,
+	showOptionalHint = true,
+	isFullWidth = true,
+	isRequired = false,
+	maxNumberOfOptionsVisible = 40,
+	isDisabled = false,
+	name,
+	label,
+	hint,
+	placeholder,
+	options,
+	shouldAutofocus = false,
+	isLoading = false,
 }: Props<TPath>) => {
 	const id = useUnique(name)
-	const { formState: { errors }, control } = useFormContext<TFieldValues>()
+	const {
+		formState: { errors },
+		control,
+	} = useFormContext<TFieldValues>()
 	const [filteredOptions, setFilteredOptions] = useState(options)
 	const [isInputFocus, setIsInputFocus] = useState(false)
-	const { field } = useController<TFieldValues, TPath>({ name, control, rules: { required: isRequired ? 'This field is required' : false } })
+	const [reactiveContainerRef, setReactiveContainerRef] = useState<HTMLDivElement | null>(null)
+	const { field } = useController<TFieldValues, TPath>({
+		name,
+		control,
+		rules: { required: isRequired ? 'This field is required' : false },
+	})
 	const containerRef = useRef<HTMLDivElement>(null)
 	const inputRef = useRef<HTMLInputElement>(null)
+	const mergedContainerRef = useMergeRefs([containerRef, setReactiveContainerRef])
 
-	const { isOpen: isMenuOpen, selectedItem, getLabelProps, getMenuProps, highlightedIndex, getItemProps, getInputProps, inputValue, reset, openMenu: onOpenMenu, closeMenu: onCloseMenu, setInputValue } = useCombobox({
+	const {
+		isOpen: isMenuOpen,
+		selectedItem,
+		getLabelProps,
+		getMenuProps,
+		highlightedIndex,
+		getItemProps,
+		getInputProps,
+		inputValue,
+		reset,
+		openMenu: onOpenMenu,
+		closeMenu: onCloseMenu,
+		setInputValue,
+	} = useCombobox({
 		id,
 		initialInputValue: options.find(({ value }) => value === field.value)?.label ?? '',
 		initialSelectedItem: options.find(({ value }) => value === field.value),
@@ -50,7 +81,7 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				field.onChange(undefined as any)
 				reset()
-			// If the user closes the menu and an item has already been selected, we reset to the already selected item
+				// If the user closes the menu and an item has already been selected, we reset to the already selected item
 			} else if (!isOpen) setInputValue(selectedItem?.label ?? '')
 		},
 		onInputValueChange: ({ inputValue }) => {
@@ -69,7 +100,9 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 	return (
 		<FieldWrapper isFullWidth={isFullWidth} minWidth={170}>
 			<LabelContainer {...getLabelProps()} htmlFor={id}>
-				<span>{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>}</span>
+				<span>
+					{label} {showOptionalHint && !isRequired && <Hint>(Optional)</Hint>}
+				</span>
 				{hint && <Hint>{hint}</Hint>}
 			</LabelContainer>
 			<InputContainer
@@ -86,16 +119,16 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 						inputRef.current?.focus()
 					}
 				}}
-				ref={containerRef}
+				ref={mergedContainerRef}
 			>
 				<InputComponent
-					{...getInputProps({
+					{...(getInputProps({
 						ref: inputRef,
 						name,
 						placeholder,
 						onFocus: onOpenMenu,
 						onClick: onOpenMenu,
-					}) as Record<string, unknown>}
+					}) as Record<string, unknown>)}
 					{...focusProps}
 					value={inputValue}
 					hasError={hasError}
@@ -119,18 +152,16 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 					<InputMenuIndicator isMenuOpen={isMenuOpen} isLoading={isLoading} />
 				</InputButtonContainer>
 			</InputContainer>
-			<Portal>
-				<SelectMenu
-					{...getMenuProps() as Record<string, unknown>}
-					containerRef={containerRef}
-					getItemProps={getItemProps}
-					highlightedOptionIndex={highlightedIndex}
-					isOpen={isMenuOpen}
-					maxNumberOfOptionsVisible={maxNumberOfOptionsVisible}
-					options={filteredOptions}
-					selectedItems={filterUnspecified([selectedItem])}
-				/>
-			</Portal>
+			<SelectMenu
+				{...(getMenuProps() as Record<string, unknown>)}
+				containerRef={reactiveContainerRef}
+				getItemProps={getItemProps}
+				highlightedOptionIndex={highlightedIndex}
+				isOpen={isMenuOpen}
+				maxNumberOfOptionsVisible={maxNumberOfOptionsVisible}
+				options={filteredOptions}
+				selectedItems={filterUnspecified([selectedItem])}
+			/>
 			<InputError hasError={hasError} errorMessage={error?.message} />
 		</FieldWrapper>
 	)

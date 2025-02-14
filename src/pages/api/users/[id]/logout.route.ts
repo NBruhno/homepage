@@ -7,11 +7,10 @@ export default apiHandler({
 	validMethods: ['POST'],
 	cacheStrategy: 'NoCache',
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/users/{userId}/logout`,
-})
-	.post(async (req, res) => {
-		await authenticate(req)
-		assert(req.query, object({ id: string() }))
+}).post(async (req, res) => {
+	await authenticate(req)
+	assert(req.query, object({ id: string() }))
 
-		removeRefreshCookie(res)
-		return res.status(200).json({ message: 'You have been logged out successfully' })
-	})
+	removeRefreshCookie(res)
+	return res.status(200).json({ message: 'You have been logged out successfully' })
+})

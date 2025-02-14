@@ -11,7 +11,7 @@ export const Default: Story<ComponentProps<typeof VideoTabs>> = () => (
 				videoId: 'J9Bm5U-MJZw',
 			},
 			{
-				name: 'Baldur\'s Gate 3 - Official Announcement Trailer',
+				name: "Baldur's Gate 3 - Official Announcement Trailer",
 				videoId: 'OcP0WdH7rTs',
 			},
 			{

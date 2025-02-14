@@ -33,8 +33,8 @@ const Games: NextPage = () => {
 		if (isStateKnown && userId && !queryUserId) {
 			void router.push({ query: { user: userId } }, undefined, { shallow: true })
 		}
-	// We are only interested in the router query
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// We are only interested in the router query
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [isStateKnown, userId, router.query.user])
 
 	return (
@@ -46,17 +46,7 @@ const Games: NextPage = () => {
 						return (
 							<Container>
 								{Array.from({ length: 15 }).map((_, index: number) => (
-									<Item
-										id={0}
-										cover={null}
-										name=''
-										releaseDate={null}
-										status={null}
-										index={index}
-										isPriority={false}
-										isLoading
-										key={index}
-									/>
+									<Item id={0} cover={null} name='' releaseDate={null} status={null} index={index} isPriority={false} isLoading key={index} />
 								))}
 							</Container>
 						)
@@ -97,19 +87,26 @@ const Games: NextPage = () => {
 					))
 				})()}
 				{router.query.user && (
-					<div css={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
-						<Tooltip tip="That's all of your followed games" show={isLimitReached}>
-							<ButtonBorder
-								label='Show more'
-								isDisabled={isLimitReached}
-								onClick={async () => {
-									await setSize(size + 1)
-									if (userId) {
-										await router.push({ query: { user: router.query.user, pages: size + 1 } }, undefined, { shallow: true })
-									}
-								}}
-							/>
-						</Tooltip>
+					<div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
+						<Tooltip
+							tip="That's all of your followed games"
+							show={isLimitReached}
+							render={(props) => (
+								<ButtonBorder
+									{...props}
+									label='Show more'
+									isDisabled={isLimitReached}
+									onClick={async () => {
+										await setSize(size + 1)
+										if (userId) {
+											await router.push({ query: { user: router.query.user, pages: size + 1 } }, undefined, {
+												shallow: true,
+											})
+										}
+									}}
+								/>
+							)}
+						></Tooltip>
 					</div>
 				)}
 			</PageContent>

@@ -1,5 +1,6 @@
 export enum GameWebsiteType {
 	AppStore = 'app store',
+	Bluesky = 'bluesky',
 	Discord = 'discord',
 	EpicGames = 'epic games',
 	GoG = 'gog',

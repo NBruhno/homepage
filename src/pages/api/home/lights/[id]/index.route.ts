@@ -1,6 +1,6 @@
 import { UserRole } from 'types'
 
-import { object, string, create, boolean, number, size, tuple, optional } from 'superstruct'
+import { boolean, create, number, object, optional, size, string, tuple } from 'superstruct'
 
 import { apiHandler, homeFetcher } from 'lib/api'
 import { Method } from 'lib/fetcher'
@@ -20,21 +20,20 @@ export default apiHandler({
 	validMethods: ['PATCH'],
 	cacheStrategy: 'NoCache',
 	transactionName: (req) => `${req.method ?? 'UNKNOWN'} api/home/lights/{entityId}`,
-})
-	.patch(async (req, res) => {
-		const { token } = await authenticate(req, { allowedRoles: [UserRole.Admin] })
-		const { id } = create(req.query, Query)
-		const { isLightOn, brightness, color } = create(req.query, Body)
+}).patch(async (req, res) => {
+	const { token } = await authenticate(req, { allowedRoles: [UserRole.Admin] })
+	const { id } = create(req.query, Query)
+	const { isLightOn, brightness, color } = create(req.query, Body)
 
-		await homeFetcher(`/lights/${id}`, {
-			accessToken: token,
-			method: Method.Patch,
-			body: {
-				isLightOn,
-				brightness,
-				color,
-			},
-		})
-
-		return res.status(200).json({ message: `Toggled state for ${id}` })
+	await homeFetcher(`/lights/${id}`, {
+		accessToken: token,
+		method: Method.Patch,
+		body: {
+			isLightOn,
+			brightness,
+			color,
+		},
 	})
+
+	return res.status(200).json({ message: `Toggled state for ${id}` })
+})

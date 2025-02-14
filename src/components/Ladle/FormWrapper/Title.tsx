@@ -1,5 +1,5 @@
-import type { ReactNode } from 'react'
+import { styled } from 'styled-components'
 
-export const Title = ({ children }: { children: ReactNode }) => (
-	<h3 css={{ margin: '16px 0 2px' }}>{children}</h3>
-)
+export const Title = styled.h3`
+	margin: 16px 0 2px;
+`

@@ -1,53 +1,49 @@
-import { type ComponentProps } from 'react'
+import { styled } from 'styled-components'
 
-export const Table = (props: ComponentProps<'table'>) => (
-	<table
-		css={(theme) => ({
-			borderSpacing: 0,
-			width: '100%',
-			borderWidth: '1px 1px 0 1px',
-			borderStyle: 'solid',
-			borderColor: theme.color.border,
-			borderRadius: '4px',
-			fontSize: theme.font.size.s90,
+export const Table = styled.table`
+	border-spacing: 0;
+	width: 100%;
+	border-width: 1px 1px 0 1px;
+	border-style: solid;
+	border-color: ${({ theme }) => theme.color.border};
+	border-radius: 4px;
+	font-size: ${({ theme }) => theme.font.size.s90};
 
-			th: {
-				fontFamily: theme.font.family.poppins,
-				fontSize: theme.font.size.s100,
-				textAlign: 'left',
-				color: theme.color.text,
-				backgroundColor: theme.color.gray010,
+	th {
+		font-family: ${({ theme }) => theme.font.family.poppins};
+		font-size: ${({ theme }) => theme.font.size.s100};
+		text-align: left;
+		color: ${({ theme }) => theme.color.text};
+		background-color: ${({ theme }) => theme.color.gray010};
 
-				'&:first-child': {
-					borderTopLeftRadius: '4px',
-				},
+		&:first-of-type {
+			border-top-left-radius: 4px;
+		}
 
-				'&:last-child': {
-					borderTopRightRadius: '4px',
-				},
-			},
+		&:last-child {
+			border-top-right-radius: 4px;
+		}
+	}
 
-			'td, th': {
-				borderWidth: '0 1px 1px 0',
-				borderStyle: 'solid',
-				borderColor: theme.color.border,
-				padding: '6px 12px',
+	td,
+	th {
+		border-width: 0 1px 1px 0;
+		border-style: solid;
+		border-color: ${({ theme }) => theme.color.border};
+		padding: 6px 12px;
 
-				'&:last-child': {
-					borderRight: 'none',
-				},
-			},
+		&:last-child {
+			border-right: none;
+		}
+	}
 
-			'tr:last-child': {
-				'td:first-child': {
-					borderBottomLeftRadius: '4px',
-				},
+	tr:last-child {
+		td:first-of-type {
+			border-bottom-left-radius: 4px;
+		}
 
-				'td:last-child': {
-					borderBottomRightRadius: '4px',
-				},
-			},
-		})}
-		{...props}
-	/>
-)
+		td:last-child {
+			border-bottom-right-radius: 4px;
+		}
+	}
+`

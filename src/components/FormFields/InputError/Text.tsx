@@ -1,13 +1,8 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Text = (props: ComponentPropsWithoutRef<'span'>) => (
-	<span
-		css={(theme) => ({
-			color: theme.color.white,
-			fontSize: theme.font.size.s80,
-			marginLeft: '5px',
-			verticalAlign: '5px',
-		})}
-		{...props}
-	/>
-)
+export const Text = styled.span`
+	color: ${({ theme }) => theme.color.white};
+	font-size: ${({ theme }) => theme.font.size.s80};
+	margin-left: 5px;
+	vertical-align: 5px;
+`

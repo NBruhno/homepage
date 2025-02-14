@@ -1,4 +1,4 @@
 export type IgdbGenre = {
-	id: number,
-	name: string,
+	id: number
+	name: string
 }

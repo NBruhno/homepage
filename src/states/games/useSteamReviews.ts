@@ -1,15 +1,14 @@
 import type { GameReviews } from 'types'
 
-import useSWR from 'swr'
-import { shallow } from 'zustand/shallow'
+import useSwr from 'swr'
 
 import { useGameStore } from './useGame'
 
 export const useSteamReviews = () => {
-	const { id, steamAppId } = useGameStore((state) => state, shallow)
-	const { data: reviews, isLoading } = useSWR<GameReviews | undefined>(id && steamAppId
-		? `/games/${id}/reviews?steam-app-id=${encodeURIComponent(steamAppId)}`
-		: null)
+	const { id, steamAppId } = useGameStore((state) => state)
+	const { data: reviews, isLoading } = useSwr<GameReviews | undefined>(
+		id && steamAppId ? `/games/${id}/reviews?steam-app-id=${encodeURIComponent(steamAppId)}` : null,
+	)
 
 	return {
 		reviews: reviews!,

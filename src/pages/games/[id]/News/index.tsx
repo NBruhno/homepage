@@ -8,8 +8,10 @@ import { Placeholder } from 'components/Placeholder'
 
 import { Empty } from './Empty'
 import { Grid } from './Grid'
+import { Heading } from './Heading'
 import { Item } from './Item'
 import { List } from './List'
+import { OtherLink } from './OtherLink'
 
 const placeholderNews: Array<GameNewsItem> = Array.from({ length: 5 }).map((_, index) => ({
 	id: `${index}`,
@@ -37,33 +39,32 @@ export const News = () => {
 		<>
 			<Grid>
 				<List>
-					<h3 css={(theme) => ({ marginTop: 0, marginBottom: '4px', color: theme.color.textSubtitle })}>
+					<Heading>
 						<Placeholder isLoading={isLoading}>Steam news</Placeholder>
-					</h3>
-					{steamNews.length > 0
-						? steamNews.map((newsItem, index) => <Item isLoading={isLoading} {...newsItem} key={index} />)
-						: <Empty>There are no Steam news</Empty>}
+					</Heading>
+					{steamNews.length > 0 ? (
+						steamNews.map((newsItem, index) => <Item isLoading={isLoading} {...newsItem} key={index} />)
+					) : (
+						<Empty>There are no Steam news</Empty>
+					)}
 				</List>
 				<List>
-					<h3 css={(theme) => ({ marginTop: 0, marginBottom: '4px', color: theme.color.textSubtitle })}>
+					<Heading>
 						<Placeholder isLoading={isLoading}>Other news</Placeholder>
-					</h3>
-					{otherNews.length > 0
-						? otherNews.map((newsItem, index) => <Item isLoading={isLoading} {...newsItem} key={index} />)
-						: <Empty>There are no other news</Empty>}
+					</Heading>
+					{otherNews.length > 0 ? (
+						otherNews.map((newsItem, index) => <Item isLoading={isLoading} {...newsItem} key={index} />)
+					) : (
+						<Empty>There are no other news</Empty>
+					)}
 				</List>
 			</Grid>
-			<a
-				href={newsUrl}
-				css={{ marginTop: '12px', display: 'flex', alignItems: 'center', columnGap: '4px', textDecoration: 'none' }}
-				target='_blank'
-				rel='noreferrer noopener'
-			>
+			<OtherLink href={newsUrl} target='_blank' rel='noreferrer noopener'>
 				<Placeholder isLoading={isLoading}>
 					<span>See all the other news on Steam</span>
 					<IconChevronRight />
 				</Placeholder>
-			</a>
+			</OtherLink>
 		</>
 	)
 }

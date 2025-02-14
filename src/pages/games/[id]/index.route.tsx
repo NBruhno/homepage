@@ -1,22 +1,18 @@
-import type { NextPage } from 'next'
-
-import { useRouter } from 'next/router'
-import { isString } from 'radash'
-
-import { useGame, useGameUserStatus } from 'states/games'
-import { useTitle, useResponsive } from 'states/page'
-import { useUser } from 'states/users'
-
 import { ButtonSolid } from 'components/Buttons'
 import { GridContainer } from 'components/Layout'
 import { Page } from 'components/Layout/Page'
 import { Placeholder } from 'components/Placeholder'
 import { Tooltip } from 'components/Tooltip'
 import { VideoTabs } from 'components/VideoTabs'
-
+import type { NextPage } from 'next'
+import { useRouter } from 'next/compat/router'
+import { isString } from 'radash'
+import { useGame, useGameUserStatus } from 'states/games'
+import { useResponsive, useTitle } from 'states/page'
+import { useUser } from 'states/users'
 import { Cover } from '../Cover'
 import { dateOrYear } from '../dateOrYear'
-
+import { CoverContainer } from './CoverContainer'
 import { Grid } from './Grid'
 import { Background } from './Header/Background'
 import { BackgroundCutoff } from './Header/BackgroundCutoff'
@@ -32,10 +28,11 @@ import { PriceTable } from './PriceTable'
 import { Rating } from './Rating'
 import { Section } from './Section'
 import { SimilarGames } from './SimilarGames'
+import { TooltipContent } from './TooltipContent'
 import { WebsiteIcons } from './WebsiteIcons'
 
 const GamePage: NextPage = () => {
-	const { query } = useRouter()
+	const query = useRouter()?.query ?? {}
 	const { game, isLoading } = useGame({ id: isString(query.id) ? parseInt(query.id, 10) : null })
 	const { userStatus, onToggleFollowing } = useGameUserStatus()
 	const accessToken = useUser((state) => state.accessToken)
@@ -45,55 +42,56 @@ const GamePage: NextPage = () => {
 
 	return (
 		<Page>
-			<BackgroundWrapper>
-				<Background src={game?.screenshot ?? game?.cover ?? null} />
-			</BackgroundWrapper>
+			<BackgroundWrapper>{Boolean(game?.screenshot ?? game?.cover) && <Background alt='' src={game?.screenshot ?? game?.cover!} />}</BackgroundWrapper>
 			<BackgroundCutoff />
 			<Grid>
-				<GridContainer name='cover' css={(theme) => ({ maxHeight: '354px', [theme.mediaQueries.minTablet]: { marginTop: '10px' } })}>
+				<CoverContainer name='cover'>
 					<Cover coverUrl={game?.cover ?? null} isPriority />
-				</GridContainer>
+				</CoverContainer>
 				<GridContainer name='headlines'>
 					<header>
 						<Title>
-							<Placeholder width='55%'>
-								{game?.name}
-							</Placeholder>
+							<Placeholder width='55%'>{game?.name}</Placeholder>
 						</Title>
 						<ReleaseDate>
-							<Placeholder width='30%'>
-								{dateOrYear(game?.releaseDate)}
-							</Placeholder>
+							<Placeholder width='30%'>{dateOrYear(game?.releaseDate)}</Placeholder>
 						</ReleaseDate>
 						<Developer>
-							<Placeholder width='25%'>
-								{game?.developers[0]?.name && `By ${game.developers[0].name}`}
-							</Placeholder>
+							<Placeholder width='25%'>{game?.developers[0]?.name && `By ${game.developers[0].name}`}</Placeholder>
 						</Developer>
 					</header>
 				</GridContainer>
 				<GridContainer
 					name='actions'
-					css={{ display: 'flex', alignItems: 'center', columnGap: '12px', justifyContent: isMobile ? 'center' : 'flex-start' }}
+					style={{
+						display: 'flex',
+						alignItems: 'center',
+						columnGap: '12px',
+						justifyContent: isMobile ? 'center' : 'flex-start',
+					}}
 				>
-					<Tooltip tip='You need to be logged in' show={!accessToken}>
-						<ButtonSolid
-							label={userStatus?.isFollowing ? 'Unfollow' : 'Follow'}
-							onClick={() => onToggleFollowing({ isFollowing: !userStatus?.isFollowing })}
-							isDisabled={!accessToken || userStatus?.isFollowing === undefined}
-							isLoading={isLoading}
-						/>
-					</Tooltip>
+					<Tooltip
+						tip='You need to be logged in'
+						show={!accessToken}
+						render={(props) => (
+							<ButtonSolid
+								{...props}
+								label={userStatus?.isFollowing ? 'Unfollow' : 'Follow'}
+								onClick={() => onToggleFollowing({ isFollowing: !userStatus?.isFollowing })}
+								isDisabled={!accessToken || userStatus?.isFollowing === undefined}
+								isLoading={isLoading}
+							/>
+						)}
+					></Tooltip>
 					{userStatus?.isInSteamLibrary && (
-						<Tooltip tip='You already own this game on Steam'>
-							<div css={(theme) => ({ backgroundColor: theme.color.sidebarBackground, padding: '7px 12px 3px', borderRadius: '4px' })}>
-								{userStatus.timePlayed ? `${userStatus.timePlayed} hours` : 'Owned'}
-							</div>
-						</Tooltip>
+						<Tooltip
+							tip='You already own this game on Steam'
+							render={(props) => <TooltipContent {...props}>{userStatus.timePlayed ? `${userStatus.timePlayed} hours` : 'Owned'}</TooltipContent>}
+						></Tooltip>
 					)}
 					{!isMobile && <WebsiteIcons websites={game?.websites ?? []} />}
 				</GridContainer>
-				<GridContainer name='websites' shouldShow={isMobile} css={{ margin: '0 auto' }}>
+				<GridContainer name='websites' shouldShow={isMobile} style={{ margin: '0 auto' }}>
 					<WebsiteIcons websites={game?.websites ?? []} />
 				</GridContainer>
 				<GridContainer name='priceTable'>
@@ -122,29 +120,19 @@ const GamePage: NextPage = () => {
 						updatedAt={game?.updatedAt}
 					/>
 				</GridContainer>
-				<GridContainer name='content' css={{ display: 'flex', flexDirection: 'column', rowGap: '24px' }}>
-					<Section contentType='other'>
-						{(game?.videos.length !== 0) ? <VideoTabs videos={game?.videos} /> : null}
-					</Section>
+				<GridContainer name='content' style={{ display: 'flex', flexDirection: 'column', rowGap: '24px' }}>
+					<Section contentType='other'>{game?.videos.length !== 0 ? <VideoTabs videos={game?.videos} /> : null}</Section>
 					<Section title='Summary' titlePlaceholderWidth='30%'>
 						{game?.summary ?? null}
 					</Section>
 					<Section title='Storyline' titlePlaceholderWidth='35%'>
 						{game?.storyline}
 					</Section>
-					<Section
-						title='History'
-						contentType='other'
-						titlePlaceholderWidth='45%'
-					>
+					<Section title='History' contentType='other' titlePlaceholderWidth='45%'>
 						<History />
 						<PriceHistory />
 					</Section>
-					<Section
-						title='Latest news'
-						contentType='other'
-						titlePlaceholderWidth='40%'
-					>
+					<Section title='Latest news' contentType='other' titlePlaceholderWidth='40%'>
 						<News />
 					</Section>
 				</GridContainer>

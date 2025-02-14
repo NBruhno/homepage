@@ -1,15 +1,10 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	maxWidth?: number,
+type Props = {
+	maxWidth?: number
 }
 
-export const PageContent = ({ maxWidth = 700, ...rest }: Props) => (
-	<div
-		css={{
-			maxWidth: `${maxWidth}px`,
-			margin: '0 auto',
-		}}
-		{...rest}
-	/>
-)
+export const PageContent = styled.div<Props>`
+	max-width: ${({ maxWidth = 700 }) => `${maxWidth}px`};
+	margin: 0 auto;
+`

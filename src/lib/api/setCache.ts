@@ -1,18 +1,14 @@
 import type { NextApiResponse } from 'next'
 
 type Props = {
-	res: NextApiResponse,
-	strategy: 'Default' | 'NoCache' | 'StaleWhileRevalidate',
+	res: NextApiResponse
+	strategy: 'Default' | 'NoCache' | 'StaleWhileRevalidate'
 	/** In minutes, defaults to 1 */
-	duration?: number | undefined,
+	duration?: number | undefined
 }
 
 /** Applies a `Cache-Control` header depending on the cache strategy provided */
-export const setCache = ({
-	strategy,
-	res,
-	duration = 1,
-}: Props) => {
+export const setCache = ({ strategy, res, duration = 1 }: Props) => {
 	const setCacheHeader = (value: string) => res.setHeader('Cache-Control', value)
 	switch (strategy) {
 		case 'NoCache': {

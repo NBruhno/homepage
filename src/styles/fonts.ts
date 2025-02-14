@@ -1,5 +1,4 @@
-/* eslint-disable @emotion/syntax-preference */
-import { css } from '@emotion/react'
+import { css } from 'styled-components'
 
 export const fonts = css`
 	@font-face {

@@ -1,7 +1,6 @@
 import 'jsr:@supabase/functions-js/edge-runtime.d.ts'
+import postgres from 'npm:postgres@3.4.5'
 import { create, number, type } from 'npm:superstruct@2.0.2'
-
-import { createAmqp } from '../createAmqp.ts'
 
 const validator = type({
 	id: number(),
@@ -15,19 +14,25 @@ Deno.serve(async (req) => {
 	}
 	const { id } = create(await req.json(), validator)
 
-	const amqp = await createAmqp()
+	const dbUrl = Deno.env.get('POSTGRES_PRISMA_URL')
+	if (!dbUrl) throw new Error('DB URL is not set')
 
+	const db = postgres(dbUrl)
 	try {
-		const channel = await amqp.channel()
-
-		await channel.queue(`game:update`, { durable: true })
-		await channel.basicPublish('', `game:update`, id.toString(), {})
+		const response = await db`
+			SELECT * from pgmq.send(
+				queue_name => 'games-to-update',
+				msg => '{ "id": ${id}}'
+			);
+		`
 	} finally {
-		await amqp.close()
+		db.end()
 	}
 
 	return new Response(
-		JSON.stringify({ message: `Added update request for game with ID ${id} to queue.` }),
+		JSON.stringify({
+			message: `Added update request for game with ID ${id} to queue.`,
+		}),
 		{ status: 200, headers: { 'Content-Type': 'application/json' } },
 	)
 })

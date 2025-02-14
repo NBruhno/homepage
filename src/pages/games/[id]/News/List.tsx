@@ -1,13 +1,8 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const List = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={{
-			display: 'flex',
-			flexDirection: 'column',
-			rowGap: '8px',
-			minWidth: 0,
-		}}
-		{...props}
-	/>
-)
+export const List = styled.div`
+	display: flex;
+	flex-direction: column;
+	row-gap: 8px;
+	min-width: 0;
+`

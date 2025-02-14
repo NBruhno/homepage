@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 type Props = {
-	children: ReactNode,
+	children: ReactNode
 }
 
 export const Portal = ({ children }: Props) => {
@@ -16,7 +16,5 @@ export const Portal = ({ children }: Props) => {
 	}, [])
 
 	const rootElement = typeof window === 'undefined' ? null : document.querySelector('#portal')
-	return (isMounted && rootElement)
-		? createPortal(children, rootElement)
-		: null
+	return isMounted && rootElement ? createPortal(children, rootElement) : null
 }

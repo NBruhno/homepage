@@ -18,9 +18,7 @@ describe('/api/users/{userId}/logout', () => {
 	test('POST › Logout', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.post(`/api/users/${id}/logout`)
-			.set('authorization', `Bearer ${accessToken}`)
+		const res = await supertest(server).post(`/api/users/${id}/logout`).set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(200)
 		expect(res.body).toStrictEqual({ message: 'You have been logged out successfully' })
@@ -30,9 +28,7 @@ describe('/api/users/{userId}/logout', () => {
 	test('POST › Logout already logged out session', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.post(`/api/users/${id}/logout`)
-			.set('authorization', `Bearer ${accessToken}`)
+		const res = await supertest(server).post(`/api/users/${id}/logout`).set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(200)
 		expect(res.body).toStrictEqual({ message: 'You have been logged out successfully' })
@@ -42,9 +38,7 @@ describe('/api/users/{userId}/logout', () => {
 	test('POST › User does not exist', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id: '1234' })
-		const res = await supertest(server)
-			.post(`/api/users/${1234}/logout`)
-			.set('authorization', `Bearer ${accessToken}`)
+		const res = await supertest(server).post(`/api/users/${1234}/logout`).set('authorization', `Bearer ${accessToken}`)
 
 		expect(res.status).toBe(200)
 		expect(res.body).toStrictEqual({ message: 'You have been logged out successfully' })
@@ -54,8 +48,7 @@ describe('/api/users/{userId}/logout', () => {
 	test('POST › Not authenticated', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.post(`/api/users/${id}/logout`)
+		const res = await supertest(server).post(`/api/users/${id}/logout`)
 
 		expect(res.status).toBe(401)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(401).message })
@@ -65,9 +58,9 @@ describe('/api/users/{userId}/logout', () => {
 	test('POST › Invalid query', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)
-		const res = await supertest(server)
-			.post(`/api/users/./changePassword`)
-			.set('authorization', `Bearer ${accessToken}`) as unknown as TestResponse & { body: { message: string } }
+		const res = (await supertest(server).post(`/api/users/./changePassword`).set('authorization', `Bearer ${accessToken}`)) as unknown as TestResponse & {
+			body: { message: string }
+		}
 
 		expect(res.status).toBe(400)
 		expect(res.body.message).toMatch(/Expected an object/)
@@ -77,8 +70,7 @@ describe('/api/users/{userId}/logout', () => {
 	test('Invalid method', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server)
-			.get(`/api/users/${id}/logout`)
+		const res = await supertest(server).get(`/api/users/${id}/logout`)
 
 		expect(res.status).toBe(405)
 		expect(res.body).toStrictEqual({ message: ApiError.fromCode(405).message })

@@ -1,3 +1,8 @@
 * text=auto eol=lf
 *.{cmd,[cC][mM][dD]} text eol=crlf
 *.{bat,[bB][aA][tT]} text eol=crlf
+
+.gitattributes !filter !diff
+
+.env filter=git-crypt diff=git-crypt
+.env.* filter=git-crypt diff=git-crypt

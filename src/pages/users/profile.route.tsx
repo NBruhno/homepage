@@ -11,7 +11,7 @@ const Profile: NextPage = () => {
 
 	return (
 		<Page>
-			<div css={{ maxWidth: '420px', margin: '0 auto' }}>
+			<div style={{ maxWidth: '420px', margin: '0 auto' }}>
 				<Card shouldAnimate={false}>
 					<FormChangePassword />
 				</Card>

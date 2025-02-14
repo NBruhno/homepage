@@ -1,17 +1,12 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Container = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={(theme) => ({
-			display: 'grid',
-			gap: '11px',
-			gridTemplateColumns: 'repeat(auto-fill, 120px)',
+export const Container = styled.div`
+	display: grid;
+	gap: 11px;
+	grid-template-columns: repeat(auto-fill, 120px);
 
-			[theme.mediaQueries.maxMobile]: {
-				gap: '12px',
-				gridTemplateColumns: 'repeat(auto-fill, 48%)',
-			},
-		})}
-		{...props}
-	/>
-)
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		gap: 12px;
+		grid-template-columns: repeat(auto-fill, 48%);
+	}
+`

@@ -1,25 +1,12 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 module.exports = {
 	parser: '@typescript-eslint/parser',
 	extends: [
-		'airbnb',
+		// 'airbnb',
 		'plugin:import/errors',
 		'plugin:import/warnings',
 		'plugin:@next/next/recommended',
 	],
-	plugins: [
-		'@typescript-eslint',
-		'eslint-plugin-tsdoc',
-		'@emotion',
-		'filenames',
-		'import',
-		'jest',
-		'jsx-a11y',
-		'node',
-		'promise',
-		'react',
-		'react-hooks',
-	],
+	plugins: ['@stylistic', '@typescript-eslint', 'eslint-plugin-tsdoc', 'filenames', 'import', 'jest', 'jsx-a11y', 'node', 'promise', 'react', 'react-hooks'],
 	env: {
 		browser: true,
 		'jest/globals': true,
@@ -72,16 +59,21 @@ module.exports = {
 				],
 				'@typescript-eslint/no-base-to-string': ['error'],
 				'@typescript-eslint/no-confusing-void-expression': ['off'],
+				'@typescript-eslint/no-empty-object-type': ['error'],
 				'@typescript-eslint/no-floating-promises': ['error', { ignoreVoid: true }],
 				'@typescript-eslint/no-for-in-array': ['error'],
 				'@typescript-eslint/no-meaningless-void-operator': ['error'],
-				'@typescript-eslint/no-misused-promises': ['error', {
-					checksVoidReturn: {
-						arguments: false,
-						attributes: false,
+				'@typescript-eslint/no-misused-promises': [
+					'error',
+					{
+						checksVoidReturn: {
+							arguments: false,
+							attributes: false,
+						},
 					},
-				}],
+				],
 				'@typescript-eslint/no-redundant-type-constituents': ['error'],
+				'@typescript-eslint/no-restricted-types': ['error'],
 				'@typescript-eslint/no-unnecessary-boolean-literal-compare': ['error'],
 				'@typescript-eslint/no-unnecessary-condition': ['error'],
 				'@typescript-eslint/no-unnecessary-type-arguments': ['error'],
@@ -89,10 +81,17 @@ module.exports = {
 				'@typescript-eslint/no-unsafe-argument': ['error'],
 				'@typescript-eslint/no-unsafe-assignment': ['error'],
 				'@typescript-eslint/no-unsafe-call': ['error'],
+				'@typescript-eslint/no-unsafe-function-type': ['error'],
 				'@typescript-eslint/no-unsafe-member-access': ['error'],
 				'@typescript-eslint/no-unsafe-return': ['error'],
-				'@typescript-eslint/no-unused-vars': ['error'],
+				'@typescript-eslint/no-unused-vars': [
+					'error',
+					{
+						caughtErrors: 'none',
+					},
+				],
 				'@typescript-eslint/no-var-requires': ['error'],
+				'@typescript-eslint/no-wrapper-object-types': ['error'],
 				'@typescript-eslint/prefer-includes': ['error'],
 				'@typescript-eslint/prefer-nullish-coalescing': ['error'],
 				'@typescript-eslint/prefer-optional-chain': ['error'],
@@ -105,7 +104,6 @@ module.exports = {
 				'@typescript-eslint/restrict-plus-operands': ['error'],
 				'@typescript-eslint/restrict-template-expressions': ['error'],
 				'@typescript-eslint/switch-exhaustiveness-check': ['error'],
-				'@typescript-eslint/type-annotation-spacing': ['error'],
 				'@typescript-eslint/unbound-method': ['error'],
 			},
 		},
@@ -117,48 +115,19 @@ module.exports = {
 
 		'@typescript-eslint/adjacent-overload-signatures': ['error'],
 		'@typescript-eslint/array-type': ['error', { default: 'generic' }],
-		'@typescript-eslint/ban-ts-comment': ['error', {
-			'ts-expect-error': 'allow-with-description',
-			'ts-ignore': 'allow-with-description',
-			'ts-nocheck': 'allow-with-description',
-			'ts-check': 'allow-with-description',
-		}],
-		'@typescript-eslint/ban-types': ['error'],
+		'@typescript-eslint/ban-ts-comment': [
+			'error',
+			{
+				'ts-expect-error': 'allow-with-description',
+				'ts-ignore': 'allow-with-description',
+				'ts-nocheck': 'allow-with-description',
+				'ts-check': 'allow-with-description',
+			},
+		],
 		'@typescript-eslint/consistent-indexed-object-style': ['error', 'record'],
 		'@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports', fixStyle: 'inline-type-imports' }],
 		'@typescript-eslint/explicit-function-return-type': 'off',
 		'@typescript-eslint/explicit-member-accessibility': 'off',
-		'@typescript-eslint/indent': ['error', 'tab', {
-			SwitchCase: 1,
-			MemberExpression: 1,
-			FunctionExpression: { body: 1, parameters: 1 },
-			CallExpression: { arguments: 1 },
-			ignoredNodes: [
-				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
-			],
-		}],
-		'@typescript-eslint/member-delimiter-style': ['error', {
-			multiline: {
-				delimiter: 'comma',
-				requireLast: true,
-			},
-			singleline: {
-				delimiter: 'comma',
-				requireLast: false,
-			},
-			overrides: {
-				interface: {
-					multiline: {
-						delimiter: 'none',
-						requireLast: false,
-					},
-					singleline: {
-						delimiter: 'semi',
-						requireLast: false,
-					},
-				},
-			},
-		}],
 		'@typescript-eslint/member-ordering': ['error'],
 		'@typescript-eslint/method-signature-style': ['error'],
 		'@typescript-eslint/no-confusing-non-null-assertion': ['error'],
@@ -189,41 +158,103 @@ module.exports = {
 		/* ************* JavaScript rules ************* */
 		/* ******************************************** */
 
-		'arrow-parens': ['error', 'always'],
 		'class-methods-use-this': 'off',
-		'comma-dangle': ['error', {
-			arrays: 'always-multiline',
-			exports: 'always-multiline',
-			functions: 'always-multiline',
-			imports: 'always-multiline',
-			objects: 'always-multiline',
-		}],
 		'consistent-return': 'off',
 		'default-case': 'off',
 		'dot-notation': 'off',
 		'func-names': 'off',
 		'func-style': ['error', 'expression'],
-		'function-paren-newline': ['error', 'consistent'],
-		'generator-star-spacing': ['error', 'both'],
-		indent: ['error', 'tab', {
-			CallExpression: { arguments: 1 },
-			FunctionExpression: { body: 1, parameters: 1 },
-			MemberExpression: 1,
-			SwitchCase: 1,
-			ignoredNodes: [
-				'TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *',
-			],
-		}],
-		'jsx-quotes': ['error', 'prefer-single'],
-		'lines-between-class-members': 'off',
-		'max-len': 'off',
+		indent: [
+			'error',
+			'tab',
+			{
+				CallExpression: { arguments: 1 },
+				FunctionExpression: { body: 1, parameters: 1 },
+				MemberExpression: 1,
+				SwitchCase: 1,
+				ignoredNodes: ['TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *'],
+			},
+		],
 		'no-await-in-loop': 'off',
-		'no-confusing-arrow': 'off',
 		'no-console': ['error'],
 		'no-constant-binary-expression': ['error'],
 		'no-else-return': 'off',
 		'no-implied-eval': ['error'],
-		'no-mixed-operators': [
+		'no-param-reassign': 'off',
+		'no-plusplus': 'off',
+		'no-shadow': 'off',
+		'no-undef': 'off',
+		'no-unused-vars': 'off',
+		'no-use-before-define': ['error', { classes: false, functions: false, variables: false }],
+		'no-void': ['error', { allowAsStatement: true }],
+		'prefer-destructuring': [
+			'error',
+			{
+				AssignmentExpression: {
+					array: false,
+					object: false,
+				},
+				VariableDeclarator: {
+					array: true,
+					object: true,
+				},
+			},
+		],
+		'prefer-template': 'off',
+
+		/* ******************************************** */
+		/* ************** Stylistic rules ************* */
+		/* ******************************************** */
+
+		'@stylistic/arrow-parens': ['error', 'always'],
+		'@stylistic/comma-dangle': ['error', 'always-multiline'],
+		'@stylistic/function-paren-newline': ['error', 'consistent'],
+		'@stylistic/generator-star-spacing': ['error', 'both'],
+		'@stylistic/indent': [
+			'error',
+			'tab',
+			{
+				SwitchCase: 1,
+				MemberExpression: 1,
+				FunctionExpression: { body: 1, parameters: 1 },
+				CallExpression: { arguments: 1 },
+				ignoredNodes: ['TaggedTemplateExpression[tag.name="sql"] > TemplateLiteral *'],
+			},
+		],
+		'@stylistic/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: false }],
+		'@stylistic/jsx-indent': ['error', 'tab'],
+		'@stylistic/jsx-indent-props': ['error', 'tab'],
+		'@stylistic/jsx-one-expression-per-line': 'off',
+		'@stylistic/jsx-quotes': ['error', 'prefer-single'],
+		'@stylistic/lines-between-class-members': 'off',
+		'@stylistic/max-len': 'off',
+		'@stylistic/member-delimiter-style': [
+			'error',
+			{
+				multiline: {
+					delimiter: 'comma',
+					requireLast: true,
+				},
+				singleline: {
+					delimiter: 'comma',
+					requireLast: false,
+				},
+				overrides: {
+					interface: {
+						multiline: {
+							delimiter: 'none',
+							requireLast: false,
+						},
+						singleline: {
+							delimiter: 'semi',
+							requireLast: false,
+						},
+					},
+				},
+			},
+		],
+		'@stylistic/no-confusing-arrow': 'off',
+		'@stylistic/no-mixed-operators': [
 			'error',
 			{
 				allowSamePrecedence: true,
@@ -234,32 +265,15 @@ module.exports = {
 				],
 			},
 		],
-		'no-param-reassign': 'off',
-		'no-plusplus': 'off',
-		'no-shadow': 'off',
-		'no-tabs': 'off',
-		'no-undef': 'off',
-		'no-unused-vars': 'off',
-		'no-use-before-define': ['error', { classes: false, functions: false, variables: false }],
-		'no-void': ['error', { allowAsStatement: true }],
-		'object-curly-newline': ['error', { consistent: true, multiline: true }],
-		'object-curly-spacing': ['error', 'always'],
-		'prefer-destructuring': ['error', {
-			AssignmentExpression: {
-				array: false,
-				object: false,
-			},
-			VariableDeclarator: {
-				array: true,
-				object: true,
-			},
-		}],
-		'prefer-template': 'off',
-		'quote-props': ['error', 'as-needed'],
-		'space-before-function-paren': ['error', { anonymous: 'always', named: 'never' }],
-		'space-infix-ops': 'off',
-		semi: ['error', 'never'],
-		quotes: ['error', 'single', { allowTemplateLiterals: true }],
+		'@stylistic/no-tabs': 'off',
+		'@stylistic/object-curly-newline': ['error', { consistent: true, multiline: true }],
+		'@stylistic/object-curly-spacing': ['error', 'always'],
+		'@stylistic/quote-props': ['error', 'as-needed'],
+		'@stylistic/quotes': ['error', 'single', { allowTemplateLiterals: true }],
+		'@stylistic/semi': ['error', 'never'],
+		'@stylistic/space-before-function-paren': ['error', { anonymous: 'always', named: 'never' }],
+		'@stylistic/space-infix-ops': 'off',
+		'@stylistic/type-annotation-spacing': ['error'],
 
 		/* ******************************************** */
 		/* **************** React rules *************** */
@@ -268,23 +282,28 @@ module.exports = {
 		'react-hooks/exhaustive-deps': 'warn',
 		'react-hooks/rules-of-hooks': 'error',
 		'react/destructuring-assignment': 'off',
-		'react/jsx-curly-spacing': ['error', { when: 'never', allowMultiline: false }],
 		'react/jsx-filename-extension': ['error', { extensions: ['.tsx'] }],
-		'react/jsx-indent-props': ['error', 'tab'],
-		'react/jsx-indent': ['error', 'tab'],
-		'react/jsx-no-bind': ['error', {
-			ignoreRefs: false,
-			allowArrowFunctions: true,
-			allowBind: false,
-		}],
-		'react/function-component-definition': ['error', {
-			namedComponents: 'arrow-function',
-			unnamedComponents: 'arrow-function',
-		}],
-		'react/jsx-no-useless-fragment': ['error', {
-			allowExpressions: true,
-		}],
-		'react/jsx-one-expression-per-line': 'off',
+		'react/jsx-no-bind': [
+			'error',
+			{
+				ignoreRefs: false,
+				allowArrowFunctions: true,
+				allowBind: false,
+			},
+		],
+		'react/function-component-definition': [
+			'error',
+			{
+				namedComponents: 'arrow-function',
+				unnamedComponents: 'arrow-function',
+			},
+		],
+		'react/jsx-no-useless-fragment': [
+			'error',
+			{
+				allowExpressions: true,
+			},
+		],
 		'react/jsx-props-no-spreading': 'off',
 		'react/no-array-index-key': 'off',
 		'react/prefer-stateless-function': 'off',
@@ -303,34 +322,36 @@ module.exports = {
 		'import/namespace': 'off',
 		'import/no-extraneous-dependencies': ['error', { devDependencies: true, optionalDependencies: false, peerDependencies: false }],
 		'import/no-unresolved': 'off',
-		'import/order': ['error', {
-			groups: ['type', 'builtin', 'external', 'internal', 'unknown', 'parent', 'sibling', 'object', 'index'],
-			pathGroups: [
-				// We want types to always be at the top of a file (including enums)
-				{ pattern: 'types', group: 'type' },
-				{ pattern: 'config.client', group: 'internal', position: 'after' },
-				{ pattern: 'config.server', group: 'internal', position: 'after' },
-				{ pattern: 'pages/**', group: 'internal', position: 'after' },
-				{ pattern: 'states/**', group: 'internal', position: 'after' },
-				{ pattern: 'styles/**', group: 'internal', position: 'after' },
-				{ pattern: 'validation/**', group: 'internal', position: 'after' },
-				{ pattern: 'lib/**', group: 'internal', position: 'after' },
-				{ pattern: 'components/**', group: 'internal', position: 'after' },
-			],
-			pathGroupsExcludedImportTypes: ['builtin'],
-			alphabetize: {
-				caseInsensitive: true,
-				order: 'asc',
+		'import/order': [
+			'error',
+			{
+				groups: ['type', 'builtin', 'external', 'internal', 'unknown', 'parent', 'sibling', 'object', 'index'],
+				pathGroups: [
+					// We want types to always be at the top of a file (including enums)
+					{ pattern: 'types', group: 'type' },
+					{ pattern: 'config.client', group: 'internal', position: 'after' },
+					{ pattern: 'config.server', group: 'internal', position: 'after' },
+					{ pattern: 'pages/**', group: 'internal', position: 'after' },
+					{ pattern: 'states/**', group: 'internal', position: 'after' },
+					{ pattern: 'styles/**', group: 'internal', position: 'after' },
+					{ pattern: 'validation/**', group: 'internal', position: 'after' },
+					{ pattern: 'lib/**', group: 'internal', position: 'after' },
+					{ pattern: 'components/**', group: 'internal', position: 'after' },
+				],
+				pathGroupsExcludedImportTypes: ['builtin'],
+				alphabetize: {
+					caseInsensitive: true,
+					order: 'asc',
+				},
+				'newlines-between': 'always',
 			},
-			'newlines-between': 'always',
-		}],
+		],
 		'import/prefer-default-export': 'off',
+		'import/no-named-as-default': 'error',
 
 		'tsdoc/syntax': 'warn',
 
 		'jsx-a11y/anchor-is-valid': 'off',
 		'jsx-a11y/label-has-for': 'off',
-
-		'@emotion/syntax-preference': [2, 'object'],
 	},
 }

@@ -1,40 +1,30 @@
-import type { ComponentPropsWithRef, Ref } from 'react'
-
 import NextLink from 'next/link'
-import { forwardRef } from 'react'
+import { styled } from 'styled-components'
 
-const Component = (props: ComponentPropsWithRef<typeof NextLink>, ref: Ref<HTMLAnchorElement>) => (
-	<NextLink
-		css={(theme) => ({
-			backgroundColor: theme.color.background,
-			border: `1px solid ${theme.color.gray020}`,
-			borderRadius: '4px',
-			color: theme.color.text,
-			cursor: 'pointer',
-			display: 'grid',
-			gridTemplateRows: '1fr',
-			gridTemplateColumns: '120px fit-content(580px)',
-			marginBottom: '12px',
-			overflow: 'hidden',
-			textDecoration: 'none',
-			transition: `
-					border 200ms ${theme.animation.default},
-					box-shadow 200ms ${theme.animation.default}`,
-			transform: 'none',
+export const Container = styled(NextLink)`
+	background-color: ${({ theme }) => theme.color.background};
+	border: 1px solid ${({ theme }) => theme.color.gray020};
+	border-radius: 4px;
+	color: ${({ theme }) => theme.color.text};
+	cursor: pointer;
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: 120px fit-content(580px);
+	margin-bottom: 12px;
+	overflow: hidden;
+	text-decoration: none;
+	transition:
+		border 200ms ${({ theme }) => theme.animation.default},
+		box-shadow 200ms ${({ theme }) => theme.animation.default};
+	transform: none;
 
-			'&:hover': {
-				border: `1px solid ${theme.color.primaryLighter}`,
-				boxShadow: `${theme.isDarkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
-			},
+	&:hover {
+		border: 1px solid ${({ theme }) => theme.color.primaryLighter};
+		box-shadow: ${({ theme }) => (theme.isDarkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)')} 0px 3px 10px 0px;
+	}
 
-			'&:active': {
-				border: `1px solid ${theme.color.primary}`,
-				boxShadow: `rgba(0, 0, 0, 0.3) 0px 3px 10px 0px, 0 0 0 1px ${theme.color.primary}`,
-			},
-		})}
-		{...props}
-		ref={ref}
-	/>
-)
-
-export const Container = forwardRef(Component)
+	&:active {
+		border: 1px solid ${({ theme }) => theme.color.primary};
+		box-shadow: rgba(0, 0, 0, 0.3) 0px 3px 10px 0px, 0 0 0 1px ${({ theme }) => theme.color.primary};
+	}
+`

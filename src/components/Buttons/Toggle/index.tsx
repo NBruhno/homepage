@@ -1,20 +1,25 @@
-import { useEffect, useState, useRef, useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { delay } from 'lib/delay'
 
-import { ButtonAsync } from '../Async'
+import { ActiveIndicator } from './ActiveIndicator'
+import { Button } from './Button'
+import { Container } from './Container'
+import { Label } from './Label'
 
 type Option<T> = {
-	label: string,
-	value: T,
+	label: string
+	value: T
 }
 
 type Props<T> = {
-	options: Array<Option<T>>,
-	label?: string,
-	initialValue?: T,
+	options: Array<Option<T>>
+	label?: string
+	initialValue?: T
+	style?: React.CSSProperties
+	className?: string
 
-	onValueChange: (value: T) => any,
+	onValueChange: (value: T) => any
 }
 
 export const ButtonToggle = <T extends number | string | boolean>({ options, label, initialValue = options[0].value, onValueChange, ...rest }: Props<T>) => {
@@ -45,34 +50,10 @@ export const ButtonToggle = <T extends number | string | boolean>({ options, lab
 
 	return (
 		<>
-			{label && <span css={(theme) => ({ fontSize: theme.font.size.s80, color: theme.color.textSubtitle })}>{label}</span>}
-			<div
-				css={(theme) => ({
-					position: 'relative',
-					width: 'max-content',
-					border: `1px solid ${theme.color.input.border}`,
-					borderRadius: '5px',
-					padding: '1px',
-				})}
-				{...rest}
-			>
-				<div
-					css={(theme) => ({
-						position: 'absolute',
-						backgroundColor: theme.color.button.backgroundToggle,
-						opacity: 0.5,
-						zIndex: 0,
-						top: '2px',
-						bottom: '2px',
-						borderRadius: '4px',
-						transition: `width ${theme.animation.default}, transform ${theme.animation.default}, opacity ${theme.animation.default}, background-color ${theme.animation.default}`,
-						transitionDuration: shouldTransition ? '135ms' : '0s',
-						pointerEvents: 'none',
-
-						'&:has(+ div > button:active:not(:focus-visible))': {
-							backgroundColor: theme.color.primary,
-						},
-					})}
+			{label && <Label>{label}</Label>}
+			<Container {...rest}>
+				<ActiveIndicator
+					shouldTransition={shouldTransition}
 					style={{
 						width: `calc(${hoveredButton?.getBoundingClientRect().width ?? 0}px - 2px)`,
 						transform: `translateX(${hoveredButton?.offsetLeft ?? 0}px)`,
@@ -83,7 +64,7 @@ export const ButtonToggle = <T extends number | string | boolean>({ options, lab
 						const isSelected = selectedIndex === index
 
 						return (
-							<ButtonAsync
+							<Button
 								label={label}
 								id={index.toString()}
 								onClick={() => {
@@ -94,32 +75,6 @@ export const ButtonToggle = <T extends number | string | boolean>({ options, lab
 								}}
 								type='button'
 								aria-pressed={isSelected}
-								labelCss={(theme) => ({
-									color: theme.color.text,
-									position: 'relative',
-									padding: 0,
-									zIndex: 1,
-								})}
-								css={(theme) => ({
-									backgroundColor: 'transparent',
-									fontSize: theme.font.size.s80,
-									padding: '8px',
-									height: 'unset',
-
-									'&:first-of-type': {
-										borderRadius: '4px 0 0 4px',
-									},
-
-									'&:last-of-type': {
-										borderRadius: '0 4px 4px 0',
-									},
-
-									'&:disabled': {
-										color: theme.color.grayLight,
-										backgroundColor: 'transparent',
-										border: `1px solid ${theme.color.gray}`,
-									},
-								})}
 								key={index}
 								ref={(element) => {
 									buttons.current[index] = element
@@ -128,7 +83,7 @@ export const ButtonToggle = <T extends number | string | boolean>({ options, lab
 						)
 					})}
 				</div>
-			</div>
+			</Container>
 		</>
 	)
 }

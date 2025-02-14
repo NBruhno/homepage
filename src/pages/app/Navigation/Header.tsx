@@ -1,26 +1,17 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
-import type { ComponentPropsWithoutRef, Ref } from 'react'
-
 import NextLink from 'next/link'
-import { forwardRef } from 'react'
+import { styled } from 'styled-components'
 
-const Component = (props: ComponentPropsWithoutRef<typeof NextLink>, ref: Ref<HTMLAnchorElement>) => (
-	<NextLink
-		css={(theme) => ({
-			alignItems: 'center',
-			backgroundColor: theme.color.sidebarBackground,
-			color: theme.isDarkTheme ? theme.color.text : theme.color.textInverted,
-			display: 'flex',
-			flexShrink: 0,
-			fontFamily: theme.font.family.poppins,
-			height: '35px',
-			padding: '12px 24px',
-			textDecoration: 'none',
-			width: 'auto',
-		})}
-		{...props}
-		ref={ref}
-	/>
-)
+const Component = styled(NextLink)`
+	align-items: center;
+	background-color: ${({ theme }) => theme.color.sidebarBackground};
+	color: ${({ theme }) => (theme.isDarkTheme ? theme.color.text : theme.color.textInverted)};
+	display: flex;
+	flex-shrink: 0;
+	font-family: ${({ theme }) => theme.font.family.poppins};
+	height: 35px;
+	padding: 12px 24px;
+	text-decoration: none;
+	width: auto;
+`
 
-export const Header = forwardRef(Component)
+export const Header = Component

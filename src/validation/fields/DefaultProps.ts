@@ -1,8 +1,8 @@
 export type DefaultFields = {
-	requiredErrorMessage: string,
-	invalidErrorMessage: string,
+	requiredErrorMessage: string
+	invalidErrorMessage: string
 }
 
 export type DefaultProps<T = false> = Partial<DefaultFields> & {
-	isOptional?: T,
+	isOptional?: T
 }

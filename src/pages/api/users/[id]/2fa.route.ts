@@ -1,7 +1,7 @@
-import { UserRole, TokenType } from 'types'
+import { TokenType, UserRole } from 'types'
 
 import { authenticator as otpAuthenticator } from 'otplib'
-import { toDataURL as getQRCodeImage } from 'qrcode'
+import { toDataURL as getQrCodeImage } from 'qrcode'
 import { create, object, string } from 'superstruct'
 
 import { apiHandler, getJwtToken, prisma } from 'lib/api'
@@ -24,7 +24,9 @@ export default apiHandler({
 		if (requestUserId !== id) throw ApiError.fromCode(403)
 
 		const twoFactorSecret = monitor(() => otpAuthenticator.generateSecret(32), 'otplib', 'generateSecret()')
-		const qrCode = await getQRCodeImage(`otpauth://totp/${encodeURI(sub)}?secret=${twoFactorSecret}&issuer=Bruhno`, { type: 'image/webp' })
+		const qrCode = await getQrCodeImage(`otpauth://totp/${encodeURI(sub)}?secret=${twoFactorSecret}&issuer=Bruhno`, {
+			type: 'image/webp',
+		})
 
 		return res.status(200).json({ twoFactorSecret, qrCode })
 	})
@@ -34,20 +36,30 @@ export default apiHandler({
 		const { sub, username, role, userId: requestUserId } = await authenticate(req, { type: TokenType.Intermediate })
 		if (requestUserId !== id) throw ApiError.fromCode(403)
 
-		const user = await monitorAsync(() => prisma.users.findUnique({
-			where: {
-				id: requestUserId,
-			},
-			select: {
-				twoFactorSecret: true,
-			},
-		}), 'db:prisma', 'findUnique()')
+		const user = await monitorAsync(
+			() =>
+				prisma.users.findUnique({
+					where: {
+						id: requestUserId,
+					},
+					select: {
+						twoFactorSecret: true,
+					},
+				}),
+			'db:prisma',
+			'findUnique()',
+		)
 
 		if (!user?.twoFactorSecret) throw ApiError.fromCode(404)
 
-		monitor(() => { // TS somehow fails to acknowledge that the check above ensures the value is not falsy (not null)
-			if (!otpAuthenticator.verify({ token: otp, secret: user.twoFactorSecret! })) throw ApiError.fromCode(401)
-		}, 'otplib', 'verify()')
+		monitor(
+			() => {
+				// TS somehow fails to acknowledge that the check above ensures the value is not falsy (not null)
+				if (!otpAuthenticator.verify({ token: otp, secret: user.twoFactorSecret! })) throw ApiError.fromCode(401)
+			},
+			'otplib',
+			'verify()',
+		)
 
 		const [accessToken, refreshToken] = await Promise.all([
 			getJwtToken({ sub, username, role, userId: requestUserId }),
@@ -58,26 +70,38 @@ export default apiHandler({
 		return res.status(200).json({ accessToken })
 	})
 	.patch(async (req, res) => {
-		const { secret, otp } = create(req.body, object({
-			otp: string(),
-			secret: string(),
-		}))
+		const { secret, otp } = create(
+			req.body,
+			object({
+				otp: string(),
+				secret: string(),
+			}),
+		)
 		const { userId: requestUserId } = await authenticate(req)
 		const { id } = create(req.query, Query)
 		if (requestUserId !== id) throw ApiError.fromCode(403)
 
-		monitor(() => {
-			if (!otpAuthenticator.verify({ token: otp, secret })) throw ApiError.fromCode(401)
-		}, 'otplib', 'verify()')
+		monitor(
+			() => {
+				if (!otpAuthenticator.verify({ token: otp, secret })) throw ApiError.fromCode(401)
+			},
+			'otplib',
+			'verify()',
+		)
 
-		await monitorAsync(() => prisma.users.update({
-			where: {
-				id,
-			},
-			data: {
-				twoFactorSecret: secret,
-			},
-		}), 'db:prisma', 'update()')
+		await monitorAsync(
+			() =>
+				prisma.users.update({
+					where: {
+						id,
+					},
+					data: {
+						twoFactorSecret: secret,
+					},
+				}),
+			'db:prisma',
+			'update()',
+		)
 
 		return res.status(200).json({ message: '2FA has been activated' })
 	})
@@ -86,14 +110,19 @@ export default apiHandler({
 		const { userId: requestUserId, role } = await authenticate(req)
 		if (requestUserId !== id && role !== UserRole.Admin) throw ApiError.fromCode(403)
 
-		await monitorAsync(() => prisma.users.update({
-			where: {
-				id,
-			},
-			data: {
-				twoFactorSecret: null,
-			},
-		}), 'db:prisma', 'update()')
+		await monitorAsync(
+			() =>
+				prisma.users.update({
+					where: {
+						id,
+					},
+					data: {
+						twoFactorSecret: null,
+					},
+				}),
+			'db:prisma',
+			'update()',
+		)
 
 		return res.status(200).json({ message: '2FA has been removed' })
 	})

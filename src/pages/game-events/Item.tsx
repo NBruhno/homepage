@@ -1,70 +1,49 @@
-import type { ComponentPropsWithRef, Ref } from 'react'
-
 import NextLink from 'next/link'
-import { forwardRef } from 'react'
+import { css, styled } from 'styled-components'
 
-type Props = ComponentPropsWithRef<typeof NextLink> & {
-	isLoading?: boolean,
+type Props = {
+	isLoading?: boolean
 }
 
-const Component = ({ isLoading, ...rest }: Props, ref: Ref<HTMLAnchorElement>) => (
-	<NextLink
-		css={(theme) => ([{
-			display: 'grid',
-			gridTemplate: `
-				"logo title" 1fr
-				"logo date" auto
-				"games games" auto
-				/ 256px 1fr
-			`,
-			columnGap: '12px',
-			rowGap: '12px',
+export const Item = styled(NextLink)<Props>`
+	display: grid;
+	grid-template: "logo title" 1fr "logo date" auto "games games" auto / 256px 1fr;
+	column-gap: 12px;
+	row-gap: 12px;
+	background-color: ${({ theme }) => theme.color.background};
+	border: 1px solid ${({ theme }) => theme.color.gray020};
+	border-radius: 4px;
+	color: ${({ theme }) => theme.color.text};
+	cursor: pointer;
+	flex: calc(50% - 42px);
+	align-self: flex-start;
+	min-height: 220px;
+	text-decoration: none;
+	padding: 16px;
+	height: fit-content;
+	transition:
+		border 200ms ${({ theme }) => theme.animation.default},
+		box-shadow 200ms ${({ theme }) => theme.animation.default},
+		background 200ms ${({ theme }) => theme.animation.default};
 
-			backgroundColor: theme.color.background,
-			border: `1px solid ${theme.color.gray020}`,
-			borderRadius: '4px',
-			color: theme.color.text,
-			cursor: 'pointer',
+	${({ theme }) => theme.mediaQueries.maxLaptop} {
+		text-align: center;
+		flex: 100%;
+		grid-template: "logo" 1fr "title" auto "date" auto "games" auto / auto;
+	}
 
-			flex: 'calc(50% - 42px)',
-			alignSelf: 'flex-start',
-			minHeight: '220px',
-			textDecoration: 'none',
-			padding: '16px',
-			height: 'fit-content',
-
-			[theme.mediaQueries.maxLaptop]: {
-				textAlign: 'center',
-				flex: '100%',
-				gridTemplate: `
-					"logo" 1fr
-					"title" auto
-					"date" auto
-					"games" auto
-					/ auto
-				`,
-			},
-
-			transition: `
-				border 200ms ${theme.animation.default},
-				box-shadow 200ms ${theme.animation.default},
-				background 200ms ${theme.animation.default}`,
-		}, !isLoading ? {
-			'&:hover': {
-				border: `1px solid ${theme.color.primaryLighter}`,
-				// backgroundColor: theme.color.backgroundHover,
-				background: [theme.color.input.backgroundHover, `linear-gradient(134deg, ${theme.color.input.border} 0%, ${theme.color.input.backgroundHover} 63%, ${theme.color.input.background} 100%)`],
-				boxShadow: `${theme.isDarkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)'} 0px 3px 10px 0px`,
-			},
-
-			'&:active': {
-				border: `1px solid ${theme.color.primary}`,
-				boxShadow: `rgba(0, 0, 0, 0.3) 0px 3px 10px 0px, 0 0 0 1px ${theme.color.primary}`,
-			},
-		} : null])}
-		{...rest}
-		ref={ref}
-	/>
-)
-
-export const Item = forwardRef(Component)
+	${({ isLoading }) =>
+		!isLoading
+			? css`
+		&:hover {
+			border: 1px solid ${({ theme }) => theme.color.primaryLighter};
+			background: ${({ theme }) => theme.color.input.backgroundHover};
+			box-shadow: ${({ theme }) => (theme.isDarkTheme ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.1)')} 0px 3px 10px 0px;
+		}
+		&:active {
+			border: 1px solid ${({ theme }) => theme.color.primary};
+			box-shadow: rgba(0, 0, 0, 0.3) 0px 3px 10px 0px, 0 0 0 1px ${({ theme }) => theme.color.primary};
+		}
+	`
+			: null}
+`

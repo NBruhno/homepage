@@ -12,21 +12,31 @@ import { Hint } from '../Hint'
 import { LabelContainer } from '../LabelContainer'
 import { RowLabel } from '../RowLabel'
 
-import { ToggleComponent } from './ToggleComponent'
+import { Spinner } from './Spinner'
+import { ToggleButton as ToggleButtonComponent } from './ToggleButton'
 
 type Props = {
-	label: string,
-	isChecked: boolean,
-	onClick: (event: MouseEvent<HTMLButtonElement>) => Promisable<any>,
+	label: string
+	isChecked: boolean
+	onClick: (event: MouseEvent<HTMLButtonElement>) => Promisable<any>
 
-	minDelay?: number,
-	hint?: string,
-	isDisabled?: boolean,
-	isFullWidth?: boolean,
-	isLoading?: boolean,
+	minDelay?: number
+	hint?: string
+	isDisabled?: boolean
+	isFullWidth?: boolean
+	isLoading?: boolean
 }
 
-export const ToggleButton = ({ isFullWidth = true, label, hint, isDisabled = false, isChecked = false, onClick, minDelay = 0, isLoading: isLoadingManually }: Props) => {
+export const ToggleButton = ({
+	isFullWidth = true,
+	label,
+	hint,
+	isDisabled = false,
+	isChecked = false,
+	onClick,
+	minDelay = 0,
+	isLoading: isLoadingManually,
+}: Props) => {
 	const [isLoading, setIsLoading] = useState(false)
 	const { isFocusVisible, focusProps } = useFocusRing({ within: true })
 	const { hoverProps, isHovered } = useHover({})
@@ -49,17 +59,23 @@ export const ToggleButton = ({ isFullWidth = true, label, hint, isDisabled = fal
 		<FieldWrapper isFullWidth={isFullWidth} isSlim>
 			<RowLabel isSlim>
 				<div {...focusProps} {...hoverProps}>
-					<ToggleComponent
+					<ToggleButtonComponent
 						isChecked={isChecked}
 						isDisabled={isDisabled}
 						isFocusVisible={isFocusVisible}
 						isHovered={isHovered}
 						isLoading={isLoadingManually ?? isLoading}
-						label={label}
-						onClick={(event) => handleClick(event)}
-					/>
+						aria-label={label}
+						aria-pressed={isChecked}
+						onClick={(event) => {
+							if (isDisabled || isLoading) return undefined
+							else handleClick(event)
+						}}
+					>
+						<Spinner isLoading={isLoading} isChecked={isChecked} />
+					</ToggleButtonComponent>
 				</div>
-				<LabelContainer css={{ margin: '0 0 0 6px' }}>
+				<LabelContainer style={{ margin: '0 0 0 6px' }}>
 					<span>{label}</span>
 					{hint && <Hint>{hint}</Hint>}
 				</LabelContainer>

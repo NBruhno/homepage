@@ -1,12 +1,7 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const ColumnLabel = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={(theme) => ({
-			display: 'block',
-			fontFamily: theme.font.family.poppins,
-			marginBottom: '25px',
-		})}
-		{...props}
-	/>
-)
+export const ColumnLabel = styled.div`
+	display: block;
+	font-family: ${({ theme }) => theme.font.family.poppins};
+	margin-bottom: 25px;
+`

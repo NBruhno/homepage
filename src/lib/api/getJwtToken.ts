@@ -9,9 +9,9 @@ import { monitor } from '../../lib/sentryMonitor'
 
 type Payload = Record<string, any>
 type Options = {
-	keyId?: string,
-	type: TokenType,
-	transaction?: Span,
+	keyId?: string
+	type: TokenType
+	transaction?: Span
 }
 
 const defaultPayload = {
@@ -27,37 +27,52 @@ const getTokenProperties = (tokenType: TokenType, keyId?: string) => {
 	if (!keyPair) throw new Error('No key pair found for the supplied key ID or token type')
 
 	switch (tokenType) {
-		case TokenType.Access: return {
-			...keyPair,
-			expiration: Math.floor(Date.now() / 1000) + (60 * 15), // 15 minutes
-		}
-		case TokenType.Refresh: return {
-			...keyPair,
-			expiration: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 3), // 3 days
-		}
-		case TokenType.Intermediate: return {
-			...keyPair,
-			expiration: Math.floor(Date.now() / 1000) + (60 * 5), // 5 minutes
-		}
-		case TokenType.System: return {
-			...keyPair,
-			expiration: null,
-		}
-		default: throw new Error('Invalid type supplied')
+		case TokenType.Access:
+			return {
+				...keyPair,
+				expiration: Math.floor(Date.now() / 1000) + 60 * 15, // 15 minutes
+			}
+		case TokenType.Refresh:
+			return {
+				...keyPair,
+				expiration: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 3, // 3 days
+			}
+		case TokenType.Intermediate:
+			return {
+				...keyPair,
+				expiration: Math.floor(Date.now() / 1000) + 60 * 5, // 5 minutes
+			}
+		case TokenType.System:
+			return {
+				...keyPair,
+				expiration: null,
+			}
+		default:
+			throw new Error('Invalid type supplied')
 	}
 }
 
-export const getJwtToken = async (payload: Payload, { keyId, type, transaction }: Options = { type: TokenType.Access }) => monitor(async () => {
-	const { id, expiration, algorithm, privateKey } = getTokenProperties(type, keyId)
+export const getJwtToken = async (payload: Payload, { keyId, type, transaction }: Options = { type: TokenType.Access }) =>
+	monitor(
+		async () => {
+			const { id, expiration, algorithm, privateKey } = getTokenProperties(type, keyId)
 
-	const signedJwt = await sign({
-		exp: expiration,
-		...defaultPayload,
-		...payload,
-	}, privateKey, {
-		keyId: id,
-		algorithm,
-	})
+			const signedJwt = await sign(
+				{
+					exp: expiration,
+					...defaultPayload,
+					...payload,
+				},
+				privateKey,
+				{
+					keyId: id,
+					algorithm,
+				},
+			)
 
-	return signedJwt
-}, 'getJwtToken()', type, transaction)
+			return signedJwt
+		},
+		'getJwtToken()',
+		type,
+		transaction,
+	)

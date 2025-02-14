@@ -1,5 +1,4 @@
-import { useEffect, useCallback } from 'react'
-import { shallow } from 'zustand/shallow'
+import { useCallback, useEffect } from 'react'
 
 import { config } from 'config.client'
 
@@ -15,7 +14,7 @@ import { useUser } from './useUser'
 const isProduction = config.environment !== 'development'
 
 export const useRefresh = () => {
-	const { setUser, setShouldRefresh, setIsStateKnown, accessToken, shouldRefresh } = useUser((state) => state, shallow)
+	const { setUser, setShouldRefresh, setIsStateKnown, accessToken, shouldRefresh } = useUser((state) => state)
 	const setResponsive = usePage((state) => state.setResponsive)
 
 	const onRefresh = useCallback(async () => {
@@ -50,12 +49,14 @@ export const useRefresh = () => {
 			refreshInterval = setInterval(async () => {
 				if (accessToken) {
 					const { exp } = decodeJwtToken(accessToken)
-					if (Math.round(exp - (60 * 2)) <= Math.round(Date.now() / 1000)) await onRefresh()
+					if (Math.round(exp - 60 * 2) <= Math.round(Date.now() / 1000)) await onRefresh()
 				}
 			}, 30000)
 		}
 
 		// Clear the interval when this hook is dismounted
-		return () => { clearInterval(refreshInterval) }
+		return () => {
+			clearInterval(refreshInterval)
+		}
 	}, [accessToken, shouldRefresh])
 }

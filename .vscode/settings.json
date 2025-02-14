@@ -1,17 +1,9 @@
 {
   "[typescript]": {
-    "editor.defaultFormatter": "denoland.vscode-deno"
+    "editor.defaultFormatter": "biomejs.biome"
   },
-  "cSpell.words": [
-    "autosize",
-    "cacheable",
-    "esnext",
-    "otplib",
-    "tsdoc"
-  ],
-  "deno.enablePaths": [
-    "supabase/functions"
-  ],
+  "cSpell.words": ["autosize", "cacheable", "esnext", "otplib", "tsdoc"],
+  "deno.enablePaths": ["supabase/functions"],
   "deno.lint": true,
   "deno.unstable": true,
   "typescript.enablePromptUseWorkspaceTsdk": true,

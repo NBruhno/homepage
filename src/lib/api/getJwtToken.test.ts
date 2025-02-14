@@ -3,7 +3,7 @@ import { TokenType } from 'types'
 import { config } from 'config.server'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
-import { accessTokenMatch, refreshTokenMatch, intermediateTokenMatch, systemTokenMatch } from 'lib/test'
+import { accessTokenMatch, intermediateTokenMatch, refreshTokenMatch, systemTokenMatch } from 'lib/test'
 
 import { getJwtToken } from './getJwtToken'
 
@@ -23,11 +23,13 @@ describe('/lib/api/getJwtToken', () => {
 
 		const token = await getJwtToken(defaultPayload)
 		expect(token).toMatch(accessTokenMatch)
-		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
-			...expectedJwtContent,
-			alg: keyPair.algorithm,
-			kid: keyPair.id,
-		}))
+		return expect(decodeJwtToken(token)).toEqual(
+			expect.objectContaining({
+				...expectedJwtContent,
+				alg: keyPair.algorithm,
+				kid: keyPair.id,
+			}),
+		)
 	})
 
 	test('Token › Access token', async () => {
@@ -35,11 +37,13 @@ describe('/lib/api/getJwtToken', () => {
 
 		const token = await getJwtToken(defaultPayload, { type: TokenType.Access })
 		expect(token).toMatch(accessTokenMatch)
-		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
-			...expectedJwtContent,
-			alg: keyPair.algorithm,
-			kid: keyPair.id,
-		}))
+		return expect(decodeJwtToken(token)).toEqual(
+			expect.objectContaining({
+				...expectedJwtContent,
+				alg: keyPair.algorithm,
+				kid: keyPair.id,
+			}),
+		)
 	})
 
 	test('Token › Refresh token', async () => {
@@ -47,11 +51,13 @@ describe('/lib/api/getJwtToken', () => {
 
 		const token = await getJwtToken(defaultPayload, { type: TokenType.Refresh })
 		expect(token).toMatch(refreshTokenMatch)
-		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
-			...expectedJwtContent,
-			alg: keyPair.algorithm,
-			kid: keyPair.id,
-		}))
+		return expect(decodeJwtToken(token)).toEqual(
+			expect.objectContaining({
+				...expectedJwtContent,
+				alg: keyPair.algorithm,
+				kid: keyPair.id,
+			}),
+		)
 	})
 
 	test('Token › Intermediate token', async () => {
@@ -59,11 +65,13 @@ describe('/lib/api/getJwtToken', () => {
 
 		const token = await getJwtToken(defaultPayload, { type: TokenType.Intermediate })
 		expect(token).toMatch(intermediateTokenMatch)
-		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
-			...expectedJwtContent,
-			alg: keyPair.algorithm,
-			kid: keyPair.id,
-		}))
+		return expect(decodeJwtToken(token)).toEqual(
+			expect.objectContaining({
+				...expectedJwtContent,
+				alg: keyPair.algorithm,
+				kid: keyPair.id,
+			}),
+		)
 	})
 
 	test('Token › System token', async () => {
@@ -71,11 +79,13 @@ describe('/lib/api/getJwtToken', () => {
 
 		const token = await getJwtToken(defaultPayload, { type: TokenType.System })
 		expect(token).toMatch(systemTokenMatch)
-		return expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
-			...expectedJwtContent,
-			alg: keyPair.algorithm,
-			kid: keyPair.id,
-		}))
+		return expect(decodeJwtToken(token)).toEqual(
+			expect.objectContaining({
+				...expectedJwtContent,
+				alg: keyPair.algorithm,
+				kid: keyPair.id,
+			}),
+		)
 	})
 
 	test('Token › Token from key', async () => {
@@ -83,11 +93,13 @@ describe('/lib/api/getJwtToken', () => {
 
 		const token = await getJwtToken(defaultPayload, { type: TokenType.Access, keyId: keyPair.id })
 		expect(token).toMatch(accessTokenMatch)
-		expect(decodeJwtToken(token)).toEqual(expect.objectContaining({
-			...expectedJwtContent,
-			alg: keyPair.algorithm,
-			kid: keyPair.id,
-		}))
+		expect(decodeJwtToken(token)).toEqual(
+			expect.objectContaining({
+				...expectedJwtContent,
+				alg: keyPair.algorithm,
+				kid: keyPair.id,
+			}),
+		)
 	})
 
 	test('Token › Invalid type', async () => {

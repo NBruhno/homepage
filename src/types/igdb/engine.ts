@@ -1,4 +1,4 @@
 export type IgdbEngine = {
-	id: number,
-	name: string,
+	id: number
+	name: string
 }

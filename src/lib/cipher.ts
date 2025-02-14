@@ -1,11 +1,11 @@
 import type { BinaryLike, Encoding } from 'crypto'
 
-import { randomBytes, createCipheriv, createDecipheriv } from 'crypto'
+import { createCipheriv, createDecipheriv, randomBytes } from 'crypto'
 
 type Options = {
-	iv?: string | undefined,
-	outputEncoding?: Encoding,
-	inputEncoding?: Encoding,
+	iv?: string | undefined
+	outputEncoding?: Encoding
+	inputEncoding?: Encoding
 }
 
 export const encryptAes256gcm = (payload: string, secret: string | undefined, { iv, outputEncoding = 'base64', inputEncoding = 'utf8' }: Options) => {

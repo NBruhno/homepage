@@ -1,18 +1,13 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Games = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={(theme) => ({
-			display: 'grid',
-			justifyContent: 'space-between',
-			columnGap: '10px',
-			rowGap: '8px',
-			gridTemplateColumns: 'repeat(auto-fill, 71px)',
+export const Games = styled.div`
+	display: grid;
+	justify-content: space-between;
+	column-gap: 10px;
+	row-gap: 8px;
+	grid-template-columns: repeat(auto-fill, 71px);
 
-			[theme.mediaQueries.maxMobile]: {
-				gridTemplateColumns: 'repeat(auto-fill, 18%)',
-			},
-		})}
-		{...props}
-	/>
-)
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		grid-template-columns: repeat(auto-fill, 18%);
+	}
+`

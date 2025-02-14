@@ -2,11 +2,11 @@ import { getActiveTransaction } from '@sentry/tracing'
 
 type Props = {
 	data?: Array<{
-		label: string,
-		value: any,
-	}>,
-	name?: string,
-	status?: number,
+		label: string
+		value: any
+	}>
+	name?: string
+	status?: number
 }
 
 /** Updates the transaction in the current scope of Sentry with more/modified data */

@@ -28,34 +28,44 @@ export const retry = async (functionToRetry: () => Promise<Response>, retries: n
 }
 
 type Options<TFirst> = {
-	body?: string | null,
-	nickname?: string,
-	shouldReturnFirst: TFirst,
-	span?: Span | undefined,
+	body?: string | null
+	nickname?: string
+	shouldReturnFirst: TFirst
+	span?: Span | undefined
 }
 
 type ReturnType<TFirst, TData> = TFirst extends true ? TData | undefined : Array<TData>
 
-export const igdbFetcher = async <TData, TFirst extends boolean>(url: string, res: NextApiResponse, {
-	body = null,
-	shouldReturnFirst,
-	span,
-	nickname,
-}: Options<TFirst>): Promise<ReturnType<TFirst, TData>> => {
+export const igdbFetcher = async <TData, TFirst extends boolean>(
+	url: string,
+	res: NextApiResponse,
+	{ body = null, shouldReturnFirst, span, nickname }: Options<TFirst>,
+): Promise<ReturnType<TFirst, TData>> => {
 	// We assume that the env variables are always available, but this is just an extra precaution
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (config.igdb.token === undefined || config.igdb.clientId === undefined) throw new Error('igdbFetcher(): Both IGDB Token and Client ID needs to be set')
 
-	const data = await monitorAsync(() => retry(() => fetch(`https://api.igdb.com/v4${url}`, {
-		method: 'POST',
-		body,
-		headers: new Headers({
-			Authorization: `Bearer ${config.igdb.token}`,
-			'Client-ID': config.igdb.clientId,
-			'Content-Type': 'text/plain',
-			accept: 'application/json',
-		}),
-	}), 3, res), 'http:igdb', nickname ?? '', span)
+	const data = await monitorAsync(
+		() =>
+			retry(
+				() =>
+					fetch(`https://api.igdb.com/v4${url}`, {
+						method: 'POST',
+						body,
+						headers: new Headers({
+							Authorization: `Bearer ${config.igdb.token}`,
+							'Client-ID': config.igdb.clientId,
+							'Content-Type': 'text/plain',
+							accept: 'application/json',
+						}),
+					}),
+				3,
+				res,
+			),
+		'http:igdb',
+		nickname ?? '',
+		span,
+	)
 
 	const result = shouldReturnFirst ? data[0] : data
 

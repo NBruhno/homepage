@@ -1,4 +1,4 @@
 export type GameVideo = {
-	name: string | null,
-	videoId: string,
+	name: string | null
+	videoId: string
 }

@@ -6,6 +6,7 @@ import { ButtonToggle } from 'components/Buttons'
 import { Table } from 'components/Layout'
 
 import { Button } from './Button'
+import { Heading } from './Heading'
 
 export const PriceHistory = () => {
 	const { isLoading: isPriceHistoryLoading, priceHistory } = useGamePriceHistory()
@@ -14,9 +15,7 @@ export const PriceHistory = () => {
 	const [showInactiveStores, setShowInactiveStores] = useState(false)
 	const isLoading = isPriceHistoryLoading || isPriceLoading
 
-	const priceWithCurrency = (price: number, currency: string) => (
-		new Intl.NumberFormat('en-DK', { style: 'currency', currency }).format(price)
-	)
+	const priceWithCurrency = (price: number, currency: string) => new Intl.NumberFormat('en-DK', { style: 'currency', currency }).format(price)
 
 	const historyToShow = useMemo(() => {
 		if (isLoading || !priceHistory?.storeHistoricLows) return null
@@ -34,7 +33,7 @@ export const PriceHistory = () => {
 
 	return (
 		<>
-			<h3 css={(theme) => ({ marginTop: 0, marginBottom: '8px', color: theme.color.textSubtitle })}>Lowest historic prices</h3>
+			<Heading>Lowest historic prices</Heading>
 			<ButtonToggle
 				options={[
 					{ label: 'Active stores', value: false },
@@ -42,9 +41,7 @@ export const PriceHistory = () => {
 				]}
 				initialValue={false}
 				onValueChange={setShowInactiveStores}
-				css={{
-					marginBottom: '12px',
-				}}
+				style={{ marginBottom: '12px' }}
 			/>
 			<Table>
 				<thead>
@@ -60,12 +57,13 @@ export const PriceHistory = () => {
 							<td>{priceWithCurrency(amount, currency)}</td>
 						</tr>
 					))}
-					{historyToShow.length > 4 && historyToShow.slice(4).map(({ currency, amount, name }, index) => (
-						<tr key={index} style={{ visibility: showAllPrices ? 'visible' : 'collapse' }}>
-							<td>{name}</td>
-							<td>{priceWithCurrency(amount, currency)}</td>
-						</tr>
-					))}
+					{historyToShow.length > 4 &&
+						historyToShow.slice(4).map(({ currency, amount, name }, index) => (
+							<tr key={index} style={{ visibility: showAllPrices ? 'visible' : 'collapse' }}>
+								<td>{name}</td>
+								<td>{priceWithCurrency(amount, currency)}</td>
+							</tr>
+						))}
 					{historyToShow.length > 5 && (
 						<tr>
 							<td colSpan={2} style={{ padding: 0 }}>

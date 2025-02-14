@@ -1,6 +1,4 @@
-import type { ComponentPropsWithoutRef } from 'react'
-
-import { keyframes } from '@emotion/react'
+import { css, keyframes, styled } from 'styled-components'
 
 const fadeIn = keyframes`
 	0% {
@@ -12,11 +10,6 @@ const fadeIn = keyframes`
 	}
 `
 
-export const Container = (props: ComponentPropsWithoutRef<'div'>) => (
-	<div
-		css={(theme) => ({
-			animation: `350ms ${theme.animation.default} ${fadeIn} 1`,
-		})}
-		{...props}
-	/>
-)
+export const Container = styled.div`
+	animation: ${css`350ms ${({ theme }) => theme.animation.default} ${fadeIn} 1;`};
+`

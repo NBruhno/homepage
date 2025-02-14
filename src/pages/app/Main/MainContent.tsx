@@ -1,13 +1,8 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const MainContent = (props: ComponentPropsWithoutRef<'main'>) => (
-	<main
-		css={(theme) => ({
-			color: theme.color.text,
-			position: 'relative',
-			display: 'grid',
-			gridTemplateRows: '1fr auto',
-		})}
-		{...props}
-	/>
-)
+export const MainContent = styled.main`
+	color: ${({ theme }) => theme.color.text};
+	position: relative;
+	display: grid;
+	grid-template-rows: 1fr auto;
+`

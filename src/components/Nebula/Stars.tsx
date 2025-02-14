@@ -1,6 +1,6 @@
 import { useFrame } from '@react-three/fiber'
 import { useMemo, useRef, useState } from 'react'
-import { Color, Vector3, Spherical, AdditiveBlending, ShaderMaterial } from 'three'
+import { AdditiveBlending, Color, ShaderMaterial, Spherical, Vector3 } from 'three'
 
 class StarfieldMaterial extends ShaderMaterial {
 	constructor() {
@@ -14,8 +14,8 @@ class StarfieldMaterial extends ShaderMaterial {
 				},
 			},
 			vertexShader:
-      /* glsl */
-      `
+				/* glsl */
+				`
       uniform float time;
       attribute float size;
       varying vec3 vColor;
@@ -26,8 +26,8 @@ class StarfieldMaterial extends ShaderMaterial {
         gl_Position = projectionMatrix * mvPosition;
       }`,
 			fragmentShader:
-      /* glsl */
-      `
+				/* glsl */
+				`
       uniform sampler2D pointTexture;
       uniform float fade;
       varying vec3 vColor;
@@ -47,37 +47,28 @@ class StarfieldMaterial extends ShaderMaterial {
 }
 
 type Props = {
-	radius?: number,
-	depth?: number,
-	count?: number,
-	factor?: number,
-	saturation?: number,
-	shouldFade?: boolean,
-	speed?: number,
+	radius?: number
+	depth?: number
+	count?: number
+	factor?: number
+	saturation?: number
+	shouldFade?: boolean
+	speed?: number
 }
 
-const genStar = (radius: number) => new Vector3().setFromSpherical(new Spherical(
-	radius,
-	Math.acos(1 - Math.random() * 2),
-	Math.random() * 2 * Math.PI,
-))
+const genStar = (radius: number) => new Vector3().setFromSpherical(new Spherical(radius, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
 
-export const Stars = ({
-	radius = 500,
-	depth = 50,
-	count = 5000,
-	saturation = 0,
-	factor = 4,
-	shouldFade = false,
-	speed = 1,
-}: Props) => {
-	const material = useRef<{ uniforms: { time: { value: number } } }>()
+export const Stars = ({ radius = 500, depth = 50, count = 5000, saturation = 0, factor = 4, shouldFade = false, speed = 1 }: Props) => {
+	const material = useRef<{ uniforms: { time: { value: number } } }>(undefined)
 	const [position, color, size] = useMemo(() => {
 		const positions: Array<number> = []
 		const colors: Array<number> = []
-		const sizes = Array.from({
-			length: count,
-		}, () => (0.5 + 0.5 * Math.random()) * factor)
+		const sizes = Array.from(
+			{
+				length: count,
+			},
+			() => (0.5 + 0.5 * Math.random()) * factor,
+		)
 		const color = new Color()
 		let r = radius + depth
 		const increment = depth / count

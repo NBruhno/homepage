@@ -1,60 +1,64 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import type { ComponentPropsWithRef } from 'react'
+
+import { styled } from 'styled-components'
 
 import { useResponsive } from 'states/page'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	hasNoWrapper: boolean,
-	show: boolean,
+type Props = ComponentPropsWithRef<'div'> & {
+	hasNoWrapper: boolean
+	show: boolean
 }
+
+const Wrapper = styled.div<Props & { isSidebarCollapsed: boolean }>`
+	inset: 0px;
+	position: fixed;
+	display: flex;
+	pointer-events: none;
+	transition: opacity 135ms ${({ theme }) => theme.animation.default}, padding-left 300ms ${({ theme }) => theme.animation.default};
+	visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
+	z-index: 5;
+	margin: 0;
+	padding-left: ${({ isSidebarCollapsed }) => (isSidebarCollapsed ? '70px' : '250px')};
+
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		padding-left: 0;
+		transition: none;
+	}
+`
+
+const Content = styled.div<Pick<Props, 'show'>>`
+	display: flex;
+	margin: auto;
+	max-width: 100%;
+	padding: 24px;
+	pointer-events: none;
+	visibility: ${({ show }) => (show ? 'visible' : 'hidden')};
+	width: 450px;
+
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		padding: 0;
+		width: 100%;
+		margin-bottom: 0;
+	}
+`
+
+const Wrap = styled.div<Pick<Props, 'show'>>`
+	pointer-events: ${({ show }) => (show ? 'auto' : 'none')};
+	width: 100%;
+`
 
 export const Container = ({ hasNoWrapper, show, children, ...rest }: Props) => {
 	const { isSidebarCollapsed } = useResponsive()
 
 	return (
-		<div
-			css={(theme) => ({
-				display: 'flex',
-				left: 0,
-				right: 0,
-				top: 0,
-				bottom: 0,
-				opacity: show ? 1 : 0,
-				pointerEvents: 'none',
-				position: 'fixed',
-				transition: `opacity 135ms ${theme.animation.default}, padding-left 300ms ${theme.animation.default}`,
-				visibility: show ? 'visible' : 'hidden',
-				zIndex: 5,
-				margin: 0,
-				paddingLeft: isSidebarCollapsed ? '70px' : '250px',
-
-				[theme.mediaQueries.maxMobile]: {
-					paddingLeft: 0,
-					transition: 'none',
-				},
-			})}
-			{...rest}
-		>
-			{hasNoWrapper ? children : (
-				<div
-					css={(theme) => ({
-						display: 'flex',
-						margin: 'auto',
-						maxWidth: '100%',
-						padding: '24px',
-						pointerEvents: 'none',
-						visibility: show ? 'visible' : 'hidden',
-						width: '450px',
-
-						[theme.mediaQueries.maxMobile]: {
-							padding: 0,
-							width: '100%',
-							marginBottom: 0,
-						},
-					})}
-				>
-					<div css={{ pointerEvents: show ? 'auto' : 'none', width: '100%' }}>{children}</div>
-				</div>
+		<Wrapper isSidebarCollapsed={isSidebarCollapsed} hasNoWrapper={hasNoWrapper} show={show} {...rest}>
+			{hasNoWrapper ? (
+				children
+			) : (
+				<Content show={show}>
+					<Wrap show={show}>{children}</Wrap>
+				</Content>
 			)}
-		</div>
+		</Wrapper>
 	)
 }

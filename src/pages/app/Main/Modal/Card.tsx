@@ -1,36 +1,33 @@
-import type { ComponentProps } from 'react'
+import { styled } from 'styled-components'
 
 import { adjustHsl } from 'lib/client'
 
 import { Card as DefaultCard } from 'components/Card'
+import { Content } from 'components/Card/Content'
 
-export const Card = (props: ComponentProps<typeof DefaultCard>) => (
-	<DefaultCard
-		{...props}
-		contentCss={(theme) => ({
-			maxHeight: 'calc(100vh - 128px)',
-			overflowY: 'scroll',
-			overscrollBehavior: 'contain',
+export const Card = styled(DefaultCard)`
+	text-align: center;
 
-			[theme.mediaQueries.maxMobile]: {
-				maxHeight: '50vh',
-			},
-		})}
-		css={(theme) => ({
-			textAlign: 'center',
-			width: '100%',
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		margin-bottom: 0;
+		border-radius: 0;
+		border-left: none;
+		border-bottom: none;
+		border-right: none;
+	}
 
-			[theme.mediaQueries.maxMobile]: {
-				marginBottom: 0,
-				borderRadius: 0,
-				borderLeft: 'none',
-				borderBottom: 'none',
-				borderRight: 'none',
-			},
+	@supports ((-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px))) {
+		backdrop-filter: blur(6px) brightness(75%) saturate(150%);
+		background: linear-gradient(154deg, ${({ theme }) => adjustHsl(theme.color.gray020, { alpha: 0.45 })} 4.87%, ${({ theme }) => adjustHsl(theme.color.gray010, { alpha: 0.8 })} 75.88%);
+		border-color: ${({ theme }) => adjustHsl(theme.color.gray020, { alpha: 0.7 })};
+		box-shadow: inset 0 1px 1px 0 ${({ theme }) => adjustHsl(theme.color.gray020, { alpha: 0.15 })};
+	}
 
-			'@supports ((-webkit-backdrop-filter: blur(5px)) or (backdrop-filter: blur(5px)))': {
-				backgroundColor: adjustHsl(theme.color.background, { alpha: 0.9 }),
-			},
-		})}
-	/>
-)
+	> div > div > ${Content} {
+		max-height: calc(100vh - 128px);
+
+		${({ theme }) => theme.mediaQueries.maxMobile} {
+			max-height: 50vh;
+		}
+	}
+`

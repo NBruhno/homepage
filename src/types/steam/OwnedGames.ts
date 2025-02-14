@@ -3,23 +3,23 @@
 export type SteamOwnedGames = {
 	response: {
 		/** Number of games owned */
-		game_count: number,
+		game_count: number
 		games: Array<{
-			appid: number,
+			appid: number
 			/** In minutes */
-			playtime_2weeks: number | undefined,
+			playtime_2weeks: number | undefined
 			/** In minutes */
-			playtime_forever: number,
+			playtime_forever: number
 			/** In minutes */
-			playtime_windows_forever: number,
+			playtime_windows_forever: number
 			/** In minutes */
-			playtime_mac_forever: number,
+			playtime_mac_forever: number
 			/** In minutes */
-			playtime_linux_forever: number,
+			playtime_linux_forever: number
 			/** Last played in milliseconds date, un-padded */
-			rtime_last_played: number,
+			rtime_last_played: number
 			/** In minutes */
-			playtime_disconnected: number,
-		}>,
-	},
+			playtime_disconnected: number
+		}>
+	}
 }

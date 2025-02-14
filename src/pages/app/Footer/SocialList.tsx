@@ -1,18 +1,13 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const SocialList = (props: ComponentPropsWithoutRef<'ul'>) => (
-	<ul
-		css={(theme) => ({
-			display: 'inline-flex',
-			verticalAlign: 'middle',
-			margin: '0 0 8px -12px',
-			padding: 0,
-			listStyle: 'none',
+export const SocialList = styled.ul`
+	display: inline-flex;
+	vertical-align: middle;
+	margin: 0 0 8px -12px;
+	padding: 0;
+	list-style: none;
 
-			[theme.mediaQueries.maxMobile]: {
-				marginLeft: 0,
-			},
-		})}
-		{...props}
-	/>
-)
+	${({ theme }) => theme.mediaQueries.maxMobile} {
+		margin-left: 0;
+	}
+`

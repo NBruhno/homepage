@@ -4,8 +4,8 @@ import { Line } from './Line'
 const lineLengths = [1, 0.5, 0.8, 0.7]
 
 type Props = {
-	lines: number,
-	width: number | string,
+	lines: number
+	width: number | string
 }
 
 export const Internal = ({ lines = 1, width = '80%' }: Props) => {

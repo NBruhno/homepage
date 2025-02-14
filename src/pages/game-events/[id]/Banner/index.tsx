@@ -10,7 +10,7 @@ import { GamesRow } from './GamesRow'
 import { Wrapper } from './Wrapper'
 
 type Props = {
-	games: Array<Game>,
+	games: Array<Game>
 }
 
 const gamesRowLength = 20
@@ -33,7 +33,7 @@ export const Banner = ({ games }: Props) => {
 						{gameGroups.slice(0, numberOfRows).map((games, groupIndex) => (
 							<GamesRow rowIndex={groupIndex}>
 								{games.map(({ cover }, index) => (
-									<Cover src={cover!} rowNumber={groupIndex + 1} index={index} gamesRowLength={gamesRowLength} />
+									<Cover src={cover!} rowNumber={groupIndex + 1} index={index} gamesRowLength={gamesRowLength} alt='' />
 								))}
 							</GamesRow>
 						))}

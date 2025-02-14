@@ -4,8 +4,10 @@ import { useTitle } from 'states/page'
 
 import { Page, PageContent } from 'components/Layout'
 
+import { Heading } from './Heading'
 import { ProjectItem } from './Item'
 import { ProjectList } from './List'
+import { Subtitle } from './Subtitle'
 
 const Projects: NextPage = () => {
 	useTitle('Projects')
@@ -13,12 +15,8 @@ const Projects: NextPage = () => {
 	return (
 		<Page>
 			<PageContent maxWidth={700}>
-				<h1 css={(theme) => ({ fontSize: theme.font.size.s160, margin: 0 })}>
-					Past projects
-				</h1>
-				<h2 css={(theme) => ({ fontSize: theme.font.size.s100, margin: '8px 0 24px', opacity: 0.7 })}>
-					A list of things I&apos;ve made over the years
-				</h2>
+				<Heading>Past projects</Heading>
+				<Subtitle>A list of things I&apos;ve made over the years</Subtitle>
 				<div>
 					<ProjectList>
 						<ProjectItem

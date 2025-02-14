@@ -1,27 +1,23 @@
 import type { ComponentPropsWithoutRef } from 'react'
 
 import { IconCheck } from '@tabler/icons-react'
+import { styled } from 'styled-components'
 
 type Props = ComponentPropsWithoutRef<'div'> & {
-	isChecked: boolean,
+	isChecked: boolean
 }
 
-export const CheckMark = ({ isChecked, ...rest }: Props) => (
-	<div
-		css={(theme) => ({
-			display: 'flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			width: '20px',
-			height: '20px',
-			flexShrink: 0,
-			backgroundColor: theme.color.primary,
-			color: theme.color.textInverted,
-			opacity: isChecked ? 1 : 0,
-			borderRadius: '100%',
-		})}
-		{...rest}
-	>
-		<IconCheck size={14} />
-	</div>
-)
+export const CheckMark = styled.div.attrs({
+	children: <IconCheck size={14} />,
+})<Props>`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	flex-shrink: 0;
+	background-color: ${({ theme }) => theme.color.primary};
+	color: ${({ theme }) => theme.color.textInverted};
+	opacity: ${({ isChecked }) => (isChecked ? 1 : 0)};
+	border-radius: 100%;
+`

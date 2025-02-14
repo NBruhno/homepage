@@ -1,7 +1,4 @@
-import type { Interpolation } from '@emotion/react'
-import type { ReactNode, ComponentPropsWithRef } from 'react'
-
-import { forwardRef } from 'react'
+import type { ComponentPropsWithRef, ReactNode } from 'react'
 
 import { Spinner } from 'components/Spinner'
 
@@ -10,15 +7,14 @@ import { Label } from './Label'
 import { LoaderWrapper } from './LoaderWrapper'
 
 type Props = ComponentPropsWithRef<'button'> & {
-	isDisabled?: boolean,
-	isFocusVisible: boolean,
-	isLoading?: boolean,
-	showPlaceholder?: boolean,
-	label: ReactNode,
-	labelCss?: Interpolation<Theme>,
+	isDisabled?: boolean
+	isFocusVisible: boolean
+	isLoading?: boolean
+	showPlaceholder?: boolean
+	label: ReactNode
 }
 
-export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
+export const ButtonLoading = ({
 	isDisabled = false,
 	isLoading = false,
 	isFocusVisible,
@@ -26,9 +22,9 @@ export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
 	label,
 	onClick,
 	type = 'button',
-	labelCss,
+	ref,
 	...rest
-}, ref) => (
+}: Props) => (
 	<Button
 		disabled={isDisabled || isLoading || showPlaceholder}
 		showPlaceholder={showPlaceholder}
@@ -38,7 +34,7 @@ export const ButtonLoading = forwardRef<HTMLButtonElement, Props>(({
 		ref={ref}
 		{...rest}
 	>
-		<LoaderWrapper showPlaceholder={isLoading}>{isLoading && <Spinner size={24} css={{ marginTop: '4px' }} />}</LoaderWrapper>
-		<Label showPlaceholder={isLoading || showPlaceholder} css={labelCss}>{label}</Label>
+		<LoaderWrapper showPlaceholder={isLoading}>{isLoading && <Spinner size={24} style={{ marginTop: '4px' }} />}</LoaderWrapper>
+		<Label showPlaceholder={isLoading || showPlaceholder}>{label}</Label>
 	</Button>
-))
+)

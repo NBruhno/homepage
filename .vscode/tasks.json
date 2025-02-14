@@ -12,40 +12,9 @@
       }
     },
     {
-      "label": "LavinMQ",
-      "type": "shell",
-      "command": "sudo lavinmq -D /var/lib/lavinmq",
-      "presentation": {
-        "panel": "dedicated",
-        "reveal": "always",
-        "group": "development"
-      }
-    },
-    {
-      "label": "Redis server",
-      "type": "shell",
-      "command": "redis-server",
-      "presentation": {
-        "panel": "dedicated",
-        "reveal": "always",
-        "group": "development"
-      }
-    },
-    {
       "label": "Prisma studio",
       "type": "shell",
       "command": "pnpm db:studio",
-      "presentation": {
-        "panel": "dedicated",
-        "reveal": "always",
-        "group": "development"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Dev server",
-      "type": "shell",
-      "command": "pnpm dev",
       "presentation": {
         "panel": "dedicated",
         "reveal": "always",
@@ -68,6 +37,26 @@
       "problemMatcher": []
     },
     {
+      "label": "LavinMQ",
+      "type": "shell",
+      "command": "sudo lavinmq -D /var/lib/lavinmq",
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "development"
+      }
+    },
+    {
+      "label": "Redis server",
+      "type": "shell",
+      "command": "redis-server",
+      "presentation": {
+        "panel": "dedicated",
+        "reveal": "always",
+        "group": "development"
+      }
+    },
+    {
       "label": "Start data dependencies",
       "command": "",
       "type": "process",
@@ -83,20 +72,5 @@
       },
       "problemMatcher": []
     },
-    {
-      "label": "Start development services",
-      "command": "",
-      "type": "process",
-      "dependsOn": [
-        "Dev server",
-        "PlanetScale main database",
-        "Prisma studio"
-      ],
-      "dependsOrder": "parallel",
-      "runOptions": {
-        "runOn": "default"
-      },
-      "problemMatcher": []
-    }
   ]
 }

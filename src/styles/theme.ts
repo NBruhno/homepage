@@ -1,3 +1,5 @@
+import { css } from 'styled-components'
+
 export const screenSizes = Object.freeze({
 	wearable: 306,
 	mobile: 576,
@@ -7,40 +9,45 @@ export const screenSizes = Object.freeze({
 	desktopLarge: 1600,
 } as const)
 
-export const getRangeMediaQuery = (min: number, max: number) => (
-	`@media only screen and (min-width: ${min}px) and (max-width: ${max}px)`
-)
+export const getRangeMediaQuery = (min: number, max: number) => `@media only screen and (min-width: ${min}px) and (max-width: ${max}px)`
+
+export const getMediaQuery = (query: string) => (_style: ReturnType<typeof css>) =>
+	css`
+	${query} {
+		
+	}
+`
 
 export const mediaQueries = Object.freeze({
 	/** min `306`, max `575` */
-	wearableToMobile: getRangeMediaQuery(screenSizes.wearable, screenSizes.mobile -1),
+	wearableToMobile: getRangeMediaQuery(screenSizes.wearable, screenSizes.mobile - 1),
 	/** min `306`, max `767` */
-	wearableToTablet: getRangeMediaQuery(screenSizes.wearable, screenSizes.tablet -1),
+	wearableToTablet: getRangeMediaQuery(screenSizes.wearable, screenSizes.tablet - 1),
 	/** min `306`, max `991` */
-	wearableToLaptop: getRangeMediaQuery(screenSizes.wearable, screenSizes.laptop -1),
+	wearableToLaptop: getRangeMediaQuery(screenSizes.wearable, screenSizes.laptop - 1),
 	/** min `306`, max `1199` */
-	wearableToDesktop: getRangeMediaQuery(screenSizes.wearable, screenSizes.desktop -1),
+	wearableToDesktop: getRangeMediaQuery(screenSizes.wearable, screenSizes.desktop - 1),
 	/** min `306`, max `1600` */
 	wearableToDesktopLarge: getRangeMediaQuery(screenSizes.wearable, screenSizes.desktopLarge),
 
 	/** min `576`, max `767` */
-	mobileToTablet: getRangeMediaQuery(screenSizes.mobile, screenSizes.tablet -1),
+	mobileToTablet: getRangeMediaQuery(screenSizes.mobile, screenSizes.tablet - 1),
 	/** min `576`, max `991` */
-	mobileToLaptop: getRangeMediaQuery(screenSizes.mobile, screenSizes.laptop -1),
+	mobileToLaptop: getRangeMediaQuery(screenSizes.mobile, screenSizes.laptop - 1),
 	/** min `576`, max `1199` */
-	mobileToDesktop: getRangeMediaQuery(screenSizes.mobile, screenSizes.desktop -1),
+	mobileToDesktop: getRangeMediaQuery(screenSizes.mobile, screenSizes.desktop - 1),
 	/** min `576`, max `1600` */
 	mobileToDesktopLarge: getRangeMediaQuery(screenSizes.mobile, screenSizes.desktopLarge),
 
 	/** min `768`, max `991` */
-	tabletToLaptop: getRangeMediaQuery(screenSizes.tablet, screenSizes.laptop -1),
+	tabletToLaptop: getRangeMediaQuery(screenSizes.tablet, screenSizes.laptop - 1),
 	/** min `768`, max `1199` */
-	tabletToDesktop: getRangeMediaQuery(screenSizes.tablet, screenSizes.desktop -1),
+	tabletToDesktop: getRangeMediaQuery(screenSizes.tablet, screenSizes.desktop - 1),
 	/** min `768`, max `1600` */
 	tabletToDesktopLarge: getRangeMediaQuery(screenSizes.tablet, screenSizes.desktopLarge),
 
 	/** min `992`, max `1199` */
-	laptopToDesktop: getRangeMediaQuery(screenSizes.laptop, screenSizes.desktop -1),
+	laptopToDesktop: getRangeMediaQuery(screenSizes.laptop, screenSizes.desktop - 1),
 	/** min `992`, max `1600` */
 	laptopToDesktopLarge: getRangeMediaQuery(screenSizes.laptop, screenSizes.desktopLarge),
 
@@ -88,101 +95,96 @@ const colors = {
 	accentRed: 'hsl(0, 80%, 51%)',
 }
 
-export const theme = (isDarkTheme = true) => Object.freeze({
-	color: {
-		focusOutline: 'hsl(230, 80%, 65%)',
+export const theme = (isDarkTheme = true) =>
+	Object.freeze({
+		color: {
+			focusOutline: 'hsl(230, 80%, 65%)',
 
-		input: {
-			focus: colors.primary,
-			border: isDarkTheme ? colors.grayDark : colors.grayLight,
-			borderHover: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(0, 0%, 70%)',
-			borderError: isDarkTheme ? colors.accentRedDark : colors.accentRed,
-			background: isDarkTheme ? colors.grayDarkest : colors.grayLightest,
-			backgroundHover: isDarkTheme ? 'hsl(214, 28%, 7%)' : 'hsl(0, 0%, 100%)',
-			backgroundError: isDarkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
-			backgroundErrorHover: isDarkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
+			input: {
+				focus: colors.primary,
+				border: isDarkTheme ? colors.grayDark : colors.grayLight,
+				borderHover: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(0, 0%, 70%)',
+				borderError: isDarkTheme ? colors.accentRedDark : colors.accentRed,
+				background: isDarkTheme ? colors.grayDarkest : colors.grayLightest,
+				backgroundHover: isDarkTheme ? 'hsl(214, 28%, 7%)' : 'hsl(0, 0%, 100%)',
+				backgroundError: isDarkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
+				backgroundErrorHover: isDarkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
+				errorBackgroundHover: isDarkTheme ? 'hsl(0, 65%, 20%)' : 'hsl(0, 80%, 85%)',
+			},
+
+			button: {
+				backgroundToggle: 'hsl(215, 28%, 50%)',
+			},
+
+			primary: 'hsl(21, 80%, 51%)',
+			primaryLight: 'hsl(21, 80%, 56%)',
+			primaryLighter: 'hsl(21, 80%, 61%)',
+			grayDarker: isDarkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 80%)',
+			grayDark: isDarkTheme ? 'hsl(0, 0%, 15%)' : 'hsl(0, 0%, 50%)',
+			gray: 'hsl(215, 15%, 30%)',
+			gray100: isDarkTheme ? 'hsl(215,  28%, 100%)' : 'hsl(215, 15%, 0%)',
+			gray090: isDarkTheme ? 'hsl(215,  28%, 90%)' : 'hsl(215, 15%, 10%)',
+			gray080: isDarkTheme ? 'hsl(215, 28%, 80%)' : 'hsl(215, 15%, 20%)',
+			gray070: isDarkTheme ? 'hsl(215, 28%, 70%)' : 'hsl(215, 15%, 30%)',
+			gray060: isDarkTheme ? 'hsl(215, 28%, 60%)' : 'hsl(215, 15%, 40%)',
+			gray050: isDarkTheme ? 'hsl(215, 28%, 50%)' : 'hsl(215, 15%, 50%)',
+			gray040: isDarkTheme ? 'hsl(215, 28%, 40%)' : 'hsl(215, 15%, 60%)',
+			gray030: isDarkTheme ? 'hsl(215, 28%, 30%)' : 'hsl(215, 15%, 70%)',
+			gray020: isDarkTheme ? 'hsl(215, 28%, 20%)' : 'hsl(215, 15%, 80%)',
+			gray010: isDarkTheme ? 'hsl(215, 28%, 10%)' : 'hsl(215, 15%, 90%)',
+			gray000: isDarkTheme ? 'hsl(215, 28%, 0%)' : 'hsl(215, 15%, 100%)',
+			grayLight: isDarkTheme ? 'hsl(215, 15%, 50%)' : 'hsl(215, 15%, 15%)',
+			grayLighter: isDarkTheme ? 'hsl(215, 15%, 80%)' : 'hsl(215, 15%, 10%)',
+			white: 'hsl(0,  0%, 100%)',
+			black: 'hsl(0,  0%, 0%)',
+			link: isDarkTheme ? 'hsl(230, 80%, 65%)' : 'hsl(230, 80%, 50%)',
+			error: isDarkTheme ? 'hsl(0, 65%, 50%)' : 'hsl(0, 80%, 51%)',
+			errorBackground: isDarkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
 			errorBackgroundHover: isDarkTheme ? 'hsl(0, 65%, 20%)' : 'hsl(0, 80%, 85%)',
-		},
+			background: isDarkTheme ? 'hsl(216, 28%, 7%)' : 'hsl(0, 0%, 100%)',
+			backgroundHover: isDarkTheme ? 'hsl(216, 28%, 10%)' : 'hsl(0, 0%, 100%)',
+			backgroundHome: 'hsl(160, 68%, 5%)',
+			text: isDarkTheme ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)',
+			textFaded: isDarkTheme ? 'hsl(0, 0%, 85%)' : 'hsl(0, 0%, 20%)',
+			textSubtitle: isDarkTheme ? 'hsl(215, 28%, 65%)' : 'hsl(0, 0%, 20%)',
+			textInverted: isDarkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 95%)',
+			border: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(0, 0%, 90%)',
+			success: 'hsl(151, 65%, 37%)',
+			gold: isDarkTheme ? 'hsl(47, 100%, 48%)' : 'hsl(48, 100%, 35%)',
 
-		button: {
-			backgroundToggle: 'hsl(215, 28%, 50%)',
+			sidebarBackground: isDarkTheme ? 'hsl(215, 21%, 11%)' : 'hsl(210, 12%, 16%)',
+			sidebarBorder: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(215, 15%, 25%)',
 		},
-
-		primary: 'hsl(21, 80%, 51%)',
-		primaryLight: 'hsl(21, 80%, 56%)',
-		primaryLighter: 'hsl(21, 80%, 61%)',
-		grayDarker: isDarkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 80%)',
-		grayDark: isDarkTheme ? 'hsl(0, 0%, 15%)' : 'hsl(0, 0%, 50%)',
-		gray: 'hsl(215, 15%, 30%)',
-		gray100: isDarkTheme ? 'hsl(215,  28%, 100%)' : 'hsl(215, 15%, 0%)',
-		gray090: isDarkTheme ? 'hsl(215,  28%, 90%)' : 'hsl(215, 15%, 10%)',
-		gray080: isDarkTheme ? 'hsl(215, 28%, 80%)' : 'hsl(215, 15%, 20%)',
-		gray070: isDarkTheme ? 'hsl(215, 28%, 70%)' : 'hsl(215, 15%, 30%)',
-		gray060: isDarkTheme ? 'hsl(215, 28%, 60%)' : 'hsl(215, 15%, 40%)',
-		gray050: isDarkTheme ? 'hsl(215, 28%, 50%)' : 'hsl(215, 15%, 50%)',
-		gray040: isDarkTheme ? 'hsl(215, 28%, 40%)' : 'hsl(215, 15%, 60%)',
-		gray030: isDarkTheme ? 'hsl(215, 28%, 30%)' : 'hsl(215, 15%, 70%)',
-		gray020: isDarkTheme ? 'hsl(215, 28%, 20%)' : 'hsl(215, 15%, 80%)',
-		gray010: isDarkTheme ? 'hsl(215, 28%, 10%)' : 'hsl(215, 15%, 90%)',
-		gray000: isDarkTheme ? 'hsl(215, 28%, 0%)' : 'hsl(215, 15%, 100%)',
-		grayLight: isDarkTheme ? 'hsl(215, 15%, 50%)' : 'hsl(215, 15%, 15%)',
-		grayLighter: isDarkTheme ? 'hsl(215, 15%, 80%)' : 'hsl(215, 15%, 10%)',
-		white: 'hsl(0,  0%, 100%)',
-		black: 'hsl(0,  0%, 0%)',
-		link: isDarkTheme ? 'hsl(230, 80%, 65%)' : 'hsl(230, 80%, 50%)',
-		error: isDarkTheme ? 'hsl(0, 65%, 50%)' : 'hsl(0, 80%, 51%)',
-		errorBackground: isDarkTheme ? 'hsl(0, 65%, 15%)' : 'hsl(0, 80%, 80%)',
-		errorBackgroundHover: isDarkTheme ? 'hsl(0, 65%, 20%)' : 'hsl(0, 80%, 85%)',
-		background: isDarkTheme ? 'hsl(216, 28%, 7%)' : 'hsl(0, 0%, 100%)',
-		backgroundHover: isDarkTheme ? 'hsl(216, 28%, 10%)' : 'hsl(0, 0%, 100%)',
-		backgroundHome: 'hsl(160, 68%, 5%)',
-		text: isDarkTheme ? 'hsl(0, 0%, 100%)' : 'hsl(0, 0%, 0%)',
-		textFaded: isDarkTheme ? 'hsl(0, 0%, 85%)' : 'hsl(0, 0%, 20%)',
-		textSubtitle: isDarkTheme ? 'hsl(215, 28%, 65%)' : 'hsl(0, 0%, 20%)',
-		textInverted: isDarkTheme ? 'hsl(0, 0%, 10%)' : 'hsl(0, 0%, 95%)',
-		border: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(0, 0%, 90%)',
-		success: 'hsl(151, 65%, 37%)',
-		gold: isDarkTheme ? 'hsl(47, 100%, 48%)' : 'hsl(48, 100%, 35%)',
-
-		sidebarBackground: isDarkTheme ? 'hsl(215, 21%, 11%)' : 'hsl(210, 12%, 16%)',
-		sidebarBorder: isDarkTheme ? 'hsl(212, 12%, 21%)' : 'hsl(215, 15%, 25%)',
-	},
-	font: {
-		size: {
-			s200: '2rem',
-			s180: '1.800rem',
-			s160: '1.602rem',
-			s140: '1.424rem',
-			s125: '1.266rem',
-			s115: '1.125rem',
-			s100: '1rem',
-			s90: '0.889rem',
-			s80: '0.79rem',
-			s70: '0.702rem',
+		font: {
+			size: {
+				s200: '2rem',
+				s180: '1.800rem',
+				s160: '1.602rem',
+				s140: '1.424rem',
+				s125: '1.266rem',
+				s115: '1.125rem',
+				s100: '1rem',
+				s90: '0.889rem',
+				s80: '0.79rem',
+				s70: '0.702rem',
+			},
+			family: {
+				roboto: `'Roboto', sans-serif`,
+				poppins: `'Poppins', sans-serif`,
+			},
+			weight: {
+				light: 300,
+				regular: 400,
+				medium: 500,
+				bold: 700,
+			},
 		},
-		family: {
-			roboto: `'Roboto', sans-serif`,
-			poppins: `'Poppins', sans-serif`,
+		animation: {
+			default: 'cubic-bezier(0.4, 0, 0.2, 1)',
 		},
-		weight: {
-			light: 300,
-			regular: 400,
-			medium: 500,
-			bold: 700,
-		},
-	},
-	animation: {
-		default: 'cubic-bezier(0.4, 0, 0.2, 1)',
-	},
-	isDarkTheme,
-	mediaQueries,
-} as const)
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-declare module '@emotion/react' {
-	// eslint-disable-next-line @typescript-eslint/no-empty-interface
-	export interface Theme extends ReturnType<typeof theme> {}
-}
+		isDarkTheme,
+		mediaQueries,
+	} as const)
 
 declare global {
 	type Theme = ReturnType<typeof theme>

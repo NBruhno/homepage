@@ -1,23 +1,20 @@
-import type { DefaultProps, DefaultFields } from './DefaultProps'
 import type { Struct } from 'superstruct'
+import type { DefaultFields, DefaultProps } from './DefaultProps'
 
-import { string, define, is, optional } from 'superstruct'
+import { define, is, optional, string } from 'superstruct'
 
 type Return<T> = T extends true ? Struct<string | undefined, null> : Struct<string, null>
 
-export const requiredString = <T = false>({ requiredErrorMessage, invalidErrorMessage }: DefaultFields) => (
+export const requiredString = <T = false>({ requiredErrorMessage, invalidErrorMessage }: DefaultFields) =>
 	define<string>('fieldString', (value) => {
 		const isValidString = is(value, optional(string()))
 		if (!isValidString) return invalidErrorMessage
 		if (is(value, string())) return true
 		return requiredErrorMessage
 	}) as Return<T>
-)
 
-export const optionalString = <T = false>({ invalidErrorMessage }: Pick<DefaultFields, 'invalidErrorMessage'>) => (
-	define<string | undefined>('fieldStringOptional', (value) => (
-		is(value, optional(string())) || invalidErrorMessage)) as Return<T>
-)
+export const optionalString = <T = false>({ invalidErrorMessage }: Pick<DefaultFields, 'invalidErrorMessage'>) =>
+	define<string | undefined>('fieldStringOptional', (value) => is(value, optional(string())) || invalidErrorMessage) as Return<T>
 
 export const fieldString = <T extends boolean = false>({
 	requiredErrorMessage = 'This field is required',

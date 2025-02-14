@@ -1,13 +1,8 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-export const Caption = (props: ComponentPropsWithoutRef<'p'>) => (
-	<p
-		css={(theme) => ({
-			opacity: 0.7,
-			fontSize: theme.font.size.s90,
-			textAlign: 'center',
-			margin: '6px 0 42px',
-		})}
-		{...props}
-	/>
-)
+export const Caption = styled.p`
+	opacity: 0.7;
+	font-size: ${({ theme }) => theme.font.size.s90};
+	text-align: center;
+	margin: 6px 0 42px;
+`

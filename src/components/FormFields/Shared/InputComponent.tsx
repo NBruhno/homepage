@@ -1,37 +1,30 @@
-import type { ComponentPropsWithRef } from 'react'
-
-import { forwardRef } from 'react'
+import { styled } from 'styled-components'
 
 import { adjustHsl } from 'lib/client'
 
-type Props = ComponentPropsWithRef<'input'> & {
-	isDisabled: boolean,
-	hasError: boolean,
-	shouldFill?: boolean,
+type Props = {
+	isDisabled: boolean
+	hasError: boolean
+	shouldFill?: boolean
 }
 
-export const InputComponent = forwardRef<HTMLInputElement, Props>(({ isDisabled, hasError, shouldFill = true, ...rest }, ref) => (
-	<input
-		css={(theme) => ({
-			backgroundColor: 'transparent',
-			border: 'none',
-			color: theme.color.text,
-			fontFamily: theme.font.family.roboto,
-			fontSize: theme.font.size.s100,
-			WebkitTapHighlightColor: 'transparent',
-			display: 'block',
-			width: shouldFill ? '100%' : 'max-content',
+export const InputComponent = styled.input.attrs<Props>(({ isDisabled }) => ({
+	disabled: isDisabled,
+}))<Props>`
+	background-color: transparent;
+	border: none;
+	color: ${({ theme }) => theme.color.text};
+	font-family: ${({ theme }) => theme.font.family.roboto};
+	font-size: ${({ theme }) => theme.font.size.s100};
+	-webkit-tap-highlight-color: transparent;
+	display: block;
+	width: ${({ shouldFill }) => (shouldFill ? '100%' : 'max-content')};
 
-			'&:focus': {
-				outline: 'none',
-			},
+	&:focus {
+		outline: none;
+	}
 
-			'::placeholder': {
-				color: hasError ? adjustHsl(theme.color.grayLight, { alpha: 0.65 }) : theme.color.gray,
-			},
-		})}
-		disabled={isDisabled}
-		ref={ref}
-		{...rest}
-	/>
-))
+	&::placeholder {
+		color: ${({ hasError, theme }) => (hasError ? adjustHsl(theme.color.grayLight, { alpha: 0.65 }) : theme.color.gray)};
+	}
+`

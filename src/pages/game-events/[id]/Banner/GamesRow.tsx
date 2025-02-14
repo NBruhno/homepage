@@ -1,17 +1,12 @@
-import type { ComponentPropsWithoutRef } from 'react'
+import { styled } from 'styled-components'
 
-type Props = ComponentPropsWithoutRef<'div'> & {
-	rowIndex: number,
+type Props = {
+	rowIndex: number
 }
 
-export const GamesRow = ({ rowIndex, ...rest }: Props) => (
-	<div
-		css={{
-			top: `calc(200px * ${rowIndex})`,
-			position: 'relative',
-			display: 'flex',
-			height: '150px',
-		}}
-		{...rest}
-	/>
-)
+export const GamesRow = styled.div<Props>`
+	top: calc(200px * ${({ rowIndex }) => rowIndex});
+	position: relative;
+	display: flex;
+	height: 150px;
+`

@@ -1,74 +1,73 @@
 import type { ReactNode } from 'react'
 
-import { css, Global } from '@emotion/react'
+import { createGlobalStyle } from 'styled-components'
 
 import { fonts } from 'styles/fonts'
 import { normalize } from 'styles/normalize'
 
 import { adjustHsl } from 'lib/client'
 
-export const globalCss = (theme: Theme) => css([
-	fonts,
-	normalize,
-	{
-		'*::-webkit-scrollbar': {
-			backgroundColor: theme.color.background,
-			width: '8px',
-		},
+export const GlobalStyle = createGlobalStyle`
+	${fonts}
+	${normalize}
 
-		'*::-webkit-scrollbar-thumb': {
-			backgroundColor: adjustHsl(theme.color.gray, { alpha: 0.7 }),
-			borderRadius: '8px',
-			border: 'none',
+	*::-webkit-scrollbar {
+		background-color: ${({ theme }) => theme.color.background};
+		width: 8px;
+	}
 
-			transition: `background-color 150ms ${theme.animation.default}`,
+	*::-webkit-scrollbar-thumb {
+		background-color: ${({ theme }) => adjustHsl(theme.color.gray, { alpha: 0.7 })};
+		border-radius: 8px;
+		border: none;
 
-			':hover': {
-				backgroundColor: theme.color.gray,
-				cursor: 'grab',
-			},
+		transition: background-color 150ms ${({ theme }) => theme.animation.default};
 
-			':active': {
-				backgroundColor: theme.color.gray030,
-			},
-		},
+		&:hover {
+			background-color: ${({ theme }) => theme.color.gray};
+			cursor: grab;
+		}
 
-		html: {
-			fontFamily: 'Roboto, sans-serif',
-			fontSize: '100%',
-			backgroundColor: theme.color.background,
-		},
+		&:active {
+			background-color: ${({ theme }) => theme.color.gray030};
+		}
+	}
 
-		body: {
-			color: theme.color.text,
-			lineHeight: 1.65,
-		},
+	html {
+		font-family: 'Roboto', sans-serif;
+		font-size: 100%;
+		background-color: ${({ theme }) => theme.color.background};
+	}
 
-		p: {
-			marginBottom: '1.15rem',
-		},
+	body {
+		color: ${({ theme }) => theme.color.text};
+		line-height: 1.65;
+	}
 
-		'h1, h2, h3, h4, h5': {
-			margin: '2.75rem 0 1.05rem',
-			lineHeight: 1.15,
-			fontWeight: theme.font.weight.regular,
-			fontFamily: theme.font.family.poppins,
-		},
+	p {
+		margin-bottom: 1.15rem;
+	}
 
-		a: {
-			color: theme.color.link,
-		},
+	h1, h2, h3, h4, h5 {
+		margin: 2.75rem 0 1.05rem;
+		line-height: 1.15;
+		font-weight: ${({ theme }) => theme.font.weight.regular};
+		font-family: ${({ theme }) => theme.font.family.poppins};
+	}
 
-		'*': {
-			scrollbarWidth: 'thin',
-			scrollbarColor: theme.color.gray,
-		},
-	},
-])
+	a {
+		color: ${({ theme }) => theme.color.link};
+	}
+
+	* {
+		scrollbar-width: thin;
+		scrollbar-color: ${({ theme }) => theme.color.gray};
+	}
+`
 
 export const GlobalStyling = ({ children }: { children: ReactNode }) => (
 	<>
-		<Global styles={(theme) => globalCss(theme)} />
+		<GlobalStyle />
 		{children}
 	</>
 )
