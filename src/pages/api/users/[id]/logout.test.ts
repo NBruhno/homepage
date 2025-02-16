@@ -58,7 +58,9 @@ describe('/api/users/{userId}/logout', () => {
 	test('POST › Invalid query', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler)
-		const res = (await supertest(server).post(`/api/users/./changePassword`).set('authorization', `Bearer ${accessToken}`)) as unknown as TestResponse & {
+		const res = (await supertest(server)
+			.post(`/api/users/./changePassword`)
+			.set('authorization', `Bearer ${accessToken}`)) as unknown as TestResponse & {
 			body: { message: string }
 		}
 

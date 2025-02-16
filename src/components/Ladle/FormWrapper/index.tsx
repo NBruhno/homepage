@@ -9,7 +9,10 @@ import { JsonWrapper } from '../JsonWrapper'
 import { Container } from './Container'
 import { Title } from './Title'
 
-export const FormWrapper = <T extends Record<string, number | string | undefined>>({ title, children }: { title: string; children: ReactNode }) => {
+export const FormWrapper = <T extends Record<string, number | string | undefined>>({
+	title,
+	children,
+}: { title: string; children: ReactNode }) => {
 	const { formState, getValues } = useFormContext<T>()
 	const values = getValues()
 

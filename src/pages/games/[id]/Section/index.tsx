@@ -10,7 +10,14 @@ type Props = ComponentPropsWithoutRef<'h2'> & {
 	contentPlaceholderLines?: number
 }
 
-export const Section = ({ title, children, titlePlaceholderWidth = '50%', contentType = 'text', contentPlaceholderLines = 5, ...rest }: Props) => {
+export const Section = ({
+	title,
+	children,
+	titlePlaceholderWidth = '50%',
+	contentType = 'text',
+	contentPlaceholderLines = 5,
+	...rest
+}: Props) => {
 	if (!children) return null
 
 	return (

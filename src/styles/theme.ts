@@ -9,14 +9,8 @@ export const screenSizes = Object.freeze({
 	desktopLarge: 1600,
 } as const)
 
-export const getRangeMediaQuery = (min: number, max: number) => `@media only screen and (min-width: ${min}px) and (max-width: ${max}px)`
-
-export const getMediaQuery = (query: string) => (_style: ReturnType<typeof css>) =>
-	css`
-	${query} {
-		
-	}
-`
+export const getRangeMediaQuery = (min: number, max: number) =>
+	`@media only screen and (min-width: ${min}px) and (max-width: ${max}px)`
 
 export const mediaQueries = Object.freeze({
 	/** min `306`, max `575` */

@@ -1,6 +1,6 @@
 import type { Span } from '@sentry/types'
 
-import { shake } from 'radash'
+import { pickBy } from 'es-toolkit'
 import { Agent, fetch, setGlobalDispatcher } from 'undici'
 
 import { config } from 'config.server'
@@ -35,7 +35,10 @@ export type Options = {
 	span?: Span
 }
 
-export const homeFetcher = async <ReturnType>(url: string, { accessToken, body, method = Method.Get, nickname, span }: Options) => {
+export const homeFetcher = async <ReturnType>(
+	url: string,
+	{ accessToken, body, method = Method.Get, nickname, span }: Options,
+) => {
 	const urlToFetch = `${config.smartHomeHost}/api${url}`
 	return monitorAsync(
 		(span) =>
@@ -43,23 +46,29 @@ export const homeFetcher = async <ReturnType>(url: string, { accessToken, body, 
 				method,
 				body: body ? JSON.stringify(body) : null,
 				// Create headers object and remove falsy variables to exclude them from call
-				headers: shake(
+				headers: pickBy(
 					{
 						'Content-Type': 'application/json',
 						Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
 						'sentry-trace': span?.traceId,
 					},
-					(value) => value === undefined,
+					(value) => value !== undefined,
 				) as Record<string, string>,
 				credentials: 'same-origin',
 				mode: 'cors',
 			}).then(async (response) => {
 				if (response.redirected || response.url !== urlToFetch)
-					throw ApiError.fromCodeWithCause(421, new Error('Response was redirected or the respondent did not match what was expected'))
+					throw ApiError.fromCodeWithCause(
+						421,
+						new Error('Response was redirected or the respondent did not match what was expected'),
+					)
 				if (response.status >= 400) {
 					const payload = (await response.json()) as { message?: string }
 					logger.error(payload.message)
-					throw ApiError.fromCodeWithCause(500, ApiError.fromCode(response.status as unknown as keyof typeof statusCodes, payload.message))
+					throw ApiError.fromCodeWithCause(
+						500,
+						ApiError.fromCode(response.status as unknown as keyof typeof statusCodes, payload.message),
+					)
 				}
 				return response.json() as Promise<ReturnType>
 			}),

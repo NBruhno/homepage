@@ -14,7 +14,7 @@ export const ButtonText = styled(ButtonAsync)<Props>`
 	color: ${({ theme }) => theme.color.text};
 	padding: 6px 12px;
 	margin: 4px 0;
-	min-width: 0px;
+	min-width: 0;
 	height: ${({ isSlim }) => (isSlim ? '35px' : 'unset')};
 	font-size: ${({ theme, isSlim }) => (isSlim ? theme.font.size.s90 : theme.font.size.s100)};
 	

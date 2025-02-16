@@ -75,7 +75,13 @@ export const FormLogin = () => {
 							<>
 								<Input label='Access code' name={name('accessCode')} type='text' isRequired />
 								<Input label='Email' name={name('email')} type='email' isRequired autoComplete='email' />
-								<Input label='Display name' name={name('username')} type='username' isRequired autoComplete='username' />
+								<Input
+									label='Display name'
+									name={name('username')}
+									type='username'
+									isRequired
+									autoComplete='username'
+								/>
 								<Input label='Password' name={name('password')} type='password' isRequired autoComplete='password' />
 								<Link href='/privacy-policy' passHref style={{ textDecoration: 'none' }}>
 									By creating an account you confirm that you have read and accepted our Privacy Policy

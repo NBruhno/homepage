@@ -9,7 +9,9 @@ type DefaultProps = Story<
 	}
 >
 
-export const Default: DefaultProps = ({ size, animationDuration }) => <Spinner size={size} animationDuration={animationDuration} />
+export const Default: DefaultProps = ({ size, animationDuration }) => (
+	<Spinner size={size} animationDuration={animationDuration} />
+)
 
 Default.args = {
 	size: 50,

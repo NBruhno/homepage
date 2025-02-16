@@ -1,11 +1,20 @@
 import type { BaseSyntheticEvent, ReactNode } from 'react'
-import type { CriteriaMode, DefaultValues, FieldPath, FieldValues, PathValue, UseFormReturn, ValidationMode } from 'react-hook-form'
+import type {
+	CriteriaMode,
+	DefaultValues,
+	FieldPath,
+	FieldValues,
+	PathValue,
+	UseFormReturn,
+	ValidationMode,
+} from 'react-hook-form'
 import type { Struct } from 'superstruct'
 import type { AnyStruct, StructSchema } from 'superstruct/dist/utils'
 import type { Promisable } from 'type-fest'
 
 import { superstructResolver } from '@hookform/resolvers/superstruct'
-import { get, isEmpty, isEqual } from 'radash'
+import { isEqual } from 'es-toolkit'
+import { get, isEmpty } from 'es-toolkit/compat'
 import { useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 
@@ -155,11 +164,19 @@ export const Form = <T extends FieldValues>({
 
 	useEffect(() => {
 		// Updates the form state if enabled and if it has changed
-		if (shouldPersistStateOnChange && !isEmpty(formValues) && name && !isEqual<FieldValues | FormState | undefined>(formValues, formState))
+		if (shouldPersistStateOnChange && !isEmpty(formValues) && name && !isEqual(formValues, formState))
 			setFormState(name, formValues)
 		// If enabled, clears the form-state on unmount
 		return () => (shouldResetStateOnDismount && name ? resetFormState(name) : undefined)
-	}, [shouldPersistStateOnChange, formValues, shouldResetStateOnDismount, name, formState, resetFormState, setFormState])
+	}, [
+		shouldPersistStateOnChange,
+		formValues,
+		shouldResetStateOnDismount,
+		name,
+		formState,
+		resetFormState,
+		setFormState,
+	])
 
 	useEffect(() => {
 		// If enabled and it does not already persist on change, it will update all fields to be in sync with the form state
@@ -200,7 +217,7 @@ export const Form = <T extends FieldValues>({
 					...methods,
 					name: (name) => name,
 					fieldProps: (name) => {
-						const struct = get<AnyStruct | undefined>(schema?.schema, name)
+						const struct = get(schema?.schema, name) as AnyStruct | undefined
 						return {
 							name,
 							isRequired: !struct?.type.includes('Optional'),

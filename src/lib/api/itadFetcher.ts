@@ -13,7 +13,10 @@ type Options = {
 	method?: 'GET' | 'POST'
 }
 
-export const itadFetcher = async <T>(url: string, { body = null, span, nickname, query, version, method = 'GET' }: Options): Promise<T> => {
+export const itadFetcher = async <T>(
+	url: string,
+	{ body = null, span, nickname, query, version, method = 'GET' }: Options,
+): Promise<T> => {
 	// We assume that the env variables are always available, but this is just an extra precaution
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 	if (config.itad.apiKey === undefined) throw new Error('ITAD API key needs to be set')

@@ -11,11 +11,13 @@ type Props = {
 
 export const DefaultInputStyle = css<Props>`
 	background-color: ${({ theme, hasError, isDisabled, isHovered, isFocusVisible }) => {
-		if ((isHovered || isFocusVisible) && !isDisabled) return hasError ? theme.color.input.backgroundErrorHover : theme.color.input.backgroundHover
+		if ((isHovered || isFocusVisible) && !isDisabled)
+			return hasError ? theme.color.input.backgroundErrorHover : theme.color.input.backgroundHover
 		return hasError ? theme.color.input.backgroundError : theme.color.input.background
 	}};
 	border: 2px solid ${({ theme, hasError, isDisabled, isHovered, isFocusVisible }) => {
-		if ((isHovered || isFocusVisible) && !isDisabled) return hasError ? theme.color.input.borderError : theme.color.input.focus
+		if ((isHovered || isFocusVisible) && !isDisabled)
+			return hasError ? theme.color.input.borderError : theme.color.input.focus
 		return hasError ? theme.color.input.borderError : theme.color.input.border
 	}};
 	border-radius: 4px;
@@ -52,13 +54,4 @@ export const DefaultInputStyle = css<Props>`
 		outline: ${({ theme }) => `${theme.color.focusOutline} solid 2px`};
 		outline-offset: 2px;
 	`}
-
-	// '::-webkit-outer-spin-button, ::-webkit-inner-spin-button': {
-	// 	WebkitAppearance: 'none',
-	// 	margin: 0,
-	// },
-
-	// 'input[type=number]': {
-	// 	MozAppearance: 'textfield',
-	// },
 `

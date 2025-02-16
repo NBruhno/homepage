@@ -56,9 +56,18 @@ type Props = {
 	speed?: number
 }
 
-const genStar = (radius: number) => new Vector3().setFromSpherical(new Spherical(radius, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
+const genStar = (radius: number) =>
+	new Vector3().setFromSpherical(new Spherical(radius, Math.acos(1 - Math.random() * 2), Math.random() * 2 * Math.PI))
 
-export const Stars = ({ radius = 500, depth = 50, count = 5000, saturation = 0, factor = 4, shouldFade = false, speed = 1 }: Props) => {
+export const Stars = ({
+	radius = 500,
+	depth = 50,
+	count = 5000,
+	saturation = 0,
+	factor = 4,
+	shouldFade = false,
+	speed = 1,
+}: Props) => {
 	const material = useRef<{ uniforms: { time: { value: number } } }>(undefined)
 	const [position, color, size] = useMemo(() => {
 		const positions: Array<number> = []

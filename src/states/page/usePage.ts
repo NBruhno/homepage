@@ -42,7 +42,8 @@ export const usePage = createWithEqualityFn<PageState>()(
 			showLogin: false,
 			showMenu: false,
 			theme: 'dark',
-			setIsCookieBannerDismissed: (isCookieBannerDismissed) => set({ isCookieBannerDismissed }, false, 'setIsCookieBannerDismissed'),
+			setIsCookieBannerDismissed: (isCookieBannerDismissed) =>
+				set({ isCookieBannerDismissed }, false, 'setIsCookieBannerDismissed'),
 			setIsLoading: (isLoading) => set({ isLoading }, false, 'setIsLoading'),
 			setResponsive: (responsiveParams) => set(responsiveParams, false, 'setResponsive'),
 			setTheme: (theme) => set({ theme }, false, 'setTheme'),

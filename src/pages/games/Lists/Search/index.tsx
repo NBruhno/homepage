@@ -47,7 +47,16 @@ export const SearchList = ({
 	return (
 		<Container>
 			{games.map(({ id, cover, name, releaseDate, status }, index: number) => (
-				<Item id={id} cover={cover} name={name} releaseDate={releaseDate} status={status} index={index} isLoading={isLoading} key={id} />
+				<Item
+					id={id}
+					cover={cover}
+					name={name}
+					releaseDate={releaseDate}
+					status={status}
+					index={index}
+					isLoading={isLoading}
+					key={id}
+				/>
 			))}
 			{games.length === 0 && <Subtitle>{emptyMessage}</Subtitle>}
 		</Container>

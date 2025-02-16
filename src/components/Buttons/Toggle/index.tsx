@@ -22,7 +22,13 @@ type Props<T> = {
 	onValueChange: (value: T) => any
 }
 
-export const ButtonToggle = <T extends number | string | boolean>({ options, label, initialValue = options[0].value, onValueChange, ...rest }: Props<T>) => {
+export const ButtonToggle = <T extends number | string | boolean>({
+	options,
+	label,
+	initialValue = options[0].value,
+	onValueChange,
+	...rest
+}: Props<T>) => {
 	const buttons = useRef<Array<HTMLButtonElement | null>>([])
 	const [selectedIndex, setSelectedIndex] = useState<number>(options.findIndex(({ value }) => value === initialValue))
 	const [hoveredButton, setHoveredButton] = useState<HTMLButtonElement | null>(buttons.current[selectedIndex])
@@ -34,7 +40,8 @@ export const ButtonToggle = <T extends number | string | boolean>({ options, lab
 	}, [selectedIndex, selectedValue, onValueChange])
 
 	const getButtonToHighlight = useCallback(async () => {
-		const currentHoveredButton = buttons.current.find((element) => element?.matches(':hover')) ?? buttons.current[selectedIndex]
+		const currentHoveredButton =
+			buttons.current.find((element) => element?.matches(':hover')) ?? buttons.current[selectedIndex]
 		if (hoveredButton !== currentHoveredButton) {
 			setHoveredButton(currentHoveredButton)
 			await delay(0.2)

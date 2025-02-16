@@ -1,6 +1,6 @@
 import type { ItadHistoricLow, ItadLookup, ItadShops, ItadStoreHistoricLows } from 'types'
 
-import { sortBy } from 'lodash'
+import { sortBy } from 'es-toolkit'
 import { create, object, optional, string, union } from 'superstruct'
 
 import { apiHandler, itadFetcher, setCache } from 'lib/api'
@@ -79,7 +79,7 @@ export default apiHandler({
 						shop,
 						amount: price.amount,
 					})),
-					'amount',
+					['amount'],
 				)
 			}
 			return []

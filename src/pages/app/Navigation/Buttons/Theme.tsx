@@ -24,7 +24,11 @@ export const ButtonTheme = () => {
 						isSlim
 						label={
 							<>
-								{globalTheme === 'light' ? <IconMoon style={{ flexShrink: 0 }} /> : <IconSun style={{ flexShrink: 0 }} />}
+								{globalTheme === 'light' ? (
+									<IconMoon style={{ flexShrink: 0 }} />
+								) : (
+									<IconSun style={{ flexShrink: 0 }} />
+								)}
 								{globalTheme === 'light' ? 'Switch to dark theme' : 'Switch to light theme'}
 							</>
 						}

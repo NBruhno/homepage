@@ -15,7 +15,8 @@ export const PriceHistory = () => {
 	const [showInactiveStores, setShowInactiveStores] = useState(false)
 	const isLoading = isPriceHistoryLoading || isPriceLoading
 
-	const priceWithCurrency = (price: number, currency: string) => new Intl.NumberFormat('en-DK', { style: 'currency', currency }).format(price)
+	const priceWithCurrency = (price: number, currency: string) =>
+		new Intl.NumberFormat('en-DK', { style: 'currency', currency }).format(price)
 
 	const historyToShow = useMemo(() => {
 		if (isLoading || !priceHistory?.storeHistoricLows) return null

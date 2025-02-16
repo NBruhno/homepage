@@ -23,14 +23,18 @@ export const useGameUserStatus = () => {
 	}))
 	const accessToken = useUser((state) => state.accessToken)
 
-	const { data: userStatus, isLoading } = useSwr(id && accessToken ? [`/games/${id}/user-status`, id, accessToken] : null, ([link, , accessToken]) =>
-		fetcher<GameUserData>(link, { accessToken }),
+	const { data: userStatus, isLoading } = useSwr(
+		id && accessToken ? [`/games/${id}/user-status`, id, accessToken] : null,
+		([link, , accessToken]) => fetcher<GameUserData>(link, { accessToken }),
 	)
 
 	const toggleFollow = async ([, id, accessToken]: DependencyKeys, { arg }: { arg: ToggleFollow }) =>
 		fetcher(`/games/${id}/follows`, { accessToken, method: Method.Post, body: { isFollowing: arg.isFollowing } })
 
-	const { trigger: onToggleFollowing } = useSwrMutation(accessToken && id ? [`/games/${id}/user-status`, id, accessToken] : null, toggleFollow)
+	const { trigger: onToggleFollowing } = useSwrMutation(
+		accessToken && id ? [`/games/${id}/user-status`, id, accessToken] : null,
+		toggleFollow,
+	)
 
 	return { userStatus, onToggleFollowing, isLoading }
 }

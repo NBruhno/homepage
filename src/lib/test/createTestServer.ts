@@ -7,7 +7,14 @@ import { apiResolver } from 'next/dist/server/api-utils/node/api-resolver'
 
 export const createTestServer = (handler: NextApiHandler, query?: Record<string, any>) => {
 	const requestHandler = (req: IncomingMessage, res: ServerResponse) =>
-		apiResolver(req, res, query, handler, { previewModeEncryptionKey: '', previewModeId: '', previewModeSigningKey: '' }, true)
+		apiResolver(
+			req,
+			res,
+			query,
+			handler,
+			{ previewModeEncryptionKey: '', previewModeId: '', previewModeSigningKey: '' },
+			true,
+		)
 	const server = createServer(requestHandler)
 
 	return server

@@ -10,7 +10,10 @@ type Options = {
 	span?: Span
 }
 
-export const instantGamingFetcher = async (gameTitle: string, { span, nickname }: Options = {}): Promise<{ hits: Array<InstantGamingGame> }> => {
+export const instantGamingFetcher = async (
+	gameTitle: string,
+	{ span, nickname }: Options = {},
+): Promise<{ hits: Array<InstantGamingGame> }> => {
 	const data = await monitorAsync(
 		() =>
 			fetch(config.instantGaming.queryUrl, {

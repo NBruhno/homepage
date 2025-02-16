@@ -22,7 +22,10 @@ const walkSync = (dir) => {
 		if (fileStat.isDirectory()) walkSync(`${filePath}/`)
 		else {
 			if (!filePath.includes('.route')) return
-			const cleanFileName = filePath.substr(0, filePath.lastIndexOf('.')).replace(pagesLocation, '').replace('.route', '')
+			const cleanFileName = filePath
+				.substr(0, filePath.lastIndexOf('.'))
+				.replace(pagesLocation, '')
+				.replace('.route', '')
 
 			if (
 				cleanFileName.includes('_document') ||

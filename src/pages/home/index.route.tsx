@@ -32,7 +32,14 @@ const Home: NextPage<Props> = () => {
 									const light = lights?.find(({ name }) => name === lightName)
 									if (light) {
 										const { id, name, isLightOn } = light
-										return <ToggleButton label={name} onClick={() => onToggleLight({ entityId: id })} isChecked={isLightOn} key={index} />
+										return (
+											<ToggleButton
+												label={name}
+												onClick={() => onToggleLight({ entityId: id })}
+												isChecked={isLightOn}
+												key={index}
+											/>
+										)
 									}
 									return null
 								})}

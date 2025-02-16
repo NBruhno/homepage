@@ -99,7 +99,11 @@ export const Tooltip = ({ tip, position = 'top', show = true, render }: Props) =
 					<div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: 15 }} {...getFloatingProps()}>
 						<Container isHovered={isOpen} position={placement} timeToHover={0} style={styles}>
 							{tip}
-							<FloatingArrow ref={arrowRef} context={{ ...context, placement: placement ?? position }} fill={adjustHsl(theme.color.gray010, { alpha: 0.8 })} />
+							<FloatingArrow
+								ref={arrowRef}
+								context={{ ...context, placement: placement ?? position }}
+								fill={adjustHsl(theme.color.gray010, { alpha: 0.8 })}
+							/>
 						</Container>
 					</div>
 				)}

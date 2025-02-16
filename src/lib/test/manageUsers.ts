@@ -20,8 +20,18 @@ type Props = {
 }
 
 export const userCreate = async (props: Props) => {
-	const { email: defaultEmail, defaultPassword, username: defaultUsername, accessCode: defaultAccessCode } = createCredentials({ label: props.label })
-	const { email = defaultEmail, password = defaultPassword, username = defaultUsername, accessCode = defaultAccessCode } = props
+	const {
+		email: defaultEmail,
+		defaultPassword,
+		username: defaultUsername,
+		accessCode: defaultAccessCode,
+	} = createCredentials({ label: props.label })
+	const {
+		email = defaultEmail,
+		password = defaultPassword,
+		username = defaultUsername,
+		accessCode = defaultAccessCode,
+	} = props
 	const { body, headers, status } = await fetchFromServer<{ accessToken: string }, { 'set-cookie': Array<string> }>({
 		handler: users,
 		method: 'post',
@@ -71,7 +81,10 @@ export const userLogin = async (props: Props, { shouldSkipTwoFactor } = { should
 				return { intermediateToken: body.intermediateToken, accessToken: undefined, refreshToken: undefined }
 			} else {
 				const { userId } = decodeJwtToken(body.intermediateToken)
-				const { body: otpBody, headers: otpHeaders } = await fetchFromServer<{ accessToken: string }, { 'set-cookie': Array<string> }>({
+				const { body: otpBody, headers: otpHeaders } = await fetchFromServer<
+					{ accessToken: string },
+					{ 'set-cookie': Array<string> }
+				>({
 					handler: twoFactorAuthentication,
 					method: 'post',
 					path: '/api/users/:userId/2fa',
@@ -100,8 +113,18 @@ export const userLogin = async (props: Props, { shouldSkipTwoFactor } = { should
 }
 
 export const userDelete = async (props: Props) => {
-	const { email: defaultEmail, defaultPassword, username: defaultUsername, accessCode: defaultAccessCode } = createCredentials({ label: props.label })
-	const { email = defaultEmail, password = defaultPassword, username = defaultUsername, accessCode = defaultAccessCode } = props
+	const {
+		email: defaultEmail,
+		defaultPassword,
+		username: defaultUsername,
+		accessCode: defaultAccessCode,
+	} = createCredentials({ label: props.label })
+	const {
+		email = defaultEmail,
+		password = defaultPassword,
+		username = defaultUsername,
+		accessCode = defaultAccessCode,
+	} = props
 	const { accessToken } = await userLogin({ email, password, username, accessCode })
 	const { userId } = decodeJwtToken(accessToken!)
 

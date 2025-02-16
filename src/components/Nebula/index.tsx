@@ -1,6 +1,6 @@
 import { PerspectiveCamera } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
-import { random } from 'radash'
+import { random } from 'es-toolkit'
 import { Suspense, useMemo } from 'react'
 
 import { Dust } from './Dust'
@@ -49,10 +49,22 @@ export const Nebula = () => {
 			<Canvas frameloop='demand'>
 				<Suspense fallback={null}>
 					<fogExp2 args={[0x03544e, 0.2]} />
-					<PerspectiveCamera makeDefault fov={60} position={[1, 0, 0]} rotation={[1.16, -0.12, 0.27]} near={1} far={1000} />
+					<PerspectiveCamera
+						makeDefault
+						fov={60}
+						position={[1, 0, 0]}
+						rotation={[1.16, -0.12, 0.27]}
+						near={1}
+						far={1000}
+					/>
 					<Lights />
 					{movingClouds.map(({ position, rotation, opacity }, index) => (
-						<Dust position={[position.x, position.y, position.z]} rotation={[rotation.x, rotation.y, rotation.z]} opacity={opacity} key={index} />
+						<Dust
+							position={[position.x, position.y, position.z]}
+							rotation={[rotation.x, rotation.y, rotation.z]}
+							opacity={opacity}
+							key={index}
+						/>
 					))}
 					{stationaryClouds.map(({ position, rotation, opacity }, index) => (
 						<Dust

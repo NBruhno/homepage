@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 
 import { addYears, getUnixTime, isBefore, parseISO, subHours } from 'date-fns'
+import { differenceBy, isString, orderBy, sortBy } from 'es-toolkit'
 import { useRouter } from 'next/router'
-import { diff, isString, sort } from 'radash'
 import { useMemo } from 'react'
 
 import { Cover } from 'pages/games/Cover'
@@ -35,16 +35,19 @@ const GameEvents: NextPage = () => {
 
 	if (isLoading || !event) return null
 
-	const releasedGames = sort(
+	const releasedGames = orderBy(
 		event.games.filter(
-			({ releaseDate }) => releaseDate && (event.endTime ?? event.startTime) && isBefore(parseISO(releaseDate), event.endTime ?? event.startTime!),
+			({ releaseDate }) =>
+				releaseDate &&
+				(event.endTime ?? event.startTime) &&
+				isBefore(parseISO(releaseDate), event.endTime ?? event.startTime!),
 		),
-		({ releaseDate }) => getUnixTime(releaseDate!),
-		true,
+		[({ releaseDate }) => getUnixTime(releaseDate!)],
+		['desc'],
 	)
-	const upcomingGames = sort(
-		diff(event.games, releasedGames, ({ id }) => id),
-		({ releaseDate }) => getUnixTime(releaseDate ?? addYears(new Date(), 100)),
+	const upcomingGames = sortBy(
+		differenceBy(event.games, releasedGames, ({ id }) => id),
+		[({ releaseDate }) => getUnixTime(releaseDate ?? addYears(new Date(), 100))],
 	)
 
 	return (
@@ -99,7 +102,10 @@ const GameEvents: NextPage = () => {
 						<h2>Games released before the event</h2>
 						{releasedGames.map(({ name, cover, id, releaseDate }, index) => (
 							<Item href={`/games/${id}`} key={index}>
-								<Cover coverUrl={cover} style={{ maxWidth: 'calc(80px + 16px)', margin: '-16px 0 -16px -16px', flexShrink: 0 }} />
+								<Cover
+									coverUrl={cover}
+									style={{ maxWidth: 'calc(80px + 16px)', margin: '-16px 0 -16px -16px', flexShrink: 0 }}
+								/>
 								<div>
 									<h3 style={{ gridArea: 'title', margin: '0 0 12px' }}>{name}</h3>
 									<h4 style={{ gridArea: 'date', margin: 0 }}>{dateOrYear(releaseDate)}</h4>
@@ -111,7 +117,10 @@ const GameEvents: NextPage = () => {
 						<h2>Games to be released after the event</h2>
 						{upcomingGames.map(({ name, cover, id, releaseDate }, index) => (
 							<Item href={`/games/${id}`} key={index}>
-								<Cover coverUrl={cover} style={{ maxWidth: 'calc(80px + 16px)', margin: '-16px 0 -16px -16px', flexShrink: 0 }} />
+								<Cover
+									coverUrl={cover}
+									style={{ maxWidth: 'calc(80px + 16px)', margin: '-16px 0 -16px -16px', flexShrink: 0 }}
+								/>
 								<div>
 									<h3 style={{ gridArea: 'title', margin: '0 0 12px' }}>{name}</h3>
 									<h4 style={{ gridArea: 'date', margin: 0 }}>{dateOrYear(releaseDate)}</h4>
@@ -122,7 +131,11 @@ const GameEvents: NextPage = () => {
 				</ListGroup>
 
 				<h2>Videos from the event</h2>
-				{event.videos.length !== 0 ? <VideoTabs videos={event.videos} /> : <div>No videos have been show at this event just yet</div>}
+				{event.videos.length !== 0 ? (
+					<VideoTabs videos={event.videos} />
+				) : (
+					<div>No videos have been show at this event just yet</div>
+				)}
 			</PageContent>
 		</Page>
 	)

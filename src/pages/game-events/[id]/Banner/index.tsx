@@ -1,6 +1,6 @@
 import type { Game } from 'types'
 
-import { cluster } from 'radash'
+import { chunk } from 'es-toolkit'
 import { useMemo } from 'react'
 
 import { BackgroundCutoff } from './BackgroundCutoff'
@@ -19,8 +19,10 @@ export const Banner = ({ games }: Props) => {
 	const gameGroups = useMemo(() => {
 		const gamesWithCover = games.filter(({ cover }) => cover)
 		if (gamesWithCover.length === 0) return []
-		return cluster(
-			Array.from({ length: Math.ceil((gamesRowLength * numberOfRows) / gamesWithCover.length) }).flatMap(() => gamesWithCover),
+		return chunk(
+			Array.from({ length: Math.ceil((gamesRowLength * numberOfRows) / gamesWithCover.length) }).flatMap(
+				() => gamesWithCover,
+			),
 			gamesRowLength,
 		)
 	}, [games])

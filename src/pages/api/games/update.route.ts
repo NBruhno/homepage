@@ -1,7 +1,7 @@
 import type { IgdbGame } from 'types'
 
 import { compareAsc, getUnixTime, isAfter, sub } from 'date-fns'
-import { chunk, differenceBy, differenceWith, intersectionBy, partition } from 'lodash'
+import { chunk, differenceBy, differenceWith, intersectionBy, partition } from 'es-toolkit'
 import { array, assign, coerce, create, enums, literal, number, object, optional, pattern, string } from 'superstruct'
 
 import { config } from 'config.server'
@@ -58,12 +58,15 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 		const [stalePriorityGames, staleRegularGames] = partition(
 			staleGames,
 			(game) =>
-				((game.releaseDate === null || isAfter(game.releaseDate, twoMonthsBackDate)) && game.hype !== null && game.hype >= 0) ||
+				((game.releaseDate === null || isAfter(game.releaseDate, twoMonthsBackDate)) &&
+					game.hype !== null &&
+					game.hype >= 0) ||
 				game.userData.some(({ isFollowing }) => isFollowing),
 		)
 
 		return res.status(200).json({
-			message: staleGames.length > 0 ? `Some games are not being updated properly` : `There are no stale games in the library`,
+			message:
+				staleGames.length > 0 ? `Some games are not being updated properly` : `There are no stale games in the library`,
 			numberOfStaleRegularGames: staleRegularGames.length,
 			numberOfStalePriorityGames: stalePriorityGames.length,
 			stalePriorityGames,
@@ -75,7 +78,9 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 			Query,
 			object({
 				type: enums(['popular', 'followed']),
-				'hours-since-last-checked': optional(coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10))),
+				'hours-since-last-checked': optional(
+					coerce(number(), pattern(string(), /[1-100]/), (value) => parseInt(value, 10)),
+				),
 			}),
 		)
 		authenticateSystem(req)
@@ -109,14 +114,15 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 
 				const games = create(popularGames, array(gameValidator))
 
-				const knownGames = intersectionBy(games, existingGames, 'id') // Finds games that we already know
+				const knownGames = intersectionBy(games, existingGames, (item) => item.id) // Finds games that we already know
 				const outdatedGames = differenceWith(
 					// Finds the games that are newer than the games we already know
 					knownGames,
 					existingGames,
-					(known, existing) => (known.updatedAt ? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1 : false),
+					(known, existing) =>
+						known.updatedAt ? compareAsc(new Date(known.updatedAt), existing.updatedAt) === -1 : false,
 				)
-				const newGames = differenceBy(games, existingGames, 'id') // Only interested in creating new unique games.
+				const newGames = differenceBy(games, existingGames, (item) => item.id) // Only interested in creating new unique games.
 
 				try {
 					const createdGamesResponse = await prisma.games.createMany({
@@ -250,7 +256,10 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 								outdatedGames: gamesToUpdate.length,
 							},
 							resolution: {
-								updatedGames: filterUnspecified(updatedGamesResponse.map((response) => response.count)).reduce((a, b) => a + b, 0),
+								updatedGames: filterUnspecified(updatedGamesResponse.map((response) => response.count)).reduce(
+									(a, b) => a + b,
+									0,
+								),
 							},
 							message: `Successfully updated ${updatedGamesCount} games`,
 						})
@@ -352,7 +361,10 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PATCH'], cacheStrateg
 						outdatedGames: gamesToUpdate.length,
 					},
 					resolution: {
-						updatedGames: filterUnspecified(updatedGamesResponse.map((response) => response.count)).reduce((a, b) => a + b, 0),
+						updatedGames: filterUnspecified(updatedGamesResponse.map((response) => response.count)).reduce(
+							(a, b) => a + b,
+							0,
+						),
 					},
 					message: `Successfully updated ${updatedGamesCount} games`,
 				})

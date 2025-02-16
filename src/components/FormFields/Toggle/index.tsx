@@ -37,7 +37,12 @@ export const Toggle = ({ isFullWidth = true, label, hint, isDisabled = false, na
 	return (
 		<FieldWrapper isFullWidth={isFullWidth}>
 			<RowLabel htmlFor={id} {...focusProps} {...hoverProps}>
-				<ToggleComponent isChecked={isChecked} isDisabled={isDisabled} isFocusVisible={isFocusVisible} isHovered={isHovered} />
+				<ToggleComponent
+					isChecked={isChecked}
+					isDisabled={isDisabled}
+					isFocusVisible={isFocusVisible}
+					isHovered={isHovered}
+				/>
 				<LabelContainer htmlFor={id} style={{ margin: '0 0 0 6px' }}>
 					<span>{label}</span>
 					{hint && <Hint>{hint}</Hint>}

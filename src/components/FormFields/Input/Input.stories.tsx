@@ -18,7 +18,16 @@ export default {
 type DefaultProps = Story<
 	Pick<
 		ComponentProps<typeof Input>,
-		'hint' | 'isDisabled' | 'isFullWidth' | 'isRequired' | 'label' | 'name' | 'placeholder' | 'shouldAutofocus' | 'showOptionalHint' | 'type'
+		| 'hint'
+		| 'isDisabled'
+		| 'isFullWidth'
+		| 'isRequired'
+		| 'label'
+		| 'name'
+		| 'placeholder'
+		| 'shouldAutofocus'
+		| 'showOptionalHint'
+		| 'type'
 	> & {
 		onSubmit: (fields: any) => void
 	}

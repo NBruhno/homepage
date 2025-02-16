@@ -20,7 +20,10 @@ type Props = {
 	headers?: Record<string, string>
 }
 
-export const fetchFromServer = async <TBody = Record<string, any> | undefined, THeaders = Record<string, Array<string> | string | undefined>>({
+export const fetchFromServer = async <
+	TBody = Record<string, any> | undefined,
+	THeaders = Record<string, Array<string> | string | undefined>,
+>({
 	path,
 	query = {},
 	handler,

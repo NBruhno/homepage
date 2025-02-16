@@ -9,7 +9,11 @@ import { ApiError } from 'lib/errors'
 import { logger } from 'lib/logger'
 import { monitorAsync } from 'lib/sentryMonitor'
 
-export const retry = async (functionToRetry: () => Promise<Response>, retries: number, res: NextApiResponse): Promise<Array<IgdbGame>> => {
+export const retry = async (
+	functionToRetry: () => Promise<Response>,
+	retries: number,
+	res: NextApiResponse,
+): Promise<Array<IgdbGame>> => {
 	const result = await functionToRetry()
 
 	if (result.status >= 400) {
@@ -43,7 +47,8 @@ export const igdbFetcher = async <TData, TFirst extends boolean>(
 ): Promise<ReturnType<TFirst, TData>> => {
 	// We assume that the env variables are always available, but this is just an extra precaution
 	// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-	if (config.igdb.token === undefined || config.igdb.clientId === undefined) throw new Error('igdbFetcher(): Both IGDB Token and Client ID needs to be set')
+	if (config.igdb.token === undefined || config.igdb.clientId === undefined)
+		throw new Error('igdbFetcher(): Both IGDB Token and Client ID needs to be set')
 
 	const data = await monitorAsync(
 		() =>

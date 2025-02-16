@@ -1,8 +1,7 @@
 import type { IgdbGame } from 'types'
 
 import type { AMQPMessage } from '@cloudamqp/amqp-client'
-import { chunk } from 'lodash'
-import { diff, unique } from 'radash'
+import { chunk, difference, uniq } from 'es-toolkit'
 import { StructError, create, number, object, type as optionalObject } from 'superstruct'
 
 import { config } from 'config.server'
@@ -43,7 +42,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 
 		const [updatedGames, deletedGames] = await Promise.all([
 			(async () => {
-				const updateRequestExists = unique(diff(updateRequests, deleteRequests)).map((message) =>
+				const updateRequestExists = uniq(difference(updateRequests, deleteRequests)).map((message) =>
 					prisma.games.findUnique({
 						where: { id: parseInt(message.bodyToString()!, 10) },
 						select: { id: true },
@@ -81,7 +80,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 				return []
 			})(),
 			(async () => {
-				const deleteRequestExists = unique(deleteRequests).map((message) =>
+				const deleteRequestExists = uniq(deleteRequests).map((message) =>
 					prisma.games.findUnique({
 						where: { id: parseInt(message.bodyToString()!, 10) },
 						select: { id: true, name: true },
@@ -115,7 +114,8 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		})
 	})
 	.post(async (req, res) => {
-		if (req.headers['x-secret'] !== config.igdb.webhookSecret) throw ApiError.fromCodeWithCause(401, new Error(`Invalid secret`))
+		if (req.headers['x-secret'] !== config.igdb.webhookSecret)
+			throw ApiError.fromCodeWithCause(401, new Error(`Invalid secret`))
 		const amqp = await createAmqp()
 		const channel = await amqp.channel()
 
@@ -136,5 +136,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 		await channel.basicPublish('', `game:${typeOfRequest}`, updateRequest.id.toString(), {})
 		await amqp.close()
 
-		return res.status(200).json({ message: `Added ${typeOfRequest} request for game with ID ${updateRequest.id} to queue.` })
+		return res
+			.status(200)
+			.json({ message: `Added ${typeOfRequest} request for game with ID ${updateRequest.id} to queue.` })
 	})

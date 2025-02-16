@@ -1,11 +1,11 @@
-import type { FieldError, FieldPathByValue, FieldValues } from 'react-hook-form'
+import type { FieldPathByValue, FieldValues } from 'react-hook-form'
 import type { CommonSelectProps, SelectOption } from '../CommonProps'
 
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
 import { useCombobox } from 'downshift'
+import { get, isEmpty } from 'es-toolkit/compat'
 import { matchSorter } from 'match-sorter'
-import { get, isEmpty } from 'radash'
 import { useRef, useState } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 
@@ -17,11 +17,21 @@ import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
 import { InputError } from '../InputError'
 import { LabelContainer } from '../LabelContainer'
-import { InputButtonContainer, InputClearButton, InputComponent, InputContainer, InputMenuIndicator, SelectMenu } from '../Shared'
+import {
+	InputButtonContainer,
+	InputClearButton,
+	InputComponent,
+	InputContainer,
+	InputMenuIndicator,
+	SelectMenu,
+} from '../Shared'
 
 type Props<TPath> = CommonSelectProps<TPath>
 
-export const Select = <TFieldValues extends FieldValues, TPath extends FieldPathByValue<TFieldValues, SelectOption['value'] | null>>({
+export const Select = <
+	TFieldValues extends FieldValues,
+	TPath extends FieldPathByValue<TFieldValues, SelectOption['value'] | null>,
+>({
 	showOptionalHint = true,
 	isFullWidth = true,
 	isRequired = false,
@@ -94,7 +104,7 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 	const { hoverProps, isHovered } = useHover({})
 	const { isFocusVisible, focusProps } = useFocusRing({ isTextInput: true, autoFocus: shouldAutofocus })
 
-	const error = get<FieldError | undefined>(errors, name)
+	const error = get(errors, name)
 	const hasError = Boolean(error)
 
 	return (
@@ -162,7 +172,7 @@ export const Select = <TFieldValues extends FieldValues, TPath extends FieldPath
 				options={filteredOptions}
 				selectedItems={filterUnspecified([selectedItem])}
 			/>
-			<InputError hasError={hasError} errorMessage={error?.message} />
+			<InputError hasError={hasError} errorMessage={error?.message as string} />
 		</FieldWrapper>
 	)
 }

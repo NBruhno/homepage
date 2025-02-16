@@ -33,7 +33,10 @@ export type Options = {
  * const token = authenticate(req, { transaction })
  * ```
  */
-export const authenticate = async (req: NextApiRequest, { token, type = TokenType.Access, transaction, allowedRoles = [] }: Options = {}) =>
+export const authenticate = async (
+	req: NextApiRequest,
+	{ token, type = TokenType.Access, transaction, allowedRoles = [] }: Options = {},
+) =>
 	monitor(
 		async () => {
 			const {
@@ -54,10 +57,18 @@ export const authenticate = async (req: NextApiRequest, { token, type = TokenTyp
 
 			const keyPair = config.auth.keyPairs.find(({ id }) => id === keyId)
 
-			if (!keyPair) throw ApiError.fromCodeWithCause(400, new Error(`No key pair found for the supplied key ID ${keyId}`))
-			if (keyPair.type !== type) throw ApiError.fromCodeWithCause(400, new Error(`Key type mismatch, expected ${keyPair.type} but received ${type}`))
+			if (!keyPair)
+				throw ApiError.fromCodeWithCause(400, new Error(`No key pair found for the supplied key ID ${keyId}`))
+			if (keyPair.type !== type)
+				throw ApiError.fromCodeWithCause(
+					400,
+					new Error(`Key type mismatch, expected ${keyPair.type} but received ${type}`),
+				)
 			if (keyPair.algorithm !== algorithm)
-				throw ApiError.fromCodeWithCause(400, new Error(`Algorithm mismatch, expected ${keyPair.algorithm} but received ${algorithm}`))
+				throw ApiError.fromCodeWithCause(
+					400,
+					new Error(`Algorithm mismatch, expected ${keyPair.algorithm} but received ${algorithm}`),
+				)
 
 			let decodedToken: UserToken | null = null
 
@@ -79,13 +90,20 @@ export const authenticate = async (req: NextApiRequest, { token, type = TokenTyp
 			if (!Object.values(UserRole).includes(decodedToken.role)) {
 				throw ApiError.fromCodeWithCause(
 					400,
-					new Error(`Invalid JWT role, expected one of [${Object.values(UserRole).join(', ')}] but received "${decodedToken.role}"`),
+					new Error(
+						`Invalid JWT role, expected one of [${Object.values(UserRole).join(', ')}] but received "${decodedToken.role}"`,
+					),
 				)
 			}
 
 			// Return a 403 if the user does not have the any of required roles if specified
 			if (allowedRoles.length > 0 && !allowedRoles.includes(decodedToken.role)) {
-				throw ApiError.fromCodeWithCause(403, new Error(`Invalid JWT role, expected one of [${allowedRoles.join(', ')}] but received "${decodedToken.role}"`))
+				throw ApiError.fromCodeWithCause(
+					403,
+					new Error(
+						`Invalid JWT role, expected one of [${allowedRoles.join(', ')}] but received "${decodedToken.role}"`,
+					),
+				)
 			}
 
 			setUser({ id: decodedToken.userId, username: decodedToken.username, email: decodedToken.sub })

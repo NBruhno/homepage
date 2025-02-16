@@ -3,33 +3,30 @@
   "compileOnSave": false,
   "compilerOptions": {
     "allowJs": false,
+    "alwaysStrict": true,
+    "allowUnreachableCode": true,
     "checkJs": false,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "esModuleInterop": true,
     "exactOptionalPropertyTypes": false,
-    "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "noEmit": true,
-    "noFallthroughCasesInSwitch": true,
+    "noFallthroughCasesInSwitch": false,
     "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "preserveConstEnums": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "removeComments": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
     "sourceMap": true,
-    "inlineSources": true,
     "sourceRoot": "src/",
     "strict": true,
     "strictFunctionTypes": true,
     "target": "esnext",
-    "typeRoots": ["./node_modules/@types"],
+    "skipLibCheck": true,
     "incremental": true,
     "plugins": [
       {
@@ -38,5 +35,5 @@
     ]
   },
   "exclude": ["**/*.spec.ts", "**/*.spec.tsx", "supabase", "node_modules"],
-  "include": ["**/.*.tsx", "**/*.ts", "**/*.tsx", "emotion.d.ts", "global.d.ts", "next-env.d.ts", ".next/types/**/*.ts"]
+  "include": ["**/*.ts", "**/*.tsx"]
 }

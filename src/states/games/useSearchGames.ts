@@ -39,7 +39,9 @@ export const useSearchGames = () => {
 	const hasSearch = useSearchGamesStore((state) => state.hasSearch)
 
 	const { data } = useSwr(
-		gameSearch && typeof gameSearch === 'string' ? ['/games?search=', encodeURIComponent(gameSearch.toLowerCase())] : null,
+		gameSearch && typeof gameSearch === 'string'
+			? ['/games?search=', encodeURIComponent(gameSearch.toLowerCase())]
+			: null,
 		([link, searchParameter]) => fetcher<{ games: Array<Game> }>(`${link}${searchParameter}`),
 		{ revalidateOnFocus: false },
 	)

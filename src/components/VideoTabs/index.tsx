@@ -23,8 +23,14 @@ export const VideoTabs = ({ videos = [], ...rest }: Props) => {
 	const sortedVideos = useMemo(
 		() =>
 			[...videos].reverse().sort((a, b) => {
-				const last = b.name !== null && (b.name.toLowerCase().includes('trailer') || b.name.toLowerCase().includes('cinematic')) ? 1 : 0
-				const current = a.name !== null && (a.name.toLowerCase().includes('trailer') || a.name.toLowerCase().includes('cinematic')) ? 1 : 0
+				const last =
+					b.name !== null && (b.name.toLowerCase().includes('trailer') || b.name.toLowerCase().includes('cinematic'))
+						? 1
+						: 0
+				const current =
+					a.name !== null && (a.name.toLowerCase().includes('trailer') || a.name.toLowerCase().includes('cinematic'))
+						? 1
+						: 0
 				return last - current
 			}),
 		[videos],

@@ -1,4 +1,4 @@
-import { isEqual } from 'radash'
+import { isEqual } from 'es-toolkit'
 import { devtools } from 'zustand/middleware'
 import { shallow } from 'zustand/shallow'
 import { createWithEqualityFn } from 'zustand/traditional'
@@ -33,8 +33,10 @@ export const useFormStore = createWithEqualityFn<FormState & FormActions>()(
 	devtools(
 		(set, state) => ({
 			...initialValues,
-			setFormState: (name, formState) => !isEqual(state()[name], formState) && set({ [name]: formState }, false, 'setFormState'),
-			resetFormState: (name) => !isEqual(state(), initialValues) && set({ [name]: initialValues[name] }, false, 'resetFormState'),
+			setFormState: (name, formState) =>
+				!isEqual(state()[name], formState) && set({ [name]: formState }, false, 'setFormState'),
+			resetFormState: (name) =>
+				!isEqual(state(), initialValues) && set({ [name]: initialValues[name] }, false, 'resetFormState'),
 		}),
 		{ anonymousActionType: 'useFormStore' },
 	),

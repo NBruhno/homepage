@@ -5,7 +5,16 @@ import supertest from 'supertest'
 
 import { decodeJwtToken } from 'lib/decodeJwtToken'
 import { ApiError } from 'lib/errors'
-import { accessTokenMatch, createCredentials, createTestServer, refreshTokenMatch, retryWrapper, userCreate, userEnableTwoFactor, userLogin } from 'lib/test'
+import {
+	accessTokenMatch,
+	createCredentials,
+	createTestServer,
+	refreshTokenMatch,
+	retryWrapper,
+	userCreate,
+	userEnableTwoFactor,
+	userLogin,
+} from 'lib/test'
 
 import handler from './2fa.route'
 
@@ -28,7 +37,9 @@ describe('/api/users/{id}/2fa', () => {
 	test('GET › Get 2FA secret', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = (await supertest(server).get(`/api/users/${id}/2fa`).set('authorization', `Bearer ${accessToken}`)) as unknown as Omit<Response, 'body'> & {
+		const res = (await supertest(server)
+			.get(`/api/users/${id}/2fa`)
+			.set('authorization', `Bearer ${accessToken}`)) as unknown as Omit<Response, 'body'> & {
 			body: { twoFactorSecret: string }
 		}
 
@@ -86,7 +97,9 @@ describe('/api/users/{id}/2fa', () => {
 	test('PATCH › Invalid body', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = (await supertest(server).patch(`/api/users/${id}/2fa`).set('authorization', `Bearer ${accessToken}`)) as unknown as Omit<Response, 'body'> & {
+		const res = (await supertest(server)
+			.patch(`/api/users/${id}/2fa`)
+			.set('authorization', `Bearer ${accessToken}`)) as unknown as Omit<Response, 'body'> & {
 			body: { message: string }
 		}
 
@@ -154,10 +167,9 @@ describe('/api/users/{id}/2fa', () => {
 	test('POST › Invalid body', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = (await supertest(server).post(`/api/users/${id}/2fa`).set('authorization', `Bearer ${intermediateToken}`)) as unknown as Omit<
-			Response,
-			'body'
-		> & {
+		const res = (await supertest(server)
+			.post(`/api/users/${id}/2fa`)
+			.set('authorization', `Bearer ${intermediateToken}`)) as unknown as Omit<Response, 'body'> & {
 			body: { message: string }
 		}
 

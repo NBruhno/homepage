@@ -45,7 +45,12 @@ const platforms = ['platforms.abbreviation', 'platforms.name']
 const playerPerspectives = ['player_perspectives.name']
 const releaseDates = ['release_dates.date', 'release_dates.platform.abbreviation', 'release_dates.platform.name']
 const screenshots = ['screenshots.alpha_channel', 'screenshots.image_id', 'screenshots.width']
-const similarGames = ['similar_games.name', 'similar_games.cover.alpha_channel', 'similar_games.cover.animated', 'similar_games.cover.image_id']
+const similarGames = [
+	'similar_games.name',
+	'similar_games.cover.alpha_channel',
+	'similar_games.cover.animated',
+	'similar_games.cover.image_id',
+]
 const themes = ['themes.name']
 const videos = ['videos.video_id', 'videos.name']
 const websites = ['websites.category', 'websites.trusted', 'websites.url']

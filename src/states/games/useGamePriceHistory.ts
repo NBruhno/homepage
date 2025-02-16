@@ -10,7 +10,10 @@ export const useGamePriceHistory = () => {
 		name: state.name,
 		isGameLoading: state.isLoading,
 	}))
-	const { data: priceHistory, isLoading } = useSwr<GamePriceHistory>(id && name ? `/games/${id}/price-history?name=${encodeURIComponent(name)}` : null, null)
+	const { data: priceHistory, isLoading } = useSwr<GamePriceHistory>(
+		id && name ? `/games/${id}/price-history?name=${encodeURIComponent(name)}` : null,
+		null,
+	)
 
 	return { priceHistory, isLoading: isGameLoading || isLoading }
 }

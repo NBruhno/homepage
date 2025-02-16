@@ -51,6 +51,9 @@ export const TipWithHTML = () => (
 
 export const IgnoresOverflow = () => (
 	<Card style={{ overflow: 'hidden', position: 'relative', textAlign: 'center', border: '1px solid red' }}>
-		<Tooltip tip='I am at the root of the document' render={(props) => <span {...props}>I have a tooltip if you hover me</span>} />
+		<Tooltip
+			tip='I am at the root of the document'
+			render={(props) => <span {...props}>I have a tooltip if you hover me</span>}
+		/>
 	</Card>
 )

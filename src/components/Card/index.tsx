@@ -19,7 +19,15 @@ type Props = {
 	className?: string
 }
 
-export const Card = ({ children, hasError = false, isExpanded = true, isLoading = false, header, shouldAnimate = true, ...rest }: Props) => (
+export const Card = ({
+	children,
+	hasError = false,
+	isExpanded = true,
+	isLoading = false,
+	header,
+	shouldAnimate = true,
+	...rest
+}: Props) => (
 	<Container {...rest}>
 		<Collapse isOpen={isExpanded} transitionTime={shouldAnimate ? 0.2 : 0}>
 			<>

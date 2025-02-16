@@ -20,24 +20,26 @@ type Props = {
 	renderIcon: () => ReactNode
 }
 
-export const Link = forwardRef<HTMLAnchorElement, Props>(({ url, renderIcon, name, tooltip, isActive, allowedRoles = [] }, ref) => {
-	const { isMobile, isSidebarCollapsed } = useResponsive()
-	const role = useUser((state) => state.role)
-	const { pathname } = useRouter()
+export const Link = forwardRef<HTMLAnchorElement, Props>(
+	({ url, renderIcon, name, tooltip, isActive, allowedRoles = [] }, ref) => {
+		const { isMobile, isSidebarCollapsed } = useResponsive()
+		const role = useUser((state) => state.role)
+		const { pathname } = useRouter()
 
-	if (allowedRoles.length > 0 && (!role || !allowedRoles.includes(role))) return null
+		if (allowedRoles.length > 0 && (!role || !allowedRoles.includes(role))) return null
 
-	return (
-		<Tooltip
-			show={isSidebarCollapsed && !isMobile}
-			tip={tooltip ?? name}
-			position='right'
-			render={(props) => (
-				<NavLink {...props} href={url} isActive={isActive ?? pathname === url} ref={ref}>
-					{renderIcon()}
-					<Text>{name}</Text>
-				</NavLink>
-			)}
-		></Tooltip>
-	)
-})
+		return (
+			<Tooltip
+				show={isSidebarCollapsed && !isMobile}
+				tip={tooltip ?? name}
+				position='right'
+				render={(props) => (
+					<NavLink {...props} href={url} isActive={isActive ?? pathname === url} ref={ref}>
+						{renderIcon()}
+						<Text>{name}</Text>
+					</NavLink>
+				)}
+			></Tooltip>
+		)
+	},
+)

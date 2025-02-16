@@ -34,7 +34,11 @@ export const useModal = createWithEqualityFn<ModalState>()(
 			onCloseModal: () => {
 				if (state().content) {
 					if (state().onClose) state().onClose!()
-					return set({ allowClosure: true, show: false, content: null, hasNoWrapper: false, onClose: null }, false, 'onCloseModal')
+					return set(
+						{ allowClosure: true, show: false, content: null, hasNoWrapper: false, onClose: null },
+						false,
+						'onCloseModal',
+					)
 				}
 			},
 			onOpenModal: (content, options) => set({ show: true, content, ...options }, false, 'onOpenModal'),

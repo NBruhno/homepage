@@ -52,7 +52,10 @@ const getTokenProperties = (tokenType: TokenType, keyId?: string) => {
 	}
 }
 
-export const getJwtToken = async (payload: Payload, { keyId, type, transaction }: Options = { type: TokenType.Access }) =>
+export const getJwtToken = async (
+	payload: Payload,
+	{ keyId, type, transaction }: Options = { type: TokenType.Access },
+) =>
 	monitor(
 		async () => {
 			const { id, expiration, algorithm, privateKey } = getTokenProperties(type, keyId)

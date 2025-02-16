@@ -21,7 +21,12 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 				tip='mail@bruhno.com'
 				render={(props) => (
 					<ListItem {...props}>
-						<Link isTransparent={isTransparent} href='mailto:mail@bruhno.com' target={undefined} aria-label='Send an email to mail@bruhno.com'>
+						<Link
+							isTransparent={isTransparent}
+							href='mailto:mail@bruhno.com'
+							target={undefined}
+							aria-label='Send an email to mail@bruhno.com'
+						>
 							<IconMail size={22} />
 						</Link>
 					</ListItem>
@@ -61,7 +66,13 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 				tip='Cookies'
 				render={(props) => (
 					<ListItem {...props}>
-						<Link isInternal isTransparent={isTransparent} href='/cookies' shouldOpenInNewTab={false} aria-label='Cookies'>
+						<Link
+							isInternal
+							isTransparent={isTransparent}
+							href='/cookies'
+							shouldOpenInNewTab={false}
+							aria-label='Cookies'
+						>
 							<IconCookie size={22} />
 						</Link>
 					</ListItem>
@@ -71,7 +82,13 @@ export const Footer = ({ isTransparent, ...rest }: Props) => (
 				tip='Privacy Policy'
 				render={(props) => (
 					<ListItem {...props}>
-						<Link isInternal isTransparent={isTransparent} href='/privacy-policy' shouldOpenInNewTab={false} aria-label='Privacy policy'>
+						<Link
+							isInternal
+							isTransparent={isTransparent}
+							href='/privacy-policy'
+							shouldOpenInNewTab={false}
+							aria-label='Privacy policy'
+						>
 							<IconSpy size={22} />
 						</Link>
 					</ListItem>

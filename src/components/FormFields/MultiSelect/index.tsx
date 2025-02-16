@@ -1,12 +1,13 @@
 import type { UseComboboxState, UseComboboxStateChangeOptions } from 'downshift'
-import type { FieldError, FieldPathByValue, FieldValues } from 'react-hook-form'
+import type { FieldPathByValue, FieldValues } from 'react-hook-form'
 import type { CommonSelectProps, SelectOption } from '../CommonProps'
 
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
 import { useCombobox, useMultipleSelection } from 'downshift'
+import { isEqual } from 'es-toolkit'
+import { get, isEmpty } from 'es-toolkit/compat'
 import { matchSorter } from 'match-sorter'
-import { get, isEmpty, isEqual } from 'radash'
 import { useCallback, useRef, useState } from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 
@@ -16,7 +17,14 @@ import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
 import { InputError } from '../InputError'
 import { LabelContainer } from '../LabelContainer'
-import { InputButtonContainer, InputClearButton, InputComponent, InputContainer, InputMenuIndicator, SelectMenu } from '../Shared'
+import {
+	InputButtonContainer,
+	InputClearButton,
+	InputComponent,
+	InputContainer,
+	InputMenuIndicator,
+	SelectMenu,
+} from '../Shared'
 
 import { Chip } from './Chip'
 import { handleKeyboardInput } from './handleKeyboardInput'
@@ -28,7 +36,10 @@ const getFilteredOptions = (options: Array<SelectOption>, inputValue: string) =>
 	return matchSorter(options, inputValue, { keys: ['label'] })
 }
 
-export const MultiSelect = <TFieldValues extends FieldValues, Path extends FieldPathByValue<TFieldValues, Array<SelectOption['value']>>>({
+export const MultiSelect = <
+	TFieldValues extends FieldValues,
+	Path extends FieldPathByValue<TFieldValues, Array<SelectOption['value']>>,
+>({
 	showOptionalHint = true,
 	isFullWidth = true,
 	isRequired = false,
@@ -70,7 +81,9 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 		selectedItems: selectedOptions,
 		setActiveIndex: onSetHighlightedChip,
 	} = useMultipleSelection<SelectOption>({
-		initialSelectedItems: initialValues ? initialValues.map((initialValue) => options.find(({ value }) => value === initialValue)!) : [],
+		initialSelectedItems: initialValues
+			? initialValues.map((initialValue) => options.find(({ value }) => value === initialValue)!)
+			: [],
 		onSelectedItemsChange: ({ selectedItems: selectedOptions }) => {
 			setFilteredOptions(getFilteredOptions(options, inputValue))
 			// A controversial change broke custom controlled inputs with unnecessarily harsh type-safety https://github.com/react-hook-form/react-hook-form/pull/10342
@@ -102,23 +115,26 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 			setInputValue(inputValue)
 			setFilteredOptions(getFilteredOptions(options, inputValue))
 		},
-		stateReducer: useCallback((_: UseComboboxState<SelectOption>, actionAndChanges: UseComboboxStateChangeOptions<SelectOption>) => {
-			const { type, changes } = actionAndChanges
-			switch (type) {
-				// Prevent menu from exiting after selecting an option
-				case useCombobox.stateChangeTypes.ItemClick: {
-					return {
-						...changes,
-						isOpen: true,
+		stateReducer: useCallback(
+			(_: UseComboboxState<SelectOption>, actionAndChanges: UseComboboxStateChangeOptions<SelectOption>) => {
+				const { type, changes } = actionAndChanges
+				switch (type) {
+					// Prevent menu from exiting after selecting an option
+					case useCombobox.stateChangeTypes.ItemClick: {
+						return {
+							...changes,
+							isOpen: true,
+						}
 					}
+					default:
+						return changes
 				}
-				default:
-					return changes
-			}
-		}, []),
+			},
+			[],
+		),
 	})
 
-	const error = get<FieldError | undefined>(errors, name)
+	const error = get(errors, name)
 	const hasError = Boolean(error)
 
 	const onResetHighlightedChip = () => onSetHighlightedChip(-1)
@@ -235,7 +251,7 @@ export const MultiSelect = <TFieldValues extends FieldValues, Path extends Field
 					<InputMenuIndicator isMenuOpen={isMenuOpen} isLoading={isLoading} />
 				</InputButtonContainer>
 			</InputContainer>
-			<InputError hasError={hasError} errorMessage={error?.message} />
+			<InputError hasError={hasError} errorMessage={error?.message as string} />
 			<SelectMenu
 				{...(getMenuProps() as Record<string, unknown>)}
 				containerRef={reactiveContainerRef}

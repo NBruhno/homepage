@@ -68,7 +68,12 @@ const Collapse = ({ children, isOpen = true, shouldFill = false, transitionTime 
 	}
 
 	return (
-		<Container shouldFill={shouldFill} isAnimated={isAnimated} transitionTime={transitionTime} style={{ height: getHeight() }}>
+		<Container
+			shouldFill={shouldFill}
+			isAnimated={isAnimated}
+			transitionTime={transitionTime}
+			style={{ height: getHeight() }}
+		>
 			<div ref={ref}>
 				<context.Provider value={onChildTransitionStart}>{children}</context.Provider>
 			</div>

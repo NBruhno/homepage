@@ -72,9 +72,12 @@ export default apiHandler({
 	})
 	const recent = await monitorAsync(
 		() =>
-			fetch(`https://store.steampowered.com/appreviews/${appId}?json=1&language=english&purchase_type=steam&day_range=31&num_per_page=10`, {
-				method: 'GET',
-			}),
+			fetch(
+				`https://store.steampowered.com/appreviews/${appId}?json=1&language=english&purchase_type=steam&day_range=31&num_per_page=10`,
+				{
+					method: 'GET',
+				},
+			),
 		'http:steam',
 		'recent game reviews',
 	).then(async (response) => {

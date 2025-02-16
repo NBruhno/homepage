@@ -1,7 +1,20 @@
 import type { IgdbGame } from 'types'
 
 import { sub } from 'date-fns'
-import { array, assign, coerce, create, literal, number, object, optional, partial, pattern, pick, string } from 'superstruct'
+import {
+	array,
+	assign,
+	coerce,
+	create,
+	literal,
+	number,
+	object,
+	optional,
+	partial,
+	pattern,
+	pick,
+	string,
+} from 'superstruct'
 
 import { game as gameValidator } from 'validation/api'
 import { uuid } from 'validation/shared'
@@ -31,7 +44,14 @@ const getHasAfter = (returnCount: number, takeCount: number, hasSkip: boolean) =
 
 export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	.get(async (req, res) => {
-		const { search, take = 50, skip = 0, user, 'is-popular': isPopular, 'is-trending': isTrending } = create(req.query, Query)
+		const {
+			search,
+			take = 50,
+			skip = 0,
+			user,
+			'is-popular': isPopular,
+			'is-trending': isTrending,
+		} = create(req.query, Query)
 		const hasSkip = skip > 0
 		const computedTake = hasSkip ? take + 2 : take + 1
 		const computedSkip = hasSkip ? skip - 1 : skip
@@ -54,7 +74,9 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 				let top: { games: Array<{ id: string }>; id: string } = { games: [], id: '' }
 				let peak: { games: Array<{ id: string }>; id: string } = { games: [], id: '' }
 				tables.forEach(([, id, content], index) => {
-					const games = [...content.matchAll(/^\s*<a href="\/app\/(.+)">[\s]*(.+[ .+]*)+[\s]+?<\/a>/gm)].map(([, id, name]) => ({ id, name }))
+					const games = [...content.matchAll(/^\s*<a href="\/app\/(.+)">[\s]*(.+[ .+]*)+[\s]+?<\/a>/gm)].map(
+						([, id, name]) => ({ id, name }),
+					)
 
 					if (index === 0) trending = { id, games }
 					if (index === 1) top = { id, games }
@@ -193,19 +215,29 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 	})
 	.delete(async (req, res) => {
 		authenticateSystem(req)
-		const { games } = create(req.body, object({ games: array(assign(partial(gameValidator), pick(gameValidator, ['id']))) }))
+		const { games } = create(
+			req.body,
+			object({ games: array(assign(partial(gameValidator), pick(gameValidator, ['id']))) }),
+		)
 		const deleteQueries = games.map(({ id }) =>
 			prisma.games.delete({
 				where: { id },
 			}),
 		)
 
-		const deletedGames = await monitorAsync(() => prisma.$transaction(deleteQueries), 'db:prisma', 'transaction(delete())')
+		const deletedGames = await monitorAsync(
+			() => prisma.$transaction(deleteQueries),
+			'db:prisma',
+			'transaction(delete())',
+		)
 		return res.status(200).json({ count: deletedGames.length })
 	})
 	.put(async (req, res) => {
 		authenticateSystem(req)
-		const { games } = create(req.body, object({ games: array(assign(partial(gameValidator), pick(gameValidator, ['id']))) }))
+		const { games } = create(
+			req.body,
+			object({ games: array(assign(partial(gameValidator), pick(gameValidator, ['id']))) }),
+		)
 		const updateQueries = games.map(({ id, ...rest }) =>
 			prisma.games.update({
 				where: { id },
@@ -213,7 +245,11 @@ export default apiHandler({ validMethods: ['GET', 'POST', 'PUT', 'PATCH'] })
 			}),
 		)
 
-		const updatedGames = await monitorAsync(() => prisma.$transaction(updateQueries), 'db:prisma', 'transaction(update())')
+		const updatedGames = await monitorAsync(
+			() => prisma.$transaction(updateQueries),
+			'db:prisma',
+			'transaction(update())',
+		)
 		return res.status(200).json({ count: updatedGames.length })
 	})
 	.patch(async (req, res) => {

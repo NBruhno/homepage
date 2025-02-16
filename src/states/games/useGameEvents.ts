@@ -1,7 +1,7 @@
 import type { GameEventData } from './types'
 
+import { isString } from 'es-toolkit'
 import { useRouter } from 'next/compat/router'
-import { isString } from 'radash'
 import { useEffect } from 'react'
 import useSwrInfinite from 'swr/infinite'
 

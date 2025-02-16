@@ -1,8 +1,7 @@
 import type { IgdbGame } from 'types'
 
 import type { AMQPClient, AMQPMessage } from '@cloudamqp/amqp-client'
-import { chunk } from 'lodash'
-import { diff, unique } from 'radash'
+import { chunk, difference, uniq } from 'es-toolkit'
 import { array, create, defaulted, enums, object } from 'superstruct'
 
 import { config } from 'config.server'
@@ -46,7 +45,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' }).
 
 			const [createdGames, updatedGames, deletedGames] = await Promise.all([
 				(async () => {
-					const toCreate = unique(diff(createRequests, deleteRequests)).map((message) => message.bodyToString()!)
+					const toCreate = uniq(difference(createRequests, deleteRequests)).map((message) => message.bodyToString()!)
 
 					if (toCreate.length > 0) {
 						const games = create(
@@ -72,7 +71,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' }).
 					return { count: 0 }
 				})(),
 				(async () => {
-					const updateRequestExists = unique(diff(updateRequests, deleteRequests)).map((message) =>
+					const updateRequestExists = uniq(difference(updateRequests, deleteRequests)).map((message) =>
 						prisma.games.findUnique({
 							where: { id: parseInt(message.bodyToString()!, 10) },
 							select: { id: true },
@@ -110,7 +109,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' }).
 					return []
 				})(),
 				(async () => {
-					const deleteRequestExists = unique(deleteRequests).map((message) =>
+					const deleteRequestExists = uniq(deleteRequests).map((message) =>
 						prisma.games.findUnique({
 							where: { id: parseInt(message.bodyToString()!, 10) },
 							select: { id: true, name: true },
@@ -157,7 +156,10 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' }).
 			updateRequests: Array<number>
 			deleteRequests: Array<number>
 		}>(
-			(requests, [stringId, type]): { createRequests: Array<number>; updateRequests: Array<number>; deleteRequests: Array<number> } => {
+			(
+				requests,
+				[stringId, type],
+			): { createRequests: Array<number>; updateRequests: Array<number>; deleteRequests: Array<number> } => {
 				const id = parseInt(stringId, 10)
 
 				switch (type) {
@@ -198,7 +200,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' }).
 				return { count: 0 }
 			})(),
 			(async () => {
-				const updateRequestExists = unique(diff(updateRequests, deleteRequests)).map((id) =>
+				const updateRequestExists = uniq(difference(updateRequests, deleteRequests)).map((id) =>
 					prisma.games.findUnique({
 						where: { id },
 						select: { id: true },
@@ -236,7 +238,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' }).
 				return []
 			})(),
 			(async () => {
-				const deleteRequestExists = unique(deleteRequests).map((id) =>
+				const deleteRequestExists = uniq(deleteRequests).map((id) =>
 					prisma.games.findUnique({
 						where: { id },
 						select: { id: true, name: true },

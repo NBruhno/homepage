@@ -2,7 +2,7 @@ import type { UseComboboxGetItemPropsOptions } from 'downshift'
 import type { ComponentPropsWithRef } from 'react'
 import type { SelectOption } from '../../CommonProps'
 
-import { isEqual } from 'radash'
+import { isEqual } from 'es-toolkit'
 
 import {
 	FloatingPortal,
@@ -82,7 +82,13 @@ export const SelectMenu = ({
 
 	return (
 		<FloatingPortal>
-			<Container isOpen={isOpen} {...rest} style={{ ...style, ...floatingStyles }} {...getFloatingProps} ref={mergedRef}>
+			<Container
+				isOpen={isOpen}
+				{...rest}
+				style={{ ...style, ...floatingStyles }}
+				{...getFloatingProps}
+				ref={mergedRef}
+			>
 				{options.length === 0 ? (
 					<Empty>Nothing matches your search</Empty>
 				) : (

@@ -1,11 +1,10 @@
 import type { AMQPMessage } from '@cloudamqp/amqp-client'
 import { config } from 'config.server'
+import { chunk, difference, uniq } from 'es-toolkit'
 import { apiHandler, createAmqp, gameFields, igdbFetcher, mapIgdbGame, prisma } from 'lib/api'
 import { ApiError } from 'lib/errors'
 import { filterUnspecified } from 'lib/filterUnspecified'
 import { authenticateSystem } from 'lib/middleware'
-import { chunk } from 'lodash'
-import { diff, unique } from 'radash'
 import { StructError, create, number, object, type as optionalObject } from 'superstruct'
 import type { IgdbGame } from 'types'
 
@@ -40,7 +39,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 
 		const [updatedGames, deletedGames] = await Promise.all([
 			(async () => {
-				const updateRequestExists = unique(diff(updateRequests, deleteRequests)).map((message) =>
+				const updateRequestExists = uniq(difference(updateRequests, deleteRequests)).map((message) =>
 					prisma.games.findUnique({
 						where: { id: parseInt(message.bodyToString()!, 10) },
 						select: { id: true },
@@ -78,7 +77,7 @@ export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' })
 				return []
 			})(),
 			(async () => {
-				const deleteRequestExists = unique(deleteRequests).map((message) =>
+				const deleteRequestExists = uniq(deleteRequests).map((message) =>
 					prisma.games.findUnique({
 						where: { id: parseInt(message.bodyToString()!, 10) },
 						select: { id: true, name: true },

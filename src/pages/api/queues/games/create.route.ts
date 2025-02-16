@@ -11,7 +11,8 @@ const valiator = type({
 })
 
 export default apiHandler({ validMethods: ['POST'], cacheStrategy: 'NoCache' }).post(async (req, res) => {
-	if (req.headers['x-secret'] !== config.igdb.webhookSecret) throw ApiError.fromCodeWithCause(401, new Error(`Invalid secret`))
+	if (req.headers['x-secret'] !== config.igdb.webhookSecret)
+		throw ApiError.fromCodeWithCause(401, new Error(`Invalid secret`))
 	const { id } = create(req.body, valiator)
 
 	if (config.queueStrategy === 'amqp') {

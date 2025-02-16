@@ -58,10 +58,13 @@ describe('/api/users/{userId}/changePassword', () => {
 	test('POST › Change password', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = await supertest(server).post(`/api/users/${id}/changePassword`).set('authorization', `Bearer ${accessToken}`).send({
-			currentPassword: defaultPassword,
-			newPassword: password,
-		})
+		const res = await supertest(server)
+			.post(`/api/users/${id}/changePassword`)
+			.set('authorization', `Bearer ${accessToken}`)
+			.send({
+				currentPassword: defaultPassword,
+				newPassword: password,
+			})
 
 		expect(res.status).toBe(200)
 		expect(res.body).toStrictEqual({ message: 'Password has been updated' })
@@ -131,10 +134,9 @@ describe('/api/users/{userId}/changePassword', () => {
 	test('POST › Invalid body (empty)', async () => {
 		expect.hasAssertions()
 		const server = createTestServer(handler, { id })
-		const res = (await supertest(server).post(`/api/users/${id}/changePassword`).set('authorization', `Bearer ${accessToken}`)) as unknown as Omit<
-			Response,
-			'body'
-		> & {
+		const res = (await supertest(server)
+			.post(`/api/users/${id}/changePassword`)
+			.set('authorization', `Bearer ${accessToken}`)) as unknown as Omit<Response, 'body'> & {
 			body: { message: string }
 		}
 

@@ -1,20 +1,17 @@
-import type { FocusEvent, KeyboardEvent } from 'react'
-
 import { useFocusRing } from '@react-aria/focus'
 import { useHover } from '@react-aria/interactions'
-import { get, isEmpty, isString } from 'radash'
-import { useMemo, useRef, useState } from 'react'
-import { type FieldError, useFormContext, useWatch } from 'react-hook-form'
-
+import { isString } from 'es-toolkit'
+import { get, isEmpty } from 'es-toolkit/compat'
 import { useUnique } from 'lib/hooks'
-
+import type { FocusEvent, KeyboardEvent } from 'react'
+import { useMemo, useRef, useState } from 'react'
+import { useFormContext, useWatch } from 'react-hook-form'
 import { ColumnLabel } from '../ColumnLabel'
 import { FieldWrapper } from '../FieldWrapper'
 import { Hint } from '../Hint'
 import { InputError } from '../InputError'
 import { LabelContainer } from '../LabelContainer'
 import { InputButtonContainer, InputClearButton, InputComponent, InputContainer, InputVisibleButton } from '../Shared'
-
 import { Textarea } from './Textarea'
 
 type Props = {
@@ -116,7 +113,7 @@ export const Input = ({
 		},
 	})
 
-	const error = get<FieldError | undefined>(errors, name)
+	const error = get(errors, name)
 	const hasError = Boolean(error)
 	const labelId = `${id}-label`
 
@@ -205,11 +202,15 @@ export const Input = ({
 					)}
 					<InputButtonContainer>
 						<InputClearButton isVisible={value !== undefined} onClick={() => resetField(name)} />
-						<InputVisibleButton isVisible={type === 'password'} isEnabled={isForcedTextInput} onClick={() => setIsForcedTextInput(!isForcedTextInput)} />
+						<InputVisibleButton
+							isVisible={type === 'password'}
+							isEnabled={isForcedTextInput}
+							onClick={() => setIsForcedTextInput(!isForcedTextInput)}
+						/>
 					</InputButtonContainer>
 				</InputContainer>
 				{hint && !hasError && <Hint>{hint}</Hint>}
-				<InputError hasError={hasError} errorMessage={error?.message} />
+				<InputError hasError={hasError} errorMessage={error?.message as string} />
 			</ColumnLabel>
 		</FieldWrapper>
 	)

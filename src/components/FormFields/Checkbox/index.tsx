@@ -37,7 +37,12 @@ export const Checkbox = ({ isFullWidth = true, label, hint, isDisabled = false, 
 	return (
 		<FieldWrapper isFullWidth={isFullWidth}>
 			<RowLabel htmlFor={id} {...focusProps} {...hoverProps}>
-				<CheckMark isChecked={isChecked} isDisabled={isDisabled} isFocusVisible={isFocusVisible} isHovered={isHovered} />
+				<CheckMark
+					isChecked={isChecked}
+					isDisabled={isDisabled}
+					isFocusVisible={isFocusVisible}
+					isHovered={isHovered}
+				/>
 				<LabelContainer htmlFor={id} style={{ margin: '0 0 0 6px' }}>
 					<span>{label}</span>
 					{hint && <Hint>{hint}</Hint>}

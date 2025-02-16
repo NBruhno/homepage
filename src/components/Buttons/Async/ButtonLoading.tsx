@@ -34,7 +34,9 @@ export const ButtonLoading = ({
 		ref={ref}
 		{...rest}
 	>
-		<LoaderWrapper showPlaceholder={isLoading}>{isLoading && <Spinner size={24} style={{ marginTop: '4px' }} />}</LoaderWrapper>
+		<LoaderWrapper showPlaceholder={isLoading}>
+			{isLoading && <Spinner size={24} style={{ marginTop: '4px' }} />}
+		</LoaderWrapper>
 		<Label showPlaceholder={isLoading || showPlaceholder}>{label}</Label>
 	</Button>
 )

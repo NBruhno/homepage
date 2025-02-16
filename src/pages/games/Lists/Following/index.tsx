@@ -36,7 +36,17 @@ export const Following = ({ games, isLoading }: Props) => {
 	return (
 		<Container>
 			{games.map(({ id, cover, name, releaseDate, status }, index: number) => (
-				<Item id={id} cover={cover} name={name} releaseDate={releaseDate} status={status} index={index} isPriority={isLoading} isLoading={!games} key={id} />
+				<Item
+					id={id}
+					cover={cover}
+					name={name}
+					releaseDate={releaseDate}
+					status={status}
+					index={index}
+					isPriority={isLoading}
+					isLoading={!games}
+					key={id}
+				/>
 			))}
 			{games.length === 0 && <Subtitle>{emptyMessage}</Subtitle>}
 		</Container>

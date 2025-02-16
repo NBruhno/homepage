@@ -17,9 +17,11 @@ export const Video = ({ id, name, shouldAutoplay = true, isMuted = true, hasRoun
 
 	useEffect(() => {
 		if (containerRef.current && shouldAutoplay && !hasBeenClicked) {
-			const [videoWrapperElement] = containerRef.current.getElementsByTagName('figure')
-			videoWrapperElement.click()
-			setHasBeenClicked(true)
+			const videoWrapperElement = containerRef.current.getElementsByTagName('figure').item(0)
+			if (videoWrapperElement) {
+				videoWrapperElement.click()
+				setHasBeenClicked(true)
+			}
 		}
 	}, [containerRef, shouldAutoplay, hasBeenClicked])
 

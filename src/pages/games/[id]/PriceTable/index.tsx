@@ -1,4 +1,4 @@
-import { sortBy } from 'lodash'
+import { sortBy } from 'es-toolkit'
 
 import { useGamePrices } from 'states/games'
 import { useModal } from 'states/page'
@@ -12,7 +12,8 @@ import { Platform } from './Platform'
 import { Savings } from './Savings'
 import { State } from './State'
 
-const priceWithCurrency = (price: number, currency: string) => new Intl.NumberFormat('en-DK', { style: 'currency', currency }).format(price)
+const priceWithCurrency = (price: number, currency: string) =>
+	new Intl.NumberFormat('en-DK', { style: 'currency', currency }).format(price)
 
 export const PriceTable = () => {
 	const { prices, isLoading } = useGamePrices()

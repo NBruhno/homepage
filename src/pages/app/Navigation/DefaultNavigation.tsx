@@ -45,7 +45,13 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 				name={accessToken && username ? username : 'Not logged in'}
 				tooltip='Your profile'
 				isActive={pathname.includes('/users/profile')}
-				renderIcon={() => (accessToken ? <IconUser size={22} style={{ flexShrink: 0 }} /> : <IconUserOff size={22} style={{ flexShrink: 0 }} />)}
+				renderIcon={() =>
+					accessToken ? (
+						<IconUser size={22} style={{ flexShrink: 0 }} />
+					) : (
+						<IconUserOff size={22} style={{ flexShrink: 0 }} />
+					)
+				}
 			/>
 			<ButtonAuthenticate />
 			<Separator isCollapsed={isSidebarCollapsed}>Games</Separator>
@@ -78,14 +84,24 @@ export const DefaultNavigation = ({ isSidebarCollapsed }: Props) => {
 				renderIcon={() => <IconListSearch size={22} style={{ flexShrink: 0 }} />}
 			/>
 			<Separator isCollapsed={isSidebarCollapsed}>Other</Separator>
-			<Link url='/projects' name='Projects' isActive={pathname.includes('/projects')} renderIcon={() => <IconApps size={22} style={{ flexShrink: 0 }} />} />
+			<Link
+				url='/projects'
+				name='Projects'
+				isActive={pathname.includes('/projects')}
+				renderIcon={() => <IconApps size={22} style={{ flexShrink: 0 }} />}
+			/>
 			<Link
 				url='/components'
 				name='Components'
 				isActive={pathname.includes('/components')}
 				renderIcon={() => <IconTools size={22} style={{ flexShrink: 0 }} />}
 			/>
-			<Link url='/about' name='About' isActive={pathname.includes('/about')} renderIcon={() => <IconInfoCircle size={22} style={{ flexShrink: 0 }} />} />
+			<Link
+				url='/about'
+				name='About'
+				isActive={pathname.includes('/about')}
+				renderIcon={() => <IconInfoCircle size={22} style={{ flexShrink: 0 }} />}
+			/>
 		</Content>
 	)
 }

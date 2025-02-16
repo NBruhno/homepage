@@ -1,4 +1,12 @@
-import { FloatingFocusManager, FloatingPortal, useDismiss, useFloating, useInteractions, useRole, useTransitionStyles } from '@floating-ui/react'
+import {
+	FloatingFocusManager,
+	FloatingPortal,
+	useDismiss,
+	useFloating,
+	useInteractions,
+	useRole,
+	useTransitionStyles,
+} from '@floating-ui/react'
 import type { ComponentPropsWithoutRef } from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
 import { useModal, useResponsive } from 'states/page'
@@ -35,7 +43,13 @@ export const Modal = (props: ComponentPropsWithoutRef<'div'>) => {
 				<RemoveScroll>
 					<FloatingFocusManager context={context}>
 						<Wrapper>
-							<Container style={styles} ref={refs.setFloating} show={show} hasNoWrapper={hasNoWrapper} {...getFloatingProps()}>
+							<Container
+								style={styles}
+								ref={refs.setFloating}
+								show={show}
+								hasNoWrapper={hasNoWrapper}
+								{...getFloatingProps()}
+							>
 								{hasNoWrapper ? content : <Card {...props}>{content}</Card>}
 							</Container>
 						</Wrapper>

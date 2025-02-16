@@ -14,7 +14,10 @@ export const requiredNumber = <T = false>({ requiredErrorMessage, invalidErrorMe
 	}) as Return<T>
 
 export const optionalNumber = <T = false>({ invalidErrorMessage }: Pick<DefaultFields, 'invalidErrorMessage'>) =>
-	define<number | undefined>('fieldNumberOptional', (value) => is(value, optional(number())) || invalidErrorMessage) as Return<T>
+	define<number | undefined>(
+		'fieldNumberOptional',
+		(value) => is(value, optional(number())) || invalidErrorMessage,
+	) as Return<T>
 
 export const fieldNumber = <T extends boolean = false>({
 	requiredErrorMessage = 'This field is required',

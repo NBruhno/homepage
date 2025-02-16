@@ -53,7 +53,8 @@ export const App = ({ children }: Props) => {
 								<div>
 									<div>This browser is not supported</div>
 									<p style={{ fontSize: '24px', opacity: 0.7 }}>
-										It&apos;s unlikely that anything will break, but you should use a modern browser instead, for your own safety
+										It&apos;s unlikely that anything will break, but you should use a modern browser instead, for your
+										own safety
 									</p>
 									<p style={{ fontSize: '14px', opacity: 0.7 }}>(and for most developers sanity, including mine)</p>
 								</div>

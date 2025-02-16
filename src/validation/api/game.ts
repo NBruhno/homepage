@@ -1,6 +1,8 @@
 import { array, boolean, enums, nullable, number, object, optional, string } from 'superstruct'
 
-const status = optional(enums(['Alpha', 'Beta', 'EarlyAccess', 'Offline', 'Released', 'Cancelled', 'Rumored', 'Delisted']))
+const status = optional(
+	enums(['Alpha', 'Beta', 'EarlyAccess', 'Offline', 'Released', 'Cancelled', 'Rumored', 'Delisted']),
+)
 
 const simpleGame = object({
 	id: number(),

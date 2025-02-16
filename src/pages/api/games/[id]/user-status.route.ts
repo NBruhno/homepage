@@ -2,7 +2,6 @@ import type { GameWebsite, IgdbGame } from 'types'
 import type { SteamOwnedGames } from 'types/steam'
 
 import { fromUnixTime } from 'date-fns'
-import { toFloat, toInt } from 'radash'
 import { coerce, create, number, object, string } from 'superstruct'
 
 import { config } from 'config.server'
@@ -94,9 +93,12 @@ export default apiHandler({
 	if (steamAppId && steamId) {
 		await monitorAsync(
 			() =>
-				fetch(`https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001?steamid=${steamId}&key=${config.steam.apiKey}&format=json`, {
-					method: 'GET',
-				}),
+				fetch(
+					`https://api.steampowered.com/IPlayerService/GetOwnedGames/v0001?steamid=${steamId}&key=${config.steam.apiKey}&format=json`,
+					{
+						method: 'GET',
+					},
+				),
 			'http:steam',
 			'game news',
 		).then(async (response) => {
@@ -104,8 +106,8 @@ export default apiHandler({
 			const payload = (await response.json()) as SteamOwnedGames
 			const game = payload.response.games.find(({ appid }) => appid === parseInt(steamAppId, 10))
 			steamInfo.isInSteamLibrary = Boolean(game)
-			steamInfo.timePlayed = game ? toInt(toFloat(game.playtime_forever / 60).toFixed(1)) : null
-			steamInfo.timePlayedLastTwoWeeks = game ? toInt(toFloat((game.playtime_2weeks ?? 0) / 60).toFixed(1)) : null
+			steamInfo.timePlayed = game ? parseFloat((game.playtime_forever / 60).toFixed(1)) : null
+			steamInfo.timePlayedLastTwoWeeks = game ? parseFloat(((game.playtime_2weeks ?? 0) / 60).toFixed(1)) : null
 			steamInfo.lastPlayedAt = game?.rtime_last_played ? fromUnixTime(game.rtime_last_played).toISOString() : null
 		})
 	}

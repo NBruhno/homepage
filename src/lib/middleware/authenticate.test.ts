@@ -13,7 +13,10 @@ const getKeyPair = (tokenType: TokenType) => config.auth.keyPairs.find(({ type }
 
 describe('/lib/middleware/authenticate', () => {
 	test('Authenticate › Valid token', async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -75,7 +78,10 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Tampered token', async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -88,7 +94,10 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Valid role', async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload, role: UserRole.Admin }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload, role: UserRole.Admin },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -102,7 +111,10 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Invalid role', async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload, role: UserRole.Admin }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload, role: UserRole.Admin },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -115,7 +127,10 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › Unknown role', async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload, role: 'Something unknown' }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload, role: 'Something unknown' },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -128,7 +143,10 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test("Authenticate › No role (don't expect)", async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload, role: undefined }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload, role: undefined },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {
@@ -141,7 +159,10 @@ describe('/lib/middleware/authenticate', () => {
 	})
 
 	test('Authenticate › No role (do expect)', async () => {
-		const accessToken = await getJwtToken({ ...defaultPayload, role: undefined }, { type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id })
+		const accessToken = await getJwtToken(
+			{ ...defaultPayload, role: undefined },
+			{ type: TokenType.Access, keyId: getKeyPair(TokenType.Access).id },
+		)
 		const { req } = createHttpMock({
 			reqOptions: {
 				headers: {

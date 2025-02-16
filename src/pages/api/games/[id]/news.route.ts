@@ -1,7 +1,7 @@
 import type { SteamNews } from 'types/steam'
 
 import { fromUnixTime } from 'date-fns'
-import { partition } from 'lodash'
+import { partition } from 'es-toolkit'
 import { coerce, create, number, object, optional, pattern, string } from 'superstruct'
 
 import { apiHandler } from 'lib/api'
@@ -35,9 +35,12 @@ export default apiHandler({
 	const { 'steam-app-id': appId, take = 5 } = create(req.query, Query)
 	const news = await monitorAsync(
 		() =>
-			fetch(`https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002?appid=${appId}&count=100&maxlength=300&format=json`, {
-				method: 'GET',
-			}),
+			fetch(
+				`https://api.steampowered.com/ISteamNews/GetNewsForApp/v0002?appid=${appId}&count=100&maxlength=300&format=json`,
+				{
+					method: 'GET',
+				},
+			),
 		'http:steam',
 		'game news',
 	).then(async (response) => {

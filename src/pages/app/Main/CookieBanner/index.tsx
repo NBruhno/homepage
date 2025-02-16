@@ -16,7 +16,14 @@ export const CookieBanner = (props: ComponentPropsWithoutRef<'div'>) => {
 		<Container {...props}>
 			<div>
 				<div>This website uses cookies to maintain login sessions</div>
-				<NextLink href='/cookies' passHref style={{ textDecoration: 'none' }} onClick={() => setIsDismissed()} role='button' tabIndex={0}>
+				<NextLink
+					href='/cookies'
+					passHref
+					style={{ textDecoration: 'none' }}
+					onClick={() => setIsDismissed()}
+					role='button'
+					tabIndex={0}
+				>
 					You can learn more about cookies on this website here
 				</NextLink>
 			</div>

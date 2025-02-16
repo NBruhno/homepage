@@ -11,7 +11,10 @@ const Nebula = dynamic(
 		// If the browser does not support WebGL, there is no point in fetching the Nebula component
 		try {
 			const canvas = document.createElement('canvas')
-			if (Boolean(window.WebGLRenderingContext) && (canvas.getContext('experimental-webgl') ?? canvas.getContext('webgl'))) {
+			if (
+				Boolean(window.WebGLRenderingContext) &&
+				(canvas.getContext('experimental-webgl') ?? canvas.getContext('webgl'))
+			) {
 				const component = await import('components/Nebula')
 				return component.Nebula
 			}
@@ -25,10 +28,7 @@ const Nebula = dynamic(
 
 const Background = styled.div`
 	background-color: ${({ theme }) => theme.color.backgroundHome};
-	top: 0;
-	bottom: -96px;
-	left: 0;
-	right: 0;
+	inset: 0 0 -96px;
 	position: absolute;
 	z-index: -1;
 `

@@ -1,7 +1,14 @@
 import supertest from 'supertest'
 
 import { ApiError } from 'lib/errors'
-import { type TestResponse, accessTokenMatch, createCredentials, createTestServer, refreshTokenMatch, userLogin } from 'lib/test'
+import {
+	type TestResponse,
+	accessTokenMatch,
+	createCredentials,
+	createTestServer,
+	refreshTokenMatch,
+	userLogin,
+} from 'lib/test'
 
 import handler from './refresh.route'
 

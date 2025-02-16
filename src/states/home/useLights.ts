@@ -37,7 +37,10 @@ export const useLights = () => {
 	const toggleLight = async ([url, accessToken]: DependencyKeys, { arg }: { arg: ToggleLight }) =>
 		fetcher(`${url}/${arg.entityId}/toggle`, { accessToken, method: Method.Post })
 	const { trigger: onToggleLight } = useSwrMutation(accessToken ? ['/home/lights', accessToken] : null, toggleLight)
-	const adjustLight = async ([url, accessToken]: DependencyKeys, { arg: { entityId, isTurnedOn, color, brightness } }: { arg: AdjustLight }) =>
+	const adjustLight = async (
+		[url, accessToken]: DependencyKeys,
+		{ arg: { entityId, isTurnedOn, color, brightness } }: { arg: AdjustLight },
+	) =>
 		fetcher(`${url}/${entityId}`, {
 			accessToken,
 			method: Method.Patch,

@@ -2,7 +2,7 @@ import type { IgdbCompany, IgdbGame, IgdbMultiplayerMode, IgdbWebsite } from 'ty
 import { GameCategory, GameStatus, GameWebsiteType, IgdbCategory, IgdbStatus, IgdbWebsiteCategory } from 'types'
 
 import { fromUnixTime } from 'date-fns'
-import { sample } from 'lodash'
+import { sample } from 'es-toolkit'
 
 export const igdbImageUrl = 'https://images.igdb.com/igdb/image/upload'
 
@@ -114,7 +114,10 @@ const mapCategory = (category: IgdbCategory): GameCategory | undefined => {
 	}
 }
 
-const mapCompanies = (involvedCompanies: Array<IgdbCompany> | undefined, type: 'developer' | 'porting' | 'publisher' | 'supporting') => {
+const mapCompanies = (
+	involvedCompanies: Array<IgdbCompany> | undefined,
+	type: 'developer' | 'porting' | 'publisher' | 'supporting',
+) => {
 	if (!involvedCompanies || involvedCompanies.length <= 0) return undefined
 
 	return involvedCompanies
@@ -190,7 +193,9 @@ export const mapIgdbGame = (game: IgdbGame) => {
 	} = game
 
 	const screenshotUrls =
-		screenshots && screenshots.length > 0 ? screenshots.map(({ image_id: imageId }) => `${igdbImageUrl}/t_screenshot_med/${imageId}.jpg`).filter(Boolean) : []
+		screenshots && screenshots.length > 0
+			? screenshots.map(({ image_id: imageId }) => `${igdbImageUrl}/t_screenshot_med/${imageId}.jpg`).filter(Boolean)
+			: []
 
 	return {
 		id,
@@ -213,7 +218,10 @@ export const mapIgdbGame = (game: IgdbGame) => {
 		modes: modes.length > 0 ? modes : [],
 		multiplayerModes: multiplayerModes.length > 0 ? mapMultiplayerMode(multiplayerModes) : [],
 		parentId: parentGame,
-		platforms: platforms.length > 0 ? platforms.map(({ id, name, abbreviation }) => ({ id, name, abbreviation: abbreviation ?? null })) : [],
+		platforms:
+			platforms.length > 0
+				? platforms.map(({ id, name, abbreviation }) => ({ id, name, abbreviation: abbreviation ?? null }))
+				: [],
 		playerPerspectives: playerPerspectives.length > 0 ? playerPerspectives : [],
 		porters: mapCompanies(companies, 'porting') ?? [],
 		publishers: mapCompanies(companies, 'publisher') ?? [],

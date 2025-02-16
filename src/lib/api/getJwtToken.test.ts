@@ -104,6 +104,8 @@ describe('/lib/api/getJwtToken', () => {
 
 	test('Token › Invalid type', async () => {
 		// @ts-expect-error: We expect an error here because we are testing an invalid type
-		await expect(getJwtToken(defaultPayload, { type: 'invalid' })).rejects.toThrow('No key pair found for the supplied key ID or token type')
+		await expect(getJwtToken(defaultPayload, { type: 'invalid' })).rejects.toThrow(
+			'No key pair found for the supplied key ID or token type',
+		)
 	})
 })

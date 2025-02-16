@@ -21,7 +21,9 @@ const Games: NextPage = () => {
 		<Page>
 			<PageContent maxWidth={700}>
 				<h2>Popular games</h2>
-				{games ? games.map(({ games }, index) => <PopularGames games={games} isLoading={isLoading} key={index} />) : null}
+				{games
+					? games.map(({ games }, index) => <PopularGames games={games} isLoading={isLoading} key={index} />)
+					: null}
 				<div style={{ display: 'flex', justifyContent: 'space-around', marginTop: '24px' }}>
 					<Tooltip
 						tip="That's all the popular games"

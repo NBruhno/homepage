@@ -8,7 +8,11 @@ type Options = {
 	inputEncoding?: Encoding
 }
 
-export const encryptAes256gcm = (payload: string, secret: string | undefined, { iv, outputEncoding = 'base64', inputEncoding = 'utf8' }: Options) => {
+export const encryptAes256gcm = (
+	payload: string,
+	secret: string | undefined,
+	{ iv, outputEncoding = 'base64', inputEncoding = 'utf8' }: Options,
+) => {
 	if (!secret) throw new Error('Missing secret for encryption')
 	if (!payload) throw new Error('Missing payload to encrypt')
 
@@ -24,7 +28,11 @@ export const encryptAes256gcm = (payload: string, secret: string | undefined, { 
 	else return `${ivBuffer.toString(outputEncoding)}:${cipher.getAuthTag().toString(outputEncoding)}:${encryptedContent}`
 }
 
-export const decryptAes256gcm = (payload: string, secret: string | undefined, { iv, outputEncoding = 'utf8', inputEncoding = 'base64' }: Options) => {
+export const decryptAes256gcm = (
+	payload: string,
+	secret: string | undefined,
+	{ iv, outputEncoding = 'utf8', inputEncoding = 'base64' }: Options,
+) => {
 	if (!secret) throw new Error('Missing secret for decryption')
 	if (!payload) throw new Error('Missing payload to decrypt')
 

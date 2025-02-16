@@ -3,7 +3,6 @@
 import pwa from '@ducanh2912/next-pwa'
 import bundleAnalyzer from '@next/bundle-analyzer'
 import { withSentryConfig } from '@sentry/nextjs'
-import LodashModuleReplacementPlugin from 'lodash-webpack-plugin'
 
 const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE_BUILD === 'true' })
 const withPwa = pwa({
@@ -115,13 +114,6 @@ const nextConfig = {
 
 	poweredByHeader: false,
 
-	modularizeImports: {
-		lodash: {
-			transform: 'lodash/{{member}}',
-			preventFullImport: true,
-		},
-	},
-
 	async rewrites() {
 		// Ensures our service-worker is reachable from the build folder
 		// This is not build by Next so it is not part of the router
@@ -147,11 +139,6 @@ const nextConfig = {
 	},
 
 	webpack: (config) => {
-		config.plugins.push(
-			// Modifies lodash to reduce bundle size by replacing some features with simpler alternatives
-			new LodashModuleReplacementPlugin({ shorthands: true }),
-		)
-
 		config.experiments = {
 			...config.experiments,
 			topLevelAwait: true,

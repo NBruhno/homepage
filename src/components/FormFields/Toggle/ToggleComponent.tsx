@@ -17,7 +17,8 @@ export const ToggleComponent = styled.div<Props>`
 	height: 22px;
 	background-color: ${({ theme, isChecked, isHovered, isLoading, isDisabled }) => {
 		if (isHovered && !isLoading && !isDisabled) return isChecked ? theme.color.primaryLighter : theme.color.grayLight
-		if (isDisabled || isLoading) return isChecked ? theme.color.primaryLight : adjustHsl(theme.color.gray, { light: '34%' })
+		if (isDisabled || isLoading)
+			return isChecked ? theme.color.primaryLight : adjustHsl(theme.color.gray, { light: '34%' })
 		else return isChecked ? theme.color.primary : theme.color.gray
 	}};
 	outline: 0;

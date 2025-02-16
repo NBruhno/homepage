@@ -88,9 +88,11 @@ const GameEvents: NextPage = () => {
 								<div style={{ gridArea: 'games' }}>
 									{event.games.length > 0 ? (
 										<Games>
-											{event.games.slice(0, event.games.length === maxGames ? maxGames : maxGames - 1).map(({ cover }, index) => (
-												<Cover key={index} coverUrl={cover} />
-											))}
+											{event.games
+												.slice(0, event.games.length === maxGames ? maxGames : maxGames - 1)
+												.map(({ cover }, index) => (
+													<Cover key={index} coverUrl={cover} />
+												))}
 											{event.games.length > maxGames && (
 												<AllGamesLink>
 													<Placeholder>+{event.games.length - maxGames + 1}</Placeholder>

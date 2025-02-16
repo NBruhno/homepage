@@ -30,6 +30,7 @@ export const mapIgdbEvent = (event: IgdbEvent) => {
 		liveStreamUrl,
 		logo: eventLogo?.image_id ? `${igdbImageUrl}/t_1080p/${eventLogo.image_id}.jpg` : null,
 		games: games ? games.map(mapIgdbGame) : [],
-		videos: videos && videos.length > 0 ? videos.map(({ name, video_id: videoId }) => ({ name: name ?? null, videoId })) : [],
+		videos:
+			videos && videos.length > 0 ? videos.map(({ name, video_id: videoId }) => ({ name: name ?? null, videoId })) : [],
 	}
 }

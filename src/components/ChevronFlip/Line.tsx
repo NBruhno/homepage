@@ -9,7 +9,7 @@ type Props = {
 }
 
 const ChevronLine = styled.span`
-	background-color: currentColor;
+	background-color: currentcolor;
 	bottom: 0.1em;
 	position: absolute;
 	width: 0.6em;

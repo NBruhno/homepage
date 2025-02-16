@@ -17,24 +17,40 @@ const Derailed: NextPage = () => {
 				<Summary>Mobile controlled desktop co-op experience</Summary>
 				<Subtitle>Student project from 5th semester of B.Sc Medialogy, 2016</Subtitle>
 				<p>
-					This semester project was about making audio-visual experiments and we got the opportunity to work with Airconsole, a platform where you can submit a
-					game that uses their controls API for phone to computer communication for a console controller like experience but with a touchscreen. This allowed us
-					to create our own controller and change information on the screen at any time which we thought was a still untapped opportunity. We consist of a group
-					of six people from Medialogy just like every other ordinary semester project.
+					This semester project was about making audio-visual experiments and we got the opportunity to work with
+					Airconsole, a platform where you can submit a game that uses their controls API for phone to computer
+					communication for a console controller like experience but with a touchscreen. This allowed us to create our
+					own controller and change information on the screen at any time which we thought was a still untapped
+					opportunity. We consist of a group of six people from Medialogy just like every other ordinary semester
+					project.
 				</p>
-				<ProjectImage src='/images/projects/derailed/perceptionNeuron.png' title='Image from our motion capture' width={1285} height={723} divider={2} />
+				<ProjectImage
+					src='/images/projects/derailed/perceptionNeuron.png'
+					title='Image from our motion capture'
+					width={1285}
+					height={723}
+					divider={2}
+				/>
 				<Caption>
-					An image of us recording animations with the Perception Neuron. Not required for the project, but we thought it would be fun to try it out. The guy
-					you see in the tracking equipment is <a href='https://www.linkedin.com/in/daniel-hansen-5b4b29107/'>Daniel Bruun Hansen</a> and I&apos;m monitoring on
-					the right
+					An image of us recording animations with the Perception Neuron. Not required for the project, but we thought
+					it would be fun to try it out. The guy you see in the tracking equipment is{' '}
+					<a href='https://www.linkedin.com/in/daniel-hansen-5b4b29107/'>Daniel Bruun Hansen</a> and I&apos;m monitoring
+					on the right
 				</Caption>
 				<p>
-					We sought out to create a game that would take advantage of the phone screen and see if players would be able to direct their attention to the correct
-					screen using different kind of methods of feedback like visual cues, sound cues or both at the same time. The game would be an up to four player coop
-					experience, where the goal was to keep a train going from one station to another, without the train destroying itself by completing assigned or shared
-					tasks in form of mini-games completed on the phone screen.
+					We sought out to create a game that would take advantage of the phone screen and see if players would be able
+					to direct their attention to the correct screen using different kind of methods of feedback like visual cues,
+					sound cues or both at the same time. The game would be an up to four player coop experience, where the goal
+					was to keep a train going from one station to another, without the train destroying itself by completing
+					assigned or shared tasks in form of mini-games completed on the phone screen.
 				</p>
-				<ProjectImage src='/images/projects/derailed/screenshot1.png' title='Ready check' width={1388} height={731} divider={2} />
+				<ProjectImage
+					src='/images/projects/derailed/screenshot1.png'
+					title='Ready check'
+					width={1388}
+					height={731}
+					divider={2}
+				/>
 				<Caption>Screenshot from the games ready check</Caption>
 				<p>
 					If you are interested to know more about this project you are more than welcome to{' '}

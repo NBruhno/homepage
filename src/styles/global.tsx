@@ -34,7 +34,7 @@ export const GlobalStyle = createGlobalStyle`
 	}
 
 	html {
-		font-family: 'Roboto', sans-serif;
+		font-family: Roboto, sans-serif;
 		font-size: 100%;
 		background-color: ${({ theme }) => theme.color.background};
 	}

@@ -27,7 +27,19 @@ export type Props = Omit<ComponentPropsWithoutRef<'button'>, 'disabled' | 'onCli
 	)
 
 export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(
-	({ isDisabled = false, isLoading = false, isLoadingManual = false, label, minDelay = 0, onClick, type = 'button', ...rest }, ref) => {
+	(
+		{
+			isDisabled = false,
+			isLoading = false,
+			isLoadingManual = false,
+			label,
+			minDelay = 0,
+			onClick,
+			type = 'button',
+			...rest
+		},
+		ref,
+	) => {
 		const [isLoadingInternal, setInternalLoading] = useState(false)
 		const { isFocusVisible, focusProps } = useFocusRing()
 
@@ -61,12 +73,24 @@ export const ButtonAsync = forwardRef<HTMLButtonElement, Props>(
 			return (
 				<SubmitWrapper
 					render={({ isSubmitting }) => (
-						<ButtonLoading isLoading={isSubmitting || isLoadingManual || isLoadingInternal} {...defaultProps} onClick={undefined} type='submit' />
+						<ButtonLoading
+							isLoading={isSubmitting || isLoadingManual || isLoadingInternal}
+							{...defaultProps}
+							onClick={undefined}
+							type='submit'
+						/>
 					)}
 				/>
 			)
 		}
 
-		return <ButtonLoading isLoading={isLoadingManual || isLoadingInternal} type={type} onClick={(event) => handleClick(event)} {...defaultProps} />
+		return (
+			<ButtonLoading
+				isLoading={isLoadingManual || isLoadingInternal}
+				type={type}
+				onClick={(event) => handleClick(event)}
+				{...defaultProps}
+			/>
+		)
 	},
 )

@@ -67,7 +67,9 @@ Solid.argTypes = {
 	},
 }
 
-export const Border = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonBorder} />
+export const Border = ({ onClick }: { onClick: () => void }) => (
+	<DefaultContent onClick={onClick} Button={ButtonBorder} />
+)
 
 Border.argTypes = {
 	onClick: {
@@ -83,7 +85,9 @@ Text.argTypes = {
 	},
 }
 
-export const Icon = ({ onClick }: { onClick: () => void }) => <DefaultContent onClick={onClick} Button={ButtonIcon} label={<IconWorld />} />
+export const Icon = ({ onClick }: { onClick: () => void }) => (
+	<DefaultContent onClick={onClick} Button={ButtonIcon} label={<IconWorld />} />
+)
 
 Icon.argTypes = {
 	onClick: {

@@ -45,7 +45,9 @@ export const useSnackbar = createWithEqualityFn<SnackbarState>()(
 				if (snackbars.length > 0) {
 					set(
 						{
-							snackbars: snackbars.filter(({ createdAt, duration = 5 }) => differenceInMilliseconds(new Date(), createdAt) <= duration * 1000),
+							snackbars: snackbars.filter(
+								({ createdAt, duration = 5 }) => differenceInMilliseconds(new Date(), createdAt) <= duration * 1000,
+							),
 						},
 						false,
 						'removeOutdatedSnackbars',

@@ -53,7 +53,11 @@ export const Rating = ({ rating, ratingCount }: Props) => {
 				{hasReviews ? (
 					<SteamContainer>
 						<SteamItem href={isLoading ? '' : reviews.steam.url}>
-							<Indicator rating={isLoading ? null : Math.floor((reviews.steam.recent.totalPositive / reviews.steam.recent.total) * 100)} />
+							<Indicator
+								rating={
+									isLoading ? null : Math.floor((reviews.steam.recent.totalPositive / reviews.steam.recent.total) * 100)
+								}
+							/>
 							<div style={{ marginTop: '2px' }}>
 								<Title>Recent</Title>
 								<Placeholder isLoading={isLoading}>
@@ -66,11 +70,17 @@ export const Rating = ({ rating, ratingCount }: Props) => {
 							</div>
 						</SteamItem>
 						<SteamItem href={isLoading ? '' : reviews.steam.url}>
-							<Indicator rating={isLoading ? null : Math.floor((reviews.steam.total.totalPositive / reviews.steam.total.total) * 100)} />
+							<Indicator
+								rating={
+									isLoading ? null : Math.floor((reviews.steam.total.totalPositive / reviews.steam.total.total) * 100)
+								}
+							/>
 							<div style={{ marginTop: '2px' }}>
 								<Title>Total</Title>
 								<Placeholder isLoading={isLoading}>
-									<span>{isLoading ? 0 : Math.floor((reviews.steam.total.totalPositive / reviews.steam.total.total) * 100)}%</span>
+									<span>
+										{isLoading ? 0 : Math.floor((reviews.steam.total.totalPositive / reviews.steam.total.total) * 100)}%
+									</span>
 								</Placeholder>
 							</div>
 						</SteamItem>

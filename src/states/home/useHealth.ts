@@ -47,22 +47,27 @@ export const useHealth = (): Return => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			const differenceInSecondsSinceLastFetch = differenceInSeconds(new Date(), lastTimeFetched)
-			if (differenceInSecondsSinceLastFetch !== secondsSinceLastFetch) setSecondsSinceLastFetch(differenceInSecondsSinceLastFetch)
+			if (differenceInSecondsSinceLastFetch !== secondsSinceLastFetch)
+				setSecondsSinceLastFetch(differenceInSecondsSinceLastFetch)
 		}, 100)
 		return () => clearInterval(interval)
 	})
 
-	const { data: health, error } = useSwr<Health | undefined, ApiError>(accessToken ? '/home/health' : null, (link: string) => fetcher(link, { accessToken }), {
-		refreshInterval: 60000,
-		errorRetryInterval: 10000,
-		revalidateOnFocus: false,
-		onSuccess: () => {
-			setLastTimeFetched(new Date())
+	const { data: health, error } = useSwr<Health | undefined, ApiError>(
+		accessToken ? '/home/health' : null,
+		(link: string) => fetcher(link, { accessToken }),
+		{
+			refreshInterval: 60000,
+			errorRetryInterval: 10000,
+			revalidateOnFocus: false,
+			onSuccess: () => {
+				setLastTimeFetched(new Date())
+			},
+			onError: () => {
+				setLastTimeFetched(new Date())
+			},
 		},
-		onError: () => {
-			setLastTimeFetched(new Date())
-		},
-	})
+	)
 
 	const uptime = useMemo(() => {
 		const bootDate = subSeconds(new Date(), health?.systemStatus.uptime ?? 0)

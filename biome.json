@@ -1,29 +1,25 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-  "vcs": {
-    "enabled": false,
-    "clientKind": "git",
-    "useIgnoreFile": true
-  },
+  "vcs": { "enabled": false, "clientKind": "git", "useIgnoreFile": true },
   "files": {
     "ignoreUnknown": true,
-    "ignore": ["./node_modules/**/*", "./public/**/*", "./.vercel/**/*", "./.next/**/*", "./supabase/**/*", "./.vscode/**/*", "./vercel.json"]
+    "ignore": [
+      "./node_modules/**/*",
+      "./public/**/*",
+      "./.vercel/**/*",
+      "./.next/**/*",
+      "./supabase/**/*",
+      "./.vscode/**/*",
+      "./vercel.json"
+    ]
   },
-  "formatter": {
-    "enabled": true,
-    "indentStyle": "tab",
-    "lineWidth": 160
-  },
-  "organizeImports": {
-    "enabled": true
-  },
+  "formatter": { "enabled": true, "indentStyle": "tab", "lineWidth": 120 },
+  "organizeImports": { "enabled": true },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": false,
-      "a11y": {
-        "useValidAnchor": "off"
-      },
+      "a11y": { "useValidAnchor": "off" },
       "complexity": {
         "noStaticOnlyClass": "error",
         "noUselessFragments": "error",
@@ -35,8 +31,8 @@
       "correctness": {
         "noInvalidUseBeforeDeclaration": "error",
         "noUndeclaredVariables": "off",
-        "noUnusedVariables": "off",
         "noUnusedFunctionParameters": "warn",
+        "noUnusedVariables": "off",
         "useExhaustiveDependencies": "warn",
         "useHookAtTopLevel": "error"
       },
@@ -45,17 +41,12 @@
         "noParameterAssign": "off",
         "noUselessElse": "off",
         "useAsConstAssertion": "error",
-        "useNamingConvention": "warn",
-        "useConsistentArrayType": {
-          "level": "error",
-          "options": {
-            "syntax": "generic"
-          }
-        },
+        "useConsistentArrayType": { "level": "error", "options": { "syntax": "generic" } },
         "useDefaultSwitchClause": "off",
         "useEnumInitializers": "error",
         "useImportType": "error",
         "useLiteralEnumMembers": "error",
+        "useNamingConvention": "warn",
         "useShorthandFunctionType": "error",
         "useTemplate": "off"
       },
@@ -69,51 +60,40 @@
         "noMisleadingInstantiator": "off",
         "useNamespaceKeyword": "error"
       }
-    }
+    },
+    "ignore": ["./node_modules/*", "./public/*", "./.next/*", "./supabase/*"]
   },
   "javascript": {
     "formatter": {
-      "enabled": true,
-      "quoteStyle": "single",
       "jsxQuoteStyle": "single",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
       "semicolons": "asNeeded",
       "arrowParentheses": "always",
-      "attributePosition": "auto",
       "bracketSameLine": false,
-      "bracketSpacing": true,
-      "trailingCommas": "all",
-      "quoteProperties": "asNeeded"
+      "enabled": true,
+      "quoteStyle": "single",
+      "attributePosition": "auto",
+      "bracketSpacing": true
     },
     "globals": ["React"]
   },
-  "json": {
-    "formatter": {
-      "enabled": true,
-      "indentStyle": "space",
-      "indentWidth": 2
-    }
-  },
+  "json": { "formatter": { "enabled": true, "indentStyle": "space", "indentWidth": 2 } },
   "overrides": [
     {
       "include": ["*.ts", "*.tsx"],
       "linter": {
         "rules": {
-          "complexity": {
-            "useOptionalChain": "error"
-          },
-          "correctness": {
-            "noUnusedVariables": "error"
-          },
-          "style": {
-            "useExportType": "error",
-            "useNamingConvention": {
-              "level": "warn",
-              "options": {
-                "strictCase": true
-              }
-            }
-          }
+          "complexity": { "useOptionalChain": "error" },
+          "correctness": { "noUnusedVariables": "error" },
+          "style": { "useExportType": "error", "useNamingConvention": { "level": "warn", "options": {} } }
         }
+      }
+    },
+    {
+      "include": ["*.ts", "*.tsx"],
+      "linter": {
+        "rules": { "complexity": { "useOptionalChain": "error" }, "correctness": { "noUnusedVariables": "error" } }
       }
     }
   ]

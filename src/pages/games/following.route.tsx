@@ -1,18 +1,13 @@
-import type { NextPage } from 'next'
-
-import { useRouter } from 'next/router'
-import { isString } from 'radash'
-
-import { useFollowingGames } from 'states/games/useFollowingGames'
-import { useLoading, useTitle } from 'states/page'
-import { useUser } from 'states/users'
-
-import { useIsomorphicLayoutEffect } from 'lib/hooks'
-
 import { ButtonBorder } from 'components/Buttons'
 import { Page, PageContent } from 'components/Layout'
 import { Tooltip } from 'components/Tooltip'
-
+import { isString } from 'es-toolkit'
+import { useIsomorphicLayoutEffect } from 'lib/hooks'
+import type { NextPage } from 'next'
+import { useRouter } from 'next/router'
+import { useFollowingGames } from 'states/games/useFollowingGames'
+import { useLoading, useTitle } from 'states/page'
+import { useUser } from 'states/users'
 import { Container } from './Lists/Common/Container'
 import { Item } from './Lists/Common/Item'
 import { Subtitle } from './Lists/Common/Subtitle'
@@ -25,7 +20,9 @@ const Games: NextPage = () => {
 	const isStateKnown = useUser((state) => state.isStateKnown)
 	const router = useRouter()
 	useLoading(false)
-	const { games, isLoading, setSize, size, isLimitReached } = useFollowingGames(isString(router.query.user) ? router.query.user : null)
+	const { games, isLoading, setSize, size, isLimitReached } = useFollowingGames(
+		isString(router.query.user) ? router.query.user : null,
+	)
 	useTitle('Followed games')
 
 	useIsomorphicLayoutEffect(() => {
@@ -46,7 +43,17 @@ const Games: NextPage = () => {
 						return (
 							<Container>
 								{Array.from({ length: 15 }).map((_, index: number) => (
-									<Item id={0} cover={null} name='' releaseDate={null} status={null} index={index} isPriority={false} isLoading key={index} />
+									<Item
+										id={0}
+										cover={null}
+										name=''
+										releaseDate={null}
+										status={null}
+										index={index}
+										isPriority={false}
+										isLoading
+										key={index}
+									/>
 								))}
 							</Container>
 						)

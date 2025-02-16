@@ -25,7 +25,8 @@ const placeholderNews: Array<GameNewsItem> = Array.from({ length: 5 }).map((_, i
 
 export const News = () => {
 	const { news, isLoading } = useGameNews()
-	if (news === undefined && !isLoading) return <Empty>This game does not exist on Steam, so no news could be gathered</Empty>
+	if (news === undefined && !isLoading)
+		return <Empty>This game does not exist on Steam, so no news could be gathered</Empty>
 
 	const newsToRender = news ?? {
 		steamNews: placeholderNews,

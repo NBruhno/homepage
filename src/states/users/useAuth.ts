@@ -28,15 +28,28 @@ export const useAuth = () => {
 	const [currentFlow, setCurrentFlow] = useState<'2fa' | 'loggedIn' | 'login' | 'register'>('login')
 	const addSnackbar = useSnackbar((state) => state.addSnackbar)
 	const { onCloseModal } = useModal()
-	const { setUser, setShouldRefresh, setIsStateKnown, setIntermediateToken, setTwoFactorSecret, resetUser, userId, accessToken, intermediateToken } = useUser(
-		(state) => state,
-	)
+	const {
+		setUser,
+		setShouldRefresh,
+		setIsStateKnown,
+		setIntermediateToken,
+		setTwoFactorSecret,
+		resetUser,
+		userId,
+		accessToken,
+		intermediateToken,
+	} = useUser((state) => state)
 
 	const createErrorSnackbar = (error: unknown) => {
 		addSnackbar({ message: error instanceof ApiError ? error.message : 'Unknown error occurred', type: 'Alert' })
 	}
 
-	const onRegister = async ({ email, password, username, accessCode }: { email: string; password: string; username: string; accessCode: string }) => {
+	const onRegister = async ({
+		email,
+		password,
+		username,
+		accessCode,
+	}: { email: string; password: string; username: string; accessCode: string }) => {
 		try {
 			const { accessToken } = await fetcher<{ accessToken: string }>('/users', {
 				method: Method.Post,
@@ -61,11 +74,14 @@ export const useAuth = () => {
 
 	const onLogin = async ({ email, password }: { email: string; password: string }) => {
 		try {
-			const { accessToken, intermediateToken } = await fetcher<{ accessToken?: string; intermediateToken?: string }>('/users/login', {
-				method: Method.Post,
-				body: { email, password },
-				cacheControl: 'no-cache',
-			})
+			const { accessToken, intermediateToken } = await fetcher<{ accessToken?: string; intermediateToken?: string }>(
+				'/users/login',
+				{
+					method: Method.Post,
+					body: { email, password },
+					cacheControl: 'no-cache',
+				},
+			)
 
 			if (accessToken) {
 				const { sub, username, role, userId } = decodeJwtToken(accessToken)

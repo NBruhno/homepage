@@ -63,7 +63,9 @@ export const useScroll = () => {
 			...bodyOffset,
 			scrollY: -bodyOffset.top,
 			scrollX: bodyOffset.left,
-			...(typeof window === 'undefined' ? { windowScrollX: 0, windowScrollY: 0 } : { windowScrollX: window.scrollX, windowScrollY: window.scrollY }),
+			...(typeof window === 'undefined'
+				? { windowScrollX: 0, windowScrollY: 0 }
+				: { windowScrollX: window.scrollX, windowScrollY: window.scrollY }),
 		})
 	}, [setScrollState])
 

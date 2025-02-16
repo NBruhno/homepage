@@ -8,8 +8,7 @@ type Props = {
 export const Item = styled(NextLink)<Props>`
 	display: grid;
 	grid-template: "logo title" 1fr "logo date" auto "games games" auto / 256px 1fr;
-	column-gap: 12px;
-	row-gap: 12px;
+	gap: 12px;
 	background-color: ${({ theme }) => theme.color.background};
 	border: 1px solid ${({ theme }) => theme.color.gray020};
 	border-radius: 4px;

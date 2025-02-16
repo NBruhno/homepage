@@ -4,9 +4,9 @@ import { Page } from 'components/Layout/Page'
 import { Placeholder } from 'components/Placeholder'
 import { Tooltip } from 'components/Tooltip'
 import { VideoTabs } from 'components/VideoTabs'
+import { isString } from 'es-toolkit'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/compat/router'
-import { isString } from 'radash'
 import { useGame, useGameUserStatus } from 'states/games'
 import { useResponsive, useTitle } from 'states/page'
 import { useUser } from 'states/users'
@@ -42,7 +42,9 @@ const GamePage: NextPage = () => {
 
 	return (
 		<Page>
-			<BackgroundWrapper>{Boolean(game?.screenshot ?? game?.cover) && <Background alt='' src={game?.screenshot ?? game?.cover!} />}</BackgroundWrapper>
+			<BackgroundWrapper>
+				{Boolean(game?.screenshot ?? game?.cover) && <Background alt='' src={game?.screenshot ?? game?.cover!} />}
+			</BackgroundWrapper>
 			<BackgroundCutoff />
 			<Grid>
 				<CoverContainer name='cover'>
@@ -86,7 +88,11 @@ const GamePage: NextPage = () => {
 					{userStatus?.isInSteamLibrary && (
 						<Tooltip
 							tip='You already own this game on Steam'
-							render={(props) => <TooltipContent {...props}>{userStatus.timePlayed ? `${userStatus.timePlayed} hours` : 'Owned'}</TooltipContent>}
+							render={(props) => (
+								<TooltipContent {...props}>
+									{userStatus.timePlayed ? `${userStatus.timePlayed} hours` : 'Owned'}
+								</TooltipContent>
+							)}
 						></Tooltip>
 					)}
 					{!isMobile && <WebsiteIcons websites={game?.websites ?? []} />}
@@ -121,7 +127,9 @@ const GamePage: NextPage = () => {
 					/>
 				</GridContainer>
 				<GridContainer name='content' style={{ display: 'flex', flexDirection: 'column', rowGap: '24px' }}>
-					<Section contentType='other'>{game?.videos.length !== 0 ? <VideoTabs videos={game?.videos} /> : null}</Section>
+					<Section contentType='other'>
+						{game?.videos.length !== 0 ? <VideoTabs videos={game?.videos} /> : null}
+					</Section>
 					<Section title='Summary' titlePlaceholderWidth='30%'>
 						{game?.summary ?? null}
 					</Section>

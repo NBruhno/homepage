@@ -25,7 +25,8 @@ export const useNavigationLoading = () => {
 	const isNavigationLoading = useNavigationLoadingStore((state) => state.isNavigationLoading)
 	const router = useRouter()
 
-	const handleLoadingStart = (url: string) => url !== router?.asPath && !isNavigationLoading && setIsNavigationLoading(true)
+	const handleLoadingStart = (url: string) =>
+		url !== router?.asPath && !isNavigationLoading && setIsNavigationLoading(true)
 	const handleLoadingFinished = () => isNavigationLoading && setIsNavigationLoading(false)
 
 	useEffect(() => {

@@ -107,7 +107,11 @@ export const InfoBox = ({
 									tip={listFormatter.format(platforms.map(({ name }) => name))}
 									render={(props) => (
 										<span {...props}>
-											{listFormatter.format(platforms.map(({ abbreviation, name }) => abbreviation ?? name.match(/\b([A-Z])/g)?.join('') ?? ''))}
+											{listFormatter.format(
+												platforms.map(
+													({ abbreviation, name }) => abbreviation ?? name.match(/\b([A-Z])/g)?.join('') ?? '',
+												),
+											)}
 										</span>
 									)}
 								></Tooltip>
@@ -180,7 +184,9 @@ export const InfoBox = ({
 								<Placeholder width='60%'>Estimated sales revenue</Placeholder>
 							</Title>
 							<Placeholder width='30%'>
-								{Intl.NumberFormat('en-DK', { currency: 'USD', style: 'currency', notation: 'compact' }).format(insights.revenue!)}
+								{Intl.NumberFormat('en-DK', { currency: 'USD', style: 'currency', notation: 'compact' }).format(
+									insights.revenue!,
+								)}
 							</Placeholder>
 						</div>
 					)}
@@ -189,7 +195,9 @@ export const InfoBox = ({
 							<Title>
 								<Placeholder width='45%'>Units sold</Placeholder>
 							</Title>
-							<Placeholder width='25%'>{Intl.NumberFormat('en-DK', { notation: 'compact' }).format(insights.unitsSold!)}</Placeholder>
+							<Placeholder width='25%'>
+								{Intl.NumberFormat('en-DK', { notation: 'compact' }).format(insights.unitsSold!)}
+							</Placeholder>
 						</div>
 					)}
 				</Container>
@@ -228,7 +236,19 @@ export const InfoBox = ({
 							</Title>
 							<Placeholder lines={6}>
 								{multiplayerModes.map(
-									({ platform, hasCampaignCoop, hasDropIn, hasLanCoop, hasOfflineCoop, hasOnlineCoop, hasOnlineSplitScreen, hasSplitScreen }, index) => (
+									(
+										{
+											platform,
+											hasCampaignCoop,
+											hasDropIn,
+											hasLanCoop,
+											hasOfflineCoop,
+											hasOnlineCoop,
+											hasOnlineSplitScreen,
+											hasSplitScreen,
+										},
+										index,
+									) => (
 										<MultiplayerMode key={index}>
 											{platform && <MultiplayerModeTitle>{platform.name}</MultiplayerModeTitle>}
 											<div>Has online coop: {hasOnlineCoop === true ? 'Yes' : 'No'}</div>
@@ -253,7 +273,9 @@ export const InfoBox = ({
 							<Placeholder width='50%'>Created at</Placeholder>
 						</Title>
 						<time>
-							<Placeholder width='70%'>{parseISO(createdAt).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}</Placeholder>
+							<Placeholder width='70%'>
+								{parseISO(createdAt).toLocaleString('en-DK', { year: 'numeric', month: 'long', day: 'numeric' })}
+							</Placeholder>
 						</time>
 					</div>
 				)}

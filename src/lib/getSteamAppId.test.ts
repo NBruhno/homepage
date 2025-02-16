@@ -22,6 +22,8 @@ describe('/lib/getSteamAppId', () => {
 		expect(getSteamAppId([{ url: 'https://steampowered.com/app/1234/name', type: GameWebsiteType.Steam }])).toBe('1234')
 	})
 	test('Token › Invalid URL', async () => {
-		expect(getSteamAppId([{ url: 'https://steampowered.com/app/not-a-number', type: GameWebsiteType.Steam }])).toBe(null)
+		expect(getSteamAppId([{ url: 'https://steampowered.com/app/not-a-number', type: GameWebsiteType.Steam }])).toBe(
+			null,
+		)
 	})
 })

@@ -1,4 +1,4 @@
-import { shake } from 'radash'
+import { pickBy } from 'es-toolkit'
 
 import { ApiError } from 'lib/errors'
 import type { statusCodes } from 'lib/errors'
@@ -39,18 +39,27 @@ export type Options = {
  */
 export const fetcher = async <ReturnType>(
 	url: string,
-	{ accessToken, body, method = Method.Get, absoluteUrl, credentials = 'same-origin', mode = 'cors', cacheControl, customHeaders }: Options = {},
+	{
+		accessToken,
+		body,
+		method = Method.Get,
+		absoluteUrl,
+		credentials = 'same-origin',
+		mode = 'cors',
+		cacheControl,
+		customHeaders,
+	}: Options = {},
 ) => {
 	// Create headers object and remove falsy variables to exclude them from call
-	const headers = shake(
+	const headers = pickBy(
 		{
 			'Content-Type': 'application/json',
 			'Cache-Control': cacheControl,
 			Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
 			...customHeaders,
 		},
-		(value) => value === undefined,
-	) as Record<string, string>
+		(value) => value !== undefined,
+	)
 
 	return fetch(`${absoluteUrl ?? ''}/api${url}`, {
 		method,

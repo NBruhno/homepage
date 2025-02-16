@@ -20,11 +20,8 @@ export const ButtonBorder = styled(ButtonAsync)`
 		background-color: ${({ theme }) => adjustHsl(theme.color.primary, { alpha: 0.4 })};
 	}
 
-	&:after {
-		top: -3px;
-		bottom: -3px;
-		left: -3px;
-		right: -3px;
+	&::after {
+		inset: -3px;
 		border-radius: 6px;
 	}
 `

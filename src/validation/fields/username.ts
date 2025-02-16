@@ -16,7 +16,10 @@ export const requiredUsername = <T = false>({ requiredErrorMessage, invalidError
 	}) as Return<T>
 
 export const optionalUsername = <T = false>({ invalidErrorMessage }: Pick<DefaultFields, 'invalidErrorMessage'>) =>
-	define<string | undefined>('fieldUsernameOptional', (value) => is(value, optional(username())) || invalidErrorMessage) as Return<T>
+	define<string | undefined>(
+		'fieldUsernameOptional',
+		(value) => is(value, optional(username())) || invalidErrorMessage,
+	) as Return<T>
 
 export const fieldUsername = <T extends boolean = false>({
 	requiredErrorMessage = 'This field is required',

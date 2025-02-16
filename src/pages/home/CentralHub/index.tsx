@@ -13,7 +13,8 @@ export const CentralHub = () => {
 
 	const relativeTimeSinceLastFetch = useMemo(() => {
 		if (secondsSinceLastFetch <= 0) return 'just now'
-		if (secondsSinceLastFetch >= 60) return relativeTimeFormat.format(-(secondsSinceLastFetch / 60).toFixed(0), 'minutes')
+		if (secondsSinceLastFetch >= 60)
+			return relativeTimeFormat.format(-(secondsSinceLastFetch / 60).toFixed(0), 'minutes')
 		return relativeTimeFormat.format(-secondsSinceLastFetch, 'seconds')
 	}, [secondsSinceLastFetch])
 

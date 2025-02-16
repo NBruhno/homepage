@@ -80,7 +80,11 @@ export const PersistOnChange = () => {
 			<Card>
 				<h3 style={{ marginTop: 0 }}>Form state</h3>
 				<JsonWrapper data={registerFormState} name='register' />
-				<ButtonBorder label={isFormMounted ? 'Dismount form' : 'Remount form'} style={{ marginTop: '12px' }} onClick={() => setIsFormMounted(!isFormMounted)} />
+				<ButtonBorder
+					label={isFormMounted ? 'Dismount form' : 'Remount form'}
+					style={{ marginTop: '12px' }}
+					onClick={() => setIsFormMounted(!isFormMounted)}
+				/>
 			</Card>
 		</>
 	)
@@ -119,7 +123,11 @@ export const PersistOnSubmit = () => {
 			<Card>
 				<h3 style={{ marginTop: 0 }}>Form state</h3>
 				<JsonWrapper data={registerFormState} name='register' />
-				<ButtonBorder label={isFormMounted ? 'Dismount form' : 'Remount form'} style={{ marginTop: '12px' }} onClick={() => setIsFormMounted(!isFormMounted)} />
+				<ButtonBorder
+					label={isFormMounted ? 'Dismount form' : 'Remount form'}
+					style={{ marginTop: '12px' }}
+					onClick={() => setIsFormMounted(!isFormMounted)}
+				/>
 			</Card>
 		</>
 	)
@@ -161,7 +169,10 @@ export const UpdateFromGlobalState = () => {
 				<h3 style={{ marginTop: 0 }}>Form state</h3>
 				<JsonWrapper data={registerFormState} name='register' />
 				<div style={{ marginTop: '12px', display: 'flex', columnGap: '12px' }}>
-					<ButtonBorder label={isFormMounted ? 'Dismount form' : 'Remount form'} onClick={() => setIsFormMounted(!isFormMounted)} />
+					<ButtonBorder
+						label={isFormMounted ? 'Dismount form' : 'Remount form'}
+						onClick={() => setIsFormMounted(!isFormMounted)}
+					/>
 					<ButtonBorder
 						label='Update state'
 						onClick={() =>
@@ -214,7 +225,11 @@ export const UpdateAndPersistOnChange = () => {
 				<h3 style={{ marginTop: 0 }}>Form state</h3>
 				<JsonWrapper data={registerFormState} name='register' />
 
-				<ButtonBorder label={isFormMounted ? 'Dismount form' : 'Remount form'} style={{ marginTop: '12px' }} onClick={() => setIsFormMounted(!isFormMounted)} />
+				<ButtonBorder
+					label={isFormMounted ? 'Dismount form' : 'Remount form'}
+					style={{ marginTop: '12px' }}
+					onClick={() => setIsFormMounted(!isFormMounted)}
+				/>
 			</Card>
 		</>
 	)
@@ -253,7 +268,11 @@ export const ResetStateOnDismount = () => {
 			<Card>
 				<h3 style={{ marginTop: 0 }}>Form state</h3>
 				<JsonWrapper data={registerFormState} name='register' />
-				<ButtonBorder label={isFormMounted ? 'Dismount form' : 'Remount form'} style={{ marginTop: '12px' }} onClick={() => setIsFormMounted(!isFormMounted)} />
+				<ButtonBorder
+					label={isFormMounted ? 'Dismount form' : 'Remount form'}
+					style={{ marginTop: '12px' }}
+					onClick={() => setIsFormMounted(!isFormMounted)}
+				/>
 			</Card>
 		</>
 	)

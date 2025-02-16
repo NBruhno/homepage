@@ -3,11 +3,23 @@ import { styled } from 'styled-components'
 export const Table = styled.table`
 	border-spacing: 0;
 	width: 100%;
-	border-width: 1px 1px 0 1px;
+	border-width: 1px 1px 0;
 	border-style: solid;
 	border-color: ${({ theme }) => theme.color.border};
 	border-radius: 4px;
 	font-size: ${({ theme }) => theme.font.size.s90};
+
+	td,
+	th {
+		border-width: 0 1px 1px 0;
+		border-style: solid;
+		border-color: ${({ theme }) => theme.color.border};
+		padding: 6px 12px;
+
+		&:last-child {
+			border-right: none;
+		}
+	}
 
 	th {
 		font-family: ${({ theme }) => theme.font.family.poppins};
@@ -22,18 +34,6 @@ export const Table = styled.table`
 
 		&:last-child {
 			border-top-right-radius: 4px;
-		}
-	}
-
-	td,
-	th {
-		border-width: 0 1px 1px 0;
-		border-style: solid;
-		border-color: ${({ theme }) => theme.color.border};
-		padding: 6px 12px;
-
-		&:last-child {
-			border-right: none;
 		}
 	}
 
