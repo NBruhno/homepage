@@ -10,7 +10,8 @@
       "./.next/**/*",
       "./supabase/**/*",
       "./.vscode/**/*",
-      "./vercel.json"
+      "./vercel.json",
+      "./vercel/**/*"
     ]
   },
   "formatter": { "enabled": true, "indentStyle": "tab", "lineWidth": 120 },
